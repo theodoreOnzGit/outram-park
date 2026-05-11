@@ -51,11 +51,11 @@ can be:
 Here is an AI generated list of FAQs that may be asked:
 
 ```
-Excellent question! For students, teachers, and hobbyists/science communicators in the Singapore context, here are the key questions they're likely to ask:
+For students, teachers, and hobbyists/science communicators in the 
+Singapore context:
 
 Technical Feasibility Questions:
 
-    Why would Singapore consider nuclear when we have no earthquakes or tsunamis? What ARE our actual risks?
     How do SMRs differ from traditional reactors? Why are they supposedly "safer"?
     Where would you even put a reactor in land-scarce Singapore? (Offshore? Underground? Pulau Tekong?)
     How does cooling work without large water bodies? Can seawater be used given our maritime location?
@@ -90,5 +90,23 @@ Safety & Social:
     Who would regulate it - NEA? EMA? A new agency?
 
 ```
+
+For the simulators, only certain questions can be answered with respect 
+to this list.
+
+1. What are SMRs and how do they differ from traditional reactors, why are they safer?
+2. Do maritime reactors work?
+3. What happens during a malfunction?
+
+The goal of these simulators is to demonstrate the safety of reactors,
+which means they need to simulate accident scenarios with reasonable accuracy.
+
+To do so, we will have presentations, which facilitate simulator use to 
+demonstrate passive safety and accident scenario simulations for SMRs.
+
+
+
+
+
 
 
