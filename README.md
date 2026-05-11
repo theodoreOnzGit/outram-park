@@ -106,6 +106,24 @@ demonstrate passive safety and accident scenario simulations for SMRs.
 
 
 
+# Beamer presentations 
+
+
+Compilation of the presentations would need you to navigate to the 
+folder, and use pdflua. For example, in the presentations folder,
+the file is st_presentation.tex:
+
+```
+latexmk -pvc -pdflua --interaction=nonstopmode st_presentation.tex
+```
+
+This uses the midcenturymodern style files, made by Jules LeGuy under 
+the CC-BY-4.0 license. His github is here:
+
+```
+https://github.com/jules-leguy/midcenturymodern?tab=readme-ov-file
+```
+
 
 
 
