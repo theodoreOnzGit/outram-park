@@ -324,3 +324,6 @@ dist/
 *.tar.gz
 *.rar
 
+
+# toc files 
+*.toc
