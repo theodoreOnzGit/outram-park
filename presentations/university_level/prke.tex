@@ -13,11 +13,8 @@
 % \mcmTheme{DeepBlue}
  % 
 % --- Metadata ---
-\title{Mid-Century Modern:\\A Retro-Inspired Template}
-\subtitle{A beamer template for strong and original presentations}
-\author{Your Name}
-\institute{Your Institution}
-\date{\today}
+
+\institute{Singapore Nuclear Research and Safety Institute}
 
 
 \titlegraphic{
@@ -42,362 +39,121 @@
 
 \AtEveryCite{\color{mcmPrimary}}
 
+% Use a clean, modern theme. You can swap this with your preferred template later.
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+% Title Information
+\title[FHR Operations Challenge]{Mission: Power Up the FHR}
+\subtitle{An Introduction to Reactor Dynamics}
+\author{Dr Theodore Ong, SNRSI, NUS}
+\date{\today}
+
 \begin{document}
 
-% =====================================================================
-% TITLE PAGE
-% =====================================================================
+% --- Slide 1: Title Slide ---
 \begin{frame}
-  \titlepage
+    \titlepage
 \end{frame}
 
-% =====================================================================
-% TABLE OF CONTENTS
-% =====================================================================
-\begin{frame}{Table of Contents}
-  \tableofcontents
+% --- Slide 2: The Mission Briefing ---
+\begin{frame}{Mission Briefing: Grid Demand Increase}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            Currently, our Fluoride-salt-cooled High-temperature Reactor (FHR) is operating stably, supplying baseload power to the grid.
+
+            \vspace{1em}
+
+            \textbf{The Situation:}
+            Grid demand has just spiked. The grid operator requests an immediate increase in power output.
+
+            \vspace{1em}
+
+            \begin{alertblock}{Your Objective}
+                Increase reactor thermal power from \textbf{30 MWth} to \textbf{60 MWth} and stabilize it there.
+            \end{alertblock}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \centering
+            % Replace with a generic reactor icon or relevant image if desired
+            \includegraphics[width=0.8\textwidth]{example-image-a} 
+        \end{column}
+    \end{columns}
 \end{frame}
 
-% =====================================================================
-\section{Point Reactor Kinetics Equations}
-% =====================================================================
+% --- Slide 3: Operational Constraints ---
+\begin{frame}{Operational Constraints \& Safety Limits}
+    Nuclear reactors are powerful systems that require precise control. We cannot just "floor the accelerator."
 
-\subsection{Motivation}
-
-
-\begin{frame}{Goal of Neutron Management}
-	\begin{block}{Design Goals}
-		\begin{itemize}
-			\item Trigger Neutron Reactions that \textbf{don't die out},
-				ensure chain reaction
-			\item Safety: Ie Doesn't blow anything up (\underline{controllable})
-			\item Utility: Ensure we produce \underline{useful energy}
-				or some \underline{products}
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}{Design Principles}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \begin{block}{Design Goals}
-        \begin{itemize}
-          \item Geometric bullet shapes at every nesting level
-          \item Clean sans-serif typography
-          \item Distinctive colour palette with two built-in themes
-        \end{itemize}
-      \end{block}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{alertblock}{Requires LuaLaTeX}
-        Font loading relies on \texttt{fontspec}, which requires
-        LuaLaTeX or XeLaTeX. LuaLaTeX is recommended as the
-        TikZ-based graphics perform best with its extended memory
-        model.
-      \end{alertblock}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\subsection{Color Themes}
-
-% --- Kraft version (active) ---
-\begin{frame}{Two Built-in Themes — Kraft}
-  Select a theme with a single command in your preamble:
-  \begin{enumerate}
-    \item \textbf{Kraft} — terracotta, kraft paper tones, warm accents\\
-      \texttt{\textbackslash mcmTheme\{Kraft\}}
-    \item {\color{mcmBlack!30}%
-      \textbf{DeepBlue} — dark navy, crisp white, cool accents\\
-      \texttt{\textbackslash mcmTheme\{DeepBlue\}}}
-  \end{enumerate}
-\end{frame}
-
-% --- Temporary switch to DeepBlue ---
-{
-\mcmTheme{DeepBlue}
-\begin{frame}{Two Built-in Themes — DeepBlue}
-  Select a theme with a single command in your preamble:
-  \begin{enumerate}
-    \item {\color{mcmBlack!30}%
-      \textbf{Kraft} — terracotta, kraft paper tones, warm accents\\
-      \texttt{\textbackslash mcmTheme\{Kraft\}}}
-    \item \textbf{DeepBlue} — dark navy, crisp white, cool accents\\
-      \texttt{\textbackslash mcmTheme\{DeepBlue\}}
-  \end{enumerate}
-\end{frame}
-}
-% Global theme (Kraft) resumes here automatically.
-
-% =====================================================================
-\section{Blocks}
-% =====================================================================
-
-\subsection{Standard Blocks}
-
-\begin{frame}{Standard Block}
-  \begin{block}{Observation}
-    Standard blocks use the primary theme colour for the pip
-    and title. The background matches the slide.
-  \end{block}
-
-  \begin{block}{With a List Inside}
-    \begin{itemize}
-      \item Bullets inherit the theme colour
-      \item Indentation and spacing are consistent
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\subsection{Alert and Example Blocks}
-
-\begin{frame}{Alert and Example Blocks — Kraft theme}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \begin{block}{Note}
-        Standard blocks use the primary theme colour for the pip
-        and title. Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco.
-      \end{block}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{alertblock}{Warning}
-        Alert blocks use amber.
-        \begin{itemize}
-          \item Bullets match the alert colour
-          \item Background is a warm tint
-        \end{itemize}
-      \end{alertblock}
-      \begin{exampleblock}{Illustration}
-        Example blocks use sage.
-        \begin{itemize}
-          \item Bullets match the example colour
-        \end{itemize}
-      \end{exampleblock}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-{
-\mcmTheme{DeepBlue}
-\begin{frame}{Alert and Example Blocks — DeepBlue theme}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \begin{block}{Note}
-        Standard blocks use the primary theme colour for the pip
-        and title. Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco.
-      \end{block}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{alertblock}{Warning}
-        Alert blocks use pink.
-        \begin{itemize}
-          \item Bullets match the alert colour
-          \item Background is a warm tint
-        \end{itemize}
-      \end{alertblock}
-      \begin{exampleblock}{Illustration}
-        Example blocks use mint.
-        \begin{itemize}
-          \item Bullets match the example colour
-        \end{itemize}
-      \end{exampleblock}
-    \end{column}
-  \end{columns}
-\end{frame}
-}
-
-% =====================================================================
-\section{Typography}
-% =====================================================================
-
-\subsection{Text Formatting}
-
-\begin{frame}{Text Formatting}
-  Regular text uses the body font (Lato by default).
-
-  \vspace{0.5em}
-  \textbf{Bold text} for emphasis. \textit{Italic text} for titles
-  and foreign terms. \alert{Alerted text} for warnings.
-
-  \vspace{0.5em}
-  Frame titles use the title font (TeX Gyre Heros by default),
-  rendered in uppercase.
-
-  \vspace{0.5em}
-  Override fonts in your preamble:
-  \begin{itemize}
-    \item \texttt{\textbackslash setsansfont\{Font Name\}} — body
-    \item \texttt{\textbackslash renewfontfamily\textbackslash mcmTitleFont\{Font Name\}} — titles
-  \end{itemize}
-\end{frame}
-
-\subsection{Lists}
-
-\begin{frame}{Itemize and Enumerate}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \begin{itemize}
-        \item First item
-        \item Second item
-        \begin{itemize}
-          \item Nested item
-          \begin{itemize}
-            \item Deeper item
-          \end{itemize}
-        \end{itemize}
-        \item Third item
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{enumerate}
-        \item First item
-        \item Second item
-        \begin{enumerate}
-          \item Nested item
-        \end{enumerate}
-        \item Third item
-      \end{enumerate}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% =====================================================================
-\section{Customisation}
-% =====================================================================
-
-\begin{frame}{Adjustable Parameters}
-  \begin{block}{Lengths}
-    \begin{itemize}
-      \item \texttt{\textbackslash mcmFrameTitleLeft} — frame title left padding
-      \item \texttt{\textbackslash mcmBlockTitleIndent} — block title indent
-      \item \texttt{\textbackslash mcmTitleWordSpacing} — title page word spacing
-      \item \texttt{\textbackslash mcmFooterHeight} — title page footer height
-      \item \texttt{\textbackslash mcmLogoVOffset} — logo vertical offset
-    \end{itemize}
-  \end{block}
-
-  \begin{block}{Toggles}
-    \begin{itemize}
-      \item \texttt{\textbackslash mcmTitleUppercasefalse} — disable uppercase titles
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Customisation Examples}
-  \begin{block}{Wider frame title left padding (default: 0.35cm)}
-    \texttt{\textbackslash setlength\{\textbackslash mcmFrameTitleLeft\}\{1.2cm\}}\\
-    {\small Pushes the frame title text further from the left edge.}
-  \end{block}
-
-  \begin{block}{Larger title page footer (default: 5em)}
-    \texttt{\textbackslash setlength\{\textbackslash mcmFooterHeight\}\{7em\}}\\
-    {\small Gives more room to the scan-line / logo area at the bottom.}
-  \end{block}
-
-  \begin{block}{Raise the logo (default: 0cm)}
-    \texttt{\textbackslash setlength\{\textbackslash mcmLogoVOffset\}\{0.4cm\}}\\
-    {\small Shifts the logo upward within the footer strip.}
-  \end{block}
-\end{frame}
-
-
-\begin{frame}{Customisation Examples (cont.)}
-  \begin{block}{Extra word spacing on the title (default: 0.5em)}
-    \texttt{\textbackslash setlength\{\textbackslash mcmTitleWordSpacing\}\{1.2em\}}\\
-    {\small Spreads words on the title page for a more open feel.}
-  \end{block}
-
-  \begin{block}{Disable uppercase frame titles}
-    \texttt{\textbackslash mcmTitleUppercasefalse}\\
-    {\small Titles are rendered as typed, without \texttt{\textbackslash MakeUppercase}.}
-  \end{block}
-
-  \begin{block}{Override body and title fonts}
-    \texttt{\textbackslash setsansfont\{Source Sans 3\}}\\
-    \texttt{\textbackslash renewfontfamily\textbackslash mcmTitleFont\{Futura\}}\\
-    {\small Place these after \texttt{\textbackslash usepackage\{beamerthememidcenturymodern\}}.}
-  \end{block}
-\end{frame}
-
-% =====================================================================
-\section{Bibliography management}
-% =====================================================================
-
-\begin{frame}{The history of mid-century modern}
-  Mid-century modern (MCM) is a design movement that flourished
-  roughly from 1945 to 1970, rooted in the Bauhaus principles of
-  clean lines, geometric forms, and functionality over ornament
-  \parencite{wikipedia2024}. The term itself was coined by
-  Cara Greenberg in her 1984 book on 1950s furniture
-  \parencite{greenberg1984}. In graphic design, these ideals were
-  systematised through grid-based composition
-  \parencite{müller-brockmann1981} and refined typographic practice
-  \parencite{bringhurst2004}.
-\end{frame}
-
-\begin{frame}[allowframebreaks]{References}
-  \printbibliography[heading=none]
-\end{frame}
-
-% =====================================================================
-% CLOSING SLIDE
-% =====================================================================
-
-{\setbeamercolor{normal text}{fg=mcmPrimaryFg,bg=mcmAlert!70}
-\begin{frame}[plain,noframenumbering]
-  \begin{center}
-    \Large
-    Closing slide\\
-    Any question?
-  \end{center}
-\end{frame}
-}
-
-% =====================================================================
-% BACKUP SLIDES
-% =====================================================================
-
-\appendix
-
-\begin{frame}[plain,noframenumbering]{}
-  \centering
-  Your backup slides here
-  \vspace{2em}
-
-  \begin{block}{Design Movement Timeline}
     \vspace{1em}
 
-    \begin{tikzpicture}[x=2.2cm, y=1cm]
-    % Scale: 5 units = 51 years (1919-1970), so 1 year = 5/51 units
-    % 1919=0, 1925=0.588, 1933=1.373, 1945=2.549, 1955=3.529, 1965=4.510, 1970=5
-    % Axis
-    \draw[mcmPrimary, line width=1pt] (0,0) -- (5.2,0);
-    % Ticks and labels
-    \foreach \x/\lbl in {0/1919, 0.588/1925, 1.373/1933, 2.549/1945, 3.529/1955, 4.510/1965, 5/1970}{
-      \draw[mcmPrimary, line width=0.8pt] (\x, 0.12) -- (\x, -0.12);
-      \node[below, font=\small, text=mcmPrimary] at (\x, -0.15) {\lbl};
-    }
-    % Bauhaus bar (1919-1933) — bottom row
-    \fill[mcmPrimaryAccent] (0, 0.35) rectangle (1.373, 0.75);
-    \node[right, font=\footnotesize\bfseries, text=mcmPrimary] at (0.05, 0.55)
-      {Bauhaus};
-    % MCM bar (1945-1970) — bottom row, same as Bauhaus
-    \fill[mcmPrimary!70] (2.549, 0.35) rectangle (5, 0.75);
-    \node[right, font=\footnotesize\bfseries, text=mcmBg] at (2.60, 0.55)
-      {Mid-Century Modern};
-    % International Style bar (1925-1965) — top row
-    \fill[mcmPrimaryMuted] (0.588, 1.0) rectangle (4.510, 1.4);
-    \node[right, font=\footnotesize\bfseries, text=mcmPrimary] at (0.64, 1.2)
-      {International Style};
-    \end{tikzpicture}
-  \end{block}
+    \textbf{The Rules of Engagement:}
+    \begin{itemize}
+        \item You have full control over the reactor's control rods (reactivity).
+        \item You must aim for exactly \textbf{60 MWth}.
+    \end{itemize}
 
+    \vspace{2em}
+
+    \begin{block}{SAFETY LIMIT (FAILURE CONDITION)}
+        If reactor power exceeds \textbf{1000 MWth} at any point during the maneuver, you have violated the reactor's safety limits and failed the mission.
+    \end{block}
+\end{frame}
+
+% --- Slide 4: Simulator Interface Overview (Placeholder) ---
+% INSTRUCTION: Replace 'example-image' with a screenshot of your FHR simulator
+% showing the power gauge, reactivity controls, and main readout at 30 MWth.
+\begin{frame}{Your Interface: The FHR Control Panel}
+    \centering
+    \includegraphics[width=0.85\textwidth, keepaspectratio]{example-image}
+    
+    \vspace{0.5em}
+    \footnotesize{\textit{Current State: Stable at 30 MWth}}
+\end{frame}
+
+% --- Slide 5: The Challenge Begins (While students attempt) ---
+\begin{frame}{The Challenge Begins}
+    \centering
+    \Huge \textbf{Volunteers Needed!}
+
+    \vspace{2em}
+    \normalsize
+    Who thinks they have the steady hand to bring us to 60 MWth without exceeding 1000 MWth?
+
+    \vspace{2em}
+    \hrule
+    \vspace{1em}
+
+    \textbf{For the rest of the class (Observers):}
+    Watch closely. Don't just look at the power level.
+    \begin{itemize}
+        \item How does the reactor respond immediately after they move the controls?
+        \item What happens to the power when they \textit{stop} moving the controls?
+        \item Does the reactor feel "heavy" (slow to move) or "twitchy" (fast to move)?
+    \end{itemize}
+\end{frame}
+
+% --- Slide 6: Debrief (After 2-3 attempts) ---
+\begin{frame}{Debrief: Intuition vs. Reality}
+    We just saw a few attempts. It wasn't as easy as turning up a volume knob on a radio.
+
+    \vspace{1em}
+
+    \textbf{Discussion Questions:}
+    \begin{enumerate}
+        \item Did anyone overshoot the 60 MWth target? Why did that happen?
+        \item Did you notice the power continuing to change even after you put the controls back to neutral?
+        \item If you added too much reactivity, did it feel like the reactor was "running away" from you?
+    \end{enumerate}
+
+    \vspace{1em}
+    \begin{center}
+        \textbf{Why does the reactor have "momentum"? Why doesn't it stop instantly?}
+        
+        \textit{To answer this, we need to look at the physics of neutron populations.}
+    \end{center}
 \end{frame}
 
 \end{document}
