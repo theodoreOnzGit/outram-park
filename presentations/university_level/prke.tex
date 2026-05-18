@@ -451,8 +451,6 @@
     \begin{block}{This is why power doesn't go to infinity!}
         The reactor has a built-in "thermostat" that automatically opposes changes. This is called \textbf{inherent safety} or \textbf{passive safety}.
     \end{block}
-
-    \vspace{1em}
     This is what you observed in the simulator—power eventually leveled off even when you kept control rods in place.
 \end{frame}
 
@@ -684,6 +682,246 @@
     \end{alertblock}
 
     \textbf{This is why you must understand and respect the dollar boundary.}
+\end{frame}
+
+% --- Slide 34: Case Study 3: Chernobyl (1986) ---
+\begin{frame}{Case Study 3: The Chernobyl Disaster (1986)}
+    We've seen two examples of prompt criticality:
+    \begin{itemize}
+        \item \textbf{Slotin:} Bare critical assembly - instant death
+        \item \textbf{BORAX:} BWR with negative feedback - still destroyed
+    \end{itemize}
+
+    \vspace{1em}
+    \textbf{What about a reactor with positive feedback?}
+
+    \vspace{1em}
+    On April 26, 1986, Reactor 4 at the Chernobyl Nuclear Power Plant in Ukraine experienced a catastrophic accident during a turbogenerator safety test \cite{malko2002chernobyl}.
+
+    \vspace{1em}
+    \begin{alertblock}{The Result}
+        The reactor went prompt critical with \textbf{positive feedback} amplifying the excursion. The explosion completely destroyed the reactor and released massive amounts of radioactive material across Europe, contaminating vast areas for decades.
+    \end{alertblock}
+\end{frame}
+
+% --- Slide 35: The RBMK Reactor Design ---
+\begin{frame}{The RBMK Reactor: A Flawed Design}
+    The Chernobyl reactor was an RBMK-1000 (Reaktor Bolshoy Moshchnosti Kanalnyy) - a graphite-moderated, water-cooled channel reactor \cite{malko2002chernobyl}.
+
+    \vspace{1em}
+    \textbf{Design characteristics:}
+    \begin{itemize}
+        \item Graphite moderator (slows neutrons)
+        \item Water coolant (removes heat)
+        \item Large physical size (11.8 m diameter, 7 m high core)
+        \item Nominal thermal power: 3,200 MWth
+        \item Positive steam-void coefficient at low power
+    \end{itemize}
+
+    \vspace{1em}
+    \begin{alertblock}{The Fatal Flaw: Positive Steam-Void Coefficient}
+        In most reactors (LWRs, BWRs), water acts as both coolant \textit{and} moderator. Steam bubbles (voids) reduce moderation $\rightarrow$ reactivity decreases (negative feedback).
+        
+        In RBMK, graphite is the moderator. Steam voids remove neutron-absorbing water $\rightarrow$ reactivity \textbf{increases} (positive feedback)! The coefficient could reach up to 5$\beta$ at certain conditions.
+    \end{alertblock}
+\end{frame}
+
+% --- Slide 36: Positive Void Coefficient Explained ---
+\begin{frame}{Understanding Positive Steam-Void Coefficient}
+    \textbf{Normal reactor (negative void coefficient):}
+    \begin{enumerate}
+        \item Power increases $\rightarrow$ water heats up $\rightarrow$ steam forms
+        \item Steam has lower density $\rightarrow$ less moderation
+        \item Less moderation $\rightarrow$ fewer thermal neutrons $\rightarrow$ power decreases (stabilizing)
+    \end{enumerate}
+
+    \vspace{1em}
+    \textbf{RBMK reactor (positive steam-void coefficient):}
+    \begin{enumerate}
+        \item Power increases $\rightarrow$ water heats up $\rightarrow$ steam forms
+        \item Steam has lower density $\rightarrow$ less neutron absorption in water
+        \item Less absorption $\rightarrow$ more neutrons available $\rightarrow$ power \textbf{increases further} (destabilizing)
+    \end{enumerate}
+
+    \vspace{1em}
+    This creates a \textbf{positive feedback loop}: more power $\rightarrow$ more steam $\rightarrow$ more power $\rightarrow$ more steam...
+
+    \vspace{1em}
+    The RBMK's positive steam-void coefficient was particularly dangerous at low power operation \cite{malko2002chernobyl}.
+\end{frame}
+
+% --- Slide 37: The Chernobyl Accident Sequence ---
+\begin{frame}{What Happened at Chernobyl}
+    \begin{columns}
+        \begin{column}{0.55\textwidth}
+            \textbf{The Setup} \cite{malko2002chernobyl}:
+            \begin{itemize}
+                \item Turbogenerator test during planned shutdown
+                \item Power reduced: 3,200 MW $\rightarrow$ 1,500 MW $\rightarrow$ target 720 MWth
+                \item ECCS switched off at 14:00 on April 25
+            \end{itemize}
+
+            \vspace{0.5em}
+            \textbf{Critical Mistake (00:28, April 26):}
+            \begin{itemize}
+                \item Power dropped uncontrollably to 30 MWth
+                \item Strong xenon poisoning occurred
+                \item Deputy chief engineer Dyatlov \textbf{ordered} operators to withdraw nearly all control rods to raise power
+                \item Operative reactivity surplus: only 6-8 rods (far below safety limit)
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth, keepaspectratio]{./chernobyl_dyatlov_control_rod_from_core.png}
+            \tiny{\textit{Control rod withdrawal beyond safety limits \cite{malko2002chernobyl}}}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Slide 38: The Fatal Sequence ---
+\begin{frame}{The Fatal Sequence (01:23, April 26, 1986)}
+    With nearly all control rods withdrawn, the reactor was in an extremely dangerous state \cite{malko2002chernobyl}:
+    
+    \vspace{0.5em}
+    \textbf{01:23:04 - Test initiated:}
+    \begin{enumerate}
+        \item Turbine valves closed $\rightarrow$ coolant flow decreased slightly
+        \item Small power increase began
+        \item Power increase $\rightarrow$ steam formation $\rightarrow$ \textbf{positive void feedback activated}
+        \item Reactivity increased rapidly $\rightarrow$ power surged uncontrollably
+    \end{enumerate}
+    
+    \vspace{0.5em}
+    \textbf{01:23:40 - SCRAM attempted (36 seconds later):}
+    \begin{itemize}
+        \item Operators pressed AZ-5 (emergency shutdown) button
+        \item All control rods began inserting into core
+        \item \textbf{Design flaw:} Graphite displacers at rod tips initially \textit{added positive reactivity} ("positive reactivity surge")
+        \item Combined with positive void coefficient $\rightarrow$ catastrophic power excursion
+    \end{itemize}
+    
+    \vspace{0.5em}
+    \textbf{01:23:47 - Destruction (6-7 seconds after SCRAM):}
+    Reactor destroyed by explosions before rods could fully insert.
+\end{frame}
+
+% --- Slide 39: The Explosion and Aftermath ---
+\begin{frame}{The Chernobyl Explosion}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{The Explosions} \cite{malko2002chernobyl}:
+            \begin{itemize}
+                \item At least two explosions occurred
+                \item First: likely steam explosion
+                \item Second: possibly nuclear explosion (estimated 200 tons TNT equivalent)
+                \item Core completely destroyed
+                \item 2,000 ton upper structure thrown upward
+                \item Graphite fire released radioactive material for 10 days
+            \end{itemize}
+
+            \vspace{1em}
+            \textbf{Why feedback didn't save it:}
+            Positive void coefficient \textit{amplified} the excursion. By the time negative fuel temperature feedback could activate, the reactor was already destroyed.
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth, keepaspectratio]{example-image-a}
+            \tiny{\textit{Chernobyl Reactor 4 after the explosion.}}
+            
+            \vspace{1em}
+            \href{https://www.rri.kyoto-u.ac.jp/NSRG/reports/kr79/kr79pdf/Malko1.pdf}{\textcolor{blue}{\underline{Read detailed analysis (Malko, 2002)}}}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Slide 40: Lessons from Chernobyl ---
+\begin{frame}{Lessons from Chernobyl}
+    \textbf{Design Lessons} \cite{malko2002chernobyl}:
+    \begin{itemize}
+        \item \textbf{Never design reactors with positive void/steam coefficients}
+        \item All modern reactors require negative reactivity coefficients
+        \item Control rods must always add negative reactivity when inserted (no "positive reactivity surge")
+        \item Adequate shutdown margin must be maintained at all times
+        \item Proper documentation and understanding of reactor limitations essential
+    \end{itemize}
+    
+    \vspace{0.5em}
+    \textbf{Operational Lessons:}
+    \begin{itemize}
+        \item Safety systems must not be disabled during tests
+        \item Operators must understand reactor physics (especially feedback mechanisms)
+        \item Low-power operation in unstable configurations is extremely dangerous
+        \item Nuclear safety culture must prioritize safety over completing tests
+    \end{itemize}
+
+    \vspace{0.5em}
+    \begin{block}{The Common Thread}
+        Slotin, BORAX, and Chernobyl all demonstrate: \textbf{prompt criticality is catastrophic}. Even "safety features" like feedback can make things worse if they're positive instead of negative.
+    \end{block}
+\end{frame}
+
+% --- Slide 41: Comparing the Three Cases ---
+\begin{frame}{Three Accidents: Three Lessons}
+    \small
+    \begin{tabular}{p{2.5cm}p{3cm}p{3cm}p{3.5cm}}
+        \toprule
+        \textbf{Accident} & \textbf{System} & \textbf{Feedback} & \textbf{Outcome} \\
+        \midrule
+        \textbf{Slotin (1946)} & Bare Pu core & None & Prompt critical $\rightarrow$ instant lethal dose. Human reaction time irrelevant. \\
+        \addlinespace
+        \textbf{BORAX (1954)} & BWR with UO$_2$ fuel & Negative (fuel temp.) & Feedback stopped reaction, but fuel melted first $\rightarrow$ steam explosion. \\
+        \addlinespace
+        \textbf{Chernobyl (1986)} & RBMK reactor & \textbf{Positive} (steam-void) & Feedback \textit{amplified} excursion $\rightarrow$ catastrophic destruction. \\
+        \bottomrule
+    \end{tabular}
+
+    \vspace{1em}
+\end{frame}
+
+% --- Slide 42: The Universal Rule ---
+\begin{frame}{The Universal Rule}
+    \textbf{The Universal Rule:}
+    \begin{itemize}
+        \item Prompt criticality must be prevented by design
+        \item Negative feedback helps, but isn't fast enough to prevent damage
+        \item Positive feedback is absolutely unacceptable
+        \item Multiple independent safety systems are essential
+    \end{itemize}
+\end{frame}
+
+% --- Slide 43: Acknowledgments ---
+\begin{frame}{Acknowledgments}
+    \begin{block}{Development of These Materials}
+        This presentation was developed with assistance from \textbf{NUS AI-Know}, 
+        the National University of Singapore's trusted generative AI platform 
+        \cite{aiknow2025prke}
+    \end{block}
+
+    \vspace{1em}
+    \textbf{AI-Know Platform:}
+    \begin{itemize}
+        \item Secure, compliant AI environment aligned with NUS policies
+        \item Conversational AI for educational content development
+        \item Private interactions that are never used to train models
+    \end{itemize}
+
+    \vspace{1em}
+    \textbf{Special Thanks:}
+    \begin{itemize}
+        \item NUS SNRSI, for their support in enabling me to develop 
+            Outram Park (Open source Unified TRAnsient Multi Phase 
+            Advanced Reactor simulation Kit)
+        \item Historical documentation sources (Los Alamos, INL, Kyoto University)
+    \end{itemize}
+
+    \vspace{1em}
+    \centering
+    \small
+    \textit{For more information about AI-Know: \href{https://ai-know.nus.edu.sg}{https://ai-know.nus.edu.sg}}
+\end{frame}
+
+\begin{frame}
+    \printbibliography
 \end{frame}
 
 \end{document}
