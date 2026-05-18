@@ -454,8 +454,8 @@
     The Boiling Water Reactor Experiments (BORAX) at Idaho National Laboratory were designed to answer this—by deliberately destroying reactors.
 
     \vspace{1em}
-    \begin{block}{The BORAX-I Final Test (1954)}
-        Scientists programmed the reactor to eject a control rod rapidly, inserting reactivity well above \textdollar 1.00.
+    \begin{block}{The BORAX-I Final Test (July 22, 1954)}
+        BORAX-I was built partially underground and operated remotely from a considerable distance. Scientists programmed the reactor to rapidly eject a high-worth control rod, inserting reactivity well above \textdollar 1.00 \cite{putman2012criticality}.
         
         They evacuated everyone to a safe distance and filmed what happened.
     \end{block}
@@ -465,18 +465,21 @@
 \begin{frame}{BORAX-I: The Destruction}
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \textbf{The sequence of events:}
-            \begin{enumerate}
-                \item Control rod ejected
-                \item Reactor power rose exponentially (milliseconds)
-                \item Fuel temperature skyrocketed
-                \item Water flash-boiled to steam
-                \item Steam explosion launched the reactor vessel into the air
-                \item Complete destruction of the reactor
-            \end{enumerate}
+            \textbf{Expected outcome} \cite{putman2012criticality}:
+            \begin{itemize}
+                \item Severe core damage
+                \item Fuel melting
+                \item Release of $\sim$80 megajoules
+                \item Relatively large steam explosion
+            \end{itemize}
 
             \vspace{1em}
-            \href{https://youtu.be/8WfNzJVxVz4?si=vcfWk0Pa0f214-q2&t=790}{\textcolor{blue}{\underline{Watch the BORAX destruction test}}}
+            \textbf{Actual outcome:}
+            \begin{itemize}
+                \item Released $\sim$\textbf{135 megajoules} (69\% more!)
+                \item Much more destructive than predicted
+                \item Classified as an \textit{accident} due to unexpected severity
+            \end{itemize}
         \end{column}
         \begin{column}{0.5\textwidth}
             \centering
@@ -486,7 +489,31 @@
     \end{columns}
 \end{frame}
 
-% --- Slide 16c: BORAX (Part 3) - The Physics of What Happened ---
+% --- Slide 16c: BORAX (Part 3) - The Sequence of Events ---
+\begin{frame}{BORAX-I: Sequence of Destruction}
+    \textbf{What happened} \cite{putman2012criticality}:
+
+    \vspace{1em}
+    \begin{enumerate}
+        \item \textbf{Control rod ejected} – Rapid reactivity insertion (>\textdollar 1.00)
+        \item \textbf{Nuclear excursion} – Power rose exponentially in milliseconds
+        \item \textbf{Extensive fuel melting} – Direct result of prompt criticality
+        \item \textbf{Steam explosion} – Initiated by damage from the criticality
+        \item \textbf{Massive destruction:}
+        \begin{itemize}
+            \item 2,200 lb control rod mechanism thrown 30 feet into the air
+            \item Fuel pieces ejected up to 200 feet away
+            \item Fortunately, damage was limited to the reactor itself
+        \end{itemize}
+    \end{enumerate}
+
+    \vspace{1em}
+    \href{https://youtu.be/8WfNzJVxVz4?si=vcfWk0Pa0f214-q2&t=790}{\textcolor{blue}{\underline{Watch the BORAX destruction test (YouTube)}}}
+    
+    \href{https://inldigitallibrary.inl.gov/content/uploads/50/2026/04/5427214.pdf}{\textcolor{blue}{\underline{Read the full INL report (p. 117)}}}
+\end{frame}
+
+% --- Slide 16d: BORAX (Part 4) - The Physics of What Happened ---
 \begin{frame}{BORAX: Why Didn't Safety Features Work?}
     Boiling Water Reactors (BWRs) have multiple passive safety features:
     \begin{itemize}
@@ -502,13 +529,13 @@
     \begin{alertblock}{The Speed Problem}
         Prompt criticality happens in \textbf{milliseconds}. The fuel temperature feedback \textit{did} activate and stop the nuclear reaction—but not before the fuel temperature rose so high that it \textbf{melted the fuel}.
         
-        The molten fuel then violently interacted with water, causing a steam explosion.
+        The molten fuel then violently interacted with water, causing a steam explosion that was \textbf{69\% more energetic than predicted}.
         
-        Physics worked—but too slowly to prevent damage.
+        Physics worked—but too slowly to prevent catastrophic damage.
     \end{alertblock}
 \end{frame}
 
-% --- Slide 16d: Modern Reactors and Prompt Criticality ---
+% --- Slide 16e: Modern Reactors and Prompt Criticality ---
 \begin{frame}{Can Modern Reactors Survive Prompt Criticality?}
     \textbf{It depends on the reactor design and fuel type.}
 
@@ -518,14 +545,14 @@
         
         However, the fuel temperature can rise so high (\textgreater 2800°C) that the fuel \textbf{melts} before the feedback stops the excursion.
         
-        Result: Fuel damage, potential steam explosion (as in BORAX).
+        Result: Fuel damage, potential steam explosion (as in BORAX-I \cite{putman2012criticality}).
     \end{block}
 
     \vspace{1em}
     \textbf{Key issue:} Low thermal margin in UO₂ fuel—melting point is relatively close to operating temperature.
 \end{frame}
 
-% --- Slide 16e: HTGRs and FHRs - A Different Story ---
+% --- Slide 16f: HTGRs and FHRs - A Different Story ---
 \begin{frame}{High-Temperature Reactors: Better Margins}
     \begin{block}{HTGRs (High-Temperature Gas Reactors) and FHRs}
         These reactors use \textbf{TRISO fuel particles}—ceramic-coated fuel designed to withstand extreme temperatures (\textgreater 1600°C).
@@ -546,13 +573,13 @@
     This is why HTGRs and FHRs are considered to have superior passive safety characteristics.
 \end{frame}
 
-% --- Slide 16f: The Bottom Line on Prompt Criticality ---
+% --- Slide 16g: The Bottom Line on Prompt Criticality ---
 \begin{frame}{The Bottom Line: Never Go Prompt Critical}
     \textbf{Regardless of reactor type, prompt criticality is unacceptable.}
 
     \vspace{1em}
     \begin{itemize}
-        \item \textbf{LWRs/BWRs:} Prompt criticality leads to fuel melting and potential steam explosions
+        \item \textbf{LWRs/BWRs:} Prompt criticality leads to fuel melting and potential steam explosions—BORAX-I proved this catastrophically \cite{putman2012criticality}
         \item \textbf{HTGRs/FHRs:} May survive small prompt criticality events, but only if excess reactivity is limited
         \item \textbf{Fast reactors:} Even more sensitive due to shorter neutron lifetimes
     \end{itemize}
