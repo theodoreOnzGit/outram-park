@@ -155,4 +155,417 @@
     \end{center}
 \end{frame}
 
+% --- Slide 7: Transition to Theory ---
+\begin{frame}{The Hidden Mechanism}
+    You experienced the reactor's behavior:
+    \begin{itemize}
+        \item It doesn't respond instantly to control rod changes.
+        \item It has "momentum" – power keeps changing after you stop acting.
+        \item If you add too much reactivity quickly, it feels uncontrollable.
+    \end{itemize}
+
+    \vspace{2em}
+    \centering
+    \textbf{To understand why, we need to look at the life cycle of neutrons.}
+    
+    We use the \textbf{Point Reactor Kinetics Equations (PRKE)} to model this.
+\end{frame}
+
+% --- Slide 8: The Foundation - Neutron Balance ---
+\begin{frame}{Step 1: The Neutron Balance}
+    At its simplest, reactor power changes based on the population of neutrons ($n$) \cite{bell1970nuclear}.
+
+    $$ \text{Rate of Change} = \text{Production} - \text{Loss} $$
+    $$ \frac{dn}{dt} = \text{Production} - \text{Loss} $$
+
+    \vspace{1em}
+    The production and loss terms depend on many nuclear processes:
+    \begin{itemize}
+        \item Fission reactions (production)
+        \item Absorption in fuel, coolant, structure (loss)
+        \item Leakage out of the core (loss)
+        \item Fast vs thermal neutron behavior
+    \end{itemize}
+
+    \vspace{1em}
+    How do we capture all these effects in one framework?
+\end{frame}
+
+% --- NEW Slide 8b: Six Factor Formula ---
+\begin{frame}{The Six Factor Formula}
+    Nuclear engineers use the \textbf{six factor formula} to account for all the ways neutrons are gained and lost in a reactor \cite{lamarsh2001introduction}:
+
+    $$ k_{eff} = \underbrace{P_{TNL} \cdot P_{FNL}}_{\text{Non-Leakage}} \cdot \underbrace{\eta}_{\text{Reproduction}} \cdot \underbrace{\epsilon}_{\text{Fast Fission}} \cdot \underbrace{f}_{\text{Thermal Utilization}} \cdot \underbrace{p}_{\text{Resonance Escape}} $$
+
+    \vspace{1em}
+    Where:
+    \begin{itemize}
+        \item $P_{TNL}$, $P_{FNL}$ = Probability of not leaking (thermal and fast)
+        \item $\eta$ = Neutrons produced per neutron absorbed in fuel
+        \item $\epsilon$ = Fast fission factor
+        \item $f$ = Thermal utilization factor
+        \item $p$ = Resonance escape probability
+    \end{itemize}
+\end{frame}
+
+% --- NEW Slide 8c: What is k_eff? ---
+\begin{frame}{What Does $k_{eff}$ Tell Us?}
+    The effective multiplication factor $k_{eff}$ represents the ratio of neutrons in one generation to the next:
+
+    $$ k_{eff} = \frac{\text{Neutrons in Generation } (n+1)}{\text{Neutrons in Generation } n} = \frac{\text{Production}}{\text{Loss}} $$
+
+    \vspace{1em}
+    This leads to three reactor states:
+    \begin{itemize}
+        \item $k_{eff} < 1$: \textbf{Subcritical} – neutron population decreasing
+        \item $k_{eff} = 1$: \textbf{Critical} – neutron population constant
+        \item $k_{eff} > 1$: \textbf{Supercritical} – neutron population increasing
+    \end{itemize}
+
+    \vspace{1em}
+    Now we can rewrite our balance equation:
+    $$ \frac{dn}{dt} = \text{Loss} \cdot (k_{eff} - 1) $$
+\end{frame}
+
+% --- Slide 9: Prompt Neutron Kinetics (Hypothetical) ---
+\begin{frame}{Step 2: What if all neutrons were fast?}
+    Imagine every neutron is born instantly after fission ("prompt neutrons").
+
+    The "Loss" term depends on how quickly neutrons are removed. We define the \textbf{neutron lifetime} ($l$) as the average time a neutron survives before being lost (absorbed or leaked) \cite{lamarsh2001introduction}.
+    $$ \text{Loss Rate} = \frac{n}{l} $$
+
+    Substituting this into our balance equation gives the \textbf{Prompt Kinetics Equation}:
+    $$ \frac{dn}{dt} = \frac{n}{l} (k_{eff} - 1) $$
+
+    This equation assumes \textit{instantaneous} response.
+\end{frame}
+
+% --- NEW Slide 9b: Prompt Neutron Birth Timescales ---
+\begin{frame}{How Fast Are Prompt Neutrons Born?}
+    Prompt neutrons are emitted virtually instantaneously after a fission event occurs.
+
+    \vspace{1em}
+    \textbf{Timescale for prompt neutron emission} \cite{mihalczo2004radiation}:
+    $$ t_{\text{prompt emission}} \approx 10^{-14} \text{ seconds} $$
+
+    \vspace{1em}
+    This is \textbf{10 femtoseconds} – essentially instantaneous on any human or engineering timescale.
+
+    \vspace{1em}
+    Once born, these neutrons then live for a time period $l$ (the neutron lifetime) before being absorbed or leaking out. This lifetime $l$ determines how quickly the reactor responds.
+\end{frame}
+
+% --- Slide 10: The Speed Problem ---
+\begin{frame}{The Problem with Prompt Neutrons: Speed}
+    How fast is this response?
+
+    The neutron lifetime $l$ depends on the reactor type \cite{lamarsh2001introduction}:
+
+    \vspace{1em}
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Reactor Type} & \textbf{Neutron Energy} & \textbf{Neutron Lifetime ($l$)} \\
+        \midrule
+        Thermal (LWR, FHR) & $\sim$0.025 eV & $10^{-4}$ to $10^{-5}$ s \\
+        Fast (SFR, metal core) & $\sim$1 MeV & $10^{-7}$ to $10^{-8}$ s \\
+        \bottomrule
+    \end{tabular}
+
+    \vspace{1em}
+    \textbf{Fast reactors respond 1000× faster than thermal reactors!}
+
+    \vspace{1em}
+    If $k_{eff} = 1.001$ in a fast reactor, power doubles in microseconds.
+
+    \begin{alertblock}{Reality Check}
+        Human reaction time $\approx$ 0.25 seconds = 250,000 microseconds.
+        
+        Prompt-only reactors would be \textbf{impossible} for humans to control.
+    \end{alertblock}
+\end{frame}
+
+% --- Slide 11: Introducing Delayed Neutrons ---
+\begin{frame}{Step 3: Nature's Safety Brake - Delayed Neutrons}
+    Thankfully, not all neutrons are born instantly \cite{bell1970nuclear}.
+
+    A small fraction, denoted by $\beta$ (beta), are emitted by fission fragments (called \textbf{precursors}, $C$) seconds or even minutes later.
+
+    \begin{itemize}
+        \item \textbf{Prompt Neutrons ($1-\beta$):} Appear instantly ($\sim 10^{-14}$ s).
+        \item \textbf{Delayed Neutrons ($\beta$):} Appear later, governed by the decay of precursors (seconds to minutes).
+    \end{itemize}
+
+    This delay is what creates the "momentum" or lag you felt in the simulator. The precursors act like a battery, storing potential neutrons and releasing them slowly.
+\end{frame}
+
+% --- Slide 12: 1-Group Delayed Neutron Equations ---
+\begin{frame}{The Point Reactor Kinetics Equations (1-Group)}
+    To model reality, we need two coupled equations: one for neutrons ($n$) and one for precursors ($C$) \cite{bell1970nuclear}.
+
+    We introduce \textbf{Reactivity ($\rho$)} and \textbf{Generation Time ($\Lambda$)} to simplify the math.
+
+    \vspace{1em}
+    \textbf{The 1-Group PRKE:}
+    \begin{align*}
+        \underbrace{\frac{dn}{dt}}_{\text{Change in Power}} &= \underbrace{\frac{\rho - \beta}{\Lambda}n}_{\text{Prompt Term}} + \underbrace{\lambda C}_{\text{Delayed Source}} \\
+        \underbrace{\frac{dC}{dt}}_{\text{Change in Precursors}} &= \underbrace{\frac{\beta}{\Lambda}n}_{\text{New Precursors}} - \underbrace{\lambda C}_{\text{Precursor Decay}}
+    \end{align*}
+
+    \footnotesize
+    Where $\lambda$ is the precursor decay constant, and reactivity is defined as:
+    $$ \rho \equiv \frac{k_{eff} - 1}{k_{eff}} $$
+\end{frame}
+
+% --- Slide 13: The Danger Zone: Prompt Criticality ---
+\begin{frame}{The Edge of Control: Prompt Criticality}
+    Look closely at the prompt term in the neutron equation:
+    $$ \frac{\rho - \beta}{\Lambda}n $$
+
+    Normal operation involves adding small amounts of reactivity ($\rho < \beta$). The prompt term is negative, and the reactor relies on the delayed source ($\lambda C$) to increase power slowly.
+
+    \vspace{1em}
+    \textbf{What happens if you add so much reactivity that $\rho > \beta$?}
+
+    \begin{alertblock}{Prompt Critical}
+        The prompt term becomes \textbf{positive}. The reactor power begins to rise exponentially based \textit{only} on prompt neutrons, on a timescale of microseconds.
+        
+        Control is lost instantly.
+    \end{alertblock}
+\end{frame}
+
+% --- Slide 14: Measuring Danger: The Dollar ---
+\begin{frame}{Units of Reactivity: The Dollar}
+    Because the fraction $\beta$ is the boundary between controllable and uncontrollable, we use it as a unit.
+
+    $$ \text{Reactivity in Dollars (\textdollar)} = \frac{\rho}{\beta} $$
+
+    \begin{itemize}
+        \item \textbf{\textdollar 0.10 (10 cents):} A typical, safe control movement.
+        \item \textbf{\textdollar 0.50 (50 cents):} A large, but manageable insertion.
+        \item \textbf{\textdollar 1.00 (Prompt Critical):} The exact boundary where $\rho = \beta$.
+        \item \textbf{> \textdollar 1.00 (Super-Prompt Critical):} The danger zone.
+    \end{itemize}
+
+    \vspace{1em}
+    For typical reactors: $\beta \approx 0.0065$ (U-235) to $0.0021$ (Pu-239).
+    
+    So \textdollar 1.00 $\approx$ 650 pcm (percent-mille) to 210 pcm of reactivity.
+\end{frame}
+
+% --- NEW Slide 14b: Try Again with Reactivity Monitoring ---
+\begin{frame}{Challenge Redux: Now Monitor Reactivity in Dollars}
+    \centering
+    Now that you understand reactivity in dollars, let's try the power maneuver again.
+
+    \vspace{1em}
+    \begin{block}{Updated Mission: 30 MWth → 60 MWth}
+        This time, the FHR simulator displays \textbf{reactivity in dollars (\textdollar)} on the interface.
+        
+        \vspace{0.5em}
+        \textbf{New constraint:} Never exceed \textbf{\textdollar 0.50} during the maneuver.
+    \end{block}
+
+    \vspace{1em}
+    \textbf{Observers: Watch for:}
+    \begin{itemize}
+        \item How much reactivity does the operator insert?
+        \item How does the reactor respond at different reactivity levels?
+        \item What happens when reactivity returns to zero?
+    \end{itemize}
+
+    \vspace{1em}
+    \textit{Who wants to try with this new information?}
+\end{frame}
+
+% --- Slide 15: Historical Warning - The Slotin Incident (Part 1) ---
+\begin{frame}{Historical Warning: The Slotin Incident (1946)}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            Los Alamos National Laboratory, May 21, 1946 \cite{stratton1989review}.
+            
+            \vspace{1em}
+            Physicist Louis Slotin was demonstrating a criticality experiment to his replacement. The experiment involved bringing two hemispheres of plutonium (the "Demon Core") close together.
+            
+            \vspace{1em}
+            The only thing keeping them apart? A screwdriver blade.
+            
+            \vspace{1em}
+            \textbf{The procedure was unauthorized and extremely dangerous.} Colleagues called it "tickling the dragon's tail."
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \centering
+            \includegraphics[width=0.8\textwidth, height=0.6\textheight, keepaspectratio]{example-image-b}
+            \tiny{\textit{Recreation of the "Demon Core" experiment setup.}}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Slide 15b: The Slotin Incident (Part 2) ---
+\begin{frame}{The Slotin Incident: The Accident}
+    At 3:20 PM, Slotin's screwdriver slipped \cite{stratton1989review,oettingen2018criticality}.
+
+    \vspace{1em}
+    The hemispheres came together. The core went \textbf{super-prompt critical} instantly—estimated at roughly \textbf{\textdollar 1.10} \cite{oettingen2018criticality}.
+
+    \vspace{1em}
+    \textbf{What happened in that instant:}
+    \begin{itemize}
+        \item Bright flash of blue light (Cherenkov radiation)
+        \item Wave of heat across Slotin's hand
+        \item Sour taste in his mouth (ionization of air)
+        \item Duration: less than one second
+    \end{itemize}
+
+    \vspace{1em}
+    Slotin immediately knocked the top hemisphere away with his bare hand, stopping the reaction. His quick action likely saved the lives of the seven other people in the room.
+
+    \vspace{1em}
+    But the damage was done.
+\end{frame}
+
+% --- Slide 15c: The Slotin Incident (Part 3) ---
+\begin{frame}{The Slotin Incident: The Aftermath}
+    \textbf{Radiation dose received:} Estimated 2,100 rad (21 Gy) in less than one second \cite{stratton1989review}.
+
+    \vspace{1em}
+    \textbf{Timeline of Louis Slotin's condition:}
+    \begin{itemize}
+        \item \textbf{Day 1:} Nausea and vomiting began within hours
+        \item \textbf{Day 2-3:} Severe radiation burns appeared on his hands
+        \item \textbf{Day 4-6:} Mental confusion, loss of coordination
+        \item \textbf{Day 7-8:} Internal organs failing, extreme pain
+        \item \textbf{Day 9:} Louis Slotin died on May 30, 1946
+    \end{itemize}
+
+    \vspace{1em}
+    \begin{alertblock}{The Critical Lesson}
+        Human reaction time ($\sim$0.25 s) is meaningless when prompt criticality unfolds in microseconds. Even Slotin's heroic reflexes couldn't save him—he had already received a lethal dose before his brain could process what happened.
+    \end{alertblock}
+\end{frame}
+
+% --- Slide 16: Deliberate Destruction - The BORAX Experiments (Part 1) ---
+\begin{frame}{The BORAX Experiments: Proving the Danger (1950s)}
+    After incidents like Slotin's, the nuclear community needed to understand prompt criticality in \textit{reactor} systems, not just bare cores.
+
+    \vspace{1em}
+    \textbf{The Question:} What happens if a water-cooled reactor goes prompt critical?
+
+    \vspace{1em}
+    The Boiling Water Reactor Experiments (BORAX) at Idaho National Laboratory were designed to answer this—by deliberately destroying reactors.
+
+    \vspace{1em}
+    \begin{block}{The BORAX-I Final Test (1954)}
+        Scientists programmed the reactor to eject a control rod rapidly, inserting reactivity well above \textdollar 1.00.
+        
+        They evacuated everyone to a safe distance and filmed what happened.
+    \end{block}
+\end{frame}
+
+% --- Slide 16b: BORAX Experiments (Part 2) - What Happened ---
+\begin{frame}{BORAX-I: The Destruction}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{The sequence of events:}
+            \begin{enumerate}
+                \item Control rod ejected
+                \item Reactor power rose exponentially (milliseconds)
+                \item Fuel temperature skyrocketed
+                \item Water flash-boiled to steam
+                \item Steam explosion launched the reactor vessel into the air
+                \item Complete destruction of the reactor
+            \end{enumerate}
+
+            \vspace{1em}
+            \href{https://youtu.be/8WfNzJVxVz4?si=vcfWk0Pa0f214-q2&t=790}{\textcolor{blue}{\underline{Watch the BORAX destruction test}}}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \centering
+            \includegraphics[width=0.9\textwidth, keepaspectratio]{example-image-c}
+            \tiny{\textit{BORAX-I final destructive test—reactor vessel airborne.}}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Slide 16c: BORAX (Part 3) - The Physics of What Happened ---
+\begin{frame}{BORAX: Why Didn't Safety Features Work?}
+    Boiling Water Reactors (BWRs) have multiple passive safety features:
+    \begin{itemize}
+        \item Natural circulation cooling
+        \item Negative void coefficient (steam bubbles reduce reactivity)
+        \item Negative fuel temperature coefficient
+    \end{itemize}
+
+    \vspace{1em}
+    \textbf{So why did the reactor explode?}
+
+    \vspace{1em}
+    \begin{alertblock}{The Speed Problem}
+        Prompt criticality happens in \textbf{milliseconds}. The fuel temperature feedback \textit{did} activate and stop the nuclear reaction—but not before the fuel temperature rose so high that it \textbf{melted the fuel}.
+        
+        The molten fuel then violently interacted with water, causing a steam explosion.
+        
+        Physics worked—but too slowly to prevent damage.
+    \end{alertblock}
+\end{frame}
+
+% --- Slide 16d: Modern Reactors and Prompt Criticality ---
+\begin{frame}{Can Modern Reactors Survive Prompt Criticality?}
+    \textbf{It depends on the reactor design and fuel type.}
+
+    \vspace{1em}
+    \begin{block}{Light Water Reactors (LWRs) / BWRs}
+        \textbf{Negative fuel temperature coefficient stops the reaction quickly.}
+        
+        However, the fuel temperature can rise so high (\textgreater 2800°C) that the fuel \textbf{melts} before the feedback stops the excursion.
+        
+        Result: Fuel damage, potential steam explosion (as in BORAX).
+    \end{block}
+
+    \vspace{1em}
+    \textbf{Key issue:} Low thermal margin in UO₂ fuel—melting point is relatively close to operating temperature.
+\end{frame}
+
+% --- Slide 16e: HTGRs and FHRs - A Different Story ---
+\begin{frame}{High-Temperature Reactors: Better Margins}
+    \begin{block}{HTGRs (High-Temperature Gas Reactors) and FHRs}
+        These reactors use \textbf{TRISO fuel particles}—ceramic-coated fuel designed to withstand extreme temperatures (\textgreater 1600°C).
+        
+        \vspace{0.5em}
+        \textbf{Key advantages:}
+        \begin{itemize}
+            \item \textbf{Higher thermal margins:} TRISO fuel can tolerate much higher temperatures before failure
+            \item \textbf{Strong negative temperature coefficient:} Fuel temperature rise quickly reduces reactivity
+            \item \textbf{Lower excess reactivity:} Less potential for large reactivity insertions
+        \end{itemize}
+
+        \vspace{0.5em}
+        \textbf{Result:} Fuel temperature feedback \textit{may} stop a prompt criticality event without damaging the fuel—\textbf{provided the excess reactivity insertion isn't too large.}
+    \end{block}
+
+    \vspace{1em}
+    This is why HTGRs and FHRs are considered to have superior passive safety characteristics.
+\end{frame}
+
+% --- Slide 16f: The Bottom Line on Prompt Criticality ---
+\begin{frame}{The Bottom Line: Never Go Prompt Critical}
+    \textbf{Regardless of reactor type, prompt criticality is unacceptable.}
+
+    \vspace{1em}
+    \begin{itemize}
+        \item \textbf{LWRs/BWRs:} Prompt criticality leads to fuel melting and potential steam explosions
+        \item \textbf{HTGRs/FHRs:} May survive small prompt criticality events, but only if excess reactivity is limited
+        \item \textbf{Fast reactors:} Even more sensitive due to shorter neutron lifetimes
+    \end{itemize}
+
+    \vspace{1em}
+    \begin{alertblock}{The Engineering Rule}
+        All reactors are designed with \textbf{reactivity limits} to ensure they can \textit{never} reach \textdollar 1.00 under any credible scenario.
+        
+        Multiple independent systems (control rods, shutdown systems, reactivity coefficients) provide defense-in-depth.
+    \end{alertblock}
+
+    \vspace{1em}
+    \textbf{This is why you must understand and respect the dollar boundary.}
+\end{frame}
+
 \end{document}
