@@ -191,7 +191,7 @@
     How do we capture all these effects in one framework?
 \end{frame}
 
-% --- NEW Slide 8b: Six Factor Formula ---
+% --- Slide 9: Six Factor Formula ---
 \begin{frame}{The Six Factor Formula}
     Nuclear engineers use the \textbf{six factor formula} to account for all the ways neutrons are gained and lost in a reactor \cite{lamarsh2001introduction}:
 
@@ -208,7 +208,7 @@
     \end{itemize}
 \end{frame}
 
-% --- NEW Slide 8c: What is k_eff? ---
+% --- Slide 10: What is k_eff? ---
 \begin{frame}{What Does $k_{eff}$ Tell Us?}
     The effective multiplication factor $k_{eff}$ represents the ratio of neutrons in one generation to the next:
 
@@ -227,7 +227,7 @@
     $$ \frac{dn}{dt} = \text{Loss} \cdot (k_{eff} - 1) $$
 \end{frame}
 
-% --- Slide 9: Prompt Neutron Kinetics (Hypothetical) ---
+% --- Slide 11: Prompt Neutron Kinetics (Hypothetical) ---
 \begin{frame}{Step 2: What if all neutrons were fast?}
     Imagine every neutron is born instantly after fission ("prompt neutrons").
 
@@ -240,7 +240,7 @@
     This equation assumes \textit{instantaneous} response.
 \end{frame}
 
-% --- NEW Slide 9b: Prompt Neutron Birth Timescales ---
+% --- Slide 12: Prompt Neutron Birth Timescales ---
 \begin{frame}{How Fast Are Prompt Neutrons Born?}
     Prompt neutrons are emitted virtually instantaneously after a fission event occurs.
 
@@ -255,7 +255,7 @@
     Once born, these neutrons then live for a time period $l$ (the neutron lifetime) before being absorbed or leaking out. This lifetime $l$ determines how quickly the reactor responds.
 \end{frame}
 
-% --- Slide 10: The Speed Problem ---
+% --- Slide 13: The Speed Problem ---
 \begin{frame}{The Problem with Prompt Neutrons: Speed}
     How fast is this response?
 
@@ -284,7 +284,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 11: Introducing Delayed Neutrons ---
+% --- Slide 14: Introducing Delayed Neutrons ---
 \begin{frame}{Step 3: Nature's Safety Brake - Delayed Neutrons}
     Thankfully, not all neutrons are born instantly \cite{bell1970nuclear}.
 
@@ -298,7 +298,7 @@
     This delay is what creates the "momentum" or lag you felt in the simulator. The precursors act like a battery, storing potential neutrons and releasing them slowly.
 \end{frame}
 
-% --- Slide 12: 1-Group Delayed Neutron Equations ---
+% --- Slide 15: 1-Group Delayed Neutron Equations ---
 \begin{frame}{The Point Reactor Kinetics Equations (1-Group)}
     To model reality, we need two coupled equations: one for neutrons ($n$) and one for precursors ($C$) \cite{bell1970nuclear}.
 
@@ -316,7 +316,7 @@
     $$ \rho \equiv \frac{k_{eff} - 1}{k_{eff}} $$
 \end{frame}
 
-% --- Slide 13: The Danger Zone: Prompt Criticality ---
+% --- Slide 16: The Danger Zone: Prompt Criticality ---
 \begin{frame}{The Edge of Control: Prompt Criticality}
     Look closely at the prompt term in the neutron equation:
     $$ \frac{\rho - \beta}{\Lambda}n $$
@@ -333,7 +333,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 14: Measuring Danger: The Dollar ---
+% --- Slide 17: Measuring Danger: The Dollar ---
 \begin{frame}{Units of Reactivity: The Dollar}
     Because the fraction $\beta$ is the boundary between controllable and uncontrollable, we use it as a unit.
 
@@ -352,7 +352,7 @@
     So \textdollar 1.00 $\approx$ 650 pcm (percent-mille) to 210 pcm of reactivity.
 \end{frame}
 
-% --- NEW Slide 14b: Try Again with Reactivity Monitoring ---
+% --- Slide 18: Try Again with Reactivity Monitoring ---
 \begin{frame}{Challenge Redux: Now Monitor Reactivity in Dollars}
     \centering
     Now that you understand reactivity in dollars, let's try the power maneuver again.
@@ -377,7 +377,102 @@
     \textit{Who wants to try with this new information?}
 \end{frame}
 
-% --- Slide 15: Historical Warning - The Slotin Incident (Part 1) ---
+% --- Slide 19: The Infinity Problem ---
+\begin{frame}{Wait... Why Doesn't Power Go to Infinity?}
+    Looking at our PRKE equation:
+    $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \lambda C $$
+
+    \vspace{1em}
+    \textbf{Question:} If we keep reactivity positive ($\rho > 0$), shouldn't power keep increasing forever?
+
+    \vspace{1em}
+    In your simulator attempts, you probably noticed:
+    \begin{itemize}
+        \item Power eventually stabilizes even with positive reactivity inserted
+        \item The reactor seems to "push back" as power increases
+        \item Temperature rises as power increases
+    \end{itemize}
+
+    \vspace{1em}
+    \textbf{What's missing from our equations?}
+\end{frame}
+
+% --- Slide 20: Reactivity Feedback Mechanisms ---
+\begin{frame}{Reactivity Feedback: The Reactor Responds to Itself}
+    In reality, reactivity $\rho$ is \textbf{not constant}—it changes with reactor conditions \cite{bell1970nuclear,lamarsh2001introduction}.
+
+    \vspace{1em}
+    \textbf{Key insight:} As power increases, temperature increases. Temperature changes affect neutron cross sections and material densities, which change $k_{eff}$, which changes $\rho$.
+
+    \vspace{1em}
+    We can write:
+    $$ \rho(t) = \rho_{\text{external}} + \rho_{\text{feedback}}(T_{\text{fuel}}, T_{\text{coolant}}, \ldots) $$
+
+    Where:
+    \begin{itemize}
+        \item $\rho_{\text{external}}$ = reactivity from control rods (what you control)
+        \item $\rho_{\text{feedback}}$ = reactivity changes from temperature, density, etc.
+    \end{itemize}
+\end{frame}
+
+% --- Slide 21: Temperature Coefficients of Reactivity ---
+\begin{frame}{Temperature Coefficients of Reactivity}
+    The most important feedback mechanisms are temperature-related \cite{lamarsh2001introduction}:
+
+    \vspace{1em}
+    \textbf{Fuel Temperature Coefficient} ($\alpha_F$):
+    $$ \rho_{\text{fuel}} = \alpha_F (T_{\text{fuel}} - T_{\text{fuel,0}}) $$
+
+    \textbf{Coolant Temperature Coefficient} ($\alpha_C$):
+    $$ \rho_{\text{coolant}} = \alpha_C (T_{\text{coolant}} - T_{\text{coolant,0}}) $$
+
+    \vspace{1em}
+    These coefficients can be:
+    \begin{itemize}
+        \item \textbf{Negative} ($\alpha < 0$): Temperature increase → reactivity decreases (stabilizing)
+        \item \textbf{Positive} ($\alpha > 0$): Temperature increase → reactivity increases (destabilizing)
+    \end{itemize}
+\end{frame}
+
+% --- Slide 22: Negative Feedback: Nature's Stabilizer ---
+\begin{frame}{Negative Feedback: Self-Stabilizing Reactors}
+    Most reactors are designed with \textbf{negative temperature coefficients} \cite{bell1970nuclear}.
+
+    \vspace{1em}
+    \textbf{How it works:}
+    \begin{enumerate}
+        \item You add positive reactivity → power increases
+        \item Power increase → fuel temperature increases
+        \item Fuel temperature increase → negative feedback reduces reactivity
+        \item Reactivity approaches zero → power stabilizes
+    \end{enumerate}
+
+    \vspace{1em}
+    \begin{block}{This is why power doesn't go to infinity!}
+        The reactor has a built-in "thermostat" that automatically opposes changes. This is called \textbf{inherent safety} or \textbf{passive safety}.
+    \end{block}
+
+    \vspace{1em}
+    This is what you observed in the simulator—power eventually leveled off even when you kept control rods in place.
+\end{frame}
+
+% --- Slide 23: Zero-Power vs Full-Power Kinetics ---
+\begin{frame}{Zero-Power vs Full-Power Kinetics}
+    \textbf{Zero-Power PRKE} (what we derived earlier):
+    $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \lambda C $$
+    Assumes $\rho$ depends only on control rod position. Valid for low power where temperature changes are negligible.
+
+    \vspace{1em}
+    \textbf{Full-Power PRKE} (with feedback) \cite{bell1970nuclear}:
+    $$ \frac{dn}{dt} = \frac{\rho(T) - \beta}{\Lambda}n + \lambda C $$
+    $$ \rho(T) = \rho_{\text{rods}} + \alpha_F \Delta T_F + \alpha_C \Delta T_C $$
+    Must solve coupled neutronics + thermal-hydraulics equations.
+
+    \vspace{1em}
+    The FHR simulator you've been using includes simplified feedback models, which is why you see realistic stabilization behavior.
+\end{frame}
+
+% --- Slide 24: Historical Warning - The Slotin Incident (Part 1) ---
 \begin{frame}{Historical Warning: The Slotin Incident (1946)}
     \begin{columns}
         \begin{column}{0.6\textwidth}
@@ -400,7 +495,7 @@
     \end{columns}
 \end{frame}
 
-% --- Slide 15b: The Slotin Incident (Part 2) ---
+% --- Slide 25: The Slotin Incident (Part 2) ---
 \begin{frame}{The Slotin Incident: The Accident}
     At 3:20 PM, Slotin's screwdriver slipped \cite{stratton1989review,oettingen2018criticality}.
 
@@ -423,7 +518,7 @@
     But the damage was done.
 \end{frame}
 
-% --- Slide 15c: The Slotin Incident (Part 3) ---
+% --- Slide 26: The Slotin Incident (Part 3) ---
 \begin{frame}{The Slotin Incident: The Aftermath}
     \textbf{Radiation dose received:} Estimated 2,100 rad (21 Gy) in less than one second \cite{stratton1989review}.
 
@@ -443,7 +538,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 16: Deliberate Destruction - The BORAX Experiments (Part 1) ---
+% --- Slide 27: The BORAX Experiments (Part 1) ---
 \begin{frame}{The BORAX Experiments: Proving the Danger (1950s)}
     After incidents like Slotin's, the nuclear community needed to understand prompt criticality in \textit{reactor} systems, not just bare cores.
 
@@ -461,7 +556,7 @@
     \end{block}
 \end{frame}
 
-% --- Slide 16b: BORAX Experiments (Part 2) - What Happened ---
+% --- Slide 28: BORAX-I: The Destruction ---
 \begin{frame}{BORAX-I: The Destruction}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -489,7 +584,7 @@
     \end{columns}
 \end{frame}
 
-% --- Slide 16c: BORAX (Part 3) - The Sequence of Events ---
+% --- Slide 29: BORAX-I: Sequence of Destruction ---
 \begin{frame}{BORAX-I: Sequence of Destruction}
     \textbf{What happened} \cite{putman2012criticality}:
 
@@ -513,7 +608,7 @@
     \href{https://inldigitallibrary.inl.gov/content/uploads/50/2026/04/5427214.pdf}{\textcolor{blue}{\underline{Read the full INL report (p. 117)}}}
 \end{frame}
 
-% --- Slide 16d: BORAX (Part 4) - The Physics of What Happened ---
+% --- Slide 30: BORAX: Why Didn't Safety Features Work? ---
 \begin{frame}{BORAX: Why Didn't Safety Features Work?}
     Boiling Water Reactors (BWRs) have multiple passive safety features:
     \begin{itemize}
@@ -535,7 +630,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 16e: Modern Reactors and Prompt Criticality ---
+% --- Slide 31: Can Modern Reactors Survive Prompt Criticality? ---
 \begin{frame}{Can Modern Reactors Survive Prompt Criticality?}
     \textbf{It depends on the reactor design and fuel type.}
 
@@ -552,7 +647,7 @@
     \textbf{Key issue:} Low thermal margin in UO₂ fuel—melting point is relatively close to operating temperature.
 \end{frame}
 
-% --- Slide 16f: HTGRs and FHRs - A Different Story ---
+% --- Slide 32: High-Temperature Reactors: Better Margins ---
 \begin{frame}{High-Temperature Reactors: Better Margins}
     \begin{block}{HTGRs (High-Temperature Gas Reactors) and FHRs}
         These reactors use \textbf{TRISO fuel particles}—ceramic-coated fuel designed to withstand extreme temperatures (\textgreater 1600°C).
@@ -570,7 +665,7 @@
     This is why HTGRs and FHRs are considered to have superior passive safety characteristics.
 \end{frame}
 
-% --- Slide 16g: The Bottom Line on Prompt Criticality ---
+% --- Slide 33: The Bottom Line: Never Go Prompt Critical ---
 \begin{frame}{The Bottom Line: Never Go Prompt Critical}
     \textbf{Regardless of reactor type, prompt criticality is unacceptable.}
 
