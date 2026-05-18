@@ -59,7 +59,7 @@
 \end{frame}
 
 % --- Slide 2: The Mission Briefing ---
-\begin{frame}{Mission Briefing: Grid Demand Increase}
+\begin{frame}[allowframebreaks]{Mission Briefing: Grid Demand Increase}
     \begin{columns}
         \begin{column}{0.6\textwidth}
             Currently, our Fluoride-salt-cooled High-temperature Reactor (FHR) is operating stably, supplying baseload power to the grid.
@@ -84,7 +84,7 @@
 \end{frame}
 
 % --- Slide 3: Operational Constraints ---
-\begin{frame}{Operational Constraints \& Safety Limits}
+\begin{frame}[allowframebreaks]{Operational Constraints \& Safety Limits}
     Nuclear reactors are powerful systems that require precise control. We cannot just "floor the accelerator."
 
     \vspace{1em}
@@ -105,7 +105,7 @@
 % --- Slide 4: Simulator Interface Overview (Placeholder) ---
 % INSTRUCTION: Replace 'example-image' with a screenshot of your FHR simulator
 % showing the power gauge, reactivity controls, and main readout at 30 MWth.
-\begin{frame}{Your Interface: The FHR Control Panel}
+\begin{frame}[allowframebreaks]{Your Interface: The FHR Control Panel}
     \centering
 	\includegraphics[width=0.85\textwidth, keepaspectratio]{./fhr_sim_controls.png}
     \vspace{0.5em}
@@ -113,7 +113,7 @@
 \end{frame}
 
 % --- Slide 5: The Challenge Begins (While students attempt) ---
-\begin{frame}{The Challenge Begins}
+\begin{frame}[allowframebreaks]{The Challenge Begins}
     \centering
     \Huge \textbf{Volunteers Needed!}
 
@@ -135,7 +135,7 @@
 \end{frame}
 
 % --- Slide 6: Debrief (After 2-3 attempts) ---
-\begin{frame}{Debrief: Intuition vs. Reality}
+\begin{frame}[allowframebreaks]{Debrief: Intuition vs. Reality}
     We just saw a few attempts. It wasn't as easy as turning up a volume knob on a radio.
 
     \vspace{1em}
@@ -156,7 +156,7 @@
 \end{frame}
 
 % --- Slide 7: Transition to Theory ---
-\begin{frame}{The Hidden Mechanism}
+\begin{frame}[allowframebreaks]{The Hidden Mechanism}
     You experienced the reactor's behavior:
     \begin{itemize}
         \item It doesn't respond instantly to control rod changes.
@@ -172,7 +172,7 @@
 \end{frame}
 
 % --- Slide 8: The Foundation - Neutron Balance ---
-\begin{frame}{Step 1: The Neutron Balance}
+\begin{frame}[allowframebreaks]{Step 1: The Neutron Balance}
     At its simplest, reactor power changes based on the population of neutrons ($n$) \cite{bell1970nuclear}.
 
     $$ \text{Rate of Change} = \text{Production} - \text{Loss} $$
@@ -192,7 +192,7 @@
 \end{frame}
 
 % --- Slide 9: Six Factor Formula ---
-\begin{frame}{The Six Factor Formula}
+\begin{frame}[allowframebreaks]{The Six Factor Formula}
     Nuclear engineers use the \textbf{six factor formula} to account for all the ways neutrons are gained and lost in a reactor \cite{lamarsh2001introduction}:
 
     $$ k_{eff} = \underbrace{P_{TNL} \cdot P_{FNL}}_{\text{Non-Leakage}} \cdot \underbrace{\eta}_{\text{Reproduction}} \cdot \underbrace{\epsilon}_{\text{Fast Fission}} \cdot \underbrace{f}_{\text{Thermal Utilization}} \cdot \underbrace{p}_{\text{Resonance Escape}} $$
@@ -209,7 +209,7 @@
 \end{frame}
 
 % --- Slide 10: What is k_eff? ---
-\begin{frame}{What Does $k_{eff}$ Tell Us?}
+\begin{frame}[allowframebreaks]{What Does $k_{eff}$ Tell Us?}
     The effective multiplication factor $k_{eff}$ represents the ratio of neutrons in one generation to the next:
 
     $$ k_{eff} = \frac{\text{Neutrons in Generation } (n+1)}{\text{Neutrons in Generation } n} = \frac{\text{Production}}{\text{Loss}} $$
@@ -228,7 +228,7 @@
 \end{frame}
 
 % --- Slide 11: Prompt Neutron Kinetics (Hypothetical) ---
-\begin{frame}{Step 2: What if all neutrons were fast?}
+\begin{frame}[allowframebreaks]{Step 2: What if all neutrons were fast?}
     Imagine every neutron is born instantly after fission ("prompt neutrons").
 
     The "Loss" term depends on how quickly neutrons are removed. We define the \textbf{neutron lifetime} ($l$) as the average time a neutron survives before being lost (absorbed or leaked) \cite{lamarsh2001introduction}.
@@ -241,7 +241,7 @@
 \end{frame}
 
 % --- Slide 12: Prompt Neutron Birth Timescales ---
-\begin{frame}{How Fast Are Prompt Neutrons Born?}
+\begin{frame}[allowframebreaks]{How Fast Are Prompt Neutrons Born?}
     Prompt neutrons are emitted virtually instantaneously after a fission event occurs.
 
     \vspace{1em}
@@ -256,7 +256,7 @@
 \end{frame}
 
 % --- Slide 13: The Speed Problem ---
-\begin{frame}{The Problem with Prompt Neutrons: Speed}
+\begin{frame}[allowframebreaks]{The Problem with Prompt Neutrons: Speed}
     How fast is this response?
 
     The neutron lifetime $l$ depends on the reactor type \cite{lamarsh2001introduction}:
@@ -285,7 +285,7 @@
 \end{frame}
 
 % --- Slide 14: Introducing Delayed Neutrons ---
-\begin{frame}{Step 3: Nature's Safety Brake - Delayed Neutrons}
+\begin{frame}[allowframebreaks]{Step 3: Nature's Safety Brake - Delayed Neutrons}
     Thankfully, not all neutrons are born instantly \cite{bell1970nuclear}.
 
     A small fraction, denoted by $\beta$ (beta), are emitted by fission fragments (called \textbf{precursors}, $C$) seconds or even minutes later.
@@ -299,7 +299,7 @@
 \end{frame}
 
 % --- Slide 15: 1-Group Delayed Neutron Equations ---
-\begin{frame}{The Point Reactor Kinetics Equations (1-Group)}
+\begin{frame}[allowframebreaks]{The Point Reactor Kinetics Equations (1-Group)}
     To model reality, we need two coupled equations: one for neutrons ($n$) and one for precursors ($C$) \cite{bell1970nuclear}.
 
     We introduce \textbf{Reactivity ($\rho$)} and \textbf{Generation Time ($\Lambda$)} to simplify the math.
@@ -317,7 +317,7 @@
 \end{frame}
 
 % --- Slide 16: The Danger Zone: Prompt Criticality ---
-\begin{frame}{The Edge of Control: Prompt Criticality}
+\begin{frame}[allowframebreaks]{The Edge of Control: Prompt Criticality}
     Look closely at the prompt term in the neutron equation:
     $$ \frac{\rho - \beta}{\Lambda}n $$
 
@@ -334,7 +334,7 @@
 \end{frame}
 
 % --- Slide 17: Measuring Danger: The Dollar ---
-\begin{frame}{Units of Reactivity: The Dollar}
+\begin{frame}[allowframebreaks]{Units of Reactivity: The Dollar}
     Because the fraction $\beta$ is the boundary between controllable and uncontrollable, we use it as a unit.
 
     $$ \text{Reactivity in Dollars (\textdollar)} = \frac{\rho}{\beta} $$
@@ -353,7 +353,7 @@
 \end{frame}
 
 % --- Slide 18: Try Again with Reactivity Monitoring ---
-\begin{frame}{Challenge Redux: Now Monitor Reactivity in Dollars}
+\begin{frame}[allowframebreaks]{Challenge Redux: Now Monitor Reactivity in Dollars}
     \centering
     Now that you understand reactivity in dollars, let's try the power maneuver again.
 
@@ -378,7 +378,7 @@
 \end{frame}
 
 % --- Slide 19: The Infinity Problem ---
-\begin{frame}{Wait... Why Doesn't Power Go to Infinity?}
+\begin{frame}[allowframebreaks]{Wait... Why Doesn't Power Go to Infinity?}
     Looking at our PRKE equation:
     $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \lambda C $$
 
@@ -398,7 +398,7 @@
 \end{frame}
 
 % --- Slide 20: Reactivity Feedback Mechanisms ---
-\begin{frame}{Reactivity Feedback: The Reactor Responds to Itself}
+\begin{frame}[allowframebreaks]{Reactivity Feedback: The Reactor Responds to Itself}
     In reality, reactivity $\rho$ is \textbf{not constant}—it changes with reactor conditions \cite{bell1970nuclear,lamarsh2001introduction}.
 
     \vspace{1em}
@@ -416,7 +416,7 @@
 \end{frame}
 
 % --- Slide 21: Temperature Coefficients of Reactivity ---
-\begin{frame}{Temperature Coefficients of Reactivity}
+\begin{frame}[allowframebreaks]{Temperature Coefficients of Reactivity}
     The most important feedback mechanisms are temperature-related \cite{lamarsh2001introduction}:
 
     \vspace{1em}
@@ -435,7 +435,7 @@
 \end{frame}
 
 % --- Slide 22: Negative Feedback: Nature's Stabilizer ---
-\begin{frame}{Negative Feedback: Self-Stabilizing Reactors}
+\begin{frame}[allowframebreaks]{Negative Feedback: Self-Stabilizing Reactors}
     Most reactors are designed with \textbf{negative temperature coefficients} \cite{bell1970nuclear}.
 
     \vspace{1em}
@@ -455,7 +455,7 @@
 \end{frame}
 
 % --- Slide 23: Zero-Power vs Full-Power Kinetics ---
-\begin{frame}{Zero-Power vs Full-Power Kinetics}
+\begin{frame}[allowframebreaks]{Zero-Power vs Full-Power Kinetics}
     \textbf{Zero-Power PRKE} (what we derived earlier):
     $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \lambda C $$
     Assumes $\rho$ depends only on control rod position. Valid for low power where temperature changes are negligible.
@@ -471,7 +471,7 @@
 \end{frame}
 
 % --- Slide 24: Historical Warning - The Slotin Incident (Part 1) ---
-\begin{frame}{Historical Warning: The Slotin Incident (1946)}
+\begin{frame}[allowframebreaks]{Historical Warning: The Slotin Incident (1946)}
     \begin{columns}
         \begin{column}{0.6\textwidth}
             Los Alamos National Laboratory, May 21, 1946 \cite{stratton1989review}.
@@ -494,7 +494,7 @@
 \end{frame}
 
 % --- Slide 25: The Slotin Incident (Part 2) ---
-\begin{frame}{The Slotin Incident: The Accident}
+\begin{frame}[allowframebreaks]{The Slotin Incident: The Accident}
     At 3:20 PM, Slotin's screwdriver slipped \cite{stratton1989review,oettingen2018criticality}.
 
     \vspace{1em}
@@ -517,7 +517,7 @@
 \end{frame}
 
 % --- Slide 26: The Slotin Incident (Part 3) ---
-\begin{frame}{The Slotin Incident: The Aftermath}
+\begin{frame}[allowframebreaks]{The Slotin Incident: The Aftermath}
     \textbf{Radiation dose received:} Estimated 2,100 rad (21 Gy) in less than one second \cite{stratton1989review}.
 
     \vspace{1em}
@@ -537,7 +537,7 @@
 \end{frame}
 
 % --- Slide 27: The BORAX Experiments (Part 1) ---
-\begin{frame}{The BORAX Experiments: Proving the Danger (1950s)}
+\begin{frame}[allowframebreaks]{The BORAX Experiments: Proving the Danger (1950s)}
     After incidents like Slotin's, the nuclear community needed to understand prompt criticality in \textit{reactor} systems, not just bare cores.
 
     \vspace{1em}
@@ -555,7 +555,7 @@
 \end{frame}
 
 % --- Slide 28: BORAX-I: The Destruction ---
-\begin{frame}{BORAX-I: The Destruction}
+\begin{frame}[allowframebreaks]{BORAX-I: The Destruction}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \textbf{Expected outcome} \cite{putman2012criticality}:
@@ -583,7 +583,7 @@
 \end{frame}
 
 % --- Slide 29: BORAX-I: Sequence of Destruction ---
-\begin{frame}{BORAX-I: Sequence of Destruction}
+\begin{frame}[allowframebreaks]{BORAX-I: Sequence of Destruction}
     \textbf{What happened} \cite{putman2012criticality}:
 
     \vspace{1em}
@@ -607,7 +607,7 @@
 \end{frame}
 
 % --- Slide 30: BORAX: Why Didn't Safety Features Work? ---
-\begin{frame}{BORAX: Why Didn't Safety Features Work?}
+\begin{frame}[allowframebreaks]{BORAX: Why Didn't Safety Features Work?}
     Boiling Water Reactors (BWRs) have multiple passive safety features:
     \begin{itemize}
         \item Natural circulation cooling
@@ -629,7 +629,7 @@
 \end{frame}
 
 % --- Slide 31: Can Modern Reactors Survive Prompt Criticality? ---
-\begin{frame}{Can Modern Reactors Survive Prompt Criticality?}
+\begin{frame}[allowframebreaks]{Can Modern Reactors Survive Prompt Criticality?}
     \textbf{It depends on the reactor design and fuel type.}
 
     \vspace{1em}
@@ -646,7 +646,7 @@
 \end{frame}
 
 % --- Slide 32: High-Temperature Reactors: Better Margins ---
-\begin{frame}{High-Temperature Reactors: Better Margins}
+\begin{frame}[allowframebreaks]{High-Temperature Reactors: Better Margins}
     \begin{block}{HTGRs (High-Temperature Gas Reactors) and FHRs}
         These reactors use \textbf{TRISO fuel particles}—ceramic-coated fuel designed to withstand extreme temperatures (\textgreater 1600°C).
         
@@ -664,7 +664,7 @@
 \end{frame}
 
 % --- Slide 33: The Bottom Line: Never Go Prompt Critical ---
-\begin{frame}{The Bottom Line: Never Go Prompt Critical}
+\begin{frame}[allowframebreaks]{The Bottom Line: Never Go Prompt Critical}
     \textbf{Regardless of reactor type, prompt criticality is unacceptable.}
 
     \vspace{1em}
@@ -685,7 +685,7 @@
 \end{frame}
 
 % --- Slide 34: Case Study 3: Chernobyl (1986) ---
-\begin{frame}{Case Study 3: The Chernobyl Disaster (1986)}
+\begin{frame}[allowframebreaks]{Case Study 3: The Chernobyl Disaster (1986)}
     We've seen two examples of prompt criticality:
     \begin{itemize}
         \item \textbf{Slotin:} Bare critical assembly - instant death
@@ -705,7 +705,7 @@
 \end{frame}
 
 % --- Slide 35: The RBMK Reactor Design ---
-\begin{frame}{The RBMK Reactor: A Flawed Design}
+\begin{frame}[allowframebreaks]{The RBMK Reactor: A Flawed Design}
     The Chernobyl reactor was an RBMK-1000 (Reaktor Bolshoy Moshchnosti Kanalnyy) - a graphite-moderated, water-cooled channel reactor \cite{malko2002chernobyl}.
 
     \vspace{1em}
@@ -727,7 +727,7 @@
 \end{frame}
 
 % --- Slide 36: Positive Void Coefficient Explained ---
-\begin{frame}{Understanding Positive Steam-Void Coefficient}
+\begin{frame}[allowframebreaks]{Understanding Positive Steam-Void Coefficient}
     \textbf{Normal reactor (negative void coefficient):}
     \begin{enumerate}
         \item Power increases $\rightarrow$ water heats up $\rightarrow$ steam forms
@@ -751,7 +751,7 @@
 \end{frame}
 
 % --- Slide 37: The Chernobyl Accident Sequence ---
-\begin{frame}{What Happened at Chernobyl}
+\begin{frame}[allowframebreaks]{What Happened at Chernobyl}
     \begin{columns}
         \begin{column}{0.55\textwidth}
             \textbf{The Setup} \cite{malko2002chernobyl}:
@@ -779,7 +779,7 @@
 \end{frame}
 
 % --- Slide 38: The Fatal Sequence ---
-\begin{frame}{The Fatal Sequence (01:23, April 26, 1986)}
+\begin{frame}[allowframebreaks]{The Fatal Sequence (01:23, April 26, 1986)}
     With nearly all control rods withdrawn, the reactor was in an extremely dangerous state \cite{malko2002chernobyl}:
     
     \vspace{0.5em}
@@ -806,7 +806,7 @@
 \end{frame}
 
 % --- Slide 39: The Explosion and Aftermath ---
-\begin{frame}{The Chernobyl Explosion}
+\begin{frame}[allowframebreaks]{The Chernobyl Explosion}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \textbf{The Explosions} \cite{malko2002chernobyl}:
@@ -835,7 +835,7 @@
 \end{frame}
 
 % --- Slide 40: Lessons from Chernobyl ---
-\begin{frame}{Lessons from Chernobyl}
+\begin{frame}[allowframebreaks]{Lessons from Chernobyl}
     \textbf{Design Lessons} \cite{malko2002chernobyl}:
     \begin{itemize}
         \item \textbf{Never design reactors with positive void/steam coefficients}
@@ -861,7 +861,7 @@
 \end{frame}
 
 % --- Slide 41: Comparing the Three Cases ---
-\begin{frame}{Three Accidents: Three Lessons}
+\begin{frame}[allowframebreaks]{Three Accidents: Three Lessons}
     \small
     \begin{tabular}{p{2.5cm}p{3.2cm}p{3.2cm}p{3.8cm}}
         \toprule
@@ -879,7 +879,7 @@
 \end{frame}
 
 % --- Slide 42: The Universal Rule ---
-\begin{frame}{The Universal Rule}
+\begin{frame}[allowframebreaks]{The Universal Rule}
     \textbf{The Universal Rule:}
     \begin{itemize}
         \item Prompt criticality must be prevented by design
@@ -890,7 +890,7 @@
 \end{frame}
 
 % --- Slide 43: Acknowledgments ---
-\begin{frame}{Acknowledgments}
+\begin{frame}[allowframebreaks]{Acknowledgments}
     \begin{block}{Development of These Materials}
         This presentation was developed with assistance from \textbf{NUS AI-Know}, 
         the National University of Singapore's trusted generative AI platform 
