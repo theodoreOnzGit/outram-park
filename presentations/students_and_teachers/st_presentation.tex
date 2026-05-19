@@ -266,6 +266,114 @@
     \end{alertblock}
 \end{frame}
 
-% The presentation will continue with Part 4 here...
+% =============================================================================
+% PART 4: A TOUR OF THE PHENOMENA WE MUST MASTER (REVISED)
+% =============================================================================
+
+% --- Slide 10: Introduction to the Tour ---
+\begin{frame}[allowframebreaks]{What Phenomena Do We Study?}
+    To guarantee safety, we can't just have a good design on paper. We have to understand, predict, and master every single physical process happening inside the reactor.
+
+    \vspace{1.5em}
+    We call these the core \textbf{phenomena}.
+    
+    \vspace{1.5em}
+    \begin{block}{A Tour of the Frontier}
+        Let's take a quick tour of the four most critical areas that reactor safety engineers and scientists spend their careers studying.
+    \end{block}
+\end{frame}
+
+% --- Slide 11: Phenomenon #1: Neutronics ---
+\begin{frame}[allowframebreaks]{Phenomenon \#1: Neutronics - The Engine of the Reactor}
+    \textbf{Concept:} Neutronics is the study of the neutron population in the reactor. This population directly determines the reactor's power level, generating about 90\% of the heat during operation.
+
+    \vspace{1em}
+    \textbf{The Safety Question:} How do we precisely predict and control the neutron population to generate steady power and ensure the chain reaction never runs away?
+
+    \vspace{1.5em}
+    \begin{exampleblock}{From Simple Models to Reality}
+        For basic control dynamics—the "momentum" you felt—we can use the \textbf{Point Reactor Kinetics Equations (PRKE)}.
+        \begin{itemize}
+            \item It simplifies the entire reactor down to a single point in space.
+            \item \textbf{The FHR simulator you used runs on the 6-group PRKE model} to accurately capture the effect of delayed neutrons.
+        \end{itemize}
+        \vspace{1em}
+        However, true neutron behavior is far more complex. To design a reactor, we must account for:
+        \begin{itemize}
+            \item \textbf{Where} neutrons are in the reactor (Spatial effects)
+            \item \textbf{What direction} they are traveling (Angular effects)
+            \item \textbf{How fast} they are moving (Energy effects)
+        \end{itemize}
+        This is all described by the Neutron Transport Equation, a much more complicated model that forms the basis of modern reactor physics.
+    \end{exampleblock}
+\end{frame}
+
+% --- Slide 12: Phenomenon #2: Decay Heat (UPDATED ANALOGY) ---
+\begin{frame}[allowframebreaks]{Phenomenon \#2: Decay Heat - The Fire That Won't Go Out}
+    \textbf{Concept:} The other 10\% of the reactor's heat comes from a different source. Even after you completely stop the chain reaction, the core continues to produce heat from the radioactive decay of its waste products.
+    
+    \vspace{1em}
+    \textbf{Think of it like a cooker stove with a unique problem: you can turn the knob to "off" to stop the main flame, but you cannot turn off the burner completely. It continues to generate heat no matter what.}
+    
+    \vspace{1em}
+    \begin{block}{A Real-World Example: Fukushima}
+        The reactors at Fukushima Daiichi shut down perfectly when the earthquake hit. The meltdowns were caused by the failure to remove this powerful \textbf{decay heat} after the tsunami destroyed the cooling pumps.
+    \end{block}
+
+    \vspace{1em}
+    \textbf{The Safety Question:} How do we design systems that can remove this residual heat reliably, even if all power is lost? This leads us directly to our next challenge...
+\end{frame}
+
+
+
+% --- Slide 13: Phenomenon #3: Heat Transfer (Revised) ---
+\begin{frame}[allowframebreaks]{Phenomenon \#3: Heat Transfer - The Cooling Challenge}
+    \textbf{Concept:} Heat transfer is about moving heat from where it's produced (the fuel) to where it can be used (the turbine). This involves two major challenges.
+
+    \vspace{1em}
+    \begin{alertblock}{Problem 1: Avoiding Overheating (in Water-Cooled Reactors)}
+        In Pressurized and Boiling Water Reactors (PWRs/BWRs), if the fuel gets too hot, the water can form a steam blanket around it (Critical Heat Flux). This blocks cooling and can lead to fuel damage.
+    \end{alertblock}
+    
+    \vspace{1em}
+    \begin{exampleblock}{Problem 2: Ensuring Coolant Flow (in All Reactors)}
+        To remove decay heat and prevent a Fukushima-like event, we must keep the coolant circulating.
+        \begin{itemize}
+            \item \textbf{Forced Circulation:} Uses pumps. Powerful and controllable, but requires electricity.
+            \item \textbf{Natural Circulation:} Uses physics (hot coolant rises, cool coolant sinks). It is passive and highly reliable, operating without any pumps or external power.
+        \end{itemize}
+        Modern advanced reactors are designed to have strong natural circulation capabilities as a core safety feature.
+    \end{exampleblock}
+    
+    \textit{Note: For HTGRs, FHRs, and MSRs, which use single-phase coolants (gas or liquid salt), Critical Heat Flux is not a concern, allowing them to operate at higher temperatures and focus on the circulation problem.}
+\end{frame}
+
+% --- Slide 14: Phenomenon #4: Materials Science ---
+\begin{frame}[allowframebreaks]{Phenomenon \#4: Materials Science - Forging the Unbreakable}
+    \textbf{Concept:} The inside of a reactor is one of the most extreme environments humans have ever created: intense radiation that damages atomic structures, high temperatures, and high pressure.
+    
+    \vspace{1em}
+    \textbf{The Safety Question:} What can we possibly build the reactor out of? How do we invent and test materials that can perform their job flawlessly for over 60 years without cracking, corroding, or becoming brittle?
+    
+    \vspace{1em}
+    \begin{exampleblock}{An Example of Extreme Engineering: TRISO Fuel}
+        \begin{columns}
+            \begin{column}{0.65\textwidth}
+                Advanced reactors like the FHR use TRISO fuel. Each particle, the size of a poppy seed, contains a uranium kernel wrapped in multiple layers of incredibly durable ceramic.
+                
+                These layers are designed to act as a tiny, personal containment vessel, trapping radioactive products inside even at temperatures hotter than lava (\textgreater 1600°C).
+            \end{column}
+            \begin{column}{0.35\textwidth}
+                \centering
+                % Placeholder for a TRISO image. You will need to find a 'triso_particle.png'
+                % file or similar to make this appear.
+				\includegraphics[width=\textwidth]{./triso_particle.png}
+                \tiny{Cross-section of a TRISO particle.}
+            \end{column}
+        \end{columns}
+    \end{exampleblock}
+\end{frame}
+
+
 
 \end{document}
