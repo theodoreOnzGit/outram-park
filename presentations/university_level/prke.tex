@@ -46,7 +46,7 @@
 \usepackage{booktabs}
 
 % Title Information
-\title[Point Reactor Kinetics Equations]{FHR Operations Challenge}
+\title[Point Reactor Kinetics Equations]{Point Reactor Kinetics Equations (PRKE) with FHR Simulator}
 \subtitle{An Introduction to Reactor Dynamics}
 \author{Dr Theodore Ong, SNRSI, NUS}
 \date{\today}
@@ -302,26 +302,111 @@
 \begin{frame}[allowframebreaks]{The Point Reactor Kinetics Equations (1-Group)}
     To model reality, we need two coupled equations: one for neutrons ($n$) and one for precursors ($C$) \cite{bell1970nuclear}.
 
-    We introduce \textbf{Reactivity ($\rho$)} and \textbf{Generation Time ($\Lambda$)} to simplify the math.
+    We introduce two key parameters:
+    \begin{itemize}
+        \item \textbf{Reactivity ($\rho$):} $\rho \equiv \frac{k_{eff} - 1}{k_{eff}}$ (dimensionless measure of departure from criticality)
+        \item \textbf{Generation Time ($\Lambda$):} $\Lambda = \frac{l}{k_{eff}}$ (average time between successive generations of neutrons)
+    \end{itemize}
 
     \vspace{1em}
-    \textbf{The 1-Group PRKE:}
+    \textbf{The 1-Group PRKE (simplified):}
     \begin{align*}
         \underbrace{\frac{dn}{dt}}_{\text{Change in Power}} &= \underbrace{\frac{\rho - \beta}{\Lambda}n}_{\text{Prompt Term}} + \underbrace{\lambda C}_{\text{Delayed Source}} \\
         \underbrace{\frac{dC}{dt}}_{\text{Change in Precursors}} &= \underbrace{\frac{\beta}{\Lambda}n}_{\text{New Precursors}} - \underbrace{\lambda C}_{\text{Precursor Decay}}
     \end{align*}
-
-    \footnotesize
-    Where $\lambda$ is the precursor decay constant, and reactivity is defined as:
-    $$ \rho \equiv \frac{k_{eff} - 1}{k_{eff}} $$
 \end{frame}
 
-% --- Slide 16: The Danger Zone: Prompt Criticality ---
+% --- Slide 16: Six Delayed Neutron Groups ---
+\begin{frame}[allowframebreaks]{Reality: Six Delayed Neutron Precursor Groups}
+    In practice, delayed neutrons come from many different fission products with different decay rates. We typically group them into \textbf{6 precursor groups} \cite{bell1970nuclear}.
+
+    \vspace{1em}
+    \textbf{The 6-Group PRKE:}
+    \begin{align*}
+        \frac{dn}{dt} &= \frac{\rho - \beta}{\Lambda}n + \sum_{i=1}^{6} \lambda_i C_i \\
+        \frac{dC_i}{dt} &= \frac{\beta_i}{\Lambda}n - \lambda_i C_i \quad \text{for } i = 1, 2, ..., 6
+    \end{align*}
+
+    Where $\beta = \sum_{i=1}^{6} \beta_i$ is the total delayed neutron fraction.
+
+    \vspace{1em}
+    Each group has different:
+    \begin{itemize}
+        \item Delayed neutron fraction ($\beta_i$)
+        \item Decay constant ($\lambda_i$) or half-life ($t_{1/2,i} = \ln(2)/\lambda_i$)
+    \end{itemize}
+\end{frame}
+
+% --- Slide 17: Delayed Neutron Data by Fuel Type ---
+\begin{frame}[allowframebreaks]{Delayed Neutron Data by Fuel Type}
+    \small
+    \textbf{Decay constants (same for all fuels):}
+    
+    \begin{tabular}{cccc}
+        \toprule
+        \textbf{Group} & \textbf{Half-life (s)} & \textbf{Decay constant $\lambda$ (s$^{-1}$)} \\
+        \midrule
+        1 & 56.0 & 0.0124 \\
+        2 & 23.0 & 0.0301 \\
+        3 & 6.2 & 0.1118 \\
+        4 & 2.3 & 0.3013 \\
+        5 & 0.61 & 1.136 \\
+        6 & 0.23 & 3.013 \\
+        \bottomrule
+    \end{tabular}
+
+    \vspace{1em}
+    \textbf{Delayed neutron fractions $\beta_i$ (fuel-dependent):}
+    
+    \begin{tabular}{cccc}
+        \toprule
+        \textbf{Group} & \textbf{U-233} & \textbf{U-235} & \textbf{Pu-239} \\
+        \midrule
+        1 & 0.00023 & 0.00021 & 0.00007 \\
+        2 & 0.00078 & 0.00142 & 0.00063 \\
+        3 & 0.00064 & 0.00128 & 0.00044 \\
+        4 & 0.00074 & 0.00257 & 0.00069 \\
+        5 & 0.00014 & 0.00075 & 0.00018 \\
+        6 & 0.00008 & 0.00027 & 0.00009 \\
+        \midrule
+        \textbf{Total $\beta$} & \textbf{0.00261} & \textbf{0.0065} & \textbf{0.0021} \\
+        \bottomrule
+    \end{tabular}
+\end{frame}
+
+% --- Slide 18: Why Six Groups Matter ---
+\begin{frame}[allowframebreaks]{Why Six Groups Matter}
+    \textbf{Why not just use one average group?}
+
+    \vspace{1em}
+    \begin{block}{Different Time Scales}
+        \begin{itemize}
+            \item \textbf{Fast groups (5, 6):} Half-lives $<$ 1 second — respond quickly to power changes
+            \item \textbf{Intermediate groups (3, 4):} Half-lives 2-6 seconds — provide medium-term stability
+            \item \textbf{Slow groups (1, 2):} Half-lives 23-56 seconds — provide long-term "memory"
+        \end{itemize}
+    \end{block}
+
+    \vspace{1em}
+    \begin{exampleblock}{Practical Impact}
+        \begin{itemize}
+            \item Fast groups dominate initial response to reactivity changes
+            \item Slow groups determine long-term equilibrium behavior
+            \item One-group approximation is acceptable for quick estimates
+            \item Six-group model required for accurate transient simulations
+        \end{itemize}
+    \end{exampleblock}
+
+    \vspace{1em}
+    Your FHR simulator uses the full 6-group model for accurate dynamics!
+\end{frame}
+
+% --- Slide 19: The Danger Zone: Prompt Criticality ---
 \begin{frame}[allowframebreaks]{The Edge of Control: Prompt Criticality}
     Look closely at the prompt term in the neutron equation:
     $$ \frac{\rho - \beta}{\Lambda}n $$
 
-    Normal operation involves adding small amounts of reactivity ($\rho < \beta$). The prompt term is negative, and the reactor relies on the delayed source ($\lambda C$) to increase power slowly.
+    Normal operation involves adding small amounts of reactivity ($\rho < \beta$). The prompt term is negative, and the reactor relies on the delayed source ($\sum \lambda_i C_i$) to increase power slowly.
 
     \vspace{1em}
     \textbf{What happens if you add so much reactivity that $\rho > \beta$?}
@@ -333,7 +418,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 17: Measuring Danger: The Dollar ---
+% --- Slide 20: Measuring Danger: The Dollar ---
 \begin{frame}[allowframebreaks]{Units of Reactivity: The Dollar}
     Because the fraction $\beta$ is the boundary between controllable and uncontrollable, we use it as a unit.
 
@@ -352,7 +437,7 @@
     So \textdollar 1.00 $\approx$ 650 pcm (percent-mille) to 210 pcm of reactivity.
 \end{frame}
 
-% --- Slide 18: Try Again with Reactivity Monitoring ---
+% --- Slide 21: Try Again with Reactivity Monitoring ---
 \begin{frame}[allowframebreaks]{Challenge Redux: Now Monitor Reactivity in Dollars}
     \centering
     Now that you understand reactivity in dollars, let's try the power maneuver again.
@@ -377,10 +462,10 @@
     \textit{Who wants to try with this new information?}
 \end{frame}
 
-% --- Slide 19: The Infinity Problem ---
+% --- Slide 22: The Infinity Problem ---
 \begin{frame}[allowframebreaks]{Wait... Why Doesn't Power Go to Infinity?}
     Looking at our PRKE equation:
-    $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \lambda C $$
+    $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \sum_{i=1}^{6} \lambda_i C_i $$
 
     \vspace{1em}
     \textbf{Question:} If we keep reactivity positive ($\rho > 0$), shouldn't power keep increasing forever?
@@ -397,7 +482,7 @@
     \textbf{What's missing from our equations?}
 \end{frame}
 
-% --- Slide 20: Reactivity Feedback Mechanisms ---
+% --- Slide 23: Reactivity Feedback Mechanisms ---
 \begin{frame}[allowframebreaks]{Reactivity Feedback: The Reactor Responds to Itself}
     In reality, reactivity $\rho$ is \textbf{not constant}—it changes with reactor conditions \cite{bell1970nuclear,lamarsh2001introduction}.
 
@@ -415,7 +500,7 @@
     \end{itemize}
 \end{frame}
 
-% --- Slide 21: Temperature Coefficients of Reactivity ---
+% --- Slide 24: Temperature Coefficients of Reactivity ---
 \begin{frame}[allowframebreaks]{Temperature Coefficients of Reactivity}
     The most important feedback mechanisms are temperature-related \cite{lamarsh2001introduction}:
 
@@ -429,40 +514,42 @@
     \vspace{1em}
     These coefficients can be:
     \begin{itemize}
-        \item \textbf{Negative} ($\alpha < 0$): Temperature increase → reactivity decreases (stabilizing)
-        \item \textbf{Positive} ($\alpha > 0$): Temperature increase → reactivity increases (destabilizing)
+        \item \textbf{Negative} ($\alpha < 0$): Temperature increase $\rightarrow$ reactivity decreases (stabilizing)
+        \item \textbf{Positive} ($\alpha > 0$): Temperature increase $\rightarrow$ reactivity increases (destabilizing)
     \end{itemize}
 \end{frame}
 
-% --- Slide 22: Negative Feedback: Nature's Stabilizer ---
+% --- Slide 25: Negative Feedback: Nature's Stabilizer ---
 \begin{frame}[allowframebreaks]{Negative Feedback: Self-Stabilizing Reactors}
     Most reactors are designed with \textbf{negative temperature coefficients} \cite{bell1970nuclear}.
 
     \vspace{1em}
     \textbf{How it works:}
     \begin{enumerate}
-        \item You add positive reactivity → power increases
-        \item Power increase → fuel temperature increases
-        \item Fuel temperature increase → negative feedback reduces reactivity
-        \item Reactivity approaches zero → power stabilizes
+        \item You add positive reactivity $\rightarrow$ power increases
+        \item Power increase $\rightarrow$ fuel temperature increases
+        \item Fuel temperature increase $\rightarrow$ negative feedback reduces reactivity
+        \item Reactivity approaches zero $\rightarrow$ power stabilizes
     \end{enumerate}
 
     \vspace{1em}
     \begin{block}{This is why power doesn't go to infinity!}
         The reactor has a built-in "thermostat" that automatically opposes changes. This is called \textbf{inherent safety} or \textbf{passive safety}.
     \end{block}
+
+    \vspace{1em}
     This is what you observed in the simulator—power eventually leveled off even when you kept control rods in place.
 \end{frame}
 
-% --- Slide 23: Zero-Power vs Full-Power Kinetics ---
+% --- Slide 26: Zero-Power vs Full-Power Kinetics ---
 \begin{frame}[allowframebreaks]{Zero-Power vs Full-Power Kinetics}
     \textbf{Zero-Power PRKE} (what we derived earlier):
-    $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \lambda C $$
+    $$ \frac{dn}{dt} = \frac{\rho - \beta}{\Lambda}n + \sum_{i=1}^{6} \lambda_i C_i $$
     Assumes $\rho$ depends only on control rod position. Valid for low power where temperature changes are negligible.
 
     \vspace{1em}
     \textbf{Full-Power PRKE} (with feedback) \cite{bell1970nuclear}:
-    $$ \frac{dn}{dt} = \frac{\rho(T) - \beta}{\Lambda}n + \lambda C $$
+    $$ \frac{dn}{dt} = \frac{\rho(T) - \beta}{\Lambda}n + \sum_{i=1}^{6} \lambda_i C_i $$
     $$ \rho(T) = \rho_{\text{rods}} + \alpha_F \Delta T_F + \alpha_C \Delta T_C $$
     Must solve coupled neutronics + thermal-hydraulics equations.
 
@@ -470,7 +557,199 @@
     The FHR simulator you've been using includes simplified feedback models, which is why you see realistic stabilization behavior.
 \end{frame}
 
-% --- Slide 24: Historical Warning - The Slotin Incident (Part 1) ---
+% --- Slide 27: Load Following Without Control Rods ---
+\begin{frame}[allowframebreaks]{Advanced Control: Load Following Without Control Rods}
+    \textbf{Traditional approach:} Adjust control rods to change power output.
+
+    \vspace{1em}
+    \textbf{Modern approach:} Use temperature feedback for automatic load following \cite{zhang2024load}.
+
+    \vspace{1em}
+    \begin{block}{How It Works}
+        When grid demand changes, adjust coolant flow rate instead of control rods:
+        \begin{itemize}
+            \item \textbf{Increase demand:} Increase coolant flow $\rightarrow$ lower coolant temp $\rightarrow$ less negative feedback $\rightarrow$ power rises
+            \item \textbf{Decrease demand:} Decrease coolant flow $\rightarrow$ higher coolant temp $\rightarrow$ more negative feedback $\rightarrow$ power drops
+        \end{itemize}
+    \end{block}
+
+    \vspace{1em}
+    This approach is particularly suitable for Small Modular Reactors (SMRs) with strong negative temperature coefficients and is safer because control rods remain in their safe positions \cite{zhang2024load}.
+\end{frame}
+
+% --- Slide 28: FHR Salt Temperature Constraints ---
+\begin{frame}[allowframebreaks]{Critical: FHR Salt Temperature Limits}
+    \textbf{Unlike water-cooled reactors, FHR salts have strict temperature operating windows.}
+
+    \vspace{1em}
+    \begin{alertblock}{Primary Loop: FLiBe (Lithium Fluoride - Beryllium Fluoride)}
+        \textbf{Minimum temperature:} $>$ 470°C
+        \begin{itemize}
+            \item Below 470°C: FLiBe \textbf{freezes} (melting point $\sim$ 459°C)
+            \item Frozen salt blocks circulation passages
+            \item Loss of cooling capability
+        \end{itemize}
+    \end{alertblock}
+
+    \vspace{1em}
+    \begin{alertblock}{Secondary Loop: HITEC Salt (Potassium/Sodium/Sodium Nitrate)}
+        \textbf{Operating range:} 170°C to 520°C
+        \begin{itemize}
+            \item Below 170°C: HITEC \textbf{freezes} (melting point $\sim$ 142°C)
+            \item Above 520°C: HITEC begins to \textbf{thermally decompose}
+            \item Decomposition produces gases, damages salt chemistry
+        \end{itemize}
+    \end{alertblock}
+
+    \vspace{1em}
+    \textbf{Important:} The simulator will crash if these limits are violated—it cannot model phase change or salt decomposition!
+\end{frame}
+
+% --- Slide 29: Exercise - Power Reduction via Pump Shutdown ---
+\begin{frame}[allowframebreaks]{Simulator Exercise: Power Reduction via Pump Shutdown}
+    \textbf{Mission:} Reduce power from 60 MWth to 30 MWth by shutting down one or more coolant pumps.
+
+    \vspace{1em}
+    \begin{alertblock}{Rules}
+        \begin{itemize}
+            \item \textbf{DO NOT} move control rods during the maneuver
+            \item Keep reactivity in dollars within $\pm$0.30 at all times
+            \item Control power \textit{only} by shutting down pumps (reducing coolant flow)
+            \item Monitor reactor period and ensure it remains $>$ 20 seconds
+            \item \textbf{CRITICAL:} Keep FLiBe $>$ 470°C and HITEC within 170-520°C
+        \end{itemize}
+    \end{alertblock}
+
+    \vspace{1em}
+    \textbf{Strategy hints:}
+    \begin{enumerate}
+        \item Start at stable 60 MWth operation
+        \item Check current salt temperatures—ensure adequate margins
+        \item Shut down one pump and observe the response
+        \item Watch coolant temperature rise (but not too much!)
+        \item Monitor how reactivity responds to temperature changes
+        \item If temperatures approach limits, stabilize or reverse action
+    \end{enumerate}
+
+    \vspace{1em}
+    \textit{This demonstrates passive power reduction—but with real engineering constraints!}
+\end{frame}
+
+% --- Slide 30: Expected Behavior ---
+\begin{frame}[allowframebreaks]{What You Should Observe}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Phase 1: Flow Reduction}
+            \begin{itemize}
+                \item Pump shuts down
+                \item Coolant flow rate decreases
+                \item Salt outlet temperature rises
+                \item Core inlet temperature rises
+            \end{itemize}
+
+            \vspace{1em}
+            \textbf{Phase 2: Feedback Response}
+            \begin{itemize}
+                \item Higher salt temperature $\rightarrow$ stronger negative feedback
+                \item Reactivity becomes more negative
+                \item Power begins to decrease
+                \item Fuel temperature drops
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Phase 3: New Equilibrium}
+            \begin{itemize}
+                \item Power stabilizes at lower level ($\sim$30 MWth)
+                \item Temperatures reach new steady state
+                \item Reactivity returns close to zero
+                \item \textbf{Verify:} All salt temps within limits!
+            \end{itemize}
+
+            \vspace{1em}
+            \begin{exampleblock}{Key Insight}
+                With proper negative feedback, the reactor is \textbf{self-regulating}. But you must respect salt temperature constraints \cite{zhang2024load}.
+            \end{exampleblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Slide 31: Why Salt Temperature Limits Matter ---
+\begin{frame}[allowframebreaks]{Why Salt Temperature Limits Matter}
+    \textbf{Real-world operational challenges for molten salt reactors:}
+
+    \vspace{1em}
+    \begin{block}{Freezing Scenario (Temperature Too Low)}
+        \begin{itemize}
+            \item Salt solidifies in pipes, heat exchangers, or reactor vessel
+            \item Blockage prevents coolant circulation
+            \item Cannot restart reactor until salt is remelted
+            \item Requires external heating systems (trace heaters)
+            \item Can take hours or days to recover
+        \end{itemize}
+    \end{block}
+
+    \vspace{1em}
+    \begin{block}{Overheating Scenario (Temperature Too High)}
+        \begin{itemize}
+            \item HITEC decomposition produces gases (NO$_x$, O$_2$)
+            \item Pressurization of secondary loop
+            \item Degraded heat transfer properties
+            \item Corrosion acceleration
+            \item Requires salt replacement (expensive, time-consuming)
+        \end{itemize}
+    \end{block}
+
+    \vspace{1em}
+    \textbf{Lesson:} Flow-based control in FHRs must account for salt chemistry constraints, not just neutronics!
+\end{frame}
+
+% --- Slide 32: Why Not Use This in Large PWRs? ---
+\begin{frame}[allowframebreaks]{Why Not Use This in Large Commercial PWRs?}
+    \textbf{Question:} If pump control works so well, why don't large PWRs use it for load following?
+
+    \vspace{1em}
+    \begin{alertblock}{Safety and Design Constraints in Large PWRs}
+        \begin{itemize}
+            \item \textbf{Pump trip is an accident scenario:} Loss of coolant flow is considered a design-basis accident in large PWRs. Deliberately reducing flow contradicts safety philosophy.
+            \item \textbf{DNB (Departure from Nucleate Boiling) concerns:} Reduced flow at high power can lead to local boiling on fuel surfaces, risking fuel damage.
+            \item \textbf{Thermal stratification:} Reduced flow can cause temperature stratification in the reactor vessel and steam generators, creating thermal stresses.
+            \item \textbf{Pump wear:} Frequent pump speed changes or shutdowns accelerate mechanical wear on expensive, safety-critical equipment.
+            \item \textbf{Large thermal inertia:} Large PWRs have massive coolant inventory and thermal mass, making flow-based control sluggish.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+% --- Slide 33: When Is Flow-Based Control Acceptable? ---
+\begin{frame}[allowframebreaks]{When Is Flow-Based Control Acceptable?}
+    \textbf{Flow-based load following is viable in certain reactor designs} \cite{zhang2024load}:
+
+    \vspace{1em}
+    \begin{block}{Small Modular Reactors (SMRs)}
+        \begin{itemize}
+            \item Smaller thermal mass $\rightarrow$ faster response
+            \item Higher surface-to-volume ratio $\rightarrow$ better heat removal margins
+            \item Designed from the start for flexible operation
+            \item Strong negative temperature coefficients
+            \item Natural circulation capability reduces pump dependence
+        \end{itemize}
+    \end{block}
+
+    \vspace{1em}
+    \begin{block}{Fluoride-Salt-Cooled High-Temperature Reactors (FHRs)}
+        \begin{itemize}
+            \item Very high temperature margins (no DNB risk)
+            \item Liquid salt coolant doesn't boil under normal conditions
+            \item Strong negative temperature feedback
+            \item Designed for passive safety and load following
+            \item \textbf{But:} Must respect salt temperature windows (freezing/decomposition)
+        \end{itemize}
+    \end{block}
+
+    \vspace{1em}
+    \textbf{Key takeaway:} Reactor design determines which control strategies are safe and practical.
+\end{frame}
+
+% --- Slide 34: Historical Warning - The Slotin Incident (Part 1) ---
 \begin{frame}[allowframebreaks]{Historical Warning: The Slotin Incident (1946)}
     \begin{columns}
         \begin{column}{0.6\textwidth}
@@ -487,13 +766,13 @@
         \end{column}
         \begin{column}{0.4\textwidth}
             \centering
-			\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{./slotin_accident.png}
+            \includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{./slotin_accident.png}
             \tiny{\textit{YouTube Videos of the "Demon Core" experiment setup.}}
         \end{column}
     \end{columns}
 \end{frame}
 
-% --- Slide 25: The Slotin Incident (Part 2) ---
+% --- Slide 35: The Slotin Incident (Part 2) ---
 \begin{frame}[allowframebreaks]{The Slotin Incident: The Accident}
     At 3:20 PM, Slotin's screwdriver slipped \cite{stratton1989review,oettingen2018criticality}.
 
@@ -516,7 +795,7 @@
     But the damage was done.
 \end{frame}
 
-% --- Slide 26: The Slotin Incident (Part 3) ---
+% --- Slide 36: The Slotin Incident (Part 3) ---
 \begin{frame}[allowframebreaks]{The Slotin Incident: The Aftermath}
     \textbf{Radiation dose received:} Estimated 2,100 rad (21 Gy) in less than one second \cite{stratton1989review}.
 
@@ -536,7 +815,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 27: The BORAX Experiments (Part 1) ---
+% --- Slide 37: The BORAX Experiments (Part 1) ---
 \begin{frame}[allowframebreaks]{The BORAX Experiments: Proving the Danger (1950s)}
     After incidents like Slotin's, the nuclear community needed to understand prompt criticality in \textit{reactor} systems, not just bare cores.
 
@@ -554,7 +833,7 @@
     \end{block}
 \end{frame}
 
-% --- Slide 28: BORAX-I: The Destruction ---
+% --- Slide 38: BORAX-I: The Destruction ---
 \begin{frame}[allowframebreaks]{BORAX-I: The Destruction}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -576,13 +855,13 @@
         \end{column}
         \begin{column}{0.5\textwidth}
             \centering
-			\includegraphics[width=0.9\textwidth, keepaspectratio]{./borax_youtube.png}
+            \includegraphics[width=0.9\textwidth, keepaspectratio]{./borax_youtube.png}
             \tiny{\textit{BORAX-I final destructive test - YouTube Video }}
         \end{column}
     \end{columns}
 \end{frame}
 
-% --- Slide 29: BORAX-I: Sequence of Destruction ---
+% --- Slide 39: BORAX-I: Sequence of Destruction ---
 \begin{frame}[allowframebreaks]{BORAX-I: Sequence of Destruction}
     \textbf{What happened} \cite{putman2012criticality}:
 
@@ -606,7 +885,7 @@
     \href{https://inldigitallibrary.inl.gov/content/uploads/50/2026/04/5427214.pdf}{\textcolor{blue}{\underline{Read the full INL report (p. 117)}}}
 \end{frame}
 
-% --- Slide 30: BORAX: Why Didn't Safety Features Work? ---
+% --- Slide 40: BORAX: Why Didn't Safety Features Work? ---
 \begin{frame}[allowframebreaks]{BORAX: Why Didn't Safety Features Work?}
     Boiling Water Reactors (BWRs) have multiple passive safety features:
     \begin{itemize}
@@ -628,7 +907,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 31: Can Modern Reactors Survive Prompt Criticality? ---
+% --- Slide 41: Can Modern Reactors Survive Prompt Criticality? ---
 \begin{frame}[allowframebreaks]{Can Modern Reactors Survive Prompt Criticality?}
     \textbf{It depends on the reactor design and fuel type.}
 
@@ -642,10 +921,10 @@
     \end{block}
 
     \vspace{1em}
-    \textbf{Key issue:} Low thermal margin in UO₂ fuel—melting point is relatively close to operating temperature.
+    \textbf{Key issue:} Low thermal margin in UO$_2$ fuel—melting point is relatively close to operating temperature.
 \end{frame}
 
-% --- Slide 32: High-Temperature Reactors: Better Margins ---
+% --- Slide 42: High-Temperature Reactors: Better Margins ---
 \begin{frame}[allowframebreaks]{High-Temperature Reactors: Better Margins}
     \begin{block}{HTGRs (High-Temperature Gas Reactors) and FHRs}
         These reactors use \textbf{TRISO fuel particles}—ceramic-coated fuel designed to withstand extreme temperatures (\textgreater 1600°C).
@@ -663,7 +942,7 @@
     This is why HTGRs and FHRs are considered to have superior passive safety characteristics.
 \end{frame}
 
-% --- Slide 33: The Bottom Line: Never Go Prompt Critical ---
+% --- Slide 43: The Bottom Line: Never Go Prompt Critical ---
 \begin{frame}[allowframebreaks]{The Bottom Line: Never Go Prompt Critical}
     \textbf{Regardless of reactor type, prompt criticality is unacceptable.}
 
@@ -684,7 +963,7 @@
     \textbf{This is why you must understand and respect the dollar boundary.}
 \end{frame}
 
-% --- Slide 34: Case Study 3: Chernobyl (1986) ---
+% --- Slide 44: Case Study 3: Chernobyl (1986) ---
 \begin{frame}[allowframebreaks]{Case Study 3: The Chernobyl Disaster (1986)}
     We've seen two examples of prompt criticality:
     \begin{itemize}
@@ -704,7 +983,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 35: The RBMK Reactor Design ---
+% --- Slide 45: The RBMK Reactor Design ---
 \begin{frame}[allowframebreaks]{The RBMK Reactor: A Flawed Design}
     The Chernobyl reactor was an RBMK-1000 (Reaktor Bolshoy Moshchnosti Kanalnyy) - a graphite-moderated, water-cooled channel reactor \cite{malko2002chernobyl}.
 
@@ -726,7 +1005,7 @@
     \end{alertblock}
 \end{frame}
 
-% --- Slide 36: Positive Void Coefficient Explained ---
+% --- Slide 46: Positive Void Coefficient Explained ---
 \begin{frame}[allowframebreaks]{Understanding Positive Steam-Void Coefficient}
     \textbf{Normal reactor (negative void coefficient):}
     \begin{enumerate}
@@ -750,7 +1029,7 @@
     The RBMK's positive steam-void coefficient was particularly dangerous at low power operation \cite{malko2002chernobyl}.
 \end{frame}
 
-% --- Slide 37: The Chernobyl Accident Sequence ---
+% --- Slide 47: The Chernobyl Accident Sequence ---
 \begin{frame}[allowframebreaks]{What Happened at Chernobyl}
     \begin{columns}
         \begin{column}{0.55\textwidth}
@@ -778,7 +1057,7 @@
     \end{columns}
 \end{frame}
 
-% --- Slide 38: The Fatal Sequence ---
+% --- Slide 48: The Fatal Sequence ---
 \begin{frame}[allowframebreaks]{The Fatal Sequence (01:23, April 26, 1986)}
     With nearly all control rods withdrawn, the reactor was in an extremely dangerous state \cite{malko2002chernobyl}:
     
@@ -805,7 +1084,7 @@
     Reactor destroyed by explosions before rods could fully insert.
 \end{frame}
 
-% --- Slide 39: The Explosion and Aftermath ---
+% --- Slide 49: The Explosion and Aftermath ---
 \begin{frame}[allowframebreaks]{The Chernobyl Explosion}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -818,6 +1097,10 @@
                 \item 2,000 ton upper structure thrown upward
                 \item Graphite fire released radioactive material for 10 days
             \end{itemize}
+
+            \vspace{1em}
+            \textbf{Why feedback didn't save it:}
+            Positive void coefficient \textit{amplified} the excursion. By the time negative fuel temperature feedback could activate, the reactor was already destroyed.
         \end{column}
         \begin{column}{0.5\textwidth}
             \centering
@@ -830,12 +1113,7 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}
-	\textbf{Why feedback didn't save it:}
-	Positive void coefficient \textit{amplified} the excursion. By the time negative fuel temperature feedback could activate, the reactor was already destroyed.
-\end{frame}
-
-% --- Slide 40: Lessons from Chernobyl ---
+% --- Slide 50: Lessons from Chernobyl ---
 \begin{frame}[allowframebreaks]{Lessons from Chernobyl}
     \textbf{Design Lessons} \cite{malko2002chernobyl}:
     \begin{itemize}
@@ -861,7 +1139,7 @@
     \end{block}
 \end{frame}
 
-% --- Slide 41: Comparing the Three Cases ---
+% --- Slide 51: Comparing the Three Cases ---
 \begin{frame}[allowframebreaks]{Three Accidents: Three Lessons}
     \small
     \begin{tabular}{p{2.5cm}p{3.2cm}p{3.2cm}p{3.8cm}}
@@ -879,7 +1157,7 @@
     \vspace{1em}
 \end{frame}
 
-% --- Slide 42: The Universal Rule ---
+% --- Slide 52: The Universal Rule ---
 \begin{frame}[allowframebreaks]{The Universal Rule}
     \textbf{The Universal Rule:}
     \begin{itemize}
@@ -890,7 +1168,7 @@
     \end{itemize}
 \end{frame}
 
-% --- Slide 43: Acknowledgments ---
+% --- Slide 53: Acknowledgments ---
 \begin{frame}[allowframebreaks]{Acknowledgments}
     \begin{block}{Development of These Materials}
         This presentation was developed with assistance from \textbf{NUS AI-Know}, 
