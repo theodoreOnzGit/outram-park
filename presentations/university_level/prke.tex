@@ -574,7 +574,33 @@
     \end{block}
 
     \vspace{1em}
-    This approach is particularly suitable for Small Modular Reactors (SMRs) with strong negative temperature coefficients and is safer because control rods remain in their safe positions \cite{zhang2024load}.
+    \textbf{Why is this viable for advanced SMRs?}
+    \begin{itemize}
+        \item \textbf{TRISO fuel:} Much higher thermal margins (\textgreater 1600°C) compared to traditional UO$_2$ (\textgreater 2800°C melting point)
+        \item Temperature excursions during load following stay well within safe limits
+        \item Strong negative temperature coefficients enable stable, passive control
+    \end{itemize}
+\end{frame}
+
+% --- Slide 27b: Turbine Bypass valve --- 
+\begin{frame}[allowframebreaks]{Turbine Throttle Control}
+	\textbf{PWR Traditional Approach (Submarines and other types):} 
+	Turbine bypass valve \cite{zhang2024load}
+
+    \vspace{1em}
+    \begin{block}{How It Works}
+        When power demand changes, adjust coolant flow rate instead of control rods:
+        \begin{itemize}
+			\item \textbf{Increase demand:} Decrease flow to turbine, increase flow to bypass valve
+			\item \textbf{Decrease demand:} Increase flow to turbine, decrease flow to bypass valve
+        \end{itemize}
+    \end{block}
+
+    \vspace{1em}
+	In essence, exhaust the steam from the steam generator directly to cool 
+	rather than generate useful work output. This is rather wasteful, but 
+	it works for temporary load following too.
+	
 \end{frame}
 
 % --- Slide 28: FHR Salt Temperature Constraints ---
@@ -650,7 +676,7 @@
             \vspace{1em}
             \textbf{Phase 2: Feedback Response}
             \begin{itemize}
-                \item Higher salt temperature $\rightarrow$ stronger negative feedback
+                \item Higher salt temperature $\rightarrow$ Higher Fuel Temperature
                 \item Reactivity becomes more negative
                 \item Power begins to decrease
                 \item Fuel temperature drops
