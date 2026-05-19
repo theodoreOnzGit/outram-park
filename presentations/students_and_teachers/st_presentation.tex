@@ -326,7 +326,7 @@
 
 
 
-% --- Slide 13: Phenomenon #3: Heat Transfer (Revised) ---
+% --- Slide 13: Phenomenon #3: Heat Transfer ---
 \begin{frame}[allowframebreaks]{Phenomenon \#3: Heat Transfer - The Cooling Challenge}
     \textbf{Concept:} Heat transfer is about moving heat from where it's produced (the fuel) to where it can be used (the turbine). This involves two major challenges.
 
@@ -348,7 +348,62 @@
     \textit{Note: For HTGRs, FHRs, and MSRs, which use single-phase coolants (gas or liquid salt), Critical Heat Flux is not a concern, allowing them to operate at higher temperatures and focus on the circulation problem.}
 \end{frame}
 
-% --- Slide 14: Phenomenon #4: Materials Science ---
+% --- NEW SLIDE 14: Experimental CHF Testing ---
+\begin{frame}[allowframebreaks]{Case Study: Testing Heat Transfer Without a Reactor}
+    To study complex phenomena like Critical Heat Flux, we don't need a real reactor. We can build sophisticated non-nuclear test facilities.
+    
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{block}{How It Works}
+                Instead of nuclear fuel, we use precisely machined \textbf{electric heater rods}.
+                \begin{itemize}
+                    \item These rods can be powered to perfectly mimic the heat output of actual fuel.
+                    \item This is far safer, cheaper, and allows for detailed measurements.
+                    \item We can study complex effects, like how the rocking motion of a ship might affect CHF on a marine reactor \cite{ku2026experimental}.
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}[H]
+                \centering
+                % Placeholder for an image of a CHF test loop
+                \includegraphics[width=\textwidth, keepaspectratio]{chf_expt_setup.png}
+                \caption{An example of an experimental loop for studying flow boiling phenomena.}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- NEW SLIDE 15: Experimental Natural Circulation Testing ---
+% -- use ciet educational simulator
+\begin{frame}[allowframebreaks]{Case Study: Testing Natural Circulation with CIET}
+    For system-wide behavior like natural circulation, we build "Integral Effects Test" (IET) facilities that model the entire reactor loop.
+    
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{figure}[H]
+                \centering
+                % Placeholder for your CIET simulator image
+                \includegraphics[width=\textwidth, keepaspectratio]{ciet_simulator.png}
+                \caption{The Compact Integral Effects Test (CIET) Educational Simulator.}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{The Limits of Natural Circulation}
+                It is a powerful passive safety feature, but it has challenges:
+                \begin{itemize}
+                    \item \textbf{Lower Flow Rate:} The flow is inherently weaker than with pumps, so heat removal is slower.
+                    \item \textbf{Flow Instability:} The flow can become unstable and oscillate, which can hamper heat removal.
+                    \item \textbf{CHF is Still a Risk:} In water systems, we must prove that the weaker natural flow is still fast enough to prevent a CHF event.
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+
+% --- Slide 16: Phenomenon #4: Materials Science (Final Correction) ---
 \begin{frame}[allowframebreaks]{Phenomenon \#4: Materials Science - Forging the Unbreakable}
     \textbf{Concept:} The inside of a reactor is one of the most extreme environments humans have ever created: intense radiation that damages atomic structures, high temperatures, and high pressure.
     
@@ -359,21 +414,18 @@
     \begin{exampleblock}{An Example of Extreme Engineering: TRISO Fuel}
         \begin{columns}
             \begin{column}{0.65\textwidth}
-                Advanced reactors like the FHR use TRISO fuel. Each particle, the size of a poppy seed, contains a uranium kernel wrapped in multiple layers of incredibly durable ceramic.
+                Advanced reactors like the \textbf{High-Temperature Gas-Cooled Reactor (HTGR)} and the \textbf{Fluoride-salt-cooled High-temperature Reactor (FHR)} use TRISO fuel.
                 
-                These layers are designed to act as a tiny, personal containment vessel, trapping radioactive products inside even at temperatures hotter than lava (\textgreater 1600°C).
+                Each particle, the size of a poppy seed, contains a uranium kernel wrapped in multiple layers of incredibly durable ceramic. These layers act as a tiny, personal containment vessel, trapping radioactive products inside even at extreme temperatures up to 1600°C.
             \end{column}
             \begin{column}{0.35\textwidth}
                 \centering
-                % Placeholder for a TRISO image. You will need to find a 'triso_particle.png'
-                % file or similar to make this appear.
-				\includegraphics[width=\textwidth]{./triso_particle.png}
+                \includegraphics[width=\textwidth]{triso_particle.png}
                 \tiny{Cross-section of a TRISO particle.}
             \end{column}
         \end{columns}
     \end{exampleblock}
 \end{frame}
-
 
 
 \end{document}
