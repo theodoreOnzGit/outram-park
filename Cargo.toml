@@ -1,0 +1,24 @@
+[package]
+name = "outram-park"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "fhr_sim"
+path = "src/fhr/main.rs"
+
+[[bin]]
+name = "ipwr_sim"
+path = "src/ipwr/main.rs"
+
+[[bin]]
+name = "bwr_sim"
+path = "src/bwr_sim/main.rs"
+
+[[bin]]
+name = "htgr_sim"
+path = "src/htgr_sim/main.rs"
+
+
+[dependencies]
+
