@@ -374,51 +374,38 @@
     \end{columns}
 \end{frame}
 
-% --- NEW SLIDE 15: Experimental Natural Circulation Testing ---
-% -- use ciet educational simulator
+% --- Slide: Case Study: Testing Natural Circulation with CIET ---
 \begin{frame}[allowframebreaks]{Case Study: Testing Natural Circulation with CIET}
     For system-wide behavior like natural circulation, we build "Integral Effects Test" (IET) facilities that model the entire reactor loop.
-    
-    \begin{columns}[T]
-        \begin{column}{0.5\textwidth}
-            \begin{figure}[H]
-                \centering
-                % Placeholder for your CIET simulator image
-                \includegraphics[width=\textwidth, keepaspectratio]{ciet_simulator.png}
-                \caption{The Compact Integral Effects Test (CIET) Educational Simulator.}
-            \end{figure}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{alertblock}{The Limits of Natural Circulation}
-                It is a powerful passive safety feature, but it has challenges:
-                \begin{itemize}
-                    \item \textbf{Lower Flow Rate:} The flow is inherently weaker than with pumps, so heat removal is slower.
-                    \item \textbf{Flow Instability:} The flow can become unstable and oscillate, which can hamper heat removal.
-                    \item \textbf{CHF is Still a Risk:} In water systems, we must prove that the weaker natural flow is still fast enough to prevent a CHF event.
-                \end{itemize}
-            \end{alertblock}
-        \end{column}
-    \end{columns}
+	\begin{figure}[H]
+		\centering
+				% Placeholder for your CIET simulator image
+		\includegraphics[width=0.8\textwidth, keepaspectratio]{ciet_simulator.png}
+		\caption{The Compact Integral Effects Test (CIET) Educational Simulator.}
+	\end{figure}
+\end{frame}
+\begin{frame}[allowframebreaks]{Case Study: Testing Natural Circulation with CIET}
+    For system-wide behavior like natural circulation, we build "Integral Effects Test" (IET) facilities that model the entire reactor loop.
+	\begin{alertblock}{The Limits of Natural Circulation}
+		It is a powerful passive safety feature, but it has challenges:
+		\begin{itemize}
+			\item \textbf{Lower Flow Rate:} The flow is inherently weaker than with pumps, so heat removal is slower.
+			\item \textbf{Flow Instability:} The flow can become unstable and oscillate, which can hamper heat removal.
+			\item \textbf{CHF is Still a Risk:} In water systems, we must prove that the weaker natural flow is still fast enough to prevent a CHF event.
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
-
-
-% --- Slide 16: Phenomenon #4: Materials Science (Final Correction) ---
-\begin{frame}[allowframebreaks]{Phenomenon \#4: Materials Science - Forging the Unbreakable}
-    \textbf{Concept:} The inside of a reactor is one of the most extreme environments humans have ever created: intense radiation that damages atomic structures, high temperatures, and high pressure.
-    
+% --- Slide 15: Phenomenon #4: Materials Science (Part 1) ---
+\begin{frame}[allowframebreaks]{Phenomenon \#4: Materials Science - Fuel \& Vessels}
+    \textbf{Concept:} The inside of a reactor is one of the most extreme environments imaginable. Materials science asks: what can we build it out of?
     \vspace{1em}
-    \textbf{The Safety Question:} What can we possibly build the reactor out of? How do we invent and test materials that can perform their job flawlessly for over 60 years without cracking, corroding, or becoming brittle?
-    
-    \vspace{1em}
-    \begin{exampleblock}{An Example of Extreme Engineering: TRISO Fuel}
+    \begin{exampleblock}{Micro-Scale: The Fuel (TRISO)}
         \begin{columns}
-            \begin{column}{0.65\textwidth}
-                Advanced reactors like the \textbf{High-Temperature Gas-Cooled Reactor (HTGR)} and the \textbf{Fluoride-salt-cooled High-temperature Reactor (FHR)} use TRISO fuel.
-                
-                Each particle, the size of a poppy seed, contains a uranium kernel wrapped in multiple layers of incredibly durable ceramic. These layers act as a tiny, personal containment vessel, trapping radioactive products inside even at extreme temperatures up to 1600°C.
+            \begin{column}{0.6\textwidth}
+                HTGRs and FHRs use TRISO fuel. Each poppy-seed-sized particle has ceramic layers that act as a personal containment vessel, trapping radioactive products inside at temperatures up to 1600°C.
             \end{column}
-            \begin{column}{0.35\textwidth}
+            \begin{column}{0.4\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{triso_particle.png}
                 \tiny{Cross-section of a TRISO particle.}
@@ -427,5 +414,146 @@
     \end{exampleblock}
 \end{frame}
 
+% --- NEW SLIDE 16: Materials Science (Part 2) ---
+\begin{frame}[allowframebreaks]{Phenomenon \#4 (cont.): The Challenge of Steel Vessels}
+    \textbf{The Safety Question:} How do we ensure the massive steel Reactor Pressure Vessel (RPV), which contains the entire core, remains intact for over 60 years?
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{figure}[H]
+                \centering
+				\includegraphics[width=0.7\textwidth, keepaspectratio]{rpv_image.png}
+                \caption{Just a simple Google for RPV pictures}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{Engineers must prevent failures from:}
+                \begin{itemize}
+                    \item \textbf{Brittle Fracture:} Radiation can make steel brittle like glass. We must ensure it always remains tough and ductile.
+                    \item \textbf{High Cycle Fatigue:} Repeated stress from temperature and pressure changes can cause cracks to grow over time.
+                    \item \textbf{Creep:} At high temperatures, the steel can slowly and permanently deform under pressure.
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- NEW SLIDE 17: Phenomenon #5: Shielding & Transport ---
+\begin{frame}[allowframebreaks]{Phenomenon \#5: Shielding \& Radionuclide Transport}
+    \textbf{Concept:} The fission process creates intense radiation and radioactive materials. We must contain them.
+	\textbf{The Safety Question:} How do we design barriers to block radiation, and how do we predict where radioactive material would go in the unlikely event of a leak?
+	\begin{exampleblock}{Two Sides of the Same Coin}
+		\begin{itemize}
+			\item \textbf{Shielding:} Designing the massive layers of concrete, steel, and water that block radiation and protect workers and the public.
+			\item \textbf{Radionuclide Transport:} Studying how radioactive materials might move through the plant or the environment in an accident scenario.
+		\end{itemize}
+	\end{exampleblock}
+	This knowledge is essential for \textbf{Probabilistic Safety Assessment (PSA)} and for designing safe long-term \textbf{waste disposal} strategies.
+\end{frame}
+
+% =============================================================================
+% FINAL SLIDES OF PART 4
+% =============================================================================
+
+% --- Slide 18: Other Areas of Study ---
+\begin{frame}[allowframebreaks]{And the List Goes On...}
+    Our tour has only scratched the surface. To build and operate a nuclear power plant safely, there are many other critical areas of study:
+    
+    \vspace{1em}
+    \begin{itemize}
+        \item \textbf{Power Production (Secondary Loop):} The entire non-nuclear side of the plant, including turbines, generators, and the connection to the electrical grid.
+        
+        \item \textbf{Process Control \& Instrumentation:} Designing the thousands of sensors and control systems that act as the reactor's nervous system.
+        
+        \item \textbf{Human Factors \& Human-Machine Interfaces:} Studying 
+			how operators interact with the plant. A poor interface was a key 
+			contributor to the Three Mile Island accident in 1979 \cite{malone1979human}
+        \item And many, many more...
+    \end{itemize}
+\end{frame}
+
+% --- Slide 19: Connecting Back to the Simulator ---
+\begin{frame}[allowframebreaks]{Appreciating the Complexity}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth, keepaspectratio]{./fhr_sim_full.png}
+    \end{figure}
+    
+    \vspace{1em}
+    Looking back at the FHR reactor simulator, hopefully you can now appreciate the deep and complex nuances behind each part of the reactor system.
+    
+    \vspace{1em}
+	\begin{center}
+		\textit{Every button, every gauge, and every physical response programmed 
+			could not be done without the decades of research into these core phenomena.
+		}
+    \end{center}
+\end{frame}
+
+% =============================================================================
+% PART 5: THE CONCLUSION
+% =============================================================================
+
+% --- Slide 20: The Call to Adventure ---
+\begin{frame}[allowframebreaks]{Your Invitation to the Frontier}
+    The journey from a paper design to a safe, working power plant is one of the great engineering challenges of our time.
+    
+    \vspace{1.5em}
+    
+    \begin{alertblock}{A Grand Challenge for Singapore}
+        We hope that you are interested to study more, and one day help unravel the problem of using nuclear power safely and economically for our nation.
+    \end{alertblock}
+    
+    \vspace{1.5em}
+    This field needs bright minds from many disciplines:
+    \begin{itemize}
+        \item Nuclear Engineers 
+        \item Physicists \& Chemists
+        \item Mechanical, Electrical, \& Chemical Engineers
+        \item Materials Scientists
+        \item Computer Scientists \& Software Developers
+        \item And many more \dots
+    \end{itemize}
+\end{frame}
+
+% --- Slide 21: Acknowledgments (Revised) ---
+\begin{frame}[allowframebreaks]{Acknowledgments}
+    \begin{block}{Development of These Materials}
+        This presentation was developed with assistance from \textbf{Google's Gemini model} via \textbf{NUS AI-Know}, the National University of Singapore's trusted generative AI platform \cite{aiknow2025prke}.
+    \end{block}
+
+    \vspace{1em}
+    \textbf{AI-Know Platform:}
+    \begin{itemize}
+        \item A secure, compliant AI environment aligned with NUS policies.
+        \item Access to leading large language models, including Google's Gemini, for conversational AI and content development.
+        \item Private interactions that are never used to train models.
+    \end{itemize}
+
+    \vspace{1em}
+    \textbf{Special Thanks:}
+    \begin{itemize}
+        \item NUS SNRSI, for their support in enabling me to develop the simulators used today.
+        \item The various historical and technical documentation sources.
+    \end{itemize}
+
+    \vspace{1em}
+    \centering
+    \small
+    \textit{For more information about AI-Know: \href{https://ai-know.nus.edu.sg}{https://ai-know.nus.edu.sg}}
+\end{frame}
+
+% --- Slide 22: Thank You & References ---
+\begin{frame}[allowframebreaks]{Thank You}
+    \centering
+    \Huge Thank you for your attention.
+    
+    \vspace{2em}
+    \LARGE Questions?
+\end{frame}
+
+% --- Slide 23: Bibliography ---
+\begin{frame}[allowframebreaks]{References}
+    \printbibliography[heading=none]
+\end{frame}
 
 \end{document}
