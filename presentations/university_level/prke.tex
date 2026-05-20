@@ -107,9 +107,10 @@
 % showing the power gauge, reactivity controls, and main readout at 30 MWth.
 \begin{frame}[allowframebreaks]{Your Interface: The FHR Control Panel}
     \centering
-	\includegraphics[width=0.85\textwidth, keepaspectratio]{./fhr_sim_controls.png}
-    \vspace{0.5em}
-    \footnotesize{\textit{Current State: Stable at 30 MWth}}
+    \begin{figure}
+        \includegraphics[width=0.85\textwidth, keepaspectratio]{./fhr_sim_controls.png}
+        \caption{\footnotesize{\textit{Current State: Stable at 30 MWth}}}
+    \end{figure}
 \end{frame}
 
 % --- Slide 5: The Challenge Begins (While students attempt) ---
@@ -576,7 +577,9 @@
     \vspace{1em}
     \textbf{Why is this viable for advanced SMRs?}
     \begin{itemize}
-        \item \textbf{TRISO fuel:} Much higher thermal margins (\textgreater 1600°C) compared to traditional UO$_2$ (\textgreater 2800°C melting point)
+        \item \textbf{TRISO fuel:} Much higher thermal margins (\textgreater 1600°C) compared to traditional UO$_2$ 
+			with zircalloy cladding (\textgreater 800°C, strong degradation via oxidation
+			\cite{duriez2019zircaloy})
         \item Temperature excursions during load following stay well within safe limits
         \item Strong negative temperature coefficients enable stable, passive control
     \end{itemize}
