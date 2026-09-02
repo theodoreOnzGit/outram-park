@@ -14,6 +14,32 @@ conversation, not written policy for future sessions) do not change this
 file — they apply only for the duration of the session they were granted
 in.
 
+## Issue tracking (HARD RULE)
+
+**Every issue/task for this repo (`outram-park`, top level) MUST be tracked
+in both kopi-beans (`bn`) and GitHub Issues — never only one of the two.**
+This applies to bugs, TODOs, and roadmap items alike.
+
+- **Create in both.** When an issue is opened, open it in both trackers
+  with the same title, and cross-reference them: put the GitHub issue URL
+  (or `gh:#<number>`) in the `bn` issue's notes/description, and put the
+  `bn` issue id (`bn:<id>`) in the GitHub issue body.
+- **Close in both.** Do not close one without closing the other in the same
+  pass — a `bn close` with no matching GitHub close (or vice versa) leaves
+  the two trackers out of sync, which defeats the point of requiring both.
+- **`bn` is not yet initialized in this repo** (no `.beads`/kopi-beans store
+  here yet, and no `bn` binary in this environment as of this writing —
+  `cargo install kopi-beans`). Initialize the store here before this rule
+  can be followed for real; until then, note the gap explicitly in any
+  hand-off rather than silently tracking in GitHub only.
+- **If `bn` is genuinely unavailable** in a given environment (no working
+  build at all), state that explicitly in the hand-off and track in GitHub
+  Issues alone in the meantime — this is the one accepted exception, not a
+  default.
+- This is independent of `outram-park-backend`'s own kopi-beans store (see
+  below) — that submodule's issues are its own repo's concern, tracked per
+  its own `CLAUDE.md`, not this repo's GitHub Issues.
+
 ## The `outram-park-backend` submodule
 
 `outram-park-backend/` is a git submodule (see `.gitmodules`), pointing at
