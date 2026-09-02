@@ -5,9 +5,14 @@ Guidance for Claude Code (and other AI assistants) working in the
 
 ## Branch / push conventions
 
-- **This repo (`outram-park`, top level):** push directly to `main`.
+- **This repo (`outram-park`, top level):** push to `develop`, not `main`.
 - **`outram-park-backend` (git submodule):** push to `develop`, never
   `main`, when committing changes inside that submodule's own tree.
+
+Session-specific exceptions to the above (granted directly by the user in
+conversation, not written policy for future sessions) do not change this
+file — they apply only for the duration of the session they were granted
+in.
 
 ## The `outram-park-backend` submodule
 
