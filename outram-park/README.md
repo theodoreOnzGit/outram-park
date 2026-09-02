@@ -47,6 +47,11 @@ For Arch Linux
 ```sh 
 PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1 maturin build --release
 ```
+or:
+
+```sh 
+maturin build --release --interpreter python3.13
+```
 
 The wheel is written to `../target/wheels/` (the workspace `target/` dir),
 e.g. `outram_park-0.1.0-cp312-cp312-linux_x86_64.whl`. Install it with:
