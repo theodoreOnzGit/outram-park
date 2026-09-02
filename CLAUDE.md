@@ -64,3 +64,24 @@ none of this file applies inside it either.
 When working inside `outram-park-backend/`, follow `outram-park-backend/CLAUDE.md`
 directly rather than anything written in this file. When working anywhere
 else in `outram-park` (this top-level repo), this file governs instead.
+
+### Consuming its crates from the `outram-park` crate
+
+`outram-park/Cargo.toml` depends on every `outram-park-backend` crate by
+path, each as an optional dependency gated behind a same-named feature (see
+`outram-park/src/backend/`, one re-export module per backend crate). This
+requires the root workspace's `[workspace] exclude = ["outram-park-backend"]`
+(in this file's own `Cargo.toml`) — without it, Cargo's workspace-root
+discovery for those path dependencies incorrectly resolves against this
+repo's own `[workspace]` instead of `outram-park-backend`'s, and every
+backend crate that uses `<dep>.workspace = true` inheritance (i.e. nearly
+all of them) fails to build with "`workspace.dependencies` was not
+defined". Don't remove that `exclude` line.
+
+Because `outram-park`'s own `Cargo.lock` is a separate resolution from
+`outram-park-backend`'s, a transitive dependency can independently resolve
+to a version newer than what this environment's `rustc` supports even
+though backend's own lockfile pins an older, compatible one (hit this with
+`kstring` via `kovan-discovery`'s `gix` dependency). Fix with
+`cargo update -p <pkg> --precise <version-from-outram-park-backend/Cargo.lock>`
+rather than upgrading the toolchain.

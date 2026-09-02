@@ -1,3 +1,24 @@
 [workspace]
 resolver = "2"
 members = ["outram-park"]
+exclude = ["outram-park-backend"]
+
+# Shared package metadata. The `outram-park` member keeps its own `version`
+# but inherits everything else from here, same convention as
+# outram-park-backend/Cargo.toml's [workspace.package] (this is the same
+# project's suite, so the author/license identity matches that file exactly;
+# only homepage/repository point at this repo instead of the backend one).
+[workspace.package]
+edition = "2024"
+authors = [
+    "Ong Kay Chen Theodore",
+    "Professor Per F. Peterson",
+    "University of California, Berkeley Thermal Hydraulics Lab",
+    "Singapore Nuclear Research and Safety Institute (SNRSI)",
+    "National University of Singapore (NUS)",
+    "Repository Contributors",
+]
+license = "GPL-3.0-only"
+homepage = "https://github.com/theodoreOnzGit/outram-park"
+repository = "https://github.com/theodoreOnzGit/outram-park"
+categories = ["science"]

@@ -14,5 +14,7 @@ pub mod gui;
 pub mod cli;
 pub mod tui;
 
+pub mod backend;
+
 #[cfg(feature = "python")]
 mod python;
