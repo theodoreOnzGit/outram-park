@@ -1,0 +1,24 @@
+# Compat export (kopi-beans). Canonical issue data lives in the git ref
+# refs/heads/beads/store (state/deps/tombstones jsonl + meta.json).
+# issues.jsonl is only a per-machine symlink into the tracker's local
+# exports directory, so tracking it produces a permanent typechange in
+# `git status`.
+issues.jsonl
+
+# Runtime files (daemon lock/log/pid, sockets, per-machine sync state)
+bd.sock
+bd.sock.startlock
+sync-state.json
+last-touched
+.exclusive-lock
+daemon.*
+push-state.json
+*.lock
+.local_version
+.sync.lock
+export-state/
+export-state.json
+last_pull
+
+# Credential key (encryption key for federation peer auth — never commit)
+.beads-credential-key

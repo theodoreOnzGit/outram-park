@@ -27,11 +27,20 @@ This applies to bugs, TODOs, and roadmap items alike.
 - **Close in both.** Do not close one without closing the other in the same
   pass — a `bn close` with no matching GitHub close (or vice versa) leaves
   the two trackers out of sync, which defeats the point of requiring both.
-- **`bn` is not yet initialized in this repo** (no `.beads`/kopi-beans store
-  here yet, and no `bn` binary in this environment as of this writing —
-  `cargo install kopi-beans`). Initialize the store here before this rule
-  can be followed for real; until then, note the gap explicitly in any
-  hand-off rather than silently tracking in GitHub only.
+- **`bn` is installed and the store is initialized** (`cargo install
+  kopi-beans`; store lives at `refs/heads/beads/store` on `origin`, same as
+  `outram-park-backend`'s own store). Run `bn prime` for workflow context.
+- **Known `bn init` bug on this repo:** `bn init` unconditionally tries to
+  fetch `refs/heads/beads/store` from `origin` and hard-fails if that ref
+  doesn't exist yet remotely — even though "ref not found" is the expected
+  case for a first init, and even though the repo already had other refs
+  (tags) that fetched fine. Confirmed it's not a reachability fallback
+  either: pointing `origin` at an unreachable URL produces a different,
+  equally fatal IO error rather than a graceful local-only path. The
+  workaround used here: temporarily `git remote remove origin`, run
+  `bn init` (succeeds, purely local), `git remote add origin <url>` back,
+  then `git push origin refs/heads/beads/store:refs/heads/beads/store` to
+  publish it. Don't re-run `bn init` here — the store already exists.
 - **If `bn` is genuinely unavailable** in a given environment (no working
   build at all), state that explicitly in the hand-off and track in GitHub
   Issues alone in the meantime — this is the one accepted exception, not a
