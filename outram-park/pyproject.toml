@@ -1,0 +1,16 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "outram-park"
+version = "0.1.0"
+description = "Python bindings exposing the outram-park-backend reactor simulation API."
+requires-python = ">=3.9"
+
+[tool.maturin]
+features = ["python"]
+no-default-features = true
+# Built without the default `gui` feature: the Python wheel only needs the
+# `python` feature (pyo3, cdylib), not the desktop GUI's windowing deps.
+manifest-path = "Cargo.toml"

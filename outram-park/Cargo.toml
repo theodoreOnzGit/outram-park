@@ -1,0 +1,68 @@
+[package]
+name = "outram-park"
+version = "0.1.0"
+edition = "2024"
+default-run = "outram-park"
+
+# `outram-park` is the frontend crate for the outram-park-backend simulation
+# engine. It serves three purposes:
+#
+# 1. A desktop GUI, gated behind the default `gui` feature.
+# 2. An Android/Termux-compatible CLI and TUI, usable by humans and agents
+#    alike, always available regardless of which optional features are on.
+# 3. A `python` feature building this crate as a `cdylib` for `maturin`,
+#    exposing the outram-park-backend API as a single Python wheel.
+
+[lib]
+name = "outram_park"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "outram-park"
+path = "src/main.rs"
+
+[[bin]]
+name = "fhr_sim"
+path = "src/fhr_sim/main.rs"
+
+[[bin]]
+name = "ipwr_sim"
+path = "src/ipwr_sim/main.rs"
+
+[[bin]]
+name = "bwr_sim"
+path = "src/bwr_sim/main.rs"
+
+[[bin]]
+name = "htgr_sim"
+path = "src/htgr_sim/main.rs"
+
+[[bin]]
+name = "gen_3_conventional_reactor_sim"
+path = "src/gen_3_conventional_reactor_sim/main.rs"
+
+[[bin]]
+name = "fukushima_sim"
+path = "src/fukushima_sim/main.rs"
+
+[features]
+default = ["gui"]
+# Desktop GUI frontend (egui/eframe). Not available on Termux/Android; build
+# with `--no-default-features` there to get the CLI/TUI only.
+gui = ["dep:eframe", "dep:egui"]
+# Build as a Python extension module (`cdylib`) for `maturin`, exposing the
+# outram-park-backend API as a wheel. See ../outram-park/pyproject.toml.
+python = ["dep:pyo3", "pyo3/extension-module"]
+
+[dependencies]
+# CLI + TUI: always compiled in, pure-Rust and Termux/Android compatible.
+clap = { version = "4", features = ["derive"] }
+ratatui = "0.29"
+crossterm = "0.28"
+
+# GUI, optional (default feature).
+eframe = { version = "0.29", optional = true }
+egui = { version = "0.29", optional = true }
+
+# Python bindings, optional (maturin builds only).
+pyo3 = { version = "0.22", optional = true }
