@@ -30,14 +30,19 @@ python/outram_park/<crate>.pyi           (type stubs, shipped in the wheel)
 a tree that compiles
 ```
 
-`refresh.py` runs all of it:
+`refresh.py` runs all of it, from anywhere -- it resolves its own paths:
 
 ```sh
 python3 codegen/refresh.py                 # the usual case
+python3 codegen/refresh.py --wheel         # ... and build a portable wheel
+python3 codegen/refresh.py --only-wheel    # wheel only, no regeneration
 python3 codegen/refresh.py --reset-skip    # after editing gen_bindings.py
 python3 codegen/refresh.py --skip-doc      # reuse existing rustdoc JSON
-python3 codegen/refresh.py --wheel         # ... and build the wheel
 ```
+
+For the step-by-step build procedure, prerequisites and troubleshooting,
+see "Building the wheel" in `../README.md`. This file is about how the
+generator works.
 
 The backend crate list comes from the `all-backends` feature in
 `../Cargo.toml`, so a new backend crate is wired in by editing that file —
@@ -53,7 +58,8 @@ nothing here holds a second copy of the list.
 | `crates.txt` | crate list, rewritten by `refresh.py` from `Cargo.toml` |
 | `skip.json` | items the compiler rejected (generated) |
 | `coverage.json` | per-crate counts of what was and was not wrapped |
-| `errors-pass*.log` | raw compiler errors from the last repair run |
+| `errors-pass*.log` | raw compiler errors from the last repair run (gitignored) |
+| `.build-venv/` | `maturin[zig]`, created on first `--wheel` (gitignored) |
 
 ## How an item is mapped
 
@@ -81,6 +87,13 @@ static constructor per variant plus `.variant()`.
 Skipped: generics, trait objects, closures, function pointers, `&mut`
 arguments, types with lifetime parameters, and anything whose signature
 contains a type not in the table above.
+
+## rustdoc JSON is unstable
+
+The schema is nightly-only and versioned, and it does change. The version
+this generator was written against is `FORMAT_VERSION` in
+`gen_bindings.py`; a mismatch aborts with a message naming the file to
+update, rather than generating quiet nonsense from a shape it misreads.
 
 ## Why there is a repair loop
 
