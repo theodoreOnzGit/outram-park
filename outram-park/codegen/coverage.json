@@ -13,8 +13,8 @@
   "consts": 11,
   "fns": 37,
   "fns_skipped": 43,
-  "methods": 70,
-  "methods_skipped": 50,
+  "methods": 71,
+  "methods_skipped": 49,
   "types": 41,
   "types_lifetime_skipped": 2,
   "types_no_clone": 4
@@ -27,34 +27,31 @@
  },
  "kovan": {
   "consts": 12,
-  "fns": 38,
-  "fns_skipped": 45,
-  "methods": 100,
-  "methods_skipped": 30,
+  "fns": 60,
+  "fns_skipped": 23,
+  "methods": 121,
+  "methods_skipped": 9,
   "types": 97,
   "types_no_clone": 19
  },
  "kovan-codegen": {
-  "fns": 13,
-  "fns_skipped": 17,
+  "fns": 14,
+  "fns_skipped": 16,
   "types": 9
  },
  "kovan-common": {
-  "methods": 12,
-  "methods_skipped": 14,
+  "methods": 26,
   "types": 12
  },
  "kovan-discovery": {
   "fns": 3,
-  "methods": 4,
-  "methods_skipped": 1,
+  "methods": 5,
   "types": 8,
   "types_no_clone": 3
  },
  "kovan-literature": {
   "consts": 8,
-  "fns": 9,
-  "fns_skipped": 6,
+  "fns": 15,
   "types": 4
  },
  "kovan-metrics": {
@@ -67,27 +64,26 @@
  },
  "kovan-semantics": {
   "consts": 1,
-  "fns": 6,
-  "fns_skipped": 7,
-  "methods": 25,
-  "methods_skipped": 14,
+  "fns": 10,
+  "fns_skipped": 3,
+  "methods": 34,
+  "methods_skipped": 5,
   "types": 19,
   "types_lifetime_skipped": 1
  },
  "nee_soon": {
   "consts": 9,
   "fns": 3,
-  "methods": 25,
-  "methods_skipped": 7,
+  "methods": 32,
   "types": 15,
   "types_no_clone": 1
  },
  "njoy-outram-park-fork": {
   "consts": 85,
-  "fns": 160,
-  "fns_skipped": 89,
-  "methods": 360,
-  "methods_skipped": 82,
+  "fns": 193,
+  "fns_skipped": 56,
+  "methods": 371,
+  "methods_skipped": 71,
   "types": 283,
   "types_generic_skipped": 1,
   "types_lifetime_skipped": 1,
@@ -97,30 +93,31 @@
   "consts": 1,
   "fns": 220,
   "fns_skipped": 9,
-  "methods": 198,
-  "methods_skipped": 12,
+  "methods": 200,
+  "methods_skipped": 10,
   "types": 118,
   "types_no_clone": 12
  },
  "outram-foam-appbuilder-lib": {
   "consts": 3,
-  "fns": 9,
-  "fns_skipped": 59,
-  "methods": 235,
-  "methods_skipped": 272,
-  "types": 163,
-  "types_no_clone": 15
+  "fns": 40,
+  "fns_skipped": 34,
+  "methods": 379,
+  "methods_skipped": 139,
+  "types": 167,
+  "types_no_clone": 17
  },
  "outram-foam-basic-lib": {
   "consts": 28,
-  "fns": 76,
-  "fns_skipped": 109,
-  "methods": 365,
-  "methods_skipped": 100,
-  "types": 110,
+  "fns": 131,
+  "fns_skipped": 54,
+  "methods": 471,
+  "methods_skipped": 65,
+  "types": 120,
+  "types_from_alias": 10,
   "types_generic_skipped": 22,
   "types_lifetime_skipped": 1,
-  "types_no_clone": 6
+  "types_no_clone": 5
  },
  "outram-foam-cli": {
   "fns": 1,
@@ -131,25 +128,24 @@
  },
  "outram-foam-mesh": {
   "consts": 5,
-  "fns": 15,
-  "fns_skipped": 7,
-  "methods": 45,
-  "methods_skipped": 31,
+  "fns": 22,
+  "methods": 72,
+  "methods_skipped": 4,
   "types": 34,
   "types_no_clone": 1
  },
  "outram-foam-multiphase": {
   "consts": 1,
-  "methods": 31,
-  "methods_skipped": 23,
+  "methods": 43,
+  "methods_skipped": 11,
   "types": 31,
   "types_no_clone": 14
  },
  "outram-foam-turbulence-lib": {
   "consts": 25,
   "fns": 3,
-  "methods": 1,
-  "methods_skipped": 8,
+  "methods": 7,
+  "methods_skipped": 2,
   "types": 7,
   "types_no_clone": 7
  },
@@ -157,8 +153,8 @@
   "consts": 15,
   "fns": 18,
   "fns_skipped": 50,
-  "methods": 211,
-  "methods_skipped": 58,
+  "methods": 214,
+  "methods_skipped": 55,
   "types": 153,
   "types_no_clone": 57
  },
@@ -166,25 +162,25 @@
   "consts": 52,
   "fns": 56,
   "fns_skipped": 37,
-  "methods": 207,
-  "methods_skipped": 100,
-  "types": 99,
+  "methods": 215,
+  "methods_skipped": 94,
+  "types": 100,
+  "types_from_alias": 1,
   "types_generic_skipped": 3,
   "types_lifetime_skipped": 1,
-  "types_no_clone": 24
+  "types_no_clone": 25
  },
  "outram-park-fork-cfmesh": {
   "fns": 15,
   "fns_skipped": 17,
-  "methods": 19,
-  "methods_skipped": 2,
+  "methods": 21,
   "types": 7
  },
  "outram-park-fork-coolprop": {
   "fns": 35,
   "fns_skipped": 2,
-  "methods": 87,
-  "methods_skipped": 10,
+  "methods": 94,
+  "methods_skipped": 3,
   "types": 43,
   "types_generic_skipped": 5
  },
@@ -192,8 +188,8 @@
   "consts": 70,
   "fns": 304,
   "fns_skipped": 122,
-  "methods": 499,
-  "methods_skipped": 85,
+  "methods": 528,
+  "methods_skipped": 56,
   "types": 350,
   "types_no_clone": 1
  },
@@ -208,34 +204,34 @@
  },
  "outram-park-fork-moltres": {
   "fns": 1,
-  "methods": 11,
-  "methods_skipped": 15,
+  "methods": 16,
+  "methods_skipped": 10,
   "types": 14,
   "types_no_clone": 2
  },
  "outram-park-fork-offbeat": {
   "consts": 58,
-  "fns": 27,
-  "fns_skipped": 24,
-  "methods": 304,
-  "methods_skipped": 138,
+  "fns": 36,
+  "fns_skipped": 15,
+  "methods": 338,
+  "methods_skipped": 104,
   "types": 138,
   "types_no_clone": 1
  },
  "outram-park-fork-onix": {
   "fns": 1,
   "fns_skipped": 1,
-  "methods": 34,
-  "methods_skipped": 5,
+  "methods": 35,
+  "methods_skipped": 4,
   "types": 10,
   "types_no_clone": 2
  },
  "outram-park-fork-pflotran": {
   "consts": 7,
-  "fns": 15,
-  "fns_skipped": 18,
-  "methods": 197,
-  "methods_skipped": 56,
+  "fns": 19,
+  "fns_skipped": 14,
+  "methods": 207,
+  "methods_skipped": 46,
   "types": 111,
   "types_no_clone": 34
  },
@@ -261,10 +257,10 @@
  },
  "tampines": {
   "consts": 37,
-  "fns": 32,
-  "fns_skipped": 12,
-  "methods": 162,
-  "methods_skipped": 38,
+  "fns": 33,
+  "fns_skipped": 11,
+  "methods": 187,
+  "methods_skipped": 13,
   "types": 49,
   "types_no_clone": 4
  },
@@ -272,8 +268,7 @@
   "consts": 24,
   "fns": 280,
   "fns_skipped": 73,
-  "methods": 117,
-  "methods_skipped": 4,
+  "methods": 121,
   "types": 16,
   "types_generic_skipped": 5
  },
@@ -281,8 +276,8 @@
   "consts": 3,
   "fns": 6,
   "fns_skipped": 1,
-  "methods": 52,
-  "methods_skipped": 25,
+  "methods": 55,
+  "methods_skipped": 22,
   "types": 14,
   "types_no_clone": 2
  },
@@ -290,8 +285,8 @@
   "consts": 2,
   "fns": 249,
   "fns_skipped": 58,
-  "methods": 293,
-  "methods_skipped": 117,
+  "methods": 347,
+  "methods_skipped": 63,
   "types": 43,
   "types_no_clone": 1
  }

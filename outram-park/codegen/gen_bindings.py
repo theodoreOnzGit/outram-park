@@ -77,6 +77,29 @@ def scalar(rust, pyi):
     return Ty(rust, pyi)
 
 
+def _has_generic(t):
+    """True if a rustdoc type mentions a type parameter anywhere."""
+    if isinstance(t, dict):
+        if "generic" in t:
+            return True
+        return any(_has_generic(x) for x in t.values())
+    if isinstance(t, list):
+        return any(_has_generic(x) for x in t)
+    return False
+
+
+def _tykey(args):
+    return json.dumps(args, sort_keys=True)
+
+
+def angle_args(v):
+    """The concrete type arguments of a `resolved_path`, if any."""
+    a = v.get("args")
+    if not a or "angle_bracketed" not in a:
+        return []
+    return [x["type"] for x in a["angle_bracketed"]["args"] if "type" in x]
+
+
 def esc_path(segments):
     """Raw-escape any path segment that is a Rust keyword.
 
@@ -121,6 +144,9 @@ class CrateModel:
         self.paths = d["paths"]
         self.crate_name = d["index"][str(d["root"])]["name"]
         self.types = {}          # id -> type record
+        self.generic_types = {}  # id -> local generic struct/enum record
+        self.impl_records = defaultdict(list)  # type id -> [(for_args, [fn ids])]
+        self.alias_by_inst = {}  # (target id, args key) -> alias id
         self.by_pyname = {}
         self.traits = defaultdict(set)   # type id -> trait names
         self.inherent = defaultdict(list)  # type id -> [fn item ids]
@@ -142,9 +168,22 @@ class CrateModel:
         return True
 
     def _generic_free(self, generics):
-        return not [p for p in generics.get("params", [])
-                    if p.get("kind", {}) != "lifetime"
-                    and "lifetime" not in p.get("kind", {})]
+        """True if nothing here needs monomorphising.
+
+        Lifetimes are irrelevant, and an argument-position `impl Trait`
+        shows up as a *synthetic* type parameter -- rejecting those would
+        throw away every `fn zeros(name: impl Into<String>, ..)`, which is
+        how most constructors in this workspace are written. They are
+        handled in `Emitter._map_impl_trait` instead.
+        """
+        for p in generics.get("params", []):
+            kind = p.get("kind", {})
+            if kind == "lifetime" or "lifetime" in kind:
+                continue
+            if isinstance(kind, dict) and kind.get("type", {}).get("is_synthetic"):
+                continue
+            return False
+        return True
 
     def rust_path(self, item_id):
         """The shortest *importable* path to an item, or None.
@@ -155,6 +194,44 @@ class CrateModel:
         what comes back here is a path a dependent crate can name.
         """
         return self.public.get(str(item_id))
+
+    def _scan_aliases(self):
+        """Wrap type aliases that pin a generic type to concrete arguments.
+
+        `pub type VolScalarField = VolField<f64>` is the shape that matters:
+        the generic `VolField<T>` cannot be a `#[pyclass]`, but each alias of
+        it names one concrete instantiation that can. The alias is wrapped
+        under its own name and path, and the target's fields and inherent
+        impls are emitted with `T` substituted.
+        """
+        for k, v in self.index.items():
+            if v.get("crate_id") != 0 or "type_alias" not in v["inner"]:
+                continue
+            if not self._is_public(v):
+                continue
+            ta = v["inner"]["type_alias"]
+            if ta.get("generics", {}).get("params"):
+                continue        # the alias is itself generic; nothing pinned
+            rp = ta["type"].get("resolved_path") if isinstance(ta["type"], dict) else None
+            if not rp:
+                continue
+            tgt = str(rp["id"])
+            g = self.generic_types.get(tgt)
+            if not g:
+                continue
+            args = angle_args(rp)
+            if len(args) != len(g["params"]) or any(_has_generic(a) for a in args):
+                continue
+            path = self.rust_path(k)
+            if not path:
+                continue
+            self.types[k] = {
+                "id": k, "name": v["name"], "kind": g["kind"], "path": path,
+                "docs": v.get("docs") or g["docs"], "inner": g["inner"],
+                "target": tgt, "args": args,
+            }
+            self.alias_by_inst.setdefault((tgt, _tykey(args)), k)
+            self.stats["types_from_alias"] += 1
 
     def _public_paths(self):
         """item id -> shortest publicly reachable `a::b::C` path."""
@@ -218,6 +295,20 @@ class CrateModel:
                     continue
                 body = inner[kind]
                 if not self._generic_free(body.get("generics", {})):
+                    # A generic type cannot be wrapped directly, but a type
+                    # alias may pin it to concrete arguments -- see
+                    # `_scan_aliases`. `VolScalarField = VolField<f64>` is
+                    # the case that matters: without it none of the field
+                    # types exist in Python at all.
+                    path = self.rust_path(k)
+                    if path:
+                        self.generic_types[k] = {
+                            "id": k, "name": v["name"], "kind": kind,
+                            "path": path, "docs": v.get("docs") or "",
+                            "inner": body,
+                            "params": [pp["name"] for pp
+                                       in body.get("generics", {}).get("params", [])],
+                        }
                     self.stats["types_generic_skipped"] += 1
                     continue
                 if body.get("generics", {}).get("params"):
@@ -247,6 +338,8 @@ class CrateModel:
             if p and p["kind"] == "function" and self._is_public(v):
                 self.free_fns.append(k)
 
+        self._scan_aliases()
+
         # impls
         for k, v in idx.items():
             impl = v["inner"].get("impl")
@@ -257,27 +350,37 @@ class CrateModel:
             if not rp:
                 continue
             tid = str(rp["id"])
-            if tid not in self.types:
+            if tid not in self.types and tid not in self.generic_types:
                 continue
             tr = impl.get("trait")
             if tr:
                 self.traits[tid].add(tr["path"].split("::")[-1])
                 continue
-            if not self._generic_free(impl.get("generics", {})):
+            fns = [str(it) for it in impl.get("items", [])
+                   if self.index.get(str(it))
+                   and "function" in self.index[str(it)]["inner"]]
+            if not fns:
                 continue
-            for it in impl.get("items", []):
-                fi = self.index.get(str(it))
-                if fi and "function" in fi["inner"]:
-                    self.inherent[tid].append(str(it))
+            self.impl_records[tid].append((angle_args(rp), fns))
+            if tid in self.types and self._generic_free(impl.get("generics", {})):
+                self.inherent[tid].extend(fns)
 
 
 class Emitter:
-    def __init__(self, model, skip):
+    def __init__(self, model, skip, registry=None, feature=None):
         self.m = model
         self.skip = skip
+        # path -> wrapper for types defined in *other* backend crates. Each
+        # crate's bindings are generated separately, so without this a
+        # `VolScalarField` in a `outram-foam-appbuilder-lib` signature is
+        # unmappable and every solver stays undrivable.
+        self.registry = registry if registry is not None else {}
+        self.feature = feature
+        self.needed = set()   # features the item being emitted depends on
         self.wrapped = {}   # type id -> (rust_ident, py_name)
         self.self_tid = None   # type id `Self` resolves to, while in an impl
         self.cloneable = set()  # wrapped types that can also be arguments
+        self.subst = {}         # type-param name -> concrete rustdoc type
         self.lines = []
         self.markers = []   # (line_no, item_key)
         self.registrations = []
@@ -300,7 +403,7 @@ class Emitter:
         for tid, t in sorted(self.m.types.items(), key=lambda kv: kv[1]["path"]):
             if "type:" + t["path"] in self.skip:
                 continue
-            tr = self.m.traits[tid]
+            tr = self.m.traits[t.get("target", tid)]
             if "Clone" in tr:
                 self.cloneable.add(tid)
             else:
@@ -344,6 +447,14 @@ class Emitter:
 
         if kind == "borrowed_ref":
             if v.get("is_mutable"):
+                # `&mut Self` in return position is the chaining half of a
+                # builder. Python does not need the chain -- the wrapper is
+                # mutable in place -- so the method is kept and its return
+                # value dropped. A `&mut T` *argument* stays unmappable:
+                # writes through it could not reach the caller's object.
+                if (not arg_position and isinstance(v.get("type"), dict)
+                        and v["type"].get("generic") == "Self"):
+                    return Ty("()", "None", from_rust="{ let _ = $V; }")
                 return None
             inner = self.map_type(v["type"], arg_position)
             if inner is None:
@@ -379,7 +490,9 @@ class Emitter:
                                 % inner.from_rust("e"))
 
         if kind == "tuple":
-            if not v or len(v) > 4:
+            if not v:
+                return Ty("()", "None")
+            if len(v) > 4:
                 return None
             parts = [self.map_type(x, arg_position) for x in v]
             if any(p is None for p in parts):
@@ -395,12 +508,61 @@ class Emitter:
                 ", ".join(p.into_rust(n) for p, n in zip(parts, names)))
             return Ty(py, pyi, into_rust=into, from_rust=frm)
 
+        if kind == "impl_trait":
+            return self._map_impl_trait(v, arg_position)
+
         if kind == "resolved_path":
             return self._map_path(v, arg_position)
 
-        if kind == "generic" and v == "Self" and self.self_tid is not None:
-            return self._wrapper_ty(self.self_tid, arg_position)
+        if kind == "generic":
+            if v == "Self" and self.self_tid is not None:
+                return self._wrapper_ty(self.self_tid, arg_position)
+            if v in self.subst:
+                return self.map_type(self.subst[v], arg_position)
 
+        return None
+
+    def _subst_type(self, t):
+        """Apply the active type-parameter substitution to a rustdoc type."""
+        if isinstance(t, dict):
+            if set(t) == {"generic"} and t["generic"] in self.subst:
+                return self.subst[t["generic"]]
+            return {k: self._subst_type(x) for k, x in t.items()}
+        if isinstance(t, list):
+            return [self._subst_type(x) for x in t]
+        return t
+
+    def _map_impl_trait(self, bounds, arg_position):
+        """`impl Into<String>` and friends, in argument position.
+
+        Argument-position `impl Trait` is pervasive in this workspace --
+        `VolField::zeros(name: impl Into<String>, ..)` is the shape that
+        blocks every field constructor. Only conversion traits with a
+        concrete target are handled, and only as arguments: `impl Trait` in
+        return position names an unnameable type.
+        """
+        if not arg_position:
+            return None
+        traits = [b["trait_bound"]["trait"] for b in bounds
+                  if isinstance(b, dict) and "trait_bound" in b]
+        if len(traits) != 1:
+            return None
+        tr = traits[0]
+        name = tr["path"].split("::")[-1]
+        args = angle_args(tr)
+        if name == "Into" and len(args) == 1:
+            # `T: Into<T>` holds reflexively, so passing the target type
+            # straight through always satisfies the bound.
+            return self.map_type(args[0], True)
+        if name == "AsRef" and len(args) == 1:
+            a = args[0]
+            if a == {"primitive": "str"}:
+                return Ty("String", "str")
+            p = self.m.paths.get(str(a.get("resolved_path", {}).get("id"))) \
+                if isinstance(a, dict) and "resolved_path" in a else None
+            if p and "::".join(p["path"]) == "std::path::Path":
+                return Ty("String", "str",
+                          into_rust="std::path::PathBuf::from($V)")
         return None
 
     def _wrapper_ty(self, tid, arg_position=False):
@@ -412,12 +574,6 @@ class Emitter:
         return Ty(ident, pyname,
                   into_rust="$V.inner",
                   from_rust="%s { inner: $V }" % ident)
-
-    def _args_of(self, v):
-        a = v.get("args")
-        if not a or "angle_bracketed" not in a:
-            return []
-        return [x["type"] for x in a["angle_bracketed"]["args"] if "type" in x]
 
     def _map_path(self, v, arg_position):
         p = self.m.paths.get(str(v["id"]))
@@ -444,7 +600,7 @@ class Emitter:
                       from_rust="$V.to_string_lossy().into_owned()", owned=False)
 
         if full in ("core::option::Option", "std::option::Option"):
-            args = self._args_of(v)
+            args = angle_args(v)
             if len(args) != 1:
                 return None
             inner = self.map_type(args[0], arg_position)
@@ -455,7 +611,7 @@ class Emitter:
                       from_rust="$V.map(|e| %s)" % inner.from_rust("e"))
 
         if full in ("alloc::vec::Vec", "std::vec::Vec"):
-            args = self._args_of(v)
+            args = angle_args(v)
             if len(args) != 1:
                 return None
             inner = self.map_type(args[0], arg_position)
@@ -467,10 +623,29 @@ class Emitter:
                       from_rust="$V.into_iter().map(|e| %s).collect::<Vec<_>>()"
                                 % inner.from_rust("e"))
 
+        if full in ("alloc::sync::Arc", "std::sync::Arc",
+                    "alloc::rc::Rc", "std::rc::Rc"):
+            args = angle_args(v)
+            if len(args) != 1:
+                return None
+            inner = self.map_type(args[0], arg_position)
+            if inner is None or not inner.owned:
+                return None
+            # Python has no shared-ownership handle to hand back, so the
+            # value is cloned into a fresh Arc on the way in and out of the
+            # refcount on the way out. For a large mesh that is a real copy.
+            ctor = "Arc" if "Arc" in full else "Rc"
+            return Ty(inner.py, inner.pyi,
+                      into_rust="std::sync::%s::new(%s)"
+                                % (ctor, inner.into_rust("$V"))
+                                if ctor == "Arc" else
+                                "std::rc::Rc::new(%s)" % inner.into_rust("$V"),
+                      from_rust=inner.from_rust("(*$V).clone()"))
+
         if full in ("core::result::Result", "std::result::Result"):
             if arg_position:
                 return None
-            args = self._args_of(v)
+            args = angle_args(v)
             ok = self.map_type(args[0], False) if args else Ty("()", "None")
             if ok is None:
                 return None
@@ -478,7 +653,44 @@ class Emitter:
                       from_rust="err($V).map(|v| %s)" % ok.from_rust("v"))
 
         # a local type with a wrapper
-        return self._wrapper_ty(str(v["id"]), arg_position)
+        tid = str(v["id"])
+        if tid not in self.wrapped:
+            # Resolve type parameters first: inside `VolField<T>` the field
+            # `internal: Field<T>` must be looked up as `Field<f64>` for the
+            # `ScalarField` alias to match.
+            key = _tykey([self._subst_type(a) for a in angle_args(v)])
+            alias = self.m.alias_by_inst.get((tid, key))
+            if alias is not None:
+                tid = alias
+        local = self._wrapper_ty(tid, arg_position)
+        if local is not None:
+            return local
+        if p["crate_id"] != 0:
+            return self._foreign_ty(full, arg_position)
+        return None
+
+    def _foreign_ty(self, full, arg_position):
+        """A type wrapped by another crate's generated module."""
+        g = self.registry.get(full)
+        if g is None or g["feature"] == self.feature:
+            return None
+        if arg_position and not g["cloneable"]:
+            return None
+        self.needed.add(g["feature"])
+        rust = "crate::python::generated::%s::%s" % (g["crate"], g["ident"])
+        return Ty(rust, "%s.%s" % (g["crate"], g["pyname"]),
+                  into_rust="$V.inner",
+                  from_rust="%s { inner: $V }" % rust)
+
+    def _cfg(self):
+        """A `#[cfg]` gating the current item on the crates it borrows types
+        from, so a partial feature selection still compiles."""
+        if not self.needed:
+            return None
+        feats = sorted(self.needed)
+        if len(feats) == 1:
+            return '#[cfg(feature = "%s")]' % feats[0]
+        return "#[cfg(all(%s))]" % ", ".join('feature = "%s"' % f for f in feats)
 
     # -- emission -----------------------------------------------------
 
@@ -541,7 +753,7 @@ class Emitter:
     def emit_type(self, tid):
         t = self.m.types[tid]
         ident, pyname = self.wrapped[tid]
-        tr = self.m.traits[tid]
+        tr = self.m.traits[t.get("target", tid)]
         self.self_tid = tid
         self.mark("type:" + t["path"])
         self.w('#[doc = "%s"]' % rustdoc_str(t["docs"], 1500))
@@ -553,11 +765,15 @@ class Emitter:
         self.w("#[pymethods]")
         self.w("impl %s {" % ident)
 
+        base = self.m.generic_types.get(t.get("target"))
+        self.subst = dict(zip(base["params"], t["args"])) if base else {}
+
         seen = set()        # Python-visible names already taken
         rust_names = set()  # Rust fn idents in this impl block, which must
                             # not collide with the get_/set_ field accessors
         have_new = False
         field_ctor = []     # None once any field is unusable as a ctor arg
+        ctor_needed = set() # features the field-wise constructor depends on
         # public fields -> getters/setters
         if t["kind"] == "struct":
             plain = t["inner"]["kind"].get("plain") if isinstance(t["inner"]["kind"], dict) else None
@@ -569,6 +785,7 @@ class Emitter:
                     field_ctor = None
                     continue
                 fname = fi["name"]
+                self.needed = set()
                 if "field:%s::%s" % (t["path"], fname) in self.skip:
                     field_ctor = None
                     continue
@@ -586,19 +803,26 @@ class Emitter:
                 seen.add(fname)
                 rust_names.add("get_" + fname)
                 self.mark("field:%s::%s" % (t["path"], fname))
+                cfg = self._cfg()
+                if cfg:
+                    self.w("    " + cfg)
                 self.w('    #[getter(%s)]' % fname)
                 self.w("    pub fn get_%s(&self) -> %s { let v = self.inner.%s.clone(); %s }"
                        % (fname, fty.py, fname, fty.from_rust("v")))
                 if settable:
                     rust_names.add("set_" + fname)
+                    if cfg:
+                        self.w("    " + cfg)
                     self.w('    #[setter(%s)]' % fname)
                     self.w("    pub fn set_%s(&mut self, v: %s) { self.inner.%s = %s; }"
                            % (fname, fty_in.py, fname, fty_in.into_rust("v")))
                     if field_ctor is not None:
                         field_ctor.append((fname, fty_in))
+                        ctor_needed |= self.needed
                 self.pyi.append(("    %s: %s" % (fname, fty.pyi), pyname))
 
-        for item_id in self.m.inherent[tid]:
+        for item_id, msubst in self._methods_for(t, tid):
+            self.subst = msubst
             it = self.m.index[item_id]
             name = it["name"]
             key = "method:%s::%s" % (t["path"], name)
@@ -606,6 +830,7 @@ class Emitter:
                 continue
             if name in PY_KEYWORDS or name.startswith("__"):
                 continue
+            self.needed = set()
             got = self._fn_sig(item_id, True)
             if got is None:
                 self.stats["methods_skipped"] += 1
@@ -615,6 +840,9 @@ class Emitter:
             rust_names.add(name)
             self.stats["methods"] += 1
             self.mark(key)
+            cfg = self._cfg()
+            if cfg:
+                self.w("    " + cfg)
             self.w('    #[doc = "%s"]' % rustdoc_str(it.get("docs"), 1200))
             if receiver is None:
                 # `new` returning Self (or Result<Self, _>) becomes the
@@ -657,14 +885,68 @@ class Emitter:
             # an all-public-fields struct with no `new`: build it literally,
             # so the Python constructor mirrors the struct definition
             self.mark("ctor:" + t["path"])
+            self.needed = set(ctor_needed)
+            have_new = True
+            cfg = self._cfg()
+            if cfg:
+                self.w("    " + cfg)
             self.w("    #[new]")
-            self.w("    pub fn __new__(%s) -> Self { Self { inner: ::%s { %s } } }"
-                   % (", ".join("%s: %s" % (n, ty.py) for n, ty in field_ctor),
-                      t["path"],
-                      ", ".join("%s: %s" % (n, ty.into_rust(n)) for n, ty in field_ctor)))
-            self.pyi.append(("    def __init__(self, %s) -> None: ..."
-                             % ", ".join("%s: %s" % (n, ty.pyi) for n, ty in field_ctor),
-                             pyname))
+            if "Default" in tr:
+                # The type has a Default, so every field is optional and
+                # `Foo()` means "all defaults" while `Foo(delta_t=1e-4)`
+                # overrides one. Requiring all thirteen fields of a
+                # ControlDict positionally would make the class unusable.
+                self.w("    #[pyo3(signature = (%s))]"
+                       % ", ".join("%s=None" % n for n, _ in field_ctor))
+                # A field that is *already* `Option<T>` is passed at one
+                # level, not two: `Option<Option<T>>` leaves pyo3 unable to
+                # tell which layer the `None` default belongs to. Omitting
+                # such an argument means "keep the default"; setting it to
+                # `None` explicitly is what the field's setter is for.
+                self.w("    pub fn __new__(%s) -> Self {"
+                       % ", ".join(
+                           "%s: %s" % (n, ty.py if ty.py.startswith("Option<")
+                                       else "Option<%s>" % ty.py)
+                           for n, ty in field_ctor))
+                self.w("        let d = <::%s as Default>::default();" % t["path"])
+                self.w("        Self { inner: ::%s {" % t["path"])
+                for n, ty in field_ctor:
+                    if ty.py.startswith("Option<"):
+                        self.w("            %s: { let v = %s; "
+                               "if v.is_some() { v } else { d.%s } },"
+                               % (n, ty.into_rust(n), n))
+                    else:
+                        self.w("            %s: %s.map(|v| %s).unwrap_or(d.%s),"
+                               % (n, n, ty.into_rust("v"), n))
+                self.w("        } }")
+                self.w("    }")
+                self.pyi.append(("    def __init__(self, %s) -> None: ..."
+                                 % ", ".join(
+                                     "%s: %s = None"
+                                     % (n, ty.pyi if ty.pyi.endswith("| None")
+                                        else "%s | None" % ty.pyi)
+                                     for n, ty in field_ctor), pyname))
+            else:
+                self.w("    pub fn __new__(%s) -> Self { Self { inner: ::%s { %s } } }"
+                       % (", ".join("%s: %s" % (n, ty.py) for n, ty in field_ctor),
+                          t["path"],
+                          ", ".join("%s: %s" % (n, ty.into_rust(n))
+                                    for n, ty in field_ctor)))
+                self.pyi.append(("    def __init__(self, %s) -> None: ..."
+                                 % ", ".join("%s: %s" % (n, ty.pyi)
+                                             for n, ty in field_ctor), pyname))
+
+        if not have_new and "Default" in tr and t["kind"] == "struct":
+            # A type whose fields cannot all be exposed still deserves a
+            # constructor if it has a Default -- otherwise `FvSolution()` is
+            # a TypeError and the caller has to know to say
+            # `FvSolution.default()`.
+            self.mark("defaultctor:" + t["path"])
+            self.needed = set()
+            have_new = True
+            self.w("    #[new]")
+            self.w("    pub fn __new__() -> Self { Self { inner: Default::default() } }")
+            self.pyi.append(("    def __init__(self) -> None: ...", pyname))
 
         if "Debug" in tr and "__repr__" not in seen:
             self.w('    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }')
@@ -681,6 +963,42 @@ class Emitter:
         self.registrations.append("    m.add_class::<%s>()?;" % ident)
         self.stats["types"] += 1
         self.self_tid = None
+        self.subst = {}
+
+    def _methods_for(self, t, tid):
+        """[(fn id, substitution)] for one wrapped type.
+
+        A plain type has no substitution. An alias contributes the target's
+        inherent impls, each matched against the alias's concrete arguments:
+        `impl<T: Clone> VolField<T>` under `VolField<f64>` yields `T -> f64`,
+        while `impl VolField<Vector3>` is skipped for that alias.
+        """
+        target = t.get("target")
+        if target is None:
+            return [(i, {}) for i in self.m.inherent[tid]]
+        out = []
+        for for_args, fns in self.m.impl_records[target]:
+            sub = self._match_args(for_args, t["args"])
+            if sub is None:
+                continue
+            out.extend((f, sub) for f in fns)
+        return out
+
+    @staticmethod
+    def _match_args(for_args, alias_args):
+        """Unify an impl's `for` arguments with an alias's concrete ones."""
+        if len(for_args) != len(alias_args):
+            return None
+        sub = {}
+        for fa, aa in zip(for_args, alias_args):
+            if isinstance(fa, dict) and set(fa) == {"generic"}:
+                name = fa["generic"]
+                if sub.get(name, aa) != aa:
+                    return None
+                sub[name] = aa
+            elif fa != aa:
+                return None
+        return sub
 
     def emit_variants(self, t, ident, seen):
         """Give an enum a constructor per variant, plus `variant()`.
@@ -777,6 +1095,7 @@ class Emitter:
         key = "fn:" + path
         if key in self.skip:
             return
+        self.needed = set()
         got = self._fn_sig(item_id, False)
         if got is None:
             self.stats["fns_skipped"] += 1
@@ -785,6 +1104,9 @@ class Emitter:
         ident = "fn_" + self._ident(path)
         ident = self.rust_ident(ident)
         self.mark(key)
+        cfg = self._cfg()
+        if cfg:
+            self.w(cfg)
         self.w('#[doc = "%s"]' % rustdoc_str(it.get("docs"), 1200))
         self.w('#[pyfunction(name = "%s")]' % it["name"])
         self.w("pub fn %s(%s) -> %s { %s }"
@@ -792,7 +1114,8 @@ class Emitter:
                   ret.from_rust("::%s(%s)" % (path, ", ".join(call_args)))))
         self.w()
         self.registrations.append(
-            "    m.add_function(wrap_pyfunction!(%s, m)?)?;" % ident)
+            ("    %s\n" % cfg if cfg else "")
+            + "    m.add_function(wrap_pyfunction!(%s, m)?)?;" % ident)
         self.pyi.append(("def %s(%s) -> %s: ..."
                          % (it["name"], ", ".join(pyi_args), ret.pyi), None))
         self.stats["fns"] += 1
@@ -813,10 +1136,10 @@ class Emitter:
         self.stats["consts"] += 1
 
     def run(self):
-        self.plan_types()
         self.w("// @generated by codegen/gen_bindings.py from rustdoc JSON -- DO NOT EDIT.")
         self.w("//! Python bindings for the `%s` backend crate." % self.m.crate_name)
-        self.w("#![allow(non_snake_case, non_camel_case_types, unused_imports, clippy::all)]")
+        self.w("#![allow(non_snake_case, non_camel_case_types, unused_imports,")
+        self.w("         unreachable_patterns, clippy::all)]")
         self.w("use pyo3::prelude::*;")
         self.w("use crate::python::runtime::{from_si, to_si, err};")
         self.w()
@@ -904,12 +1227,39 @@ def main():
     only = sys.argv[1:] or None
     os.makedirs(OUT_DIR, exist_ok=True)
     os.makedirs(STUB_DIR, exist_ok=True)
+    crates = crate_files()
+
+    # Pass 1: plan every crate, so each one's emitter can resolve types that
+    # live in a sibling crate. Solver signatures are full of them --
+    # `PimpleFoam::new(mesh: Arc<FvMesh>, ..)` names a type from
+    # outram-foam-basic-lib -- and without a shared registry they are simply
+    # dropped, which is what left the solvers undrivable from Python.
+    planned, registry = {}, {}
+    for feat, (snake, path) in sorted(crates.items()):
+        model = CrateModel(path)
+        em = Emitter(model, skip, registry, feat)
+        em.plan_types()
+        planned[feat] = (snake, model, em)
+        for tid, (ident, pyname) in em.wrapped.items():
+            entry = {
+                "crate": snake, "feature": feat, "ident": ident,
+                "pyname": pyname, "cloneable": tid in em.cloneable,
+            }
+            # Register under both the re-exported path this crate documents
+            # and rustdoc's definition path: a consuming crate resolves the
+            # type through its own `paths` table, which records where the
+            # type was *defined*, not where it is re-exported.
+            keys = {model.types[tid]["path"]}
+            defn = model.paths.get(str(tid))
+            if defn:
+                keys.add("::".join(defn["path"]))
+            for key in keys:
+                registry.setdefault(key, entry)
+
     mods, report = [], {}
-    for feat, (snake, path) in sorted(crate_files().items()):
+    for feat, (snake, model, em) in sorted(planned.items()):
         if only and feat not in only:
             continue
-        model = CrateModel(path)
-        em = Emitter(model, skip)
         src = em.run()
         with open(os.path.join(OUT_DIR, snake + ".rs"), "w") as f:
             f.write(src)

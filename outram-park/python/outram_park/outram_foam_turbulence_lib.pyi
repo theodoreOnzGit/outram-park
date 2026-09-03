@@ -11,24 +11,65 @@ class TurbulenceError:
     def variant(self) -> str: ...
 
 class KEpsilon:
+    mesh: outram_foam_basic_lib.FvMesh
+    k: outram_foam_basic_lib.VolScalarField
+    epsilon: outram_foam_basic_lib.VolScalarField
+    nu_t: outram_foam_basic_lib.VolScalarField
+    u: outram_foam_basic_lib.VolVectorField
+    phi: outram_foam_basic_lib.SurfaceScalarField
+    nu: outram_foam_basic_lib.VolScalarField
     dt: float
     prt: float
+    def __init__(self, mesh: outram_foam_basic_lib.FvMesh) -> None: ...
 
 class KOmega:
+    mesh: outram_foam_basic_lib.FvMesh
+    k: outram_foam_basic_lib.VolScalarField
+    omega: outram_foam_basic_lib.VolScalarField
+    nu_t: outram_foam_basic_lib.VolScalarField
+    u: outram_foam_basic_lib.VolVectorField
+    phi: outram_foam_basic_lib.SurfaceScalarField
+    nu: outram_foam_basic_lib.VolScalarField
     dt: float
     prt: float
+    def __init__(self, mesh: outram_foam_basic_lib.FvMesh) -> None: ...
 
 class KOmegaSST:
+    mesh: outram_foam_basic_lib.FvMesh
+    k: outram_foam_basic_lib.VolScalarField
+    omega: outram_foam_basic_lib.VolScalarField
+    nu_t: outram_foam_basic_lib.VolScalarField
+    u: outram_foam_basic_lib.VolVectorField
+    phi: outram_foam_basic_lib.SurfaceScalarField
+    nu: outram_foam_basic_lib.VolScalarField
     dt: float
     prt: float
+    def __init__(self, mesh: outram_foam_basic_lib.FvMesh) -> None: ...
+
+class LaminarModel:
+    mesh: outram_foam_basic_lib.FvMesh
+    def __init__(self, mesh: outram_foam_basic_lib.FvMesh, nu: outram_foam_basic_lib.VolScalarField) -> None: ...
 
 class Smagorinsky:
+    mesh: outram_foam_basic_lib.FvMesh
+    nu_sgs: outram_foam_basic_lib.VolScalarField
+    k_sgs: outram_foam_basic_lib.VolScalarField
+    u: outram_foam_basic_lib.VolVectorField
+    nu: outram_foam_basic_lib.VolScalarField
     prt: float
+    def __init__(self, mesh: outram_foam_basic_lib.FvMesh) -> None: ...
     def delta(self) -> list[float]: ...
 
 class SpalartAllmaras:
+    mesh: outram_foam_basic_lib.FvMesh
+    nu_tilde: outram_foam_basic_lib.VolScalarField
+    nu_t: outram_foam_basic_lib.VolScalarField
+    u: outram_foam_basic_lib.VolVectorField
+    phi: outram_foam_basic_lib.SurfaceScalarField
+    nu: outram_foam_basic_lib.VolScalarField
     dt: float
     prt: float
+    def __init__(self, mesh: outram_foam_basic_lib.FvMesh) -> None: ...
 
 def nu_t_wall(y_p: float, nu: float) -> float: ...
 def y_plus(y: float, u_tau: float, nu: float) -> float: ...
