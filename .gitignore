@@ -327,3 +327,9 @@ dist/
 
 # toc files 
 *.toc
+
+# outram-park/codegen: build venv for maturin[zig], and the raw compiler
+# errors from the last repair run. Both are regenerated on demand.
+outram-park/codegen/.build-venv/
+outram-park/codegen/errors-pass*.log
+outram-park/codegen/__pycache__/

@@ -62,7 +62,32 @@ default = ["gui"]
 gui = ["dep:eframe", "dep:egui"]
 # Build as a Python extension module (`cdylib`) for `maturin`, exposing the
 # outram-park-backend API as a wheel. See ../outram-park/pyproject.toml.
-python = ["dep:pyo3", "pyo3/extension-module"]
+#
+# `abi3-py39` builds against CPython's stable ABI, so one wheel covers
+# CPython 3.9 and every later version -- including ones newer than the pyo3
+# release it was built with. That matters here because the wheel is meant to
+# be handed to whatever interpreter the recipient happens to have.
+python = ["dep:pyo3", "pyo3/extension-module", "pyo3/abi3-py39", "dep:uom"]
+
+# All backend crates at once -- what the Python wheel is built with, so the
+# whole simulation API lands in the package. Kept as one feature so
+# `pyproject.toml` and CI do not have to repeat the list.
+all-backends = [
+  "kovan", "kovan-codegen", "kovan-common", "kovan-discovery",
+  "kovan-literature", "kovan-metrics", "kovan-semantics",
+  "bedok", "nee_soon", "tampines", "tampines-steam-tables", "teh-o-prke",
+  "tuas_boussinesq_solver", "boon-lay",
+  "chem-eng-real-time-process-control-simulator",
+  "outram-foam-basic-lib", "outram-foam-appbuilder-lib", "outram-foam-mesh",
+  "outram-foam-turbulence-lib", "outram-foam-multiphase", "outram-foam-cli",
+  "outram-blender", "outram-park-digital-twin-engine",
+  "outram-park-fork-cfmesh", "outram-park-fork-coolprop",
+  "outram-park-fork-dwsim-libs", "outram-park-fork-liggghts",
+  "outram-park-fork-moltres", "outram-park-fork-offbeat",
+  "outram-park-fork-onix", "outram-park-fork-pflotran",
+  "outram-park-fork-thermochimica", "njoy-outram-park-fork",
+  "outram-mc-libs", "outram-park-mpi", "raffles",
+]
 
 # One feature per outram-park-backend crate, each enabling only that crate's
 # optional dependency (below) and its re-export module (src/backend/*.rs).
@@ -128,7 +153,12 @@ eframe = { version = "0.29", optional = true }
 egui = { version = "0.29", optional = true }
 
 # Python bindings, optional (maturin builds only).
-pyo3 = { version = "0.22", optional = true }
+pyo3 = { version = "0.29", optional = true }
+# Physical units. The backend expresses quantities with `uom`; the Python
+# boundary converts them to plain `f64` in SI base units, which needs the
+# same `uom` the backend crates use (0.38, per
+# ../outram-park-backend/Cargo.toml).
+uom = { version = "0.38", optional = true }
 
 # outram-park-backend crates, by path (in-tree, via the outram-park-backend
 # git submodule) rather than a crates.io version — mirrors that repo's own
