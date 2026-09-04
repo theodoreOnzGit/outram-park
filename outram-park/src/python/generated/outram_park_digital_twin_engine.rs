@@ -4147,7 +4147,7 @@ impl Py_outram_park_digital_twin_engine__components__InstrumentationVisual {
 }
 
 // @item type:outram_park_digital_twin_engine::components::LegendUnit
-#[doc = "Which unit the tick labels are written in.\n\nTheodore note: I am making degrees celsius default because it is \nbetter to look at"]
+#[doc = "Which unit the tick labels are written in.\n\nTheodore note: I am making degrees celsius default because it is\nbetter to look at"]
 #[pyclass(
     name = "LegendUnit",
     module = "outram_park.outram_park_digital_twin_engine"

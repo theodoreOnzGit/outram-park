@@ -8929,6 +8929,7 @@ dependencies = [
  "outram-foam-multiphase",
  "outram-park-fork-coolprop",
  "outram-park-fork-dwsim-libs",
+ "raffles",
  "tampines-steam-tables",
  "thiserror 2.0.20",
  "tuas_boussinesq_solver",
