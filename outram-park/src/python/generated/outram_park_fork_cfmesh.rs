@@ -454,6 +454,21 @@ pub fn fn_outram_park_fork_cfmesh__pipeline__cylinder_tet_dual(base: Py_outram_p
 #[pyfunction(name = "sphere_tet_dual")]
 pub fn fn_outram_park_fork_cfmesh__pipeline__sphere_tet_dual(centre: Py_outram_park_fork_cfmesh__math__Vec3, radius: f64, n_lat: usize, n_lon: usize, opts: Py_outram_park_fork_cfmesh__pipeline__TetDualOptions) -> PyResult<(Py_outram_park_fork_cfmesh__volume_mesh__VolumeMesh, Py_outram_park_fork_cfmesh__pipeline__TetDualReport)> { err(::outram_park_fork_cfmesh::pipeline::sphere_tet_dual(centre.inner, radius, n_lat, n_lon, &opts.inner)).map(|v| { let (e0, e1) = v; (Py_outram_park_fork_cfmesh__volume_mesh__VolumeMesh { inner: e0 }, Py_outram_park_fork_cfmesh__pipeline__TetDualReport { inner: e1 }) }) }
 
+    // @item fn:outram_park_fork_cfmesh::shapes::box_surface
+#[doc = "Axis-aligned box `[min, max]` as 8 corners + 12 outward triangles."]
+#[pyfunction(name = "box_surface")]
+pub fn fn_outram_park_fork_cfmesh__shapes__box_surface(min: Py_outram_park_fork_cfmesh__math__Vec3, max: Py_outram_park_fork_cfmesh__math__Vec3) -> (Vec<Py_outram_park_fork_cfmesh__math__Vec3>, Vec<Vec<usize>>) { { let (e0, e1) = ::outram_park_fork_cfmesh::shapes::box_surface(min.inner, max.inner); (e0.into_iter().map(|e| Py_outram_park_fork_cfmesh__math__Vec3 { inner: e }).collect::<Vec<_>>(), e1.into_iter().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>()) } }
+
+    // @item fn:outram_park_fork_cfmesh::shapes::cylinder_surface
+#[doc = "Z-axis cylinder of `radius` and `height` with its base centred at `base` —\n`n_seg` circumferential segments, capped both ends. Outward-wound; a\ntriangulated fuel pin / channel.\n\n# Panics\n\nIf `n_seg < 3`."]
+#[pyfunction(name = "cylinder_surface")]
+pub fn fn_outram_park_fork_cfmesh__shapes__cylinder_surface(base: Py_outram_park_fork_cfmesh__math__Vec3, radius: f64, height: f64, n_seg: usize) -> (Vec<Py_outram_park_fork_cfmesh__math__Vec3>, Vec<Vec<usize>>) { { let (e0, e1) = ::outram_park_fork_cfmesh::shapes::cylinder_surface(base.inner, radius, height, n_seg); (e0.into_iter().map(|e| Py_outram_park_fork_cfmesh__math__Vec3 { inner: e }).collect::<Vec<_>>(), e1.into_iter().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>()) } }
+
+    // @item fn:outram_park_fork_cfmesh::shapes::sphere_surface
+#[doc = "UV sphere of `radius` about `centre` — `n_lat` latitude bands (pole to pole),\n`n_lon` longitude segments. Outward-wound; a triangulated pebble/particle.\n\n# Panics\n\nIf `n_lat < 2` or `n_lon < 3`."]
+#[pyfunction(name = "sphere_surface")]
+pub fn fn_outram_park_fork_cfmesh__shapes__sphere_surface(centre: Py_outram_park_fork_cfmesh__math__Vec3, radius: f64, n_lat: usize, n_lon: usize) -> (Vec<Py_outram_park_fork_cfmesh__math__Vec3>, Vec<Vec<usize>>) { { let (e0, e1) = ::outram_park_fork_cfmesh::shapes::sphere_surface(centre.inner, radius, n_lat, n_lon); (e0.into_iter().map(|e| Py_outram_park_fork_cfmesh__math__Vec3 { inner: e }).collect::<Vec<_>>(), e1.into_iter().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>()) } }
+
     // @item fn:outram_park_fork_cfmesh::smooth::laplacian_smooth
 #[doc = "Smart-Laplacian-smooth `mesh` for `passes` sweeps, returning the relaxed\nmesh. Interior vertices move toward their neighbour centroid only when the\nmove inverts no incident cell; boundary vertices are pinned. Topology and\ntotal volume are preserved. See the module docs for the guarantees.\n\n# Examples\n\n```\nuse outram_park_fork_cfmesh::{math::Vec3, shapes::box_surface, carve::carve_box, tet::tetrahedralize, smooth::laplacian_smooth};\n\nlet (p, t) = box_surface(Vec3::ZERO, Vec3::new(1.0, 1.0, 1.0));\nlet tets = tetrahedralize(&carve_box(&p, &t, 0.5));\nlet smoothed = laplacian_smooth(&tets, 5);\n\n// Boundary is pinned, so the volume is conserved exactly, and no cell inverts.\nassert!((smoothed.total_volume() - tets.total_volume()).abs() < 1e-9);\nassert!(smoothed.validate().is_ok());\n```"]
 #[pyfunction(name = "laplacian_smooth")]
@@ -493,6 +508,9 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__pipeline__box_tet_dual, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__pipeline__cylinder_tet_dual, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__pipeline__sphere_tet_dual, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__shapes__box_surface, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__shapes__cylinder_surface, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__shapes__sphere_surface, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__smooth__laplacian_smooth, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__tet__tetrahedralize, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_cfmesh__volume_mesh__cells_faces, m)?)?;

@@ -557,6 +557,14 @@ impl Py_outram_foam_appbuilder_lib__genfoam__multi_region__FeedbackTerm {
     // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::FeedbackTerm::field_name
     #[doc = "The name of the region field this term reads."]
     pub fn field_name(&self) -> String { ::outram_foam_appbuilder_lib::genfoam::multi_region::FeedbackTerm::field_name(&self.inner).clone().to_string() }
+    // @item variant:outram_foam_appbuilder_lib::genfoam::multi_region::FeedbackTerm::Doppler
+    #[staticmethod]
+    #[pyo3(name = "Doppler")]
+    pub fn v_Doppler(field: String, coeff: f64, t_ref: f64, law: Py_outram_foam_appbuilder_lib__genfoam__multi_region__DopplerLaw) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::FeedbackTerm::Doppler { field: field, coeff: from_si(coeff), t_ref: from_si(t_ref), law: law.inner } } }
+    // @item variant:outram_foam_appbuilder_lib::genfoam::multi_region::FeedbackTerm::Expansion
+    #[staticmethod]
+    #[pyo3(name = "Expansion")]
+    pub fn v_Expansion(field: String, coeff: f64, t_ref: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::FeedbackTerm::Expansion { field: field, coeff: from_si(coeff), t_ref: from_si(t_ref) } } }
     // @item variant:outram_foam_appbuilder_lib::genfoam::multi_region::FeedbackTerm::Density
     #[staticmethod]
     #[pyo3(name = "Density")]
@@ -620,6 +628,10 @@ impl Py_outram_foam_appbuilder_lib__genfoam__multi_region__ImportanceWeight {
 pub struct Py_outram_foam_appbuilder_lib__genfoam__multi_region__LumpedNeutronics { pub inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::LumpedNeutronics }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__multi_region__LumpedNeutronics {
+    // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::LumpedNeutronics::new
+    #[doc = "Build a 0-D neutronics region."]
+    #[new]
+    pub fn new(region_name: String, params: Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters, initial_power: f64, rho_ext: f64, alpha: f64, t_ref: f64, volume: f64) -> Py_outram_foam_appbuilder_lib__genfoam__multi_region__LumpedNeutronics { Py_outram_foam_appbuilder_lib__genfoam__multi_region__LumpedNeutronics { inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::LumpedNeutronics::new(&region_name, params.inner, from_si(initial_power), from_si(rho_ext), from_si(alpha), from_si(t_ref), volume) } }
     // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::LumpedNeutronics::fission_power
     #[doc = "The current fission power."]
     pub fn fission_power(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::multi_region::LumpedNeutronics::fission_power(&self.inner)) }
@@ -888,12 +900,21 @@ impl Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback {
     // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_weight
     #[doc = "Set the per-cell importance weight (default [`ImportanceWeight::Volume`])."]
     pub fn with_weight(&self, weight: Py_outram_foam_appbuilder_lib__genfoam__multi_region__ImportanceWeight) -> Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_weight(self.inner.clone(), weight.inner) } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_doppler
+    #[doc = "Add a Doppler (fuel-temperature) term."]
+    pub fn with_doppler(&self, field: String, coeff: f64, t_ref: f64, law: Py_outram_foam_appbuilder_lib__genfoam__multi_region__DopplerLaw) -> Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_doppler(self.inner.clone(), &field, from_si(coeff), from_si(t_ref), law.inner) } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_expansion
+    #[doc = "Add a structure-temperature / expansion term."]
+    pub fn with_expansion(&self, field: String, coeff: f64, t_ref: f64) -> Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_expansion(self.inner.clone(), &field, from_si(coeff), from_si(t_ref)) } }
     // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_density
     #[doc = "Add a coolant-density / void term."]
     pub fn with_density(&self, field: String, coeff: f64, rho_ref: f64) -> Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { Py_outram_foam_appbuilder_lib__genfoam__multi_region__ReactivityFeedback { inner: ::outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::with_density(self.inner.clone(), &field, from_si(coeff), from_si(rho_ref)) } }
     // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::terms
     #[doc = "Borrow the configured terms (for diagnostics / dispatch checks)."]
     pub fn terms(&self) -> Vec<Py_outram_foam_appbuilder_lib__genfoam__multi_region__FeedbackTerm> { ::outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::terms(&self.inner).clone().iter().cloned().map(|e| Py_outram_foam_appbuilder_lib__genfoam__multi_region__FeedbackTerm { inner: e }).collect::<Vec<_>>() }
+    // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::reactivity
+    #[doc = "The total feedback reactivity `Δρ` for the feedback fields on `region`.\n\nReads each term's field from the region, forms the per-cell local\nreactivity, and returns the importance-weighted volume average (see the\nmodule docs). With no terms it returns zero reactivity.\n\n# Errors\n\n[`CouplingLoopError::MissingField`] if any term's field, or the weight\nfield, is absent from the region."]
+    pub fn reactivity(&self, region: Py_outram_foam_appbuilder_lib__genfoam__multi_region__CouplingRegion) -> PyResult<f64> { err(::outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::reactivity(&self.inner, &region.inner)).map(|v| to_si(v)) }
     // @item method:outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::weighted_mean
     #[doc = "Importance-weighted mean of a named scalar field over the region — the\naggregate `\\bar{x} = (Σ_c w_c x_c) / (Σ_c w_c)`.\n\nThis is the scalar feedback point a *mesh* neutronics model collapses a\nspatial temperature field to when it materialises its cross sections at a\nsingle feedback value (see [`super::mesh_region::MeshNeutronics`]); it\nuses the same importance weighting as [`Self::reactivity`], so both stay\nconsistent.\n\n# Errors\n\n[`CouplingLoopError::MissingField`] if `field` or the weight field is\nabsent from the region."]
     pub fn weighted_mean(&self, region: Py_outram_foam_appbuilder_lib__genfoam__multi_region__CouplingRegion, field: String) -> PyResult<f64> { err(::outram_foam_appbuilder_lib::genfoam::multi_region::ReactivityFeedback::weighted_mean(&self.inner, &region.inner, &field)).map(|v| v) }
@@ -1116,6 +1137,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__neutronics__PointKineticsModel {
     // @item method:outram_foam_appbuilder_lib::genfoam::neutronics::PointKineticsModel::state
     #[doc = "The current 0-D state (fission power + precursor powers)."]
     pub fn state(&self) -> Py_outram_foam_appbuilder_lib__prelude__PointKineticsState { Py_outram_foam_appbuilder_lib__prelude__PointKineticsState { inner: ::outram_foam_appbuilder_lib::genfoam::neutronics::PointKineticsModel::state(&self.inner).clone() } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::neutronics::PointKineticsModel::step
+    #[doc = "Advance one implicit time step under total reactivity `reactivity` and\nexternal source power `external_source_power`. Delegates to\n[`PointKineticsState::step`].\n\n# Errors\n\n[`NeutronicsError::PointKinetics`] on a singular system, mismatched group\ncount, or non-positive step."]
+    pub fn step(&mut self, dt: f64, reactivity: f64, external_source_power: f64) -> PyResult<()> { err(::outram_foam_appbuilder_lib::genfoam::neutronics::PointKineticsModel::step(&mut self.inner, from_si(dt), from_si(reactivity), from_si(external_source_power))).map(|v| v) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -1534,6 +1558,36 @@ impl Py_outram_foam_appbuilder_lib__genfoam__neutronics__sp3__Sp3XsFields {
 pub struct Py_outram_foam_appbuilder_lib__genfoam__neutronics__xs__GroupConstants { pub inner: ::outram_foam_appbuilder_lib::genfoam::neutronics::xs::GroupConstants }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__neutronics__xs__GroupConstants {
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::GroupConstants::diffusion_coefficient
+    #[getter(diffusion_coefficient)]
+    pub fn get_diffusion_coefficient(&self) -> f64 { let v = self.inner.diffusion_coefficient.clone(); to_si(v) }
+    #[setter(diffusion_coefficient)]
+    pub fn set_diffusion_coefficient(&mut self, v: f64) { self.inner.diffusion_coefficient = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::GroupConstants::nu_sigma_f
+    #[getter(nu_sigma_f)]
+    pub fn get_nu_sigma_f(&self) -> f64 { let v = self.inner.nu_sigma_f.clone(); to_si(v) }
+    #[setter(nu_sigma_f)]
+    pub fn set_nu_sigma_f(&mut self, v: f64) { self.inner.nu_sigma_f = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::GroupConstants::sigma_removal
+    #[getter(sigma_removal)]
+    pub fn get_sigma_removal(&self) -> f64 { let v = self.inner.sigma_removal.clone(); to_si(v) }
+    #[setter(sigma_removal)]
+    pub fn set_sigma_removal(&mut self, v: f64) { self.inner.sigma_removal = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::GroupConstants::chi_prompt
+    #[getter(chi_prompt)]
+    pub fn get_chi_prompt(&self) -> f64 { let v = self.inner.chi_prompt.clone(); to_si(v) }
+    #[setter(chi_prompt)]
+    pub fn set_chi_prompt(&mut self, v: f64) { self.inner.chi_prompt = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::GroupConstants::chi_delayed
+    #[getter(chi_delayed)]
+    pub fn get_chi_delayed(&self) -> f64 { let v = self.inner.chi_delayed.clone(); to_si(v) }
+    #[setter(chi_delayed)]
+    pub fn set_chi_delayed(&mut self, v: f64) { self.inner.chi_delayed = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::GroupConstants::disc_factor
+    #[getter(disc_factor)]
+    pub fn get_disc_factor(&self) -> f64 { let v = self.inner.disc_factor.clone(); to_si(v) }
+    #[setter(disc_factor)]
+    pub fn set_disc_factor(&mut self, v: f64) { self.inner.disc_factor = from_si(v); }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -1626,6 +1680,16 @@ impl Py_outram_foam_appbuilder_lib__genfoam__neutronics__xs__NuclearDataOneEnerg
 pub struct Py_outram_foam_appbuilder_lib__genfoam__neutronics__xs__PrecursorConstants { pub inner: ::outram_foam_appbuilder_lib::genfoam::neutronics::xs::PrecursorConstants }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__neutronics__xs__PrecursorConstants {
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::PrecursorConstants::beta
+    #[getter(beta)]
+    pub fn get_beta(&self) -> Vec<f64> { let v = self.inner.beta.clone(); v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
+    #[setter(beta)]
+    pub fn set_beta(&mut self, v: Vec<f64>) { self.inner.beta = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::neutronics::xs::PrecursorConstants::beta_tot
+    #[getter(beta_tot)]
+    pub fn get_beta_tot(&self) -> f64 { let v = self.inner.beta_tot.clone(); to_si(v) }
+    #[setter(beta_tot)]
+    pub fn set_beta_tot(&mut self, v: f64) { self.inner.beta_tot = from_si(v); }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -1994,6 +2058,12 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_condit
     #[doc = "Build a black-body radiation BC from its three dictionary entries\n(`emissivity`, `kappa`, `Ta` upstream)."]
     #[new]
     pub fn new(emissivity: f64, kappa: f64, ambient_temperature: f64) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_conditions__BlackBodyRadiationBc { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_conditions__BlackBodyRadiationBc { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::BlackBodyRadiationBc::new(from_si(emissivity), from_si(kappa), from_si(ambient_temperature)) } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::BlackBodyRadiationBc::fourier_heat_flux
+    #[doc = "The one-sided Fourier (conduction) heat-flux estimate between the\ncell-centre and face temperatures, `q'' = |kappa * (T_cell - T_face) /\nd|` — always non-negative (upstream takes `Foam::mag(...)`).\n\n`cell_to_face_distance` is the cell-centre-to-patch-face distance `d`\n(upstream passes the reciprocal, `patch().deltaCoeffs()`; here the\ndistance itself is the parameter, matching the closed-form formula in\nthe module doc)."]
+    pub fn fourier_heat_flux(&self, face_temperature: f64, cell_temperature: f64, cell_to_face_distance: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::BlackBodyRadiationBc::fourier_heat_flux(&self.inner, from_si(face_temperature), from_si(cell_temperature), from_si(cell_to_face_distance))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::BlackBodyRadiationBc::face_temperature_from_flux
+    #[doc = "The Stefan-Boltzmann face temperature implied by a heat flux `q''`:\n`T_face = (q'' / (sigma * epsilon) + T_a^4)^(1/4)`."]
+    pub fn face_temperature_from_flux(&self, heat_flux: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::BlackBodyRadiationBc::face_temperature_from_flux(&self.inner, from_si(heat_flux))) }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::BlackBodyRadiationBc::update_face_temperature
     #[doc = "One outer-iteration update step, mirroring upstream's `updateCoeffs()`\nbody: estimate `q''` by Fourier's law from the *current* face\ntemperature and the cell temperature, then recompute the face\ntemperature from `q''` via the Stefan-Boltzmann law.\n\nUpstream guards the update with `if (Ti[i] > 0)`, skipping cells whose\ntemperature field has not yet been initialised (reads as `0 K`\nsentinel on the first pass); this mirrors that guard by returning\n`current_face_temperature` unchanged when `cell_temperature <= 0 K`."]
     pub fn update_face_temperature(&self, current_face_temperature: f64, cell_temperature: f64, cell_to_face_distance: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::BlackBodyRadiationBc::update_face_temperature(&self.inner, from_si(current_face_temperature), from_si(cell_temperature), from_si(cell_to_face_distance))) }
@@ -2066,6 +2136,12 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_condit
     #[doc = "Build a baffle BC from its dictionary entries. Pure data assembly — no\nphysics is evaluated by this constructor."]
     #[new]
     pub fn new(thickness: f64, wall_conductivity: f64, master_correlation: Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_conditions__NusseltCorrelationCoefficients, slave_correlation: Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_conditions__NusseltCorrelationCoefficients) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_conditions__NusseltThermalBaffle1DBc { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_conditions__NusseltThermalBaffle1DBc { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::NusseltThermalBaffle1DBc::new(from_si(thickness), from_si(wall_conductivity), master_correlation.inner, slave_correlation.inner) } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::NusseltThermalBaffle1DBc::convective_htc
+    #[doc = "The convective heat-transfer coefficient on one side of the baffle,\n`h = Nu(Re, Pr) * k_fluid / D_h`.\n\nSignature only — port of upstream `calcH`. **Not implemented.**"]
+    pub fn convective_htc(&self, _side: Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__boundary_conditions__BaffleSide, _reynolds: f64, _prandtl: f64, _fluid_conductivity: f64, _hydraulic_diameter: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::NusseltThermalBaffle1DBc::convective_htc(&self.inner, _side.inner, from_si(_reynolds), from_si(_prandtl), from_si(_fluid_conductivity), from_si(_hydraulic_diameter))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::NusseltThermalBaffle1DBc::coupled_wall_temperatures
+    #[doc = "The coupled master/slave wall-face temperatures solving the\nthree-way flux balance in the [module documentation](self):\n`h_master*(T_f,m - T_w,m) = (kappa/thickness)*(T_w,m - T_w,s) =\nh_slave*(T_w,s - T_f,s)`.\n\nSignature only — port of upstream `updateCoeffs`. **Not implemented.**"]
+    pub fn coupled_wall_temperatures(&self, _master_fluid_temperature: f64, _slave_fluid_temperature: f64, _master_htc: f64, _slave_htc: f64) -> (f64, f64) { { let (e0, e1) = ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::boundary_conditions::NusseltThermalBaffle1DBc::coupled_wall_temperatures(&self.inner, from_si(_master_fluid_temperature), from_si(_slave_fluid_temperature), from_si(_master_htc), from_si(_slave_htc)); (to_si(e0), to_si(e1)) } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -2219,6 +2295,11 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__ff_dr
     pub fn get_vapour_fraction(&self) -> f64 { let v = self.inner.vapour_fraction.clone(); to_si(v) }
     #[setter(vapour_fraction)]
     pub fn set_vapour_fraction(&mut self, v: f64) { self.inner.vapour_fraction = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::ff_drag::FfInterfacialState::reynolds_number
+    #[getter(reynolds_number)]
+    pub fn get_reynolds_number(&self) -> f64 { let v = self.inner.reynolds_number.clone(); to_si(v) }
+    #[setter(reynolds_number)]
+    pub fn set_reynolds_number(&mut self, v: f64) { self.inner.reynolds_number = from_si(v); }
     // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::ff_drag::FfInterfacialState::rho_vapour
     #[getter(rho_vapour)]
     pub fn get_rho_vapour(&self) -> f64 { let v = self.inner.rho_vapour.clone(); to_si(v) }
@@ -2259,6 +2340,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__ff_dr
     pub fn get_u_relative(&self) -> f64 { let v = self.inner.u_relative.clone(); to_si(v) }
     #[setter(u_relative)]
     pub fn set_u_relative(&mut self, v: f64) { self.inner.u_relative = from_si(v); }
+    // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::ff_drag::FfInterfacialState
+    #[new]
+    pub fn __new__(vapour_fraction: f64, reynolds_number: f64, rho_vapour: f64, rho_liquid: f64, rho_continuous: f64, dh_dispersed: f64, dh_continuous: f64, u_vapour: f64, u_liquid: f64, u_relative: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::ff_drag::FfInterfacialState { vapour_fraction: from_si(vapour_fraction), reynolds_number: from_si(reynolds_number), rho_vapour: from_si(rho_vapour), rho_liquid: from_si(rho_liquid), rho_continuous: from_si(rho_continuous), dh_dispersed: from_si(dh_dispersed), dh_continuous: from_si(dh_continuous), u_vapour: from_si(u_vapour), u_liquid: from_si(u_liquid), u_relative: from_si(u_relative) } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -2320,6 +2404,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__ff_dr
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__fs_drag__FsWallFriction { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::fs_drag::FsWallFriction }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__fs_drag__FsWallFriction {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::fs_drag::FsWallFriction::friction_factor
+    #[doc = "Evaluate the Darcy friction factor at the given Reynolds number.\n\nFaithful translation of each upstream model's `value(celli)` member.\n`re` must be positive (a physical Reynolds number); at `Re -> 0` the\nlaminar branches diverge like `1/Re`, exactly as upstream."]
+    pub fn friction_factor(&self, re: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::fs_drag::FsWallFriction::friction_factor(&self.inner, from_si(re))) }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::fs_drag::FsWallFriction::rehme_from_geometry
     #[doc = "Build a [`FsWallFriction::Rehme`] from wire-wrapped-bundle geometry,\nreproducing GeN-Foam's coefficient derivation exactly.\n\nUnits: `pin_diameter`, `wire_diameter`, `wire_lead_length`, and\n`wetted_wrap_perimeter` in metres; `number_of_pins` dimensionless."]
     #[staticmethod]
@@ -2399,6 +2486,21 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
     pub fn get_vapour_void_fraction(&self) -> f64 { let v = self.inner.vapour_void_fraction.clone(); to_si(v) }
     #[setter(vapour_void_fraction)]
     pub fn set_vapour_void_fraction(&mut self, v: f64) { self.inner.vapour_void_fraction = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs::htc_forced_convection_enhanced
+    #[getter(htc_forced_convection_enhanced)]
+    pub fn get_htc_forced_convection_enhanced(&self) -> f64 { let v = self.inner.htc_forced_convection_enhanced.clone(); to_si(v) }
+    #[setter(htc_forced_convection_enhanced)]
+    pub fn set_htc_forced_convection_enhanced(&mut self, v: f64) { self.inner.htc_forced_convection_enhanced = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs::htc_pool_boiling
+    #[getter(htc_pool_boiling)]
+    pub fn get_htc_pool_boiling(&self) -> f64 { let v = self.inner.htc_pool_boiling.clone(); to_si(v) }
+    #[setter(htc_pool_boiling)]
+    pub fn set_htc_pool_boiling(&mut self, v: f64) { self.inner.htc_pool_boiling = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs::htc_film_condensation
+    #[getter(htc_film_condensation)]
+    pub fn get_htc_film_condensation(&self) -> Option<f64> { let v = self.inner.htc_film_condensation.clone(); v.map(|e| to_si(e)) }
+    #[setter(htc_film_condensation)]
+    pub fn set_htc_film_condensation(&mut self, v: Option<f64>) { self.inner.htc_film_condensation = v.map(|e| from_si(e)); }
     // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs::suppression_factor
     #[getter(suppression_factor)]
     pub fn get_suppression_factor(&self) -> Option<f64> { let v = self.inner.suppression_factor.clone(); v.map(|e| to_si(e)) }
@@ -2409,6 +2511,11 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
     pub fn get_t_onset_nucleate_boiling(&self) -> Option<f64> { let v = self.inner.t_onset_nucleate_boiling.clone(); v.map(|e| to_si(e)) }
     #[setter(t_onset_nucleate_boiling)]
     pub fn set_t_onset_nucleate_boiling(&mut self, v: Option<f64>) { self.inner.t_onset_nucleate_boiling = v.map(|e| from_si(e)); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs::htc_pool_boiling_at_onset
+    #[getter(htc_pool_boiling_at_onset)]
+    pub fn get_htc_pool_boiling_at_onset(&self) -> Option<f64> { let v = self.inner.htc_pool_boiling_at_onset.clone(); v.map(|e| to_si(e)) }
+    #[setter(htc_pool_boiling_at_onset)]
+    pub fn set_htc_pool_boiling_at_onset(&mut self, v: Option<f64>) { self.inner.htc_pool_boiling_at_onset = v.map(|e| from_si(e)); }
     // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs::superposition_exponent
     #[getter(superposition_exponent)]
     pub fn get_superposition_exponent(&self) -> f64 { let v = self.inner.superposition_exponent.clone(); v }
@@ -2419,6 +2526,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
     pub fn get_heat_flux_superposition(&self) -> bool { let v = self.inner.heat_flux_superposition.clone(); v }
     #[setter(heat_flux_superposition)]
     pub fn set_heat_flux_superposition(&mut self, v: bool) { self.inner.heat_flux_superposition = v; }
+    // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs
+    #[new]
+    pub fn __new__(t_wall: f64, t_fluid: f64, t_sat: f64, vapour_void_fraction: f64, htc_forced_convection_enhanced: f64, htc_pool_boiling: f64, htc_film_condensation: Option<f64>, suppression_factor: Option<f64>, t_onset_nucleate_boiling: Option<f64>, htc_pool_boiling_at_onset: Option<f64>, superposition_exponent: f64, heat_flux_superposition: bool) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingInputs { t_wall: from_si(t_wall), t_fluid: from_si(t_fluid), t_sat: from_si(t_sat), vapour_void_fraction: from_si(vapour_void_fraction), htc_forced_convection_enhanced: from_si(htc_forced_convection_enhanced), htc_pool_boiling: from_si(htc_pool_boiling), htc_film_condensation: htc_film_condensation.map(|e| from_si(e)), suppression_factor: suppression_factor.map(|e| from_si(e)), t_onset_nucleate_boiling: t_onset_nucleate_boiling.map(|e| from_si(e)), htc_pool_boiling_at_onset: htc_pool_boiling_at_onset.map(|e| from_si(e)), superposition_exponent: superposition_exponent, heat_flux_superposition: heat_flux_superposition } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -2429,6 +2539,24 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__MultiRegimeBoilingResult { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingResult }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__MultiRegimeBoilingResult {
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingResult::htc
+    #[getter(htc)]
+    pub fn get_htc(&self) -> f64 { let v = self.inner.htc.clone(); to_si(v) }
+    #[setter(htc)]
+    pub fn set_htc(&mut self, v: f64) { self.inner.htc = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingResult::nucleate_boiling_heat_flux
+    #[getter(nucleate_boiling_heat_flux)]
+    pub fn get_nucleate_boiling_heat_flux(&self) -> Option<f64> { let v = self.inner.nucleate_boiling_heat_flux.clone(); v.map(|e| to_si(e)) }
+    #[setter(nucleate_boiling_heat_flux)]
+    pub fn set_nucleate_boiling_heat_flux(&mut self, v: Option<f64>) { self.inner.nucleate_boiling_heat_flux = v.map(|e| from_si(e)); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingResult::forced_convection_heat_flux
+    #[getter(forced_convection_heat_flux)]
+    pub fn get_forced_convection_heat_flux(&self) -> Option<f64> { let v = self.inner.forced_convection_heat_flux.clone(); v.map(|e| to_si(e)) }
+    #[setter(forced_convection_heat_flux)]
+    pub fn set_forced_convection_heat_flux(&mut self, v: Option<f64>) { self.inner.forced_convection_heat_flux = v.map(|e| from_si(e)); }
+    // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingResult
+    #[new]
+    pub fn __new__(htc: f64, nucleate_boiling_heat_flux: Option<f64>, forced_convection_heat_flux: Option<f64>) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::MultiRegimeBoilingResult { htc: from_si(htc), nucleate_boiling_heat_flux: nucleate_boiling_heat_flux.map(|e| from_si(e)), forced_convection_heat_flux: forced_convection_heat_flux.map(|e| from_si(e)) } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -2439,6 +2567,13 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__CriticalHeatFlux { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::CriticalHeatFlux }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__CriticalHeatFlux {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::CriticalHeatFlux::value
+    #[doc = "The critical heat flux."]
+    pub fn value(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::CriticalHeatFlux::value(&self.inner)) }
+    // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::CriticalHeatFlux::Constant
+    #[staticmethod]
+    #[pyo3(name = "Constant")]
+    pub fn v_Constant(a0: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::CriticalHeatFlux::Constant(from_si(a0)) } }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::CriticalHeatFlux::Constant(..) => "Constant", _ => "unknown" }
@@ -2494,6 +2629,19 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
     pub fn get_liquid_void_fraction(&self) -> f64 { let v = self.inner.liquid_void_fraction.clone(); to_si(v) }
     #[setter(liquid_void_fraction)]
     pub fn set_liquid_void_fraction(&mut self, v: f64) { self.inner.liquid_void_fraction = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::FlowEnhancementInputs::mixture_reynolds_number
+    #[getter(mixture_reynolds_number)]
+    pub fn get_mixture_reynolds_number(&self) -> f64 { let v = self.inner.mixture_reynolds_number.clone(); to_si(v) }
+    #[setter(mixture_reynolds_number)]
+    pub fn set_mixture_reynolds_number(&mut self, v: f64) { self.inner.mixture_reynolds_number = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::FlowEnhancementInputs::single_phase_reynolds_number
+    #[getter(single_phase_reynolds_number)]
+    pub fn get_single_phase_reynolds_number(&self) -> f64 { let v = self.inner.single_phase_reynolds_number.clone(); to_si(v) }
+    #[setter(single_phase_reynolds_number)]
+    pub fn set_single_phase_reynolds_number(&mut self, v: f64) { self.inner.single_phase_reynolds_number = from_si(v); }
+    // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::FlowEnhancementInputs
+    #[new]
+    pub fn __new__(inverse_lockhart_martinelli: f64, liquid_void_fraction: f64, mixture_reynolds_number: f64, single_phase_reynolds_number: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::FlowEnhancementInputs { inverse_lockhart_martinelli: from_si(inverse_lockhart_martinelli), liquid_void_fraction: from_si(liquid_void_fraction), mixture_reynolds_number: from_si(mixture_reynolds_number), single_phase_reynolds_number: from_si(single_phase_reynolds_number) } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -2526,6 +2674,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__OnsetOfNucleateBoilingTemperature { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::OnsetOfNucleateBoilingTemperature }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__OnsetOfNucleateBoilingTemperature {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::OnsetOfNucleateBoilingTemperature::temperature
+    #[doc = "The ONB temperature `T_ONB`.\n\n`htc_forced_convection_enhanced` is the (flow-enhancement-factor-\ncorrected) two-phase forced-convection htc; `other_phase_density` and\n`latent_heat` are the vapour phase's density and the latent heat of\nvaporization; `thermal_conductivity` is the **liquid** phase's thermal\nconductivity.\n\nImplementation note: the Basu correlation is derived by solving a\nquadratic in `sqrt(deltaT_ONB,sat)` (a standard technique for ONB\ncorrelations, e.g. Bergles-Rohsenow / Frost-Dzakowic-style forms), so\nthe algebra genuinely needs `sqrt` of a *temperature interval* as an\nintermediate step. `uom` has no ISQ quantity for \"kelvin to the\none-half power\" (dimension exponents are integers), so that\nintermediate cannot be a typed `uom` quantity even though the overall\nexpression recomposes to a valid temperature (squaring the sum of two\nsquare roots cancels the fractional exponent). This method therefore\nextracts plain kelvin magnitudes for that one step and re-wraps the\nresult as a typed [`ThermodynamicTemperature`] at the end — the same\n\"typed at the boundary, scalar in the core\" pattern\n[`super::fs_drag::FsWallFriction::friction_factor`] already uses for\nits private `value"]
+    pub fn temperature(&self, htc_forced_convection_enhanced: f64, t_fluid: f64, t_sat: f64, other_phase_density: f64, latent_heat: f64, thermal_conductivity: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::OnsetOfNucleateBoilingTemperature::temperature(&self.inner, from_si(htc_forced_convection_enhanced), from_si(t_fluid), from_si(t_sat), from_si(other_phase_density), from_si(latent_heat), from_si(thermal_conductivity))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::OnsetOfNucleateBoilingTemperature::Basu
     #[staticmethod]
     #[pyo3(name = "Basu")]
@@ -2545,6 +2696,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__SubcooledBoilingFraction { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SubcooledBoilingFraction }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__SubcooledBoilingFraction {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SubcooledBoilingFraction::fraction
+    #[doc = "Evaluate the fraction. `heat_flux` is the local wall heat flux driving\nbubble growth; `thermal_conductivity`, `re`, `pr` are the liquid\nphase's properties.\n\n**Deviation from upstream's literal C++, documented:** Saha & Zuber's\npublished correlation for the sub-cooling `Delta T_sub,d` at the point\nof net vapour generation is `Delta T_sub,d = q'' * D_h / (0.0065 * k *\nPe)` for `Pe = Re*Pr > 70000` (`k` the liquid thermal conductivity).\nGeN-Foam's `SahaZuber::value()` computes `qi*Dh/(0.0065*max(Re*Pr,\n7e4))` — **without** the `k` division. That literal expression has\nunits of `W/m` (a heat flux times a length), not kelvin, and cannot be\nsubtracted from a temperature; `uom` (correctly) refuses to compile\nit. This port includes the `k` division, matching the published Saha &\nZuber (1974) formula, and is verified against that publication\ndirectly rather than against upstream's (dimensionally invalid) C++\noutput — see the V&V test for the reproduction check.\n\nThe Saha–Zuber subcooled-boiling fraction is a function of eight\ndimensioned local field values, so `too_many_arguments` is allowed here."]
+    pub fn fraction(&self, heat_flux: f64, thermal_conductivity: f64, hydraulic_diameter: f64, re: f64, pr: f64, t_sat: f64, t_fluid: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SubcooledBoilingFraction::fraction(&self.inner, from_si(heat_flux), from_si(thermal_conductivity), from_si(hydraulic_diameter), from_si(re), from_si(pr), from_si(t_sat), from_si(t_fluid))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SubcooledBoilingFraction::Constant
     #[staticmethod]
     #[pyo3(name = "Constant")]
@@ -2594,6 +2748,11 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__SuppressionInputs { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SuppressionInputs }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__SuppressionInputs {
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SuppressionInputs::mixture_reynolds_number
+    #[getter(mixture_reynolds_number)]
+    pub fn get_mixture_reynolds_number(&self) -> f64 { let v = self.inner.mixture_reynolds_number.clone(); to_si(v) }
+    #[setter(mixture_reynolds_number)]
+    pub fn set_mixture_reynolds_number(&mut self, v: f64) { self.inner.mixture_reynolds_number = from_si(v); }
     // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SuppressionInputs::t_fluid
     #[getter(t_fluid)]
     pub fn get_t_fluid(&self) -> f64 { let v = self.inner.t_fluid.clone(); to_si(v) }
@@ -2609,6 +2768,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
     pub fn get_t_sat(&self) -> f64 { let v = self.inner.t_sat.clone(); to_si(v) }
     #[setter(t_sat)]
     pub fn set_t_sat(&mut self, v: f64) { self.inner.t_sat = from_si(v); }
+    // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SuppressionInputs
+    #[new]
+    pub fn __new__(mixture_reynolds_number: f64, t_fluid: f64, t_wall: f64, t_sat: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::SuppressionInputs { mixture_reynolds_number: from_si(mixture_reynolds_number), t_fluid: from_si(t_fluid), t_wall: from_si(t_wall), t_sat: from_si(t_sat) } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -2619,6 +2781,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__ff_htc__FfForcedConvectionHtc { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::ff_htc::FfForcedConvectionHtc }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__ff_htc__FfForcedConvectionHtc {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::ff_htc::FfForcedConvectionHtc::heat_transfer_coefficient
+    #[doc = "Evaluate `h = Nu * k / D_h`. `re`, `pr` are the dispersed-phase\nReynolds number and continuous-phase Prandtl number; `k` the\ncontinuous-phase thermal conductivity; `d_h` the dispersed-phase\nhydraulic diameter (see the module doc for why the two phases play\nasymmetric roles here). Faithful translation of upstream's `value()`,\nincluding its `usePeclet_` fast path (`C == D` collapses to\n`(Re*Pr)^C`) and the `Dhi = max(Dh, 1e-4)` floor that guards the\ndivision against a vanishing hydraulic diameter as the dispersed\nphase disappears."]
+    pub fn heat_transfer_coefficient(&self, re: f64, pr: f64, k: f64, d_h: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::ff_htc::FfForcedConvectionHtc::heat_transfer_coefficient(&self.inner, from_si(re), from_si(pr), from_si(k), from_si(d_h))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::ff_htc::FfForcedConvectionHtc::Nusselt
     #[staticmethod]
     #[pyo3(name = "Nusselt")]
@@ -2638,10 +2803,17 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__fs_htc__FsForcedConvectionHtc { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__fs_htc__FsForcedConvectionHtc {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::heat_transfer_coefficient
+    #[doc = "Evaluate the forced-convection heat-transfer coefficient.\n\n`re`, `pr` are the local (superficial, in two-phase) Reynolds and\nPrandtl numbers; `k` the fluid thermal conductivity; `d_h` the\nhydraulic diameter. `wall_fluid_temperatures = Some((T_wall,\nT_fluid))` supplies the temperature-ratio term for\n[`FsForcedConvectionHtc::Nusselt`] with `e != 0.0`; it is ignored by\n[`FsForcedConvectionHtc::NusseltAndWall`] (upstream has no such term\nthere) and by a [`FsForcedConvectionHtc::Nusselt`] with `e == 0.0`.\n\nFaithful translation of each upstream model's `value(celli)`,\nincluding the `usePeclet_` fast path (`C == D` collapses\n`Re^C * Pr^D` to `(Re*Pr)^C`, i.e. `Pe^C`) and the `B == 0` early-out\n(`Nu = A`, no `pow()` calls at all)."]
+    pub fn heat_transfer_coefficient(&self, re: f64, pr: f64, k: f64, d_h: f64, wall_fluid_temperatures: Option<(f64, f64)>) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::heat_transfer_coefficient(&self.inner, from_si(re), from_si(pr), from_si(k), from_si(d_h), wall_fluid_temperatures.map(|e| { let (e0, e1) = e; (from_si(e0), from_si(e1)) }))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::Nusselt
     #[staticmethod]
     #[pyo3(name = "Nusselt")]
     pub fn v_Nusselt(a: f64, b: f64, c: f64, d: f64, e: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::Nusselt { a: a, b: b, c: c, d: d, e: e } } }
+    // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::NusseltAndWall
+    #[staticmethod]
+    #[pyo3(name = "NusseltAndWall")]
+    pub fn v_NusseltAndWall(a: f64, b: f64, c: f64, d: f64, h_wall: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::NusseltAndWall { a: a, b: b, c: c, d: d, h_wall: from_si(h_wall) } } }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::Nusselt { .. } => "Nusselt", ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::FsForcedConvectionHtc::NusseltAndWall { .. } => "NusseltAndWall", _ => "unknown" }
@@ -2657,6 +2829,12 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__fs_htc__PoolBoilingHtc { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::PoolBoilingHtc }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__fs_htc__PoolBoilingHtc {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::PoolBoilingHtc::heat_transfer_coefficient_from_delta_t
+    #[doc = "`h_PB = (C(pR) * deltaT^n * pR^m)^(1/(1-n))` for [`PoolBoilingHtc::Shah`],\nor `h_PB = (h0 * A * F(pR) * (deltaT/q0)^n)^(1/(1-n))` for\n[`PoolBoilingHtc::Gorenflo`] — see the enum doc for the assumption\n(`h ~ h_PB`) both formulas rely on. `deltaT` is the wall-to-reference\ntemperature difference driving boiling: `T_wall - T_fluid` for Shah,\n`T_wall - T_sat` for Gorenflo (matching each upstream model's own\nreference field). `pressure` is the local system pressure."]
+    pub fn heat_transfer_coefficient_from_delta_t(&self, delta_t: f64, pressure: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::PoolBoilingHtc::heat_transfer_coefficient_from_delta_t(&self.inner, from_si(delta_t), from_si(pressure))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::PoolBoilingHtc::heat_transfer_coefficient_from_heat_flux
+    #[doc = "The non-circular form `h_PB = C(pR) * q''^n * pR^m` (Shah) or\n`h_PB = h0 * F(pR) * (q''/q0)^n * A` (Gorenflo), used when the wall\nheat flux `q''` is already known (upstream's `useExplicitHeatFlux_ =\ntrue` dictionary option)."]
+    pub fn heat_transfer_coefficient_from_heat_flux(&self, heat_flux: f64, pressure: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::PoolBoilingHtc::heat_transfer_coefficient_from_heat_flux(&self.inner, from_si(heat_flux), from_si(pressure))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::fs_htc::PoolBoilingHtc::Shah
     #[staticmethod]
     #[pyo3(name = "Shah")]
@@ -2680,6 +2858,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__area__InterfacialArea { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::area::InterfacialArea }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__area__InterfacialArea {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::area::InterfacialArea::area_concentration
+    #[doc = "Evaluate the interfacial area concentration for the given pair state.\n\n`alpha_dispersed`/`alpha_continuous` are the **raw** (whole-cell) phase\nfractions of the dispersed and continuous fluid of this pair (see the\nmodule docs). `dispersed_diameter` is the dispersed phase's\ncharacteristic diameter (from a [`super::diameter::BubbleDiameter`]\nclosure); ignored by the rod-bundle variants."]
+    pub fn area_concentration(&self, alpha_dispersed: f64, alpha_continuous: f64, dispersed_diameter: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::area::InterfacialArea::area_concentration(&self.inner, from_si(alpha_dispersed), from_si(alpha_continuous), from_si(dispersed_diameter))) }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::area::InterfacialArea::no_kazimi_from_geometry
     #[doc = "Build [`InterfacialArea::NoKazimi`] from rod-bundle geometry, reproducing\nGeN-Foam's coefficient derivation exactly.\n\nUnits: `pin_diameter_m`, `pin_pitch_m` in metres."]
     #[staticmethod]
@@ -2745,6 +2926,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__inter
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__diameter__BubbleDiameter { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::BubbleDiameter }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__diameter__BubbleDiameter {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::BubbleDiameter::diameter
+    #[doc = "Evaluate the diameter at the given local `(pressure, temperature)`.\n`temperature` is ignored by [`BubbleDiameter::IsothermalBubble`] (it is\nconstant by construction — see the module docs)."]
+    pub fn diameter(&self, pressure: f64, temperature: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::BubbleDiameter::diameter(&self.inner, from_si(pressure), from_si(temperature))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::BubbleDiameter::IsomolarBubble
     #[staticmethod]
     #[pyo3(name = "IsomolarBubble")]
@@ -2768,6 +2952,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__inter
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__diameter__FilmDiameter { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::FilmDiameter }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__diameter__FilmDiameter {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::FilmDiameter::diameter
+    #[doc = "Evaluate the film thickness given the phase's (pair-)normalized void\nfraction and the structure hydraulic diameter `Dhs`."]
+    pub fn diameter(&self, alpha_normalized: f64, structure_hydraulic_diameter: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::FilmDiameter::diameter(&self.inner, from_si(alpha_normalized), from_si(structure_hydraulic_diameter))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::diameter::FilmDiameter::PipeFilm
     #[staticmethod]
     #[pyo3(name = "PipeFilm")]
@@ -2916,6 +3103,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__inter
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__phase_change__LatentHeatModel { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::phase_change::LatentHeatModel }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__phase_change__LatentHeatModel {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::phase_change::LatentHeatModel::latent_heat
+    #[doc = "Evaluate the specific latent heat of vaporization.\n\n`t` is used by [`LatentHeatModel::FinkLeibowitz`] and\n[`LatentHeatModel::Water`] (ignored by\n[`LatentHeatModel::FromThermophysicalProperties`]); `h_vapour` and\n`h_liquid` are used only by\n[`LatentHeatModel::FromThermophysicalProperties`] (ignored otherwise).\nFaithful translation of each upstream model's `value(celli)` /\n`correctField(L)`."]
+    pub fn latent_heat(&self, t: f64, h_vapour: f64, h_liquid: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::phase_change::LatentHeatModel::latent_heat(&self.inner, from_si(t), from_si(h_vapour), from_si(h_liquid))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::phase_change::LatentHeatModel::FinkLeibowitz
     #[staticmethod]
     #[pyo3(name = "FinkLeibowitz")]
@@ -3038,6 +3228,18 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__turbu
     #[doc = "Upstream default coefficients (`LaheyKEpsilonCoeffs` defaults)."]
     #[staticmethod]
     pub fn new_default() -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__turbulence__LaheyBubbleClosure { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__turbulence__LaheyBubbleClosure { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::new_default() } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::bubble_induced_eddy_viscosity
+    #[doc = "The bubble-induced addend to the turbulent (eddy) viscosity.\n\nUpstream: `nut += Cmub * gas().Dh() * gas() * mag(pair().magUr())`\n(`correctNut()`). The generic `Cmu*k^2/epsilon` term that this is\n*added to* is the reused generic k-epsilon closure and is not part of\nthis function."]
+    pub fn bubble_induced_eddy_viscosity(&self, dh_gas: f64, alpha_gas: f64, relative_velocity: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::bubble_induced_eddy_viscosity(&self.inner, from_si(dh_gas), from_si(alpha_gas), from_si(relative_velocity))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::bubble_induced_production
+    #[doc = "Bubble-induced turbulent-kinetic-energy production `bubbleG`.\n\nUpstream: `Cp*(1 + Cd^(4/3)) * gas() * pow3(magUr) /\nmax(gas().Dh(), 1e-3 m)` (`bubbleG()`). A genuine specific (per-unit-\nmass) production rate, `dk/dt`-shaped — see [`TurbulentDissipationRate`]."]
+    pub fn bubble_induced_production(&self, drag_coefficient: f64, alpha_gas: f64, relative_velocity: f64, dh_gas: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::bubble_induced_production(&self.inner, from_si(drag_coefficient), from_si(alpha_gas), from_si(relative_velocity), from_si(dh_gas))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::phase_transfer_rate
+    #[doc = "Gas-to-liquid turbulence phase-transfer relaxation rate.\n\nUpstream: `phaseTransferCoeff() = max(alphaInversion - alpha, 0) * rho\n* min(epsilon_g/k_g, 1/dt)`. This port **omits the `rho` factor** and\nreturns a pure relaxation [`Frequency`] (`1/s`) instead: `rho` (and the\nimplicit cell-volume factor baked into `fvm::Sp`) are solver-level\nvolumetric bookkeeping, not part of this closure's physical content —\nsee [`k_production_rate`](Self::k_production_rate) for how the caller\nrecombines it. Multiply the result by the local liquid density to\nreproduce the upstream `pTC` exactly."]
+    pub fn phase_transfer_rate(&self, alpha_gas: f64, gas_k: f64, gas_epsilon: f64, timestep: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::phase_transfer_rate(&self.inner, from_si(alpha_gas), from_si(gas_k), from_si(gas_epsilon), from_si(timestep))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::k_production_rate
+    #[doc = "Net specific (per-unit-mass) rate of change of `k` from the bubble and\nphase-transfer sources — `dk/dt` from the explicit part of `kSource()`,\ndivided through by `alpha*rho`:\n\n```text\ndk/dt|_bubble = alpha_gas * bubbleG + phase_transfer_rate * (k_gas - k)\n```\n\n(upstream: `alpha*rho*bubbleG() + pTC*k_gas - fvm::Sp(pTC, k)`, which\nat the current field value equals `alpha*rho*bubbleG() + pTC*(k_gas -\nk)`; dividing by `rho` and using [`phase_transfer_rate`] in place of\n`pTC/rho` gives the expression above). The solver multiplies this by\n`alpha*rho` (and applies the cell-volume factor) to assemble the actual\nmatrix source."]
+    pub fn k_production_rate(&self, alpha_gas: f64, bubble_induced_production: f64, phase_transfer_rate: f64, gas_k: f64, local_k: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure::k_production_rate(&self.inner, from_si(alpha_gas), from_si(bubble_induced_production), from_si(phase_transfer_rate), from_si(gas_k), from_si(local_k))) }
     // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure
     #[new]
     pub fn __new__(cp: f64, cmub: f64, c3: f64, alpha_inversion: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::LaheyBubbleClosure { cp: cp, cmub: cmub, c3: c3, alpha_inversion: alpha_inversion } } }
@@ -3075,6 +3277,18 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__turbu
     #[doc = "Virtual-mass-corrected effective gas density `rhogEff = rho_g +\nVm*rho_l`.\n\nUpstream `rhogEff() = gas().rho() + pair().Vm()*liquid().rho()`.\n`virtual_mass_coefficient` is the (dimensionless) added-mass\ncoefficient `Vm`, produced by the interfacial virtual-mass closures\n(out of scope here — see `closures::interfacial`, bead op-p6p.7.8)."]
     #[staticmethod]
     pub fn effective_gas_density(rho_gas: f64, virtual_mass_coefficient: f64, rho_liquid: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure::effective_gas_density(from_si(rho_gas), from_si(virtual_mass_coefficient), from_si(rho_liquid))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure::mixture_density
+    #[doc = "Mixture density `rhom = alpha_l*rholEff + alpha_g*rhogEff`.\n\nUpstream `rhom() = liquid()*rholEff() + gas()*rhogEff()`."]
+    #[staticmethod]
+    pub fn mixture_density(alpha_liquid: f64, rho_liquid_eff: f64, alpha_gas: f64, rho_gas_eff: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure::mixture_density(from_si(alpha_liquid), from_si(rho_liquid_eff), from_si(alpha_gas), from_si(rho_gas_eff))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure::mix_k
+    #[doc = "Mass-weighted mixture turbulent kinetic energy.\n\nUpstream `mix(kl, kg) = (liquid()*rholEff()*kl + gas()*rhogEff()*kg) /\nrhom()`, instantiated for `k`."]
+    #[staticmethod]
+    pub fn mix_k(alpha_liquid: f64, rho_liquid_eff: f64, liquid_k: f64, alpha_gas: f64, rho_gas_eff: f64, gas_k: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure::mix_k(from_si(alpha_liquid), from_si(rho_liquid_eff), from_si(liquid_k), from_si(alpha_gas), from_si(rho_gas_eff), from_si(gas_k))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure::mix_epsilon
+    #[doc = "Mass-weighted mixture turbulent dissipation rate.\n\nUpstream `mix(epsilonl, epsilong)`, instantiated for `epsilon`."]
+    #[staticmethod]
+    pub fn mix_epsilon(alpha_liquid: f64, rho_liquid_eff: f64, liquid_epsilon: f64, alpha_gas: f64, rho_gas_eff: f64, gas_epsilon: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure::mix_epsilon(from_si(alpha_liquid), from_si(rho_liquid_eff), from_si(liquid_epsilon), from_si(alpha_gas), from_si(rho_gas_eff), from_si(gas_epsilon))) }
     // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure
     #[new]
     pub fn __new__(cmu: f64, cp: f64, c3: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::MixtureKEpsilonClosure { cmu: cmu, cp: cp, c3: c3 } } }
@@ -3099,6 +3313,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__turbu
     pub fn get_turbulence_intensity_alpha_coeff(&self) -> f64 { let v = self.inner.turbulence_intensity_alpha_coeff.clone(); v }
     #[setter(turbulence_intensity_alpha_coeff)]
     pub fn set_turbulence_intensity_alpha_coeff(&mut self, v: f64) { self.inner.turbulence_intensity_alpha_coeff = v; }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilon2PhaseClosure::equilibrium_k
+    #[doc = "Porous-zone equilibrium turbulent kinetic energy, two-phase-corrected.\n\nUpstream `equilibriumK_ = 1.5*sqr(mag(U) * (turbulenceIntensityCoeff *\npow(Re, turbulenceIntensityExp) + turbulenceIntensityAlphaCoeff *\n(1 - alpha/(1-alpha_structure))))`.\n\n`relative_alpha` is the phase fraction already divided by\n`(1 - alpha_structure)` (upstream's own comment: \"phase fraction must\nbe divided by `(1-alpha.structure)` to get relative value\") — a\nstructure-field lookup out of scope for this closure, so the caller\npasses the ratio pre-computed."]
+    pub fn equilibrium_k(&self, speed: f64, reynolds_number: f64, relative_alpha: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilon2PhaseClosure::equilibrium_k(&self.inner, from_si(speed), from_si(reynolds_number), from_si(relative_alpha))) }
     // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilon2PhaseClosure
     #[new]
     pub fn __new__(base: Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__turbulence__PorousKEpsilonClosure, turbulence_intensity_alpha_coeff: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilon2PhaseClosure { base: base.inner, turbulence_intensity_alpha_coeff: turbulence_intensity_alpha_coeff } } }
@@ -3133,6 +3350,16 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__turbu
     pub fn get_turbulence_length_scale_coeff(&self) -> f64 { let v = self.inner.turbulence_length_scale_coeff.clone(); v }
     #[setter(turbulence_length_scale_coeff)]
     pub fn set_turbulence_length_scale_coeff(&mut self, v: f64) { self.inner.turbulence_length_scale_coeff = v; }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure::equilibrium_k
+    #[doc = "Porous-zone equilibrium turbulent kinetic energy.\n\nUpstream `equilibriumK_ = 1.5*sqr(mag(U) * turbulenceIntensityCoeff *\npow(Re, turbulenceIntensityExp))`, i.e. `k_eq = 1.5*(|U|*I_t)^2` with\nturbulence intensity `I_t = A*Re^B`."]
+    pub fn equilibrium_k(&self, speed: f64, reynolds_number: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure::equilibrium_k(&self.inner, from_si(speed), from_si(reynolds_number))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure::equilibrium_epsilon
+    #[doc = "Porous-zone equilibrium turbulent dissipation rate.\n\nUpstream `equilibriumEpsilon_ = Cmu3by4 * pow(equilibriumK_, 1.5) /\nmax(turbulenceLengthScaleCoeff*Dh, SMALL)`."]
+    pub fn equilibrium_epsilon(&self, equilibrium_k: f64, structure_dh: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure::equilibrium_epsilon(&self.inner, from_si(equilibrium_k), from_si(structure_dh))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure::nut_stabilization
+    #[doc = "Optional `nut` stabilisation addend, applied inside porous cells when\n`DhStruct` is configured for the region.\n\nUpstream (`correctNut()`, when `nutStabilization_`): `nut +=\npos(structure) * magU * DhStruct / laminarReStruct`. As with\n[`relaxation_coefficient`](Self::relaxation_coefficient), the\n`pos(structure)` gate is the caller's responsibility (add this only\ninside porous cells with `DhStruct` configured)."]
+    #[staticmethod]
+    pub fn nut_stabilization(speed: f64, dh_struct: f64, laminar_re_struct: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure::nut_stabilization(from_si(speed), from_si(dh_struct), laminar_re_struct)) }
     // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure
     #[new]
     pub fn __new__(cmu: f64, turbulence_intensity_coeff: f64, turbulence_intensity_exp: f64, turbulence_length_scale_coeff: f64) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::turbulence::PorousKEpsilonClosure { cmu: cmu, turbulence_intensity_coeff: turbulence_intensity_coeff, turbulence_intensity_exp: turbulence_intensity_exp, turbulence_length_scale_coeff: turbulence_length_scale_coeff } } }
@@ -3273,6 +3500,12 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__PhaseBas
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "The phase volume-fraction field `alpha` (dimensionless, `0..=1`)."]
     pub fn alpha(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::PhaseBase::alpha(&self.inner).clone() } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::PhaseBase::residual_alpha
+    #[doc = "The residual volume fraction (dimensionless), the floor that keeps the\nphase momentum well-posed as `alpha -> 0`."]
+    pub fn residual_alpha(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::PhaseBase::residual_alpha(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::PhaseBase::set_residual_alpha
+    #[doc = "Overwrite the residual volume fraction."]
+    pub fn set_residual_alpha(&mut self, value: f64) -> () { ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::PhaseBase::set_residual_alpha(&mut self.inner, from_si(value)) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -3414,6 +3647,11 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__solver__PorousD
     pub fn get_min_mag_u(&self) -> f64 { let v = self.inner.min_mag_u.clone(); v }
     #[setter(min_mag_u)]
     pub fn set_min_mag_u(&mut self, v: f64) { self.inner.min_mag_u = v; }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::solver::PorousDrag::min_reynolds
+    #[getter(min_reynolds)]
+    pub fn get_min_reynolds(&self) -> f64 { let v = self.inner.min_reynolds.clone(); to_si(v) }
+    #[setter(min_reynolds)]
+    pub fn set_min_reynolds(&mut self, v: f64) { self.inner.min_reynolds = from_si(v); }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::solver::PorousDrag::new
     #[doc = "Build a porous drag from a wall-friction closure, with `minMagU = 0` and\na Reynolds floor of `1.0`."]
     #[new]
@@ -3473,12 +3711,25 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__Fiel
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedPower { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedPower {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::new
+    #[doc = "Build a fixed-power model at an initial surface temperature.\n\n# Parameters\n- `alpha` — power-region volume fraction (dimensionless).\n- `interfacial_area` — `a_v` [1/m], structure-to-fluid area per volume.\n- `power_density_initial` — `q'''` [W/m^3] at the profile reference time.\n- `alpha_rho_cp` — `alpha*rho*Cp` [J/(m^3 K)], the lumped thermal inertia.\n- `initial_temperature` — the starting surface temperature [K]."]
+    #[new]
+    pub fn new(alpha: f64, interfacial_area: f64, power_density_initial: f64, alpha_rho_cp: f64, initial_temperature: f64) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedPower { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedPower { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::new(from_si(alpha), from_si(interfacial_area), from_si(power_density_initial), from_si(alpha_rho_cp), from_si(initial_temperature)) } }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::with_power_profile
     #[doc = "Attach a power-vs-time scaling profile (a factor relative to the initial\npower density). Consumes and returns `self` for chaining."]
     pub fn with_power_profile(&self, profile: Py_outram_foam_appbuilder_lib__genfoam__common__TimeProfile) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedPower { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedPower { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::with_power_profile(self.inner.clone(), profile.inner) } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::power_density
+    #[doc = "The instantaneous volumetric power density at time `t`.\n\n`q'''(t) = q'''_initial * profile(t)`, or the constant initial value if\nno profile is set."]
+    pub fn power_density(&self, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::power_density(&self.inner, from_si(t))) }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::surface_temperature
     #[doc = "The current structure surface temperature [K]."]
     pub fn surface_temperature(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::surface_temperature(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::interfacial_area
+    #[doc = "Interfacial-area density `a_v` [1/m] of this power region."]
+    pub fn interfacial_area(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::interfacial_area(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::correct
+    #[doc = "Advance the structure surface temperature by one backward-Euler step.\n\nFaithful port of `fixedPower::correct` (see the [module\ndocumentation](self) for the discretised equation). `h_sum`/`ht_sum` are\nthe fluid-coupling sums for this cell, `dt` the timestep, `t` the new\n(end-of-step) time. Returns the updated surface temperature (also stored\nas the model's state)."]
+    pub fn correct(&mut self, h_sum: f64, ht_sum: f64, dt: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::correct(&mut self.inner, from_si(h_sum), from_si(ht_sum), from_si(dt), from_si(t))) }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::power_off
     #[doc = "Zero the power (GeN-Foam's `powerOff`): the internal source is removed but\nthe model keeps exchanging heat with the fluid."]
     pub fn power_off(&mut self) -> () { ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedPower::power_off(&mut self.inner) }
@@ -3493,12 +3744,19 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__Fixe
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedTemperature { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedTemperature {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::new
+    #[doc = "Build a fixed-temperature model.\n\n- `interfacial_area` — `a_v` [1/m].\n- `temperature_initial` — imposed surface temperature [K]."]
+    #[new]
+    pub fn new(interfacial_area: f64, temperature_initial: f64) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedTemperature { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedTemperature { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::new(from_si(interfacial_area), from_si(temperature_initial)) } }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::with_temperature_profile
     #[doc = "Attach a temperature-vs-time scaling profile (a factor relative to the\ninitial temperature)."]
     pub fn with_temperature_profile(&self, profile: Py_outram_foam_appbuilder_lib__genfoam__common__TimeProfile) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedTemperature { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__FixedTemperature { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::with_temperature_profile(self.inner.clone(), profile.inner) } }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::surface_temperature_at
     #[doc = "The imposed surface temperature at time `t`\n(`T(t) = T_initial * profile(t)`)."]
     pub fn surface_temperature_at(&self, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::surface_temperature_at(&self.inner, from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::interfacial_area
+    #[doc = "Interfacial-area density `a_v` [1/m]."]
+    pub fn interfacial_area(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::FixedTemperature::interfacial_area(&self.inner)) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3510,9 +3768,19 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__Fixe
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__PassiveStructure { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__PassiveStructure {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::new
+    #[doc = "Build a passive sub-structure.\n\n- `interfacial_area` — `a_v` [1/m].\n- `alpha_rho_cp` — `alpha_pas*rho*Cp` [J/(m^3 K)].\n- `initial_temperature` — the starting surface temperature [K]."]
+    #[new]
+    pub fn new(interfacial_area: f64, alpha_rho_cp: f64, initial_temperature: f64) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__PassiveStructure { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__PassiveStructure { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::new(from_si(interfacial_area), from_si(alpha_rho_cp), from_si(initial_temperature)) } }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::surface_temperature
     #[doc = "The current passive surface temperature [K]."]
     pub fn surface_temperature(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::surface_temperature(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::interfacial_area
+    #[doc = "Interfacial-area density `a_v` [1/m]."]
+    pub fn interfacial_area(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::interfacial_area(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::correct
+    #[doc = "Advance the passive surface temperature one backward-Euler step.\n\nPort of the passive-substructure update in `structure::correct`:\n\n```text\n           a_v*ht_sum + (C/dt)*T_old\n  T_new = ---------------------------\n               C/dt + a_v*h_sum\n```\n\n(the [`super::power_model::FixedPower`] lumped balance with no `alpha*q'''`\nsource term). `dt` is the timestep."]
+    pub fn correct(&mut self, h_sum: f64, ht_sum: f64, dt: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::PassiveStructure::correct(&mut self.inner, from_si(h_sum), from_si(ht_sum), from_si(dt))) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3624,6 +3892,9 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__Stru
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "This cell's pump momentum source [N/m^3] at time `t` (zero if no pump)."]
     pub fn momentum_source(&self, t: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureCell::momentum_source(&self.inner, from_si(t)) } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureCell::correct
+    #[doc = "Advance the structure one timestep and return its thermal state.\n\nOrder of operations (matching `structure::correct`):\n1. Evaluate the power-off criterion; if it fires, zero the power model's\n   internal source (once).\n2. Update the active surface temperature (lumped energy balance).\n3. Update the passive surface temperature, if present.\n4. Form the explicit heat source to the fluid = active + passive\n   convective terms, the wall temperature (= active surface), and the\n   diagnostic wall heat flux.\n\n# Parameters\n- `h_sum`/`ht_sum` — this cell's fluid-coupling sums (see\n  [`heat_source`]).\n- `dt` — the timestep; `t` — the new (end-of-step) time.\n- `scram_field_extremum` — the reduced (max/min) value of the field the\n  [`PowerOffCriterion::FieldValue`] criterion monitors, in that field's\n  own units. Ignored by a timer criterion; pass any value (e.g. the\n  current peak structure temperature) when unused."]
+    pub fn correct(&mut self, h_sum: f64, ht_sum: f64, dt: f64, t: f64, scram_field_extremum: f64) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__StructureThermalState { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__StructureThermalState { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureCell::correct(&mut self.inner, from_si(h_sum), from_si(ht_sum), from_si(dt), from_si(t), scram_field_extremum) } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3650,11 +3921,24 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__Stru
     pub fn get_wall_temperature(&self) -> f64 { let v = self.inner.wall_temperature.clone(); to_si(v) }
     #[setter(wall_temperature)]
     pub fn set_wall_temperature(&mut self, v: f64) { self.inner.wall_temperature = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureThermalState::heat_source_to_fluid
+    #[getter(heat_source_to_fluid)]
+    pub fn get_heat_source_to_fluid(&self) -> f64 { let v = self.inner.heat_source_to_fluid.clone(); to_si(v) }
+    #[setter(heat_source_to_fluid)]
+    pub fn set_heat_source_to_fluid(&mut self, v: f64) { self.inner.heat_source_to_fluid = from_si(v); }
+    // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureThermalState::wall_heat_flux
+    #[getter(wall_heat_flux)]
+    pub fn get_wall_heat_flux(&self) -> f64 { let v = self.inner.wall_heat_flux.clone(); to_si(v) }
+    #[setter(wall_heat_flux)]
+    pub fn set_wall_heat_flux(&mut self, v: f64) { self.inner.wall_heat_flux = from_si(v); }
     // @item field:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureThermalState::powered_off
     #[getter(powered_off)]
     pub fn get_powered_off(&self) -> bool { let v = self.inner.powered_off.clone(); v }
     #[setter(powered_off)]
     pub fn set_powered_off(&mut self, v: bool) { self.inner.powered_off = v; }
+    // @item ctor:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureThermalState
+    #[new]
+    pub fn __new__(active_surface_temperature: f64, passive_surface_temperature: Option<f64>, wall_temperature: f64, heat_source_to_fluid: f64, wall_heat_flux: f64, powered_off: bool) -> Self { Self { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::StructureThermalState { active_surface_temperature: from_si(active_surface_temperature), passive_surface_temperature: passive_surface_temperature.map(|e| from_si(e)), wall_temperature: from_si(wall_temperature), heat_source_to_fluid: from_si(heat_source_to_fluid), wall_heat_flux: from_si(wall_heat_flux), powered_off: powered_off } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3689,6 +3973,42 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__Thre
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__thermophysical__BespokeFluidPropertyModel { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__thermophysical__BespokeFluidPropertyModel {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::density
+    #[doc = "Mass density `rho`. `p` in Pa, `T` in K; returns kg/m^3."]
+    pub fn density(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::density(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_heat_capacity
+    #[doc = "Isobaric specific heat capacity `Cp`. `p` in Pa, `T` in K; returns\nJ/(kg K)."]
+    pub fn specific_heat_capacity(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_heat_capacity(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_heat_capacity_cv
+    #[doc = "Isochoric specific heat capacity `Cv`. `p` in Pa, `T` in K; returns\nJ/(kg K)."]
+    pub fn specific_heat_capacity_cv(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_heat_capacity_cv(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::dynamic_viscosity
+    #[doc = "Dynamic viscosity `mu`. `p` in Pa, `T` in K; returns Pa s."]
+    pub fn dynamic_viscosity(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::dynamic_viscosity(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::thermal_conductivity
+    #[doc = "Thermal conductivity `kappa`. `p` in Pa, `T` in K; returns W/(m K)."]
+    pub fn thermal_conductivity(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::thermal_conductivity(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_enthalpy
+    #[doc = "Specific enthalpy `h`. `p` in Pa, `T` in K; returns J/kg."]
+    pub fn specific_enthalpy(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_enthalpy(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_entropy
+    #[doc = "Specific entropy `s`. `p` in Pa, `T` in K; returns J/(kg K)."]
+    pub fn specific_entropy(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::specific_entropy(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::prandtl_number
+    #[doc = "Prandtl number `Pr = Cp mu / kappa`. `p` in Pa, `T` in K; dimensionless."]
+    pub fn prandtl_number(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::prandtl_number(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::dissociated_mole_fraction
+    #[doc = "Mole fraction of a dissociated/minority species (for [`Hydrogen`](Self::Hydrogen),\nthe atomic-hydrogen mole fraction `x_H`). `p` in Pa, `T` in K;\ndimensionless, in `[0, 1)`."]
+    pub fn dissociated_mole_fraction(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::dissociated_mole_fraction(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::dissociated_mass_fraction
+    #[doc = "Mass fraction of a dissociated/minority species (for [`Hydrogen`](Self::Hydrogen),\nthe atomic-hydrogen mass fraction `w_H`). `p` in Pa, `T` in K;\ndimensionless, in `[0, 1)`."]
+    pub fn dissociated_mass_fraction(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::dissociated_mass_fraction(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::second_virial_coefficient
+    #[doc = "Second virial coefficient `B` of the real-gas equation of state. `p`\nin Pa, `T` in K; returns m^3/kg."]
+    pub fn second_virial_coefficient(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::second_virial_coefficient(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::kappa_over_cp
+    #[doc = "`kappa / Cp` (upstream `H2::alphah`). See\n[`hydrogen::kappa_over_cp`] for why this is *not* the usual\n`kappa / (rho Cp)` thermal diffusivity."]
+    pub fn kappa_over_cp(&self, p: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::kappa_over_cp(&self.inner, from_si(p), from_si(t))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::thermophysical::BespokeFluidPropertyModel::Hydrogen
     #[staticmethod]
     #[pyo3(name = "Hydrogen")]
@@ -3744,9 +4064,19 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__DisplacementRepor
 pub struct Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__ElasticMaterial { pub inner: ::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__ElasticMaterial {
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::new
+    #[doc = "Build a material from its physical properties, validating ranges.\n\n# Parameters\n\n- `youngs_modulus` — `E` (Pa), strictly positive.\n- `poisson_ratio` — `ν` (dimensionless), `−1 < ν < 1/2`.\n- `thermal_expansion` — `α` (1/K).\n- `density` — `ρ` (kg/m³), strictly positive.\n- `specific_heat` — `c_p` (J/(kg·K)), strictly positive.\n- `conductivity` — `k` (W/(m·K)).\n\n# Errors\n\n[`MaterialError`] if `E`, `ρ`, or `c_p` is non-positive, or `ν` is\noutside `(−1, 1/2)`."]
+    #[new]
+    pub fn new(youngs_modulus: f64, poisson_ratio: f64, thermal_expansion: f64, density: f64, specific_heat: f64, conductivity: f64) -> PyResult<Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__ElasticMaterial> { err(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::new(from_si(youngs_modulus), from_si(poisson_ratio), from_si(thermal_expansion), from_si(density), from_si(specific_heat), from_si(conductivity))).map(|v| Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__ElasticMaterial { inner: v }) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::youngs_modulus
+    #[doc = "Young's modulus `E` (Pa)."]
+    pub fn youngs_modulus(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::youngs_modulus(&self.inner)) }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::poisson_ratio
     #[doc = "Poisson's ratio `ν` (dimensionless)."]
     pub fn poisson_ratio(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::poisson_ratio(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::thermal_expansion
+    #[doc = "Linear thermal-expansion coefficient `α` (1/K)."]
+    pub fn thermal_expansion(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::thermal_expansion(&self.inner)) }
     // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::density
     #[doc = "Mass density `ρ` (kg/m³)."]
     pub fn density(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::density(&self.inner)) }
@@ -3756,6 +4086,18 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__ElasticMaterial {
     // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::conductivity
     #[doc = "Thermal conductivity `k` (W/(m·K))."]
     pub fn conductivity(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::conductivity(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::shear_modulus
+    #[doc = "Shear modulus `μ = E / (2 (1 + ν))` (Pa) — Lamé's second parameter.\n\nRheology-independent (upstream: `mu_ = E_/(2(1+nu_))`)."]
+    pub fn shear_modulus(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::shear_modulus(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::lame_lambda
+    #[doc = "Lamé's first parameter `λ` (Pa) under the given [`RheologyOption`].\n\n- Plane strain: `λ = ν E / ((1 + ν)(1 − 2ν))`\n- Plane stress: `λ = ν E / ((1 + ν)(1 − ν))`"]
+    pub fn lame_lambda(&self, rheology: Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__RheologyOption) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::lame_lambda(&self.inner, rheology.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::bulk_modulus_three_k
+    #[doc = "Bulk-modulus term `3K` (Pa) under the given [`RheologyOption`].\n\n- Plane strain: `3K = E / (1 − 2ν)`\n- Plane stress: `3K = E / (1 − ν)`\n\nThis is the coefficient of the thermal-stress term `3K α ΔT` and equals\n`3λ + 2μ` in the plane-strain case."]
+    pub fn bulk_modulus_three_k(&self, rheology: Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__RheologyOption) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::bulk_modulus_three_k(&self.inner, rheology.inner)) }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::thermal_diffusivity
+    #[doc = "Thermal diffusivity `DT = k / (ρ c_p)` (m²/s) for the structure\nheat-diffusion solve (upstream: `DT_ = (rhoK_/rho_)/C_`)."]
+    pub fn thermal_diffusivity(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ElasticMaterial::thermal_diffusivity(&self.inner)) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3828,6 +4170,10 @@ impl Py_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__ThermoMechanicsMo
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "Full Cauchy stress tensor `σ` (Pa) for the given strain and temperature\nrise, dispatched to the active model."]
     pub fn stress(&self, strain: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor, delta_t: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { inner: ::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ThermoMechanicsModel::stress(&self.inner, strain.inner, from_si(delta_t)) } }
+    // @item method:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ThermoMechanicsModel::von_mises
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "von Mises equivalent stress `σ_eq` (Pa), dispatched to the active model."]
+    pub fn von_mises(&self, strain: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor, delta_t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ThermoMechanicsModel::von_mises(&self.inner, strain.inner, from_si(delta_t))) }
     // @item variant:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::ThermoMechanicsModel::Legacy
     #[staticmethod]
     #[pyo3(name = "Legacy")]
@@ -4268,6 +4614,12 @@ impl Py_outram_foam_appbuilder_lib__prelude__Fluid {
     // @item method:outram_foam_appbuilder_lib::prelude::Fluid::max_xlm
     #[doc = "Maximum allowable Lockhart–Martinelli parameter (dimensionless)."]
     pub fn max_xlm(&self) -> f64 { ::outram_foam_appbuilder_lib::prelude::Fluid::max_xlm(&self.inner) }
+    // @item method:outram_foam_appbuilder_lib::prelude::Fluid::thermo_residual_alpha
+    #[doc = "The `thermoResidualAlpha` threshold (dimensionless). Below it the fluid\nenergy equation is skipped and the phase temperature is pinned to the\ninterfacial temperature."]
+    pub fn thermo_residual_alpha(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::Fluid::thermo_residual_alpha(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::prelude::Fluid::set_thermo_residual_alpha
+    #[doc = "Overwrite the `thermoResidualAlpha` threshold."]
+    pub fn set_thermo_residual_alpha(&mut self, value: f64) -> () { ::outram_foam_appbuilder_lib::prelude::Fluid::set_thermo_residual_alpha(&mut self.inner, from_si(value)) }
     // @item method:outram_foam_appbuilder_lib::prelude::Fluid::is_boussinesq
     #[doc = "Whether this phase uses the Boussinesq equation of state."]
     pub fn is_boussinesq(&self) -> bool { ::outram_foam_appbuilder_lib::prelude::Fluid::is_boussinesq(&self.inner) }
@@ -4418,6 +4770,16 @@ impl Py_outram_foam_appbuilder_lib__prelude__GradScheme {
 pub struct Py_outram_foam_appbuilder_lib__prelude__HeatExchanger { pub inner: ::outram_foam_appbuilder_lib::prelude::HeatExchanger }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__prelude__HeatExchanger {
+    // @item method:outram_foam_appbuilder_lib::prelude::HeatExchanger::new
+    #[doc = "Build a heat exchanger from its wall conductance `H_w = k_wall/t_wall`."]
+    #[new]
+    pub fn new(wall_conductance: f64) -> Py_outram_foam_appbuilder_lib__prelude__HeatExchanger { Py_outram_foam_appbuilder_lib__prelude__HeatExchanger { inner: ::outram_foam_appbuilder_lib::prelude::HeatExchanger::new(from_si(wall_conductance)) } }
+    // @item method:outram_foam_appbuilder_lib::prelude::HeatExchanger::wall_conductance
+    #[doc = "Wall conductance `H_w` [W/(m^2 K)]."]
+    pub fn wall_conductance(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::HeatExchanger::wall_conductance(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::prelude::HeatExchanger::wall_temperature
+    #[doc = "The **primary-side** wall-surface temperature `T_p` [K] for this cell.\n\nConvenience wrapper over [`hx_wall_temperature`] using this exchanger's\nwall conductance. Pass the primary side's coupling sums first, then the\nsecondary side's (already mapped to this cell)."]
+    pub fn wall_temperature(&self, h_sum_primary: f64, ht_sum_primary: f64, h_sum_secondary: f64, ht_sum_secondary: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::HeatExchanger::wall_temperature(&self.inner, from_si(h_sum_primary), from_si(ht_sum_primary), from_si(h_sum_secondary), from_si(ht_sum_secondary))) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -4728,6 +5090,20 @@ impl Py_outram_foam_appbuilder_lib__prelude__LegacyThermoMechanics {
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "Full Cauchy stress tensor `σ` (pascals) for a small-strain state `ε` at a\ntemperature rise `ΔT` above the stress-free reference. See\n[`stress::thermal_stress`]."]
     pub fn stress(&self, strain: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor, delta_t: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { inner: ::outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::stress(&self.inner, strain.inner, from_si(delta_t)) } }
+    // @item method:outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::von_mises
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "von Mises equivalent stress `σ_eq` (Pa) for a small-strain state `ε` at a\ntemperature rise `ΔT`."]
+    pub fn von_mises(&self, strain: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor, delta_t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::von_mises(&self.inner, strain.inner, from_si(delta_t))) }
+    // @item method:outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::free_axial_expansion
+    #[doc = "Free axial thermal expansion `α ΔT L` of a uniformly-heated bar of length\n`L`. See [`feedback::free_axial_expansion`]."]
+    pub fn free_axial_expansion(&self, delta_t: f64, length: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::free_axial_expansion(&self.inner, from_si(delta_t), from_si(length))) }
+    // @item method:outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::axial_expansion_profile
+    #[doc = "Cumulative axial-displacement profile of a stack of cells at per-cell\ntemperature rises `delta_t` and heights `cell_height`. See\n[`feedback::axial_expansion_profile`]."]
+    pub fn axial_expansion_profile(&self, delta_t: Vec<f64>, cell_height: Vec<f64>) -> Vec<f64> { ::outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::axial_expansion_profile(&self.inner, &delta_t.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(), &cell_height.into_iter().map(|e| from_si(e)).collect::<Vec<_>>()).into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
+    // @item method:outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::mesh_displacement
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Assemble the coupled mesh-displacement vector `meshDisp` (metres) from an\nelastic displacement, an axial expansion, and the pin direction. See\n[`feedback::assemble_mesh_displacement`]."]
+    pub fn mesh_displacement(&self, disp: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3, axial: f64, pin_direction: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { inner: ::outram_foam_appbuilder_lib::prelude::LegacyThermoMechanics::mesh_displacement(&self.inner, disp.inner, from_si(axial), pin_direction.inner) } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -5053,6 +5429,9 @@ impl Py_outram_foam_appbuilder_lib__prelude__NeutronicsModel {
     // @item method:outram_foam_appbuilder_lib::prelude::NeutronicsModel::power
     #[doc = "The current total fission power `P` (watts).\n\nPoint kinetics returns its scalar fission power; the spatial models\nreturn the domain-integrated power of their neutronics state."]
     pub fn power(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::NeutronicsModel::power(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::prelude::NeutronicsModel::k_eff
+    #[doc = "The effective multiplication factor `k_eff`, if the model tracks one.\n\nPoint kinetics is amplitude-only and does not compute a spatial `k_eff`,\nso it returns [`None`]; the spatial models return [`Some`] of their\nstate's current `k_eff`."]
+    pub fn k_eff(&self) -> Option<f64> { ::outram_foam_appbuilder_lib::prelude::NeutronicsModel::k_eff(&self.inner).map(|e| to_si(e)) }
     // @item variant:outram_foam_appbuilder_lib::prelude::NeutronicsModel::PointKinetics
     #[staticmethod]
     #[pyo3(name = "PointKinetics")]
@@ -5114,6 +5493,12 @@ impl Py_outram_foam_appbuilder_lib__prelude__NeutronicsState {
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "The energy-collapsed one-group flux `sum_g phi_g` (`1/(m^2 s)`)."]
     pub fn one_group_flux(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_foam_appbuilder_lib::prelude::NeutronicsState::one_group_flux(&self.inner).clone() } }
+    // @item method:outram_foam_appbuilder_lib::prelude::NeutronicsState::k_eff
+    #[doc = "The effective multiplication factor `k_eff` (dimensionless)."]
+    pub fn k_eff(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::NeutronicsState::k_eff(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::prelude::NeutronicsState::set_k_eff
+    #[doc = "Overwrite `k_eff`."]
+    pub fn set_k_eff(&mut self, k_eff: f64) -> () { ::outram_foam_appbuilder_lib::prelude::NeutronicsState::set_k_eff(&mut self.inner, from_si(k_eff)) }
     // @item method:outram_foam_appbuilder_lib::prelude::NeutronicsState::k_eff_raw
     #[doc = "The raw `k_eff` value (dimensionless `f64`) — the numerical working copy\nthe solve loops read and update without `uom` wrapping overhead."]
     pub fn k_eff_raw(&self) -> f64 { ::outram_foam_appbuilder_lib::prelude::NeutronicsState::k_eff_raw(&self.inner) }
@@ -5427,9 +5812,32 @@ impl Py_outram_foam_appbuilder_lib__prelude__PointKineticsError {
 pub struct Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters { pub inner: ::outram_foam_appbuilder_lib::prelude::PointKineticsParameters }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters {
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::new
+    #[doc = "Build kinetics parameters with subcritical index `ζ = 0`.\n\n# Parameters\n\n- `delayed_fractions` — the `β_i` of each precursor group (dimensionless).\n- `decay_constants` — the `λ_i` of each group (`1/s`), same length/order.\n- `prompt_generation_time` — `Λ` (seconds), strictly positive.\n\n# Errors\n\n[`PointKineticsError::NoDelayedGroups`],\n[`PointKineticsError::MismatchedGroups`],\n[`PointKineticsError::NonPositivePromptGenerationTime`], or\n[`PointKineticsError::NonPositiveDecayConstant`]."]
+    #[new]
+    pub fn new(delayed_fractions: Vec<f64>, decay_constants: Vec<f64>, prompt_generation_time: f64) -> PyResult<Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters> { err(::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::new(delayed_fractions.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(), decay_constants.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(), from_si(prompt_generation_time))).map(|v| Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters { inner: v }) }
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::with_subcritical_index
+    #[doc = "Build kinetics parameters with an explicit subcritical index `ζ`.\n\n`ζ` (dimensionless, `≥ 0`) is the anti-reactivity of an intentionally\nsubcritical, externally-driven core; it appears as `(ρ − ζ − β)/Λ` in the\nprompt term. Pass `Ratio::new::<ratio>(0.0)` for a self-sustaining core.\n\n# Errors\n\nSee [`Self::new`]."]
+    #[staticmethod]
+    pub fn with_subcritical_index(delayed_fractions: Vec<f64>, decay_constants: Vec<f64>, prompt_generation_time: f64, subcritical_index: f64) -> PyResult<Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters> { err(::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::with_subcritical_index(delayed_fractions.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(), decay_constants.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(), from_si(prompt_generation_time), from_si(subcritical_index))).map(|v| Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters { inner: v }) }
     // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::delayed_group_count
     #[doc = "Number of delayed-neutron precursor groups `N`."]
     pub fn delayed_group_count(&self) -> usize { ::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::delayed_group_count(&self.inner) }
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::delayed_fractions
+    #[doc = "The effective delayed-neutron fractions `β_i` (dimensionless), one per\ngroup, in group order."]
+    pub fn delayed_fractions(&self) -> Vec<f64> { ::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::delayed_fractions(&self.inner).clone().iter().cloned().map(|e| to_si(e)).collect::<Vec<_>>() }
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::decay_constants
+    #[doc = "The decay constants `λ_i` (`1/s`), one per group, in group order."]
+    pub fn decay_constants(&self) -> Vec<f64> { ::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::decay_constants(&self.inner).clone().iter().cloned().map(|e| to_si(e)).collect::<Vec<_>>() }
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::prompt_generation_time
+    #[doc = "The prompt-neutron generation time `Λ` (seconds)."]
+    pub fn prompt_generation_time(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::prompt_generation_time(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::subcritical_index
+    #[doc = "The subcritical index `ζ` (dimensionless)."]
+    pub fn subcritical_index(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::subcritical_index(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsParameters::total_delayed_fraction
+    #[doc = "Total effective delayed-neutron fraction `β = Σ_i β_i` (dimensionless)."]
+    pub fn total_delayed_fraction(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::PointKineticsParameters::total_delayed_fraction(&self.inner)) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -5458,6 +5866,9 @@ impl Py_outram_foam_appbuilder_lib__prelude__PointKineticsState {
     // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsState::external_source_power
     #[doc = "External source power `S` (watts) from the most recent [`Self::step`]."]
     pub fn external_source_power(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::PointKineticsState::external_source_power(&self.inner)) }
+    // @item method:outram_foam_appbuilder_lib::prelude::PointKineticsState::step
+    #[doc = "Advance the state by one implicit (backward-Euler) time step.\n\nAssembles and solves the dense `n × n` system (`n = N + 2`) exactly as\nGeN-Foam's `solvePointKinetics.H` does (see the module-level docs), using\nthe current state as the \"old\" values, then overwrites the fission power\nand precursor powers with the solution.\n\n# Parameters\n\n- `params` — the kinetics parameters; `params.delayed_group_count()` must\n  equal `self.precursor_powers().len()`.\n- `dt` — the time step `Δt` (seconds), strictly positive.\n- `reactivity` — the total reactivity `ρ` (dimensionless) applied over\n  this step. In the full GeN-Foam model this is the sum of all feedback\n  and external contributions; here the caller supplies it.\n- `external_source_power` — the external source power `S` (watts) for this\n  step; pass `Power::new::<watt>(0.0)` for a source-free core.\n\n# Errors\n\n[`PointKineticsError::NonPositiveTimeStep`],\n[`PointKineticsError::MismatchedGroups`] (state vs. params group count),\nor [`PointKineticsError::SingularSystem`]."]
+    pub fn step(&mut self, params: Py_outram_foam_appbuilder_lib__prelude__PointKineticsParameters, dt: f64, reactivity: f64, external_source_power: f64) -> PyResult<()> { err(::outram_foam_appbuilder_lib::prelude::PointKineticsState::step(&mut self.inner, &params.inner, from_si(dt), from_si(reactivity), from_si(external_source_power))).map(|v| v) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -5469,9 +5880,15 @@ impl Py_outram_foam_appbuilder_lib__prelude__PointKineticsState {
 pub struct Py_outram_foam_appbuilder_lib__prelude__PowerModel { pub inner: ::outram_foam_appbuilder_lib::prelude::PowerModel }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__prelude__PowerModel {
+    // @item method:outram_foam_appbuilder_lib::prelude::PowerModel::correct
+    #[doc = "Advance the model by one timestep and return the new structure surface\ntemperature.\n\nFor [`PowerModel::FixedPower`] this runs the lumped backward-Euler energy\nbalance; for [`PowerModel::FixedTemperature`] it simply evaluates the\nprescribed profile at `t` (the fluid coupling and `dt` are ignored, as\nupstream). The fluid-coupling sums `h_sum`/`ht_sum` are per-cell."]
+    pub fn correct(&mut self, h_sum: f64, ht_sum: f64, dt: f64, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::PowerModel::correct(&mut self.inner, from_si(h_sum), from_si(ht_sum), from_si(dt), from_si(t))) }
     // @item method:outram_foam_appbuilder_lib::prelude::PowerModel::surface_temperature
     #[doc = "The current structure surface temperature at time `t`.\n\nFor [`PowerModel::FixedPower`] this returns the stored state (independent\nof `t`); for [`PowerModel::FixedTemperature`] it evaluates the prescribed\nprofile at `t`."]
     pub fn surface_temperature(&self, t: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::PowerModel::surface_temperature(&self.inner, from_si(t))) }
+    // @item method:outram_foam_appbuilder_lib::prelude::PowerModel::interfacial_area
+    #[doc = "Interfacial-area density `a_v` [1/m] of this power region."]
+    pub fn interfacial_area(&self) -> f64 { to_si(::outram_foam_appbuilder_lib::prelude::PowerModel::interfacial_area(&self.inner)) }
     // @item method:outram_foam_appbuilder_lib::prelude::PowerModel::power_off
     #[doc = "Turn the internal power off (no-op for a fixed-temperature model)."]
     pub fn power_off(&mut self) -> () { ::outram_foam_appbuilder_lib::prelude::PowerModel::power_off(&mut self.inner) }
@@ -6245,15 +6662,55 @@ pub fn fn_outram_foam_appbuilder_lib__genfoam__common__rbf__solve_polyharmonic_s
 #[pyfunction(name = "lumped_cell_mesh")]
 pub fn fn_outram_foam_appbuilder_lib__genfoam__multi_region__lumped_cell_mesh(volume: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh { inner: (*::outram_foam_appbuilder_lib::genfoam::multi_region::lumped_cell_mesh(volume)).clone() } }
 
+    // @item fn:outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::diffusion_coefficient
+#[doc = "Wrap a base-SI value (`m`) as a [`DiffusionCoefficient`]."]
+#[pyfunction(name = "diffusion_coefficient")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__diffusion_coefficient(metres: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::diffusion_coefficient(metres)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::dimensionless
+#[doc = "Wrap a bare ratio as a [`Dimensionless`] quantity."]
+#[pyfunction(name = "dimensionless")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__dimensionless(ratio: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::dimensionless(ratio)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::macroscopic_cross_section
+#[doc = "Wrap a base-SI value (`m^-1`) as a [`MacroscopicCrossSection`]."]
+#[pyfunction(name = "macroscopic_cross_section")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__macroscopic_cross_section(per_metre: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::macroscopic_cross_section(per_metre)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::precursor_decay_constant
+#[doc = "Wrap a base-SI value (`s^-1`) as a [`PrecursorDecayConstant`]."]
+#[pyfunction(name = "precursor_decay_constant")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__precursor_decay_constant(per_second: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::neutronics::xs::units::precursor_decay_constant(per_second)) }
+
     // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::multi_regime_boiling_htc
 #[doc = "Dispatch the boiling regime and return its heat-transfer coefficient.\n\nFaithful port of `multiRegimeBoiling::value()`'s regime map, minus the\npost-CHF branch (upstream itself hardcodes `TCHFi = 1e69`, i.e.\nunreachable — \"needs dedicated model for its setting\", per its own\ncomment) and the `dmdtW` mass-transfer side effect (see the module doc).\n\nRegime map, matching upstream exactly:\n1. `T_wall < T_sat`: either plain enhanced forced convection, or — if a\n   film-condensation model is configured and `alpha_vapour > 0.8` — a\n   blend into (or full) film condensation as `alpha_vapour -> 0.9`.\n2. `T_sat <= T_wall < T_onset_nucleate_boiling`: plain enhanced forced\n   convection (nothing \"special\" happens yet).\n3. `T_wall >= T_onset_nucleate_boiling`: nucleate/sub-cooled boiling,\n   combining `htc_forced_convection_enhanced` and `htc_pool_boiling` via\n   `superposition_exponent`-power superposition, optionally moderated by\n   `suppression_factor` or `htc_pool_boiling_at_onset`."]
 #[pyfunction(name = "multi_regime_boiling_htc")]
 pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__multi_regime_boiling_htc(inputs: Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__MultiRegimeBoilingInputs) -> Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__MultiRegimeBoilingResult { Py_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__MultiRegimeBoilingResult { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::multi_regime_boiling_htc(inputs.inner) } }
 
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::superposition_nucleate_boiling_htc
+#[doc = "`h = h_FC * F + h_PB * S` — the simplest boiling-htc combination, for\nflows with no sub-cooled-boiling region between single-phase convection\nand nucleate boiling (upstream `superpositionNucleateBoiling`)."]
+#[pyfunction(name = "superposition_nucleate_boiling_htc")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__superposition_nucleate_boiling_htc(htc_forced_convection: f64, flow_enhancement_factor: f64, htc_pool_boiling: f64, suppression_factor: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::boiling::superposition_nucleate_boiling_htc(from_si(htc_forced_convection), from_si(flow_enhancement_factor), from_si(htc_pool_boiling), from_si(suppression_factor))) }
+
     // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::contact_angle_from_degrees
 #[doc = "Convenience: build a [`SurfaceTension`]/[`Angle`] pair's contact angle\nfrom degrees, matching upstream's dictionary entry\n(`dict.get<scalar>(\"contactAngle\")` in degrees, converted internally)."]
 #[pyfunction(name = "contact_angle_from_degrees")]
 pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__contact_angle_from_degrees(degrees: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::contact_angle_from_degrees(degrees)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::two_phase_mixture_reynolds_number
+#[doc = "Two-phase \"mixture\" Reynolds number shared by\n[`FlowEnhancementFactor::CobraTf`] and [`SuppressionFactor::Chen`]:\n`Re_mix = max(|alpha_1*rho_1*u_1 + alpha_2*rho_2*u_2| * D_h /\n(alpha_1*mu_1 + alpha_2*mu_2), 10)` — see the module doc for the\nvector-to-scalar velocity note.\n\nTakes both phases' void fraction, density, velocity, and viscosity plus the\nhydraulic diameter (nine dimensioned inputs) — this is the mixture Reynolds\nnumber's intrinsic argument list, so `too_many_arguments` is allowed here."]
+#[pyfunction(name = "two_phase_mixture_reynolds_number")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__two_phase_mixture_reynolds_number(alpha_1: f64, rho_1: f64, u_1: f64, mu_1: f64, alpha_2: f64, rho_2: f64, u_2: f64, mu_2: f64, hydraulic_diameter: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::heat_transfer::chf::two_phase_mixture_reynolds_number(from_si(alpha_1), from_si(rho_1), from_si(u_1), from_si(mu_1), from_si(alpha_2), from_si(rho_2), from_si(u_2), from_si(mu_2), from_si(hydraulic_diameter))) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::units::fluid_diameter
+#[doc = "Build a [`FluidDiameter`] from a bare metre magnitude."]
+#[pyfunction(name = "fluid_diameter")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__units__fluid_diameter(value_m: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::units::fluid_diameter(value_m)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::units::interfacial_area_concentration
+#[doc = "Build an [`InterfacialAreaConcentration`] from a bare (1/m) magnitude."]
+#[pyfunction(name = "interfacial_area_concentration")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__units__interfacial_area_concentration(value_per_metre: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::closures::interfacial::units::interfacial_area_concentration(value_per_metre)) }
 
     // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::function_objects::field_diff_extents::cell_mask
 #[cfg(feature = "outram-foam-basic-lib")]
@@ -6350,6 +6807,88 @@ pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__function_obje
 #[doc = "Fluid–fluid relative-velocity magnitude field `|U_r| = |U_1 - U_2|` (`m/s`).\n\nPort of `FFPair::correct`'s `magUr_ = mag(U1 - U2)`. Result is a fresh\n[`VolScalarField`] named `magUr` on the same mesh as `u1`.\n\n# Panics\nDebug-asserts `u1` and `u2` share a cell count."]
 #[pyfunction(name = "ff_relative_velocity_magnitude")]
 pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__ff_relative_velocity_magnitude(u1: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField, u2: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::ff_relative_velocity_magnitude(&u1.inner, &u2.inner) } }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::ff_reynolds
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Fluid–fluid Reynolds number field\n`Re = max(|U_r| * D_h,disp / nu_cont, Re_min)`.\n\nPort of `FFPair::correct`'s\n`Re_ = max(magUr_*DhDispersed_/nuContinuous_, minRe_)`. `mag_ur` is typically\nthe output of [`ff_relative_velocity_magnitude`]; `dh_dispersed` is the\ndispersed-phase hydraulic diameter and `nu_continuous` the continuous-phase\nkinematic viscosity (`m^2/s`). Result is a fresh [`VolScalarField`] named\n`Re` on the same mesh as `mag_ur`.\n\n# Panics\nDebug-asserts every input shares the cell count of `mag_ur`."]
+#[pyfunction(name = "ff_reynolds")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__ff_reynolds(mag_ur: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, dh_dispersed: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, nu_continuous: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, min_re: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::ff_reynolds(&mag_ur.inner, &dh_dispersed.inner, &nu_continuous.inner, from_si(min_re)) } }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::fs_reynolds
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Fluid–structure isotropic Reynolds number field\n`Re = max(alpha_norm * |U| * D_h / nu, Re_min)`.\n\nPort of `FSPair::correct`'s `Re_ = fluid.normalized()*mag(U)*Dh/nu` followed\nby `Re_ = max(Re_, minRe_)`. All four input fields are per-cell bare `f64`\n(see the [`super::fluid`] unit table); `min_re` is a [`uom`]-typed\n[`ReynoldsNumber`] floor. The result is a fresh [`VolScalarField`] named\n`Re` on the same mesh as `normalized_alpha`.\n\n# Panics\nDebug-asserts every input shares the mesh cell count of `normalized_alpha`."]
+#[pyfunction(name = "fs_reynolds")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__fs_reynolds(normalized_alpha: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, mag_u: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, dh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, nu: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, min_re: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::fs_reynolds(&normalized_alpha.inner, &mag_u.inner, &dh.inner, &nu.inner, from_si(min_re)) } }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::volume_fraction
+#[doc = "Build a [`VolumeFraction`] from a plain (dimensionless) magnitude."]
+#[pyfunction(name = "volume_fraction")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__volume_fraction(value: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::phase::volume_fraction(value)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::explicit_heat_source
+#[doc = "Explicit fluid-structure heat source for one cell — **W / m^3**.\n\nPort of the per-cell term in `structure::explicitHeatSource`:\n\n```text\nQ = a_v * (ht_sum - h_sum * T_struct)\n  = a_v * h_sum * (T_fluid - T_struct)     (single phase)\n```\n\nSign convention (matching the fluid energy equation): `Q` is the power per\nunit volume delivered **to the fluid**. It is positive when the fluid is\ncolder than the structure (`ht_sum > h_sum*T_struct`, i.e. the structure\nheats the fluid) and negative when the fluid is hotter (a heat exchanger /\ncold structure removing energy).\n\n# Parameters\n- `interfacial_area` — `a_v` [1/m] of the exchanging structure region.\n- `h_sum` — the coupling coefficient [W/(m^2 K)].\n- `ht_sum` — the coupling `h*T` product [W/m^2].\n- `t_struct` — the structure surface temperature [K]."]
+#[pyfunction(name = "explicit_heat_source")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__explicit_heat_source(interfacial_area: f64, h_sum: f64, ht_sum: f64, t_struct: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::explicit_heat_source(from_si(interfacial_area), from_si(h_sum), from_si(ht_sum), from_si(t_struct))) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::hx_wall_temperature
+#[doc = "Primary-side heat-exchanger wall-surface temperature `T_p` [K].\n\nPort of the primary loop of `heatExchanger::correct`:\n`T_p = (B_p*A_s + B_s) / max(A_p*A_s - 1, 1e-69)` (see the [module\ndocumentation](self) for the derivation and the `A_i`, `B_i` definitions).\nThe `1e-69` floor reproduces upstream's guard against the no-heat-transfer\ndegeneracy where both convective coefficients vanish."]
+#[pyfunction(name = "hx_wall_temperature")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__hx_wall_temperature(wall_conductance: f64, h_sum_primary: f64, ht_sum_primary: f64, h_sum_secondary: f64, ht_sum_secondary: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::hx_wall_temperature(from_si(wall_conductance), from_si(h_sum_primary), from_si(ht_sum_primary), from_si(h_sum_secondary), from_si(ht_sum_secondary))) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::wall_heat_flux
+#[doc = "Diagnostic wall heat flux for one cell — **W / m^2**.\n\nPort of `heatFlux_[celli] = H*Twall - HT` in `structure::correct`\n(`Twall` = the structure surface temperature). Positive means heat flows\n**from the structure to the fluid** across the wall. Used by GeN-Foam mostly\nfor post-processing (and by the Shah pool-boiling closure).\n\n```text\nq'' = h_sum * T_wall - ht_sum\n```"]
+#[pyfunction(name = "wall_heat_flux")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__wall_heat_flux(h_sum: f64, ht_sum: f64, t_wall: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::structure::wall_heat_flux(from_si(h_sum), from_si(ht_sum), from_si(t_wall))) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::units::friction_factor_value
+#[doc = "Read a [`DarcyFrictionFactor`] back as a plain (dimensionless) `f64`."]
+#[pyfunction(name = "friction_factor_value")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__units__friction_factor_value(f: f64) -> f64 { ::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::units::friction_factor_value(from_si(f)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::units::reynolds_number
+#[doc = "Build a [`ReynoldsNumber`] from a plain (dimensionless) magnitude.\n\nConvenience for call sites that have already computed `Re` as an `f64`."]
+#[pyfunction(name = "reynolds_number")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__units__reynolds_number(value: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermal_hydraulics::units::reynolds_number(value)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::assemble_mesh_displacement
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Assemble the coupled mesh-displacement vector `meshDisp` (metres).\n\n`meshDisp = (disp − (disp·ê) ê) + axial ê`: the transverse-to-pin part of the\nelastic displacement `disp` plus the axially-resolved fuel/control-rod\nexpansion `axial` along the (normalised) pin direction `ê`. This is the\nvector GeN-Foam maps onto the neutronics/TH meshes and passes to\n`movePoints`.\n\n# Parameters\n\n- `disp` — the elastic displacement vector at the point, in **metres**\n  (`outram-foam-basic-lib` has no `uom` vector type; unit is documented).\n- `axial` — the axial fuel+CR expansion `fuelDisp + CRDisp` along `ê`\n  ([`Displacement`], metres).\n- `pin_direction` — the pin orientation `ê`; normalised internally (a zero\n  vector yields just the axial term dropped and `disp` returned unchanged).\n\n# Returns\n\nThe mesh-displacement vector in **metres** (a [`Vector3`])."]
+#[pyfunction(name = "assemble_mesh_displacement")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__assemble_mesh_displacement(disp: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3, axial: f64, pin_direction: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { inner: ::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::assemble_mesh_displacement(disp.inner, from_si(axial), pin_direction.inner) } }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::axial_expansion_profile
+#[doc = "Cumulative axial-displacement profile of a stack of cells along the pin.\n\nPorts the upwind `div(ê·Sf, fuelDisp) = α (T − T_ref)` solve on a 1-D column:\nthe returned value `u[i]` is the axial displacement of the **outlet face** of\ncell `i`, i.e. the running sum `Σ_{j≤i} α ΔT_j Δz_j` of per-cell thermal\ngrowth. The inlet face (base of the stack) is anchored at zero displacement.\n\n# Parameters\n\n- `alpha` — expansion coefficient `α` (1/K), assumed uniform along the stack.\n- `delta_t` — per-cell temperature rise `ΔT_i = T_i − T_ref` (kelvin\n  interval), ordered from the anchored base to the free tip.\n- `cell_height` — per-cell height `Δz_i` (m); same length/order as `delta_t`.\n\n# Returns\n\nA `Vec` of cumulative axial [`Displacement`]s, one per cell (outlet-face\nvalue). Empty inputs yield an empty vector. If the two slices differ in\nlength the shorter is used."]
+#[pyfunction(name = "axial_expansion_profile")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__axial_expansion_profile(alpha: f64, delta_t: Vec<f64>, cell_height: Vec<f64>) -> Vec<f64> { ::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::axial_expansion_profile(from_si(alpha), &delta_t.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(), &cell_height.into_iter().map(|e| from_si(e)).collect::<Vec<_>>()).into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::deviatoric_plus_volumetric_stress
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Isothermal stress tensor `σ_D = 2μ ε + λ tr(ε) I` (pascals).\n\nThe mechanical (non-thermal) part of the Cauchy stress for a small-strain\nlinear-elastic isotropic solid. Upstream:\n`sigmaD_ = mu_*twoSymm(gradD) + lambda_*(I*tr(gradD))`, where\n`twoSymm(∇u) = ∇u + ∇uᵀ = 2ε`.\n\n# Parameters\n\n- `strain` — small-strain tensor `ε = symm(∇u)` (dimensionless).\n- `mu` — shear modulus `μ` (Pa).\n- `lambda` — Lamé's first parameter `λ` (Pa).\n\n# Returns\n\nThe stress tensor `σ_D` in **pascals** (as a [`SymmTensor`])."]
+#[pyfunction(name = "deviatoric_plus_volumetric_stress")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__deviatoric_plus_volumetric_stress(strain: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor, mu: f64, lambda_: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { inner: ::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::deviatoric_plus_volumetric_stress(strain.inner, from_si(mu), from_si(lambda_)) } }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::free_axial_expansion
+#[doc = "Free axial thermal expansion of a uniformly-heated bar, `Δu = α ΔT L`.\n\nThe closed-form limit of the axial-expansion transport equation for a bar of\nlength `L` at a uniform temperature rise `ΔT` above its stress-free\nreference. This is the total elongation of the fuel (or control-rod) stack.\n\n# Parameters\n\n- `alpha` — linear thermal-expansion coefficient `α` (1/K).\n- `delta_t` — uniform temperature rise `ΔT = T − T_ref` (kelvin interval).\n- `length` — undeformed bar length `L` (m).\n\n# Returns\n\nThe axial elongation `Δu` as a [`Displacement`] (metres)."]
+#[pyfunction(name = "free_axial_expansion")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__free_axial_expansion(alpha: f64, delta_t: f64, length: f64) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::free_axial_expansion(from_si(alpha), from_si(delta_t), from_si(length))) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::hydrostatic_stress
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Hydrostatic (mean) stress `σ_m = tr(σ)/3` (Pa).\n\nPositive in tension. For a purely thermal, fully-constrained state this is\nthe whole stress (the deviator vanishes and `σ_eq = 0`).\n\n# Parameters\n\n- `sigma` — a stress tensor whose components are in **pascals**."]
+#[pyfunction(name = "hydrostatic_stress")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__hydrostatic_stress(sigma: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::hydrostatic_stress(sigma.inner)) }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::thermal_stress
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Full Cauchy stress tensor including the thermal term (pascals).\n\n`σ = σ_D − 3K α ΔT I`, i.e. the isothermal stress with the isotropic\nthermal-expansion contribution subtracted (upstream `calculateStress.H`:\n`sigma = rho·sigmaD − I·rho·threeKalpha·(TStruct − TStructRef)`).\n\n# Parameters\n\n- `strain` — small-strain tensor `ε` (dimensionless).\n- `mu`, `lambda` — Lamé parameters (Pa).\n- `three_k` — bulk-modulus term `3K` (Pa).\n- `alpha` — linear thermal-expansion coefficient `α` (1/K).\n- `delta_t` — temperature rise `ΔT = T − T_ref` above the stress-free\n  reference (kelvin interval).\n\n# Returns\n\nThe full stress tensor `σ` in **pascals** (as a [`SymmTensor`])."]
+#[pyfunction(name = "thermal_stress")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__thermal_stress(strain: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor, mu: f64, lambda_: f64, three_k: f64, alpha: f64, delta_t: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor { inner: ::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::thermal_stress(strain.inner, from_si(mu), from_si(lambda_), from_si(three_k), from_si(alpha), from_si(delta_t)) } }
+
+    // @item fn:outram_foam_appbuilder_lib::genfoam::thermo_mechanics::von_mises_stress
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "von Mises equivalent stress `σ_eq = sqrt((3/2) dev(σ) : dev(σ))` (Pa).\n\nUpstream: `sigmaEq = sqrt((3/2)*magSqr(dev(sigma)))`. The double-inner\nproduct `dev(σ):dev(σ)` is `SymmTensor::mag_sqr` of the deviator.\n\n# Parameters\n\n- `sigma` — a stress tensor whose components are in **pascals**."]
+#[pyfunction(name = "von_mises_stress")]
+pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__von_mises_stress(sigma: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SymmTensor) -> f64 { to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::von_mises_stress(sigma.inner)) }
 
     // @item fn:outram_foam_appbuilder_lib::io::field_reader::read_vol_scalar_field
 #[doc = "Read the `internalField` of a `volScalarField` file.\n\nHandles:\n- `internalField uniform <value>;`\n- `internalField nonuniform List<scalar> N\\n(\\n<value>\\n...\\n);`"]
@@ -6604,8 +7143,16 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__common__rbf__solve_polyharmonic_spline, m)?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__multi_region__lumped_cell_mesh, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__diffusion_coefficient, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__dimensionless, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__macroscopic_cross_section, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__neutronics__xs__units__precursor_decay_constant, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__multi_regime_boiling_htc, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__boiling__superposition_nucleate_boiling_htc, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__contact_angle_from_degrees, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__heat_transfer__chf__two_phase_mixture_reynolds_number, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__units__fluid_diameter, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__closures__interfacial__units__interfacial_area_concentration, m)?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__function_objects__field_diff_extents__cell_mask, m)?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
@@ -6638,6 +7185,28 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__function_objects__t_bulk__bulk_temperature, m)?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__ff_relative_velocity_magnitude, m)?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__ff_reynolds, m)?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__fs_reynolds, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__phase__volume_fraction, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__explicit_heat_source, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__hx_wall_temperature, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__structure__wall_heat_flux, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__units__friction_factor_value, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermal_hydraulics__units__reynolds_number, m)?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__assemble_mesh_displacement, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__axial_expansion_profile, m)?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__deviatoric_plus_volumetric_stress, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__free_axial_expansion, m)?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__hydrostatic_stress, m)?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__thermal_stress, m)?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__von_mises_stress, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_scalar_field, m)?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
     m.add_function(wrap_pyfunction!(fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_scalar_field_full, m)?)?;

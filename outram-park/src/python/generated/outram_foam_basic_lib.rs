@@ -75,6 +75,105 @@ impl Py_outram_foam_basic_lib__compute__ThreadCount {
     pub fn default() -> Self { Self { inner: Default::default() } }
 }
 
+    // @item type:outram_foam_basic_lib::compute::hybrid::CoExecution
+#[doc = "What precision the CPU half of a split batch should run at."]
+#[pyclass(name = "CoExecution", module = "outram_park.outram_foam_basic_lib")]
+#[derive(Clone)]
+pub struct Py_outram_foam_basic_lib__compute__hybrid__CoExecution { pub inner: ::outram_foam_basic_lib::compute::hybrid::CoExecution }
+#[pymethods]
+impl Py_outram_foam_basic_lib__compute__hybrid__CoExecution {
+    // @item variant:outram_foam_basic_lib::compute::hybrid::CoExecution::NativePrecision
+    #[staticmethod]
+    #[pyo3(name = "NativePrecision")]
+    pub fn v_NativePrecision() -> Self { Self { inner: ::outram_foam_basic_lib::compute::hybrid::CoExecution::NativePrecision } }
+    // @item variant:outram_foam_basic_lib::compute::hybrid::CoExecution::MatchGpuPrecision
+    #[staticmethod]
+    #[pyo3(name = "MatchGpuPrecision")]
+    pub fn v_MatchGpuPrecision() -> Self { Self { inner: ::outram_foam_basic_lib::compute::hybrid::CoExecution::MatchGpuPrecision } }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner { ::outram_foam_basic_lib::compute::hybrid::CoExecution::NativePrecision => "NativePrecision", ::outram_foam_basic_lib::compute::hybrid::CoExecution::MatchGpuPrecision => "MatchGpuPrecision", _ => "unknown" }
+    }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
+    pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
+    #[staticmethod]
+    pub fn default() -> Self { Self { inner: Default::default() } }
+}
+
+    // @item type:outram_foam_basic_lib::compute::hybrid::SplitPlan
+#[doc = "A resolved, deterministic plan for one batch.\n\nProduced by [`SplitPlan::for_lanes`]. Holds no borrows and no lifetimes,\nper the workspace rules."]
+#[pyclass(name = "SplitPlan", module = "outram_park.outram_foam_basic_lib")]
+#[derive(Clone)]
+pub struct Py_outram_foam_basic_lib__compute__hybrid__SplitPlan { pub inner: ::outram_foam_basic_lib::compute::hybrid::SplitPlan }
+#[pymethods]
+impl Py_outram_foam_basic_lib__compute__hybrid__SplitPlan {
+    // @item field:outram_foam_basic_lib::compute::hybrid::SplitPlan::lanes
+    #[getter(lanes)]
+    pub fn get_lanes(&self) -> usize { let v = self.inner.lanes.clone(); v }
+    #[setter(lanes)]
+    pub fn set_lanes(&mut self, v: usize) { self.inner.lanes = v; }
+    // @item field:outram_foam_basic_lib::compute::hybrid::SplitPlan::cpu_lanes
+    #[getter(cpu_lanes)]
+    pub fn get_cpu_lanes(&self) -> usize { let v = self.inner.cpu_lanes.clone(); v }
+    #[setter(cpu_lanes)]
+    pub fn set_cpu_lanes(&mut self, v: usize) { self.inner.cpu_lanes = v; }
+    // @item field:outram_foam_basic_lib::compute::hybrid::SplitPlan::gpu_lanes
+    #[getter(gpu_lanes)]
+    pub fn get_gpu_lanes(&self) -> usize { let v = self.inner.gpu_lanes.clone(); v }
+    #[setter(gpu_lanes)]
+    pub fn set_gpu_lanes(&mut self, v: usize) { self.inner.gpu_lanes = v; }
+    // @item field:outram_foam_basic_lib::compute::hybrid::SplitPlan::cpu_backend
+    #[getter(cpu_backend)]
+    pub fn get_cpu_backend(&self) -> Py_outram_foam_basic_lib__compute__ComputeBackend { let v = self.inner.cpu_backend.clone(); Py_outram_foam_basic_lib__compute__ComputeBackend { inner: v } }
+    #[setter(cpu_backend)]
+    pub fn set_cpu_backend(&mut self, v: Py_outram_foam_basic_lib__compute__ComputeBackend) { self.inner.cpu_backend = v.inner; }
+    // @item field:outram_foam_basic_lib::compute::hybrid::SplitPlan::co_execution
+    #[getter(co_execution)]
+    pub fn get_co_execution(&self) -> Py_outram_foam_basic_lib__compute__hybrid__CoExecution { let v = self.inner.co_execution.clone(); Py_outram_foam_basic_lib__compute__hybrid__CoExecution { inner: v } }
+    #[setter(co_execution)]
+    pub fn set_co_execution(&mut self, v: Py_outram_foam_basic_lib__compute__hybrid__CoExecution) { self.inner.co_execution = v.inner; }
+    // @item method:outram_foam_basic_lib::compute::hybrid::SplitPlan::for_lanes
+    #[doc = "Build the deterministic plan for `lanes` work items.\n\n# Arguments\n\n- `lanes` — total independent work items, dimensionless.\n- `ratio` — how much to give the GPU; see [`SplitRatio`].\n- `co_execution` — precision policy for the CPU half.\n\n# Returns\n\nA plan whose `cpu_lanes + gpu_lanes == lanes` exactly. When the GPU is\nunavailable — no `gpu` feature, Android, or no adapter — `gpu_lanes` is\n`0` and the whole batch is planned for the CPU; that is the graceful\ndegradation contract, not an error.\n\n# Determinism\n\nA pure function of its arguments and the machine's backend\navailability. It performs no timing, samples no load, and consults no\nrandom source, so two runs on one machine always plan identically."]
+    #[staticmethod]
+    pub fn for_lanes(lanes: usize, ratio: Py_outram_foam_basic_lib__compute__hybrid__SplitRatio, co_execution: Py_outram_foam_basic_lib__compute__hybrid__CoExecution) -> Py_outram_foam_basic_lib__compute__hybrid__SplitPlan { Py_outram_foam_basic_lib__compute__hybrid__SplitPlan { inner: ::outram_foam_basic_lib::compute::hybrid::SplitPlan::for_lanes(lanes, ratio.inner, co_execution.inner) } }
+    // @item method:outram_foam_basic_lib::compute::hybrid::SplitPlan::is_co_executing
+    #[doc = "Whether this plan actually uses both sides.\n\n`false` for a CPU-only or GPU-only plan, which is the common case on\nhardware where one side dominates."]
+    pub fn is_co_executing(&self) -> bool { ::outram_foam_basic_lib::compute::hybrid::SplitPlan::is_co_executing(&self.inner) }
+    // @item method:outram_foam_basic_lib::compute::hybrid::SplitPlan::precision_note
+    #[doc = "A one-line, caller-facing statement of the precision this plan will\nproduce — the per-call form of the mixed-precision caveat #18 required\nbe documented rather than discovered.\n\nIntended to be logged or surfaced by anything recording a V&V run, so a\nresult set carries the precision story with it."]
+    pub fn precision_note(&self) -> String { ::outram_foam_basic_lib::compute::hybrid::SplitPlan::precision_note(&self.inner).clone().to_string() }
+    // @item ctor:outram_foam_basic_lib::compute::hybrid::SplitPlan
+    #[new]
+    pub fn __new__(lanes: usize, cpu_lanes: usize, gpu_lanes: usize, cpu_backend: Py_outram_foam_basic_lib__compute__ComputeBackend, co_execution: Py_outram_foam_basic_lib__compute__hybrid__CoExecution) -> Self { Self { inner: ::outram_foam_basic_lib::compute::hybrid::SplitPlan { lanes: lanes, cpu_lanes: cpu_lanes, gpu_lanes: gpu_lanes, cpu_backend: cpu_backend.inner, co_execution: co_execution.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
+    pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
+}
+
+    // @item type:outram_foam_basic_lib::compute::hybrid::SplitRatio
+#[doc = "How to choose the CPU/GPU lane split."]
+#[pyclass(name = "SplitRatio", module = "outram_park.outram_foam_basic_lib")]
+#[derive(Clone)]
+pub struct Py_outram_foam_basic_lib__compute__hybrid__SplitRatio { pub inner: ::outram_foam_basic_lib::compute::hybrid::SplitRatio }
+#[pymethods]
+impl Py_outram_foam_basic_lib__compute__hybrid__SplitRatio {
+    // @item variant:outram_foam_basic_lib::compute::hybrid::SplitRatio::Measured
+    #[staticmethod]
+    #[pyo3(name = "Measured")]
+    pub fn v_Measured() -> Self { Self { inner: ::outram_foam_basic_lib::compute::hybrid::SplitRatio::Measured } }
+    // @item variant:outram_foam_basic_lib::compute::hybrid::SplitRatio::Fixed
+    #[staticmethod]
+    #[pyo3(name = "Fixed")]
+    pub fn v_Fixed(a0: f64) -> Self { Self { inner: ::outram_foam_basic_lib::compute::hybrid::SplitRatio::Fixed(a0) } }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner { ::outram_foam_basic_lib::compute::hybrid::SplitRatio::Measured => "Measured", ::outram_foam_basic_lib::compute::hybrid::SplitRatio::Fixed(..) => "Fixed", _ => "unknown" }
+    }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
+    pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
+    #[staticmethod]
+    pub fn default() -> Self { Self { inner: Default::default() } }
+}
+
     // @item type:outram_foam_basic_lib::fields::ScalarField
 #[doc = "Flat field of `f64` — the element type of [`VolScalarField`](crate::fields::VolScalarField)."]
 #[pyclass(name = "ScalarField", module = "outram_park.outram_foam_basic_lib")]
@@ -4942,6 +5041,16 @@ pub fn fn_outram_foam_basic_lib__interpolation__interpolate_spline_xy(x: f64, xs
 #[pyfunction(name = "interpolate_xy")]
 pub fn fn_outram_foam_basic_lib__interpolation__interpolate_xy(x: f64, xs: Vec<f64>, ys: Vec<f64>) -> f64 { ::outram_foam_basic_lib::interpolation::interpolate_xy(x, &xs.into_iter().map(|e| e).collect::<Vec<_>>(), &ys.into_iter().map(|e| e).collect::<Vec<_>>()) }
 
+    // @item fn:outram_foam_basic_lib::io::read_vol_scalar_field
+#[doc = "Read a `volScalarField` file, returning the field and its dimensions.\n\nThe `mesh` supplies the cell count and the boundary-patch order/sizes the\nfield is defined on; the file's `boundaryField` is matched to it by patch\nname."]
+#[pyfunction(name = "read_vol_scalar_field")]
+pub fn fn_outram_foam_basic_lib__io__read_vol_scalar_field(path: String, mesh: Py_outram_foam_basic_lib__prelude__FvMesh) -> PyResult<(Py_outram_foam_basic_lib__prelude__VolScalarField, Vec<f64>)> { err(::outram_foam_basic_lib::io::read_vol_scalar_field(std::path::PathBuf::from(path), std::sync::Arc::new(mesh.inner))).map(|v| { let (e0, e1) = v; (Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e0 }, e1.into_iter().map(|e| e).collect::<Vec<_>>()) }) }
+
+    // @item fn:outram_foam_basic_lib::io::read_vol_vector_field
+#[doc = "Read a `volVectorField` file, returning the field and its dimensions."]
+#[pyfunction(name = "read_vol_vector_field")]
+pub fn fn_outram_foam_basic_lib__io__read_vol_vector_field(path: String, mesh: Py_outram_foam_basic_lib__prelude__FvMesh) -> PyResult<(Py_outram_foam_basic_lib__prelude__VolVectorField, Vec<f64>)> { err(::outram_foam_basic_lib::io::read_vol_vector_field(std::path::PathBuf::from(path), std::sync::Arc::new(mesh.inner))).map(|v| { let (e0, e1) = v; (Py_outram_foam_basic_lib__prelude__VolVectorField { inner: e0 }, e1.into_iter().map(|e| e).collect::<Vec<_>>()) }) }
+
     // @item fn:outram_foam_basic_lib::krylov::vecops::dot
 #[doc = "Euclidean inner product `Σ_i a_i · b_i` (dimensionless).\n\nBoth slices must have the same length; a mismatch panics via\n`debug_assert`. Valid for any finite inputs; returns `0.0` for empty slices."]
 #[pyfunction(name = "dot")]
@@ -5304,12 +5413,19 @@ pub fn fn_outram_foam_basic_lib__primitives__vector__mag_sqr(v: Py_outram_foam_b
     // @item const:outram_foam_basic_lib::ode::parallel::MAX_ADAPTIVE_DEPTH
     // @item const:outram_foam_basic_lib::prelude::CELL_BLOCK
     // @item const:outram_foam_basic_lib::prelude::FIELD_PARALLEL_CROSSOVER
+    // @item const:outram_foam_basic_lib::prelude::GREAT
     // @item const:outram_foam_basic_lib::prelude::ODE_ENSEMBLE_MIN_LANES
     // @item const:outram_foam_basic_lib::prelude::QUADRATURE_MIN_INTERVALS
     // @item const:outram_foam_basic_lib::prelude::REDUCTION_BLOCK
     // @item const:outram_foam_basic_lib::prelude::REDUCTION_CHUNK
+    // @item const:outram_foam_basic_lib::prelude::ROOT_GREAT
+    // @item const:outram_foam_basic_lib::prelude::ROOT_SMALL
+    // @item const:outram_foam_basic_lib::prelude::ROOT_VSMALL
+    // @item const:outram_foam_basic_lib::prelude::SMALL
     // @item const:outram_foam_basic_lib::prelude::SPMV_MIN_CELLS
     // @item const:outram_foam_basic_lib::prelude::VECOP_MIN_ELEMENTS
+    // @item const:outram_foam_basic_lib::prelude::VGREAT
+    // @item const:outram_foam_basic_lib::prelude::VSMALL
     // @item const:outram_foam_basic_lib::thermophysics::constants::P_REF
     // @item const:outram_foam_basic_lib::thermophysics::constants::R_UNIVERSAL
     // @item const:outram_foam_basic_lib::thermophysics::constants::T_MAX
@@ -5318,6 +5434,9 @@ pub fn fn_outram_foam_basic_lib__primitives__vector__mag_sqr(v: Py_outram_foam_b
 pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_foam_basic_lib__compute__ComputeBackend>()?;
     m.add_class::<Py_outram_foam_basic_lib__compute__ThreadCount>()?;
+    m.add_class::<Py_outram_foam_basic_lib__compute__hybrid__CoExecution>()?;
+    m.add_class::<Py_outram_foam_basic_lib__compute__hybrid__SplitPlan>()?;
+    m.add_class::<Py_outram_foam_basic_lib__compute__hybrid__SplitRatio>()?;
     m.add_class::<Py_outram_foam_basic_lib__fields__ScalarField>()?;
     m.add_class::<Py_outram_foam_basic_lib__fields__SymmTensorField>()?;
     m.add_class::<Py_outram_foam_basic_lib__fields__TensorField>()?;
@@ -5498,6 +5617,8 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__interface__one_dimensional_meshing__create_one_d_mesh, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__interpolation__interpolate_spline_xy, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__interpolation__interpolate_xy, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__io__read_vol_scalar_field, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__io__read_vol_vector_field, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__krylov__vecops__dot, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__krylov__vecops__nrm2, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_foam_basic_lib__math__derivative_backend_for, m)?)?;
@@ -5584,12 +5705,19 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add("MAX_ADAPTIVE_DEPTH", ::outram_foam_basic_lib::ode::parallel::MAX_ADAPTIVE_DEPTH)?;
     m.add("CELL_BLOCK", ::outram_foam_basic_lib::prelude::CELL_BLOCK)?;
     m.add("FIELD_PARALLEL_CROSSOVER", ::outram_foam_basic_lib::prelude::FIELD_PARALLEL_CROSSOVER)?;
+    m.add("GREAT", ::outram_foam_basic_lib::prelude::GREAT)?;
     m.add("ODE_ENSEMBLE_MIN_LANES", ::outram_foam_basic_lib::prelude::ODE_ENSEMBLE_MIN_LANES)?;
     m.add("QUADRATURE_MIN_INTERVALS", ::outram_foam_basic_lib::prelude::QUADRATURE_MIN_INTERVALS)?;
     m.add("REDUCTION_BLOCK", ::outram_foam_basic_lib::prelude::REDUCTION_BLOCK)?;
     m.add("REDUCTION_CHUNK", ::outram_foam_basic_lib::prelude::REDUCTION_CHUNK)?;
+    m.add("ROOT_GREAT", ::outram_foam_basic_lib::prelude::ROOT_GREAT)?;
+    m.add("ROOT_SMALL", ::outram_foam_basic_lib::prelude::ROOT_SMALL)?;
+    m.add("ROOT_VSMALL", ::outram_foam_basic_lib::prelude::ROOT_VSMALL)?;
+    m.add("SMALL", ::outram_foam_basic_lib::prelude::SMALL)?;
     m.add("SPMV_MIN_CELLS", ::outram_foam_basic_lib::prelude::SPMV_MIN_CELLS)?;
     m.add("VECOP_MIN_ELEMENTS", ::outram_foam_basic_lib::prelude::VECOP_MIN_ELEMENTS)?;
+    m.add("VGREAT", ::outram_foam_basic_lib::prelude::VGREAT)?;
+    m.add("VSMALL", ::outram_foam_basic_lib::prelude::VSMALL)?;
     m.add("P_REF", ::outram_foam_basic_lib::thermophysics::constants::P_REF)?;
     m.add("R_UNIVERSAL", ::outram_foam_basic_lib::thermophysics::constants::R_UNIVERSAL)?;
     m.add("T_MAX", ::outram_foam_basic_lib::thermophysics::constants::T_MAX)?;

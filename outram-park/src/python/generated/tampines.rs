@@ -676,6 +676,11 @@ impl Py_tampines__gas_phase__HeliumState {
     pub fn get_specific_heat_cp(&self) -> f64 { let v = self.inner.specific_heat_cp.clone(); to_si(v) }
     #[setter(specific_heat_cp)]
     pub fn set_specific_heat_cp(&mut self, v: f64) { self.inner.specific_heat_cp = from_si(v); }
+    // @item field:tampines::gas_phase::HeliumState::specific_enthalpy
+    #[getter(specific_enthalpy)]
+    pub fn get_specific_enthalpy(&self) -> f64 { let v = self.inner.specific_enthalpy.clone(); to_si(v) }
+    #[setter(specific_enthalpy)]
+    pub fn set_specific_enthalpy(&mut self, v: f64) { self.inner.specific_enthalpy = from_si(v); }
     // @item field:tampines::gas_phase::HeliumState::speed_of_sound
     #[getter(speed_of_sound)]
     pub fn get_speed_of_sound(&self) -> f64 { let v = self.inner.speed_of_sound.clone(); to_si(v) }
@@ -687,6 +692,9 @@ impl Py_tampines__gas_phase__HeliumState {
     // @item method:tampines::gas_phase::HeliumState::kinematic_viscosity_m2_per_s
     #[doc = "Kinematic viscosity `nu = mu / rho`, m^2/s, as a plain `f64` in SI\nunits.\n\nReturned unwrapped rather than as a `uom` `KinematicViscosity`\nbecause it exists only to be fed straight into a dimensionless\ngroup; prefer [`reynolds_number`] over forming it by hand."]
     pub fn kinematic_viscosity_m2_per_s(&self) -> f64 { ::tampines::gas_phase::HeliumState::kinematic_viscosity_m2_per_s(&self.inner) }
+    // @item ctor:tampines::gas_phase::HeliumState
+    #[new]
+    pub fn __new__(temperature: f64, pressure: f64, density: f64, dynamic_viscosity: f64, thermal_conductivity: f64, specific_heat_cp: f64, specific_enthalpy: f64, speed_of_sound: f64) -> Self { Self { inner: ::tampines::gas_phase::HeliumState { temperature: from_si(temperature), pressure: from_si(pressure), density: from_si(density), dynamic_viscosity: from_si(dynamic_viscosity), thermal_conductivity: from_si(thermal_conductivity), specific_heat_cp: from_si(specific_heat_cp), specific_enthalpy: from_si(specific_enthalpy), speed_of_sound: from_si(speed_of_sound) } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -785,6 +793,16 @@ impl Py_tampines__gas_phase__circulator__CirculatorResult {
     pub fn get_isentropic_outlet_temperature(&self) -> f64 { let v = self.inner.isentropic_outlet_temperature.clone(); to_si(v) }
     #[setter(isentropic_outlet_temperature)]
     pub fn set_isentropic_outlet_temperature(&mut self, v: f64) { self.inner.isentropic_outlet_temperature = from_si(v); }
+    // @item field:tampines::gas_phase::circulator::CirculatorResult::specific_work
+    #[getter(specific_work)]
+    pub fn get_specific_work(&self) -> f64 { let v = self.inner.specific_work.clone(); to_si(v) }
+    #[setter(specific_work)]
+    pub fn set_specific_work(&mut self, v: f64) { self.inner.specific_work = from_si(v); }
+    // @item field:tampines::gas_phase::circulator::CirculatorResult::isentropic_specific_work
+    #[getter(isentropic_specific_work)]
+    pub fn get_isentropic_specific_work(&self) -> f64 { let v = self.inner.isentropic_specific_work.clone(); to_si(v) }
+    #[setter(isentropic_specific_work)]
+    pub fn set_isentropic_specific_work(&mut self, v: f64) { self.inner.isentropic_specific_work = from_si(v); }
     // @item field:tampines::gas_phase::circulator::CirculatorResult::shaft_power
     #[getter(shaft_power)]
     pub fn get_shaft_power(&self) -> f64 { let v = self.inner.shaft_power.clone(); to_si(v) }
@@ -795,6 +813,9 @@ impl Py_tampines__gas_phase__circulator__CirculatorResult {
     pub fn get_temperature_rise_kelvin(&self) -> f64 { let v = self.inner.temperature_rise_kelvin.clone(); v }
     #[setter(temperature_rise_kelvin)]
     pub fn set_temperature_rise_kelvin(&mut self, v: f64) { self.inner.temperature_rise_kelvin = v; }
+    // @item ctor:tampines::gas_phase::circulator::CirculatorResult
+    #[new]
+    pub fn __new__(inlet: Py_tampines__gas_phase__HeliumState, outlet: Py_tampines__gas_phase__HeliumState, isentropic_outlet_temperature: f64, specific_work: f64, isentropic_specific_work: f64, shaft_power: f64, temperature_rise_kelvin: f64) -> Self { Self { inner: ::tampines::gas_phase::circulator::CirculatorResult { inlet: inlet.inner, outlet: outlet.inner, isentropic_outlet_temperature: from_si(isentropic_outlet_temperature), specific_work: from_si(specific_work), isentropic_specific_work: from_si(isentropic_specific_work), shaft_power: from_si(shaft_power), temperature_rise_kelvin: temperature_rise_kelvin } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -1905,11 +1926,20 @@ impl Py_tampines__pebble_bed__GraphiteModeratorFeedback {
     pub fn get_reference_temperature(&self) -> f64 { let v = self.inner.reference_temperature.clone(); to_si(v) }
     #[setter(reference_temperature)]
     pub fn set_reference_temperature(&mut self, v: f64) { self.inner.reference_temperature = from_si(v); }
+    // @item field:tampines::pebble_bed::GraphiteModeratorFeedback::temperature_coefficient
+    #[getter(temperature_coefficient)]
+    pub fn get_temperature_coefficient(&self) -> f64 { let v = self.inner.temperature_coefficient.clone(); to_si(v) }
+    #[setter(temperature_coefficient)]
+    pub fn set_temperature_coefficient(&mut self, v: f64) { self.inner.temperature_coefficient = from_si(v); }
     // @item field:tampines::pebble_bed::GraphiteModeratorFeedback::graphite_mass
     #[getter(graphite_mass)]
     pub fn get_graphite_mass(&self) -> f64 { let v = self.inner.graphite_mass.clone(); to_si(v) }
     #[setter(graphite_mass)]
     pub fn set_graphite_mass(&mut self, v: f64) { self.inner.graphite_mass = from_si(v); }
+    // @item method:tampines::pebble_bed::GraphiteModeratorFeedback::new
+    #[doc = "Builds a graphite moderator feedback channel.\n\n- `moderator_temperature` — initial bulk graphite temperature, kelvin;\n  must lie in the 300 K to 2000 K window of the graphite property\n  correlations.\n- `reference_temperature` — the temperature at which this channel\n  contributes zero reactivity, kelvin; same window.\n- `temperature_coefficient` — `dk/k` per kelvin. **This must come from\n  the caller's neutronics.** It is not defaulted, not guessed, and not\n  substituted from an isothermal coefficient; see the module\n  documentation and [`htr10_isothermal_coefficient_nrg_20_to_120c`] for\n  why the published isothermal figures are *not* this quantity. A\n  positive value is accepted — some cores genuinely have one over part\n  of their range — but it is physically the dangerous sign, so it is\n  the caller's responsibility to mean it.\n- `graphite_mass` — kilograms; must be strictly positive.\n\nReturns [`TampinesError::InvalidInput`] for a non-positive mass, a\nnon-finite coefficient, or a temperature outside 300 K to 2000 K."]
+    #[new]
+    pub fn new(moderator_temperature: f64, reference_temperature: f64, temperature_coefficient: f64, graphite_mass: f64) -> PyResult<Py_tampines__pebble_bed__GraphiteModeratorFeedback> { err(::tampines::pebble_bed::GraphiteModeratorFeedback::new(from_si(moderator_temperature), from_si(reference_temperature), from_si(temperature_coefficient), from_si(graphite_mass))).map(|v| Py_tampines__pebble_bed__GraphiteModeratorFeedback { inner: v }) }
     // @item method:tampines::pebble_bed::GraphiteModeratorFeedback::temperature_excursion
     #[doc = "Temperature of the graphite above its reference, kelvin — positive when\nthe moderator is hotter than the state the coefficient was defined at."]
     pub fn temperature_excursion(&self) -> f64 { to_si(::tampines::pebble_bed::GraphiteModeratorFeedback::temperature_excursion(&self.inner)) }
@@ -1975,6 +2005,9 @@ impl Py_tampines__pebble_bed__PackedBedConvection {
     // @item method:tampines::pebble_bed::PackedBedConvection::heat_transfer_coefficient
     #[doc = "Particle-to-fluid heat transfer coefficient, W/(m^2 K):\n`h = Nu k_f / d`.\n\n`fluid_conductivity` is the thermal conductivity of the coolant at the\nlocal condition (helium, about 0.3 W/(m K) at HTR-10 core\ntemperatures); it must be strictly positive. The Reynolds and Prandtl\narguments are passed straight to\n[`PackedBedConvection::nusselt_number`] and carry the same\nrequirements.\n\nThe area this coefficient refers to is the **pebble surface** area, not\nthe bed volume; for a porous-medium energy equation use\n[`PackedBedConvection::volumetric_heat_transfer_coefficient`] instead."]
     pub fn heat_transfer_coefficient(&self, reynolds: f64, prandtl: f64, fluid_conductivity: f64) -> PyResult<f64> { err(::tampines::pebble_bed::PackedBedConvection::heat_transfer_coefficient(&self.inner, from_si(reynolds), from_si(prandtl), from_si(fluid_conductivity))).map(|v| to_si(v)) }
+    // @item method:tampines::pebble_bed::PackedBedConvection::specific_surface_area
+    #[doc = "Specific surface area of the bed, `a_v = 6 (1 - eps) / d`, in 1/m —\npebble surface area per unit **bed** volume.\n\nThe expression is exact for monosized spheres and needs no correlation:\na sphere of diameter `d` has surface `pi d^2` and volume\n`pi d^3 / 6`, so its area-to-volume ratio is `6/d`; multiplying by the\nsolid fraction `(1 - eps)` converts area per unit *solid* volume into\narea per unit *bed* volume. It therefore holds for any monosized sphere\npacking regardless of how the spheres are arranged. HTR-10:\n`6 * 0.61 / 0.06 = 61 1/m`."]
+    pub fn specific_surface_area(&self) -> f64 { to_si(::tampines::pebble_bed::PackedBedConvection::specific_surface_area(&self.inner)) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -2028,6 +2061,15 @@ impl Py_tampines__pebble_bed__Pebble {
     // @item method:tampines::pebble_bed::Pebble::triso_volume_fraction
     #[doc = "Volume fraction of coated particles **within the fuelled zone**,\ndimensionless — the `phi` the dispersion model needs.\n\nComputed as `N * V_particle / V_fuelled_zone`, using the particle's\nfull outer (OPyC) volume, because it is the whole coated particle that\nis dispersed in the matrix, not just its kernel. HTR-10: about 0.0502.\n\nNote this is a fraction *of the fuelled zone*, not of the pebble; the\nunfuelled shell contains no particles by definition."]
     pub fn triso_volume_fraction(&self) -> f64 { to_si(::tampines::pebble_bed::Pebble::triso_volume_fraction(&self.inner)) }
+    // @item method:tampines::pebble_bed::Pebble::matrix_conductivity
+    #[doc = "Thermal conductivity of the matrix / shell graphite, W/(m K), at the\ngiven temperature and fast-neutron fluence.\n\nConsumed from [`tuas_boussinesq_solver`]'s A3-grade pebble matrix\ngraphite correlation rather than duplicated here; the fuelled-zone\nmatrix and the unfuelled shell are the same 1.73 g/cm^3 A3 graphite in\nthe HTR-10 design, so one correlation serves both.\n\nValid range: 300 K to 2000 K, fluence `gam` in `[0, 15]`; outside\neither, returns [`TampinesError::InvalidInput`]."]
+    pub fn matrix_conductivity(&self, temperature: f64, fluence: f64) -> PyResult<f64> { err(::tampines::pebble_bed::Pebble::matrix_conductivity(&self.inner, from_si(temperature), from_si(fluence))).map(|v| to_si(v)) }
+    // @item method:tampines::pebble_bed::Pebble::fuelled_zone_conductivity
+    #[doc = "Effective thermal conductivity of the **fuelled zone**, W/(m K), at the\ngiven temperature and fluence: the coated particles' own effective\nconductivity ([`TrisoParticle::effective_conductivity`]) dispersed in\nthe matrix graphite by [`Pebble::dispersion_model`] at the particle\nvolume fraction [`Pebble::triso_volume_fraction`].\n\nThis is the composition point of levels 1 and 2 — where the particle\nscale enters the pebble scale. Because the TRISO particle is *less*\nconductive than the matrix graphite (about 2.3 against about 30\nW/(m K) at 1000 K), dispersing it **lowers** the zone conductivity\nbelow that of plain graphite; the fuel is a thermal impediment, not a\nshortcut.\n\nValid range: 300 K to 2000 K, fluence `gam` in `[0, 15]`."]
+    pub fn fuelled_zone_conductivity(&self, temperature: f64, fluence: f64) -> PyResult<f64> { err(::tampines::pebble_bed::Pebble::fuelled_zone_conductivity(&self.inner, from_si(temperature), from_si(fluence))).map(|v| to_si(v)) }
+    // @item method:tampines::pebble_bed::Pebble::steady_state_temperatures
+    #[doc = "Steady-state radial temperature profile of the pebble, given its total\nfission power and the temperature imposed on its outer surface.\n\n**Physics.** Power is released uniformly through the fuelled zone of\nradius `a`, and the unfuelled shell from `a` to `R` carries all of it\nwith no generation of its own:\n\n`T(0) - T(a) = Q / (8 pi k_fuelled a)`\n\n`T(a) - T(R) = Q / (4 pi k_graphite) * (1/a - 1/R)`\n\nBoth conductivities depend on temperature, so as in\n[`TrisoParticle::steady_state_temperatures`] the profile is found by\nfixed-point iteration, each zone's conductivity evaluated at that\nzone's arithmetic-mean temperature, converging when no node moves by\nmore than 1e-9 K.\n\n**The hottest kernel.** After the pebble profile converges, level 1 is\nsuperposed: a TRISO particle carrying `Q / N` is solved with the\n*pebble-centre* temperature as its surface boundary condition, and its\nkernel centre reported as [`PebbleTemperatureProfile::peak_kernel_centre`].\nTwo assumptions are being made and should be understood as such:\n(1) the hottest particle sits at the pebble centre, which is the\nbounding position, and (2) the particle does not perturb the matrix\ntemperature field it sits in, which holds wh"]
+    pub fn steady_state_temperatures(&self, power: f64, surface_temperature: f64, fluence: f64) -> PyResult<Py_tampines__pebble_bed__PebbleTemperatureProfile> { err(::tampines::pebble_bed::Pebble::steady_state_temperatures(&self.inner, from_si(power), from_si(surface_temperature), from_si(fluence))).map(|v| Py_tampines__pebble_bed__PebbleTemperatureProfile { inner: v }) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -2186,6 +2228,15 @@ impl Py_tampines__pebble_bed__TrisoParticle {
     // @item method:tampines::pebble_bed::TrisoParticle::layer_volume_fraction
     #[doc = "Volume fraction of the given layer within the whole particle,\ndimensionless. The five fractions sum to exactly one."]
     pub fn layer_volume_fraction(&self, layer: Py_tampines__pebble_bed__TrisoLayer) -> f64 { to_si(::tampines::pebble_bed::TrisoParticle::layer_volume_fraction(&self.inner, layer.inner)) }
+    // @item method:tampines::pebble_bed::TrisoParticle::layer_thermal_conductivity
+    #[doc = "Thermal conductivity of one layer, W/(m K), at the given temperature\nand fast-neutron fluence.\n\nDispatches to the free functions of this module:\n[`uranium_dioxide_thermal_conductivity`] for the kernel,\n[`buffer_carbon_thermal_conductivity`] for the buffer,\n[`pyrocarbon_thermal_conductivity`] for IPyC and OPyC (which share one\ncorrelation and one density), and\n[`silicon_carbide_thermal_conductivity`] for the SiC.\n\nValid range: temperature 300 K to 2000 K, fluence `gam` in `[0, 15]`;\noutside either, returns [`TampinesError::InvalidInput`]."]
+    pub fn layer_thermal_conductivity(&self, layer: Py_tampines__pebble_bed__TrisoLayer, temperature: f64, fluence: f64) -> PyResult<f64> { err(::tampines::pebble_bed::TrisoParticle::layer_thermal_conductivity(&self.inner, layer.inner, from_si(temperature), from_si(fluence))).map(|v| to_si(v)) }
+    // @item method:tampines::pebble_bed::TrisoParticle::effective_conductivity
+    #[doc = "Effective (homogenised) thermal conductivity of the whole coated\nparticle, W/(m K), by **volume-fraction series mixing**:\n\n`1 / k_eff = sum_i ( f_i / k_i )`\n\nwith `f_i` the layer volume fractions and `k_i` the layer\nconductivities, all evaluated at the one supplied temperature.\n\nThis is the quantity level 2 ([`super::pebble`]) disperses in matrix\ngraphite. It reproduces the mixing rule the Virtual Test Bed HTR-PM\ndeck uses for its `triso` composite material\n(`pebble_triso.i` lines 226-231: `materials = 'kernel buffer ipyc sic\nopyc'`, `k_mixing = 'series'`; CC-BY-4.0, Open tier).\n\n**What this is and is not.** Series mixing is the **Wiener lower\nbound** on the conductivity of any two-or-more-phase composite: it\nassumes every phase carries the full heat flux in turn, which is\nexactly true for plane-parallel slabs and only approximately true for\nconcentric shells (whose exact series resistance is weighted by\n`1/r_inner - 1/r_outer`, not by volume). It is used here because it is\nthe reference implementation's choice and because it errs conservatively\n— a lower particle conductivity gives a *higher* predicted fuel\ntemperature. The exact concentric-shell temperature field is available\nwit"]
+    pub fn effective_conductivity(&self, temperature: f64, fluence: f64) -> PyResult<f64> { err(::tampines::pebble_bed::TrisoParticle::effective_conductivity(&self.inner, from_si(temperature), from_si(fluence))).map(|v| to_si(v)) }
+    // @item method:tampines::pebble_bed::TrisoParticle::steady_state_temperatures
+    #[doc = "Steady-state radial temperature profile of the particle, given the\nfission power released in its kernel and the temperature imposed on its\nouter (OPyC) surface.\n\n**Physics.** All the power `Q` is generated uniformly in the kernel, so\nthe kernel carries a parabolic profile and each coating shell carries\nthe full `Q` through a series resistance:\n\n`T(0) - T(r_kernel) = Q / (8 pi k_kernel r_kernel)`\n\n`T(r_i) - T(r_{i+1}) = Q / (4 pi k_i) * (1/r_i - 1/r_{i+1})`\n\nBecause every `k_i` depends on temperature, the profile is found by\nfixed-point iteration: each layer's conductivity is evaluated at that\nlayer's current arithmetic-mean temperature, the profile is rebuilt\ninward from the surface, and the loop repeats until no node moves by\nmore than 1e-9 K. Convergence is monotone and fast (single-digit\niterations at HTR-10 particle powers); failing to converge in 200\niterations returns [`TampinesError::Numerical`].\n\n**Inputs.** `power` is the fission power of *one* particle, watts\n(HTR-10 core average: 10 MW / 27 000 pebbles / 8335 particles per\npebble = 0.0444 W).\n`surface_temperature` is the temperature of the OPyC outer surface,\nwhich in the nested stack is the local matrix-graphite tempera"]
+    pub fn steady_state_temperatures(&self, power: f64, surface_temperature: f64, fluence: f64) -> PyResult<Py_tampines__pebble_bed__TrisoTemperatureProfile> { err(::tampines::pebble_bed::TrisoParticle::steady_state_temperatures(&self.inner, from_si(power), from_si(surface_temperature), from_si(fluence))).map(|v| Py_tampines__pebble_bed__TrisoTemperatureProfile { inner: v }) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -2349,6 +2400,11 @@ pub fn fn_tampines__gas_phase__pipe__churchill_friction_factor(reynolds: f64, re
 #[pyfunction(name = "nusselt_number")]
 pub fn fn_tampines__gas_phase__pipe__nusselt_number(correlation: Py_tampines__gas_phase__HeatTransferCorrelation, reynolds: f64, prandtl: f64, darcy_friction_factor: f64) -> PyResult<f64> { err(::tampines::gas_phase::pipe::nusselt_number(correlation.inner, from_si(reynolds), from_si(prandtl), from_si(darcy_friction_factor))).map(|v| to_si(v)) }
 
+    // @item fn:tampines::gas_phase::properties::helium_state_ph
+#[doc = "Full helium thermophysical state from **pressure and specific\nenthalpy**, the natural pair for a steady-flow energy balance.\n\nA duct that adds `Q` watts to a flow of `mdot` kg/s raises the specific\nenthalpy by exactly `Q/mdot`; recovering the temperature from `(p, h)`\nkeeps that balance exact as `c_p` varies, where a `Q = mdot c_p dT`\nshortcut would not.\n\n`enthalpy` must be on the **same reference-state convention** as\n[`HeliumState::specific_enthalpy`] — i.e. it must have come from this\nmodule (or from `outram-park-fork-coolprop` directly). Absolute\nenthalpies from another property library will silently give a wrong\ntemperature.\n\nErrors with [`TampinesError::Numerical`] if the `(p, h)` flash does not\nconverge (which for helium means the requested enthalpy is outside the\nEOS's reach), and otherwise as [`helium_state`]."]
+#[pyfunction(name = "helium_state_ph")]
+pub fn fn_tampines__gas_phase__properties__helium_state_ph(p: f64, enthalpy: f64) -> PyResult<Py_tampines__gas_phase__HeliumState> { err(::tampines::gas_phase::properties::helium_state_ph(from_si(p), from_si(enthalpy))).map(|v| Py_tampines__gas_phase__HeliumState { inner: v }) }
+
     // @item fn:tampines::gas_phase::properties::htr10_design_point::core_inlet_temperature
 #[doc = "Core inlet temperature, 250 C = 523.15 K."]
 #[pyfunction(name = "core_inlet_temperature")]
@@ -2419,6 +2475,26 @@ pub fn fn_tampines__multiphase_1d__two_fluid__region_4_safe_pressure(p: f64) -> 
 #[pyfunction(name = "virtual_mass_coefficient")]
 pub fn fn_tampines__multiphase_1d__two_fluid__virtual_mass_coefficient(alpha_dispersed: f64, rho_continuous: f64, c_vm: f64, residual_alpha: f64) -> f64 { ::tampines::multiphase_1d::two_fluid::virtual_mass_coefficient(alpha_dispersed, rho_continuous, c_vm, residual_alpha) }
 
+    // @item fn:tampines::pebble_bed::feedback::htr10_isothermal_coefficient_inet_120_to_250c
+#[doc = "HTR-10 **isothermal** temperature coefficient over 120-250 degrees Celsius\nas calculated by **INET with VSOP**: -9.15e-5 per degree.\n\nSame source, same caveat, as\n[`htr10_isothermal_coefficient_nrg_20_to_120c`]. Note this covers a\ndifferent interval from the NRG 200-250 C figure, so the two are not\ndirectly comparable."]
+#[pyfunction(name = "htr10_isothermal_coefficient_inet_120_to_250c")]
+pub fn fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_inet_120_to_250c() -> f64 { to_si(::tampines::pebble_bed::feedback::htr10_isothermal_coefficient_inet_120_to_250c()) }
+
+    // @item fn:tampines::pebble_bed::feedback::htr10_isothermal_coefficient_inet_20_to_120c
+#[doc = "HTR-10 **isothermal** temperature coefficient over 20-120 degrees Celsius\nas calculated by **INET with VSOP**: -7.49e-5 per degree.\n\nSame source, same caveat, as\n[`htr10_isothermal_coefficient_nrg_20_to_120c`]. INET's figure sits 1.6%\nbelow NRG's over the same interval — a useful sense of the spread between\nindependent calculations of the same quantity, and of how much precision it\nis reasonable to claim."]
+#[pyfunction(name = "htr10_isothermal_coefficient_inet_20_to_120c")]
+pub fn fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_inet_20_to_120c() -> f64 { to_si(::tampines::pebble_bed::feedback::htr10_isothermal_coefficient_inet_20_to_120c()) }
+
+    // @item fn:tampines::pebble_bed::feedback::htr10_isothermal_coefficient_nrg_200_to_250c
+#[doc = "HTR-10 **isothermal** temperature coefficient over 200-250 degrees Celsius\nas calculated by **NRG**: -8.05e-5 per degree.\n\nSame source, same caveat, as\n[`htr10_isothermal_coefficient_nrg_20_to_120c`] — read that function's\ndocumentation before using this value. Note the coefficient becomes more\nnegative with temperature, which is the expected and desirable trend."]
+#[pyfunction(name = "htr10_isothermal_coefficient_nrg_200_to_250c")]
+pub fn fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_nrg_200_to_250c() -> f64 { to_si(::tampines::pebble_bed::feedback::htr10_isothermal_coefficient_nrg_200_to_250c()) }
+
+    // @item fn:tampines::pebble_bed::feedback::htr10_isothermal_coefficient_nrg_20_to_120c
+#[doc = "HTR-10 **isothermal** temperature coefficient of reactivity over\n20-120 degrees Celsius as calculated by **NRG**: -7.37e-5 per degree\n(equivalently -7.37 pcm per kelvin).\n\nSource: IAEA-TECDOC-1382 part 2, Chapter 4, Table 4-33 (Open tier;\ncatalogued at\n`crates/kovan-literature/open/reports/iaea-tecdoc-1382-part2.pdf`). The\ndocument tabulates `delta-k/k` per degree Celsius; a coefficient *per\ndegree Celsius* and *per kelvin* are numerically identical, since only the\nsize of the degree matters.\n\n# This is NOT a moderator-only coefficient\n\nAn **isothermal** coefficient is measured or calculated by changing the\ntemperature of the *entire core at once* — fuel, moderator and reflector\ntogether. It is therefore the **sum** of the fuel Doppler channel and the\nmoderator channel (and everything else that moves with temperature).\n\nUsing it as [`GraphiteModeratorFeedback::temperature_coefficient`] would\ncount the fuel's contribution twice — once in whatever Doppler channel the\ncaller already has, and again here — and would give the graphite the fuel's\nprompt feedback on the graphite's slow timescale. That is precisely the\nerror this module exists to prevent.\n\nA genuine moderator-only coefficie"]
+#[pyfunction(name = "htr10_isothermal_coefficient_nrg_20_to_120c")]
+pub fn fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_nrg_20_to_120c() -> f64 { to_si(::tampines::pebble_bed::feedback::htr10_isothermal_coefficient_nrg_20_to_120c()) }
+
     // @item fn:tampines::pebble_bed::pebble::coated_particles_per_pebble
 #[doc = "Number of coated particles in a pebble, derived from the published\nheavy-metal loading rather than quoted.\n\n`N = m_HM / (V_kernel * rho_UO2 * f_HM)`, where `V_kernel` is the sphere\nvolume of `kernel_radius`, `rho_UO2` the kernel density, and `f_HM` the\nuranium mass fraction of UO2 from\n[`uranium_dioxide_heavy_metal_fraction`]. The result is a real number, not\nrounded — a fuel specification fixes the loading, and the particle count\nthat follows need not be an integer.\n\nThis is the check that a pebble's stated particle count and its stated\nheavy-metal loading describe the same fuel element; see the unit test,\nwhich recovers the HTR-10 figure of 8335 from the published 5.0 g loading.\n\nReturns [`TampinesError::InvalidInput`] for a non-positive radius, density\nor mass, or an enrichment outside `[0, 1]`."]
 #[pyfunction(name = "coated_particles_per_pebble")]
@@ -2448,6 +2524,21 @@ pub fn fn_tampines__pebble_bed__pebble__uranium_dioxide_heavy_metal_fraction(enr
 #[doc = "The difference between two absolute temperatures, as a `uom`\n[`TemperatureInterval`] in kelvin.\n\n`uom` deliberately refuses to subtract one [`ThermodynamicTemperature`]\nfrom another with the `-` operator: absolute temperatures carry a\n`TemperatureKind` marker, so that `20 degC - 10 degC` cannot be silently\nmistaken for `10 degC` when it is really a 10 K *interval*. Every module in\nthis stack needs that interval — a conduction temperature rise, a\nmoderator temperature excursion above a reference — so the conversion is\nwritten once, here, rather than open-coded per module.\n\nReturns `hotter - colder` in kelvin; the result is negative if `colder` is\nin fact the hotter of the two."]
 #[pyfunction(name = "temperature_difference")]
 pub fn fn_tampines__pebble_bed__temperature_difference(hotter: f64, colder: f64) -> f64 { to_si(::tampines::pebble_bed::temperature_difference(from_si(hotter), from_si(colder))) }
+
+    // @item fn:tampines::pebble_bed::triso::buffer_carbon_thermal_conductivity
+#[doc = "Thermal conductivity of the **porous carbon buffer**, W/(m K), at the given\ntemperature, buffer density and fast-neutron fluence.\n\nImplements the `buffer_k` function of the Virtual Test Bed HTR-PM pebble\nmodel (`pebble_triso.i`, lines 177-181; CC-BY-4.0, Open tier), which is the\ndense-pyrocarbon expression with its leading coefficient **halved**:\n\n`k(t, rho, gam) = (244.3 / 2) t^(-0.574) * rho / (2.2 (1930 - rho) + rho) * F(gam)`\n\nThe deck applies the factor of one half only to the buffer, on top of the\nporosity factor that already accounts for the buffer's low density; it\nstates no reason and names no upstream source. It is transcribed here as\nwritten rather than \"corrected\", because the reference implementation is\nwhat this module claims to reproduce. The deck's hardcoded 970 kg/m^3 is\ngeneralised to the caller's `density` (HTR-10 uses 1.1 g/cm^3).\n\nValid range: as [`pyrocarbon_thermal_conductivity`]."]
+#[pyfunction(name = "buffer_carbon_thermal_conductivity")]
+pub fn fn_tampines__pebble_bed__triso__buffer_carbon_thermal_conductivity(temperature: f64, density: f64, fluence: f64) -> PyResult<f64> { err(::tampines::pebble_bed::triso::buffer_carbon_thermal_conductivity(from_si(temperature), from_si(density), from_si(fluence))).map(|v| to_si(v)) }
+
+    // @item fn:tampines::pebble_bed::triso::pyrocarbon_thermal_conductivity
+#[doc = "Thermal conductivity of **dense pyrolytic carbon** (the IPyC and OPyC\nlayers), W/(m K), at the given temperature, layer density and fast-neutron\nfluence.\n\nImplements the `pyc_k` function of the Virtual Test Bed HTR-PM pebble model\n(`pebble_triso.i`, lines 182-186; CC-BY-4.0, Open tier), with the hardcoded\ndeck density 1900 kg/m^3 generalised to a caller-supplied `density` so the\nHTR-10 particle's own 1.9 g/cm^3 (or any other grade) can be used:\n\n`k(t, rho, gam) = 244.3 t^(-0.574) * rho / (2.2 (1930 - rho) + rho) * F(gam)`\n\nwith `t` in kelvin, `rho` in kg/m^3, 1930 kg/m^3 the theoretical carbon\ndensity ([`THEORETICAL_CARBON_DENSITY_KG_PER_M3`]), and `F(gam)` the\nfast-fluence damage factor\n`1 - 0.336 (1 - exp(-1.005 gam)) - 0.035 gam`, which is **not**\nre-implemented here — it is called from [`tuas_boussinesq_solver`]'s\nalready-tested `nuclear_graphite_fluence_damage_factor`, which transcribes\nthe same deck expression. The middle factor is a Maxwell-type porosity\ncorrection; at the deck's own 1900 kg/m^3 it evaluates to about 0.9664.\nThe deck names no upstream literature source.\n\nValid range: temperature 300 K to 2000 K, fluence `gam` in `[0, 15]`,\ndensity strictly between 0 and 1930"]
+#[pyfunction(name = "pyrocarbon_thermal_conductivity")]
+pub fn fn_tampines__pebble_bed__triso__pyrocarbon_thermal_conductivity(temperature: f64, density: f64, fluence: f64) -> PyResult<f64> { err(::tampines::pebble_bed::triso::pyrocarbon_thermal_conductivity(from_si(temperature), from_si(density), from_si(fluence))).map(|v| to_si(v)) }
+
+    // @item fn:tampines::pebble_bed::triso::silicon_carbide_thermal_conductivity
+#[doc = "Thermal conductivity of **silicon carbide**, W/(m K), at the given\ntemperature and fast-neutron fluence.\n\nImplements the `sic_k` function of the Virtual Test Bed HTR-PM pebble model\n(`pebble_triso.i`, lines 187-191; CC-BY-4.0, Open tier):\n\n`k(t, gam) = (17885 / t + 2) exp(-0.1277 gam)`\n\nwith `t` in kelvin. SiC is by far the most conductive TRISO layer (about\n19.9 W/(m K) at 1000 K unirradiated) but also the most fluence-sensitive:\nits damage term is a bare exponential rather than the carbon layers'\nsaturating factor, so at `gam = 10` it retains only about 28% of its\nunirradiated conductivity. The deck names no upstream literature source.\n\n**Fluence range.** The exponential never goes negative, so this function\nenforces the same `[0, 15]` window as the carbon layers purely for\nconsistency across the stack — not because the correlation itself breaks\ndown there.\n\nValid range: temperature 300 K to 2000 K, fluence `gam` in `[0, 15]`;\noutside either, returns [`TampinesError::InvalidInput`]."]
+#[pyfunction(name = "silicon_carbide_thermal_conductivity")]
+pub fn fn_tampines__pebble_bed__triso__silicon_carbide_thermal_conductivity(temperature: f64, fluence: f64) -> PyResult<f64> { err(::tampines::pebble_bed::triso::silicon_carbide_thermal_conductivity(from_si(temperature), from_si(fluence))).map(|v| to_si(v)) }
 
     // @item fn:tampines::pebble_bed::triso::solid_sphere_centre_temperature_rise
 #[doc = "Centre-to-surface temperature rise of a solid sphere of radius `radius`\nand uniform conductivity `conductivity` generating total power `power`\nuniformly throughout its volume:\n\n`T(0) - T(R) = q''' R^2 / (6 k) = Q / (8 pi k R)`\n\nwith `q''' = Q / ((4/3) pi R^3)`. The two forms are algebraically\nidentical; the second is evaluated here because total power is what a\nparticle or pebble model carries.\n\nUnits: `power` in watts, `radius` in metres, `conductivity` in W/(m K);\nthe result is a `uom` `TemperatureInterval` in kelvin. No range checking —\nthis is exact algebra, valid for any positive radius and conductivity."]
@@ -2561,6 +2652,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_tampines__gas_phase__kta_bed__kta_friction_factor, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__gas_phase__pipe__churchill_friction_factor, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__gas_phase__pipe__nusselt_number, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__gas_phase__properties__helium_state_ph, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__gas_phase__properties__htr10_design_point__core_inlet_temperature, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__gas_phase__properties__htr10_design_point__core_outlet_temperature, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__gas_phase__properties__htr10_design_point__mass_flow_rate, m)?)?;
@@ -2575,12 +2667,19 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_tampines__multiphase_1d__two_fluid__as_velocity, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__multiphase_1d__two_fluid__region_4_safe_pressure, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__multiphase_1d__two_fluid__virtual_mass_coefficient, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_inet_120_to_250c, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_inet_20_to_120c, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_nrg_200_to_250c, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__feedback__htr10_isothermal_coefficient_nrg_20_to_120c, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__pebble__coated_particles_per_pebble, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__pebble__htr10_enrichment, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__pebble__htr10_heavy_metal_per_pebble, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__pebble__htr10_uranium_dioxide_density, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__pebble__uranium_dioxide_heavy_metal_fraction, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__temperature_difference, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__triso__buffer_carbon_thermal_conductivity, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__triso__pyrocarbon_thermal_conductivity, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__triso__silicon_carbide_thermal_conductivity, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__triso__solid_sphere_centre_temperature_rise, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__triso__spherical_shell_temperature_rise, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines__pebble_bed__triso__uranium_dioxide_thermal_conductivity, m)?)?;

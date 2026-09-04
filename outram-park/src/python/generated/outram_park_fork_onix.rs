@@ -151,6 +151,14 @@ impl Py_outram_park_fork_onix__DecayMode {
 pub struct Py_outram_park_fork_onix__DepletionError { pub inner: ::outram_park_fork_onix::DepletionError }
 #[pymethods]
 impl Py_outram_park_fork_onix__DepletionError {
+    // @item variant:outram_park_fork_onix::DepletionError::DuplicateNuclide
+    #[staticmethod]
+    #[pyo3(name = "DuplicateNuclide")]
+    pub fn v_DuplicateNuclide(zamid: u64) -> Self { Self { inner: ::outram_park_fork_onix::DepletionError::DuplicateNuclide { zamid: zamid } } }
+    // @item variant:outram_park_fork_onix::DepletionError::UnknownNuclide
+    #[staticmethod]
+    #[pyo3(name = "UnknownNuclide")]
+    pub fn v_UnknownNuclide(zamid: u64) -> Self { Self { inner: ::outram_park_fork_onix::DepletionError::UnknownNuclide { zamid: zamid } } }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_park_fork_onix::DepletionError::DuplicateNuclide { .. } => "DuplicateNuclide", ::outram_park_fork_onix::DepletionError::UnknownNuclide { .. } => "UnknownNuclide", ::outram_park_fork_onix::DepletionError::Cram(..) => "Cram", _ => "unknown" }
@@ -171,6 +179,9 @@ impl Py_outram_park_fork_onix__DepletionSystem {
     #[doc = "An empty system with no nuclides."]
     #[new]
     pub fn new() -> Py_outram_park_fork_onix__DepletionSystem { Py_outram_park_fork_onix__DepletionSystem { inner: ::outram_park_fork_onix::DepletionSystem::new() } }
+    // @item method:outram_park_fork_onix::DepletionSystem::add_nuclide
+    #[doc = "Register a nuclide with its decay data, reaction rates, and fission\nyields. Returns the assigned [`NuclideIndex`].\n\nOrder of registration is the order of rows/columns in the assembled\nmatrix. Registering the same nuclide (same [`Nuclide::zamid`]) twice is\nan error."]
+    pub fn add_nuclide(&mut self, nuclide: Py_outram_park_fork_onix__Nuclide, decay: Py_outram_park_fork_onix__DecayData, rates: Py_outram_park_fork_onix__ReactionRates, fission_yields: Py_outram_park_fork_onix__FissionYields) -> PyResult<usize> { err(::outram_park_fork_onix::DepletionSystem::add_nuclide(&mut self.inner, nuclide.inner, decay.inner, rates.inner, fission_yields.inner)).map(|v| v) }
     // @item method:outram_park_fork_onix::DepletionSystem::len
     #[doc = "Number of nuclides in the system (matrix dimension)."]
     pub fn len(&self) -> usize { ::outram_park_fork_onix::DepletionSystem::len(&self.inner) }
@@ -180,6 +191,9 @@ impl Py_outram_park_fork_onix__DepletionSystem {
     // @item method:outram_park_fork_onix::DepletionSystem::nuclides
     #[doc = "The nuclides in matrix order."]
     pub fn nuclides(&self) -> Vec<Py_outram_park_fork_onix__Nuclide> { ::outram_park_fork_onix::DepletionSystem::nuclides(&self.inner).clone().iter().cloned().map(|e| Py_outram_park_fork_onix__Nuclide { inner: e }).collect::<Vec<_>>() }
+    // @item method:outram_park_fork_onix::DepletionSystem::index_of
+    #[doc = "The index of a nuclide, or `None` if it is not tracked."]
+    pub fn index_of(&self, nuclide: Py_outram_park_fork_onix__Nuclide) -> Option<usize> { ::outram_park_fork_onix::DepletionSystem::index_of(&self.inner, nuclide.inner).map(|e| e) }
     // @item method:outram_park_fork_onix::DepletionSystem::set_reaction_rates
     #[doc = "Replace the reaction rates of one nuclide (for a new burnup step).\n\n`nuclide` must already be registered. Decay data and fission yields are\nuntouched. This is how a multi-step burnup with a changing flux is\nmodelled — update rates, then re-assemble and re-deplete."]
     pub fn set_reaction_rates(&mut self, nuclide: Py_outram_park_fork_onix__Nuclide, rates: Py_outram_park_fork_onix__ReactionRates) -> PyResult<()> { err(::outram_park_fork_onix::DepletionSystem::set_reaction_rates(&mut self.inner, nuclide.inner, rates.inner)).map(|v| v) }
@@ -261,6 +275,13 @@ impl Py_outram_park_fork_onix__Nuclide {
     #[doc = "Construct a nuclide from `Z`, `A`, and metastable index `m`.\n\nNo physical validation is performed here (callers building chains from\ntrusted data libraries would only ever pass valid `a >= z`); use\n[`Nuclide::is_physical`] if you need a sanity gate."]
     #[new]
     pub fn new(z: u32, a: u32, m: u8) -> Py_outram_park_fork_onix__Nuclide { Py_outram_park_fork_onix__Nuclide { inner: ::outram_park_fork_onix::Nuclide::new(z, a, m) } }
+    // @item method:outram_park_fork_onix::Nuclide::zamid
+    #[doc = "The ONIX packed id `10000*Z + 10*A + m` (dimensionless).\n\nPorted from `onix/utils/functions.py:322` (`name_to_zamid`). This is the\nhash key used to look nuclides up in a depletion system's index map."]
+    pub fn zamid(&self) -> u64 { ::outram_park_fork_onix::Nuclide::zamid(&self.inner) }
+    // @item method:outram_park_fork_onix::Nuclide::from_zamid
+    #[doc = "Reconstruct a nuclide from its ONIX packed id.\n\nInverse of [`Nuclide::zamid`]; mirrors the digit-slicing in ONIX's\n`zamid_to_name` (`onix/utils/functions.py:280`). The last digit is `m`,\nthe preceding three are `A`, the remainder is `Z`."]
+    #[staticmethod]
+    pub fn from_zamid(zamid: u64) -> Py_outram_park_fork_onix__Nuclide { Py_outram_park_fork_onix__Nuclide { inner: ::outram_park_fork_onix::Nuclide::from_zamid(zamid) } }
     // @item method:outram_park_fork_onix::Nuclide::neutron_number
     #[doc = "Neutron number `N = A - Z` (dimensionless count).\n\nReturns `None` if `a < z` (an unphysical nuclide)."]
     pub fn neutron_number(&self) -> Option<u32> { ::outram_park_fork_onix::Nuclide::neutron_number(&self.inner).map(|e| e) }

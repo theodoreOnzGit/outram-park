@@ -1382,6 +1382,10 @@ impl Py_outram_park_fork_pflotran__grid__BoundaryLocation {
 pub struct Py_outram_park_fork_pflotran__grid__CartesianGrid { pub inner: ::outram_park_fork_pflotran::grid::CartesianGrid }
 #[pymethods]
 impl Py_outram_park_fork_pflotran__grid__CartesianGrid {
+    // @item method:outram_park_fork_pflotran::grid::CartesianGrid::uniform
+    #[doc = "Build a uniform grid from per-axis cell counts and uniform spacings\n(metres).\n\n- `nx`, `ny`, `nz`: number of cells along each axis; each must be `>= 1`.\n- `dx`, `dy`, `dz`: uniform cell width on each axis; each must be a\n  strictly positive length.\n\n# Errors\n\nReturns [`PflotranError::InvalidInput`] if any cell count is zero or any\nspacing is non-positive (`<= 0`) or non-finite."]
+    #[staticmethod]
+    pub fn uniform(nx: usize, ny: usize, nz: usize, dx: f64, dy: f64, dz: f64) -> PyResult<Py_outram_park_fork_pflotran__grid__CartesianGrid> { err(::outram_park_fork_pflotran::grid::CartesianGrid::uniform(nx, ny, nz, from_si(dx), from_si(dy), from_si(dz))).map(|v| Py_outram_park_fork_pflotran__grid__CartesianGrid { inner: v }) }
     // @item method:outram_park_fork_pflotran::grid::CartesianGrid::rectilinear
     #[doc = "Build a rectilinear grid from per-axis spacing arrays (metres).\n\nThe length of each vector is the number of cells on that axis, so\n`dx.len() == nx`, `dy.len() == ny`, `dz.len() == nz`. Entry `dx[i]` is the\nwidth (m) of column `i`, and likewise for `dy`/`dz`.\n\n# Errors\n\nReturns [`PflotranError::InvalidInput`] if any array is empty (a zero\ndimension) or any spacing entry is non-positive (`<= 0`) or non-finite."]
     #[staticmethod]
@@ -2187,6 +2191,18 @@ impl Py_outram_park_fork_pflotran__properties__BrooksCorey {
 pub struct Py_outram_park_fork_pflotran__properties__CharacteristicCurves { pub inner: ::outram_park_fork_pflotran::properties::CharacteristicCurves }
 #[pymethods]
 impl Py_outram_park_fork_pflotran__properties__CharacteristicCurves {
+    // @item method:outram_park_fork_pflotran::properties::CharacteristicCurves::effective_saturation
+    #[doc = "Effective saturation `S_e(p_c)` in `[0, 1]`.\n\nFor `p_c <= 0` (saturated) returns `S_e = 1`. The result is clamped to\n`[0, 1]`. Input `p_c` and the return are `uom`-typed."]
+    pub fn effective_saturation(&self, pc: f64) -> f64 { to_si(::outram_park_fork_pflotran::properties::CharacteristicCurves::effective_saturation(&self.inner, from_si(pc))) }
+    // @item method:outram_park_fork_pflotran::properties::CharacteristicCurves::d_se_d_pc
+    #[doc = "Derivative `dS_e/dp_c`, in 1/Pa (always `<= 0`; `0` in the saturated\nzone `p_c <= 0`). Returned as a plain `f64` (a per-pascal rate)."]
+    pub fn d_se_d_pc(&self, pc: f64) -> f64 { ::outram_park_fork_pflotran::properties::CharacteristicCurves::d_se_d_pc(&self.inner, from_si(pc)) }
+    // @item method:outram_park_fork_pflotran::properties::CharacteristicCurves::relative_permeability
+    #[doc = "Liquid relative permeability `k_r(S_e)` in `[0, 1]`.\n\nThe input effective saturation is clamped to `[0, 1]` and the output to\n`[0, 1]`. `k_r(1) = 1`, `k_r(0) = 0`. Input and return are `uom`-typed."]
+    pub fn relative_permeability(&self, se: f64) -> f64 { to_si(::outram_park_fork_pflotran::properties::CharacteristicCurves::relative_permeability(&self.inner, from_si(se))) }
+    // @item method:outram_park_fork_pflotran::properties::CharacteristicCurves::d_kr_d_se
+    #[doc = "Derivative `dk_r/dS_e` (dimensionless), as a plain `f64`.\n\nThe input effective saturation is clamped to `[0, 1]`. Note the van\nGenuchten–Mualem form has an **infinite** slope as `S_e -> 1` (a known\nproperty of that model); see [`VanGenuchten`] for how the endpoints are\nhandled without producing `NaN`."]
+    pub fn d_kr_d_se(&self, se: f64) -> f64 { ::outram_park_fork_pflotran::properties::CharacteristicCurves::d_kr_d_se(&self.inner, from_si(se)) }
     // @item method:outram_park_fork_pflotran::properties::CharacteristicCurves::residual_saturation
     #[doc = "Residual liquid saturation `S_r` in `[0, 1)`."]
     pub fn residual_saturation(&self) -> f64 { ::outram_park_fork_pflotran::properties::CharacteristicCurves::residual_saturation(&self.inner) }
@@ -2303,6 +2319,12 @@ impl Py_outram_park_fork_pflotran__properties__LiquidWaterEos {
     #[doc = "Construct a validated liquid EOS from raw SI-unit parameters.\n\n# Parameters (SI units)\n\n- `reference_density` — kg/m^3, must be finite and strictly positive.\n- `reference_pressure` — Pa, must be finite.\n- `compressibility` — 1/Pa, must be finite and non-negative.\n- `viscosity` — Pa·s, must be finite and strictly positive.\n\n# Errors\n\nReturns [`PflotranError::InvalidInput`] if any parameter is non-finite or\noutside the ranges above."]
     #[new]
     pub fn new(reference_density: f64, reference_pressure: f64, compressibility: f64, viscosity: f64) -> PyResult<Py_outram_park_fork_pflotran__properties__LiquidWaterEos> { err(::outram_park_fork_pflotran::properties::LiquidWaterEos::new(reference_density, reference_pressure, compressibility, viscosity)).map(|v| Py_outram_park_fork_pflotran__properties__LiquidWaterEos { inner: v }) }
+    // @item method:outram_park_fork_pflotran::properties::LiquidWaterEos::density
+    #[doc = "Liquid density `rho(p)` at fluid pressure `p`.\n\nUses the exact exponential form\n`rho = reference_density * exp(compressibility * (p - reference_pressure))`.\nStrictly positive and monotonically increasing in `p` for\n`compressibility >= 0`. Returns a [`FluidDensity`] (kg/m^3)."]
+    pub fn density(&self, p: f64) -> f64 { to_si(::outram_park_fork_pflotran::properties::LiquidWaterEos::density(&self.inner, from_si(p))) }
+    // @item method:outram_park_fork_pflotran::properties::LiquidWaterEos::d_density_d_pressure
+    #[doc = "Pressure derivative `d(rho)/dp` at fluid pressure `p`.\n\nEquals `compressibility * rho(p)`, in kg/m^3 per Pa. Non-negative for\n`compressibility >= 0`. Returned as a plain `f64` (the derivative is a\nmixed-unit quantity that has no convenient `uom` alias here)."]
+    pub fn d_density_d_pressure(&self, p: f64) -> f64 { ::outram_park_fork_pflotran::properties::LiquidWaterEos::d_density_d_pressure(&self.inner, from_si(p)) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -2396,6 +2418,15 @@ impl Py_outram_park_fork_pflotran__properties__ThermalWaterProperties {
     #[doc = "Construct validated temperature-dependent water properties from raw SI\nparameters.\n\n# Parameters (SI units)\n\n- `reference_density` — kg/m^3, finite and strictly positive.\n- `reference_pressure` — Pa, finite.\n- `reference_temperature` — K, finite and strictly positive (absolute).\n- `compressibility` — 1/Pa, finite and non-negative.\n- `thermal_expansion` — 1/K, finite and non-negative.\n- `reference_viscosity` — Pa·s, finite and strictly positive.\n- `specific_heat` — J/(kg·K), finite and strictly positive.\n- `thermal_conductivity` — W/(m·K), finite and strictly positive.\n\n# Errors\n\nReturns [`PflotranError::InvalidInput`] if any parameter is non-finite or\noutside the ranges above."]
     #[new]
     pub fn new(reference_density: f64, reference_pressure: f64, reference_temperature: f64, compressibility: f64, thermal_expansion: f64, reference_viscosity: f64, specific_heat: f64, thermal_conductivity: f64) -> PyResult<Py_outram_park_fork_pflotran__properties__ThermalWaterProperties> { err(::outram_park_fork_pflotran::properties::ThermalWaterProperties::new(reference_density, reference_pressure, reference_temperature, compressibility, thermal_expansion, reference_viscosity, specific_heat, thermal_conductivity)).map(|v| Py_outram_park_fork_pflotran__properties__ThermalWaterProperties { inner: v }) }
+    // @item method:outram_park_fork_pflotran::properties::ThermalWaterProperties::density
+    #[doc = "Liquid density `rho(p, T)` at fluid pressure `p` and temperature `T`.\n\nUses the exact exponential form\n`rho = reference_density * exp(compressibility * (p - reference_pressure)\n- thermal_expansion * (T - reference_temperature))`. Strictly positive;\nincreasing in `p` and decreasing in `T` (for non-negative `c`, `beta`).\nReturns a [`FluidDensity`] (kg/m^3)."]
+    pub fn density(&self, p: f64, t: f64) -> f64 { to_si(::outram_park_fork_pflotran::properties::ThermalWaterProperties::density(&self.inner, from_si(p), from_si(t))) }
+    // @item method:outram_park_fork_pflotran::properties::ThermalWaterProperties::d_density_d_temperature
+    #[doc = "Temperature derivative `d(rho)/dT` at `(p, T)`.\n\nExact analytic derivative of [`density`](Self::density):\n`d(rho)/dT = -thermal_expansion * rho(p, T)`, in kg/m^3 per K.\nNon-positive for `beta >= 0`. Returned as a plain `f64` (mixed-unit\nquantity with no convenient `uom` alias here)."]
+    pub fn d_density_d_temperature(&self, p: f64, t: f64) -> f64 { ::outram_park_fork_pflotran::properties::ThermalWaterProperties::d_density_d_temperature(&self.inner, from_si(p), from_si(t)) }
+    // @item method:outram_park_fork_pflotran::properties::ThermalWaterProperties::viscosity
+    #[doc = "Temperature-dependent dynamic viscosity `mu(T)`.\n\nAndrade / Arrhenius correlation\n`mu = reference_viscosity * exp(B * (1/T - 1/reference_temperature))`\nwith `B` = [`VISCOSITY_ANDRADE_B_KELVIN`] (~1800 K). Monotonically\ndecreasing in `T`, equal to `reference_viscosity` at `reference_temperature`,\nand strictly positive. `T` must be a positive absolute temperature.\nReturns a [`FluidViscosity`] (Pa·s)."]
+    pub fn viscosity(&self, t: f64) -> f64 { to_si(::outram_park_fork_pflotran::properties::ThermalWaterProperties::viscosity(&self.inner, from_si(t))) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }

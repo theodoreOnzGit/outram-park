@@ -991,6 +991,9 @@ impl Py_njoy_outram_park_fork__covr__CorrelationMatrix {
     // @item method:njoy_outram_park_fork::covr::CorrelationMatrix::n
     #[doc = "Number of energy groups (matrix dimension `n`)."]
     pub fn n(&self) -> usize { ::njoy_outram_park_fork::covr::CorrelationMatrix::n(&self.inner) }
+    // @item method:njoy_outram_park_fork::covr::CorrelationMatrix::get
+    #[doc = "Element `(i, j)` (0-based). Panics if out of range."]
+    pub fn get(&self, i: usize, j: usize) -> f64 { ::njoy_outram_park_fork::covr::CorrelationMatrix::get(&self.inner, i, j) }
     // @item method:njoy_outram_park_fork::covr::CorrelationMatrix::clamped
     #[doc = "A copy with every coefficient clamped to `[-1, 1]`, reproducing the\nplot-stage clamp `if (cof.gt.1) cof=1; if (cof.lt.-1) cof=-1`\n(`covr.f90:1371-1372`). For a consistent covariance this is a no-op."]
     pub fn clamped(&self) -> Py_njoy_outram_park_fork__covr__CorrelationMatrix { Py_njoy_outram_park_fork__covr__CorrelationMatrix { inner: ::njoy_outram_park_fork::covr::CorrelationMatrix::clamped(&self.inner) } }
@@ -1073,9 +1076,22 @@ impl Py_njoy_outram_park_fork__covr__CovarianceMatrix {
     // @item method:njoy_outram_park_fork::covr::CovarianceMatrix::to_boxer
     #[doc = "Compress this (symmetric) covariance matrix to BOXER form\n(`itype = 3`). Convenience wrapper over [`compress`] with\n[`BoxerShape::SymmetricUpperTriangle`].\n\n# Errors\nPropagates [`compress`]."]
     pub fn to_boxer(&self, nvf: i32, ncf: i32) -> PyResult<Py_njoy_outram_park_fork__covr__BoxerData> { err(::njoy_outram_park_fork::covr::CovarianceMatrix::to_boxer(&self.inner, nvf, ncf)).map(|v| Py_njoy_outram_park_fork__covr__BoxerData { inner: v }) }
+    // @item method:njoy_outram_park_fork::covr::CovarianceMatrix::from_row_major
+    #[doc = "Build from a row-major `n*n` buffer.\n\n# Errors\n[`NjoyError::EndfParse`] when `data.len() != n*n`."]
+    #[staticmethod]
+    pub fn from_row_major(n: usize, data: Vec<f64>) -> PyResult<Py_njoy_outram_park_fork__covr__CovarianceMatrix> { err(::njoy_outram_park_fork::covr::CovarianceMatrix::from_row_major(n, data.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| Py_njoy_outram_park_fork__covr__CovarianceMatrix { inner: v }) }
     // @item method:njoy_outram_park_fork::covr::CovarianceMatrix::n
     #[doc = "Number of energy groups (matrix dimension `n`, upstream `ixmax`)."]
     pub fn n(&self) -> usize { ::njoy_outram_park_fork::covr::CovarianceMatrix::n(&self.inner) }
+    // @item method:njoy_outram_park_fork::covr::CovarianceMatrix::get
+    #[doc = "Element `(i, j)` (0-based). Panics if out of range — callers hold `n`."]
+    pub fn get(&self, i: usize, j: usize) -> f64 { ::njoy_outram_park_fork::covr::CovarianceMatrix::get(&self.inner, i, j) }
+    // @item method:njoy_outram_park_fork::covr::CovarianceMatrix::diagonal
+    #[doc = "The diagonal `cov(i,i)` for `i in 0..n` (the group variances)."]
+    pub fn diagonal(&self) -> Vec<f64> { ::njoy_outram_park_fork::covr::CovarianceMatrix::diagonal(&self.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
+    // @item method:njoy_outram_park_fork::covr::CovarianceMatrix::relative_std_dev
+    #[doc = "Per-group relative standard deviations `rsd(i) = sqrt(cov(i,i))`\n(`covr.f90:636-641`).\n\nA non-positive diagonal element yields `0.0`, exactly as upstream\n(`if (cf(i,i).gt.0) ... else rsd=0`, `covr.f90:636-640`). Dimensionless."]
+    pub fn relative_std_dev(&self) -> Vec<f64> { ::njoy_outram_park_fork::covr::CovarianceMatrix::relative_std_dev(&self.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
     // @item method:njoy_outram_park_fork::covr::CovarianceMatrix::is_null
     #[doc = "True when every element is exactly zero (`izero == 0`, `covr.f90:930`).\nCOVR suppresses output/plots for a null covariance matrix."]
     pub fn is_null(&self) -> bool { ::njoy_outram_park_fork::covr::CovarianceMatrix::is_null(&self.inner) }
@@ -1103,6 +1119,14 @@ impl Py_njoy_outram_park_fork__covr__CovarianceRowBlock {
     pub fn get_first_col(&self) -> usize { let v = self.inner.first_col.clone(); v }
     #[setter(first_col)]
     pub fn set_first_col(&mut self, v: usize) { self.inner.first_col = v; }
+    // @item field:njoy_outram_park_fork::covr::CovarianceRowBlock::values
+    #[getter(values)]
+    pub fn get_values(&self) -> Vec<f64> { let v = self.inner.values.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
+    #[setter(values)]
+    pub fn set_values(&mut self, v: Vec<f64>) { self.inner.values = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item ctor:njoy_outram_park_fork::covr::CovarianceRowBlock
+    #[new]
+    pub fn __new__(row: usize, first_col: usize, values: Vec<f64>) -> Self { Self { inner: ::njoy_outram_park_fork::covr::CovarianceRowBlock { row: row, first_col: first_col, values: values.into_iter().map(|e| e).collect::<Vec<_>>() } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -1190,6 +1214,21 @@ impl Py_njoy_outram_park_fork__covr__ErrorrCovarianceSection {
     pub fn get_ixmax(&self) -> usize { let v = self.inner.ixmax.clone(); v }
     #[setter(ixmax)]
     pub fn set_ixmax(&mut self, v: usize) { self.inner.ixmax = v; }
+    // @item field:njoy_outram_park_fork::covr::ErrorrCovarianceSection::xx
+    #[getter(xx)]
+    pub fn get_xx(&self) -> Vec<f64> { let v = self.inner.xx.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
+    #[setter(xx)]
+    pub fn set_xx(&mut self, v: Vec<f64>) { self.inner.xx = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item field:njoy_outram_park_fork::covr::ErrorrCovarianceSection::xy
+    #[getter(xy)]
+    pub fn get_xy(&self) -> Vec<f64> { let v = self.inner.xy.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
+    #[setter(xy)]
+    pub fn set_xy(&mut self, v: Vec<f64>) { self.inner.xy = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item field:njoy_outram_park_fork::covr::ErrorrCovarianceSection::group_boundaries
+    #[getter(group_boundaries)]
+    pub fn get_group_boundaries(&self) -> Vec<f64> { let v = self.inner.group_boundaries.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
+    #[setter(group_boundaries)]
+    pub fn set_group_boundaries(&mut self, v: Vec<f64>) { self.inner.group_boundaries = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
     // @item field:njoy_outram_park_fork::covr::ErrorrCovarianceSection::blocks
     #[getter(blocks)]
     pub fn get_blocks(&self) -> Vec<Py_njoy_outram_park_fork__covr__CovarianceRowBlock> { let v = self.inner.blocks.clone(); v.into_iter().map(|e| Py_njoy_outram_park_fork__covr__CovarianceRowBlock { inner: e }).collect::<Vec<_>>() }
@@ -1198,6 +1237,9 @@ impl Py_njoy_outram_park_fork__covr__ErrorrCovarianceSection {
     // @item method:njoy_outram_park_fork::covr::ErrorrCovarianceSection::to_dense
     #[doc = "Run `covard` on this subsection: scatter the sparse row-blocks into a\nfull dense matrix, zero out spurious covariances where a cross section\nis zero, and (for [`CovarianceForm::Absolute`]) divide by the cross\nsections to produce relative covariances (`covr.f90:815-935`).\n\n`form` is the `irelco` flag: [`CovarianceForm::Relative`] (`irelco==1`)\nleaves the data as read; [`CovarianceForm::Absolute`] (`irelco==0`)\napplies `cf(k,n) /= xx(k)*xy(n)` (`covr.f90:929`).\n\nElement `(k, n)` (1-based groups) is zeroed when `xx(k)*xy(n) == 0`,\nregardless of `form` (`covr.f90:915-926`), since a covariance in a region\nof zero cross section is spurious.\n\n# Errors\nPropagates [`Self::validate`]."]
     pub fn to_dense(&self, form: Py_njoy_outram_park_fork__covr__CovarianceForm) -> PyResult<Py_njoy_outram_park_fork__covr__CovardResult> { err(::njoy_outram_park_fork::covr::ErrorrCovarianceSection::to_dense(&self.inner, form.inner)).map(|v| Py_njoy_outram_park_fork__covr__CovardResult { inner: v }) }
+    // @item ctor:njoy_outram_park_fork::covr::ErrorrCovarianceSection
+    #[new]
+    pub fn __new__(ixmax: usize, xx: Vec<f64>, xy: Vec<f64>, group_boundaries: Vec<f64>, blocks: Vec<Py_njoy_outram_park_fork__covr__CovarianceRowBlock>) -> Self { Self { inner: ::njoy_outram_park_fork::covr::ErrorrCovarianceSection { ixmax: ixmax, xx: xx.into_iter().map(|e| e).collect::<Vec<_>>(), xy: xy.into_iter().map(|e| e).collect::<Vec<_>>(), group_boundaries: group_boundaries.into_iter().map(|e| e).collect::<Vec<_>>(), blocks: blocks.into_iter().map(|e| e.inner).collect::<Vec<_>>() } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -4288,6 +4330,26 @@ impl Py_njoy_outram_park_fork__groupr__GrouprInput {
     pub fn get_title(&self) -> String { let v = self.inner.title.clone(); v }
     #[setter(title)]
     pub fn set_title(&mut self, v: String) { self.inner.title = v; }
+    // @item field:njoy_outram_park_fork::groupr::GrouprInput::temperatures
+    #[getter(temperatures)]
+    pub fn get_temperatures(&self) -> Vec<f64> { let v = self.inner.temperatures.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
+    #[setter(temperatures)]
+    pub fn set_temperatures(&mut self, v: Vec<f64>) { self.inner.temperatures = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item field:njoy_outram_park_fork::groupr::GrouprInput::sigma_zeros
+    #[getter(sigma_zeros)]
+    pub fn get_sigma_zeros(&self) -> Vec<f64> { let v = self.inner.sigma_zeros.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
+    #[setter(sigma_zeros)]
+    pub fn set_sigma_zeros(&mut self, v: Vec<f64>) { self.inner.sigma_zeros = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item field:njoy_outram_park_fork::groupr::GrouprInput::neutron_grid
+    #[getter(neutron_grid)]
+    pub fn get_neutron_grid(&self) -> Option<Vec<f64>> { let v = self.inner.neutron_grid.clone(); v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()) }
+    #[setter(neutron_grid)]
+    pub fn set_neutron_grid(&mut self, v: Option<Vec<f64>>) { self.inner.neutron_grid = v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()); }
+    // @item field:njoy_outram_park_fork::groupr::GrouprInput::photon_grid
+    #[getter(photon_grid)]
+    pub fn get_photon_grid(&self) -> Option<Vec<f64>> { let v = self.inner.photon_grid.clone(); v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()) }
+    #[setter(photon_grid)]
+    pub fn set_photon_grid(&mut self, v: Option<Vec<f64>>) { self.inner.photon_grid = v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()); }
     // @item field:njoy_outram_park_fork::groupr::GrouprInput::thermal_fission_params
     #[getter(thermal_fission_params)]
     pub fn get_thermal_fission_params(&self) -> Option<Py_njoy_outram_park_fork__groupr__ThermalFissionParams> { let v = self.inner.thermal_fission_params.clone(); v.map(|e| Py_njoy_outram_park_fork__groupr__ThermalFissionParams { inner: e }) }
@@ -4313,9 +4375,30 @@ impl Py_njoy_outram_park_fork__groupr__GrouprInput {
     #[doc = "Parse a GROUPR free-format input deck (numeric cards + reaction list).\n\n# Scope and simplifications\n\nNJOY's reader is a token stream that ignores line breaks; real decks,\nhowever, place one card per line. This parser therefore reads\n**one card per line** in the card order of `groupr.f90:126-215`:\n\n- card 1 (4 units), card 2 (up to 9 selectors, trailing ones defaulted),\n  card 3 (title line, surrounding quotes and a trailing `/` stripped),\n  card 4 (`ntemp` temperatures), card 5 (`nsigz` sigma-zeros);\n- card 6 (`ngn` then boundaries) iff `ign == 1`;\n- card 7 (`ngg` then boundaries) iff `igg == 1`;\n- card 8c (`eb tb ec tc`) iff `|iwt| == 4`;\n- card 9 reaction lines (`mfd mtd 'name'`) until `mfd == 0`;\n- card 10 next material (optional).\n\n**Not handled** (returns [`NjoyError::NotPorted`]): the flux-calculator\ncard 8a (`iwt < 0`), the TAB1 weight card 8b (`iwt == 1`), the\nresonance-flux card 8d (`iwt == 0`), and the card-9a extended residual\nformat (`mfd == -1`). These need the flux/TAB1 machinery that is not\nported. Blank lines and `//`-prefixed comment lines are skipped.\n\nCard 2 selectors are validated: an illegal `ign`, `igg`, `iwt`,\n`iprint`, or `ismooth` yields the same rejection "]
     #[staticmethod]
     pub fn parse(input: String) -> PyResult<Py_njoy_outram_park_fork__groupr__GrouprInput> { err(::njoy_outram_park_fork::groupr::GrouprInput::parse(&input)).map(|v| Py_njoy_outram_park_fork__groupr__GrouprInput { inner: v }) }
-    // @item defaultctor:njoy_outram_park_fork::groupr::GrouprInput
+    // @item ctor:njoy_outram_park_fork::groupr::GrouprInput
     #[new]
-    pub fn __new__() -> Self { Self { inner: Default::default() } }
+    #[pyo3(signature = (units=None, matb=None, neutron_groups=None, photon_groups=None, weight=None, lord=None, iprint=None, ismooth=None, title=None, temperatures=None, sigma_zeros=None, neutron_grid=None, photon_grid=None, thermal_fission_params=None, reactions=None, next_material=None))]
+    pub fn __new__(units: Option<Py_njoy_outram_park_fork__groupr__UnitAssignments>, matb: Option<i32>, neutron_groups: Option<Py_njoy_outram_park_fork__groupr__NeutronGroupStructure>, photon_groups: Option<Py_njoy_outram_park_fork__groupr__PhotonGroupStructure>, weight: Option<Py_njoy_outram_park_fork__groupr__WeightSelection>, lord: Option<i32>, iprint: Option<Py_njoy_outram_park_fork__groupr__PrintOption>, ismooth: Option<Py_njoy_outram_park_fork__groupr__SmoothingOption>, title: Option<String>, temperatures: Option<Vec<f64>>, sigma_zeros: Option<Vec<f64>>, neutron_grid: Option<Vec<f64>>, photon_grid: Option<Vec<f64>>, thermal_fission_params: Option<Py_njoy_outram_park_fork__groupr__ThermalFissionParams>, reactions: Option<Vec<Py_njoy_outram_park_fork__groupr__ReactionRequest>>, next_material: Option<i32>) -> Self {
+        let d = <::njoy_outram_park_fork::groupr::GrouprInput as Default>::default();
+        Self { inner: ::njoy_outram_park_fork::groupr::GrouprInput {
+            units: units.map(|v| v.inner).unwrap_or(d.units),
+            matb: matb.map(|v| v).unwrap_or(d.matb),
+            neutron_groups: neutron_groups.map(|v| v.inner).unwrap_or(d.neutron_groups),
+            photon_groups: photon_groups.map(|v| v.inner).unwrap_or(d.photon_groups),
+            weight: weight.map(|v| v.inner).unwrap_or(d.weight),
+            lord: lord.map(|v| v).unwrap_or(d.lord),
+            iprint: iprint.map(|v| v.inner).unwrap_or(d.iprint),
+            ismooth: ismooth.map(|v| v.inner).unwrap_or(d.ismooth),
+            title: title.map(|v| v).unwrap_or(d.title),
+            temperatures: temperatures.map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()).unwrap_or(d.temperatures),
+            sigma_zeros: sigma_zeros.map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()).unwrap_or(d.sigma_zeros),
+            neutron_grid: { let v = neutron_grid.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()); if v.is_some() { v } else { d.neutron_grid } },
+            photon_grid: { let v = photon_grid.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()); if v.is_some() { v } else { d.photon_grid } },
+            thermal_fission_params: { let v = thermal_fission_params.map(|e| e.inner); if v.is_some() { v } else { d.thermal_fission_params } },
+            reactions: reactions.map(|v| v.into_iter().map(|e| e.inner).collect::<Vec<_>>()).unwrap_or(d.reactions),
+            next_material: { let v = next_material.map(|e| e); if v.is_some() { v } else { d.next_material } },
+        } }
+    }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
     #[staticmethod]
@@ -5757,6 +5840,11 @@ impl Py_njoy_outram_park_fork__interface__ContinuousEnergyData {
     pub fn get_awr(&self) -> f64 { let v = self.inner.awr.clone(); v }
     #[setter(awr)]
     pub fn set_awr(&mut self, v: f64) { self.inner.awr = v; }
+    // @item field:njoy_outram_park_fork::interface::ContinuousEnergyData::temperature
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> f64 { let v = self.inner.temperature.clone(); to_si(v) }
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: f64) { self.inner.temperature = from_si(v); }
     // @item field:njoy_outram_park_fork::interface::ContinuousEnergyData::reactions
     #[getter(reactions)]
     pub fn get_reactions(&self) -> Vec<Py_njoy_outram_park_fork__interface__ReactionCrossSection> { let v = self.inner.reactions.clone(); v.into_iter().map(|e| Py_njoy_outram_park_fork__interface__ReactionCrossSection { inner: e }).collect::<Vec<_>>() }
@@ -5765,6 +5853,9 @@ impl Py_njoy_outram_park_fork__interface__ContinuousEnergyData {
     // @item method:njoy_outram_park_fork::interface::ContinuousEnergyData::reaction
     #[doc = "Find the cross section table for ENDF reaction `mt`.\n\nReturns `None` if the reaction is absent (e.g. MT=18 for a non-fissile nuclide)."]
     pub fn reaction(&self, mt: Py_njoy_outram_park_fork__MtReaction) -> Option<Py_njoy_outram_park_fork__interface__ReactionCrossSection> { ::njoy_outram_park_fork::interface::ContinuousEnergyData::reaction(&self.inner, mt.inner).map(|e| Py_njoy_outram_park_fork__interface__ReactionCrossSection { inner: e.clone() }) }
+    // @item ctor:njoy_outram_park_fork::interface::ContinuousEnergyData
+    #[new]
+    pub fn __new__(za: f64, awr: f64, temperature: f64, reactions: Vec<Py_njoy_outram_park_fork__interface__ReactionCrossSection>) -> Self { Self { inner: ::njoy_outram_park_fork::interface::ContinuousEnergyData { za: za, awr: awr, temperature: from_si(temperature), reactions: reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>() } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -5774,6 +5865,24 @@ impl Py_njoy_outram_park_fork__interface__ContinuousEnergyData {
 pub struct Py_njoy_outram_park_fork__interface__NuclearDataLibrary { pub inner: ::njoy_outram_park_fork::interface::NuclearDataLibrary }
 #[pymethods]
 impl Py_njoy_outram_park_fork__interface__NuclearDataLibrary {
+    // @item method:njoy_outram_park_fork::interface::NuclearDataLibrary::total_xs
+    #[doc = "Total cross section \\[barns\\] at incident neutron energy `e` (MT=1).\n\nReturns zero if RECONR has not been run or the energy is out of range."]
+    pub fn total_xs(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::interface::NuclearDataLibrary::total_xs(&self.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::interface::NuclearDataLibrary::elastic_xs
+    #[doc = "Elastic scattering cross section \\[barns\\] at energy `e` (MT=2)."]
+    pub fn elastic_xs(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::interface::NuclearDataLibrary::elastic_xs(&self.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::interface::NuclearDataLibrary::fission_xs
+    #[doc = "Fission cross section \\[barns\\] at energy `e` (MT=18).\n\nReturns zero for non-fissile materials."]
+    pub fn fission_xs(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::interface::NuclearDataLibrary::fission_xs(&self.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::interface::NuclearDataLibrary::capture_xs
+    #[doc = "Radiative capture cross section \\[barns\\] at energy `e` (MT=102)."]
+    pub fn capture_xs(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::interface::NuclearDataLibrary::capture_xs(&self.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::interface::NuclearDataLibrary::xs_for_reaction
+    #[doc = "Cross section \\[barns\\] for a named ENDF reaction at energy `e`.\n\n```\n# use njoy_outram_park_fork::{interface::NuclearDataLibrary, MtReaction};\n# use uom::si::energy::electronvolt;\n# let lib = NuclearDataLibrary::from_file(\n#     \"../../reference-data/endf/n-018_Ar_37-tendl2023.endf\", 1828\n# ).unwrap().reconstruct(0.001).unwrap();\nlet e = uom::si::f64::Energy::new::<electronvolt>(1540.0);\nlet xs = lib.xs_for_reaction(MtReaction::Mt2Elastic, e);\n```"]
+    pub fn xs_for_reaction(&self, mt: Py_njoy_outram_park_fork__MtReaction, e: f64) -> f64 { to_si(::njoy_outram_park_fork::interface::NuclearDataLibrary::xs_for_reaction(&self.inner, mt.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::interface::NuclearDataLibrary::temperature
+    #[doc = "Processing temperature \\[K\\] set by [`broaden`][Self::broaden]."]
+    pub fn temperature(&self) -> f64 { to_si(::njoy_outram_park_fork::interface::NuclearDataLibrary::temperature(&self.inner)) }
     // @item method:njoy_outram_park_fork::interface::NuclearDataLibrary::mat
     #[doc = "Material number (MAT)."]
     pub fn mat(&self) -> i32 { ::njoy_outram_park_fork::interface::NuclearDataLibrary::mat(&self.inner) }
@@ -5801,6 +5910,17 @@ impl Py_njoy_outram_park_fork__interface__ReactionCrossSection {
     pub fn get_mt(&self) -> Py_njoy_outram_park_fork__MtReaction { let v = self.inner.mt.clone(); Py_njoy_outram_park_fork__MtReaction { inner: v } }
     #[setter(mt)]
     pub fn set_mt(&mut self, v: Py_njoy_outram_park_fork__MtReaction) { self.inner.mt = v.inner; }
+    // @item field:njoy_outram_park_fork::interface::ReactionCrossSection::data
+    #[getter(data)]
+    pub fn get_data(&self) -> Vec<(f64, f64)> { let v = self.inner.data.clone(); v.into_iter().map(|e| { let (e0, e1) = e; (to_si(e0), to_si(e1)) }).collect::<Vec<_>>() }
+    #[setter(data)]
+    pub fn set_data(&mut self, v: Vec<(f64, f64)>) { self.inner.data = v.into_iter().map(|e| { let (e0, e1) = e; (from_si(e0), from_si(e1)) }).collect::<Vec<_>>(); }
+    // @item method:njoy_outram_park_fork::interface::ReactionCrossSection::at
+    #[doc = "Evaluate σ at energy `e` by linear interpolation \\[barns\\].\n\nReturns the cross section at the boundary if `e` is outside the\ntabulated range."]
+    pub fn at(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::interface::ReactionCrossSection::at(&self.inner, from_si(e))) }
+    // @item ctor:njoy_outram_park_fork::interface::ReactionCrossSection
+    #[new]
+    pub fn __new__(mt: Py_njoy_outram_park_fork__MtReaction, data: Vec<(f64, f64)>) -> Self { Self { inner: ::njoy_outram_park_fork::interface::ReactionCrossSection { mt: mt.inner, data: data.into_iter().map(|e| { let (e0, e1) = e; (from_si(e0), from_si(e1)) }).collect::<Vec<_>>() } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -7213,6 +7333,11 @@ impl Py_njoy_outram_park_fork__leapr__generate__SabRequest {
     pub fn get_material(&self) -> Py_njoy_outram_park_fork__leapr__decks__SabMaterial { let v = self.inner.material.clone(); Py_njoy_outram_park_fork__leapr__decks__SabMaterial { inner: v } }
     #[setter(material)]
     pub fn set_material(&mut self, v: Py_njoy_outram_park_fork__leapr__decks__SabMaterial) { self.inner.material = v.inner; }
+    // @item field:njoy_outram_park_fork::leapr::generate::SabRequest::temperature
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> f64 { let v = self.inner.temperature.clone(); to_si(v) }
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: f64) { self.inner.temperature = from_si(v); }
     // @item field:njoy_outram_park_fork::leapr::generate::SabRequest::elastic
     #[getter(elastic)]
     pub fn get_elastic(&self) -> Py_njoy_outram_park_fork__leapr__generate__ElasticChannel { let v = self.inner.elastic.clone(); Py_njoy_outram_park_fork__leapr__generate__ElasticChannel { inner: v } }
@@ -7228,6 +7353,10 @@ impl Py_njoy_outram_park_fork__leapr__generate__SabRequest {
     pub fn get_cache(&self) -> Py_njoy_outram_park_fork__leapr__generate__CachePolicy { let v = self.inner.cache.clone(); Py_njoy_outram_park_fork__leapr__generate__CachePolicy { inner: v } }
     #[setter(cache)]
     pub fn set_cache(&mut self, v: Py_njoy_outram_park_fork__leapr__generate__CachePolicy) { self.inner.cache = v.inner; }
+    // @item method:njoy_outram_park_fork::leapr::generate::SabRequest::new
+    #[doc = "A request for `material` at `temperature`, regenerated from its deck\nwith both channels, always fresh — the defaults."]
+    #[new]
+    pub fn new(material: Py_njoy_outram_park_fork__leapr__decks__SabMaterial, temperature: f64) -> Py_njoy_outram_park_fork__leapr__generate__SabRequest { Py_njoy_outram_park_fork__leapr__generate__SabRequest { inner: ::njoy_outram_park_fork::leapr::generate::SabRequest::new(material.inner, from_si(temperature)) } }
     // @item method:njoy_outram_park_fork::leapr::generate::SabRequest::with_elastic
     #[doc = "Choose which channels to emit."]
     pub fn with_elastic(&self, elastic: Py_njoy_outram_park_fork__leapr__generate__ElasticChannel) -> Py_njoy_outram_park_fork__leapr__generate__SabRequest { Py_njoy_outram_park_fork__leapr__generate__SabRequest { inner: ::njoy_outram_park_fork::leapr::generate::SabRequest::with_elastic(self.inner.clone(), elastic.inner) } }
@@ -7608,6 +7737,9 @@ impl Py_njoy_outram_park_fork__nuclear_data__DelayedMgxs {
     // @item method:njoy_outram_park_fork::nuclear_data::DelayedMgxs::n_delayed_groups
     #[doc = "Number of precursor (delayed) groups (`NNF`)."]
     pub fn n_delayed_groups(&self) -> usize { ::njoy_outram_park_fork::nuclear_data::DelayedMgxs::n_delayed_groups(&self.inner) }
+    // @item method:njoy_outram_park_fork::nuclear_data::DelayedMgxs::decay_constant
+    #[doc = "The decay constant of precursor group `k` as a dimensioned\n[`DecayConstant`] (a [`Frequency`]; 1 Hz ≡ 1 s⁻¹). `None` if out of range."]
+    pub fn decay_constant(&self, k: usize) -> Option<f64> { ::njoy_outram_park_fork::nuclear_data::DelayedMgxs::decay_constant(&self.inner, k).map(|e| to_si(e)) }
     // @item method:njoy_outram_park_fork::nuclear_data::DelayedMgxs::total_beta
     #[doc = "Total (summed over precursor groups) delayed fraction of energy group `g`,\nβ_g = Σ_k β_{g,k}. Returns `0.0` if `g` is out of range."]
     pub fn total_beta(&self, g: usize) -> f64 { ::njoy_outram_park_fork::nuclear_data::DelayedMgxs::total_beta(&self.inner, g) }
@@ -7662,6 +7794,9 @@ impl Py_njoy_outram_park_fork__nuclear_data__DelayedNuBar {
     // @item method:njoy_outram_park_fork::nuclear_data::DelayedNuBar::lambdas
     #[doc = "The precursor decay constants λ \\[s⁻¹\\] as raw floats, in tape order."]
     pub fn lambdas(&self) -> Vec<f64> { ::njoy_outram_park_fork::nuclear_data::DelayedNuBar::lambdas(&self.inner).clone().iter().cloned().map(|e| e).collect::<Vec<_>>() }
+    // @item method:njoy_outram_park_fork::nuclear_data::DelayedNuBar::decay_constant
+    #[doc = "The decay constant of precursor group `g` as a dimensioned\n[`DecayConstant`] (a [`Frequency`]; 1 Hz ≡ 1 s⁻¹). Returns `None` if `g`\nis out of range."]
+    pub fn decay_constant(&self, g: usize) -> Option<f64> { ::njoy_outram_park_fork::nuclear_data::DelayedNuBar::decay_constant(&self.inner, g).map(|e| to_si(e)) }
     // @item method:njoy_outram_park_fork::nuclear_data::DelayedNuBar::nu_delayed_at
     #[doc = "Interpolate total delayed ν̄_d at incident energy `e` \\[eV\\] (lin-lin,\nclamped at the ends). Returns `0.0` if no ν̄_d table was parsed."]
     pub fn nu_delayed_at(&self, e: f64) -> f64 { ::njoy_outram_park_fork::nuclear_data::DelayedNuBar::nu_delayed_at(&self.inner, e) }
@@ -10443,9 +10578,33 @@ impl Py_njoy_outram_park_fork__samm__xsformula__setr__SetrOutput {
 pub struct Py_njoy_outram_park_fork__thermr__CoherentElasticScattering { pub inner: ::njoy_outram_park_fork::thermr::CoherentElasticScattering }
 #[pymethods]
 impl Py_njoy_outram_park_fork__thermr__CoherentElasticScattering {
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::requested_temperature
+    #[doc = "The temperature the caller requested."]
+    pub fn requested_temperature(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::CoherentElasticScattering::requested_temperature(&self.inner)) }
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::resolved_temperature
+    #[doc = "The temperature the resolved `S(E)` table actually represents: a\ntabulated grid point when the request matched one within the NJOY\ntolerance, otherwise the request itself (interpolated)."]
+    pub fn resolved_temperature(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::CoherentElasticScattering::resolved_temperature(&self.inner)) }
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::tabulated_temperatures
+    #[doc = "Every temperature the evaluation tabulates (296…2000 K, 10 points, for\nthe ENDF/B-VIII.0 graphites). Queries are valid across this whole range."]
+    pub fn tabulated_temperatures(&self) -> Vec<f64> { ::njoy_outram_park_fork::thermr::CoherentElasticScattering::tabulated_temperatures(&self.inner).into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
     // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::principal_atom_count
     #[doc = "Number of principal scattering atoms (`B(6)`; `1` for graphite). All\ncross sections here are *per one* such atom."]
     pub fn principal_atom_count(&self) -> f64 { ::njoy_outram_park_fork::thermr::CoherentElasticScattering::principal_atom_count(&self.inner) }
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::bragg_cutoff
+    #[doc = "The Bragg cutoff — the first Bragg edge with a **nonzero** structure\nfactor, below which the coherent-elastic cross section is exactly zero.\nFor ENDF/B-VIII.0 graphite this is 1.8223 meV (the (002) plane); the\nevaluation's leading 0.4556 meV grid point carries `S = 0` and opens\nnothing."]
+    pub fn bragg_cutoff(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::CoherentElasticScattering::bragg_cutoff(&self.inner)) }
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::bragg_edge_table
+    #[doc = "The complete Bragg-edge step table behind\n[`cross_section`](Self::cross_section) and [`sample`](Self::sample), so a\ntransport code can cache the *exact* channel instead of resampling the\nsawtooth onto its own energy grid.\n\nReturns one `(E_i, σ_i)` pair per tabulated Bragg edge, ascending in\n`E_i`, where `E_i` is the edge energy and `σ_i = S(E_i, T)/(E_i·natom)`\nis the coherent-elastic cross section **per principal atom** at that\nedge — i.e. the value [`cross_section`](Self::cross_section) takes\nthroughout the interval `[E_i, E_{i+1})`. Units: energy in the\n[`NeutronEnergy`] alias (eV in ENDF), cross section in [`CrossSection`]\n(barn in ENDF). ENDF/B-VIII.0 crystalline graphite tabulates 221 edges.\n\nEverything else in this channel is recoverable from the pairs, exactly:\n- `σ(E) = σ_i·E_i / E` for `E ∈ [E_i, E_{i+1})`, and `0` below `E_0`\n  (the `1/E` decay between edges);\n- the cumulative structure factor at edge `i` is the product\n  `S_i/natom = σ_i·E_i` \\[eV·barn\\], and the sampling weight of edge `i`\n  is the increment `σ_i·E_i − σ_{i−1}·E_{i−1}` (`≥ 0`, and exactly `0`\n  for a grid point that opens no reflection — graphite's leading\n  0.4556 meV point).\n\nThe table is temperature"]
+    pub fn bragg_edge_table(&self) -> Vec<(f64, f64)> { ::njoy_outram_park_fork::thermr::CoherentElasticScattering::bragg_edge_table(&self.inner).into_iter().map(|e| { let (e0, e1) = e; (to_si(e0), to_si(e1)) }).collect::<Vec<_>>() }
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::cross_section
+    #[doc = "Coherent-elastic cross section `σ_coh_el(E)` **per principal atom** at\nincident neutron energy `e`, at the construction temperature.\n\nZero below the Bragg cutoff; `S(E, T)/(E·natom)` above it (a `1/E`\nsawtooth stepping up at each Bragg edge)."]
+    pub fn cross_section(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::thermr::CoherentElasticScattering::cross_section(&self.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::bragg_reflections
+    #[doc = "The **open** Bragg reflections at incident energy `e`: `(μ_i, p_i)`\nwhere `μ_i = 1 − 2·E_i/E` is the scattering cosine of edge `E_i` and\n`p_i` its **normalised probability** (the probabilities sum to 1).\nZero-weight grid points (edges whose structure-factor increment is 0,\ne.g. graphite's leading 0.4556 meV point) are omitted. Empty below the\nBragg cutoff. A coherent-elastic scatter keeps the neutron energy and\ntakes one of these cosines."]
+    pub fn bragg_reflections(&self, e: f64) -> Vec<(f64, f64)> { ::njoy_outram_park_fork::thermr::CoherentElasticScattering::bragg_reflections(&self.inner, from_si(e)).into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>() }
+    // @item method:njoy_outram_park_fork::thermr::CoherentElasticScattering::sample
+    #[doc = "Sample a coherent-elastic scatter at incident energy `e` from a uniform\nrandom number `xi` ∈ \\[0, 1): returns `(E_out, μ)` with `E_out = E_in`\n(elastic) and `μ` the cosine of the Bragg edge whose cumulative\nstructure-factor share brackets `xi`. Returns `None` below the Bragg\ncutoff (no coherent-elastic scatter is possible there).\n\nThe RNG stays with the caller — this crate is a data library and holds\nno random state."]
+    pub fn sample(&self, e: f64, xi: f64) -> Option<(f64, f64)> { ::njoy_outram_park_fork::thermr::CoherentElasticScattering::sample(&self.inner, from_si(e), xi).map(|e| { let (e0, e1) = e; (to_si(e0), e1) }) }
 }
 
     // @item type:njoy_outram_park_fork::thermr::IncoherentElasticScattering
@@ -10454,9 +10613,18 @@ impl Py_njoy_outram_park_fork__thermr__CoherentElasticScattering {
 pub struct Py_njoy_outram_park_fork__thermr__IncoherentElasticScattering { pub inner: ::njoy_outram_park_fork::thermr::IncoherentElasticScattering }
 #[pymethods]
 impl Py_njoy_outram_park_fork__thermr__IncoherentElasticScattering {
+    // @item method:njoy_outram_park_fork::thermr::IncoherentElasticScattering::temperature
+    #[doc = "The temperature the caller requested (used directly — `W'(T)` is a\nproper table over `T`, interpolated at evaluation time)."]
+    pub fn temperature(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentElasticScattering::temperature(&self.inner)) }
     // @item method:njoy_outram_park_fork::thermr::IncoherentElasticScattering::principal_atom_count
     #[doc = "Number of principal scattering atoms (`B(6)`). All cross sections here\nare *per one* such atom."]
     pub fn principal_atom_count(&self) -> f64 { ::njoy_outram_park_fork::thermr::IncoherentElasticScattering::principal_atom_count(&self.inner) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentElasticScattering::cross_section
+    #[doc = "Incoherent-elastic cross section **per principal atom** at incident\nneutron energy `e`, at the construction temperature."]
+    pub fn cross_section(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentElasticScattering::cross_section(&self.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentElasticScattering::equiprobable_cosines
+    #[doc = "`nbin` equally-probable scattering cosines for an (elastic) incoherent\nscatter at incident energy `e` — sample one uniformly and keep\n`E_out = E_in`. NJOY-typical `nbin` is 8 (the ACE ITCA block width)."]
+    pub fn equiprobable_cosines(&self, e: f64, nbin: usize) -> Vec<f64> { ::njoy_outram_park_fork::thermr::IncoherentElasticScattering::equiprobable_cosines(&self.inner, from_si(e), nbin).into_iter().map(|e| e).collect::<Vec<_>>() }
 }
 
     // @item type:njoy_outram_park_fork::thermr::IncoherentInelasticScattering
@@ -10465,12 +10633,33 @@ impl Py_njoy_outram_park_fork__thermr__IncoherentElasticScattering {
 pub struct Py_njoy_outram_park_fork__thermr__IncoherentInelasticScattering { pub inner: ::njoy_outram_park_fork::thermr::IncoherentInelasticScattering }
 #[pymethods]
 impl Py_njoy_outram_park_fork__thermr__IncoherentInelasticScattering {
+    // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::requested_temperature
+    #[doc = "The temperature the caller requested."]
+    pub fn requested_temperature(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::requested_temperature(&self.inner)) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::selected_temperature
+    #[doc = "The temperature the S(α,β) tables actually represent: the tabulated\ngrid point when the request matched one within the NJOY `T/1000 + 5` K\ntolerance, or the request itself when the tables were interpolated\nbetween two tabulated temperatures. Compare against\n[`requested_temperature`](Self::requested_temperature) to see whether a\ntolerance snap occurred."]
+    pub fn selected_temperature(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::selected_temperature(&self.inner)) }
     // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::principal_atom_count
     #[doc = "Number of principal scattering atoms in the material (`B(6)`; `2` for\nH-in-H₂O). All cross sections here are *per one* such atom."]
     pub fn principal_atom_count(&self) -> f64 { ::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::principal_atom_count(&self.inner) }
     // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::mass_ratio
     #[doc = "Mass ratio `A` of the principal scatterer (`B(3)`; ≈ 0.999 for H)."]
     pub fn mass_ratio(&self) -> f64 { ::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::mass_ratio(&self.inner) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::bound_cross_section
+    #[doc = "Bound scattering cross section `σ_b` per principal atom — the `E → 0`\nstatic limit, `((A+1)/A)²·σ_free` (≈ 81.8 b for H in H₂O)."]
+    pub fn bound_cross_section(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::bound_cross_section(&self.inner)) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::free_cross_section
+    #[doc = "Free-atom scattering cross section per principal atom, `B(1)/natom` — the\nhigh-`E` limit `σ_inel(E)` approaches (≈ 20.4 b for H in H₂O)."]
+    pub fn free_cross_section(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::free_cross_section(&self.inner)) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::effective_temperature
+    #[doc = "Principal-scatterer effective temperature `T_eff` used by the SCT tail at\nthe selected temperature (≈ 1194 K for H in H₂O at 293.6 K)."]
+    pub fn effective_temperature(&self) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::effective_temperature(&self.inner)) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::inelastic_xs
+    #[doc = "Incoherent-inelastic cross section `σ_inel(E)` **per principal atom** at\nincident neutron energy `e`, at the selected temperature.\n\nIntegrates the S(α,β) double-differential kernel over the kinematically\nallowed outgoing energies and angles (with the SCT tail beyond the\ntabulated grid). Returns zero below/above the meaningful range."]
+    pub fn inelastic_xs(&self, e: f64) -> f64 { to_si(::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::inelastic_xs(&self.inner, from_si(e))) }
+    // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::emission
+    #[doc = "Secondary energy/angle distribution for a scatter from incident energy\n`e`: `n_outgoing` equally-probable outgoing energies, each with\n`n_cosines` equally-probable scattering cosines (the ACE IFENG=0 form).\n\nReturns an empty vector when the cross section is zero (no scatter).\nNJOY-typical dimensions are `n_outgoing = 16`, `n_cosines = 8`."]
+    pub fn emission(&self, e: f64, n_outgoing: usize, n_cosines: usize) -> Vec<Py_njoy_outram_park_fork__thermr__ThermalEmissionBin> { ::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::emission(&self.inner, from_si(e), n_outgoing, n_cosines).into_iter().map(|e| Py_njoy_outram_park_fork__thermr__ThermalEmissionBin { inner: e }).collect::<Vec<_>>() }
     // @item method:njoy_outram_park_fork::thermr::IncoherentInelasticScattering::kernel
     #[doc = "The raw kernel, for callers that need the double-differential directly or\nthe tabulated `S(α,β)` grid (e.g. custom quadrature or ACE writing)."]
     pub fn kernel(&self) -> Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic { Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic { inner: ::njoy_outram_park_fork::thermr::IncoherentInelasticScattering::kernel(&self.inner).clone() } }
@@ -10483,11 +10672,19 @@ impl Py_njoy_outram_park_fork__thermr__IncoherentInelasticScattering {
 pub struct Py_njoy_outram_park_fork__thermr__ThermalEmissionBin { pub inner: ::njoy_outram_park_fork::thermr::ThermalEmissionBin }
 #[pymethods]
 impl Py_njoy_outram_park_fork__thermr__ThermalEmissionBin {
+    // @item field:njoy_outram_park_fork::thermr::ThermalEmissionBin::outgoing_energy
+    #[getter(outgoing_energy)]
+    pub fn get_outgoing_energy(&self) -> f64 { let v = self.inner.outgoing_energy.clone(); to_si(v) }
+    #[setter(outgoing_energy)]
+    pub fn set_outgoing_energy(&mut self, v: f64) { self.inner.outgoing_energy = from_si(v); }
     // @item field:njoy_outram_park_fork::thermr::ThermalEmissionBin::cosines
     #[getter(cosines)]
     pub fn get_cosines(&self) -> Vec<f64> { let v = self.inner.cosines.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
     #[setter(cosines)]
     pub fn set_cosines(&mut self, v: Vec<f64>) { self.inner.cosines = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item ctor:njoy_outram_park_fork::thermr::ThermalEmissionBin
+    #[new]
+    pub fn __new__(outgoing_energy: f64, cosines: Vec<f64>) -> Self { Self { inner: ::njoy_outram_park_fork::thermr::ThermalEmissionBin { outgoing_energy: from_si(outgoing_energy), cosines: cosines.into_iter().map(|e| e).collect::<Vec<_>>() } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -10945,10 +11142,18 @@ impl Py_njoy_outram_park_fork__thermr__temperature_thinning__ThinnedTemperatureG
 pub struct Py_njoy_outram_park_fork__thermr__temperature_thinning__WorstPoint { pub inner: ::njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint }
 #[pymethods]
 impl Py_njoy_outram_park_fork__thermr__temperature_thinning__WorstPoint {
+    // @item variant:njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint::BraggEdge
+    #[staticmethod]
+    #[pyo3(name = "BraggEdge")]
+    pub fn v_BraggEdge(energy: f64) -> Self { Self { inner: ::njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint::BraggEdge { energy: from_si(energy) } } }
     // @item variant:njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint::AlphaBeta
     #[staticmethod]
     #[pyo3(name = "AlphaBeta")]
     pub fn v_AlphaBeta(alpha: f64, beta: f64) -> Self { Self { inner: ::njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint::AlphaBeta { alpha: alpha, beta: beta } } }
+    // @item variant:njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint::IncidentEnergy
+    #[staticmethod]
+    #[pyo3(name = "IncidentEnergy")]
+    pub fn v_IncidentEnergy(energy: f64) -> Self { Self { inner: ::njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint::IncidentEnergy { energy: from_si(energy) } } }
     // @item variant:njoy_outram_park_fork::thermr::temperature_thinning::WorstPoint::Nothing
     #[staticmethod]
     #[pyo3(name = "Nothing")]
@@ -11570,6 +11775,11 @@ pub fn fn_njoy_outram_park_fork__ccccr__run() -> PyResult<()> { err(::njoy_outra
 #[pyfunction(name = "compress")]
 pub fn fn_njoy_outram_park_fork__covr__compress(matrix: Vec<f64>, nrow: usize, ncol: usize, shape: Py_njoy_outram_park_fork__covr__BoxerShape, nvf: i32, ncf: i32) -> PyResult<Py_njoy_outram_park_fork__covr__BoxerData> { err(::njoy_outram_park_fork::covr::compress(&matrix.into_iter().map(|e| e).collect::<Vec<_>>(), nrow, ncol, shape.inner, nvf, ncf)).map(|v| Py_njoy_outram_park_fork__covr__BoxerData { inner: v }) }
 
+    // @item fn:njoy_outram_park_fork::covr::correlation_cross
+#[doc = "Convert a **cross-covariance** between two different reactions to a\ncorrelation matrix (`covr.f90:672-688`, general case).\n\n`cov_xy(i,j)` is the covariance between group `i` of the row reaction\n(MAT/MT) and group `j` of the column reaction (MAT1/MT1). `rsd_x` is the\nstandard-deviation vector of the row reaction (from its own auto-covariance\ndiagonal) and `rsd_y` that of the column reaction. The result is\n\n`corr(i,j) = cov_xy(i,j) / (rsd_x(i) * rsd_y(j))`,\n\nset to `0.0` wherever `cov_xy(i,j)` is exactly zero or `rsd_x(i)*rsd_y(j)`\nis zero. Unlike the auto-covariance case, the diagonal is **not** generally\n`1.0`.\n\n# Errors\n[`NjoyError::EndfParse`] when `rsd_x.len()` or `rsd_y.len()` differs from\n`cov_xy.n()` (the \"group structures do not agree\" check, `covr.f90:715-716`)."]
+#[pyfunction(name = "correlation_cross")]
+pub fn fn_njoy_outram_park_fork__covr__correlation_cross(cov_xy: Py_njoy_outram_park_fork__covr__CovarianceMatrix, rsd_x: Vec<f64>, rsd_y: Vec<f64>) -> PyResult<Py_njoy_outram_park_fork__covr__CorrelationMatrix> { err(::njoy_outram_park_fork::covr::correlation_cross(&cov_xy.inner, &rsd_x.into_iter().map(|e| e).collect::<Vec<_>>(), &rsd_y.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| Py_njoy_outram_park_fork__covr__CorrelationMatrix { inner: v }) }
+
     // @item fn:njoy_outram_park_fork::covr::correlation_from_auto_and_cross
 #[doc = "Build a correlation matrix from a **cross-covariance** and the two reactions'\n**own auto-covariances**, reproducing the standard-deviation sourcing in\n`subroutine corr` (`covr.f90:597-711`).\n\nThis is the documented human-verify point (see the module docs): the row\nstandard deviations come from `row_auto`'s diagonal and the column standard\ndeviations from `col_auto`'s diagonal — **not** from `cross`'s diagonal —\nand then `corr(i,j) = cross(i,j) / (rsd_x(i) * rsd_y(j))`.\n\nFor an auto-covariance case pass the same matrix for all three arguments;\nthe result then matches [`CovarianceMatrix::to_correlation`].\n\n# Errors\n[`NjoyError::EndfParse`] when the three matrices do not share one group\ncount `n` (the \"group structures do not agree\" check, `covr.f90:715-716`),\nvia [`correlation_cross`]."]
 #[pyfunction(name = "correlation_from_auto_and_cross")]
@@ -11604,6 +11814,11 @@ pub fn fn_njoy_outram_park_fork__covr__run_with_deck(input: Py_njoy_outram_park_
 #[doc = "Select the value (`ivft`) and control (`icft`) output formats from the\nindices `nvf`/`ncf` (`setfor`, `covr.f90:2220-2247`).\n\nReturns `(value_format, control_format)`. `nvf` (value/float) must be in\n`7..=14`; `ncf` (control/integer) in `1..=6`.\n\n# Errors\n[`NjoyError::EndfParse`] when `nvf`/`ncf` fall outside their legal ranges\n(`covr.f90:2236-2241`)."]
 #[pyfunction(name = "setfor")]
 pub fn fn_njoy_outram_park_fork__covr__setfor(nvf: i32, ncf: i32) -> PyResult<(Py_njoy_outram_park_fork__covr__BoxerFormat, Py_njoy_outram_park_fork__covr__BoxerFormat)> { err(::njoy_outram_park_fork::covr::setfor(nvf, ncf)).map(|v| { let (e0, e1) = v; (Py_njoy_outram_park_fork__covr__BoxerFormat { inner: e0 }, Py_njoy_outram_park_fork__covr__BoxerFormat { inner: e1 }) }) }
+
+    // @item fn:njoy_outram_park_fork::covr::shade_level
+#[doc = "Index a correlation value `c` on the shade scale `xlev`\n(`integer function level`, `covr.f90:1601-1619`).\n\nReturns a **signed 1-based** level: the smallest 1-based index `i` such that\n`|c| < xlev[i-1]`, or `nlev` (= `xlev.len()`) if `|c|` is at least every\nthreshold; the sign follows the sign of `c` (`covr.f90:1616`). Used by the\nplotting stage to pick a shade; exposed here because it is self-contained\nand testable.\n\n`xlev` is the expanded, ascending shade-level array (dimensionless\ncorrelation thresholds) from [`crate::covr::PlotOptions::shade_levels`].\nPanics if `xlev` is empty."]
+#[pyfunction(name = "shade_level")]
+pub fn fn_njoy_outram_park_fork__covr__shade_level(c: f64, xlev: Vec<f64>) -> i32 { ::njoy_outram_park_fork::covr::shade_level(c, &xlev.into_iter().map(|e| e).collect::<Vec<_>>()) }
 
     // @item fn:njoy_outram_park_fork::dtfr::column
 #[doc = "Extract a single table column (fixed `jpos`, all groups) from a flat `sig`\narray laid out as `sig(jpos + itabl*(jg-1))` (`dtfr.f90:838-841`).\n\nReturns the `ng` values for DTF groups `1..=ng` at position `jpos`, ready to\nhand to [`pack_dtf_block`]."]
@@ -12014,6 +12229,11 @@ pub fn fn_njoy_outram_park_fork__leapr__endout(out: Py_njoy_outram_park_fork__le
 #[doc = "The LEAPR Debye-Waller coefficient `W'(T)` \\[1/eV\\] for one deck at one\ntemperature — `dwpix` in `leapr.f90`, already divided by `awr * T * k_B`\n(`leapr.f90:3035`) so it is in the form [`endout`] wants.\n\nThis is the same quantity [`generate_tape`] computes on its way to a tape;\nit is factored out here because the **compound** coefficient a generalized\ncoherent-elastic section needs is a weighted average over several decks\n(see [`compound_debye_waller`]), and computing it must not require\ngenerating each of their tapes.\n\n# Errors\n[`NjoyError::NotPorted`] if the deck uses an unimplemented LEAPR feature, or\n[`NjoyError::EndfParse`] for a bad temperature — the same conditions\n[`generate_tape`] refuses on."]
 #[pyfunction(name = "debye_waller_coefficient")]
 pub fn fn_njoy_outram_park_fork__leapr__generate__debye_waller_coefficient(deck: Py_njoy_outram_park_fork__leapr__LeaprDeck, temperature_k: f64) -> PyResult<f64> { err(::njoy_outram_park_fork::leapr::generate::debye_waller_coefficient(&deck.inner, temperature_k)).map(|v| v) }
+
+    // @item fn:njoy_outram_park_fork::leapr::generate::generate_tape
+#[doc = "Build the LEAPR output for one temperature and write it as an ENDF MF=7\ntape, with no caching.\n\nThis is the missing half of NJOY's `leapr` driver for the single-scatterer,\ncontinuous-spectrum case: it composes\n[`FrequencyModel::start`] -> [`phonon_expansion`] ->\n[`coher`](crate::leapr::coher::coher) -> [`endout`], including the `dwpix`\nand `tempf` conversions `endout` expects (`leapr.f90:717, 3035`) which no\nother code path performs.\n\nThe physical constants come from the deck's own declared vintage\n([`LeaprDeck::constants`]) and are threaded into **both** channels — `bk`\ninto `tev` for the inelastic law, and the whole set into `econ` for the\nBragg edge energies. That is what makes the result reproduce the published\ntape instead of missing it by ~100x the storage precision (inelastic) or by\na uniform ~1e-6 offset (elastic). See [`crate::leapr::vintage`].\n\n# Errors\n\n- [`NjoyError::NotPorted`] if the deck uses a LEAPR feature the port does not\n  implement ([`LeaprDeck::unsupported_features`]). Silently generating\n  something plausible for an unsupported deck would be the worst outcome\n  available, so this refuses.\n- [`NjoyError::EndfParse`] for a non-positive or non-finite temperature"]
+#[pyfunction(name = "generate_tape")]
+pub fn fn_njoy_outram_park_fork__leapr__generate__generate_tape(deck: Py_njoy_outram_park_fork__leapr__LeaprDeck, temperature: f64, elastic: Py_njoy_outram_park_fork__leapr__generate__ElasticChannel) -> PyResult<Py_njoy_outram_park_fork__endf__Tape> { err(::njoy_outram_park_fork::leapr::generate::generate_tape(&deck.inner, from_si(temperature), elastic.inner)).map(|v| Py_njoy_outram_park_fork__endf__Tape { inner: v }) }
 
     // @item fn:njoy_outram_park_fork::leapr::generate::thermal_scattering_law
 #[doc = "Resolve a thermal scattering law for `request` — **regenerating from the\nLEAPR deck by default**, and reading a tape only when asked to.\n\nCached twice over (in process, then on disk); see the [module docs](self)\nfor the caching contract and its invalidation rule, and for what is and is\nnot validated in the result.\n\n# Errors\n\n- [`NjoyError::Download`] if the deck cannot be located — the message names\n  the paths tried and the environment variable to set.\n- [`NjoyError::NotPorted`] if the deck needs an unported LEAPR feature.\n- [`NjoyError::Io`] / [`NjoyError::EndfParse`] from reading or parsing."]
@@ -12840,6 +13060,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__broadr__run, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__ccccr__run, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__compress, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__correlation_cross, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__correlation_from_auto_and_cross, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__decompress, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__default_tlev, m)?)?;
@@ -12847,6 +13068,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__run, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__run_with_deck, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__setfor, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__shade_level, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__dtfr__column, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__dtfr__dtf_group, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__dtfr__format0_body, m)?)?;
@@ -12929,6 +13151,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__discrete__bfact, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__endout, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__generate__debye_waller_coefficient, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__generate__generate_tape, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__generate__thermal_scattering_law, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__generate__thermal_scattering_tape, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__run, m)?)?;

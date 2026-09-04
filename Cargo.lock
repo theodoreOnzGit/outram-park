@@ -8924,6 +8924,7 @@ version = "0.0.2"
 dependencies = [
  "boon-lay",
  "chem-eng-real-time-process-control-simulator",
+ "getrandom 0.3.4",
  "outram-foam-basic-lib",
  "outram-foam-multiphase",
  "outram-park-fork-coolprop",
@@ -9355,6 +9356,7 @@ dependencies = [
  "approx",
  "csv",
  "env_logger",
+ "getrandom 0.3.4",
  "ndarray",
  "peroxide",
  "roots",

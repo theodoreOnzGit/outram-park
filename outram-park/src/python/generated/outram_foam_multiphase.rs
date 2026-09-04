@@ -199,6 +199,10 @@ impl Py_outram_foam_multiphase__drift_flux__DriftFluxMixture {
     // @item method:outram_foam_multiphase::drift_flux::DriftFluxMixture::mu_continuous
     #[doc = "Continuous-phase dynamic viscosity `μ_c` `[Pa·s]`."]
     pub fn mu_continuous(&self) -> f64 { to_si(::outram_foam_multiphase::drift_flux::DriftFluxMixture::mu_continuous(&self.inner)) }
+    // @item method:outram_foam_multiphase::drift_flux::DriftFluxMixture::alpha
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "The dispersed-phase volume-fraction field `α` `[-]` (read-only)."]
+    pub fn alpha(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_foam_multiphase::drift_flux::DriftFluxMixture::alpha(&self.inner).clone() } }
     // @item method:outram_foam_multiphase::drift_flux::DriftFluxMixture::rho_mixture
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "Cell-wise **mixture density** `ρ_m = α·ρ_d + (1−α)·ρ_c` `[kg/m³]`.\n\nDirect port of `incompressibleDriftFluxMixture.C:89`:\n`rho_ = alpha1()*rhod_ + alpha2()*rhoc_;` with `alpha1 = α`,\n`alpha2 = 1 − α`. The result carries a zero-gradient boundary and is a\n`VolScalarField` in `kg/m³`.\n\nAs `α` sweeps `0 → 1`, `ρ_m` moves linearly `ρ_c → ρ_d`. Values outside\n`[0,1]` are not clamped here (the caller keeps `α` bounded via\ntransport); an out-of-range `α` therefore extrapolates the linear rule."]
@@ -501,6 +505,13 @@ impl Py_outram_foam_multiphase__pimple__DriftFluxPimple {
     #[cfg(feature = "outram-foam-basic-lib")]
     #[setter(mesh)]
     pub fn set_mesh(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh) { self.inner.mesh = std::sync::Arc::new(v.inner); }
+    // @item field:outram_foam_multiphase::pimple::DriftFluxPimple::p
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(p)]
+    pub fn get_p(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { let v = self.inner.p.clone(); crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: v } }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(p)]
+    pub fn set_p(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField) { self.inner.p = v.inner; }
     // @item field:outram_foam_multiphase::pimple::DriftFluxPimple::gravity
     #[cfg(feature = "outram-foam-basic-lib")]
     #[getter(gravity)]
@@ -625,6 +636,10 @@ impl Py_outram_foam_multiphase__two_fluid__Phase {
     // @item method:outram_foam_multiphase::two_fluid::Phase::diameter
     #[doc = "Characteristic inclusion diameter `d` `[m]` (dispersed-phase property)."]
     pub fn diameter(&self) -> f64 { to_si(::outram_foam_multiphase::two_fluid::Phase::diameter(&self.inner)) }
+    // @item method:outram_foam_multiphase::two_fluid::Phase::alpha
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "The volume-fraction field `α_k` `[-]` (read-only)."]
+    pub fn alpha(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_foam_multiphase::two_fluid::Phase::alpha(&self.inner).clone() } }
     // @item method:outram_foam_multiphase::two_fluid::Phase::u
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "The velocity field `U_k` `[m/s]` (read-only)."]
@@ -669,6 +684,13 @@ impl Py_outram_foam_multiphase__two_fluid_pimple__TwoFluidPimple {
     #[cfg(feature = "outram-foam-basic-lib")]
     #[setter(mesh)]
     pub fn set_mesh(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh) { self.inner.mesh = std::sync::Arc::new(v.inner); }
+    // @item field:outram_foam_multiphase::two_fluid_pimple::TwoFluidPimple::p
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(p)]
+    pub fn get_p(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { let v = self.inner.p.clone(); crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: v } }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(p)]
+    pub fn set_p(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField) { self.inner.p = v.inner; }
     // @item field:outram_foam_multiphase::two_fluid_pimple::TwoFluidPimple::phi_d
     #[cfg(feature = "outram-foam-basic-lib")]
     #[getter(phi_d)]

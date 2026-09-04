@@ -12,11 +12,29 @@ use crate::python::runtime::{from_si, to_si, err};
 pub struct Py_outram_park_fork_moltres__circulating__CirculatingFuelSolver { pub inner: ::outram_park_fork_moltres::circulating::CirculatingFuelSolver }
 #[pymethods]
 impl Py_outram_park_fork_moltres__circulating__CirculatingFuelSolver {
+    // @item field:outram_park_fork_moltres::circulating::CirculatingFuelSolver::flux
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(flux)]
+    pub fn get_flux(&self) -> Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField> { let v = self.inner.flux.clone(); v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e }).collect::<Vec<_>>() }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(flux)]
+    pub fn set_flux(&mut self, v: Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>) { self.inner.flux = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:outram_park_fork_moltres::circulating::CirculatingFuelSolver::precursors
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(precursors)]
+    pub fn get_precursors(&self) -> Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField> { let v = self.inner.precursors.clone(); v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e }).collect::<Vec<_>>() }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(precursors)]
+    pub fn set_precursors(&mut self, v: Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>) { self.inner.precursors = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
     // @item field:outram_park_fork_moltres::circulating::CirculatingFuelSolver::k_eff
     #[getter(k_eff)]
     pub fn get_k_eff(&self) -> f64 { let v = self.inner.k_eff.clone(); v }
     #[setter(k_eff)]
     pub fn set_k_eff(&mut self, v: f64) { self.inner.k_eff = v; }
+    // @item method:outram_park_fork_moltres::circulating::CirculatingFuelSolver::set_temperature
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Apply the reduced linear temperature feedback: recompute the\neffective removal cross sections at the given salt `temperature`\n(`K`) about `t_ref` (`K`) via\n[`XsFields::sigma_removal_at`]. Call before [`Self::solve`]; calling\nagain with a new field replaces the previous feedback state.\n\n# Errors\n[`MoltresError::SizeMismatch`] if `temperature` is not on the mesh."]
+    pub fn set_temperature(&mut self, temperature: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, t_ref: f64) -> PyResult<()> { err(::outram_park_fork_moltres::circulating::CirculatingFuelSolver::set_temperature(&mut self.inner, &temperature.inner, t_ref)).map(|v| v) }
     // @item method:outram_park_fork_moltres::circulating::CirculatingFuelSolver::solve
     #[doc = "Run the coupled outer iteration to convergence (methodology in the\nmodule docs). On success `k_eff`, `flux`, and `precursors` hold the\ncoupled fundamental mode.\n\nConvergence can take 1000–2000 outer iterations (the delayed\ncoupling is a slow fixed point — see [`EigenSettings`]); set the\n`MOLTRES_DEBUG_OUTER` environment variable to print the residual\nhistory every 25 iterations while diagnosing a stall.\n\n# Errors\n[`MoltresError::NoFissionSource`] for a non-multiplying\nconfiguration; [`MoltresError::NotConverged`] on iteration-budget\nexhaustion; [`MoltresError::LinearSolveFailed`] if a precursor\nsolve fails."]
     pub fn solve(&mut self) -> PyResult<Py_outram_park_fork_moltres__diffusion__EigenReport> { err(::outram_park_fork_moltres::circulating::CirculatingFuelSolver::solve(&mut self.inner)).map(|v| Py_outram_park_fork_moltres__diffusion__EigenReport { inner: v }) }
@@ -125,6 +143,13 @@ impl Py_outram_park_fork_moltres__diffusion__EigenSettings {
 pub struct Py_outram_park_fork_moltres__diffusion__StaticDiffusion { pub inner: ::outram_park_fork_moltres::diffusion::StaticDiffusion }
 #[pymethods]
 impl Py_outram_park_fork_moltres__diffusion__StaticDiffusion {
+    // @item field:outram_park_fork_moltres::diffusion::StaticDiffusion::flux
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(flux)]
+    pub fn get_flux(&self) -> Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField> { let v = self.inner.flux.clone(); v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e }).collect::<Vec<_>>() }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(flux)]
+    pub fn set_flux(&mut self, v: Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>) { self.inner.flux = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
     // @item field:outram_park_fork_moltres::diffusion::StaticDiffusion::k_eff
     #[getter(k_eff)]
     pub fn get_k_eff(&self) -> f64 { let v = self.inner.k_eff.clone(); v }
@@ -343,6 +368,10 @@ impl Py_outram_park_fork_moltres__materials__XsFields {
     #[doc = "Broadcast per-zone materials onto the mesh.\n\n- `zone_of_cell[c]` gives the index into `materials` for cell `c`\n  (length must equal `mesh.n_cells`; every index must be in range).\n- Every material must validate against the group count of\n  `materials[0]`.\n\n# Errors\n[`MoltresError::SizeMismatch`] for a bad `zone_of_cell`,\n[`MoltresError::InvalidMaterial`] for inconsistent material data."]
     #[staticmethod]
     pub fn materialize(mesh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh, zone_of_cell: Vec<usize>, materials: Vec<Py_outram_park_fork_moltres__materials__MsrMaterial>) -> PyResult<Py_outram_park_fork_moltres__materials__XsFields> { err(::outram_park_fork_moltres::materials::XsFields::materialize(std::sync::Arc::new(mesh.inner), &zone_of_cell.into_iter().map(|e| e).collect::<Vec<_>>(), &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>())).map(|v| Py_outram_park_fork_moltres__materials__XsFields { inner: v }) }
+    // @item method:outram_park_fork_moltres::materials::XsFields::sigma_removal_at
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Removal cross sections adjusted for a temperature field with the\nreduced linear feedback model:\n`Sigma_r(T)[c] = Sigma_r[c] + (dSigma_r/dT)[c] (T[c] - t_ref)`,\nin `1/m`. `temperature` in `K`, `t_ref` in `K`.\n\nThe result is clamped below at `1e-12 1/m` so an extreme temperature\nexcursion cannot produce a non-physical negative removal (documented\nlimitation of the linear model).\n\n# Errors\n[`MoltresError::SizeMismatch`] if `temperature` is not on this mesh."]
+    pub fn sigma_removal_at(&self, temperature: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, t_ref: f64) -> PyResult<Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>> { err(::outram_park_fork_moltres::materials::XsFields::sigma_removal_at(&self.inner, &temperature.inner, t_ref)).map(|v| v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e }).collect::<Vec<_>>()) }
     // @item ctor:outram_park_fork_moltres::materials::XsFields
     #[cfg(feature = "outram-foam-basic-lib")]
     #[new]
@@ -362,6 +391,13 @@ impl Py_outram_park_fork_moltres__precursors__PrecursorDrift {
     pub fn get_families(&self) -> Vec<Py_outram_park_fork_moltres__materials__DelayedFamily> { let v = self.inner.families.clone(); v.into_iter().map(|e| Py_outram_park_fork_moltres__materials__DelayedFamily { inner: e }).collect::<Vec<_>>() }
     #[setter(families)]
     pub fn set_families(&mut self, v: Vec<Py_outram_park_fork_moltres__materials__DelayedFamily>) { self.inner.families = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:outram_park_fork_moltres::precursors::PrecursorDrift::flow
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(flow)]
+    pub fn get_flow(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField { let v = self.inner.flow.clone(); crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField { inner: v } }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(flow)]
+    pub fn set_flow(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField) { self.inner.flow = v.inner; }
     // @item field:outram_park_fork_moltres::precursors::PrecursorDrift::diffusion
     #[getter(diffusion)]
     pub fn get_diffusion(&self) -> f64 { let v = self.inner.diffusion.clone(); v }
@@ -374,6 +410,23 @@ impl Py_outram_park_fork_moltres__precursors__PrecursorDrift {
     #[cfg(feature = "outram-foam-basic-lib")]
     #[setter(linear)]
     pub fn set_linear(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__SolverSettings) { self.inner.linear = v.inner; }
+    // @item method:outram_park_fork_moltres::precursors::PrecursorDrift::new
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Build a precursor transport model.\n\n`flow` must live on `mesh` (one value per internal face) and should\nbe divergence-free (a rigid loop circulation from\n[`crate::ring_mesh::RingMesh::uniform_flux`] is). `diffusion` is\n`D_C` in `m^2/s` (>= 0).\n\n# Errors\n[`MoltresError::SizeMismatch`] if `flow` is not on `mesh`;\n[`MoltresError::InvalidMaterial`] for a negative `D_C`, empty\nfamily list, or non-positive `lambda_i`."]
+    #[new]
+    pub fn new(mesh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh, families: Vec<Py_outram_park_fork_moltres__materials__DelayedFamily>, flow: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField, diffusion: f64, linear: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__SolverSettings) -> PyResult<Py_outram_park_fork_moltres__precursors__PrecursorDrift> { err(::outram_park_fork_moltres::precursors::PrecursorDrift::new(std::sync::Arc::new(mesh.inner), families.into_iter().map(|e| e.inner).collect::<Vec<_>>(), flow.inner, diffusion, linear.inner)).map(|v| Py_outram_park_fork_moltres__precursors__PrecursorDrift { inner: v }) }
+    // @item method:outram_park_fork_moltres::precursors::PrecursorDrift::solve_steady
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Steady advection–decay balance for every family:\n`div(u C_i) - div(D_C grad C_i) + lambda_i C_i = beta_i/k * S_f`.\n\n`fission_source` is `S_f` in `1/(m^3 s)`; `k_eff` scales the\nproduction (pass 1.0 outside eigenvalue iterations). Returns one\nconcentration field (`1/m^3`) per family. With zero flow this\nreproduces the algebraic equilibrium\n`C_i = beta_i S_f / (k lambda_i)` exactly (verified in tests).\n\n# Errors\n[`MoltresError::LinearSolveFailed`] if a family's Gauss-Seidel solve\nmisses its tolerance."]
+    pub fn solve_steady(&self, fission_source: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, k_eff: f64) -> PyResult<Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>> { err(::outram_park_fork_moltres::precursors::PrecursorDrift::solve_steady(&self.inner, &fission_source.inner, k_eff)).map(|v| v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e }).collect::<Vec<_>>()) }
+    // @item method:outram_park_fork_moltres::precursors::PrecursorDrift::step
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "One backward-Euler step of length `dt` (s):\n`(C_i - C_i_old)/dt + div(u C_i) - div(D_C grad C_i) + lambda_i C_i\n= beta_i/k * S_f`, implicit in everything except the (lagged) fission\nsource. Returns the new concentrations.\n\n# Errors\n[`MoltresError::SizeMismatch`] if `previous` does not hold one field\nper family; [`MoltresError::LinearSolveFailed`] on solver failure."]
+    pub fn step(&self, previous: Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>, fission_source: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, k_eff: f64, dt: f64) -> PyResult<Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>> { err(::outram_park_fork_moltres::precursors::PrecursorDrift::step(&self.inner, &previous.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &fission_source.inner, k_eff, dt)).map(|v| v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e }).collect::<Vec<_>>()) }
+    // @item method:outram_park_fork_moltres::precursors::PrecursorDrift::delayed_source
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Delayed-neutron volumetric source `S_d[c] = sum_i lambda_i C_i[c]`\n(`1/(m^3 s)`) — what the flux equations consume (Moltres\n`DelayedNeutronSource`).\n\nThe caller must pass one field per family (as returned by\n[`Self::solve_steady`] / [`Self::step`]); extra or missing fields\nare a bug and only debug-asserted here."]
+    pub fn delayed_source(&self, precursors: Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: ::outram_park_fork_moltres::precursors::PrecursorDrift::delayed_source(&self.inner, &precursors.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -418,6 +471,10 @@ impl Py_outram_park_fork_moltres__ring_mesh__RingMesh {
     // @item method:outram_park_fork_moltres::ring_mesh::RingMesh::arc_centre
     #[doc = "Arc-length coordinate of cell `i`'s centre, `s_i = (i + 1/2) dx` in\n`m`, measured from the loop origin in the positive-flow direction."]
     pub fn arc_centre(&self, cell: usize) -> f64 { ::outram_park_fork_moltres::ring_mesh::RingMesh::arc_centre(&self.inner, cell) }
+    // @item method:outram_park_fork_moltres::ring_mesh::RingMesh::uniform_flux
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Face volumetric flux for a rigid-loop circulation at salt speed\n`speed` (m/s, positive = increasing cell index): `phi_f = u A` on\nevery face (`m^3/s`). This is the divergence-free prescribed loop\nvelocity of the first-pass model — no CFD, no pump model, just an\nincompressible slug flow around the ring."]
+    pub fn uniform_flux(&self, speed: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField { inner: ::outram_park_fork_moltres::ring_mesh::RingMesh::uniform_flux(&self.inner, speed) } }
     // @item method:outram_park_fork_moltres::ring_mesh::RingMesh::two_zone_map
     #[doc = "Two-zone map: zone `0` (\"core\") for cells whose arc centre lies in\n`[0, core_length)`, zone `1` (\"external loop\") otherwise.\n`core_length` in `m`; values outside `(0, circumference)` simply give\nan all-core or all-external map."]
     pub fn two_zone_map(&self, core_length: f64) -> Vec<usize> { ::outram_park_fork_moltres::ring_mesh::RingMesh::two_zone_map(&self.inner, core_length).into_iter().map(|e| e).collect::<Vec<_>>() }
@@ -440,6 +497,13 @@ impl Py_outram_park_fork_moltres__thermal__CoupledMsrSolver {
     pub fn get_thermal(&self) -> Py_outram_park_fork_moltres__thermal__SaltThermalModel { let v = self.inner.thermal.clone(); Py_outram_park_fork_moltres__thermal__SaltThermalModel { inner: v } }
     #[setter(thermal)]
     pub fn set_thermal(&mut self, v: Py_outram_park_fork_moltres__thermal__SaltThermalModel) { self.inner.thermal = v.inner; }
+    // @item field:outram_park_fork_moltres::thermal::CoupledMsrSolver::flow
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(flow)]
+    pub fn get_flow(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField { let v = self.inner.flow.clone(); crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField { inner: v } }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(flow)]
+    pub fn set_flow(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField) { self.inner.flow = v.inner; }
     // @item field:outram_park_fork_moltres::thermal::CoupledMsrSolver::target_power
     #[getter(target_power)]
     pub fn get_target_power(&self) -> f64 { let v = self.inner.target_power.clone(); v }
@@ -468,6 +532,10 @@ impl Py_outram_park_fork_moltres__thermal__CoupledMsrSolver {
     // @item method:outram_park_fork_moltres::thermal::CoupledMsrSolver::solve
     #[doc = "Run the Picard loop: eigenvalue → power → temperature → feedback →\n… until the temperature field settles.\n\n# Errors\nAny neutronics/thermal error, plus [`MoltresError::NoFissionSource`]\nif the power shape integrates to zero, or\n[`MoltresError::NotConverged`] if the Picard loop exhausts its\nbudget."]
     pub fn solve(&mut self) -> PyResult<Py_outram_park_fork_moltres__thermal__CoupledReport> { err(::outram_park_fork_moltres::thermal::CoupledMsrSolver::solve(&mut self.inner)).map(|v| Py_outram_park_fork_moltres__thermal__CoupledReport { inner: v }) }
+    // @item ctor:outram_park_fork_moltres::thermal::CoupledMsrSolver
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[new]
+    pub fn __new__(neutronics: Py_outram_park_fork_moltres__circulating__CirculatingFuelSolver, thermal: Py_outram_park_fork_moltres__thermal__SaltThermalModel, flow: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField, target_power: f64, t_ref: f64, relaxation: f64, max_picard_iterations: usize, temperature_tolerance: f64) -> Self { Self { inner: ::outram_park_fork_moltres::thermal::CoupledMsrSolver { neutronics: neutronics.inner, thermal: thermal.inner, flow: flow.inner, target_power: target_power, t_ref: t_ref, relaxation: relaxation, max_picard_iterations: max_picard_iterations, temperature_tolerance: temperature_tolerance } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -483,6 +551,13 @@ impl Py_outram_park_fork_moltres__thermal__CoupledReport {
     pub fn get_eigen(&self) -> Py_outram_park_fork_moltres__diffusion__EigenReport { let v = self.inner.eigen.clone(); Py_outram_park_fork_moltres__diffusion__EigenReport { inner: v } }
     #[setter(eigen)]
     pub fn set_eigen(&mut self, v: Py_outram_park_fork_moltres__diffusion__EigenReport) { self.inner.eigen = v.inner; }
+    // @item field:outram_park_fork_moltres::thermal::CoupledReport::temperature
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { let v = self.inner.temperature.clone(); crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: v } }
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField) { self.inner.temperature = v.inner; }
     // @item field:outram_park_fork_moltres::thermal::CoupledReport::heat_source
     #[cfg(feature = "outram-foam-basic-lib")]
     #[getter(heat_source)]
@@ -500,6 +575,10 @@ impl Py_outram_park_fork_moltres__thermal__CoupledReport {
     pub fn get_temperature_residual(&self) -> f64 { let v = self.inner.temperature_residual.clone(); v }
     #[setter(temperature_residual)]
     pub fn set_temperature_residual(&mut self, v: f64) { self.inner.temperature_residual = v; }
+    // @item ctor:outram_park_fork_moltres::thermal::CoupledReport
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[new]
+    pub fn __new__(eigen: Py_outram_park_fork_moltres__diffusion__EigenReport, temperature: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, heat_source: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, picard_iterations: usize, temperature_residual: f64) -> Self { Self { inner: ::outram_park_fork_moltres::thermal::CoupledReport { eigen: eigen.inner, temperature: temperature.inner, heat_source: heat_source.inner, picard_iterations: picard_iterations, temperature_residual: temperature_residual } } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -561,6 +640,10 @@ impl Py_outram_park_fork_moltres__thermal__SaltThermalModel {
     #[doc = "Build the model; validates the HX mask length and property signs.\n\n# Errors\n[`MoltresError::SizeMismatch`] for a wrong-length mask;\n[`MoltresError::InvalidMaterial`] for non-positive `rho_cp`,\nnegative conductivity/conductance, or an all-false mask (a heated\nclosed loop with no sink has no steady state)."]
     #[new]
     pub fn new(mesh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh, config: Py_outram_park_fork_moltres__thermal__SaltThermalConfig) -> PyResult<Py_outram_park_fork_moltres__thermal__SaltThermalModel> { err(::outram_park_fork_moltres::thermal::SaltThermalModel::new(std::sync::Arc::new(mesh.inner), config.inner)).map(|v| Py_outram_park_fork_moltres__thermal__SaltThermalModel { inner: v }) }
+    // @item method:outram_park_fork_moltres::thermal::SaltThermalModel::solve_steady
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Solve the steady temperature for a given loop flow and heat source.\n\n- `flow` — face volumetric flux `u . A_f` (`m^3/s`).\n- `heat_source` — `q'''` in `W/m^3` (zero outside the core).\n\nReturns the temperature field (`K`) and the linear-solver\nperformance record.\n\n# Errors\n[`MoltresError::SizeMismatch`] for off-mesh inputs;\n[`MoltresError::LinearSolveFailed`] if Gauss-Seidel misses its\ntolerance."]
+    pub fn solve_steady(&self, flow: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__SurfaceScalarField, heat_source: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField) -> PyResult<(crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__SolverPerformance)> { err(::outram_park_fork_moltres::thermal::SaltThermalModel::solve_steady(&self.inner, &flow.inner, &heat_source.inner)).map(|v| { let (e0, e1) = v; (crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: e0 }, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__SolverPerformance { inner: e1 }) }) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 

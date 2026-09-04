@@ -147,6 +147,7 @@ class CrateModel:
         self.generic_types = {}  # id -> local generic struct/enum record
         self.impl_records = defaultdict(list)  # type id -> [(for_args, [fn ids])]
         self.alias_by_inst = {}  # (target id, args key) -> alias id
+        self.alias_target = {}   # alias id -> the type it stands for
         self.by_pyname = {}
         self.traits = defaultdict(set)   # type id -> trait names
         self.inherent = defaultdict(list)  # type id -> [fn item ids]
@@ -212,6 +213,12 @@ class CrateModel:
             ta = v["inner"]["type_alias"]
             if ta.get("generics", {}).get("params"):
                 continue        # the alias is itself generic; nothing pinned
+            # Aliases that merely rename an existing type -- above all the
+            # `uom` ones this workspace uses everywhere (`pub type
+            # MolarFlowRate = CatalyticActivity`) -- are followed through
+            # rather than wrapped. Without this, every signature spelled with
+            # a named quantity is dropped.
+            self.alias_target[k] = ta["type"]
             rp = ta["type"].get("resolved_path") if isinstance(ta["type"], dict) else None
             if not rp:
                 continue
@@ -665,6 +672,8 @@ class Emitter:
         local = self._wrapper_ty(tid, arg_position)
         if local is not None:
             return local
+        if tid in self.m.alias_target and tid not in self.wrapped:
+            return self.map_type(self.m.alias_target[tid], arg_position)
         if p["crate_id"] != 0:
             return self._foreign_ty(full, arg_position)
         return None

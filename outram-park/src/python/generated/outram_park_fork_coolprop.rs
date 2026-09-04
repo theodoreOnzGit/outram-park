@@ -2924,6 +2924,11 @@ pub fn fn_outram_park_fork_coolprop__flash__state_hrho(fluid: Py_outram_park_for
 #[pyfunction(name = "temperature_hrho")]
 pub fn fn_outram_park_fork_coolprop__flash__temperature_hrho(fluid: Py_outram_park_fork_coolprop__Fluid, rho: f64, h: f64) -> PyResult<f64> { err(::outram_park_fork_coolprop::flash::temperature_hrho(fluid.inner, rho, h)).map(|v| v) }
 
+    // @item fn:outram_park_fork_coolprop::humid_air::ha_props
+#[doc = "Evaluate a humid-air `output` property from three input constraints — the\ntyped analogue of CoolProp's\n`HAPropsSI(output, k1, v1, k2, v2, k3, v3)`.\n\nHumid air has three degrees of freedom, so exactly three inputs are\nrequired. Only `(T, p, {W|R|ψ_w|T_dp|T_wb})` triples are supported as\n*inputs* (see the module doc).\n\n# Errors\n[`HumidAirError`] if the input triple or requested output is unsupported,\nan input is out of range, or an inner solve fails to converge."]
+#[pyfunction(name = "ha_props")]
+pub fn fn_outram_park_fork_coolprop__humid_air__ha_props(output: Py_outram_park_fork_coolprop__humid_air__HumidAirParam, in1: (Py_outram_park_fork_coolprop__humid_air__HumidAirParam, f64), in2: (Py_outram_park_fork_coolprop__humid_air__HumidAirParam, f64), in3: (Py_outram_park_fork_coolprop__humid_air__HumidAirParam, f64)) -> PyResult<f64> { err(::outram_park_fork_coolprop::humid_air::ha_props(output.inner, { let (e0, e1) = in1; (e0.inner, e1) }, { let (e0, e1) = in2; (e0.inner, e1) }, { let (e0, e1) = in3; (e0.inner, e1) })).map(|v| v) }
+
     // @item fn:outram_park_fork_coolprop::humid_air::saturation::enhancement_factor
 #[doc = "The dimensionless **enhancement factor** `f(T, p) ≥ 1` (RP-1485 Eq. 3.25).\n\nSolved by secant iteration (matching CoolProp's own solve) on\n`ln f = RHS(f; T, p)`, where the right-hand side collects the\nisothermal-compressibility, Henry's-law and virial-coefficient\ncorrections. Liquid-water branch only (`T > 273.16 K`)."]
 #[pyfunction(name = "enhancement_factor")]
@@ -3111,6 +3116,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_coolprop__flash__drho_dp_t, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_coolprop__flash__state_hrho, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_coolprop__flash__temperature_hrho, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_park_fork_coolprop__humid_air__ha_props, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_coolprop__humid_air__saturation__enhancement_factor, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_coolprop__humid_air__saturation__henry_constant, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_coolprop__humid_air__saturation__p_ws, m)?)?;

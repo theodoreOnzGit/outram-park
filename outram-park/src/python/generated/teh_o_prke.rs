@@ -523,6 +523,9 @@ impl Py_teh_o_prke__time_stepping__openfoam_rfk45__RKF45 {
 pub struct Py_teh_o_prke__zero_power_prke__six_group_precursor_prke__SixGroupPRKE { pub inner: ::teh_o_prke::zero_power_prke::six_group_precursor_prke::SixGroupPRKE }
 #[pymethods]
 impl Py_teh_o_prke__zero_power_prke__six_group_precursor_prke__SixGroupPRKE {
+    // @item field:teh_o_prke::zero_power_prke::six_group_precursor_prke::SixGroupPRKE::decay_constant_array
+    #[getter(decay_constant_array)]
+    pub fn get_decay_constant_array(&self) -> Vec<f64> { let v = self.inner.decay_constant_array.clone(); v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
     // @item field:teh_o_prke::zero_power_prke::six_group_precursor_prke::SixGroupPRKE::delayed_fraction_array
     #[getter(delayed_fraction_array)]
     pub fn get_delayed_fraction_array(&self) -> Vec<f64> { let v = self.inner.delayed_fraction_array.clone(); v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
@@ -559,6 +562,9 @@ impl Py_teh_o_prke__zero_power_prke__six_group_precursor_prke__SixGroupPRKE {
 pub struct Py_teh_o_prke__zero_power_prke__six_group_precursor_prke__six_group_constants__FissioningNuclideType { pub inner: ::teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::FissioningNuclideType }
 #[pymethods]
 impl Py_teh_o_prke__zero_power_prke__six_group_precursor_prke__six_group_constants__FissioningNuclideType {
+    // @item method:teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::FissioningNuclideType::get_decay_constant_array
+    #[doc = "returns a new decay constant array based on nuclide\n(for this version, all decay constant arrays are the same)"]
+    pub fn get_decay_constant_array(&self) -> Vec<f64> { ::teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::FissioningNuclideType::get_decay_constant_array(&self.inner).into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
     // @item method:teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::FissioningNuclideType::get_delayed_fraction_array
     #[doc = "returns a delayed fraction array based on nuclide"]
     pub fn get_delayed_fraction_array(&self) -> Vec<f64> { ::teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::FissioningNuclideType::get_delayed_fraction_array(&self.inner).into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
@@ -596,6 +602,11 @@ pub fn fn_teh_o_prke__fuel_temperature_feedback__obtain_fuel_temperature_feedbac
 #[pyfunction(name = "obtain_fuel_temperature_reactivity_feedback_thermal_spectrum")]
 pub fn fn_teh_o_prke__fuel_temperature_feedback__obtain_fuel_temperature_reactivity_feedback_thermal_spectrum(alpha_coefficient: f64, temperature: f64, reference_temperature: f64) -> PyResult<f64> { err(::teh_o_prke::fuel_temperature_feedback::obtain_fuel_temperature_reactivity_feedback_thermal_spectrum(from_si(alpha_coefficient), from_si(temperature), from_si(reference_temperature))).map(|v| to_si(v)) }
 
+    // @item fn:teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::new_decay_constant_array
+#[doc = "produces a new decay constant array"]
+#[pyfunction(name = "new_decay_constant_array")]
+pub fn fn_teh_o_prke__zero_power_prke__six_group_precursor_prke__six_group_constants__new_decay_constant_array() -> Vec<f64> { ::teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::new_decay_constant_array().into_iter().map(|e| to_si(e)).collect::<Vec<_>>() }
+
     // @item fn:teh_o_prke::zero_power_prke::six_group_precursor_prke::six_group_constants::new_pu239_delayed_neutron_fraction_array
 #[doc = "produces a new delayed fraction for pu239"]
 #[pyfunction(name = "new_pu239_delayed_neutron_fraction_array")]
@@ -632,6 +643,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_teh_o_prke__control_rod_feedback__obtain_rod_worth_cylinder, m)?)?;
     m.add_function(wrap_pyfunction!(fn_teh_o_prke__fuel_temperature_feedback__obtain_fuel_temperature_feedback_coeff_thermal_spectrum, m)?)?;
     m.add_function(wrap_pyfunction!(fn_teh_o_prke__fuel_temperature_feedback__obtain_fuel_temperature_reactivity_feedback_thermal_spectrum, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_teh_o_prke__zero_power_prke__six_group_precursor_prke__six_group_constants__new_decay_constant_array, m)?)?;
     m.add_function(wrap_pyfunction!(fn_teh_o_prke__zero_power_prke__six_group_precursor_prke__six_group_constants__new_pu239_delayed_neutron_fraction_array, m)?)?;
     m.add_function(wrap_pyfunction!(fn_teh_o_prke__zero_power_prke__six_group_precursor_prke__six_group_constants__new_u233_delayed_neutron_fraction_array, m)?)?;
     m.add_function(wrap_pyfunction!(fn_teh_o_prke__zero_power_prke__six_group_precursor_prke__six_group_constants__new_u235_delayed_neutron_fraction_array, m)?)?;
