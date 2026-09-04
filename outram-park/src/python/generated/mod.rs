@@ -156,217 +156,256 @@ pub const BACKENDS: &[&str] = &[
 pub fn register_all(py: Python<'_>, root: &Bound<'_, PyModule>) -> PyResult<()> {
     let sys = py.import("sys")?;
     let sysmods = sys.getattr("modules")?;
-    #[cfg(feature = "bedok")] {
+    #[cfg(feature = "bedok")]
+    {
         let sub = PyModule::new(py, "bedok")?;
         bedok::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.bedok", &sub)?;
     }
-    #[cfg(feature = "boon-lay")] {
+    #[cfg(feature = "boon-lay")]
+    {
         let sub = PyModule::new(py, "boon_lay")?;
         boon_lay::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.boon_lay", &sub)?;
     }
-    #[cfg(feature = "chem-eng-real-time-process-control-simulator")] {
+    #[cfg(feature = "chem-eng-real-time-process-control-simulator")]
+    {
         let sub = PyModule::new(py, "chem_eng_real_time_process_control_simulator")?;
         chem_eng_real_time_process_control_simulator::register(&sub)?;
         root.add_submodule(&sub)?;
-        sysmods.set_item("outram_park.chem_eng_real_time_process_control_simulator", &sub)?;
+        sysmods.set_item(
+            "outram_park.chem_eng_real_time_process_control_simulator",
+            &sub,
+        )?;
     }
-    #[cfg(feature = "kovan")] {
+    #[cfg(feature = "kovan")]
+    {
         let sub = PyModule::new(py, "kovan")?;
         kovan::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.kovan", &sub)?;
     }
-    #[cfg(feature = "kovan-codegen")] {
+    #[cfg(feature = "kovan-codegen")]
+    {
         let sub = PyModule::new(py, "kovan_codegen")?;
         kovan_codegen::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.kovan_codegen", &sub)?;
     }
-    #[cfg(feature = "kovan-common")] {
+    #[cfg(feature = "kovan-common")]
+    {
         let sub = PyModule::new(py, "kovan_common")?;
         kovan_common::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.kovan_common", &sub)?;
     }
-    #[cfg(feature = "kovan-discovery")] {
+    #[cfg(feature = "kovan-discovery")]
+    {
         let sub = PyModule::new(py, "kovan_discovery")?;
         kovan_discovery::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.kovan_discovery", &sub)?;
     }
-    #[cfg(feature = "kovan-literature")] {
+    #[cfg(feature = "kovan-literature")]
+    {
         let sub = PyModule::new(py, "kovan_literature")?;
         kovan_literature::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.kovan_literature", &sub)?;
     }
-    #[cfg(feature = "kovan-metrics")] {
+    #[cfg(feature = "kovan-metrics")]
+    {
         let sub = PyModule::new(py, "kovan_metrics")?;
         kovan_metrics::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.kovan_metrics", &sub)?;
     }
-    #[cfg(feature = "kovan-semantics")] {
+    #[cfg(feature = "kovan-semantics")]
+    {
         let sub = PyModule::new(py, "kovan_semantics")?;
         kovan_semantics::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.kovan_semantics", &sub)?;
     }
-    #[cfg(feature = "nee_soon")] {
+    #[cfg(feature = "nee_soon")]
+    {
         let sub = PyModule::new(py, "nee_soon")?;
         nee_soon::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.nee_soon", &sub)?;
     }
-    #[cfg(feature = "njoy-outram-park-fork")] {
+    #[cfg(feature = "njoy-outram-park-fork")]
+    {
         let sub = PyModule::new(py, "njoy_outram_park_fork")?;
         njoy_outram_park_fork::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.njoy_outram_park_fork", &sub)?;
     }
-    #[cfg(feature = "outram-blender")] {
+    #[cfg(feature = "outram-blender")]
+    {
         let sub = PyModule::new(py, "outram_blender")?;
         outram_blender::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_blender", &sub)?;
     }
-    #[cfg(feature = "outram-foam-appbuilder-lib")] {
+    #[cfg(feature = "outram-foam-appbuilder-lib")]
+    {
         let sub = PyModule::new(py, "outram_foam_appbuilder_lib")?;
         outram_foam_appbuilder_lib::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_foam_appbuilder_lib", &sub)?;
     }
-    #[cfg(feature = "outram-foam-basic-lib")] {
+    #[cfg(feature = "outram-foam-basic-lib")]
+    {
         let sub = PyModule::new(py, "outram_foam_basic_lib")?;
         outram_foam_basic_lib::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_foam_basic_lib", &sub)?;
     }
-    #[cfg(feature = "outram-foam-cli")] {
+    #[cfg(feature = "outram-foam-cli")]
+    {
         let sub = PyModule::new(py, "outram_foam_cli")?;
         outram_foam_cli::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_foam_cli", &sub)?;
     }
-    #[cfg(feature = "outram-foam-mesh")] {
+    #[cfg(feature = "outram-foam-mesh")]
+    {
         let sub = PyModule::new(py, "outram_foam_mesh")?;
         outram_foam_mesh::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_foam_mesh", &sub)?;
     }
-    #[cfg(feature = "outram-foam-multiphase")] {
+    #[cfg(feature = "outram-foam-multiphase")]
+    {
         let sub = PyModule::new(py, "outram_foam_multiphase")?;
         outram_foam_multiphase::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_foam_multiphase", &sub)?;
     }
-    #[cfg(feature = "outram-foam-turbulence-lib")] {
+    #[cfg(feature = "outram-foam-turbulence-lib")]
+    {
         let sub = PyModule::new(py, "outram_foam_turbulence_lib")?;
         outram_foam_turbulence_lib::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_foam_turbulence_lib", &sub)?;
     }
-    #[cfg(feature = "outram-mc-libs")] {
+    #[cfg(feature = "outram-mc-libs")]
+    {
         let sub = PyModule::new(py, "outram_mc_libs")?;
         outram_mc_libs::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_mc_libs", &sub)?;
     }
-    #[cfg(feature = "outram-park-digital-twin-engine")] {
+    #[cfg(feature = "outram-park-digital-twin-engine")]
+    {
         let sub = PyModule::new(py, "outram_park_digital_twin_engine")?;
         outram_park_digital_twin_engine::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_digital_twin_engine", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-cfmesh")] {
+    #[cfg(feature = "outram-park-fork-cfmesh")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_cfmesh")?;
         outram_park_fork_cfmesh::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_cfmesh", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-coolprop")] {
+    #[cfg(feature = "outram-park-fork-coolprop")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_coolprop")?;
         outram_park_fork_coolprop::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_coolprop", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-dwsim-libs")] {
+    #[cfg(feature = "outram-park-fork-dwsim-libs")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_dwsim_libs")?;
         outram_park_fork_dwsim_libs::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_dwsim_libs", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-liggghts")] {
+    #[cfg(feature = "outram-park-fork-liggghts")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_liggghts")?;
         outram_park_fork_liggghts::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_liggghts", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-moltres")] {
+    #[cfg(feature = "outram-park-fork-moltres")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_moltres")?;
         outram_park_fork_moltres::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_moltres", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-offbeat")] {
+    #[cfg(feature = "outram-park-fork-offbeat")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_offbeat")?;
         outram_park_fork_offbeat::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_offbeat", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-onix")] {
+    #[cfg(feature = "outram-park-fork-onix")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_onix")?;
         outram_park_fork_onix::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_onix", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-pflotran")] {
+    #[cfg(feature = "outram-park-fork-pflotran")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_pflotran")?;
         outram_park_fork_pflotran::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_pflotran", &sub)?;
     }
-    #[cfg(feature = "outram-park-fork-thermochimica")] {
+    #[cfg(feature = "outram-park-fork-thermochimica")]
+    {
         let sub = PyModule::new(py, "outram_park_fork_thermochimica")?;
         outram_park_fork_thermochimica::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_fork_thermochimica", &sub)?;
     }
-    #[cfg(feature = "outram-park-mpi")] {
+    #[cfg(feature = "outram-park-mpi")]
+    {
         let sub = PyModule::new(py, "outram_park_mpi")?;
         outram_park_mpi::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.outram_park_mpi", &sub)?;
     }
-    #[cfg(feature = "raffles")] {
+    #[cfg(feature = "raffles")]
+    {
         let sub = PyModule::new(py, "raffles")?;
         raffles::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.raffles", &sub)?;
     }
-    #[cfg(feature = "tampines")] {
+    #[cfg(feature = "tampines")]
+    {
         let sub = PyModule::new(py, "tampines")?;
         tampines::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.tampines", &sub)?;
     }
-    #[cfg(feature = "tampines-steam-tables")] {
+    #[cfg(feature = "tampines-steam-tables")]
+    {
         let sub = PyModule::new(py, "tampines_steam_tables")?;
         tampines_steam_tables::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.tampines_steam_tables", &sub)?;
     }
-    #[cfg(feature = "teh-o-prke")] {
+    #[cfg(feature = "teh-o-prke")]
+    {
         let sub = PyModule::new(py, "teh_o_prke")?;
         teh_o_prke::register(&sub)?;
         root.add_submodule(&sub)?;
         sysmods.set_item("outram_park.teh_o_prke", &sub)?;
     }
-    #[cfg(feature = "tuas_boussinesq_solver")] {
+    #[cfg(feature = "tuas_boussinesq_solver")]
+    {
         let sub = PyModule::new(py, "tuas_boussinesq_solver")?;
         tuas_boussinesq_solver::register(&sub)?;
         root.add_submodule(&sub)?;

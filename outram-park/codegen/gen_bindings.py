@@ -15,6 +15,7 @@ drops the residue that type-checks in rustdoc's view but not in rustc's.
 import json
 import os
 import re
+import subprocess
 import sys
 from collections import defaultdict
 
@@ -1372,6 +1373,31 @@ def write_stub(path, snake, em):
                 f.write(m + "\n")
 
 
+def rustfmt(_directory):
+    """Format the crate, as the last step of generation.
+
+    The emitter writes one statement per line with no regard for width, which
+    is fine for a machine and unreadable when a signature has to be inspected
+    -- and it leaves `cargo fmt --check` permanently red on the workspace.
+
+    Deliberately `cargo fmt` rather than a bare `rustfmt`: cargo resolves the
+    edition and the workspace `rustfmt.toml` for us, and a bare invocation
+    guessing at `--edition` disagrees with the very command CI runs (2021 puts
+    a lone `) -> T` on its own line, 2024 does not). Two passes because
+    rustfmt is not idempotent on some of the nested blocks emitted here.
+
+    Not fatal on failure: unformatted bindings still compile, and a missing or
+    unhappy rustfmt should not fail a generation run.
+    """
+    for _ in range(2):
+        r = subprocess.run(["cargo", "fmt", "-p", "outram-park"],
+                           cwd=CRATE_ROOT, capture_output=True, text=True)
+        if r.returncode != 0:
+            print("warning: `cargo fmt` on the generated tree failed:\n%s"
+                  % r.stderr.strip()[:500], file=sys.stderr)
+            return
+
+
 def write_blocked_report(blocked):
     """Write `blocked.md`: which unmapped types cost the most API surface.
 
@@ -1516,6 +1542,8 @@ def main():
                 f.write('        sysmods.set_item("outram_park.%s", &sub)?;\n' % snake)
                 f.write("    }\n")
             f.write("    Ok(())\n}\n")
+        # Last, so `mod.rs` above is formatted along with everything else.
+        rustfmt(OUT_DIR)
 
 
 if __name__ == "__main__":

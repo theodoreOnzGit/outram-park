@@ -1,0 +1,26 @@
+# Formatting configuration for the `outram-park` crate.
+#
+# Mirrors the settings `outram-park-backend/rustfmt.toml` pins, for the same
+# reasons and with the same history behind them. rustfmt searches upward from
+# each file, so this one file at the crate root governs everything under it,
+# including the generated bindings in `src/python/generated/`.
+
+# Pin the edition rather than letting each invocation guess. `cargo fmt` reads
+# it from Cargo.toml (2024 here) while a bare `rustfmt` defaults to 2015, and
+# the two disagree about where a lone `) -> T` belongs -- which showed up as a
+# generated tree that `cargo fmt --check` rejected however many times rustfmt
+# had just been run over it.
+edition = "2024"
+
+max_width = 100
+
+# Leave `pub mod` and `use` ordering alone.
+#
+# `src/backend/mod.rs` groups its modules under explanatory comments -- "Core
+# physics / coupling", "OpenFOAM-derived stack", "Ported/forked external
+# codes" -- and a comment binds to the item BELOW it. Alphabetising across
+# those boundaries silently reattaches a heading to the wrong set of modules.
+# The first workspace-wide format run did exactly this reordering before this
+# file existed.
+reorder_modules = false
+reorder_imports = false

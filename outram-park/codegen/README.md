@@ -59,6 +59,7 @@ nothing here holds a second copy of the list.
 | `skip.json` | items the compiler rejected (generated) |
 | `coverage.json` | per-crate counts of what was and was not wrapped |
 | `blocked.md` | *why* items were dropped: unmapped type shapes, ranked |
+| `../rustfmt.toml` | pins the formatting the generated tree is written in |
 | `errors-pass*.log` | raw compiler errors from the last repair run (gitignored) |
 | `.build-venv/` | `maturin[zig]`, created on first `--wheel` (gitignored) |
 
@@ -95,6 +96,28 @@ The schema is nightly-only and versioned, and it does change. The version
 this generator was written against is `FORMAT_VERSION` in
 `gen_bindings.py`; a mismatch aborts with a message naming the file to
 update, rather than generating quiet nonsense from a shape it misreads.
+
+## The generated tree is formatted
+
+`gen_bindings.py` runs `cargo fmt` over `src/python/generated/` as its last
+step, so the checked-in result is what `cargo fmt --check` expects and a
+regeneration that changes nothing produces no diff.
+
+Two details that are easy to get wrong and were:
+
+- It is `cargo fmt`, not a bare `rustfmt`. Cargo resolves the edition and the
+  crate's `rustfmt.toml`; a bare invocation guessing `--edition 2021` against
+  a 2024 crate disagrees about where a lone `) -> T` belongs, and leaves a
+  tree that `cargo fmt --check` rejects however many times rustfmt has just
+  run over it.
+- It runs **twice**. rustfmt is not idempotent on some of the nested blocks
+  emitted here -- a `let` followed by an `if` inside a struct literal
+  collapses only on the second pass.
+
+`../rustfmt.toml` pins `reorder_modules = false` for the same reason the
+backend does: `src/backend/mod.rs` groups its modules under explanatory
+comments, and a comment binds to the item below it, so alphabetising across
+those boundaries reattaches a heading to the wrong set.
 
 ## Reading `blocked.md`
 

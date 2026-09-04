@@ -9,7 +9,9 @@ use std::time::Duration;
 
 use crossterm::event::{self, Event, KeyCode};
 use crossterm::execute;
-use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode};
+use crossterm::terminal::{
+    EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode,
+};
 use ratatui::Terminal;
 use ratatui::backend::CrosstermBackend;
 use ratatui::widgets::{Block, Borders, Paragraph};
@@ -41,5 +43,6 @@ pub fn run() {
     }
 
     disable_raw_mode().expect("failed to disable raw mode");
-    execute!(terminal.backend_mut(), LeaveAlternateScreen).expect("failed to leave the alternate screen");
+    execute!(terminal.backend_mut(), LeaveAlternateScreen)
+        .expect("failed to leave the alternate screen");
 }
