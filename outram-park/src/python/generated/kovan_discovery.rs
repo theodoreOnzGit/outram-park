@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:kovan_discovery::DiscoveryError
 #[doc = "Errors produced by discovery / search."]

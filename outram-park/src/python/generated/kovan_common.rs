@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:kovan_common::Author
 #[doc = "A single author of a document.\n\nAlso used for organisational \"authors\" (e.g. a standards body or a\nbenchmark evaluation group) — by convention, set `family` to the\norganisation's name and leave `given` as an empty string (see\n`examples/build_document.rs`, which does this for an ICSBEP evaluation)."]

@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:tampines_steam_tables::AdvectionTerminalState
 #[doc = "The thermodynamic state available at one **advection terminal** (one end\npatch) of the pipe, used to pick the upwind state for the energy equation.\n\n## Why a terminal and not a patch\n\n[`TampinesSteamArray`] is a **1-D flow component in a network**, so its two\nends are **junctions** to other components, not patches on a standalone CFD\ndomain. The convention this enum serves is therefore TUAS's upwind advection\nterminal, not OpenFOAM's `zeroGradient` / `fixedValue` patch semantics — see\n`docs/boundary-conditions-convention.md` and\n[`TampinesSteamArray::correct_advection_terminals`].\n\nPorted from `tuas_boussinesq_solver`'s\n`single_control_vol/boundary_condition_interactions/advection_to_bcs.rs`,\nwhose two pairs of methods map onto the two variants below one-for-one:\n\n| TUAS method pair | Variant here |\n|---|---|\n| `calculate_*_advection_non_set_temperature` (BC state = zero-gradient extrapolation of the control volume) | [`Self::ZeroGradientExtrapolated`] |\n| `calculate_*_advection_set_temperature` (BC state prescribed by the caller) | [`Self::Junction`] |\n\nIn **both** TUAS pairs the enthalpy *and* the density actually used are\nselected by the sign of the mass flow, never defaulted — which is what makes\nthe historical \"zero-gradient at both ends\" failure structurally impossible."]
@@ -508,7 +508,7 @@ pub struct Py_tampines_steam_tables__prelude__TampinesSteamTableCV { pub inner: 
 impl Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
     // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep
     #[doc = "Applies one timestep of mass-and-energy exchange recorded in `changes`,\nupdating the control volume in place to its new thermodynamic state.\n\nThe geometric volume is held fixed (control-volume definition). See the\n[module documentation](self) for the full derivation. In brief:\n\n1. `m_new = m_old + Σ dm_i`\n2. `h_new = (m_old · h_old + Σ dm_i · h_i) / m_new`\n3. `v_new = V / m_new`, then solve `v(p, h_new) = v_new` for `p` by\n   regula falsi and rebuild the state from `(p, h_new)`.\n\n# Panics\n\nPanics if the resulting mass is not strictly positive (the control volume\nwould be emptied or driven negative), or if no pressure in the IF97 range\nreproduces the target `(v_new, h_new)` state — both indicate\nnon-physical inputs rather than a recoverable condition."]
-    pub fn advance_timestep(&mut self, changes: Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges) -> () { ::tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep(&mut self.inner, &changes.inner) }
+    pub fn advance_timestep(&mut self, changes: PyRef<'_, Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges>) -> () { ::tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep(&mut self.inner, &changes.inner) }
     // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::set_tpx
     #[doc = "Re-flashes the control volume in place from `(T,p,x)`, where\ntemperature `T` is in K, pressure `p` is in Pa, and `x` is the\nsteam quality (vapour mass fraction, only meaningful on the\nsaturation line). The fixed control-volume `volume` is preserved;\nall intensive properties are recomputed via\n[`Self::new_from_tp_quality`]."]
     pub fn set_tpx(&mut self, t: f64, p: f64, x: f64) -> () { ::tampines_steam_tables::prelude::TampinesSteamTableCV::set_tpx(&mut self.inner, from_si(t), from_si(p), x) }
@@ -1190,6 +1190,291 @@ pub fn fn_tampines_steam_tables__dynamic_viscosity__mu_tp_eqm_single_phase(t: f6
 #[doc = "Dynamic viscosity mu (Pa*s) of a two-phase equilibrium mixture at\ntemperature `t` (K), pressure `p` (Pa) and quality `x` (dimensionless),\nusing the HEM-mixture specific volume to get the mixture density."]
 #[pyfunction(name = "mu_tp_eqm_two_phase")]
 pub fn fn_tampines_steam_tables__dynamic_viscosity__mu_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> f64 { to_si(::tampines_steam_tables::dynamic_viscosity::mu_tp_eqm_two_phase(from_si(t), from_si(p), x)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::check_ph_envelope
+#[doc = "Validates a `(p, h)` pair against the envelope the unchecked `(p,h)`\ninternals actually accept: `p` in `[p_sat(273.15 K), 100 MPa]` (both\nedges inclusive, matching `is_outside_pressure_range`) and `h` between\nthe 273.15 K and 1073.15 K isotherm enthalpies at that pressure.\nReturns `Ok(())` when every wrapped `try_*_ph_*` function is safe to\ncall.\n\nInputs: `p` is an absolute pressure (Pa), `h` a specific enthalpy\n(J/kg); the valid `h` window is pressure-dependent and is reported in\nthe error when violated."]
+#[pyfunction(name = "check_ph_envelope")]
+pub fn fn_tampines_steam_tables__prelude__checked__check_ph_envelope(p: f64, h: f64) -> PyResult<()> { err(::tampines_steam_tables::prelude::checked::check_ph_envelope(from_si(p), from_si(h))).map(|v| v) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::check_tp_single_phase_envelope
+#[doc = "Validates a `(T, p)` pair against the IF97 single-phase envelope the\nunchecked `(T,p)` internals actually accept (module-level doc has the\nfull bound list). Returns `Ok(())` when every wrapped\n`try_*_tp_eqm_single_phase` function is safe to call.\n\nInputs: `t` is a thermodynamic temperature (valid 273.15-2273.15 K),\n`p` an absolute pressure (valid up to and including 100 MPa from\n273.15 K to 1073.15 K, up to and including 50 MPa above 1073.15 K)."]
+#[pyfunction(name = "check_tp_single_phase_envelope")]
+pub fn fn_tampines_steam_tables__prelude__checked__check_tp_single_phase_envelope(t: f64, p: f64) -> PyResult<()> { err(::tampines_steam_tables::prelude::checked::check_tp_single_phase_envelope(from_si(t), from_si(p))).map(|v| v) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::control_volume::try_new_from_ph
+#[doc = "Checked [`TampinesSteamTableCV::new_from_ph`]: builds a control volume\nfrom a `(p, h)` flash.\n\nInputs: `p` in Pa (valid `[p_sat(273.15 K), 100 MPa]`, both edges\ninclusive), `h` in J/kg (valid between the 273.15 K and 1073.15 K\nisotherm enthalpies at that pressure), `volume` in m^3. See\n[`super::check_ph_envelope`] for the exact bounds."]
+#[pyfunction(name = "try_new_from_ph")]
+pub fn fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_ph(p: f64, h: f64, volume: f64) -> PyResult<Py_tampines_steam_tables__prelude__TampinesSteamTableCV> { err(::tampines_steam_tables::prelude::checked::control_volume::try_new_from_ph(from_si(p), from_si(h), from_si(volume))).map(|v| Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::control_volume::try_new_from_ps
+#[doc = "Checked [`TampinesSteamTableCV::new_from_ps`]: builds a control volume\nfrom a `(p, s)` flash.\n\nInputs: `p` in Pa (valid `(p_sat(273.15 K), 100 MPa]` — note the\n**exclusive** lower edge, see [`super::ps`]), `s` in J/(kg K) (valid\nbetween the 273.15 K and 1073.15 K isotherm entropies at that\npressure), `volume` in m^3."]
+#[pyfunction(name = "try_new_from_ps")]
+pub fn fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_ps(p: f64, s: f64, volume: f64) -> PyResult<Py_tampines_steam_tables__prelude__TampinesSteamTableCV> { err(::tampines_steam_tables::prelude::checked::control_volume::try_new_from_ps(from_si(p), from_si(s), from_si(volume))).map(|v| Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::control_volume::try_new_from_sat_pressure_quality
+#[doc = "Checked [`TampinesSteamTableCV::new_from_sat_pressure_quality`]: builds\na saturation-line control volume from saturation pressure and quality.\n\nInputs: `p` the saturation pressure in Pa, `x` the steam quality\n(dimensionless, valid `[0, 1]` inclusive), `volume` in m^3. The\nsaturation temperature is looked up with `sat_temp_4(p)` and the\nresulting `(T, p, x)` triple is validated with\n[`check_tpx_envelope`] — so a pressure whose saturation temperature\nfalls outside `[273.15 K, 2273.15 K]` is rejected here rather than\npanicking downstream."]
+#[pyfunction(name = "try_new_from_sat_pressure_quality")]
+pub fn fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_sat_pressure_quality(p: f64, x: f64, volume: f64) -> PyResult<Py_tampines_steam_tables__prelude__TampinesSteamTableCV> { err(::tampines_steam_tables::prelude::checked::control_volume::try_new_from_sat_pressure_quality(from_si(p), x, from_si(volume))).map(|v| Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::control_volume::try_new_from_sat_temp_quality
+#[doc = "Checked [`TampinesSteamTableCV::new_from_sat_temp_quality`]: builds a\nsaturation-line control volume from saturation temperature and quality.\n\nInputs: `t` the saturation temperature in K, `x` the steam quality\n(dimensionless, valid `[0, 1]` inclusive), `volume` in m^3. The\nsaturation pressure is looked up with `sat_pressure_4(t)` and the\nresulting `(T, p, x)` triple is validated with\n[`check_tpx_envelope`]."]
+#[pyfunction(name = "try_new_from_sat_temp_quality")]
+pub fn fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_sat_temp_quality(t: f64, x: f64, volume: f64) -> PyResult<Py_tampines_steam_tables__prelude__TampinesSteamTableCV> { err(::tampines_steam_tables::prelude::checked::control_volume::try_new_from_sat_temp_quality(from_si(t), x, from_si(volume))).map(|v| Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::control_volume::try_new_from_tp_quality
+#[doc = "Checked [`TampinesSteamTableCV::new_from_tp_quality`]: builds a control\nvolume from a two-phase-aware `(T, p, x)` flash.\n\nInputs: `temperature` in K (valid 273.15-2273.15), `pressure` in Pa\n(valid up to and including 100 MPa below 1073.15 K, 50 MPa above),\n`volume` the fixed control-volume size in m^3 (not validated — any\nfinite volume is geometrically meaningful and no internal reads it\nduring the flash), and `x` the steam quality (vapour mass fraction,\nvalid in `[0, 1]` inclusive). Saturation-line `(T,p)` pairs are\naccepted: resolving them with an explicit quality is the point of this\nconstructor."]
+#[pyfunction(name = "try_new_from_tp_quality")]
+pub fn fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_tp_quality(temperature: f64, pressure: f64, volume: f64, x: f64) -> PyResult<Py_tampines_steam_tables__prelude__TampinesSteamTableCV> { err(::tampines_steam_tables::prelude::checked::control_volume::try_new_from_tp_quality(from_si(temperature), from_si(pressure), from_si(volume), x)).map(|v| Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::control_volume::try_new_from_tp_quality_0
+#[doc = "Checked [`TampinesSteamTableCV::new_from_tp_quality_0`]: builds a\ncontrol volume from a `(T, p)` flash with steam quality fixed at 0\n(saturated liquid / bubble point on the saturation line, ignored\nelsewhere). Same `(T,p)` envelope as [`try_new_from_tp_quality`]."]
+#[pyfunction(name = "try_new_from_tp_quality_0")]
+pub fn fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_tp_quality_0(temperature: f64, pressure: f64, volume: f64) -> PyResult<Py_tampines_steam_tables__prelude__TampinesSteamTableCV> { err(::tampines_steam_tables::prelude::checked::control_volume::try_new_from_tp_quality_0(from_si(temperature), from_si(pressure), from_si(volume))).map(|v| Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::control_volume::try_new_from_tp_quality_1
+#[doc = "Checked [`TampinesSteamTableCV::new_from_tp_quality_1`]: builds a\ncontrol volume from a `(T, p)` flash with steam quality fixed at 1\n(saturated vapour / dew point on the saturation line, ignored\nelsewhere). Same `(T,p)` envelope as [`try_new_from_tp_quality`]."]
+#[pyfunction(name = "try_new_from_tp_quality_1")]
+pub fn fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_tp_quality_1(temperature: f64, pressure: f64, volume: f64) -> PyResult<Py_tampines_steam_tables__prelude__TampinesSteamTableCV> { err(::tampines_steam_tables::prelude::checked::control_volume::try_new_from_tp_quality_1(from_si(temperature), from_si(pressure), from_si(volume))).map(|v| Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::check_ps_envelope
+#[doc = "Validates a `(p, s)` pair against the envelope the unchecked `(p,s)`\ninternals actually accept, returning `Ok(())` when every wrapped\n`try_*_ps_*` function in this module is safe to call.\n\n# Physical quantities and valid ranges\n\n- `p` — absolute pressure, Pa. Valid in the **closed** interval\n  `[p_sat(273.15 K), 100 MPa]`, i.e. from the triple-point saturation\n  pressure (about 611.213 Pa) up to and including 100 MPa. Both edges\n  are inclusive, matching `is_outside_pressure_range`, which rejects\n  only `p < p_sat(273.15 K)` and `p > 100 MPa`. The lower edge was\n  exclusive until bead `op-znjx` removed the Region-4 trap documented\n  at module level.\n- `s` — specific entropy, J/(kg K). Valid between the 273.15 K and\n  1073.15 K isotherm entropies **at that pressure**, both edges\n  inclusive. Each bound is evaluated with the same call the internal\n  check uses — `s_tp_1` on the 273.15 K isotherm (which lies wholly in\n  Region 1) and `s_tp_eqm_single_phase` on the 1073.15 K one — so the\n  accepted set is identical rather than merely similar.\n\nNon-finite input is rejected first with\n[`SteamTablesError::NonFinite`]."]
+#[pyfunction(name = "check_ps_envelope")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__check_ps_envelope(p: f64, s: f64) -> PyResult<()> { err(::tampines_steam_tables::prelude::checked::ps::check_ps_envelope(from_si(p), from_si(s))).map(|v| v) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_alpha_v_ps_eqm
+#[doc = "Checked isobaric cubic expansion coefficient alpha_v (1/K) from a\n`(p,s)` flash. Valid range: the `(p,s)` envelope in\n[`check_ps_envelope`]. Agrees exactly with [`alpha_v_ps_eqm`] for\nin-range input."]
+#[pyfunction(name = "try_alpha_v_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_alpha_v_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_alpha_v_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_cp_ps_eqm
+#[doc = "Checked isobaric specific heat capacity cp (J/(kg K)) from a `(p,s)`\nflash (two-phase states return a quality-interpolated estimate — see\n[`cp_ps_eqm`]). Valid range: the `(p,s)` envelope in\n[`check_ps_envelope`]."]
+#[pyfunction(name = "try_cp_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_cp_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_cp_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_cv_ps_eqm
+#[doc = "Checked isochoric specific heat capacity cv (J/(kg K)) from a `(p,s)`\nflash (two-phase states return a quality-interpolated estimate — see\n[`cv_ps_eqm`]). Valid range: the `(p,s)` envelope in\n[`check_ps_envelope`]."]
+#[pyfunction(name = "try_cv_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_cv_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_cv_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_h_ps_eqm
+#[doc = "Checked specific enthalpy h (J/kg) from a `(p,s)` flash. Valid range:\nthe `(p,s)` envelope in [`check_ps_envelope`]. Agrees exactly with\n[`h_ps_eqm`] for in-range input."]
+#[pyfunction(name = "try_h_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_h_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_h_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_kappa_ps_eqm
+#[doc = "Checked isentropic exponent kappa (dimensionless `Ratio`) from a `(p,s)`\nflash. Valid range: the `(p,s)` envelope in [`check_ps_envelope`].\nAgrees exactly with [`kappa_ps_eqm`] for in-range input."]
+#[pyfunction(name = "try_kappa_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_kappa_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_kappa_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_mass_flux_ps_eqm_throat
+#[doc = "Checked HEM critical mass flux G (kg/(m^2 s)) evaluated **at throat\nconditions** `(p, s)` — not stagnation conditions. Valid range: a\n**stricter** envelope than [`check_ps_envelope`], because the unchecked\n[`mass_flux_ps_eqm_throat`] differentiates `v(p,s)` by finite difference\nand therefore evaluates the `(p,s)` flash at *three* pressures.\n\n# Panic-trace\n\nBeyond the `(p,s)` panics listed at module level, the unchecked function\nreaches them again at the perturbed pressures:\n\n- `v_ps_eqm(p + p * 1e-5, s_adjusted)` — panics for `p` within\n  `1e-5` relative of 100 MPa (the step walks over the ceiling), and for\n  `s` within a step of the 1073.15 K isotherm (raising the pressure\n  lowers that isotherm's entropy). Excluded by re-running\n  [`check_ps_envelope`] at `p + dp`.\n- `v_ps_eqm(max(p - p * 1e-5, 611.823 Pa), s_adjusted)` — same, at the\n  lower edge. Excluded by re-running [`check_ps_envelope`] at that\n  clamped pressure.\n- `s_tp_eqm_two_phase(sat_temp_4(p), p, 0.0 | 1.0)`, used to locate the\n  bubble point for the near-saturation entropy adjustment. Excluded by\n  [`check_tpx_envelope`] at `(sat_temp_4(p), p, 0)`; the `x = 1` call is\n  the same `(T,p)` point and both qualities are "]
+#[pyfunction(name = "try_mass_flux_ps_eqm_throat")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_mass_flux_ps_eqm_throat(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_mass_flux_ps_eqm_throat(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_rho_ps_eqm
+#[doc = "Checked mass density rho (kg/m^3) from a `(p,s)` flash — the reciprocal\nof [`try_v_ps_eqm`]. Valid range: the `(p,s)` envelope in\n[`check_ps_envelope`]."]
+#[pyfunction(name = "try_rho_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_rho_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_rho_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_t_ps_eqm
+#[doc = "Checked temperature T (K) from a `(p,s)` flash (Regions 1-4; Region 5\nis not implemented for this flash path and lies outside the entropy\nwindow). Valid range: the `(p,s)` envelope in\n[`check_ps_envelope`]. Agrees exactly with [`t_ps_eqm`] for in-range\ninput."]
+#[pyfunction(name = "try_t_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_t_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_t_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_v_ps_eqm
+#[doc = "Checked specific volume v (m^3/kg) from a `(p,s)` flash (two-phase\nstates return the quality-weighted mixture volume). Valid range: the\n`(p,s)` envelope in [`check_ps_envelope`]. Agrees exactly with\n[`v_ps_eqm`] for in-range input."]
+#[pyfunction(name = "try_v_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_v_ps_eqm(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_v_ps_eqm(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_w_ps_wood_wallis
+#[doc = "Checked speed of sound w (m/s) from a `(p,s)` flash; in the two-phase\nregion this is the Wood/Wallis homogeneous-mixture sound speed. Valid\nrange: the `(p,s)` envelope in [`check_ps_envelope`]. Agrees exactly\nwith [`w_ps_wood_wallis`] for in-range input."]
+#[pyfunction(name = "try_w_ps_wood_wallis")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_w_ps_wood_wallis(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_w_ps_wood_wallis(from_si(p), from_si(s))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::ps::try_x_ps_flash
+#[doc = "Checked steam quality x (dimensionless, bare `f64` to agree exactly with\nthe unchecked [`x_ps_flash`]): 0 for subcooled liquid, 1 for superheated\nvapour, in `(0, 1)` inside the vapour-liquid dome. Valid range: the\n`(p,s)` envelope in [`check_ps_envelope`]."]
+#[pyfunction(name = "try_x_ps_flash")]
+pub fn fn_tampines_steam_tables__prelude__checked__ps__try_x_ps_flash(p: f64, s: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::ps::try_x_ps_flash(from_si(p), from_si(s))).map(|v| v) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_alpha_v_ph_eqm
+#[doc = "Checked isobaric cubic expansion coefficient alpha_v (1/K) from a\n`(p,h)` flash (two-phase states return a quality-interpolated\nestimate). Valid range: the `(p,h)` envelope in the module doc. Agrees\nexactly with [`alpha_v_ph_eqm`] for in-range input.\n\nPanic-trace: `alpha_v_ph_eqm` calls `t_ph_eqm` and `ph_flash_region`,\nwhose panics (`ph_flash_eqm/mod.rs:833,837,846` and the Region-5 arm at\n`:51`) are all excluded by [`check_ph_envelope`]. Its Region-4 arm\nevaluates `alpha_v_tp_1`/`alpha_v_tp_2` directly at `(T_sat, p)`,\nbypassing the `(T,p)` router, so it adds no new panic site."]
+#[pyfunction(name = "try_alpha_v_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_alpha_v_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_alpha_v_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_alpha_v_tp_eqm_single_phase
+#[doc = "Checked isobaric cubic expansion coefficient alpha_v (1/K) from a\nsingle-phase `(T,p)` flash — the thermal expansivity\n`(1/v)(dv/dT)_p`. Valid range: the `(T,p)` envelope in the module doc.\nAgrees exactly with [`alpha_v_tp_eqm_single_phase`] for in-range input.\n\nPanic-trace: `alpha_v_tp_eqm_single_phase` calls\n`region_fwd_eqn_single_phase` (fallthrough `panic!` at\n`pt_flash_eqm/mod.rs:157`, excluded by the `(T,p)` envelope gate) and\npanics on its Region-4 arm (`pt_flash_eqm/mod.rs:334`, excluded by the\nexact-saturation-line rejection). The per-region kernels\n`alpha_v_tp_1/2/3/5` are panic-free."]
+#[pyfunction(name = "try_alpha_v_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_alpha_v_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_alpha_v_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_cp_ph_eqm
+#[doc = "Checked isobaric specific heat capacity cp (J/(kg K)) from a `(p,h)`\nflash (two-phase states return a quality-interpolated estimate — see\n[`cp_ph_eqm`]). Valid range: the `(p,h)` envelope in the module doc.\nAgrees exactly with [`cp_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_cp_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_cp_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_cp_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_cp_tp_eqm_single_phase
+#[doc = "Checked isobaric specific heat capacity cp (J/(kg K)) from a\nsingle-phase `(T,p)` flash. Valid range: the `(T,p)` envelope in the\nmodule doc. Agrees exactly with [`cp_tp_eqm_single_phase`] for\nin-range input."]
+#[pyfunction(name = "try_cp_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_cp_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_cp_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_cv_ph_eqm
+#[doc = "Checked isochoric specific heat capacity cv (J/(kg K)) from a `(p,h)`\nflash (two-phase states return a quality-interpolated estimate — see\n[`cv_ph_eqm`]). Valid range: the `(p,h)` envelope in the module doc.\nAgrees exactly with [`cv_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_cv_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_cv_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_cv_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_cv_tp_eqm_single_phase
+#[doc = "Checked isochoric specific heat capacity cv (J/(kg K)) from a\nsingle-phase `(T,p)` flash. Valid range: the `(T,p)` envelope in the\nmodule doc. Agrees exactly with [`cv_tp_eqm_single_phase`] for\nin-range input."]
+#[pyfunction(name = "try_cv_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_cv_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_cv_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_h_tp_eqm_single_phase
+#[doc = "Checked specific enthalpy h (J/kg) from a single-phase `(T,p)` flash.\nValid range: the `(T,p)` envelope in the module doc (T 273.15-2273.15 K\nwith the band-dependent pressure ceiling); exact saturation-line pairs\nare rejected. Agrees exactly with\n[`h_tp_eqm_single_phase`] for in-range input."]
+#[pyfunction(name = "try_h_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_h_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_h_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_kappa_ph_eqm
+#[doc = "Checked isentropic exponent kappa (dimensionless `Ratio`) from a\n`(p,h)` flash. Valid range: the `(p,h)` envelope in the module doc.\nAgrees exactly with [`kappa_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_kappa_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_kappa_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_kappa_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_kappa_tp_eqm_single_phase
+#[doc = "Checked isentropic exponent kappa (dimensionless `Ratio`) from a\nsingle-phase `(T,p)` flash. Valid range: the `(T,p)` envelope in the\nmodule doc. Agrees exactly with [`kappa_tp_eqm_single_phase`] for\nin-range input."]
+#[pyfunction(name = "try_kappa_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_kappa_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_kappa_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_lambda_ph_eqm
+#[doc = "Checked thermal conductivity lambda (W/(m K), IAPWS R15-11) from a\n`(p,h)` flash. Valid range: the `(p,h)` envelope in the module doc.\nAgrees exactly with [`lambda_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_lambda_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_lambda_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_lambda_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_lambda_tp_eqm_single_phase
+#[doc = "Checked thermal conductivity lambda (W/(m K), IAPWS R15-11) from a\nsingle-phase `(T,p)` flash. Valid range: the `(T,p)` envelope in the\nmodule doc. Agrees exactly with [`lambda_tp_eqm_single_phase`] for\nin-range input."]
+#[pyfunction(name = "try_lambda_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_lambda_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_lambda_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_mu_ph_eqm
+#[doc = "Checked dynamic viscosity mu (Pa s, IAPWS R12-08 fast path) from a\n`(p,h)` flash (two-phase states use the HEM-mixture density). Valid\nrange: the `(p,h)` envelope in the module doc. Agrees exactly with\n[`mu_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_mu_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_mu_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_mu_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_mu_tp_eqm_single_phase
+#[doc = "Checked dynamic viscosity mu (Pa s, IAPWS R12-08 fast path without the\ncritical enhancement) from a single-phase `(T,p)` flash. Valid range:\nthe `(T,p)` envelope in the module doc. Agrees exactly with\n[`mu_tp_eqm_single_phase`] for in-range input."]
+#[pyfunction(name = "try_mu_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_mu_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_mu_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_rho_ph_eqm
+#[doc = "Checked mass density rho (kg/m^3) from a `(p,h)` flash — the\nreciprocal of [`try_v_ph_eqm`]. Valid range: the `(p,h)` envelope in\nthe module doc."]
+#[pyfunction(name = "try_rho_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_rho_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_rho_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_rho_tp_eqm_single_phase
+#[doc = "Checked mass density rho (kg/m^3) from a single-phase `(T,p)` flash —\nthe reciprocal of [`try_v_tp_eqm_single_phase`]. Valid range: the\n`(T,p)` envelope in the module doc."]
+#[pyfunction(name = "try_rho_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_rho_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_rho_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_s_ph_eqm
+#[doc = "Checked specific entropy s (J/(kg K)) from a `(p,h)` flash. Valid\nrange: the `(p,h)` envelope in the module doc. Agrees exactly with\n[`s_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_s_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_s_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_s_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_s_tp_eqm_single_phase
+#[doc = "Checked specific entropy s (J/(kg K)) from a single-phase `(T,p)`\nflash. Valid range: the `(T,p)` envelope in the module doc. Agrees\nexactly with [`s_tp_eqm_single_phase`] for in-range input."]
+#[pyfunction(name = "try_s_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_s_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_s_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_t_ph_eqm
+#[doc = "Checked temperature T (K) from a `(p,h)` flash (Regions 1-4; Region 5\nhas no IAPWS-IF97 backward `(p,h)` correlation and lies outside the\nenthalpy window). Valid range: the `(p,h)` envelope in the module doc.\nAgrees exactly with [`t_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_t_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_t_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_t_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_u_ph_eqm
+#[doc = "Checked specific internal energy u (J/kg) from a `(p,h)` flash. Valid\nrange: the `(p,h)` envelope in the module doc. Agrees exactly with\n[`u_ph_eqm`] for in-range input."]
+#[pyfunction(name = "try_u_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_u_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_u_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_u_tp_eqm_single_phase
+#[doc = "Checked specific internal energy u (J/kg) from a single-phase `(T,p)`\nflash. Valid range: the `(T,p)` envelope in the module doc. Agrees\nexactly with [`u_tp_eqm_single_phase`] for in-range input."]
+#[pyfunction(name = "try_u_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_u_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_u_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_v_ph_eqm
+#[doc = "Checked specific volume v (m^3/kg) from a `(p,h)` flash (two-phase\nstates return the quality-weighted mixture volume). Valid range: the\n`(p,h)` envelope in the module doc. Agrees exactly with [`v_ph_eqm`]\nfor in-range input."]
+#[pyfunction(name = "try_v_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_v_ph_eqm(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_v_ph_eqm(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_v_tp_eqm_single_phase
+#[doc = "Checked specific volume v (m^3/kg) from a single-phase `(T,p)` flash.\nValid range: the `(T,p)` envelope in the module doc. Agrees exactly\nwith [`v_tp_eqm_single_phase`] for in-range input."]
+#[pyfunction(name = "try_v_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_v_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_v_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_w_ph_wood_wallis
+#[doc = "Checked speed of sound w (m/s) from a `(p,h)` flash; in the two-phase\nregion this is the Wood/Wallis homogeneous-mixture sound speed. Valid\nrange: the `(p,h)` envelope in the module doc. Agrees exactly with\n[`w_ph_wood_wallis`] for in-range input."]
+#[pyfunction(name = "try_w_ph_wood_wallis")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_w_ph_wood_wallis(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_w_ph_wood_wallis(from_si(p), from_si(h))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_w_tp_eqm_single_phase
+#[doc = "Checked speed of sound w (m/s) from a single-phase `(T,p)` flash.\nValid range: the `(T,p)` envelope in the module doc. Agrees exactly\nwith [`w_tp_eqm_single_phase`] for in-range input."]
+#[pyfunction(name = "try_w_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_w_tp_eqm_single_phase(t: f64, p: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_w_tp_eqm_single_phase(from_si(t), from_si(p))).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::try_x_ph_flash
+#[doc = "Checked steam quality x (dimensionless, bare `f64` to agree exactly\nwith the unchecked [`x_ph_flash`]): 0 for subcooled liquid, 1 for\nsuperheated vapour, in `(0, 1)` inside the vapour-liquid dome. Valid\nrange: the `(p,h)` envelope in the module doc."]
+#[pyfunction(name = "try_x_ph_flash")]
+pub fn fn_tampines_steam_tables__prelude__checked__try_x_ph_flash(p: f64, h: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::try_x_ph_flash(from_si(p), from_si(h))).map(|v| v) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::check_tpx_envelope
+#[doc = "Validates a `(T, p, x)` triple against the envelope the unchecked\ntwo-phase `(T,p,x)` internals actually accept, returning `Ok(())` when\nevery wrapped `try_*_tp_eqm_two_phase` function is safe to call.\n\n# Physical quantities and valid ranges\n\n- `t` — thermodynamic temperature, K. Valid in `[273.15, 2273.15]`.\n- `p` — absolute pressure, Pa. Valid in `(0, 100 MPa]` for `t` in\n  `[273.15 K, 1073.15 K]`, and in `(0, 50 MPa]` for `t` above\n  1073.15 K (IF97 Region 5). Both ceilings are **inclusive**; the floor\n  is exclusive at 0 (vacuum has no IF97 state).\n- `x` — steam quality, i.e. vapour mass fraction, dimensionless. Valid\n  in `[0, 1]`, **both edges inclusive**. It only affects the answer for\n  `(T,p)` pairs on (or within `5e-4` relative pressure of) the\n  saturation line; elsewhere the underlying single-phase equations\n  ignore it.\n\nUnlike [`super::check_tp_single_phase_envelope`] this check **accepts**\nsaturation-line `(T,p)` pairs — resolving them is what the two-phase\nfamily is for.\n\nNon-finite input is rejected first with\n[`SteamTablesError::NonFinite`]."]
+#[pyfunction(name = "check_tpx_envelope")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__check_tpx_envelope(t: f64, p: f64, x: f64) -> PyResult<()> { err(::tampines_steam_tables::prelude::checked::two_phase::check_tpx_envelope(from_si(t), from_si(p), x)).map(|v| v) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_alpha_v_tp_eqm_two_phase
+#[doc = "Checked isobaric cubic expansion coefficient alpha_v (1/K) from a\ntwo-phase-aware `(T,p,x)` flash. Valid range: the `(T,p,x)` envelope in\n[`check_tpx_envelope`]. Agrees exactly with\n[`alpha_v_tp_eqm_two_phase`] for in-range input."]
+#[pyfunction(name = "try_alpha_v_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_alpha_v_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_alpha_v_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_cp_tp_eqm_two_phase
+#[doc = "Checked isobaric specific heat capacity cp (J/(kg K)) from a\ntwo-phase-aware `(T,p,x)` flash (two-phase states return a\nquality-weighted mixture value). Valid range: the `(T,p,x)` envelope in\n[`check_tpx_envelope`]. Agrees exactly with [`cp_tp_eqm_two_phase`] for\nin-range input."]
+#[pyfunction(name = "try_cp_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_cp_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_cp_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_cv_tp_eqm_two_phase
+#[doc = "Checked isochoric specific heat capacity cv (J/(kg K)) from a\ntwo-phase-aware `(T,p,x)` flash. Valid range: the `(T,p,x)` envelope in\n[`check_tpx_envelope`]. Agrees exactly with [`cv_tp_eqm_two_phase`] for\nin-range input."]
+#[pyfunction(name = "try_cv_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_cv_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_cv_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_h_tp_eqm_two_phase
+#[doc = "Checked specific enthalpy h (J/kg) from a two-phase-aware `(T,p,x)`\nflash. Valid range: the `(T,p,x)` envelope in [`check_tpx_envelope`]\n(saturation-line pairs accepted; `x` in `[0, 1]`). Agrees exactly with\n[`h_tp_eqm_two_phase`] for in-range input."]
+#[pyfunction(name = "try_h_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_h_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_h_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_kappa_tp_eqm_two_phase
+#[doc = "Checked isentropic exponent kappa (dimensionless `Ratio`) from a\ntwo-phase-aware `(T,p,x)` flash. Valid range: the `(T,p,x)` envelope in\n[`check_tpx_envelope`]. Agrees exactly with [`kappa_tp_eqm_two_phase`]\nfor in-range input."]
+#[pyfunction(name = "try_kappa_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_kappa_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_kappa_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_rho_tp_eqm_two_phase
+#[doc = "Checked mass density rho (kg/m^3) from a two-phase-aware `(T,p,x)`\nflash — the reciprocal of [`try_v_tp_eqm_two_phase`]. Valid range: the\n`(T,p,x)` envelope in [`check_tpx_envelope`]."]
+#[pyfunction(name = "try_rho_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_rho_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_rho_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_s_tp_eqm_two_phase
+#[doc = "Checked specific entropy s (J/(kg K)) from a two-phase-aware `(T,p,x)`\nflash. Valid range: the `(T,p,x)` envelope in [`check_tpx_envelope`].\nAgrees exactly with [`s_tp_eqm_two_phase`] for in-range input."]
+#[pyfunction(name = "try_s_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_s_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_s_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_u_tp_eqm_two_phase
+#[doc = "Checked specific internal energy u (J/kg) from a two-phase-aware\n`(T,p,x)` flash. Valid range: the `(T,p,x)` envelope in\n[`check_tpx_envelope`]. Agrees exactly with [`u_tp_eqm_two_phase`] for\nin-range input."]
+#[pyfunction(name = "try_u_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_u_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_u_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_v_tp_eqm_two_phase
+#[doc = "Checked specific volume v (m^3/kg) from a two-phase-aware `(T,p,x)`\nflash (two-phase states return the quality-weighted mixture volume).\nValid range: the `(T,p,x)` envelope in [`check_tpx_envelope`]. Agrees\nexactly with [`v_tp_eqm_two_phase`] for in-range input."]
+#[pyfunction(name = "try_v_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_v_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_v_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
+
+    // @item fn:tampines_steam_tables::prelude::checked::two_phase::try_w_tp_eqm_two_phase
+#[doc = "Checked speed of sound w (m/s) from a two-phase-aware `(T,p,x)` flash.\nValid range: the `(T,p,x)` envelope in [`check_tpx_envelope`]. Agrees\nexactly with [`w_tp_eqm_two_phase`] for in-range input."]
+#[pyfunction(name = "try_w_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_w_tp_eqm_two_phase(t: f64, p: f64, x: f64) -> PyResult<f64> { err(::tampines_steam_tables::prelude::checked::two_phase::try_w_tp_eqm_two_phase(from_si(t), from_si(p), x)).map(|v| to_si(v)) }
 
     // @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::cp_hs_eqm
 #[doc = "returns cp given\nenthalpy and entropy point\nuses ph flash"]
@@ -2464,6 +2749,63 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__dynamic_viscosity__mu_rho_t_eqm, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__dynamic_viscosity__mu_tp_eqm_single_phase, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__dynamic_viscosity__mu_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__check_ph_envelope, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__check_tp_single_phase_envelope, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_ph, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_ps, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_sat_pressure_quality, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_sat_temp_quality, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_tp_quality, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_tp_quality_0, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__control_volume__try_new_from_tp_quality_1, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__check_ps_envelope, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_alpha_v_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_cp_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_cv_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_h_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_kappa_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_mass_flux_ps_eqm_throat, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_rho_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_t_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_v_ps_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_w_ps_wood_wallis, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__ps__try_x_ps_flash, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_alpha_v_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_alpha_v_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_cp_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_cp_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_cv_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_cv_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_h_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_kappa_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_kappa_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_lambda_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_lambda_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_mu_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_mu_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_rho_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_rho_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_s_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_s_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_t_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_u_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_u_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_v_ph_eqm, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_v_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_w_ph_wood_wallis, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_w_tp_eqm_single_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__try_x_ph_flash, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__check_tpx_envelope, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_alpha_v_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_cp_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_cv_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_h_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_kappa_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_rho_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_s_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_u_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_v_tp_eqm_two_phase, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__checked__two_phase__try_w_tp_eqm_two_phase, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__cp_hs_eqm, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__find_pressure_from_hs_region_4, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__hs_flash_region, m)?)?;

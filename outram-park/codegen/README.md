@@ -58,6 +58,7 @@ nothing here holds a second copy of the list.
 | `crates.txt` | crate list, rewritten by `refresh.py` from `Cargo.toml` |
 | `skip.json` | items the compiler rejected (generated) |
 | `coverage.json` | per-crate counts of what was and was not wrapped |
+| `blocked.md` | *why* items were dropped: unmapped type shapes, ranked |
 | `errors-pass*.log` | raw compiler errors from the last repair run (gitignored) |
 | `.build-venv/` | `maturin[zig]`, created on first `--wheel` (gitignored) |
 
@@ -94,6 +95,35 @@ The schema is nightly-only and versioned, and it does change. The version
 this generator was written against is `FORMAT_VERSION` in
 `gen_bindings.py`; a mismatch aborts with a message naming the file to
 update, rather than generating quiet nonsense from a shape it misreads.
+
+## Reading `blocked.md`
+
+`coverage.json` says how much was dropped; `blocked.md` says why, ranked by
+how many items each unmapped type shape costs, with examples. That
+distinction is the difference between knowing there is a gap and knowing
+where to push.
+
+Every binding gap found so far was a handful of type shapes blocking dozens
+of items each -- `&Geometry` on the Monte Carlo runners, `&Tape` on RECONR,
+`Option<&mut Tally>`, the `uom` aliases, `Result<T>` as a crate-local generic
+alias. All of them were obvious the moment the shapes were *counted*, and
+all of them were originally found the expensive way, by using the wheel and
+noticing something missing.
+
+A row is fixed in one of two places, and the report cannot tell you which:
+
+- **In the generator**, when the shape has a faithful Python representation
+  and simply is not mapped yet. `&T` through `PyRef`, `Option<&mut T>`, alias
+  following.
+- **In the backend**, when it does not. `&[T]` needs `T: Clone`, because a
+  slice of owned values cannot be built from borrows; a generic
+  `fn read<R: Read>` needs a concrete seam beside it, because a type
+  parameter cannot be monomorphised from outside the crate. A generator can
+  neither add a derive nor pick an instantiation.
+
+Some rows are neither, and should stay: `&mut [f64]` on an in-place numeric
+kernel, a `dyn Trait`, a closure parameter. Exposing those would mean
+inventing semantics rather than binding existing ones.
 
 ## Why there is a repair loop
 

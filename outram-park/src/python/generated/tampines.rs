@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:tampines::TampinesError
 #[doc = "Errors returned by TAMPINES's public API.\n\nThe framework is built out incrementally (see the crate-level docs for the\ncurrent module surface); a public item that exists as a documented stub\nbut has no working implementation yet returns\n[`TampinesError::NotYetImplemented`] rather than panicking or silently\nreturning a placeholder value."]
@@ -2208,7 +2208,7 @@ impl Py_tampines__pebble_bed__TrisoParticle {
     #[cfg(feature = "boon-lay")]
     #[doc = "Builds a [`TrisoParticle`] from a `boon-lay` `TrisoCell`, reusing that\ncrate's five-layer CSG geometry rather than duplicating it.\n\nThe two carbon densities are supplied by the caller because\n`boon-lay`'s cell carries geometry, temperatures and fluence but no\ndensities. Returns [`TampinesError::InvalidInput`] if the cell's radii\ndo not form a valid concentric nest (they cannot, in practice —\n`TrisoCell::new` asserts the same ordering)."]
     #[staticmethod]
-    pub fn from_boon_lay_cell(cell: crate::python::generated::boon_lay::Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, buffer_density: f64, pyrocarbon_density: f64) -> PyResult<Py_tampines__pebble_bed__TrisoParticle> { err(::tampines::pebble_bed::TrisoParticle::from_boon_lay_cell(&cell.inner, from_si(buffer_density), from_si(pyrocarbon_density))).map(|v| Py_tampines__pebble_bed__TrisoParticle { inner: v }) }
+    pub fn from_boon_lay_cell(cell: PyRef<'_, crate::python::generated::boon_lay::Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell>, buffer_density: f64, pyrocarbon_density: f64) -> PyResult<Py_tampines__pebble_bed__TrisoParticle> { err(::tampines::pebble_bed::TrisoParticle::from_boon_lay_cell(&cell.inner, from_si(buffer_density), from_si(pyrocarbon_density))).map(|v| Py_tampines__pebble_bed__TrisoParticle { inner: v }) }
     // @item method:tampines::pebble_bed::TrisoParticle::to_boon_lay_cell
     #[cfg(feature = "boon-lay")]
     #[doc = "Converts this particle's geometry into a `boon-lay` `TrisoCell`, so the\nsame particle can be handed to that crate's Lagrangian fission-product\ndiffusion model.\n\nThe returned cell carries `boon-lay`'s own default uniform temperature\nand zero fluence; set them there if they matter. Only the geometry\ncrosses the boundary — this is not a route into `boon-lay`'s release\nmodel, which `op-jyyp.10` flags as unverified."]
@@ -2453,7 +2453,7 @@ pub fn fn_tampines__multiphase_1d__drift_flux__as_velocity(u_si: f64) -> f64 { t
     // @item fn:tampines::multiphase_1d::drift_flux::cell_position
 #[doc = "Axial position of a cell centre as a `uom` quantity."]
 #[pyfunction(name = "cell_position")]
-pub fn fn_tampines__multiphase_1d__drift_flux__cell_position(pipe: Py_tampines__multiphase_1d__Pipe1d, cell: usize) -> f64 { to_si(::tampines::multiphase_1d::drift_flux::cell_position(&pipe.inner, cell)) }
+pub fn fn_tampines__multiphase_1d__drift_flux__cell_position(pipe: PyRef<'_, Py_tampines__multiphase_1d__Pipe1d>, cell: usize) -> f64 { to_si(::tampines::multiphase_1d::drift_flux::cell_position(&pipe.inner, cell)) }
 
     // @item fn:tampines::multiphase_1d::thomas_solve
 #[doc = "Solve a tridiagonal linear system `A x = b` by the Thomas algorithm.\n\n# What this is for\n\nThe pressure equation of a 1-D finite-volume solve couples each cell only\nto its two axial neighbours, so its matrix is tridiagonal and the Thomas\nalgorithm — Gaussian elimination specialised to that structure — solves it\n**exactly** in `O(n)` with no iteration and no convergence tolerance. On a\n1-D mesh this is strictly better than the general Krylov solvers in\n[`outram_foam_basic_lib::ldu_matrix`]: same answer, one pass, no residual\nto check.\n\n# Arguments\n\nAll slices have length `n` and carry raw `f64` in whatever consistent units\nthe caller's equation uses (for the pressure equation: `a`, `b`, `c` in\n`m·s`, `d` in `kg/s`, giving `x` in `Pa`).\n\n- `a` — sub-diagonal, `a[0]` is unused and may be any value.\n- `b` — main diagonal.\n- `c` — super-diagonal, `c[n-1]` is unused.\n- `d` — right-hand side.\n\n# Returns\n\nThe solution `x`, length `n`.\n\n# Errors\n\n[`crate::TampinesError::Numerical`] if the system is not diagonally\nsolvable — a zero (to within `1e-300`) pivot arises. For a pressure\nequation assembled from positive compressibilities and positive face\ncoefficients this cannot happen, so a failur"]

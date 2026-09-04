@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:kovan_semantics::Applicability
 #[doc = "The stated assumptions and validity range under which an approximation,\nsimplification, reduction, surrogate, or representation holds — attached\nto a [`ConceptEdge`] via [`EdgeDetail::Applicability`] rather than\nflattened into a single string. Both fields are plain descriptive text\n(this crate is a semantic/documentation layer, not a numerics engine —\nit does not carry `uom`-typed quantities the way `tampines`/`tuas` do)."]
@@ -772,7 +772,7 @@ pub fn fn_kovan_semantics__agent_docs__condense__condense_api_markdown(body: Str
     // @item fn:kovan_semantics::agents_markdown
 #[doc = "Render the `AGENTS.md` that ships with a bundle.\n\nAppends to [`RULES`] a manifest of what the agent actually received and —\nmore importantly — what it did not, drawn from `report`."]
 #[pyfunction(name = "agents_markdown")]
-pub fn fn_kovan_semantics__agents_markdown(report: Py_kovan_semantics__BundleReport) -> String { ::kovan_semantics::agents_markdown(&report.inner) }
+pub fn fn_kovan_semantics__agents_markdown(report: PyRef<'_, Py_kovan_semantics__BundleReport>) -> String { ::kovan_semantics::agents_markdown(&report.inner) }
 
     // @item fn:kovan_semantics::catalogue_symbols
 #[cfg(feature = "kovan-common")]
@@ -804,7 +804,7 @@ pub fn fn_kovan_semantics__extract_from_text(adapter: Py_kovan_semantics__Langua
 #[cfg(feature = "kovan-common")]
 #[doc = "Render `repository-summary.md`: the repository identity plus a per-kind\nsymbol count and the number of distinct source files touched. Deterministic.\n\nTakes the catalogued `symbols` so the summary reflects a real scan; pass an\nempty slice before a scan has run."]
 #[pyfunction(name = "repository_summary_markdown")]
-pub fn fn_kovan_semantics__repository_summary_markdown(repo: crate::python::generated::kovan_common::Py_kovan_common__KovanRepository, symbols: Vec<crate::python::generated::kovan_common::Py_kovan_common__KovanSymbol>) -> String { ::kovan_semantics::repository_summary_markdown(&repo.inner, &symbols.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
+pub fn fn_kovan_semantics__repository_summary_markdown(repo: PyRef<'_, crate::python::generated::kovan_common::Py_kovan_common__KovanRepository>, symbols: Vec<crate::python::generated::kovan_common::Py_kovan_common__KovanSymbol>) -> String { ::kovan_semantics::repository_summary_markdown(&repo.inner, &symbols.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
 
     // @item fn:kovan_semantics::rough_definition_scan
 #[cfg(feature = "kovan-discovery")]

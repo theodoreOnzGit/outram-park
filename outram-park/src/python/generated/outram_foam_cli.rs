@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_foam_cli::CaseArgs
 #[doc = "Common OpenFOAM-style command-line options shared by every tool binary.\n\nMirrors the upstream convention: a tool is run from (or pointed at) a **case\ndirectory** — the folder containing `system/`, `constant/`, and time\ndirectories."]

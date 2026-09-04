@@ -59,9 +59,14 @@ class Ty:
     two sides.
     """
 
-    def __init__(self, py, pyi, into_rust="$V", from_rust="$V", owned=True):
+    def __init__(self, py, pyi, into_rust="$V", from_rust="$V", owned=True,
+                 param_prefix="", fallible=False):
         self.py = py
         self.pyi = pyi
+        self.param_prefix = param_prefix
+        # True when `into_rust` can fail and uses `?`, which forces the
+        # generated function to return a `PyResult`.
+        self.fallible = fallible
         self._into = into_rust
         self._from = from_rust
         self.owned = owned
@@ -75,6 +80,44 @@ class Ty:
 
 def scalar(rust, pyi):
     return Ty(rust, pyi)
+
+
+def describe_type(t, paths):
+    """A short human-readable rendering of a rustdoc type, for reporting."""
+    if not isinstance(t, dict):
+        return str(t)
+    k = next(iter(t), "?")
+    v = t[k]
+    if k == "primitive":
+        return v
+    if k == "generic":
+        return v
+    if k == "resolved_path":
+        p = paths.get(str(v["id"]))
+        name = p["path"][-1] if p else v.get("path", "?")
+        args = angle_args(v)
+        if args:
+            return "%s<%s>" % (name, ", ".join(describe_type(a, paths) for a in args))
+        return name
+    if k == "borrowed_ref":
+        return ("&mut " if v.get("is_mutable") else "&") + describe_type(v["type"], paths)
+    if k == "slice":
+        return "[%s]" % describe_type(v, paths)
+    if k == "array":
+        return "[%s; N]" % describe_type(v["type"], paths)
+    if k == "tuple":
+        return "(%s)" % ", ".join(describe_type(x, paths) for x in v)
+    if k == "impl_trait":
+        return "impl Trait"
+    if k == "dyn_trait":
+        return "dyn Trait"
+    if k == "qualified_path":
+        return "<assoc path>"
+    if k == "function_pointer":
+        return "fn pointer"
+    if k == "raw_pointer":
+        return "raw pointer"
+    return k
 
 
 def _has_generic(t):
@@ -148,6 +191,7 @@ class CrateModel:
         self.impl_records = defaultdict(list)  # type id -> [(for_args, [fn ids])]
         self.alias_by_inst = {}  # (target id, args key) -> alias id
         self.alias_target = {}   # alias id -> the type it stands for
+        self.generic_alias = {}  # alias id -> ([param names], target type)
         self.by_pyname = {}
         self.traits = defaultdict(set)   # type id -> trait names
         self.inherent = defaultdict(list)  # type id -> [fn item ids]
@@ -211,7 +255,15 @@ class CrateModel:
             if not self._is_public(v):
                 continue
             ta = v["inner"]["type_alias"]
-            if ta.get("generics", {}).get("params"):
+            alias_params = [
+                pp["name"] for pp in ta.get("generics", {}).get("params", [])
+            ]
+            if alias_params:
+                # A *generic* alias cannot be wrapped as a class, but it can
+                # still be seen through. `pub type Result<T> = Result<T, Error>`
+                # is the one that matters: it hides every fallible function in
+                # a crate behind a shape the Result mapping does not recognise.
+                self.generic_alias[k] = (alias_params, ta["type"])
                 continue        # the alias is itself generic; nothing pinned
             # Aliases that merely rename an existing type -- above all the
             # `uom` ones this workspace uses everywhere (`pub type
@@ -384,6 +436,7 @@ class Emitter:
         self.registry = registry if registry is not None else {}
         self.feature = feature
         self.needed = set()   # features the item being emitted depends on
+        self.blocked = []     # (item, position, rendered type) that did not map
         self.wrapped = {}   # type id -> (rust_ident, py_name)
         self.self_tid = None   # type id `Self` resolves to, while in an impl
         self.cloneable = set()  # wrapped types that can also be arguments
@@ -407,7 +460,15 @@ class Emitter:
     def plan_types(self):
         """Choose which types get a `#[pyclass]` wrapper, and their names."""
         used = {}
-        for tid, t in sorted(self.m.types.items(), key=lambda kv: kv[1]["path"]):
+        # Shallowest path first, so when two distinct types share a name the
+        # more canonical one keeps the unprefixed Python name: `Sphere` should
+        # be `prelude::Sphere`, the CSG surface, not
+        # `pebble_beds::sphere_packing::Sphere`. Alphabetical order alone gave
+        # the plain name to whichever sorted first, which is arbitrary.
+        for tid, t in sorted(
+            self.m.types.items(),
+            key=lambda kv: (kv[1]["path"].count("::"), kv[1]["path"]),
+        ):
             if "type:" + t["path"] in self.skip:
                 continue
             tr = self.m.traits[t.get("target", tid)]
@@ -453,6 +514,17 @@ class Emitter:
             return None
 
         if kind == "borrowed_ref":
+            # `&T` / `&mut T` where T is a wrapped type: borrow the pyclass
+            # rather than cloning it. A pyclass *is* the owner of its Rust
+            # value, so a shared or exclusive borrow through PyRef/PyRefMut
+            # reaches the caller's own object -- and it does not require T:
+            # Clone, which is what previously made every `&Geometry`,
+            # `&Material`, `&Tape` argument unmappable and so hid every
+            # general runner in the MC and NJOY crates behind their data model.
+            if arg_position:
+                borrowed = self._borrowed_wrapper(v)
+                if borrowed is not None:
+                    return borrowed
             if v.get("is_mutable"):
                 # `&mut Self` in return position is the chaining half of a
                 # builder. Python does not need the chain -- the wrapper is
@@ -490,7 +562,15 @@ class Emitter:
 
         if kind == "array":
             inner = self.map_type(v["type"], arg_position)
-            if inner is None or arg_position:
+            if inner is None or inner.py == "()":
+                return None
+            if arg_position:
+                # Deliberately not supported. A fixed-size array argument needs
+                # a fallible length check, and `?` cannot appear inside the
+                # closures the Vec/Option/tuple mappings generate, nor in a
+                # setter or a field-wise constructor, which have nowhere to
+                # return an error to. `[T; N]` arguments therefore stay in
+                # `blocked.md` rather than being half-supported.
                 return None
             return Ty("Vec<%s>" % inner.py, "list[%s]" % inner.pyi,
                       from_rust="$V.into_iter().map(|e| %s).collect::<Vec<_>>()"
@@ -572,6 +652,43 @@ class Emitter:
                           into_rust="std::path::PathBuf::from($V)")
         return None
 
+    def _borrowed_wrapper(self, ref):
+        """`&T`/`&mut T` for a wrapped type, as a PyRef/PyRefMut parameter."""
+        inner = ref.get("type")
+        if not isinstance(inner, dict):
+            return None
+        ident = None
+        if "resolved_path" in inner:
+            rp = inner["resolved_path"]
+            tid = str(rp["id"])
+            if tid not in self.wrapped:
+                alias = self.m.alias_by_inst.get(
+                    (tid, _tykey([self._subst_type(a) for a in angle_args(rp)]))
+                )
+                if alias is not None:
+                    tid = alias
+            if tid in self.wrapped:
+                ident = self.wrapped[tid][0]
+                pyi = self.wrapped[tid][1]
+            else:
+                p = self.m.paths.get(str(rp["id"]))
+                full = "::".join(p["path"]) if p else None
+                g = self.registry.get(full) if full else None
+                if g is not None and g["feature"] != self.feature:
+                    self.needed.add(g["feature"])
+                    ident = "crate::python::generated::%s::%s" % (g["crate"], g["ident"])
+                    pyi = "%s.%s" % (g["crate"], g["pyname"])
+        elif inner.get("generic") == "Self" and self.self_tid is not None:
+            ident, pyi = self.wrapped[self.self_tid]
+        if ident is None:
+            return None
+        if ref.get("is_mutable"):
+            return Ty(
+                "PyRefMut<'_, %s>" % ident, pyi,
+                into_rust="&mut $V.inner", owned=False, param_prefix="mut ",
+            )
+        return Ty("PyRef<'_, %s>" % ident, pyi, into_rust="&$V.inner", owned=False)
+
     def _wrapper_ty(self, tid, arg_position=False):
         if tid not in self.wrapped:
             return None
@@ -611,7 +728,26 @@ class Emitter:
             if len(args) != 1:
                 return None
             inner = self.map_type(args[0], arg_position)
-            if inner is None or not inner.owned or inner.py == "()":
+            if inner is None:
+                return None
+            # `Option<&mut T>` / `Option<&T>` over a wrapped type. The borrow
+            # has to be taken from inside the Option, which needs a binding
+            # rather than an expression -- hence the block. This is the shape
+            # of an optional out-parameter (`tally: Option<&mut Tally>`), and
+            # without it every runner carrying one stays invisible.
+            if arg_position and inner.py.startswith(("PyRefMut<", "PyRef<")):
+                # The borrow must outlive the call, so it is taken from the
+                # parameter itself rather than from a `let` inside a block --
+                # a block-local binding is dropped at the closing brace, while
+                # the borrow is still live in the enclosing call.
+                mutable = inner.py.startswith("PyRefMut<")
+                return Ty(
+                    "Option<%s>" % inner.py, "%s | None" % inner.pyi,
+                    into_rust=("$V.as_mut().map(|r| &mut r.inner)" if mutable
+                               else "$V.as_ref().map(|r| &r.inner)"),
+                    owned=False, param_prefix="mut " if mutable else "",
+                )
+            if not inner.owned or inner.py == "()":
                 return None
             return Ty("Option<%s>" % inner.py, "%s | None" % inner.pyi,
                       into_rust="$V.map(|e| %s)" % inner.into_rust("e"),
@@ -674,6 +810,16 @@ class Emitter:
             return local
         if tid in self.m.alias_target and tid not in self.wrapped:
             return self.map_type(self.m.alias_target[tid], arg_position)
+        if tid in self.m.generic_alias and tid not in self.wrapped:
+            names, target = self.m.generic_alias[tid]
+            supplied = angle_args(v)
+            saved = self.subst
+            self.subst = dict(saved)
+            self.subst.update(dict(zip(names, supplied)))
+            try:
+                return self.map_type(target, arg_position)
+            finally:
+                self.subst = saved
         if p["crate_id"] != 0:
             return self._foreign_ty(full, arg_position)
         return None
@@ -713,6 +859,9 @@ class Emitter:
     def _fn_sig(self, item_id, self_kind_allowed):
         """Return (receiver, params, body_args, ret) or None if unmappable."""
         it = self.m.index[item_id]
+        self._reporting_item = "%s::%s" % (
+            self.m.crate_name, it.get("name") or "?"
+        )
         fn = it["inner"]["function"]
         if not self.m._generic_free(fn.get("generics", {})):
             return None
@@ -725,6 +874,7 @@ class Emitter:
             return None
 
         receiver = None
+        fallible_args = False
         params, call_args, pyi_args = [], [], []
         for i, (aname, aty) in enumerate(sig["inputs"]):
             if i == 0 and aname == "self":
@@ -743,10 +893,15 @@ class Emitter:
                 continue
             ty = self.map_type(aty, True)
             if ty is None:
+                self.blocked.append(
+                    (self._reporting_item, aname, describe_type(aty, self.m.paths))
+                )
                 return None
             pname = aname if aname not in PY_KEYWORDS else aname + "_"
             pname = self.rust_ident(self._ident(pname)) or "arg%d" % i
-            params.append("%s: %s" % (pname, ty.py))
+            params.append("%s%s: %s" % (ty.param_prefix, pname, ty.py))
+            if ty.fallible:
+                fallible_args = True
             call_args.append(ty.into_rust(pname))
             pyi_args.append("%s: %s" % (pname, ty.pyi))
 
@@ -756,7 +911,15 @@ class Emitter:
         else:
             ret = self.map_type(out, False)
             if ret is None:
+                self.blocked.append(
+                    (self._reporting_item, "-> return",
+                     describe_type(out, self.m.paths))
+                )
                 return None
+        if fallible_args and not ret.py.startswith("PyResult<"):
+            # An argument conversion that can fail needs somewhere to fail to.
+            ret = Ty("PyResult<%s>" % ret.py, ret.pyi,
+                     from_rust="Ok(%s)" % ret.from_rust("$V"))
         return receiver, locals().get("recv_expr"), params, call_args, pyi_args, ret
 
     def emit_type(self, tid):
@@ -1150,7 +1313,7 @@ class Emitter:
         self.w("#![allow(non_snake_case, non_camel_case_types, unused_imports,")
         self.w("         unreachable_patterns, clippy::all)]")
         self.w("use pyo3::prelude::*;")
-        self.w("use crate::python::runtime::{from_si, to_si, err};")
+        self.w("use crate::python::runtime::{err, from_si, to_si};")
         self.w()
         for tid in sorted(self.wrapped, key=lambda t: self.m.types[t]["path"]):
             self.emit_type(tid)
@@ -1209,6 +1372,49 @@ def write_stub(path, snake, em):
                 f.write(m + "\n")
 
 
+def write_blocked_report(blocked):
+    """Write `blocked.md`: which unmapped types cost the most API surface.
+
+    Coverage counts say *how much* was dropped; this says *why*, ranked, with
+    examples. The distinction matters. Every binding gap found by dogfooding
+    the wheel so far -- `&Geometry` on the MC runners, `&Tape` on RECONR,
+    `Option<&mut Tally>`, the `uom` aliases -- was a handful of type shapes
+    blocking dozens of items, and each was obvious the moment the shapes were
+    counted rather than hunted for one function at a time.
+    """
+    from collections import Counter, defaultdict
+
+    counts = Counter(ty for _f, _i, _w, ty in blocked)
+    examples = defaultdict(list)
+    crates = defaultdict(set)
+    for feat, item, where, ty in blocked:
+        crates[ty].add(feat)
+        if len(examples[ty]) < 4:
+            examples[ty].append("%s (%s)" % (item, where))
+
+    with open(os.path.join(HERE, "blocked.md"), "w") as f:
+        f.write("# What the bindings could not express\n\n")
+        f.write("Generated by `codegen/gen_bindings.py`; regenerated on every "
+                "full run.\n\nEach row is a Rust type shape that stopped at "
+                "least one item from reaching Python, ranked by how many. Fixing "
+                "the top of this list is the cheapest way to widen the API.\n\n")
+        f.write("A shape is fixed in one of two places, and the report cannot "
+                "tell you which:\n\n")
+        f.write("- **In the generator**, when the shape *has* a faithful Python "
+                "representation and simply is not mapped yet (`&T` via `PyRef`, "
+                "`Option<&mut T>`, `uom` aliases).\n")
+        f.write("- **In the backend**, when it does not (`&[T]` needs `T: Clone`; "
+                "a generic `fn f<R: Read>` needs a concrete seam beside it). The "
+                "generator cannot add a derive or monomorphise a type parameter.\n\n")
+        f.write("| items | type | crates | examples |\n|---:|---|---:|---|\n")
+        for ty, n in counts.most_common(60):
+            f.write("| %d | `%s` | %d | %s |\n"
+                    % (n, ty.replace("|", "\\|"), len(crates[ty]),
+                       "; ".join(examples[ty])))
+        f.write("\nTotal blocked signatures: %d, over %d distinct type shapes.\n"
+                % (len(blocked), len(counts)))
+
+
 def write_package(mods):
     """Write the Python package that carries the extension module."""
     init = os.path.join(STUB_DIR, "__init__.py")
@@ -1265,7 +1471,7 @@ def main():
             for key in keys:
                 registry.setdefault(key, entry)
 
-    mods, report = [], {}
+    mods, report, blocked = [], {}, []
     for feat, (snake, model, em) in sorted(planned.items()):
         if only and feat not in only:
             continue
@@ -1274,6 +1480,7 @@ def main():
             f.write(src)
         mods.append((feat, snake))
         report[feat] = dict(em.stats)
+        blocked.extend((feat, item, where, ty) for item, where, ty in em.blocked)
         write_stub(os.path.join(STUB_DIR, snake + ".pyi"), snake, em)
         print("%-45s types=%-5d methods=%-6d fns=%-5d consts=%d"
               % (feat, em.stats["types"], em.stats["methods"],
@@ -1284,6 +1491,7 @@ def main():
         # one crate, and the stale file reads as a real coverage collapse
         with open(os.path.join(HERE, "coverage.json"), "w") as f:
             json.dump(report, f, indent=1, sort_keys=True)
+        write_blocked_report(blocked)
         write_package(mods)
         with open(os.path.join(OUT_DIR, "mod.rs"), "w") as f:
             f.write("// @generated by codegen/gen_bindings.py -- DO NOT EDIT.\n")

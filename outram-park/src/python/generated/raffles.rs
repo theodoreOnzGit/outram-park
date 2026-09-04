@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:raffles::RafflesError
 #[doc = "Errors produced by RAFFLES.\n\nDeliberately small: these are the two failure shapes every planned module\nneeds (a caller-supplied parameter that cannot describe a valid\ndistribution or design, and a shape mismatch between arrays). Variants are\nadded as real code lands — this enum is scaffold, not a finished taxonomy.\n\nNo variant here signals \"unimplemented\". The unimplemented parts of RAFFLES\nhave no public entry point at all, so a caller cannot reach one by\naccident."]
@@ -36,6 +36,10 @@ impl Py_raffles__RafflesError {
 pub struct Py_raffles__distributions__Beta { pub inner: ::raffles::distributions::Beta }
 #[pymethods]
 impl Py_raffles__distributions__Beta {
+    // @item method:raffles::distributions::Beta::new
+    #[doc = "Builds a beta distribution on `[low, high]`.\n\n- `alpha`, `beta` — dimensionless shapes, both strictly positive. Values\n  below 1 give a density unbounded at `low` (for `alpha < 1`) or at\n  `high` (for `beta < 1`).\n- `low`, `high` — the bounds of the support, in the variate's unit;\n  `low < high` is required. Pass `0.0` and `1.0` for the standard beta."]
+    #[new]
+    pub fn new(alpha: f64, beta: f64, low: f64, high: f64) -> PyResult<Py_raffles__distributions__Beta> { err(::raffles::distributions::Beta::new(alpha, beta, low, high)).map(|v| Py_raffles__distributions__Beta { inner: v }) }
     // @item method:raffles::distributions::Beta::alpha
     #[doc = "First shape parameter, dimensionless."]
     pub fn alpha(&self) -> f64 { ::raffles::distributions::Beta::alpha(&self.inner) }
@@ -109,6 +113,10 @@ impl Py_raffles__distributions__Distribution {
 pub struct Py_raffles__distributions__Exponential { pub inner: ::raffles::distributions::Exponential }
 #[pymethods]
 impl Py_raffles__distributions__Exponential {
+    // @item method:raffles::distributions::Exponential::new
+    #[doc = "Builds an exponential distribution.\n\n- `lambda` — the **rate**, in reciprocal units of the variate (e.g.\n  failures per hour). Strictly positive. The mean waiting time is\n  `1 / lambda`.\n- `low` — location shift, in the variate's unit; the support is\n  `[low, +inf)`. Pass `0.0` for the textbook exponential."]
+    #[new]
+    pub fn new(lambda_: f64, low: f64) -> PyResult<Py_raffles__distributions__Exponential> { err(::raffles::distributions::Exponential::new(lambda_, low)).map(|v| Py_raffles__distributions__Exponential { inner: v }) }
     // @item method:raffles::distributions::Exponential::low
     #[doc = "Location shift: the lower bound of the support, in the variate's unit."]
     pub fn low(&self) -> f64 { ::raffles::distributions::Exponential::low(&self.inner) }
@@ -123,6 +131,10 @@ impl Py_raffles__distributions__Exponential {
 pub struct Py_raffles__distributions__Gamma { pub inner: ::raffles::distributions::Gamma }
 #[pymethods]
 impl Py_raffles__distributions__Gamma {
+    // @item method:raffles::distributions::Gamma::new
+    #[doc = "Builds a gamma distribution.\n\n- `alpha` — dimensionless shape. Strictly positive. `alpha < 1` gives a\n  density unbounded at `low`.\n- `beta` — **rate**, in reciprocal units of the variate. Strictly\n  positive. The scale is `1 / beta`.\n- `low` — location shift, in the variate's unit; the support is\n  `[low, +inf)`."]
+    #[new]
+    pub fn new(alpha: f64, beta: f64, low: f64) -> PyResult<Py_raffles__distributions__Gamma> { err(::raffles::distributions::Gamma::new(alpha, beta, low)).map(|v| Py_raffles__distributions__Gamma { inner: v }) }
     // @item method:raffles::distributions::Gamma::alpha
     #[doc = "Shape parameter, dimensionless."]
     pub fn alpha(&self) -> f64 { ::raffles::distributions::Gamma::alpha(&self.inner) }
@@ -143,6 +155,10 @@ impl Py_raffles__distributions__Gamma {
 pub struct Py_raffles__distributions__LogNormal { pub inner: ::raffles::distributions::LogNormal }
 #[pymethods]
 impl Py_raffles__distributions__LogNormal {
+    // @item method:raffles::distributions::LogNormal::new
+    #[doc = "Builds a log-normal distribution.\n\n- `mu` — mean of the underlying normal `ln(X - low)`. Dimensionless in\n  practice, since it is the log of a ratio; any finite value.\n- `sigma` — standard deviation of that underlying normal. Strictly\n  positive; `sigma = 0.7` already means a factor-of-two spread.\n- `low` — location shift, in the variate's unit. The support is\n  `(low, +inf)`. Pass `0.0` for the textbook log-normal."]
+    #[new]
+    pub fn new(mu: f64, sigma: f64, low: f64) -> PyResult<Py_raffles__distributions__LogNormal> { err(::raffles::distributions::LogNormal::new(mu, sigma, low)).map(|v| Py_raffles__distributions__LogNormal { inner: v }) }
     // @item method:raffles::distributions::LogNormal::mu
     #[doc = "Mean of the underlying normal `ln(X - low)`."]
     pub fn mu(&self) -> f64 { ::raffles::distributions::LogNormal::mu(&self.inner) }
@@ -163,6 +179,10 @@ impl Py_raffles__distributions__LogNormal {
 pub struct Py_raffles__distributions__Normal { pub inner: ::raffles::distributions::Normal }
 #[pymethods]
 impl Py_raffles__distributions__Normal {
+    // @item method:raffles::distributions::Normal::new
+    #[doc = "Builds a normal distribution.\n\n`mu` is the mean, in the variate's unit, and may be any finite value.\n`sigma` is the **standard deviation**, not the variance, in the same\nunit, and must be strictly positive."]
+    #[new]
+    pub fn new(mu: f64, sigma: f64) -> PyResult<Py_raffles__distributions__Normal> { err(::raffles::distributions::Normal::new(mu, sigma)).map(|v| Py_raffles__distributions__Normal { inner: v }) }
     // @item method:raffles::distributions::Normal::mu
     #[doc = "Mean of the distribution, in the variate's unit."]
     pub fn mu(&self) -> f64 { ::raffles::distributions::Normal::mu(&self.inner) }
@@ -180,6 +200,10 @@ impl Py_raffles__distributions__Normal {
 pub struct Py_raffles__distributions__Triangular { pub inner: ::raffles::distributions::Triangular }
 #[pymethods]
 impl Py_raffles__distributions__Triangular {
+    // @item method:raffles::distributions::Triangular::new
+    #[doc = "Builds a triangular distribution.\n\nAll three parameters carry the variate's unit. Requires\n`lower <= apex <= upper` and `lower < upper`. The degenerate cases\n`apex == lower` (right triangle falling) and `apex == upper` (right\ntriangle rising) are allowed and handled exactly."]
+    #[new]
+    pub fn new(lower: f64, apex: f64, upper: f64) -> PyResult<Py_raffles__distributions__Triangular> { err(::raffles::distributions::Triangular::new(lower, apex, upper)).map(|v| Py_raffles__distributions__Triangular { inner: v }) }
     // @item method:raffles::distributions::Triangular::lower
     #[doc = "Lower bound, in the variate's unit."]
     pub fn lower(&self) -> f64 { ::raffles::distributions::Triangular::lower(&self.inner) }
@@ -200,6 +224,10 @@ impl Py_raffles__distributions__Triangular {
 pub struct Py_raffles__distributions__Truncated { pub inner: ::raffles::distributions::Truncated }
 #[pymethods]
 impl Py_raffles__distributions__Truncated {
+    // @item method:raffles::distributions::Truncated::new
+    #[doc = "Restricts `base` to `[lower, upper]`.\n\nBoth bounds are in the variate's unit and may be infinite (pass\n`f64::NEG_INFINITY` / `f64::INFINITY` for one-sided truncation).\nRequires `lower < upper` and, more importantly, that the window carries\nnon-zero probability under `base`: a window in the far tail where\n`F(upper) - F(lower)` underflows to zero cannot be renormalised and is\nrejected with [`crate::RafflesError::InvalidParameter`] rather than\nproducing NaNs."]
+    #[new]
+    pub fn new(base: Py_raffles__distributions__Distribution, lower: f64, upper: f64) -> PyResult<Py_raffles__distributions__Truncated> { err(::raffles::distributions::Truncated::new(base.inner, lower, upper)).map(|v| Py_raffles__distributions__Truncated { inner: v }) }
     // @item method:raffles::distributions::Truncated::base
     #[doc = "The untruncated distribution this was built from."]
     pub fn base(&self) -> Py_raffles__distributions__Distribution { Py_raffles__distributions__Distribution { inner: ::raffles::distributions::Truncated::base(&self.inner) } }
@@ -223,6 +251,10 @@ impl Py_raffles__distributions__Truncated {
 pub struct Py_raffles__distributions__Uniform { pub inner: ::raffles::distributions::Uniform }
 #[pymethods]
 impl Py_raffles__distributions__Uniform {
+    // @item method:raffles::distributions::Uniform::new
+    #[doc = "Builds a uniform distribution on `[lower, upper]`.\n\nBoth bounds carry the variate's unit. Requires both finite and\n`lower < upper`; a degenerate interval is rejected rather than silently\nproducing an infinite density."]
+    #[new]
+    pub fn new(lower: f64, upper: f64) -> PyResult<Py_raffles__distributions__Uniform> { err(::raffles::distributions::Uniform::new(lower, upper)).map(|v| Py_raffles__distributions__Uniform { inner: v }) }
     // @item method:raffles::distributions::Uniform::lower
     #[doc = "Lower bound of the interval, in the variate's unit."]
     pub fn lower(&self) -> f64 { ::raffles::distributions::Uniform::lower(&self.inner) }
@@ -240,6 +272,10 @@ impl Py_raffles__distributions__Uniform {
 pub struct Py_raffles__distributions__Weibull { pub inner: ::raffles::distributions::Weibull }
 #[pymethods]
 impl Py_raffles__distributions__Weibull {
+    // @item method:raffles::distributions::Weibull::new
+    #[doc = "Builds a Weibull distribution.\n\n- `k` — dimensionless shape parameter (the Weibull modulus). Strictly\n  positive. `k < 1` gives a density unbounded at `low`.\n- `lambda` — **scale**, in the variate's unit (not a rate; contrast\n  [`Exponential`]). Strictly positive. It is the `1 - 1/e ~ 63.2%`\n  quantile measured from `low`.\n- `low` — location shift, in the variate's unit; the support is\n  `[low, +inf)`."]
+    #[new]
+    pub fn new(k: f64, lambda_: f64, low: f64) -> PyResult<Py_raffles__distributions__Weibull> { err(::raffles::distributions::Weibull::new(k, lambda_, low)).map(|v| Py_raffles__distributions__Weibull { inner: v }) }
     // @item method:raffles::distributions::Weibull::k
     #[doc = "Shape parameter (Weibull modulus), dimensionless."]
     pub fn k(&self) -> f64 { ::raffles::distributions::Weibull::k(&self.inner) }
@@ -257,6 +293,14 @@ impl Py_raffles__distributions__Weibull {
 pub struct Py_raffles__samplers__GridSampler { pub inner: ::raffles::samplers::GridSampler }
 #[pymethods]
 impl Py_raffles__samplers__GridSampler {
+    // @item method:raffles::samplers::GridSampler::with_levels
+    #[doc = "Builds a grid from explicit per-dimension levels — RAVEN's `custom`\ngrid construction.\n\n`levels[j]` lists the cumulative-probability levels for dimension `j`.\nDimensions may carry different numbers of levels, and the levels need\nnot be sorted or evenly spaced; they are used exactly as given.\n\n# Errors\n\nReturns [`RafflesError::InvalidParameter`] if there are no dimensions,\nif any dimension has no levels, if any level is not finite or lies\noutside `[0, 1)`, or if the resulting point count overflows `usize`.\n\nThe upper bound is exclusive on purpose: a level of exactly `1.0` maps\nto `+infinity` through the inverse CDF of any distribution with\nunbounded support. RAVEN admits `1.0` in a CDF grid and leaves the\nconsequences to the distribution; RAFFLES rejects it at the boundary\ninstead, where the error is legible."]
+    #[staticmethod]
+    pub fn with_levels(levels: Vec<Vec<f64>>) -> PyResult<Py_raffles__samplers__GridSampler> { err(::raffles::samplers::GridSampler::with_levels(levels.into_iter().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>())).map(|v| Py_raffles__samplers__GridSampler { inner: v }) }
+    // @item method:raffles::samplers::GridSampler::equally_spaced
+    #[doc = "Builds a grid with the same equally spaced levels on every dimension —\nRAVEN's `equal` grid construction.\n\n`steps` is the number of *intervals*, so each dimension gets\n`steps + 1` levels running from `lower` to `upper` inclusive, exactly\nas upstream's `numpy.linspace(lower, upper, steps + 1)` does. The\nresulting design has `(steps + 1)^dimensions` points.\n\nBoth endpoints are included, so pick `lower` and `upper` as the\ncumulative probabilities you actually want sampled — for an unbounded\ndistribution something like `0.01` and `0.99`, not `0` and `1`.\n\n# Errors\n\nReturns [`RafflesError::InvalidParameter`] if `dimensions` or `steps`\nis zero, if `lower` or `upper` is outside `[0, 1)` or not finite, if\n`lower >= upper`, or if the point count overflows `usize`."]
+    #[staticmethod]
+    pub fn equally_spaced(dimensions: usize, steps: usize, lower: f64, upper: f64) -> PyResult<Py_raffles__samplers__GridSampler> { err(::raffles::samplers::GridSampler::equally_spaced(dimensions, steps, lower, upper)).map(|v| Py_raffles__samplers__GridSampler { inner: v }) }
     // @item method:raffles::samplers::GridSampler::levels
     #[doc = "The cumulative-probability levels along each dimension, as supplied."]
     pub fn levels(&self) -> Vec<Vec<f64>> { ::raffles::samplers::GridSampler::levels(&self.inner).clone().iter().cloned().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>() }
@@ -271,6 +315,10 @@ impl Py_raffles__samplers__GridSampler {
 pub struct Py_raffles__samplers__LatinHypercube { pub inner: ::raffles::samplers::LatinHypercube }
 #[pymethods]
 impl Py_raffles__samplers__LatinHypercube {
+    // @item method:raffles::samplers::LatinHypercube::new
+    #[doc = "Creates a Latin hypercube design of `samples` points over `dimensions`\ninput dimensions. `samples` is both the point count and the number of\nstrata per dimension — the two are the same number by definition.\n\n# Errors\n\nReturns [`RafflesError::InvalidParameter`] if either argument is zero."]
+    #[new]
+    pub fn new(samples: usize, dimensions: usize) -> PyResult<Py_raffles__samplers__LatinHypercube> { err(::raffles::samplers::LatinHypercube::new(samples, dimensions)).map(|v| Py_raffles__samplers__LatinHypercube { inner: v }) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -282,6 +330,10 @@ impl Py_raffles__samplers__LatinHypercube {
 pub struct Py_raffles__samplers__MonteCarlo { pub inner: ::raffles::samplers::MonteCarlo }
 #[pymethods]
 impl Py_raffles__samplers__MonteCarlo {
+    // @item method:raffles::samplers::MonteCarlo::new
+    #[doc = "Creates a Monte Carlo design of `samples` points over `dimensions`\ninput dimensions.\n\n# Errors\n\nReturns [`RafflesError::InvalidParameter`] if either argument is zero.\nA design with no points or no dimensions is not a degenerate case worth\nsupporting; it is a caller mistake."]
+    #[new]
+    pub fn new(samples: usize, dimensions: usize) -> PyResult<Py_raffles__samplers__MonteCarlo> { err(::raffles::samplers::MonteCarlo::new(samples, dimensions)).map(|v| Py_raffles__samplers__MonteCarlo { inner: v }) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -329,6 +381,9 @@ impl Py_raffles__samplers__Sampler {
 pub struct Py_raffles__sensitivity__CorrelationKind { pub inner: ::raffles::sensitivity::CorrelationKind }
 #[pymethods]
 impl Py_raffles__sensitivity__CorrelationKind {
+    // @item method:raffles::sensitivity::CorrelationKind::correlation
+    #[doc = "Computes whichever coefficient this variant names, for the paired\nsamples `x` and `y`.\n\n# Errors\n\nSame as [`pearson_correlation`] / [`spearman_correlation`]."]
+    pub fn correlation(&self, x: Vec<f64>, y: Vec<f64>) -> PyResult<f64> { err(::raffles::sensitivity::CorrelationKind::correlation(&self.inner, &x.into_iter().map(|e| e).collect::<Vec<_>>(), &y.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v) }
     // @item variant:raffles::sensitivity::CorrelationKind::Pearson
     #[staticmethod]
     #[pyo3(name = "Pearson")]
@@ -391,6 +446,10 @@ impl Py_raffles__sensitivity__SobolIndices {
 pub struct Py_raffles__sensitivity__SobolSampleLayout { pub inner: ::raffles::sensitivity::SobolSampleLayout }
 #[pymethods]
 impl Py_raffles__sensitivity__SobolSampleLayout {
+    // @item method:raffles::sensitivity::SobolSampleLayout::new
+    #[doc = "Describes a Sobol design over `inputs` input variables with\n`base_samples` base samples per matrix.\n\n`base_samples` is the `n` of the formulas in the module docs, **not**\nthe total evaluation count — see [`model_evaluations`](Self::model_evaluations).\n\n# Errors\n\n[`RafflesError::InvalidParameter`] if `inputs` is zero, or if\n`base_samples` is below 2 (the pooled variance needs at least two\npoints per matrix to be estimable)."]
+    #[new]
+    pub fn new(inputs: usize, base_samples: usize) -> PyResult<Py_raffles__sensitivity__SobolSampleLayout> { err(::raffles::sensitivity::SobolSampleLayout::new(inputs, base_samples)).map(|v| Py_raffles__sensitivity__SobolSampleLayout { inner: v }) }
     // @item method:raffles::sensitivity::SobolSampleLayout::inputs
     #[doc = "Number of input variables, `k`."]
     pub fn inputs(&self) -> usize { ::raffles::sensitivity::SobolSampleLayout::inputs(&self.inner) }
@@ -400,6 +459,9 @@ impl Py_raffles__sensitivity__SobolSampleLayout {
     // @item method:raffles::sensitivity::SobolSampleLayout::model_evaluations
     #[doc = "Total model evaluations this design costs: `n * (k + 2)`.\n\nThis is the number every Sobol study is budgeted by, and the classic\nmistake is to read `n` as the total. For 3 inputs and 65536 base\nsamples it is 327680 evaluations, not 65536."]
     pub fn model_evaluations(&self) -> usize { ::raffles::sensitivity::SobolSampleLayout::model_evaluations(&self.inner) }
+    // @item method:raffles::sensitivity::SobolSampleLayout::build_design
+    #[doc = "Assembles the full stacked design matrix from two independent base\nmatrices.\n\n- `a`, `b` — the `n x k` base samples, **row-major** (`a[j * k + i]` is\n  sample `j`'s value for input `i`). They must be independent draws from\n  the same input distribution; reusing one matrix for both makes every\n  index meaningless. Values are in the caller's own units — this routine\n  only shuffles columns and never interprets them.\n\nReturns `n * (k + 2)` rows of `k` values, row-major, in the block order\ndocumented on this type. Evaluate the model once per row and pass the\nresulting `n * (k + 2)` outputs to [`sobol_indices`].\n\n# Errors\n\n[`RafflesError::DimensionMismatch`] if either matrix is not exactly\n`n * k` long for this layout's `n` and `k`."]
+    pub fn build_design(&self, a: Vec<f64>, b: Vec<f64>) -> PyResult<Vec<f64>> { err(::raffles::sensitivity::SobolSampleLayout::build_design(&self.inner, &a.into_iter().map(|e| e).collect::<Vec<_>>(), &b.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -408,6 +470,41 @@ impl Py_raffles__sensitivity__SobolSampleLayout {
 #[doc = "Derives the starting seed of an independent generator stream from a master\nseed.\n\nStream `k` starts `k * DEFAULT_STRIDE` LCG steps after the master seed,\nwhere `DEFAULT_STRIDE = 152_917` is OpenMC's per-particle stride. Two\nstreams therefore do not overlap as long as neither consumes more than\n`DEFAULT_STRIDE` draws — which is exactly the guarantee OpenMC relies on to\nmake parallel Monte Carlo reproducible independent of thread count.\n\nUse this to give replicates or parallel workers their own generators while\nkeeping the whole computation reproducible from one master seed. The\nsamplers in this module use the same mechanism internally, one stream per\nsampled dimension, with a stride widened past `DEFAULT_STRIDE` whenever a\ndesign needs more draws than that.\n\n`master_seed` may be any `i64` and `stream` any index; there are no bad\nvalues.\n\n# Why not `outram_mc_libs::rng::lcg::init_seed`\n\nThat helper computes `future_seed(id + offset, future_seed(DEFAULT_STRIDE,\nmaster))`, i.e. consecutive `id`s land **one LCG step apart**, not one\nstride apart. OpenMC's own `init_seed` (`src/random_lcg.cpp:60`) is\n`future_seed(id * prn_stride, master_seed + offset)`. Using the workspace\nhelper for per"]
 #[pyfunction(name = "stream_seed")]
 pub fn fn_raffles__samplers__stream_seed(master_seed: i64, stream: usize) -> u64 { ::raffles::samplers::stream_seed(master_seed, stream) }
+
+    // @item fn:raffles::sensitivity::average_ranks
+#[doc = "Ranks of `x` in ascending order, `1`-based, with **ties resolved by\naveraging** — the convention Spearman's rank correlation assumes.\n\nThe returned vector has the same length and ordering as `x`: element `j` is\nthe rank of `x[j]`. Ranks lie in `[1, n]` and always sum to `n(n + 1) / 2`.\nThree tied values occupying ranks 4, 5 and 6 each receive `5.0`.\n\nNon-finite inputs are not rejected: `NaN` sorts to the end (via\n[`f64::total_cmp`], which cannot panic) and compares unequal to itself, so\neach `NaN` receives its own rank. Results in the presence of `NaN` are\nwell-defined but not statistically meaningful.\n\n# Errors\n\n[`RafflesError::DimensionMismatch`] if `x` is empty."]
+#[pyfunction(name = "average_ranks")]
+pub fn fn_raffles__sensitivity__average_ranks(x: Vec<f64>) -> PyResult<Vec<f64>> { err(::raffles::sensitivity::average_ranks(&x.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
+
+    // @item fn:raffles::sensitivity::input_output_correlations
+#[doc = "Correlation of every input column against a single scalar output.\n\nA cheap first look at which inputs matter, and the natural companion to\n[`sobol_indices`]: it costs one already-evaluated sample rather than the\n`n * (k + 2)` evaluations the Sobol estimator needs, but it only sees\nlinear ([`CorrelationKind::Pearson`]) or monotone\n([`CorrelationKind::Spearman`]) association, and is blind to interactions.\n\n- `inputs_row_major` — the `n x k` input sample, **row-major**: sample `j`'s\n  value for input `i` is at `inputs_row_major[j * k + i]`.\n- `inputs` — `k`, the number of input variables.\n- `outputs` — the `n` model outputs, `outputs[j]` matching sample row `j`.\n\nReturns `k` coefficients, each in `[-1, 1]`, in input order.\n\n# Errors\n\n- [`RafflesError::InvalidParameter`] if `inputs` is zero.\n- [`RafflesError::DimensionMismatch`] if `inputs_row_major.len()` is not\n  `outputs.len() * inputs`, or if fewer than two samples are supplied.\n- Whatever [`CorrelationKind::correlation`] returns for a degenerate column."]
+#[pyfunction(name = "input_output_correlations")]
+pub fn fn_raffles__sensitivity__input_output_correlations(inputs_row_major: Vec<f64>, inputs: usize, outputs: Vec<f64>, kind: Py_raffles__sensitivity__CorrelationKind) -> PyResult<Vec<f64>> { err(::raffles::sensitivity::input_output_correlations(&inputs_row_major.into_iter().map(|e| e).collect::<Vec<_>>(), inputs, &outputs.into_iter().map(|e| e).collect::<Vec<_>>(), kind.inner)).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
+
+    // @item fn:raffles::sensitivity::pearson_correlation
+#[doc = "Pearson product-moment correlation coefficient between two paired samples.\n\n`x[j]` and `y[j]` are the two quantities observed at sample `j`. The result\nis dimensionless and lies in `[-1, 1]`: `+1` for a perfectly increasing\naffine relationship, `-1` for a perfectly decreasing one, `0` for no\n*linear* association (which is not the same as independence — see the\nsymmetric-parabola case in this module's tests).\n\nComputed as `cov(x, y) / (sd(x) * sd(y))` with the unbiased `n - 1`\ndenominator throughout; the correction cancels, so the biased form gives the\nidentical coefficient.\n\n# Errors\n\n- [`RafflesError::DimensionMismatch`] if the two samples differ in length,\n  or if fewer than two points are supplied.\n- [`RafflesError::InvalidParameter`] if either sample has zero variance —\n  a constant variable has no correlation with anything, and returning `NaN`\n  silently would hide that."]
+#[pyfunction(name = "pearson_correlation")]
+pub fn fn_raffles__sensitivity__pearson_correlation(x: Vec<f64>, y: Vec<f64>) -> PyResult<f64> { err(::raffles::sensitivity::pearson_correlation(&x.into_iter().map(|e| e).collect::<Vec<_>>(), &y.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v) }
+
+    // @item fn:raffles::sensitivity::sample_mean
+#[doc = "Arithmetic mean of a sample.\n\n`x` is a sample of a scalar quantity in whatever units the caller's model\nuses; RAFFLES never interprets them. The result carries those same units.\n\n# Errors\n\n[`RafflesError::DimensionMismatch`] if `x` is empty (at least one sample is\nrequired)."]
+#[pyfunction(name = "sample_mean")]
+pub fn fn_raffles__sensitivity__sample_mean(x: Vec<f64>) -> PyResult<f64> { err(::raffles::sensitivity::sample_mean(&x.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v) }
+
+    // @item fn:raffles::sensitivity::sample_variance
+#[doc = "Unbiased (Bessel-corrected, `n - 1` denominator) sample variance.\n\nNon-negative, in the square of the caller's output units. Use this rather\nthan the biased `n` form when the sample is being used to *estimate* a\npopulation variance, which is what every measure in this module does.\n\n# Errors\n\n[`RafflesError::DimensionMismatch`] if `x` has fewer than two elements — the\nunbiased variance of a single point is undefined."]
+#[pyfunction(name = "sample_variance")]
+pub fn fn_raffles__sensitivity__sample_variance(x: Vec<f64>) -> PyResult<f64> { err(::raffles::sensitivity::sample_variance(&x.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v) }
+
+    // @item fn:raffles::sensitivity::sobol_indices
+#[doc = "Estimates first-order and total-effect Sobol indices from an evaluated\nSaltelli-style sample.\n\n`outputs` holds the scalar model output for every row of the design\ndescribed by `layout`, **in that layout's block order** — build it with\n[`SobolSampleLayout::build_design`] and evaluate row by row, or lay it out\nyourself using [`SobolSampleLayout::block_a`],\n[`SobolSampleLayout::block_b`] and [`SobolSampleLayout::block_ab`]. Its\nlength must be exactly [`SobolSampleLayout::model_evaluations`].\n\nThe estimator assumes the `k` inputs are **mutually independent**; the\nvariance decomposition it inverts does not hold for correlated inputs, and\nthis function cannot detect the violation.\n\n# Errors\n\n- [`RafflesError::DimensionMismatch`] if `outputs.len()` does not match the\n  layout.\n- [`RafflesError::InvalidParameter`] if the pooled output variance is zero\n  (a constant model has no sensitivity structure to report, and dividing by\n  it would return `NaN` indices that look like real answers)."]
+#[pyfunction(name = "sobol_indices")]
+pub fn fn_raffles__sensitivity__sobol_indices(layout: Py_raffles__sensitivity__SobolSampleLayout, outputs: Vec<f64>) -> PyResult<Py_raffles__sensitivity__SobolIndices> { err(::raffles::sensitivity::sobol_indices(layout.inner, &outputs.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| Py_raffles__sensitivity__SobolIndices { inner: v }) }
+
+    // @item fn:raffles::sensitivity::spearman_correlation
+#[doc = "Spearman rank correlation coefficient between two paired samples.\n\nPearson's coefficient applied to the average ranks (see [`average_ranks`]),\nso it is dimensionless, lies in `[-1, 1]`, and is **invariant under any\nstrictly monotone transform** of either variable — `+1` for any increasing\nrelationship whether or not it is linear.\n\n# Errors\n\n- [`RafflesError::DimensionMismatch`] if the two samples differ in length,\n  or if fewer than two points are supplied.\n- [`RafflesError::InvalidParameter`] if either sample is entirely tied (all\n  ranks equal), which makes the coefficient undefined."]
+#[pyfunction(name = "spearman_correlation")]
+pub fn fn_raffles__sensitivity__spearman_correlation(x: Vec<f64>, y: Vec<f64>) -> PyResult<f64> { err(::raffles::sensitivity::spearman_correlation(&x.into_iter().map(|e| e).collect::<Vec<_>>(), &y.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v) }
 
 pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_raffles__RafflesError>()?;
@@ -429,5 +526,12 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_raffles__sensitivity__SobolIndices>()?;
     m.add_class::<Py_raffles__sensitivity__SobolSampleLayout>()?;
     m.add_function(wrap_pyfunction!(fn_raffles__samplers__stream_seed, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_raffles__sensitivity__average_ranks, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_raffles__sensitivity__input_output_correlations, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_raffles__sensitivity__pearson_correlation, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_raffles__sensitivity__sample_mean, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_raffles__sensitivity__sample_variance, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_raffles__sensitivity__sobol_indices, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_raffles__sensitivity__spearman_correlation, m)?)?;
     Ok(())
 }

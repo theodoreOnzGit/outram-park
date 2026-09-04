@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:teh_o_prke::decay_heat::DecayHeat
 #[doc = "Fission-product decay-heat state: one stored power per exponential group.\n\nConstruct with [`DecayHeat::new`] (all groups cold, as at first startup of\nfresh fuel) or [`DecayHeat::new_at_equilibrium`] (groups saturated to an\ninfinite prior irradiation, which is the realistic starting point for a\nshutdown transient). Advance with [`DecayHeat::advance_timestep`] and read\nwith [`DecayHeat::total_decay_heat_power`].\n\nOwns its data by value; no lifetimes, no heap allocation."]
@@ -446,6 +446,10 @@ impl Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper {
     #[doc = "Constructs a new timestepper, validating the preconditions the\nclosed-form solution depends on (`Lambda > 0`, `alpha_f < 0`,\n`C_f > 0`). `external_reactivity` starts at zero; set it with\n[`Self::set_external_reactivity`] or\n[`Self::drive_external_reactivity_from_first_order_lag`] before\nstepping."]
     #[new]
     pub fn new(prompt_neutron_generation_time: f64, delayed_neutron_fraction: f64, fuel_heat_capacity: f64, fuel_feedback_coefficient: f64, fuel_reference_temperature: f64, initial_fuel_temperature: f64, initial_power: f64) -> PyResult<Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper> { err(::teh_o_prke::nordheim_fuchs::NordheimFuchsExactTimestepper::new(from_si(prompt_neutron_generation_time), from_si(delayed_neutron_fraction), from_si(fuel_heat_capacity), from_si(fuel_feedback_coefficient), from_si(fuel_reference_temperature), from_si(initial_fuel_temperature), from_si(initial_power))).map(|v| Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper { inner: v }) }
+    // @item method:teh_o_prke::nordheim_fuchs::NordheimFuchsExactTimestepper::drive_external_reactivity_from_first_order_lag
+    #[cfg(feature = "chem-eng-real-time-process-control-simulator")]
+    #[doc = "Drives `external_reactivity` from an external first-order lag (a\nplausible model of e.g. control-rod-drive / actuator response time)\nrather than a direct instantaneous set, reusing\n`chem-eng-real-time-process-control-simulator`'s\n[`TransferFnFirstOrder`]. Build a unity-gain lag of time constant\n`tau` with\n`TransferFnFirstOrder::new(Time::ZERO, Ratio::new::<ratio>(1.0), tau, Ratio::new::<ratio>(1.0))`.\n\nOnly the reactivity *input* is modelled this way -- the core\nprompt-power/fuel-temperature system above is nonlinear (its\neffective time constant depends on the instantaneous state, `r_k`\nand `P_k`), so it has no equivalent representation as a linear\ntransfer-function superposition and is intentionally **not** built\non chem-eng's transfer-function primitives; reusing them here is\nlimited to the part of the problem that actually is linear\n(an external actuator lag ahead of the nonlinear reactor response)."]
+    pub fn drive_external_reactivity_from_first_order_lag(&mut self, mut driver: PyRefMut<'_, crate::python::generated::chem_eng_real_time_process_control_simulator::Py_chem_eng_real_time_process_control_simulator__beta_testing__transfer_fn_wrapper_and_enums__TransferFnFirstOrder>, commanded_reactivity: f64, time: f64) -> PyResult<f64> { err(::teh_o_prke::nordheim_fuchs::NordheimFuchsExactTimestepper::drive_external_reactivity_from_first_order_lag(&mut self.inner, &mut driver.inner, from_si(commanded_reactivity), from_si(time))).map(|v| to_si(v)) }
     // @item method:teh_o_prke::nordheim_fuchs::NordheimFuchsExactTimestepper::reactivity_margin
     #[doc = "The current reactivity margin\n`r = rho_ext - beta + alpha_f*(T_f - T_f,ref)` (dimensionless)."]
     pub fn reactivity_margin(&self) -> f64 { to_si(::teh_o_prke::nordheim_fuchs::NordheimFuchsExactTimestepper::reactivity_margin(&self.inner)) }

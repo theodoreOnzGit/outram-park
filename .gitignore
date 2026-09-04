@@ -333,3 +333,9 @@ dist/
 outram-park/codegen/.build-venv/
 outram-park/codegen/errors-pass*.log
 outram-park/codegen/__pycache__/
+
+# Built Python wheels. `/target` already covers the usual
+# `target/wheels/` output; this catches one built anywhere else
+# (`maturin build -o .`). The wheel is a build artefact -- rebuild it with
+# `python3 outram-park/codegen/refresh.py --wheel`, do not commit it.
+*.whl

@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_park_mpi::CartesianComm
 #[doc = "A communicator with an attached N-dimensional Cartesian grid topology.\n\nWraps the underlying [`Communicator`] (the first `dims.product()` ranks of the\nparent) plus the grid `dims` and per-dimension `periods` (wrap-around) flags."]
@@ -42,15 +42,30 @@ impl Py_outram_park_mpi__CartesianComm {
 pub struct Py_outram_park_mpi__Communicator { pub inner: ::outram_park_mpi::Communicator }
 #[pymethods]
 impl Py_outram_park_mpi__Communicator {
+    // @item method:outram_park_mpi::Communicator::cart_create
+    #[doc = "Create a Cartesian topology of shape `dims` (with per-dimension `periods`\nwrap-around flags) over the first `dims.product()` ranks of this\ncommunicator (mirrors `MPI_Cart_create` with `reorder = false`).\n\nRanks `0..dims.product()` become members and receive `Some(CartesianComm)`;\nany surplus ranks receive `Ok(None)` (MPI's `MPI_COMM_NULL`). Collective:\nevery rank of this communicator must call it with identical `dims`/`periods`.\n\n# Errors\n[`MpiError::InvalidArgument`] if `dims` and `periods` differ in length, a\ndimension is `<= 0`, or the grid needs more ranks than the communicator has."]
+    pub fn cart_create(&self, dims: Vec<i32>, periods: Vec<bool>) -> PyResult<Option<Py_outram_park_mpi__CartesianComm>> { err(::outram_park_mpi::Communicator::cart_create(&self.inner, &dims.into_iter().map(|e| e).collect::<Vec<_>>(), &periods.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.map(|e| Py_outram_park_mpi__CartesianComm { inner: e })) }
     // @item method:outram_park_mpi::Communicator::group
     #[doc = "The group of this communicator: its members' world ranks in local-rank\norder (mirrors `MPI_Comm_group`)."]
     pub fn group(&self) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Communicator::group(&self.inner) } }
+    // @item method:outram_park_mpi::Communicator::create_from_group
+    #[doc = "Collectively create a new communicator over the processes in `group`\n(mirrors `MPI_Comm_create`). Every rank of this communicator must call it\nwith the *same* group; ranks that are members receive the new communicator\n(renumbered to the group's order), and non-members receive `Ok(None)`.\n\n# Errors\nPropagates any transport/collective error from the internal context\nagreement broadcast."]
+    pub fn create_from_group(&self, group: PyRef<'_, Py_outram_park_mpi__Group>) -> PyResult<Option<Py_outram_park_mpi__Communicator>> { err(::outram_park_mpi::Communicator::create_from_group(&self.inner, &group.inner)).map(|v| v.map(|e| Py_outram_park_mpi__Communicator { inner: e })) }
     // @item method:outram_park_mpi::Communicator::rank
     #[doc = "This rank's id within the communicator, `0..size` (mirrors `MPI_Comm_rank`)."]
     pub fn rank(&self) -> i32 { ::outram_park_mpi::Communicator::rank(&self.inner) }
     // @item method:outram_park_mpi::Communicator::size
     #[doc = "Number of ranks in the communicator (mirrors `MPI_Comm_size`)."]
     pub fn size(&self) -> i32 { ::outram_park_mpi::Communicator::size(&self.inner) }
+    // @item method:outram_park_mpi::Communicator::dup
+    #[doc = "Duplicate this communicator: a new communicator over the **same group of\nranks** with a fresh, isolated communication context (mirrors\n`MPI_Comm_dup`).\n\nCollective: every rank must call it. Messages on the duplicate never match\nmessages on the original, even with identical tags.\n\n# Errors\nPropagates any transport/collective error from the internal broadcast."]
+    pub fn dup(&self) -> PyResult<Py_outram_park_mpi__Communicator> { err(::outram_park_mpi::Communicator::dup(&self.inner)).map(|v| Py_outram_park_mpi__Communicator { inner: v }) }
+    // @item method:outram_park_mpi::Communicator::split
+    #[doc = "Split this communicator into disjoint sub-communicators by `color`, ordered\nwithin each group by `key` (ties broken by ascending original rank),\nmirroring `MPI_Comm_split`.\n\nEvery rank passes a `color` and a `key`. Ranks sharing a `color` form one\nnew communicator; a rank passing [`Communicator::UNDEFINED`] joins none and\ngets `Ok(None)`. Collective: every rank must call it.\n\n# Errors\nPropagates any transport/collective error from the internal all-gather /\nbroadcast."]
+    pub fn split(&self, color: i32, key: i32) -> PyResult<Option<Py_outram_park_mpi__Communicator>> { err(::outram_park_mpi::Communicator::split(&self.inner, color, key)).map(|v| v.map(|e| Py_outram_park_mpi__Communicator { inner: e })) }
+    // @item method:outram_park_mpi::Communicator::barrier
+    #[doc = "Block until every rank in the communicator has called `barrier` (mirrors\n`MPI_Barrier`).\n\nLinear schedule: every non-root rank reports to rank 0, which then releases\nthem once all have arrived."]
+    pub fn barrier(&self) -> PyResult<()> { err(::outram_park_mpi::Communicator::barrier(&self.inner)).map(|v| v) }
 }
 
     // @item type:outram_park_mpi::Datatype
@@ -135,16 +150,16 @@ impl Py_outram_park_mpi__Group {
     pub fn excl(&self, indices: Vec<i32>) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Group::excl(&self.inner, &indices.into_iter().map(|e| e).collect::<Vec<_>>()) } }
     // @item method:outram_park_mpi::Group::union
     #[doc = "Union: this group's members, then the other's members not already present\n(mirrors `MPI_Group_union`)."]
-    pub fn union(&self, other: Py_outram_park_mpi__Group) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Group::union(&self.inner, &other.inner) } }
+    pub fn union(&self, other: PyRef<'_, Py_outram_park_mpi__Group>) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Group::union(&self.inner, &other.inner) } }
     // @item method:outram_park_mpi::Group::intersection
     #[doc = "Intersection: members in both groups, in this group's order (mirrors\n`MPI_Group_intersection`)."]
-    pub fn intersection(&self, other: Py_outram_park_mpi__Group) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Group::intersection(&self.inner, &other.inner) } }
+    pub fn intersection(&self, other: PyRef<'_, Py_outram_park_mpi__Group>) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Group::intersection(&self.inner, &other.inner) } }
     // @item method:outram_park_mpi::Group::difference
     #[doc = "Difference: members of this group not in the other, in this group's order\n(mirrors `MPI_Group_difference`)."]
-    pub fn difference(&self, other: Py_outram_park_mpi__Group) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Group::difference(&self.inner, &other.inner) } }
+    pub fn difference(&self, other: PyRef<'_, Py_outram_park_mpi__Group>) -> Py_outram_park_mpi__Group { Py_outram_park_mpi__Group { inner: ::outram_park_mpi::Group::difference(&self.inner, &other.inner) } }
     // @item method:outram_park_mpi::Group::translate_ranks
     #[doc = "Translate each of `ranks` (group ranks in *this* group) into the\ncorresponding rank in `other`, or `None` where the process is not in\n`other` (mirrors `MPI_Group_translate_ranks`)."]
-    pub fn translate_ranks(&self, ranks: Vec<i32>, other: Py_outram_park_mpi__Group) -> Vec<Option<i32>> { ::outram_park_mpi::Group::translate_ranks(&self.inner, &ranks.into_iter().map(|e| e).collect::<Vec<_>>(), &other.inner).into_iter().map(|e| e.map(|e| e)).collect::<Vec<_>>() }
+    pub fn translate_ranks(&self, ranks: Vec<i32>, other: PyRef<'_, Py_outram_park_mpi__Group>) -> Vec<Option<i32>> { ::outram_park_mpi::Group::translate_ranks(&self.inner, &ranks.into_iter().map(|e| e).collect::<Vec<_>>(), &other.inner).into_iter().map(|e| e.map(|e| e)).collect::<Vec<_>>() }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }

@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:nee_soon::NeeSoon
 #[doc = "Object-oriented facade for the OUTRAM PARK neutronics + kinetics suite.\n\n`NeeSoon` is the single entry point of the crate (the \"one big struct\"): a\nuser constructs one of these and then creates the relevant simulation pieces\nthrough it — a nuclear-data provider ([`njoy_outram_park_fork`]), a Monte\nCarlo transport model ([`outram_mc_libs`]), a point-kinetics model\n([`teh_o_prke`]), and, ultimately, coupled runs that thread data between\nthem.\n\n# Physical scope\n\nThis type owns no physics of its own; it is a builder/orchestrator over the\ncomposed crates. Physical quantities exchanged across its API are dimensioned\nvia [`uom`] (never bare `f64`).\n\n# Status\n\n[`Self::new_prompt_excursion_model`] is wired to `teh-o-prke`'s\n[`NordheimFuchsExactTimestepper`]. Nuclear-data-provider and Monte\nCarlo transport / coupled-run construction are not implemented yet.\nThe planned shape is a builder that holds:\n- a nuclear-data provider handle (cross-section source),\n- an optional transport model,\n- an optional kinetics model,\n- coupling / orchestration configuration."]

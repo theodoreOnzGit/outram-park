@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_park_fork_pflotran::FlowMode
 #[doc = "A closed set of subsurface flow modes.\n\nv1 implements [`FlowMode::Richards`] (variably-saturated single-phase flow).\nTH, GENERAL (multiphase), and transport modes are added as later variants\n(beads op-v6s.10, op-v6s.13, op-v6s.11); the `#[non_exhaustive]` marker keeps\ndownstream `match`es forward-compatible."]
@@ -14,6 +14,12 @@ impl Py_outram_park_fork_pflotran__FlowMode {
     // @item method:outram_park_fork_pflotran::FlowMode::name
     #[doc = "Human-readable name of the active flow mode (e.g. `\"RICHARDS\"`)."]
     pub fn name(&self) -> String { ::outram_park_fork_pflotran::FlowMode::name(&self.inner).clone().to_string() }
+    // @item method:outram_park_fork_pflotran::FlowMode::step
+    #[doc = "Advance the flow solution by one (adaptive) timestep, returning the\nper-step report. Errors if the nonlinear solve fails to converge even\nafter timestep cutting (see [`RichardsSimulation::step`])."]
+    pub fn step(&mut self) -> PyResult<Py_outram_park_fork_pflotran__flow__StepReport> { err(::outram_park_fork_pflotran::FlowMode::step(&mut self.inner)).map(|v| Py_outram_park_fork_pflotran__flow__StepReport { inner: v }) }
+    // @item method:outram_park_fork_pflotran::FlowMode::run
+    #[doc = "Run the simulation to its configured final time, returning the run\nsummary. Written as an exhaustive `match` so a new [`FlowMode`] variant\nforces this method to handle it."]
+    pub fn run(&mut self) -> PyResult<Py_outram_park_fork_pflotran__flow__RunReport> { err(::outram_park_fork_pflotran::FlowMode::run(&mut self.inner)).map(|v| Py_outram_park_fork_pflotran__flow__RunReport { inner: v }) }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_park_fork_pflotran::FlowMode::Richards(..) => "Richards", _ => "unknown" }
@@ -55,7 +61,7 @@ impl Py_outram_park_fork_pflotran__RichardsSimulation {
     // @item method:outram_park_fork_pflotran::RichardsSimulation::from_input_deck
     #[doc = "Build a runnable simulation directly from a parsed input deck, wiring the\ngrid, material, characteristic curves, boundary conditions, and time\ncontrols. Uses liquid-water EOS defaults, standard gravity, and\natmospheric reference gas pressure."]
     #[staticmethod]
-    pub fn from_input_deck(deck: Py_outram_park_fork_pflotran__io__InputDeck) -> PyResult<Py_outram_park_fork_pflotran__RichardsSimulation> { err(::outram_park_fork_pflotran::RichardsSimulation::from_input_deck(&deck.inner)).map(|v| Py_outram_park_fork_pflotran__RichardsSimulation { inner: v }) }
+    pub fn from_input_deck(deck: PyRef<'_, Py_outram_park_fork_pflotran__io__InputDeck>) -> PyResult<Py_outram_park_fork_pflotran__RichardsSimulation> { err(::outram_park_fork_pflotran::RichardsSimulation::from_input_deck(&deck.inner)).map(|v| Py_outram_park_fork_pflotran__RichardsSimulation { inner: v }) }
     // @item method:outram_park_fork_pflotran::RichardsSimulation::pressure
     #[doc = "Current liquid-pressure field (Pa), length `n_cells`."]
     pub fn pressure(&self) -> Vec<f64> { ::outram_park_fork_pflotran::RichardsSimulation::pressure(&self.inner).clone().iter().cloned().map(|e| e).collect::<Vec<_>>() }
@@ -429,7 +435,7 @@ impl Py_outram_park_fork_pflotran__decomposition__Decomposition1D {
     #[cfg(feature = "outram-park-mpi")]
     #[doc = "Build the partition for this rank from the global cell count and its\ncommunicator. Uses the standard balanced split: the first `n_global % p`\nranks get one extra cell."]
     #[new]
-    pub fn new(n_global: usize, comm: crate::python::generated::outram_park_mpi::Py_outram_park_mpi__Communicator) -> Py_outram_park_fork_pflotran__decomposition__Decomposition1D { Py_outram_park_fork_pflotran__decomposition__Decomposition1D { inner: ::outram_park_fork_pflotran::decomposition::Decomposition1D::new(n_global, &comm.inner) } }
+    pub fn new(n_global: usize, comm: PyRef<'_, crate::python::generated::outram_park_mpi::Py_outram_park_mpi__Communicator>) -> Py_outram_park_fork_pflotran__decomposition__Decomposition1D { Py_outram_park_fork_pflotran__decomposition__Decomposition1D { inner: ::outram_park_fork_pflotran::decomposition::Decomposition1D::new(n_global, &comm.inner) } }
     // @item method:outram_park_fork_pflotran::decomposition::Decomposition1D::global_index
     #[doc = "Global cell index of this rank's `local`-th owned cell."]
     pub fn global_index(&self, local: usize) -> usize { ::outram_park_fork_pflotran::decomposition::Decomposition1D::global_index(&self.inner, local) }
@@ -587,12 +593,12 @@ impl Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D {
     // @item method:outram_park_fork_pflotran::decomposition::ldu::DistributedLduMatrix1D::from_rows
     #[doc = "Build directly from this rank's tridiagonal rows: `diag[i]` = `A_ii`,\n`west[i]` = coupling to cell `i-1` (`A_{i,i-1}`), `east[i]` = coupling to\ncell `i+1` (`A_{i,i+1}`), all length `decomp.local_len`. Off-domain\ncouplings must be `0`. Used by higher-level distributed assemblers (e.g. the\ntransport driver).\n\n# Errors\n[`crate::error::PflotranError::InvalidInput`] if any array length differs\nfrom the local cell count."]
     #[staticmethod]
-    pub fn from_rows(decomp: Py_outram_park_fork_pflotran__decomposition__Decomposition1D, diag: Vec<f64>, west: Vec<f64>, east: Vec<f64>) -> PyResult<Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D> { err(::outram_park_fork_pflotran::decomposition::ldu::DistributedLduMatrix1D::from_rows(&decomp.inner, diag.into_iter().map(|e| e).collect::<Vec<_>>(), west.into_iter().map(|e| e).collect::<Vec<_>>(), east.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D { inner: v }) }
+    pub fn from_rows(decomp: PyRef<'_, Py_outram_park_fork_pflotran__decomposition__Decomposition1D>, diag: Vec<f64>, west: Vec<f64>, east: Vec<f64>) -> PyResult<Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D> { err(::outram_park_fork_pflotran::decomposition::ldu::DistributedLduMatrix1D::from_rows(&decomp.inner, diag.into_iter().map(|e| e).collect::<Vec<_>>(), west.into_iter().map(|e| e).collect::<Vec<_>>(), east.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D { inner: v }) }
     // @item method:outram_park_fork_pflotran::decomposition::ldu::DistributedLduMatrix1D::from_global
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "Extract this rank's rows (per `decomp`) from a globally-assembled 1-D\n`LduMatrix`. The matrix must be tridiagonal in the natural 1-D ordering\n(`neighbour = owner + 1`), as produced by [`assemble_diffusion_ldu`] on a\n1-D grid."]
     #[staticmethod]
-    pub fn from_global(decomp: Py_outram_park_fork_pflotran__decomposition__Decomposition1D, ldu: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix) -> Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D { Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D { inner: ::outram_park_fork_pflotran::decomposition::ldu::DistributedLduMatrix1D::from_global(&decomp.inner, &ldu.inner) } }
+    pub fn from_global(decomp: PyRef<'_, Py_outram_park_fork_pflotran__decomposition__Decomposition1D>, ldu: PyRef<'_, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix>) -> Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D { Py_outram_park_fork_pflotran__decomposition__ldu__DistributedLduMatrix1D { inner: ::outram_park_fork_pflotran::decomposition::ldu::DistributedLduMatrix1D::from_global(&decomp.inner, &ldu.inner) } }
 }
 
     // @item type:outram_park_fork_pflotran::decomposition::operator::DiffusionOperator1D
@@ -624,11 +630,11 @@ impl Py_outram_park_fork_pflotran__decomposition__transport__DistributedTranspor
     // @item method:outram_park_fork_pflotran::decomposition::transport::DistributedTransport1D::from_global_flow
     #[doc = "Build this rank's stepper from a **global** uniform-grid flow field: the\nper-cell water content, the per-internal-face volumetric flux, the\ndispersion parameters, the uniform face area + geometric transmissibility,\nand the retarded storage constant `θ+ρ_bK_d → storage = value · V`.\n\nComputes each owned cell's west/east face flux and dispersion coupling by\nslicing the global arrays, matching the serial `SoluteTransport` assembly\n(`d = (D_mol + α_L·|q|/A)·θ_face·geom`, `θ_face` the face average)."]
     #[staticmethod]
-    pub fn from_global_flow(decomp: Py_outram_park_fork_pflotran__decomposition__Decomposition1D, water_content: Vec<f64>, face_flux: Vec<f64>, molecular_diffusion: f64, longitudinal_dispersivity: f64, area: f64, geom: f64, storage_v: Vec<f64>, dt: f64) -> Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { inner: ::outram_park_fork_pflotran::decomposition::transport::DistributedTransport1D::from_global_flow(&decomp.inner, &water_content.into_iter().map(|e| e).collect::<Vec<_>>(), &face_flux.into_iter().map(|e| e).collect::<Vec<_>>(), molecular_diffusion, longitudinal_dispersivity, area, geom, storage_v.into_iter().map(|e| e).collect::<Vec<_>>(), dt) } }
+    pub fn from_global_flow(decomp: PyRef<'_, Py_outram_park_fork_pflotran__decomposition__Decomposition1D>, water_content: Vec<f64>, face_flux: Vec<f64>, molecular_diffusion: f64, longitudinal_dispersivity: f64, area: f64, geom: f64, storage_v: Vec<f64>, dt: f64) -> Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { inner: ::outram_park_fork_pflotran::decomposition::transport::DistributedTransport1D::from_global_flow(&decomp.inner, &water_content.into_iter().map(|e| e).collect::<Vec<_>>(), &face_flux.into_iter().map(|e| e).collect::<Vec<_>>(), molecular_diffusion, longitudinal_dispersivity, area, geom, storage_v.into_iter().map(|e| e).collect::<Vec<_>>(), dt) } }
     // @item method:outram_park_fork_pflotran::decomposition::transport::DistributedTransport1D::from_energy_flow
     #[doc = "Build a distributed **energy (heat) transport** stepper from a global flow\nfield — the same advection–diffusion operator with heat coefficients,\nmatching the serial [`crate::energy::EnergyTransport`]:\naccumulation `c_v·V` with `c_v = θ_w ρ_w c_w + (1-φ) ρ_r c_r`, upwind\nadvection of the heat-capacity rate `w = ρ_w c_w q`, and symmetric\nconduction `κ_eff·(A/d)`.\n\n- `rho_cw = ρ_w c_w`; `rock_heat_capacity = (1-φ) ρ_r c_r`;\n  `effective_conductivity = κ_eff`; `geom` = the uniform internal-face\n  geometric transmissibility; `cell_volume` the (uniform) cell volume."]
     #[staticmethod]
-    pub fn from_energy_flow(decomp: Py_outram_park_fork_pflotran__decomposition__Decomposition1D, water_content: Vec<f64>, face_flux: Vec<f64>, rho_cw: f64, rock_heat_capacity: f64, effective_conductivity: f64, geom: f64, cell_volume: f64, dt: f64) -> Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { inner: ::outram_park_fork_pflotran::decomposition::transport::DistributedTransport1D::from_energy_flow(&decomp.inner, &water_content.into_iter().map(|e| e).collect::<Vec<_>>(), &face_flux.into_iter().map(|e| e).collect::<Vec<_>>(), rho_cw, rock_heat_capacity, effective_conductivity, geom, cell_volume, dt) } }
+    pub fn from_energy_flow(decomp: PyRef<'_, Py_outram_park_fork_pflotran__decomposition__Decomposition1D>, water_content: Vec<f64>, face_flux: Vec<f64>, rho_cw: f64, rock_heat_capacity: f64, effective_conductivity: f64, geom: f64, cell_volume: f64, dt: f64) -> Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { Py_outram_park_fork_pflotran__decomposition__transport__DistributedTransport1D { inner: ::outram_park_fork_pflotran::decomposition::transport::DistributedTransport1D::from_energy_flow(&decomp.inner, &water_content.into_iter().map(|e| e).collect::<Vec<_>>(), &face_flux.into_iter().map(|e| e).collect::<Vec<_>>(), rho_cw, rock_heat_capacity, effective_conductivity, geom, cell_volume, dt) } }
 }
 
     // @item type:outram_park_fork_pflotran::decomposition::transport::EndCondition
@@ -1502,7 +1508,7 @@ impl Py_outram_park_fork_pflotran__hdf5_io__Hdf5Snapshot {
     // @item method:outram_park_fork_pflotran::hdf5_io::Hdf5Snapshot::from_grid_fields
     #[doc = "Assemble a snapshot from a [`CartesianGrid`], a time, and named cell fields.\n\nPer-axis cell-centre coordinates are read off the grid. Each field must\nhave exactly `grid.n_cells()` values.\n\n# Errors\n[`PflotranError::InvalidInput`] if any field length differs from the cell\ncount."]
     #[staticmethod]
-    pub fn from_grid_fields(grid: Py_outram_park_fork_pflotran__grid__CartesianGrid, time: f64, fields: Vec<(String, Vec<f64>)>) -> PyResult<Py_outram_park_fork_pflotran__hdf5_io__Hdf5Snapshot> { err(::outram_park_fork_pflotran::hdf5_io::Hdf5Snapshot::from_grid_fields(&grid.inner, time, fields.into_iter().map(|e| { let (e0, e1) = e; (e0, e1.into_iter().map(|e| e).collect::<Vec<_>>()) }).collect::<Vec<_>>())).map(|v| Py_outram_park_fork_pflotran__hdf5_io__Hdf5Snapshot { inner: v }) }
+    pub fn from_grid_fields(grid: PyRef<'_, Py_outram_park_fork_pflotran__grid__CartesianGrid>, time: f64, fields: Vec<(String, Vec<f64>)>) -> PyResult<Py_outram_park_fork_pflotran__hdf5_io__Hdf5Snapshot> { err(::outram_park_fork_pflotran::hdf5_io::Hdf5Snapshot::from_grid_fields(&grid.inner, time, fields.into_iter().map(|e| { let (e0, e1) = e; (e0, e1.into_iter().map(|e| e).collect::<Vec<_>>()) }).collect::<Vec<_>>())).map(|v| Py_outram_park_fork_pflotran__hdf5_io__Hdf5Snapshot { inner: v }) }
     // @item method:outram_park_fork_pflotran::hdf5_io::Hdf5Snapshot::to_bytes
     #[doc = "Serialise this snapshot to in-memory HDF5 bytes.\n\n# Errors\n[`PflotranError::Io`] if the HDF5 writer fails."]
     pub fn to_bytes(&self) -> PyResult<Vec<u8>> { err(::outram_park_fork_pflotran::hdf5_io::Hdf5Snapshot::to_bytes(&self.inner)).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
@@ -2522,6 +2528,10 @@ impl Py_outram_park_fork_pflotran__reactive_transport__ReactiveTransport {
 pub struct Py_outram_park_fork_pflotran__solver__BlockJacobiPreconditioner { pub inner: ::outram_park_fork_pflotran::solver::BlockJacobiPreconditioner }
 #[pymethods]
 impl Py_outram_park_fork_pflotran__solver__BlockJacobiPreconditioner {
+    // @item method:outram_park_fork_pflotran::solver::BlockJacobiPreconditioner::new
+    #[doc = "Factor each `nb×nb` diagonal block of `a` and store its inverse.\n\nEach inverse is formed column-by-column: the `k`-th column of the inverse\nis the LU solution of `D · col_k = e_k` (the `k`-th identity column),\ncomputed with `outram-foam-basic-lib`'s dense [`SquareMatrix::solve`]. If\nthat solve fails (singular block), the identity is stored for that cell\nand preconditioning degrades gracefully rather than failing."]
+    #[new]
+    pub fn new(a: PyRef<'_, Py_outram_park_fork_pflotran__solver__BlockLduMatrix>) -> Py_outram_park_fork_pflotran__solver__BlockJacobiPreconditioner { Py_outram_park_fork_pflotran__solver__BlockJacobiPreconditioner { inner: ::outram_park_fork_pflotran::solver::BlockJacobiPreconditioner::new(&a.inner) } }
 }
 
     // @item type:outram_park_fork_pflotran::solver::BlockLduMatrix
@@ -3007,10 +3017,10 @@ impl Py_outram_park_fork_pflotran__surface_complexation__SurfaceSite {
     pub fn point_of_zero_charge_ph(&self) -> f64 { ::outram_park_fork_pflotran::surface_complexation::SurfaceSite::point_of_zero_charge_ph(&self.inner) }
     // @item method:outram_park_fork_pflotran::surface_complexation::SurfaceSite::speciate
     #[doc = "Solve the equilibrium surface speciation at a given pH and aqueous metal\nmolarity for the chosen model and metal complex.\n\n# Parameters\n- `ph`: solution pH; the proton activity is `{H+} = 10^-pH`.\n- `metal_molarity`: aqueous metal activity `{M}`, mol/L (`>= 0`; `0` means\n  no metal, giving `fraction_metal_sorbed = 0`).\n- `model`: electrostatic closure ([`SurfaceComplexationModel`]).\n- `complex`: the metal surface complex ([`SurfaceComplex`]).\n\n# Returns\nA [`SurfaceSpeciation`] whose four species sum to `site_density`.\n\n# Errors\n- [`PflotranError::InvalidInput`] for non-physical site / model / complex\n  parameters, a non-finite pH, a negative or non-finite metal molarity,\n  or (for CCM/DLM) a zero surface area / solid concentration.\n- [`PflotranError::Convergence`] if the electrostatic potential solve\n  fails to bracket a root (not expected for physical input)."]
-    pub fn speciate(&self, ph: f64, metal_molarity: f64, model: Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplexationModel, complex: Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplex) -> PyResult<Py_outram_park_fork_pflotran__surface_complexation__SurfaceSpeciation> { err(::outram_park_fork_pflotran::surface_complexation::SurfaceSite::speciate(&self.inner, ph, metal_molarity, model.inner, &complex.inner)).map(|v| Py_outram_park_fork_pflotran__surface_complexation__SurfaceSpeciation { inner: v }) }
+    pub fn speciate(&self, ph: f64, metal_molarity: f64, model: Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplexationModel, complex: PyRef<'_, Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplex>) -> PyResult<Py_outram_park_fork_pflotran__surface_complexation__SurfaceSpeciation> { err(::outram_park_fork_pflotran::surface_complexation::SurfaceSite::speciate(&self.inner, ph, metal_molarity, model.inner, &complex.inner)).map(|v| Py_outram_park_fork_pflotran__surface_complexation__SurfaceSpeciation { inner: v }) }
     // @item method:outram_park_fork_pflotran::surface_complexation::SurfaceSite::sorption_edge
     #[doc = "Compute a **sorption edge**: the fraction of metal sorbed at each pH in\n`ph_values`, holding the aqueous metal molarity fixed.\n\nFor cation sorption this is the classic sigmoidal S-curve that rises with\npH. Returns `(pH, fraction)` pairs in the input order.\n\n# Errors\nPropagates any error from [`SurfaceSite::speciate`] (the first failing pH\naborts the sweep)."]
-    pub fn sorption_edge(&self, ph_values: Vec<f64>, metal_molarity: f64, model: Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplexationModel, complex: Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplex) -> PyResult<Vec<(f64, f64)>> { err(::outram_park_fork_pflotran::surface_complexation::SurfaceSite::sorption_edge(&self.inner, &ph_values.into_iter().map(|e| e).collect::<Vec<_>>(), metal_molarity, model.inner, &complex.inner)).map(|v| v.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>()) }
+    pub fn sorption_edge(&self, ph_values: Vec<f64>, metal_molarity: f64, model: Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplexationModel, complex: PyRef<'_, Py_outram_park_fork_pflotran__surface_complexation__SurfaceComplex>) -> PyResult<Vec<(f64, f64)>> { err(::outram_park_fork_pflotran::surface_complexation::SurfaceSite::sorption_edge(&self.inner, &ph_values.into_iter().map(|e| e).collect::<Vec<_>>(), metal_molarity, model.inner, &complex.inner)).map(|v| v.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>()) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3571,7 +3581,7 @@ impl Py_outram_park_fork_pflotran__wells__PeacemanWell {
     pub fn well_index(dx: f64, dy: f64, dz: f64, permeability: f64, r_w: f64, skin: f64) -> PyResult<f64> { err(::outram_park_fork_pflotran::wells::PeacemanWell::well_index(dx, dy, dz, permeability, r_w, skin)).map(|v| v) }
     // @item method:outram_park_fork_pflotran::wells::PeacemanWell::cell_rates
     #[doc = "Per-cell volumetric source/sink rates (m^3/s) this well imposes on the\ngrid, given the current cell pressures and a uniform single-phase\nmobility.\n\nThe returned vector has length `grid.n_cells()` and is zero everywhere\nexcept at this well's perforated cells. Sign convention: positive =\ninjection into the cell, negative = production. Behaviour by control:\n\n- [`WellControl::BottomHolePressure`]: each perforated cell gets\n  `WI * mobility * (p_bh - p_cell)`.\n- [`WellControl::VolumetricRate`]: the prescribed **total** rate is split\n  across perforated cells in proportion to their well index `WI`, so the\n  returned rates sum to the target total (independent of `mobility`).\n\nEach cell's `WI` is the isotropic-k Peaceman index (see\n[`PeacemanWell::well_index`]); the cell dimensions `(dx, dy, dz)` are read\nfrom `grid`, and `permeability` (m^2) and `mobility` (1/(Pa*s)) are taken\nuniform over the well.\n\n# Errors\n\nReturns [`PflotranError::InvalidInput`] if `cell_pressure.len() !=\ngrid.n_cells()`, if `permeability` is not positive-finite, if `mobility`\nis negative or non-finite, if any perforated cell index is out of range,\nor if any per-cell well index is invalid (propagated from\n[`PeacemanWe"]
-    pub fn cell_rates(&self, grid: Py_outram_park_fork_pflotran__grid__CartesianGrid, permeability: f64, mobility: f64, cell_pressure: Vec<f64>) -> PyResult<Vec<f64>> { err(::outram_park_fork_pflotran::wells::PeacemanWell::cell_rates(&self.inner, &grid.inner, permeability, mobility, &cell_pressure.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
+    pub fn cell_rates(&self, grid: PyRef<'_, Py_outram_park_fork_pflotran__grid__CartesianGrid>, permeability: f64, mobility: f64, cell_pressure: Vec<f64>) -> PyResult<Vec<f64>> { err(::outram_park_fork_pflotran::wells::PeacemanWell::cell_rates(&self.inner, &grid.inner, permeability, mobility, &cell_pressure.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3662,25 +3672,25 @@ pub fn fn_outram_park_fork_pflotran__decomposition__krylov__serial_cg(n_global: 
 #[cfg(feature = "outram-foam-basic-lib")]
 #[doc = "Assemble a **non-symmetric** advection–diffusion `LduMatrix`: the diffusion\nassembly of [`assemble_diffusion_ldu`] plus an upwind advection term for a\nconstant `velocity` (m/s, `+x`).\n\nUpwinding makes `upper[f] ≠ lower[f]` (the matrix is non-symmetric), so the\nresulting system must be solved with BiCGStab, not CG — this is the shape of\nthe real transport Jacobian. The upwind stencil mirrors the `transport`\nmodule's assembly."]
 #[pyfunction(name = "assemble_advection_diffusion_ldu")]
-pub fn fn_outram_park_fork_pflotran__decomposition__ldu__assemble_advection_diffusion_ldu(grid: Py_outram_park_fork_pflotran__grid__CartesianGrid, k: Vec<f64>, velocity: f64, shift: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { inner: ::outram_park_fork_pflotran::decomposition::ldu::assemble_advection_diffusion_ldu(&grid.inner, &k.into_iter().map(|e| e).collect::<Vec<_>>(), velocity, shift) } }
+pub fn fn_outram_park_fork_pflotran__decomposition__ldu__assemble_advection_diffusion_ldu(grid: PyRef<'_, Py_outram_park_fork_pflotran__grid__CartesianGrid>, k: Vec<f64>, velocity: f64, shift: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { inner: ::outram_park_fork_pflotran::decomposition::ldu::assemble_advection_diffusion_ldu(&grid.inner, &k.into_iter().map(|e| e).collect::<Vec<_>>(), velocity, shift) } }
 
     // @item fn:outram_park_fork_pflotran::decomposition::ldu::assemble_diffusion_ldu
 #[cfg(feature = "outram-foam-basic-lib")]
 #[doc = "Assemble the real face-addressed diffusion matrix for `grid` with per-cell\nconductivity `k` and a diagonal Helmholtz `shift` (`> 0` ⇒ SPD).\n\nThis is a genuine pflotran-style assembly into\n[`outram_foam_basic_lib::ldu_matrix::LduMatrix`]: each internal connection `f`\ncontributes a symmetric transmissibility `T_f = A_f/d_f · harmonic(k_o, k_n)` to\nthe diagonal of both cells and to `upper[f]`/`lower[f]`. Face index `f` matches\n`grid.connections()[f]` by construction.\n\n# Panics\nDebug-asserts `k.len() == grid.n_cells()`."]
 #[pyfunction(name = "assemble_diffusion_ldu")]
-pub fn fn_outram_park_fork_pflotran__decomposition__ldu__assemble_diffusion_ldu(grid: Py_outram_park_fork_pflotran__grid__CartesianGrid, k: Vec<f64>, shift: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { inner: ::outram_park_fork_pflotran::decomposition::ldu::assemble_diffusion_ldu(&grid.inner, &k.into_iter().map(|e| e).collect::<Vec<_>>(), shift) } }
+pub fn fn_outram_park_fork_pflotran__decomposition__ldu__assemble_diffusion_ldu(grid: PyRef<'_, Py_outram_park_fork_pflotran__grid__CartesianGrid>, k: Vec<f64>, shift: f64) -> crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix { inner: ::outram_park_fork_pflotran::decomposition::ldu::assemble_diffusion_ldu(&grid.inner, &k.into_iter().map(|e| e).collect::<Vec<_>>(), shift) } }
 
     // @item fn:outram_park_fork_pflotran::decomposition::ldu::serial_ldu_bicgstab
 #[cfg(feature = "outram-foam-basic-lib")]
 #[doc = "Serial BiCGStab on a real [`LduMatrix`] via [`LduMatrix::multiply`] — the\noracle for the distributed non-symmetric solve."]
 #[pyfunction(name = "serial_ldu_bicgstab")]
-pub fn fn_outram_park_fork_pflotran__decomposition__ldu__serial_ldu_bicgstab(ldu: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix, b: Vec<f64>, tol: f64, max_iter: usize) -> (Vec<f64>, usize) { { let (e0, e1) = ::outram_park_fork_pflotran::decomposition::ldu::serial_ldu_bicgstab(&ldu.inner, &b.into_iter().map(|e| e).collect::<Vec<_>>(), tol, max_iter); (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1) } }
+pub fn fn_outram_park_fork_pflotran__decomposition__ldu__serial_ldu_bicgstab(ldu: PyRef<'_, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix>, b: Vec<f64>, tol: f64, max_iter: usize) -> (Vec<f64>, usize) { { let (e0, e1) = ::outram_park_fork_pflotran::decomposition::ldu::serial_ldu_bicgstab(&ldu.inner, &b.into_iter().map(|e| e).collect::<Vec<_>>(), tol, max_iter); (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1) } }
 
     // @item fn:outram_park_fork_pflotran::decomposition::ldu::serial_ldu_cg
 #[cfg(feature = "outram-foam-basic-lib")]
 #[doc = "Serial CG on a real [`LduMatrix`] using its own [`LduMatrix::multiply`] — the\ncorrectness oracle for the distributed solve."]
 #[pyfunction(name = "serial_ldu_cg")]
-pub fn fn_outram_park_fork_pflotran__decomposition__ldu__serial_ldu_cg(ldu: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix, b: Vec<f64>, tol: f64, max_iter: usize) -> (Vec<f64>, usize) { { let (e0, e1) = ::outram_park_fork_pflotran::decomposition::ldu::serial_ldu_cg(&ldu.inner, &b.into_iter().map(|e| e).collect::<Vec<_>>(), tol, max_iter); (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1) } }
+pub fn fn_outram_park_fork_pflotran__decomposition__ldu__serial_ldu_cg(ldu: PyRef<'_, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__ldu_matrix__LduMatrix>, b: Vec<f64>, tol: f64, max_iter: usize) -> (Vec<f64>, usize) { { let (e0, e1) = ::outram_park_fork_pflotran::decomposition::ldu::serial_ldu_cg(&ldu.inner, &b.into_iter().map(|e| e).collect::<Vec<_>>(), tol, max_iter); (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1) } }
 
     // @item fn:outram_park_fork_pflotran::decomposition::operator::serial_diffusion_cg
 #[doc = "Serial CG reference solving the variable-coefficient system on one rank."]
@@ -3696,6 +3706,11 @@ pub fn fn_outram_park_fork_pflotran__decomposition__operator__serial_diffusion_m
 #[doc = "Probe for a GPU adapter and open a device. Returns `None` when there is no\nusable adapter — a **normal, expected** outcome on headless CI / no-GPU hosts,\nnot an error; the caller then uses the CPU path."]
 #[pyfunction(name = "probe")]
 pub fn fn_outram_park_fork_pflotran__gpu__probe() -> Option<Py_outram_park_fork_pflotran__gpu__GpuContext> { ::outram_park_fork_pflotran::gpu::probe().map(|e| Py_outram_park_fork_pflotran__gpu__GpuContext { inner: e }) }
+
+    // @item fn:outram_park_fork_pflotran::gpu::try_van_genuchten_se_gpu
+#[doc = "Evaluate van Genuchten `Se(pc)` on the GPU (`f32`). Fallible — the caller\nshould fall back to [`van_genuchten_se_cpu`] on `Err`. An empty input returns\nan empty `Vec` without touching the GPU."]
+#[pyfunction(name = "try_van_genuchten_se_gpu")]
+pub fn fn_outram_park_fork_pflotran__gpu__try_van_genuchten_se_gpu(ctx: PyRef<'_, Py_outram_park_fork_pflotran__gpu__GpuContext>, alpha: f64, n: f64, m: f64, pc: Vec<f64>) -> PyResult<Vec<f64>> { err(::outram_park_fork_pflotran::gpu::try_van_genuchten_se_gpu(&ctx.inner, alpha, n, m, &pc.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
 
     // @item fn:outram_park_fork_pflotran::gpu::van_genuchten_se_best_effort
 #[doc = "Evaluate van Genuchten `Se(pc)` using the GPU when available, otherwise the\nCPU. Never fails: falls back to [`van_genuchten_se_cpu`] when there is no GPU\nadapter or the GPU submit errors. GPU results are `f32`-precision."]
@@ -3725,7 +3740,7 @@ pub fn fn_outram_park_fork_pflotran__io__write_vtk_structured(nx: usize, ny: usi
     // @item fn:outram_park_fork_pflotran::thermal_convection::rayleigh_number
 #[doc = "Rayleigh number for a saturated porous layer,\n\n$$ Ra = \\frac{\\rho_0\\, g\\, \\beta\\, \\Delta T\\, k\\, H}{\\mu\\, \\alpha_m}, \\qquad \\alpha_m = \\frac{\\lambda}{\\rho_f c_f}, $$\n\nwhere `\\alpha_m` is the effective thermal diffusivity of the medium (using the\nfluid heat capacity `\\rho_f c_f = \\rho_0 c_f`). `delta_t` is the top-to-bottom\ntemperature difference `\\Delta T` (K) and `height` is the layer thickness `H`\n(m). Onset of Horton–Rogers–Lapwood convection occurs at\n[`CRITICAL_RAYLEIGH_NUMBER`] `= 4\\pi^2`.\n\n# Panics\n\nDoes not panic; if the parameters make `\\alpha_m = 0` (impossible for a valid\n[`ConvectionParameters`], whose conductivity and heat capacity are positive) the\nresult would be non-finite."]
 #[pyfunction(name = "rayleigh_number")]
-pub fn fn_outram_park_fork_pflotran__thermal_convection__rayleigh_number(params: Py_outram_park_fork_pflotran__thermal_convection__ConvectionParameters, delta_t: f64, height: f64) -> f64 { ::outram_park_fork_pflotran::thermal_convection::rayleigh_number(&params.inner, delta_t, height) }
+pub fn fn_outram_park_fork_pflotran__thermal_convection__rayleigh_number(params: PyRef<'_, Py_outram_park_fork_pflotran__thermal_convection__ConvectionParameters>, delta_t: f64, height: f64) -> f64 { ::outram_park_fork_pflotran::thermal_convection::rayleigh_number(&params.inner, delta_t, height) }
 
     // @item const:outram_park_fork_pflotran::flow::richards::ATMOSPHERIC_PRESSURE
     // @item const:outram_park_fork_pflotran::flow::richards::STANDARD_GRAVITY
@@ -3863,6 +3878,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_pflotran__decomposition__operator__serial_diffusion_cg, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_pflotran__decomposition__operator__serial_diffusion_matvec, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_pflotran__gpu__probe, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_park_fork_pflotran__gpu__try_van_genuchten_se_gpu, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_pflotran__gpu__van_genuchten_se_best_effort, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_pflotran__gpu__van_genuchten_se_cpu, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_pflotran__io__parse_deck, m)?)?;

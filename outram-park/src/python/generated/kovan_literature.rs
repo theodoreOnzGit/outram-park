@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:kovan_literature::BibEntry
 #[doc = "One parsed `.bib` entry (op-vi1n) — the entry type (`article`,\n`techreport`, …, lowercased), its cite key, and every field it declares.\n\nField names are lowercased (BibTeX field names are case-insensitive) and\nvalues have their delimiters (`{}` or `\"...\"`) stripped but are otherwise\nverbatim — see the module doc's \"deliberately one-way and shallow\" note."]
@@ -133,7 +133,7 @@ pub fn fn_kovan_literature__render_entries(entries: Vec<Py_kovan_literature__Bib
     // @item fn:kovan_literature::render_entry
 #[doc = "Render one [`BibEntry`] back to BibTeX text — the write side of a\nJabRef-like entry editor (op-xj8t), sitting alongside [`parse_bib_entries`]\nrather than [`to_bibtex`] (which needs a full [`KovanDocument`], not a raw\nentry read back from an arbitrary `.bib` file).\n\nFields are written in `entry.fields`' `BTreeMap` order (alphabetical by\nfield name), **not** the original file's field order — round-tripping a\nparsed-then-rendered entry byte-for-byte is not a goal (see the module\ndoc's \"deliberately one-way and shallow\" note); the entry's *content* is\npreserved, its formatting is not."]
 #[pyfunction(name = "render_entry")]
-pub fn fn_kovan_literature__render_entry(entry: Py_kovan_literature__BibEntry) -> String { ::kovan_literature::render_entry(&entry.inner) }
+pub fn fn_kovan_literature__render_entry(entry: PyRef<'_, Py_kovan_literature__BibEntry>) -> String { ::kovan_literature::render_entry(&entry.inner) }
 
     // @item fn:kovan_literature::split_markdown_by_page_limit
 #[doc = "Split a Markdown body produced by [`text_to_markdown`] into chunks that each\ncontain at most `max_pages` source pages, so no generated document exceeds\nthe `docs/kovan.md` `≤ 30`-page target (see [`crate::MAX_MARKDOWN_PAGES`]).\n\nSplitting happens on the [`PAGE_SEPARATOR`] boundaries the converter\ninserted. A body with `≤ max_pages` pages returns as a single chunk. A\n`max_pages` of 0 is treated as 1."]
@@ -173,7 +173,7 @@ pub fn fn_kovan_literature__text_to_markdown(raw: String) -> String { ::kovan_li
 #[cfg(feature = "kovan-common")]
 #[doc = "Render a [`KovanDocument`] to a single BibTeX entry.\n\n## Entry-type mapping (from [`DocumentType`])\n\n| `DocumentType` | BibTeX entry |\n|---|---|\n| `Paper` | `@article` |\n| `Report` | `@techreport` |\n| `Manual` | `@manual` |\n| `Thesis` | `@phdthesis` |\n| `Standard` | `@misc` |\n| `Benchmark` | `@misc` |\n| `Other` | `@misc` |\n\n`Standard`/`Benchmark` map to `@misc` for portability — classic BibTeX has no\n`@standard`/`@benchmark`, and `@misc` accepts arbitrary fields, so no data is\nlost. (biblatex users can post-process the type.)\n\n## Fields\n\nThe citation key is the document `slug`, sanitised to `[A-Za-z0-9:_-]`. Every\npresent field is emitted: `author` (as `Family, Given and …`), `title`,\n`year`, `journal`, `volume`, `number`, `pages`, `institution`, `publisher`,\n`doi`, `url` (from `source_url`), `keywords`, and `abstract`. Absent optional\nfields are simply omitted. All values are TeX-escaped (see `escape_tex`).\n\nOne field is spelled per entry type: `institution` becomes **`school`** on a\n`@phdthesis`, which is the field BibTeX styles read for the awarding\nuniversity.\n\nThe output is deterministic: field order is fixed and independent of the\ndocument's construction path."]
 #[pyfunction(name = "to_bibtex")]
-pub fn fn_kovan_literature__to_bibtex(doc: crate::python::generated::kovan_common::Py_kovan_common__KovanDocument) -> String { ::kovan_literature::to_bibtex(&doc.inner) }
+pub fn fn_kovan_literature__to_bibtex(doc: PyRef<'_, crate::python::generated::kovan_common::Py_kovan_common__KovanDocument>) -> String { ::kovan_literature::to_bibtex(&doc.inner) }
 
     // @item const:kovan_literature::MAX_MARKDOWN_PAGES
     // @item const:kovan_literature::PAGE_SEPARATOR

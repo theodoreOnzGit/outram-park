@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_blender::arap::ArapError
 #[doc = "Errors from [`arap_deform`]."]
@@ -73,7 +73,7 @@ impl Py_outram_blender__attributes__MeshAttributes {
     // @item method:outram_blender::attributes::MeshAttributes::new
     #[doc = "A fresh, empty attribute layer for `mesh` (everything at its default)."]
     #[new]
-    pub fn new(_mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__attributes__MeshAttributes { Py_outram_blender__attributes__MeshAttributes { inner: ::outram_blender::attributes::MeshAttributes::new(&_mesh.inner) } }
+    pub fn new(_mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__attributes__MeshAttributes { Py_outram_blender__attributes__MeshAttributes { inner: ::outram_blender::attributes::MeshAttributes::new(&_mesh.inner) } }
     // @item method:outram_blender::attributes::MeshAttributes::mark_sharp
     #[doc = "Mark `edges` sharp."]
     pub fn mark_sharp(&mut self, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> () { ::outram_blender::attributes::MeshAttributes::mark_sharp(&mut self.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
@@ -106,10 +106,10 @@ impl Py_outram_blender__attributes__MeshAttributes {
     pub fn edge_bevel_weight(&self, e: Py_outram_blender__mesh__EdgeId) -> f64 { ::outram_blender::attributes::MeshAttributes::edge_bevel_weight(&self.inner, e.inner) }
     // @item method:outram_blender::attributes::MeshAttributes::shade_smooth
     #[doc = "Shade `faces` smooth (empty = whole mesh)."]
-    pub fn shade_smooth(&mut self, mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>) -> () { ::outram_blender::attributes::MeshAttributes::shade_smooth(&mut self.inner, &mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
+    pub fn shade_smooth(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> () { ::outram_blender::attributes::MeshAttributes::shade_smooth(&mut self.inner, &mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
     // @item method:outram_blender::attributes::MeshAttributes::shade_flat
     #[doc = "Shade `faces` flat (empty = whole mesh)."]
-    pub fn shade_flat(&mut self, mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>) -> () { ::outram_blender::attributes::MeshAttributes::shade_flat(&mut self.inner, &mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
+    pub fn shade_flat(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> () { ::outram_blender::attributes::MeshAttributes::shade_flat(&mut self.inner, &mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
     // @item method:outram_blender::attributes::MeshAttributes::is_smooth
     #[doc = "Whether `f` is shaded smooth."]
     pub fn is_smooth(&self, f: Py_outram_blender__mesh__FaceId) -> bool { ::outram_blender::attributes::MeshAttributes::is_smooth(&self.inner, f.inner) }
@@ -121,7 +121,7 @@ impl Py_outram_blender__attributes__MeshAttributes {
     pub fn material(&self, f: Py_outram_blender__mesh__FaceId) -> usize { ::outram_blender::attributes::MeshAttributes::material(&self.inner, f.inner) }
     // @item method:outram_blender::attributes::MeshAttributes::auto_smooth
     #[doc = "Auto-smooth: every face becomes smooth, and every interior edge whose\ndihedral angle exceeds `angle` radians is marked sharp (so a shading\npass splits the normal there). Blender's *Shade Auto Smooth*."]
-    pub fn auto_smooth(&mut self, mesh: Py_outram_blender__mesh__Mesh, angle: f64) -> () { ::outram_blender::attributes::MeshAttributes::auto_smooth(&mut self.inner, &mesh.inner, angle) }
+    pub fn auto_smooth(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, angle: f64) -> () { ::outram_blender::attributes::MeshAttributes::auto_smooth(&mut self.inner, &mesh.inner, angle) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     #[staticmethod]
     pub fn default() -> Self { Self { inner: Default::default() } }
@@ -258,10 +258,10 @@ impl Py_outram_blender__bool_tool__BoolStack {
     pub fn push(&mut self, brush: Py_outram_blender__bool_tool__BoolBrush) -> () { ::outram_blender::bool_tool::BoolStack::push(&mut self.inner, brush.inner) }
     // @item method:outram_blender::bool_tool::BoolStack::bake
     #[doc = "Fold every **enabled** brush into `base`, in stack order, and return the\nresult. A `Slice` brush contributes its *outside* part here (the inside\npiece is available from [`BoolStack::slice_pieces`]).\n\nErrors on the first brush the CSG cannot resolve — use\n[`BoolStack::carve`] to skip such a brush instead."]
-    pub fn bake(&self, base: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::bool_tool::BoolStack::bake(&self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+    pub fn bake(&self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::bool_tool::BoolStack::bake(&self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
     // @item method:outram_blender::bool_tool::BoolStack::carve
     #[doc = "Like [`BoolStack::bake`], but a brush whose boolean fails is **skipped**\n(fast carve mode). Returns the baked mesh plus the indices of the\nbrushes that were skipped."]
-    pub fn carve(&self, base: Py_outram_blender__mesh__Mesh) -> (Py_outram_blender__mesh__Mesh, Vec<usize>) { { let (e0, e1) = ::outram_blender::bool_tool::BoolStack::carve(&self.inner, &base.inner); (Py_outram_blender__mesh__Mesh { inner: e0 }, e1.into_iter().map(|e| e).collect::<Vec<_>>()) } }
+    pub fn carve(&self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> (Py_outram_blender__mesh__Mesh, Vec<usize>) { { let (e0, e1) = ::outram_blender::bool_tool::BoolStack::carve(&self.inner, &base.inner); (Py_outram_blender__mesh__Mesh { inner: e0 }, e1.into_iter().map(|e| e).collect::<Vec<_>>()) } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     #[staticmethod]
     pub fn default() -> Self { Self { inner: Default::default() } }
@@ -456,10 +456,10 @@ impl Py_outram_blender__cursor_pivot__Cursor3D {
     pub fn to_grid(&mut self, step: f64) -> () { ::outram_blender::cursor_pivot::Cursor3D::to_grid(&mut self.inner, step) }
     // @item method:outram_blender::cursor_pivot::Cursor3D::to_selected
     #[doc = "Move the cursor to the median of `verts` (empty = whole mesh)."]
-    pub fn to_selected(&mut self, mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>) -> () { ::outram_blender::cursor_pivot::Cursor3D::to_selected(&mut self.inner, &mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
+    pub fn to_selected(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>) -> () { ::outram_blender::cursor_pivot::Cursor3D::to_selected(&mut self.inner, &mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
     // @item method:outram_blender::cursor_pivot::Cursor3D::to_active
     #[doc = "Move the cursor to a single active vertex."]
-    pub fn to_active(&mut self, mesh: Py_outram_blender__mesh__Mesh, active: Py_outram_blender__mesh__VertexId) -> () { ::outram_blender::cursor_pivot::Cursor3D::to_active(&mut self.inner, &mesh.inner, active.inner) }
+    pub fn to_active(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, active: Py_outram_blender__mesh__VertexId) -> () { ::outram_blender::cursor_pivot::Cursor3D::to_active(&mut self.inner, &mesh.inner, active.inner) }
     // @item method:outram_blender::cursor_pivot::Cursor3D::to_world_origin
     #[doc = "Move the cursor to the world origin."]
     pub fn to_world_origin(&mut self) -> () { ::outram_blender::cursor_pivot::Cursor3D::to_world_origin(&mut self.inner) }
@@ -1989,7 +1989,7 @@ pub struct Py_outram_blender__modifiers__Modifier { pub inner: ::outram_blender:
 impl Py_outram_blender__modifiers__Modifier {
     // @item method:outram_blender::modifiers::Modifier::evaluate
     #[doc = "Evaluate this modifier against `input`, returning the derived mesh.\n\nThe input is borrowed and never mutated (non-destructive: the base mesh\nis preserved); a freshly rebuilt [`Mesh`] is returned. All three\nvariants are implemented:\n\n- [`Modifier::Subsurf`] forwards to\n  [`crate::subdivision::catmull_clark`].\n- [`Modifier::Mirror`] reflects + welds across each enabled axis plane.\n- [`Modifier::Array`] tiles the mesh with a relative per-copy offset.\n\nReturns [`Ok`] in all current cases; the [`Result`] is kept so future\nstub variants can surface [`ModifierError::NotImplemented`]."]
-    pub fn evaluate(&self, input: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::Modifier::evaluate(&self.inner, &input.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+    pub fn evaluate(&self, input: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::Modifier::evaluate(&self.inner, &input.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
     // @item variant:outram_blender::modifiers::Modifier::Subsurf
     #[staticmethod]
     #[pyo3(name = "Subsurf")]
@@ -2170,19 +2170,19 @@ impl Py_outram_blender__modifiers__ModifierStack {
     pub fn duplicate(&mut self, i: usize) -> () { ::outram_blender::modifiers::ModifierStack::duplicate(&mut self.inner, i) }
     // @item method:outram_blender::modifiers::ModifierStack::evaluate
     #[doc = "Evaluate the whole stack against `base`, skipping entries whose\n`show_viewport` is `false`. Each [`Modifier`]'s output becomes the next\none's input. Propagates any [`ModifierError`]."]
-    pub fn evaluate(&self, base: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::evaluate(&self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+    pub fn evaluate(&self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::evaluate(&self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
     // @item method:outram_blender::modifiers::ModifierStack::evaluate_render
     #[doc = "Evaluate using the `show_render` toggle instead of `show_viewport`."]
-    pub fn evaluate_render(&self, base: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::evaluate_render(&self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+    pub fn evaluate_render(&self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::evaluate_render(&self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
     // @item method:outram_blender::modifiers::ModifierStack::apply_first
     #[doc = "**Apply** the first entry: bake it into `base` and drop it from the\nstack. Blender's *Apply* on the top modifier. Returns the new base mesh;\nthe stack is left with the remaining entries."]
-    pub fn apply_first(&mut self, base: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::apply_first(&mut self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+    pub fn apply_first(&mut self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::apply_first(&mut self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
     // @item method:outram_blender::modifiers::ModifierStack::apply_all
     #[doc = "**Apply all**: bake the whole (viewport-enabled) stack into `base` and\nclear the stack. Equivalent to `evaluate` then emptying `modifiers`."]
-    pub fn apply_all(&mut self, base: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::apply_all(&mut self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+    pub fn apply_all(&mut self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::modifiers::ModifierStack::apply_all(&mut self.inner, &base.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
     // @item method:outram_blender::modifiers::ModifierStack::apply_as_shape_key
     #[doc = "**Apply as Shape Key**: the deformed vertex positions, valid only if the\nstack does not change vertex count (a pure deform stack). Returns\n[`ModifierError::Failed`] if the topology changed."]
-    pub fn apply_as_shape_key(&self, base: Py_outram_blender__mesh__Mesh) -> PyResult<Vec<Py_outram_blender__math__Vec3>> { err(::outram_blender::modifiers::ModifierStack::apply_as_shape_key(&self.inner, &base.inner)).map(|v| v.into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>()) }
+    pub fn apply_as_shape_key(&self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Vec<Py_outram_blender__math__Vec3>> { err(::outram_blender::modifiers::ModifierStack::apply_as_shape_key(&self.inner, &base.inner)).map(|v| v.into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>()) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     #[staticmethod]
     pub fn default() -> Self { Self { inner: Default::default() } }
@@ -2230,7 +2230,7 @@ impl Py_outram_blender__normals__SplitNormals {
     // @item method:outram_blender::normals::SplitNormals::flat
     #[doc = "Every corner normal equal to its face's flat normal."]
     #[staticmethod]
-    pub fn flat(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__normals__SplitNormals { Py_outram_blender__normals__SplitNormals { inner: ::outram_blender::normals::SplitNormals::flat(&mesh.inner) } }
+    pub fn flat(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__normals__SplitNormals { Py_outram_blender__normals__SplitNormals { inner: ::outram_blender::normals::SplitNormals::flat(&mesh.inner) } }
     // @item ctor:outram_blender::normals::SplitNormals
     #[new]
     #[pyo3(signature = (normals=None))]
@@ -2416,7 +2416,7 @@ impl Py_outram_blender__object_ops__SceneObject {
     pub fn linked_duplicate(&self) -> Py_outram_blender__object_ops__SceneObject { Py_outram_blender__object_ops__SceneObject { inner: ::outram_blender::object_ops::SceneObject::linked_duplicate(&self.inner) } }
     // @item method:outram_blender::object_ops::SceneObject::shares_mesh_with
     #[doc = "Whether this object shares its mesh with `other`."]
-    pub fn shares_mesh_with(&self, other: Py_outram_blender__object_ops__SceneObject) -> bool { ::outram_blender::object_ops::SceneObject::shares_mesh_with(&self.inner, &other.inner) }
+    pub fn shares_mesh_with(&self, other: PyRef<'_, Py_outram_blender__object_ops__SceneObject>) -> bool { ::outram_blender::object_ops::SceneObject::shares_mesh_with(&self.inner, &other.inner) }
     // @item method:outram_blender::object_ops::SceneObject::apply_transform
     #[doc = "Bake the transform into the geometry and reset the transform to the\nidentity (Apply Transform → All)."]
     pub fn apply_transform(&self) -> Py_outram_blender__object_ops__SceneObject { Py_outram_blender__object_ops__SceneObject { inner: ::outram_blender::object_ops::SceneObject::apply_transform(&self.inner) } }
@@ -2737,7 +2737,7 @@ impl Py_outram_blender__primitives_extra__AddMeshOptions {
     pub fn at(location: Py_outram_blender__math__Vec3) -> Py_outram_blender__primitives_extra__AddMeshOptions { Py_outram_blender__primitives_extra__AddMeshOptions { inner: ::outram_blender::primitives_extra::AddMeshOptions::at(location.inner) } }
     // @item method:outram_blender::primitives_extra::AddMeshOptions::place
     #[doc = "Apply this placement (scale → rotate → translate) to `mesh`, returning\nthe transformed mesh."]
-    pub fn place(&self, mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::primitives_extra::AddMeshOptions::place(&self.inner, &mesh.inner) } }
+    pub fn place(&self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::primitives_extra::AddMeshOptions::place(&self.inner, &mesh.inner) } }
     // @item ctor:outram_blender::primitives_extra::AddMeshOptions
     #[new]
     #[pyo3(signature = (location=None, rotation_euler=None, scale=None))]
@@ -3234,7 +3234,7 @@ impl Py_outram_blender__selection__Selection {
     // @item method:outram_blender::selection::Selection::all
     #[doc = "Everything in `mesh` selected, in `mode` (and every domain flushed to\nmatch — a fully-selected mesh is fully selected in all three sets)."]
     #[staticmethod]
-    pub fn all(mesh: Py_outram_blender__mesh__Mesh, mode: Py_outram_blender__selection__SelectMode) -> Py_outram_blender__selection__Selection { Py_outram_blender__selection__Selection { inner: ::outram_blender::selection::Selection::all(&mesh.inner, mode.inner) } }
+    pub fn all(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, mode: Py_outram_blender__selection__SelectMode) -> Py_outram_blender__selection__Selection { Py_outram_blender__selection__Selection { inner: ::outram_blender::selection::Selection::all(&mesh.inner, mode.inner) } }
     // @item method:outram_blender::selection::Selection::mode
     #[doc = "The active select mode."]
     pub fn mode(&self) -> Py_outram_blender__selection__SelectMode { Py_outram_blender__selection__SelectMode { inner: ::outram_blender::selection::Selection::mode(&self.inner) } }
@@ -3255,88 +3255,88 @@ impl Py_outram_blender__selection__Selection {
     pub fn is_selected(&self, e: Py_outram_blender__selection__Element) -> bool { ::outram_blender::selection::Selection::is_selected(&self.inner, e.inner) }
     // @item method:outram_blender::selection::Selection::select
     #[doc = "Select one element into the active mode's domain.\n\nThe element's domain is normally the same as [`Selection::mode`]. A\n**coarser** element still works — selecting a face in vertex mode selects\nits corners, selecting a face in edge mode selects its boundary edges. A\n**finer** element than the mode (a vertex in face mode) is ignored,\nmatching Blender, where that pick is not possible. The two derived\ndomains are refreshed afterwards (Blender's *selection flush*)."]
-    pub fn select(&mut self, mesh: Py_outram_blender__mesh__Mesh, e: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::select(&mut self.inner, &mesh.inner, e.inner) }
+    pub fn select(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, e: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::select(&mut self.inner, &mesh.inner, e.inner) }
     // @item method:outram_blender::selection::Selection::deselect
     #[doc = "Deselect one element from the active mode's domain. Element-domain\nmismatch is handled exactly as in [`Selection::select`]."]
-    pub fn deselect(&mut self, mesh: Py_outram_blender__mesh__Mesh, e: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::deselect(&mut self.inner, &mesh.inner, e.inner) }
+    pub fn deselect(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, e: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::deselect(&mut self.inner, &mesh.inner, e.inner) }
     // @item method:outram_blender::selection::Selection::toggle
     #[doc = "Flip the selected state of one element."]
-    pub fn toggle(&mut self, mesh: Py_outram_blender__mesh__Mesh, e: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::toggle(&mut self.inner, &mesh.inner, e.inner) }
+    pub fn toggle(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, e: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::toggle(&mut self.inner, &mesh.inner, e.inner) }
     // @item method:outram_blender::selection::Selection::select_all
     #[doc = "Select every element of `mesh` in the active mode (the other two domains\nfollow by flush)."]
-    pub fn select_all(&mut self, mesh: Py_outram_blender__mesh__Mesh) -> () { ::outram_blender::selection::Selection::select_all(&mut self.inner, &mesh.inner) }
+    pub fn select_all(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> () { ::outram_blender::selection::Selection::select_all(&mut self.inner, &mesh.inner) }
     // @item method:outram_blender::selection::Selection::deselect_all
     #[doc = "Deselect everything (all three domains)."]
     pub fn deselect_all(&mut self) -> () { ::outram_blender::selection::Selection::deselect_all(&mut self.inner) }
     // @item method:outram_blender::selection::Selection::invert
     #[doc = "Invert the selection **in the active mode**: every element of that\ndomain flips selected ↔ unselected, then the other two domains are\nre-derived. Matches Blender's mode-sensitive `Select ▸ Invert`."]
-    pub fn invert(&mut self, mesh: Py_outram_blender__mesh__Mesh) -> () { ::outram_blender::selection::Selection::invert(&mut self.inner, &mesh.inner) }
+    pub fn invert(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> () { ::outram_blender::selection::Selection::invert(&mut self.inner, &mesh.inner) }
     // @item method:outram_blender::selection::Selection::set_mode
     #[doc = "Change the active mode, rewriting the selection so the domains stay\nconsistent — Blender's *selection flush*:\n\n- **→ [`SelectMode::Vertex`]**: keep every vertex the current selection\n  implies.\n- **→ [`SelectMode::Edge`]**: an edge is selected iff *both* endpoints\n  are currently selected.\n- **→ [`SelectMode::Face`]**: a face is selected iff *all* its corners\n  are currently selected.\n\nSwitching to a finer mode never loses elements; switching to a coarser\nmode keeps only the fully-selected ones — exactly Blender's behaviour\nwhen you box-select some verts then press `3`."]
-    pub fn set_mode(&mut self, mesh: Py_outram_blender__mesh__Mesh, mode: Py_outram_blender__selection__SelectMode) -> () { ::outram_blender::selection::Selection::set_mode(&mut self.inner, &mesh.inner, mode.inner) }
+    pub fn set_mode(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, mode: Py_outram_blender__selection__SelectMode) -> () { ::outram_blender::selection::Selection::set_mode(&mut self.inner, &mesh.inner, mode.inner) }
     // @item method:outram_blender::selection::Selection::union
     #[doc = "Union another selection's active-domain set into this one, then re-sync.\nBacks Blender's *extend* box-select. `other`'s active mode is ignored;\nits set matching **this** selection's mode is the one merged."]
-    pub fn union(&mut self, mesh: Py_outram_blender__mesh__Mesh, other: Py_outram_blender__selection__Selection) -> () { ::outram_blender::selection::Selection::union(&mut self.inner, &mesh.inner, &other.inner) }
+    pub fn union(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, other: PyRef<'_, Py_outram_blender__selection__Selection>) -> () { ::outram_blender::selection::Selection::union(&mut self.inner, &mesh.inner, &other.inner) }
     // @item method:outram_blender::selection::Selection::subtract
     #[doc = "Remove `other`'s active-domain elements from this selection, then\nre-sync. Backs Blender's *subtract* box-select."]
-    pub fn subtract(&mut self, mesh: Py_outram_blender__mesh__Mesh, other: Py_outram_blender__selection__Selection) -> () { ::outram_blender::selection::Selection::subtract(&mut self.inner, &mesh.inner, &other.inner) }
+    pub fn subtract(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, other: PyRef<'_, Py_outram_blender__selection__Selection>) -> () { ::outram_blender::selection::Selection::subtract(&mut self.inner, &mesh.inner, &other.inner) }
     // @item method:outram_blender::selection::Selection::intersect
     #[doc = "Keep only elements also present in `other`'s active-domain set, then\nre-sync. Backs Blender's *intersect* box-select."]
-    pub fn intersect(&mut self, mesh: Py_outram_blender__mesh__Mesh, other: Py_outram_blender__selection__Selection) -> () { ::outram_blender::selection::Selection::intersect(&mut self.inner, &mesh.inner, &other.inner) }
+    pub fn intersect(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, other: PyRef<'_, Py_outram_blender__selection__Selection>) -> () { ::outram_blender::selection::Selection::intersect(&mut self.inner, &mesh.inner, &other.inner) }
     // @item method:outram_blender::selection::Selection::select_in_box
     #[doc = "Add to the selection every element of `mesh` inside the axis-aligned box\n`[min, max]` (model space). `region` decides whether an edge/face needs\nall or any vertex inside (ignored in vertex mode).\n\nExtends the current selection; call [`Selection::deselect_all`] first\nfor a replace, or select into a fresh [`Selection`] and use\n[`Selection::subtract`] / [`Selection::union`] for the other modes."]
-    pub fn select_in_box(&mut self, mesh: Py_outram_blender__mesh__Mesh, min: Py_outram_blender__math__Vec3, max: Py_outram_blender__math__Vec3, region: Py_outram_blender__selection__RegionMode) -> () { ::outram_blender::selection::Selection::select_in_box(&mut self.inner, &mesh.inner, min.inner, max.inner, region.inner) }
+    pub fn select_in_box(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, min: Py_outram_blender__math__Vec3, max: Py_outram_blender__math__Vec3, region: Py_outram_blender__selection__RegionMode) -> () { ::outram_blender::selection::Selection::select_in_box(&mut self.inner, &mesh.inner, min.inner, max.inner, region.inner) }
     // @item method:outram_blender::selection::Selection::select_in_sphere
     #[doc = "Add to the selection every element of `mesh` within `radius` of\n`center` (model space). `region` as for [`Selection::select_in_box`]."]
-    pub fn select_in_sphere(&mut self, mesh: Py_outram_blender__mesh__Mesh, center: Py_outram_blender__math__Vec3, radius: f64, region: Py_outram_blender__selection__RegionMode) -> () { ::outram_blender::selection::Selection::select_in_sphere(&mut self.inner, &mesh.inner, center.inner, radius, region.inner) }
+    pub fn select_in_sphere(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, center: Py_outram_blender__math__Vec3, radius: f64, region: Py_outram_blender__selection__RegionMode) -> () { ::outram_blender::selection::Selection::select_in_sphere(&mut self.inner, &mesh.inner, center.inner, radius, region.inner) }
     // @item method:outram_blender::selection::Selection::select_linked
     #[doc = "Grow the selection so that every connected component containing at least\none already-selected element is fully selected in the active mode\n(Blender's `Select ▸ Select Linked ▸ Linked`, `Ctrl+L`).\n\nConnectivity is by shared edge, unbounded. To stop at seams / sharp\nedges / material boundaries use [`Selection::select_linked_delimited`]\nwith an edge set from\n[`crate::attributes::MeshAttributes::linked_delimiters`]."]
-    pub fn select_linked(&mut self, mesh: Py_outram_blender__mesh__Mesh) -> () { ::outram_blender::selection::Selection::select_linked(&mut self.inner, &mesh.inner) }
+    pub fn select_linked(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> () { ::outram_blender::selection::Selection::select_linked(&mut self.inner, &mesh.inner) }
     // @item method:outram_blender::selection::Selection::select_linked_from
     #[doc = "Select exactly the one connected component that contains `seed`\n(Blender's hover-`L`), adding it to any prior selection."]
-    pub fn select_linked_from(&mut self, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::select_linked_from(&mut self.inner, &mesh.inner, seed.inner) }
+    pub fn select_linked_from(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::select_linked_from(&mut self.inner, &mesh.inner, seed.inner) }
     // @item method:outram_blender::selection::Selection::select_edge_loop
     #[doc = "Select the **edge loop** through `seed` — Blender's `Alt`-click. In edge\nmode the loop edges are added; in vertex mode their vertices; in face\nmode the [`Selection::select_face_loop`] strip (the natural analogue)."]
-    pub fn select_edge_loop(&mut self, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_edge_loop(&mut self.inner, &mesh.inner, seed.inner) }
+    pub fn select_edge_loop(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_edge_loop(&mut self.inner, &mesh.inner, seed.inner) }
     // @item method:outram_blender::selection::Selection::select_edge_ring
     #[doc = "Select the **edge ring** through `seed` — Blender's `Ctrl+Alt`-click.\nMode handling as for [`Selection::select_edge_loop`]."]
-    pub fn select_edge_ring(&mut self, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_edge_ring(&mut self.inner, &mesh.inner, seed.inner) }
+    pub fn select_edge_ring(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_edge_ring(&mut self.inner, &mesh.inner, seed.inner) }
     // @item method:outram_blender::selection::Selection::select_face_loop
     #[doc = "Select the **face loop** perpendicular to `seed` — the strip of quads\nthe ring walk crosses (Blender's `Alt`-click in face mode). In vertex /\nedge mode the strip's vertices / boundary edges are added instead."]
-    pub fn select_face_loop(&mut self, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_face_loop(&mut self.inner, &mesh.inner, seed.inner) }
+    pub fn select_face_loop(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_face_loop(&mut self.inner, &mesh.inner, seed.inner) }
     // @item method:outram_blender::selection::Selection::select_boundary_loop
     #[doc = "Select the **boundary loop** that contains `seed` — the ring of open\n(one-face) edges around a hole or the outer border. A no-op if `seed`\nis not a boundary edge."]
-    pub fn select_boundary_loop(&mut self, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_boundary_loop(&mut self.inner, &mesh.inner, seed.inner) }
+    pub fn select_boundary_loop(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> () { ::outram_blender::selection::Selection::select_boundary_loop(&mut self.inner, &mesh.inner, seed.inner) }
     // @item method:outram_blender::selection::Selection::select_shortest_path
     #[doc = "Select the **shortest path** between two elements (Blender's\n`Ctrl`-click). In vertex mode the path is the geometry-shortest vertex\nchain (Dijkstra on edge lengths); in edge / face mode it is the\nfewest-hops chain over edge / face adjacency. `from` and `to` should\nmatch the active mode; a mismatch maps each to a representative vertex\nand falls back to the vertex path."]
-    pub fn select_shortest_path(&mut self, mesh: Py_outram_blender__mesh__Mesh, from_: Py_outram_blender__selection__Element, to: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::select_shortest_path(&mut self.inner, &mesh.inner, from_.inner, to.inner) }
+    pub fn select_shortest_path(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, from_: Py_outram_blender__selection__Element, to: Py_outram_blender__selection__Element) -> () { ::outram_blender::selection::Selection::select_shortest_path(&mut self.inner, &mesh.inner, from_.inner, to.inner) }
     // @item method:outram_blender::selection::Selection::select_more
     #[doc = "Grow the selection by one ring — add every element of the active domain\nadjacent to an already-selected one (Blender's `Select ▸ More`,\n`Ctrl` `NumpadPlus`). Adjacency: vertices by shared edge, edges by\nshared vertex, faces by shared edge."]
-    pub fn select_more(&mut self, mesh: Py_outram_blender__mesh__Mesh) -> () { ::outram_blender::selection::Selection::select_more(&mut self.inner, &mesh.inner) }
+    pub fn select_more(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> () { ::outram_blender::selection::Selection::select_more(&mut self.inner, &mesh.inner) }
     // @item method:outram_blender::selection::Selection::select_less
     #[doc = "Shrink the selection by one ring — remove every selected element of the\nactive domain that touches an unselected one (Blender's `Select ▸ Less`,\n`Ctrl` `NumpadMinus`). The inverse boundary of [`Selection::select_more`]."]
-    pub fn select_less(&mut self, mesh: Py_outram_blender__mesh__Mesh) -> () { ::outram_blender::selection::Selection::select_less(&mut self.inner, &mesh.inner) }
+    pub fn select_less(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> () { ::outram_blender::selection::Selection::select_less(&mut self.inner, &mesh.inner) }
     // @item method:outram_blender::selection::Selection::select_similar
     #[doc = "Select every element of the active domain whose `trait_` value matches\nthat of **some** currently-selected element, within `threshold`\n(Blender's `Select ▸ Select Similar`, `Shift+G`). See [`SimilarTrait`]\nfor what `threshold` means per trait. A no-op if `trait_`'s domain does\nnot match the active mode, or nothing is selected."]
-    pub fn select_similar(&mut self, mesh: Py_outram_blender__mesh__Mesh, trait_: Py_outram_blender__selection__SimilarTrait, threshold: f64) -> () { ::outram_blender::selection::Selection::select_similar(&mut self.inner, &mesh.inner, trait_.inner, threshold) }
+    pub fn select_similar(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, trait_: Py_outram_blender__selection__SimilarTrait, threshold: f64) -> () { ::outram_blender::selection::Selection::select_similar(&mut self.inner, &mesh.inner, trait_.inner, threshold) }
     // @item method:outram_blender::selection::Selection::checker_deselect
     #[doc = "Thin out the selection to a regular pattern: over the selected elements\nof the active domain (ascending by id), keep `selected` in a row, then\ndeselect `deselected` in a row, repeating; `offset` shifts where the\npattern starts (Blender's `Select ▸ Checker Deselect` / Select Nth).\n\n`selected` and `deselected` are clamped to at least 1 and 0\nrespectively; with `deselected == 0` this is a no-op."]
-    pub fn checker_deselect(&mut self, mesh: Py_outram_blender__mesh__Mesh, selected: usize, deselected: usize, offset: usize) -> () { ::outram_blender::selection::Selection::checker_deselect(&mut self.inner, &mesh.inner, selected, deselected, offset) }
+    pub fn checker_deselect(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, selected: usize, deselected: usize, offset: usize) -> () { ::outram_blender::selection::Selection::checker_deselect(&mut self.inner, &mesh.inner, selected, deselected, offset) }
     // @item method:outram_blender::selection::Selection::select_non_manifold
     #[doc = "Select the **non-manifold** geometry of `mesh` per `kinds` (Blender's\n`Select ▸ All by Trait ▸ Non Manifold`).\n\nIn edge mode the offending edges are selected. In vertex mode a vertex\nis selected if it touches an offending edge, **or** has an odd number of\nincident boundary edges (a fan pinch / bow-tie). Face mode is a no-op.\n\nThe \"non-contiguous\" case (neighbouring faces wound inconsistently\nacross a shared edge) needs the winding analysis in\n[`crate::recalc_normals`] and is not covered here."]
-    pub fn select_non_manifold(&mut self, mesh: Py_outram_blender__mesh__Mesh, kinds: Py_outram_blender__selection__NonManifoldKinds) -> () { ::outram_blender::selection::Selection::select_non_manifold(&mut self.inner, &mesh.inner, kinds.inner) }
+    pub fn select_non_manifold(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, kinds: Py_outram_blender__selection__NonManifoldKinds) -> () { ::outram_blender::selection::Selection::select_non_manifold(&mut self.inner, &mesh.inner, kinds.inner) }
     // @item method:outram_blender::selection::Selection::select_loose
     #[doc = "Select **loose geometry** — elements not connected to any face (Blender's\n`Select ▸ All by Trait ▸ Loose Geometry`). Vertex mode: vertices with no\nincident face. Edge mode: edges with no incident face (including wire\nedges). Face mode is a no-op."]
-    pub fn select_loose(&mut self, mesh: Py_outram_blender__mesh__Mesh) -> () { ::outram_blender::selection::Selection::select_loose(&mut self.inner, &mesh.inner) }
+    pub fn select_loose(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> () { ::outram_blender::selection::Selection::select_loose(&mut self.inner, &mesh.inner) }
     // @item method:outram_blender::selection::Selection::select_interior_faces
     #[doc = "Select **interior faces** — faces every edge of which is shared by three\nor more faces (Blender's `Select ▸ All by Trait ▸ Interior Faces`, the\nburied faces inside a non-manifold solid). Face mode only."]
-    pub fn select_interior_faces(&mut self, mesh: Py_outram_blender__mesh__Mesh) -> () { ::outram_blender::selection::Selection::select_interior_faces(&mut self.inner, &mesh.inner) }
+    pub fn select_interior_faces(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> () { ::outram_blender::selection::Selection::select_interior_faces(&mut self.inner, &mesh.inner) }
     // @item method:outram_blender::selection::Selection::select_faces_by_sides
     #[doc = "Select faces whose side count compares to `sides` as `cmp` says\n(Blender's `Select ▸ All by Trait ▸ Faces by Sides` — e.g.\n`NumberCompare::Greater` with `sides == 4` selects every n-gon). Face\nmode only."]
-    pub fn select_faces_by_sides(&mut self, mesh: Py_outram_blender__mesh__Mesh, sides: usize, cmp: Py_outram_blender__selection__NumberCompare) -> () { ::outram_blender::selection::Selection::select_faces_by_sides(&mut self.inner, &mesh.inner, sides, cmp.inner) }
+    pub fn select_faces_by_sides(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, sides: usize, cmp: Py_outram_blender__selection__NumberCompare) -> () { ::outram_blender::selection::Selection::select_faces_by_sides(&mut self.inner, &mesh.inner, sides, cmp.inner) }
     // @item method:outram_blender::selection::Selection::select_mirror
     #[doc = "For each currently-selected element, also select the element that is its\nmirror image across the `axis` plane through the origin, matched by\nposition within `merge_dist` (Blender's `Select ▸ Select Mirror`).\n\nWith `extend == false` the result is *only* the mirror images (the\noriginal selection is replaced); with `extend == true` the mirror images\nare added to it. An element with no mirror partner within tolerance is\nsimply skipped."]
-    pub fn select_mirror(&mut self, mesh: Py_outram_blender__mesh__Mesh, axis: Py_outram_blender__selection__Axis, merge_dist: f64, extend: bool) -> () { ::outram_blender::selection::Selection::select_mirror(&mut self.inner, &mesh.inner, axis.inner, merge_dist, extend) }
+    pub fn select_mirror(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, axis: Py_outram_blender__selection__Axis, merge_dist: f64, extend: bool) -> () { ::outram_blender::selection::Selection::select_mirror(&mut self.inner, &mesh.inner, axis.inner, merge_dist, extend) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -3554,13 +3554,13 @@ impl Py_outram_blender__snap_line__LineTool {
     pub fn add_raw(&mut self, position: Py_outram_blender__math__Vec3) -> () { ::outram_blender::snap_line::LineTool::add_raw(&mut self.inner, position.inner) }
     // @item method:outram_blender::snap_line::LineTool::add_snapped
     #[doc = "Snap `cursor` to the nearest `target` of `mesh` within `max_dist`, and\nappend the result (falls back to `cursor` unchanged if nothing is in\nrange and `target` is not a grid snap)."]
-    pub fn add_snapped(&mut self, mesh: Py_outram_blender__mesh__Mesh, cursor: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64) -> () { ::outram_blender::snap_line::LineTool::add_snapped(&mut self.inner, &mesh.inner, cursor.inner, target.inner, max_dist) }
+    pub fn add_snapped(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, cursor: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64) -> () { ::outram_blender::snap_line::LineTool::add_snapped(&mut self.inner, &mesh.inner, cursor.inner, target.inner, max_dist) }
     // @item method:outram_blender::snap_line::LineTool::add_polar
     #[doc = "Append a point at `length` from the previous point, in the direction of\n`angle` measured in `plane` from `plane.u` (CCW about `plane.normal`).\nNo-op if there is no previous point."]
-    pub fn add_polar(&mut self, plane: Py_outram_blender__draw_tool__WorkPlane, length: f64, angle: f64) -> () { ::outram_blender::snap_line::LineTool::add_polar(&mut self.inner, &plane.inner, length, angle) }
+    pub fn add_polar(&mut self, plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>, length: f64, angle: f64) -> () { ::outram_blender::snap_line::LineTool::add_polar(&mut self.inner, &plane.inner, length, angle) }
     // @item method:outram_blender::snap_line::LineTool::add_constrained
     #[doc = "Snap `cursor` as [`LineTool::add_snapped`] would, then optionally\noverride the segment `length` and/or its `angle` (in `plane`), keeping\nthe previous point as the anchor. With both overrides `None` this is\nexactly [`LineTool::add_snapped`]."]
-    pub fn add_constrained(&mut self, mesh: Py_outram_blender__mesh__Mesh, cursor: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64, plane: Py_outram_blender__draw_tool__WorkPlane, length: Option<f64>, angle: Option<f64>) -> () { ::outram_blender::snap_line::LineTool::add_constrained(&mut self.inner, &mesh.inner, cursor.inner, target.inner, max_dist, &plane.inner, length.map(|e| e), angle.map(|e| e)) }
+    pub fn add_constrained(&mut self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, cursor: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64, plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>, length: Option<f64>, angle: Option<f64>) -> () { ::outram_blender::snap_line::LineTool::add_constrained(&mut self.inner, &mesh.inner, cursor.inner, target.inner, max_dist, &plane.inner, length.map(|e| e), angle.map(|e| e)) }
     // @item method:outram_blender::snap_line::LineTool::undo
     #[doc = "Remove the last placed point."]
     pub fn undo(&mut self) -> () { ::outram_blender::snap_line::LineTool::undo(&mut self.inner) }
@@ -3572,10 +3572,10 @@ impl Py_outram_blender__snap_line__LineTool {
     pub fn segment_count(&self) -> usize { ::outram_blender::snap_line::LineTool::segment_count(&self.inner) }
     // @item method:outram_blender::snap_line::LineTool::commit_wire
     #[doc = "Append the polyline to `base` as an edge wire (degenerate sliver\ntriangles, the crate's polygon-soup idiom for edge-only geometry)."]
-    pub fn commit_wire(&self, base: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::snap_line::LineTool::commit_wire(&self.inner, &base.inner) } }
+    pub fn commit_wire(&self, base: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::snap_line::LineTool::commit_wire(&self.inner, &base.inner) } }
     // @item method:outram_blender::snap_line::LineTool::auto_cut_chords
     #[doc = "Knife chords for segments whose *both* endpoints snapped onto edges of\na single common face — the tractable slice of \"auto-cut crossed faces\".\nFeed the result to [`crate::knife::knife`].\n\nSegments drawn interior-to-interior of a face, or crossing several\nfaces, are not returned (the surface-walking projection needed for the\ngeneral case is deferred — see [`crate::knife`])."]
-    pub fn auto_cut_chords(&self, mesh: Py_outram_blender__mesh__Mesh) -> Vec<Py_outram_blender__knife__Chord> { ::outram_blender::snap_line::LineTool::auto_cut_chords(&self.inner, &mesh.inner).into_iter().map(|e| Py_outram_blender__knife__Chord { inner: e }).collect::<Vec<_>>() }
+    pub fn auto_cut_chords(&self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Vec<Py_outram_blender__knife__Chord> { ::outram_blender::snap_line::LineTool::auto_cut_chords(&self.inner, &mesh.inner).into_iter().map(|e| Py_outram_blender__knife__Chord { inner: e }).collect::<Vec<_>>() }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     #[staticmethod]
     pub fn default() -> Self { Self { inner: Default::default() } }
@@ -3750,7 +3750,7 @@ impl Py_outram_blender__topology__MeshTopology {
     // @item method:outram_blender::topology::MeshTopology::new
     #[doc = "Build the adjacency tables for `mesh` (one pass over its edges and\nfaces)."]
     #[new]
-    pub fn new(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__topology__MeshTopology { Py_outram_blender__topology__MeshTopology { inner: ::outram_blender::topology::MeshTopology::new(&mesh.inner) } }
+    pub fn new(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__topology__MeshTopology { Py_outram_blender__topology__MeshTopology { inner: ::outram_blender::topology::MeshTopology::new(&mesh.inner) } }
     // @item method:outram_blender::topology::MeshTopology::edge_faces
     #[doc = "Faces incident to edge `e` (its radial cycle). Empty for an out-of-range\nor wire edge."]
     pub fn edge_faces(&self, e: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__FaceId> { ::outram_blender::topology::MeshTopology::edge_faces(&self.inner, e.inner).clone().iter().cloned().map(|e| Py_outram_blender__mesh__FaceId { inner: e }).collect::<Vec<_>>() }
@@ -3771,22 +3771,22 @@ impl Py_outram_blender__topology__MeshTopology {
     pub fn edge_between(&self, a: Py_outram_blender__mesh__VertexId, b: Py_outram_blender__mesh__VertexId) -> Option<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::MeshTopology::edge_between(&self.inner, a.inner, b.inner).map(|e| Py_outram_blender__mesh__EdgeId { inner: e }) }
     // @item method:outram_blender::topology::MeshTopology::other_end
     #[doc = "The other endpoint of `e` given one of them, or `None` if `v` is not on\n`e`."]
-    pub fn other_end(&self, mesh: Py_outram_blender__mesh__Mesh, e: Py_outram_blender__mesh__EdgeId, v: Py_outram_blender__mesh__VertexId) -> Option<Py_outram_blender__mesh__VertexId> { ::outram_blender::topology::MeshTopology::other_end(&self.inner, &mesh.inner, e.inner, v.inner).map(|e| Py_outram_blender__mesh__VertexId { inner: e }) }
+    pub fn other_end(&self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, e: Py_outram_blender__mesh__EdgeId, v: Py_outram_blender__mesh__VertexId) -> Option<Py_outram_blender__mesh__VertexId> { ::outram_blender::topology::MeshTopology::other_end(&self.inner, &mesh.inner, e.inner, v.inner).map(|e| Py_outram_blender__mesh__VertexId { inner: e }) }
     // @item method:outram_blender::topology::MeshTopology::is_quad
     #[doc = "`true` when face `f` is a quadrilateral (four sides) — the case the\nedge-loop / edge-ring walk is defined for."]
-    pub fn is_quad(&self, mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId) -> bool { ::outram_blender::topology::MeshTopology::is_quad(&self.inner, &mesh.inner, f.inner) }
+    pub fn is_quad(&self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId) -> bool { ::outram_blender::topology::MeshTopology::is_quad(&self.inner, &mesh.inner, f.inner) }
     // @item method:outram_blender::topology::MeshTopology::face_edges
     #[doc = "The edges of face `f` in boundary order (one per consecutive vertex\npair). Empty for an out-of-range face or if an expected edge is missing."]
-    pub fn face_edges(&self, mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::MeshTopology::face_edges(&self.inner, &mesh.inner, f.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
+    pub fn face_edges(&self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::MeshTopology::face_edges(&self.inner, &mesh.inner, f.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
     // @item method:outram_blender::topology::MeshTopology::opposite_edge_in_face
     #[doc = "The edge of quad `f` opposite `e` — the one two steps around the ring.\n`None` if `f` is not a quad or `e` is not one of its edges."]
-    pub fn opposite_edge_in_face(&self, mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId, e: Py_outram_blender__mesh__EdgeId) -> Option<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::MeshTopology::opposite_edge_in_face(&self.inner, &mesh.inner, f.inner, e.inner).map(|e| Py_outram_blender__mesh__EdgeId { inner: e }) }
+    pub fn opposite_edge_in_face(&self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId, e: Py_outram_blender__mesh__EdgeId) -> Option<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::MeshTopology::opposite_edge_in_face(&self.inner, &mesh.inner, f.inner, e.inner).map(|e| Py_outram_blender__mesh__EdgeId { inner: e }) }
     // @item method:outram_blender::topology::MeshTopology::edge_loop_step
     #[doc = "One step of an **edge loop** walk: from `edge`, pivoting about its\nendpoint `pivot`, the next edge of the loop — or `None` at a pole, a\nnon-manifold vertex, or the end of an open boundary.\n\n- **Boundary edge** — follows the mesh boundary: the other boundary edge\n  at `pivot`, if there is exactly one.\n- **Interior edge** — requires `pivot` to be a regular valence-4 vertex;\n  the next edge is the one at `pivot` sharing **no** face with `edge`\n  (its \"opposite\" across the vertex)."]
     pub fn edge_loop_step(&self, edge: Py_outram_blender__mesh__EdgeId, pivot: Py_outram_blender__mesh__VertexId) -> Option<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::MeshTopology::edge_loop_step(&self.inner, edge.inner, pivot.inner).map(|e| Py_outram_blender__mesh__EdgeId { inner: e }) }
     // @item method:outram_blender::topology::MeshTopology::edge_ring_step
     #[doc = "One step of an **edge ring** walk: from `edge` across quad `face`, the\nopposite edge of `face` plus the quad on its far side (the next `face`),\nor `None` when `face` is not a quad. The returned face is `None` when the\nopposite edge is on the boundary (the ring ends, but the opposite edge\nis still part of it)."]
-    pub fn edge_ring_step(&self, mesh: Py_outram_blender__mesh__Mesh, edge: Py_outram_blender__mesh__EdgeId, face: Py_outram_blender__mesh__FaceId) -> Option<(Py_outram_blender__mesh__EdgeId, Option<Py_outram_blender__mesh__FaceId>)> { ::outram_blender::topology::MeshTopology::edge_ring_step(&self.inner, &mesh.inner, edge.inner, face.inner).map(|e| { let (e0, e1) = e; (Py_outram_blender__mesh__EdgeId { inner: e0 }, e1.map(|e| Py_outram_blender__mesh__FaceId { inner: e })) }) }
+    pub fn edge_ring_step(&self, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edge: Py_outram_blender__mesh__EdgeId, face: Py_outram_blender__mesh__FaceId) -> Option<(Py_outram_blender__mesh__EdgeId, Option<Py_outram_blender__mesh__FaceId>)> { ::outram_blender::topology::MeshTopology::edge_ring_step(&self.inner, &mesh.inner, edge.inner, face.inner).map(|e| { let (e0, e1) = e; (Py_outram_blender__mesh__EdgeId { inner: e0 }, e1.map(|e| Py_outram_blender__mesh__FaceId { inner: e })) }) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
@@ -3953,77 +3953,77 @@ impl Py_outram_blender__transform_ops__Axis {
     // @item fn:outram_blender::arap::arap_deform
 #[doc = "Deform `mesh` (its positions are the rest pose) so the given `handles`\n(vertex → target position) are met while every one-ring stays as rigid as\npossible, via `iterations` local/global ARAP steps.\n\nHandle vertices are pinned to their targets; all other vertices are solved\nfor. Topology is preserved (only positions change). More `iterations` = tighter\nconvergence; 3–10 is typically plenty. Returns the deformed mesh.\n\n# Errors\n\n[`ArapError::NoConstraints`] if `handles` is empty;\n[`ArapError::NotPositiveDefinite`] / [`ArapError::Assembly`] on a solve/setup\nfailure (see those variants)."]
 #[pyfunction(name = "arap_deform")]
-pub fn fn_outram_blender__arap__arap_deform(mesh: Py_outram_blender__mesh__Mesh, handles: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__math__Vec3)>, iterations: u32) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::arap::arap_deform(&mesh.inner, &handles.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>(), iterations)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+pub fn fn_outram_blender__arap__arap_deform(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, handles: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__math__Vec3)>, iterations: u32) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::arap::arap_deform(&mesh.inner, &handles.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>(), iterations)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
 
     // @item fn:outram_blender::arap::arap_energy
 #[doc = "The ARAP energy `E = Σ_i Σ_{j∈N(i)} w_ij ‖(d_i − d_j) − R_i (p_i − p_j)‖²` of a\ndeformed configuration `deformed` relative to `rest` (`R_i` the per-vertex\noptimal rotation). Non-negative; non-increasing across [`arap_deform`]\niterations — a convergence diagnostic (see the module tests).\n\n`deformed` must have one position per vertex, in [`crate::mesh::VertexId`]\norder (e.g. `arap_deform(...)?.positions()`)."]
 #[pyfunction(name = "arap_energy")]
-pub fn fn_outram_blender__arap__arap_energy(rest: Py_outram_blender__mesh__Mesh, deformed: Vec<Py_outram_blender__math__Vec3>) -> f64 { ::outram_blender::arap::arap_energy(&rest.inner, &deformed.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
+pub fn fn_outram_blender__arap__arap_energy(rest: PyRef<'_, Py_outram_blender__mesh__Mesh>, deformed: Vec<Py_outram_blender__math__Vec3>) -> f64 { ::outram_blender::arap::arap_energy(&rest.inner, &deformed.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
 
     // @item fn:outram_blender::array_patterns::array_along_curve
 #[doc = "`count` copies of `mesh` distributed at even parameter spacing along\n`spline`, each translated to the sample point and rotated so its local\n`align_axis` points along the curve tangent (and local +Y toward the curve\nnormal). `count` clamped `>= 1`."]
 #[pyfunction(name = "array_along_curve")]
-pub fn fn_outram_blender__array_patterns__array_along_curve(mesh: Py_outram_blender__mesh__Mesh, spline: Py_outram_blender__curve__Spline, count: usize, align_axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::array_along_curve(&mesh.inner, &spline.inner, count, align_axis.inner) } }
+pub fn fn_outram_blender__array_patterns__array_along_curve(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, spline: PyRef<'_, Py_outram_blender__curve__Spline>, count: usize, align_axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::array_along_curve(&mesh.inner, &spline.inner, count, align_axis.inner) } }
 
     // @item fn:outram_blender::array_patterns::array_along_curve_capped
 #[doc = "[`array_along_curve`] with [`ArrayCaps`] (caps sit at the curve ends,\noriented to the end frames)."]
 #[pyfunction(name = "array_along_curve_capped")]
-pub fn fn_outram_blender__array_patterns__array_along_curve_capped(mesh: Py_outram_blender__mesh__Mesh, spline: Py_outram_blender__curve__Spline, count: usize, align_axis: Py_outram_blender__selection__Axis, caps: Py_outram_blender__array_patterns__ArrayCaps) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::array_along_curve_capped(&mesh.inner, &spline.inner, count, align_axis.inner, &caps.inner) } }
+pub fn fn_outram_blender__array_patterns__array_along_curve_capped(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, spline: PyRef<'_, Py_outram_blender__curve__Spline>, count: usize, align_axis: Py_outram_blender__selection__Axis, caps: PyRef<'_, Py_outram_blender__array_patterns__ArrayCaps>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::array_along_curve_capped(&mesh.inner, &spline.inner, count, align_axis.inner, &caps.inner) } }
 
     // @item fn:outram_blender::array_patterns::circular_array
 #[doc = "`count` copies of `mesh` spread evenly around a full turn about `axis`\nthrough `center` (step `= 2π / count`)."]
 #[pyfunction(name = "circular_array")]
-pub fn fn_outram_blender__array_patterns__circular_array(mesh: Py_outram_blender__mesh__Mesh, count: usize, axis: Py_outram_blender__math__Vec3, center: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::circular_array(&mesh.inner, count, axis.inner, center.inner) } }
+pub fn fn_outram_blender__array_patterns__circular_array(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, count: usize, axis: Py_outram_blender__math__Vec3, center: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::circular_array(&mesh.inner, count, axis.inner, center.inner) } }
 
     // @item fn:outram_blender::array_patterns::object_offset_array
 #[doc = "`count` copies of `mesh`, copy `i` placed under `offset` applied `i` times\n(the Array modifier's *Object Offset*). `count` clamped `>= 1`."]
 #[pyfunction(name = "object_offset_array")]
-pub fn fn_outram_blender__array_patterns__object_offset_array(mesh: Py_outram_blender__mesh__Mesh, count: usize, offset: Py_outram_blender__transform__Affine3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::object_offset_array(&mesh.inner, count, offset.inner) } }
+pub fn fn_outram_blender__array_patterns__object_offset_array(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, count: usize, offset: Py_outram_blender__transform__Affine3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::object_offset_array(&mesh.inner, count, offset.inner) } }
 
     // @item fn:outram_blender::array_patterns::object_offset_array_capped
 #[doc = "[`object_offset_array`] with [`ArrayCaps`]."]
 #[pyfunction(name = "object_offset_array_capped")]
-pub fn fn_outram_blender__array_patterns__object_offset_array_capped(mesh: Py_outram_blender__mesh__Mesh, count: usize, offset: Py_outram_blender__transform__Affine3, caps: Py_outram_blender__array_patterns__ArrayCaps) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::object_offset_array_capped(&mesh.inner, count, offset.inner, &caps.inner) } }
+pub fn fn_outram_blender__array_patterns__object_offset_array_capped(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, count: usize, offset: Py_outram_blender__transform__Affine3, caps: PyRef<'_, Py_outram_blender__array_patterns__ArrayCaps>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::object_offset_array_capped(&mesh.inner, count, offset.inner, &caps.inner) } }
 
     // @item fn:outram_blender::array_patterns::radial_array
 #[doc = "`count` copies of `mesh`, copy `i` rotated by `i * step_angle` about `axis`\nthrough `center`. `count` clamped `>= 1`."]
 #[pyfunction(name = "radial_array")]
-pub fn fn_outram_blender__array_patterns__radial_array(mesh: Py_outram_blender__mesh__Mesh, count: usize, step_angle: f64, axis: Py_outram_blender__math__Vec3, center: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::radial_array(&mesh.inner, count, step_angle, axis.inner, center.inner) } }
+pub fn fn_outram_blender__array_patterns__radial_array(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, count: usize, step_angle: f64, axis: Py_outram_blender__math__Vec3, center: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::radial_array(&mesh.inner, count, step_angle, axis.inner, center.inner) } }
 
     // @item fn:outram_blender::array_patterns::radial_array_capped
 #[doc = "[`radial_array`] with [`ArrayCaps`]."]
 #[pyfunction(name = "radial_array_capped")]
-pub fn fn_outram_blender__array_patterns__radial_array_capped(mesh: Py_outram_blender__mesh__Mesh, count: usize, step_angle: f64, axis: Py_outram_blender__math__Vec3, center: Py_outram_blender__math__Vec3, caps: Py_outram_blender__array_patterns__ArrayCaps) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::radial_array_capped(&mesh.inner, count, step_angle, axis.inner, center.inner, &caps.inner) } }
+pub fn fn_outram_blender__array_patterns__radial_array_capped(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, count: usize, step_angle: f64, axis: Py_outram_blender__math__Vec3, center: Py_outram_blender__math__Vec3, caps: PyRef<'_, Py_outram_blender__array_patterns__ArrayCaps>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::array_patterns::radial_array_capped(&mesh.inner, count, step_angle, axis.inner, center.inner, &caps.inner) } }
 
     // @item fn:outram_blender::bevel::bevel
 #[doc = "Bevel every edge of `mesh` per `opts`."]
 #[pyfunction(name = "bevel")]
-pub fn fn_outram_blender__bevel__bevel(mesh: Py_outram_blender__mesh__Mesh, opts: Py_outram_blender__bevel__BevelOptions) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::bevel::bevel(&mesh.inner, opts.inner) } }
+pub fn fn_outram_blender__bevel__bevel(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, opts: Py_outram_blender__bevel__BevelOptions) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::bevel::bevel(&mesh.inner, opts.inner) } }
 
     // @item fn:outram_blender::bisect::bisect
 #[doc = "Cut `mesh` by the plane through `point` with the given `normal`, keeping the\nhalf where `normal · (x − point) <= 0`.\n\n`normal` need not be unit length (only its sign and direction matter).\nFaces straddling the plane are clipped; the exposed cut is left open (cap it\nwith [`crate::fill_holes::fill_holes`] for a closed solid). If the whole\nmesh is on the kept side the mesh is returned unchanged; if none of it is,\nan empty mesh is returned. This is infallible.\n\n# Examples\n\n```\nuse outram_blender::{primitives, bisect::bisect, fill_holes::fill_holes, math::Vec3};\n\n// Slice a cube [-1,1]³ at z = 0, keeping the lower half, then cap it:\n// the result is a closed box of half the volume.\nlet cube = primitives::cube(2.0);\nlet lower = bisect(&cube, Vec3::ZERO, Vec3::new(0.0, 0.0, 1.0));\nlet solid = fill_holes(&lower);\nassert_eq!(solid.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "bisect")]
-pub fn fn_outram_blender__bisect__bisect(mesh: Py_outram_blender__mesh__Mesh, point: Py_outram_blender__math__Vec3, normal: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::bisect::bisect(&mesh.inner, point.inner, normal.inner) } }
+pub fn fn_outram_blender__bisect__bisect(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, point: Py_outram_blender__math__Vec3, normal: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::bisect::bisect(&mesh.inner, point.inner, normal.inner) } }
 
     // @item fn:outram_blender::boolean::boolean
 #[doc = "Compute the boolean of two closed meshes under `mode`.\n\nSingle entry point for all three CSG modes, dispatching between the exact\nconvex fast path (this module) and the general arrangement pipeline\n([`crate::boolean_general`]) — see the module-level docs. In summary:\n\n- [`BooleanMode::Intersect`] on two **convex** closed meshes returns the\n  convex intersection `A ∩ B` (a valid closed mesh, `V - E + F = 2`), computed\n  exactly by half-space clipping of `a` against every face half-space of `b`.\n- [`BooleanMode::Union`], [`BooleanMode::Difference`], and any **non-convex**\n  operand are computed by [`crate::boolean_general::boolean_general`]\n  (surface arrangement + winding classification; triangulated output).\n- An **empty / non-overlapping** intersection, or a coplanar-overlap /\n  degenerate arrangement input, returns [`BooleanError::Unsupported`] rather\n  than a silently wrong mesh.\n\nBoth meshes are dimensionless model-space geometry (see [`crate::math`]);\n`mode` selects the CSG operation. Operands are taken by shared reference and\nare not modified."]
 #[pyfunction(name = "boolean")]
-pub fn fn_outram_blender__boolean__boolean(a: Py_outram_blender__mesh__Mesh, b: Py_outram_blender__mesh__Mesh, mode: Py_outram_blender__ops__BooleanMode) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::boolean::boolean(&a.inner, &b.inner, mode.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+pub fn fn_outram_blender__boolean__boolean(a: PyRef<'_, Py_outram_blender__mesh__Mesh>, b: PyRef<'_, Py_outram_blender__mesh__Mesh>, mode: Py_outram_blender__ops__BooleanMode) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::boolean::boolean(&a.inner, &b.inner, mode.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
 
     // @item fn:outram_blender::boolean_classify::classify_point
 #[doc = "Classify `p` against `mesh`'s solid interior.\n\nFirst checks [`PointClass::OnBoundary`] (distance to the closest point on\nany triangle `<= ON_BOUNDARY_REL_EPS * mesh_scale`); if not on the\nboundary, classifies by [`winding_number`]: `|w| > 0.5` is `Inside`,\notherwise `Outside`. See the module docs for the reasoning behind both\ntolerances and the closed-manifold assumption this relies on."]
 #[pyfunction(name = "classify_point")]
-pub fn fn_outram_blender__boolean_classify__classify_point(mesh: Py_outram_blender__mesh__Mesh, p: Py_outram_blender__math__Vec3) -> Py_outram_blender__boolean_classify__PointClass { Py_outram_blender__boolean_classify__PointClass { inner: ::outram_blender::boolean_classify::classify_point(&mesh.inner, p.inner) } }
+pub fn fn_outram_blender__boolean_classify__classify_point(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, p: Py_outram_blender__math__Vec3) -> Py_outram_blender__boolean_classify__PointClass { Py_outram_blender__boolean_classify__PointClass { inner: ::outram_blender::boolean_classify::classify_point(&mesh.inner, p.inner) } }
 
     // @item fn:outram_blender::boolean_classify::winding_number
 #[doc = "The generalized winding number of `p` with respect to `mesh`'s (fan-\ntriangulated) surface.\n\nThis is `(1 / 4*pi)` times the sum, over every triangle, of the **signed\nsolid angle** that triangle subtends at `p`, computed per-triangle with\nthe Van Oosterom–Strackee formula:\n\n`solid_angle = 2 * atan2(ra . (rb x rc), |ra||rb||rc| + (ra.rb)|rc| + (rb.rc)|ra| + (rc.ra)|rb|)`\n\nwhere `ra, rb, rc` are the triangle's vertices relative to `p`\n(`vertex - p`). Summed over a **closed**, outward-wound surface this\ntelescopes to (very close to) an integer: `0` for `p` outside the solid,\n`+1` for `p` inside a simply-connected solid whose faces wind\ncounter-clockwise as seen from outside (the convention every\n[`crate::primitives`] generator and [`crate::mesh::Mesh::face_normal`]\nuse) — see [`PointClass`] and the module docs' \"Limitations\" for what can\nmake this not hold (open meshes, inconsistent winding, self-overlap).\n\nA triangle whose relative vertex is (numerically) coincident with `p`\n(any of `|ra|, |rb|, |rc|` under `1e-12`) is skipped rather than dividing\nby a near-zero denominator; [`classify_point`] avoids this case in the\nfirst place by checking [`PointClass::OnBoundary`] before calling th"]
 #[pyfunction(name = "winding_number")]
-pub fn fn_outram_blender__boolean_classify__winding_number(mesh: Py_outram_blender__mesh__Mesh, p: Py_outram_blender__math__Vec3) -> f64 { ::outram_blender::boolean_classify::winding_number(&mesh.inner, p.inner) }
+pub fn fn_outram_blender__boolean_classify__winding_number(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, p: Py_outram_blender__math__Vec3) -> f64 { ::outram_blender::boolean_classify::winding_number(&mesh.inner, p.inner) }
 
     // @item fn:outram_blender::boolean_general::boolean_general
 #[doc = "Compute the boolean `A op B` of two **general closed** meshes by surface\narrangement + winding classification.\n\nHandles [`BooleanMode::Union`], [`BooleanMode::Difference`], and\n[`BooleanMode::Intersect`] on non-convex (but closed, manifold,\noutward-oriented) operands — see the module docs for the full contract, the\nkeep/flip/drop rules, and the limitations (coplanar overlap, exact\ndegeneracy). Returns [`BooleanError::Unsupported`] for a coplanar-overlap\ninput or a result that welds to fewer than four faces (empty / degenerate).\n\nBoth meshes are dimensionless model-space geometry; `mode` selects the CSG\noperation. Operands are taken by shared reference and are not modified."]
 #[pyfunction(name = "boolean_general")]
-pub fn fn_outram_blender__boolean_general__boolean_general(a: Py_outram_blender__mesh__Mesh, b: Py_outram_blender__mesh__Mesh, mode: Py_outram_blender__ops__BooleanMode) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::boolean_general::boolean_general(&a.inner, &b.inner, mode.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+pub fn fn_outram_blender__boolean_general__boolean_general(a: PyRef<'_, Py_outram_blender__mesh__Mesh>, b: PyRef<'_, Py_outram_blender__mesh__Mesh>, mode: Py_outram_blender__ops__BooleanMode) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::boolean_general::boolean_general(&a.inner, &b.inner, mode.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
 
     // @item fn:outram_blender::boolean_predicates::incircle
 #[doc = "Robust 2D in-circle test — see the module-level robustness contract.\n\nReturns `+1` if `d` lies inside the circle through `a, b, c` (which must\nbe given counter-clockwise, or the sign reverses), `-1` if outside, `0` if\n*exactly* (to double-double precision) co-circular."]
@@ -4068,32 +4068,32 @@ pub fn fn_outram_blender__boolean_predicates__orient3d_fast(a: Py_outram_blender
     // @item fn:outram_blender::bridge::align_by_nearest
 #[doc = "Convenience: reorder `ring_b` so its first vertex is the one geometrically\nnearest `ring_a[0]` — a reasonable default pairing before applying `twist`."]
 #[pyfunction(name = "align_by_nearest")]
-pub fn fn_outram_blender__bridge__align_by_nearest(mesh: Py_outram_blender__mesh__Mesh, ring_a: Vec<Py_outram_blender__mesh__VertexId>, ring_b: Vec<Py_outram_blender__mesh__VertexId>) -> Vec<Py_outram_blender__mesh__VertexId> { ::outram_blender::bridge::align_by_nearest(&mesh.inner, &ring_a.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &ring_b.into_iter().map(|e| e.inner).collect::<Vec<_>>()).into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__bridge__align_by_nearest(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, ring_a: Vec<Py_outram_blender__mesh__VertexId>, ring_b: Vec<Py_outram_blender__mesh__VertexId>) -> Vec<Py_outram_blender__mesh__VertexId> { ::outram_blender::bridge::align_by_nearest(&mesh.inner, &ring_a.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &ring_b.into_iter().map(|e| e.inner).collect::<Vec<_>>()).into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::bridge::bridge_edge_loops
 #[doc = "Bridge `ring_a` to `ring_b` (both ordered vertex rings of equal length),\nappending the connecting faces to `mesh`. `closed` says whether the rings\nare cyclic (a tube) or open (a ribbon)."]
 #[pyfunction(name = "bridge_edge_loops")]
-pub fn fn_outram_blender__bridge__bridge_edge_loops(mesh: Py_outram_blender__mesh__Mesh, ring_a: Vec<Py_outram_blender__mesh__VertexId>, ring_b: Vec<Py_outram_blender__mesh__VertexId>, closed: bool, opts: Py_outram_blender__bridge__BridgeOptions) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::bridge::bridge_edge_loops(&mesh.inner, &ring_a.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &ring_b.into_iter().map(|e| e.inner).collect::<Vec<_>>(), closed, opts.inner) } }
+pub fn fn_outram_blender__bridge__bridge_edge_loops(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, ring_a: Vec<Py_outram_blender__mesh__VertexId>, ring_b: Vec<Py_outram_blender__mesh__VertexId>, closed: bool, opts: Py_outram_blender__bridge__BridgeOptions) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::bridge::bridge_edge_loops(&mesh.inner, &ring_a.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &ring_b.into_iter().map(|e| e.inner).collect::<Vec<_>>(), closed, opts.inner) } }
 
     // @item fn:outram_blender::bridge::ordered_ring
 #[doc = "Walk an edge set into its ordered vertex ring, or `None` if it is not a\nsingle simple chain / loop. `closed` in the result says whether it cycles."]
 #[pyfunction(name = "ordered_ring")]
-pub fn fn_outram_blender__bridge__ordered_ring(mesh: Py_outram_blender__mesh__Mesh, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Option<(Vec<Py_outram_blender__mesh__VertexId>, bool)> { ::outram_blender::bridge::ordered_ring(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| { let (e0, e1) = e; (e0.into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>(), e1) }) }
+pub fn fn_outram_blender__bridge__ordered_ring(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Option<(Vec<Py_outram_blender__mesh__VertexId>, bool)> { ::outram_blender::bridge::ordered_ring(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| { let (e0, e1) = e; (e0.into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>(), e1) }) }
 
     // @item fn:outram_blender::connect::common_face
 #[doc = "A face incident to **both** `a` and `b` (the first by id), or `None`."]
 #[pyfunction(name = "common_face")]
-pub fn fn_outram_blender__connect__common_face(mesh: Py_outram_blender__mesh__Mesh, a: Py_outram_blender__mesh__VertexId, b: Py_outram_blender__mesh__VertexId) -> Option<Py_outram_blender__mesh__FaceId> { ::outram_blender::connect::common_face(&mesh.inner, a.inner, b.inner).map(|e| Py_outram_blender__mesh__FaceId { inner: e }) }
+pub fn fn_outram_blender__connect__common_face(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, a: Py_outram_blender__mesh__VertexId, b: Py_outram_blender__mesh__VertexId) -> Option<Py_outram_blender__mesh__FaceId> { ::outram_blender::connect::common_face(&mesh.inner, a.inner, b.inner).map(|e| Py_outram_blender__mesh__FaceId { inner: e }) }
 
     // @item fn:outram_blender::connect::connect_vertex_pairs
 #[doc = "Connect an explicit list of vertex `pairs`. Order matters when several pairs\ntouch one face (each acts on whichever sub-face contains it)."]
 #[pyfunction(name = "connect_vertex_pairs")]
-pub fn fn_outram_blender__connect__connect_vertex_pairs(mesh: Py_outram_blender__mesh__Mesh, pairs: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__mesh__VertexId)>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::connect::connect_vertex_pairs(&mesh.inner, &pairs.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__connect__connect_vertex_pairs(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, pairs: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__mesh__VertexId)>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::connect::connect_vertex_pairs(&mesh.inner, &pairs.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::connect::connect_vertex_path
 #[doc = "Connect the ordered `path` of vertices: for each consecutive pair sharing a\nface, split that face along the chord between them. Returns the rebuilt\nmesh."]
 #[pyfunction(name = "connect_vertex_path")]
-pub fn fn_outram_blender__connect__connect_vertex_path(mesh: Py_outram_blender__mesh__Mesh, path: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::connect::connect_vertex_path(&mesh.inner, &path.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__connect__connect_vertex_path(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, path: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::connect::connect_vertex_path(&mesh.inner, &path.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::convex_hull::convex_hull
 #[doc = "The convex hull of `points`, as a closed outward-wound triangle [`Mesh`].\n\nEvery input point lies on or inside the returned hull; the result is a\nwatertight genus-0 mesh (`V − E + F = 2`) with all faces wound\ncounter-clockwise as seen from outside. See the module docs for the method.\n\n# Errors\n\n[`HullError::NotEnoughPoints`] for fewer than four distinct points,\n[`HullError::Collinear`] / [`HullError::Coplanar`] for a degenerate (lower\ndimensional) input."]
@@ -4103,172 +4103,172 @@ pub fn fn_outram_blender__convex_hull__convex_hull(points: Vec<Py_outram_blender
     // @item fn:outram_blender::cursor_pivot::orientation_from_selection
 #[doc = "A [`TransformBasis`] derived from a selection (Blender's *Create\nOrientation*):\n\n- a **face** — `z` = face normal, `x` along its first edge;\n- an **edge** — `z` along the edge, `x` an arbitrary completion;\n- two or more **vertices** — `z` along the line of best fit (here the vector\n  between the two farthest-apart), `x` an arbitrary completion."]
 #[pyfunction(name = "orientation_from_selection")]
-pub fn fn_outram_blender__cursor_pivot__orientation_from_selection(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, edges: Vec<Py_outram_blender__mesh__EdgeId>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Option<Py_outram_blender__transform_input__TransformBasis> { ::outram_blender::cursor_pivot::orientation_from_selection(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| Py_outram_blender__transform_input__TransformBasis { inner: e }) }
+pub fn fn_outram_blender__cursor_pivot__orientation_from_selection(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, edges: Vec<Py_outram_blender__mesh__EdgeId>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Option<Py_outram_blender__transform_input__TransformBasis> { ::outram_blender::cursor_pivot::orientation_from_selection(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| Py_outram_blender__transform_input__TransformBasis { inner: e }) }
 
     // @item fn:outram_blender::cursor_pivot::pivot_position
 #[doc = "The single pivot position for `pivot` (for [`PivotPoint::IndividualOrigins`]\nthis returns the overall median — use [`rotate_about_pivot`] for the real\nper-component behaviour)."]
 #[pyfunction(name = "pivot_position")]
-pub fn fn_outram_blender__cursor_pivot__pivot_position(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, pivot: Py_outram_blender__cursor_pivot__PivotPoint, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::cursor_pivot::pivot_position(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), pivot.inner, cursor.inner) } }
+pub fn fn_outram_blender__cursor_pivot__pivot_position(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, pivot: Py_outram_blender__cursor_pivot__PivotPoint, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::cursor_pivot::pivot_position(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), pivot.inner, cursor.inner) } }
 
     // @item fn:outram_blender::cursor_pivot::rotate_about_pivot
 #[doc = "Rotate `verts` by `angle` about `axis` through the `pivot` point.\n[`PivotPoint::IndividualOrigins`] rotates each connected component about its\nown median."]
 #[pyfunction(name = "rotate_about_pivot")]
-pub fn fn_outram_blender__cursor_pivot__rotate_about_pivot(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, pivot: Py_outram_blender__cursor_pivot__PivotPoint, axis: Py_outram_blender__selection__Axis, angle: f64, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::cursor_pivot::rotate_about_pivot(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), pivot.inner, axis.inner, angle, cursor.inner) } }
+pub fn fn_outram_blender__cursor_pivot__rotate_about_pivot(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, pivot: Py_outram_blender__cursor_pivot__PivotPoint, axis: Py_outram_blender__selection__Axis, angle: f64, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::cursor_pivot::rotate_about_pivot(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), pivot.inner, axis.inner, angle, cursor.inner) } }
 
     // @item fn:outram_blender::cursor_pivot::scale_about_pivot
 #[doc = "Scale `verts` by `factor` about the `pivot` point."]
 #[pyfunction(name = "scale_about_pivot")]
-pub fn fn_outram_blender__cursor_pivot__scale_about_pivot(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, pivot: Py_outram_blender__cursor_pivot__PivotPoint, factor: f64, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::cursor_pivot::scale_about_pivot(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), pivot.inner, factor, cursor.inner) } }
+pub fn fn_outram_blender__cursor_pivot__scale_about_pivot(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, pivot: Py_outram_blender__cursor_pivot__PivotPoint, factor: f64, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::cursor_pivot::scale_about_pivot(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), pivot.inner, factor, cursor.inner) } }
 
     // @item fn:outram_blender::cursor_pivot::selection_to_cursor
 #[doc = "The delta that moves `verts` so their median lands on `cursor`."]
 #[pyfunction(name = "selection_to_cursor")]
-pub fn fn_outram_blender__cursor_pivot__selection_to_cursor(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::cursor_pivot::selection_to_cursor(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cursor.inner) } }
+pub fn fn_outram_blender__cursor_pivot__selection_to_cursor(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, cursor: Py_outram_blender__math__Vec3) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::cursor_pivot::selection_to_cursor(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cursor.inner) } }
 
     // @item fn:outram_blender::curve_mesh::boundary_to_splines
 #[doc = "Extract the open-boundary loops of `mesh` as poly [`Spline`]s (each is\n`cyclic`)."]
 #[pyfunction(name = "boundary_to_splines")]
-pub fn fn_outram_blender__curve_mesh__boundary_to_splines(mesh: Py_outram_blender__mesh__Mesh) -> Vec<Py_outram_blender__curve__Spline> { ::outram_blender::curve_mesh::boundary_to_splines(&mesh.inner).into_iter().map(|e| Py_outram_blender__curve__Spline { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__curve_mesh__boundary_to_splines(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Vec<Py_outram_blender__curve__Spline> { ::outram_blender::curve_mesh::boundary_to_splines(&mesh.inner).into_iter().map(|e| Py_outram_blender__curve__Spline { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::curve_mesh::is_poly
 #[doc = "Whether `s` reads as a plausible poly conversion of a straight edge chain\n(helper used by the tests / a round-trip check)."]
 #[pyfunction(name = "is_poly")]
-pub fn fn_outram_blender__curve_mesh__is_poly(s: Py_outram_blender__curve__Spline) -> bool { ::outram_blender::curve_mesh::is_poly(&s.inner) }
+pub fn fn_outram_blender__curve_mesh__is_poly(s: PyRef<'_, Py_outram_blender__curve__Spline>) -> bool { ::outram_blender::curve_mesh::is_poly(&s.inner) }
 
     // @item fn:outram_blender::curve_mesh::mesh_to_splines
 #[doc = "Extract every maximal edge chain of `mesh` as a poly [`Spline`]. A chain\nends at a branch vertex (valence != 2) or closes into a cyclic loop."]
 #[pyfunction(name = "mesh_to_splines")]
-pub fn fn_outram_blender__curve_mesh__mesh_to_splines(mesh: Py_outram_blender__mesh__Mesh) -> Vec<Py_outram_blender__curve__Spline> { ::outram_blender::curve_mesh::mesh_to_splines(&mesh.inner).into_iter().map(|e| Py_outram_blender__curve__Spline { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__curve_mesh__mesh_to_splines(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Vec<Py_outram_blender__curve__Spline> { ::outram_blender::curve_mesh::mesh_to_splines(&mesh.inner).into_iter().map(|e| Py_outram_blender__curve__Spline { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::curve_mesh::skin_spline
 #[doc = "A round tube of `radius` along `spline` — the Skin modifier applied to a\ncurve. `segments` sides."]
 #[pyfunction(name = "skin_spline")]
-pub fn fn_outram_blender__curve_mesh__skin_spline(spline: Py_outram_blender__curve__Spline, radius: f64, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_mesh::skin_spline(&spline.inner, radius, segments) } }
+pub fn fn_outram_blender__curve_mesh__skin_spline(spline: PyRef<'_, Py_outram_blender__curve__Spline>, radius: f64, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_mesh::skin_spline(&spline.inner, radius, segments) } }
 
     // @item fn:outram_blender::curve_mesh::spline_deform_mesh
 #[doc = "Deform `mesh` so its `axis` coordinate rides `spline` (the Curve modifier)."]
 #[pyfunction(name = "spline_deform_mesh")]
-pub fn fn_outram_blender__curve_mesh__spline_deform_mesh(mesh: Py_outram_blender__mesh__Mesh, spline: Py_outram_blender__curve__Spline, axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_mesh::spline_deform_mesh(&mesh.inner, &spline.inner, axis.inner) } }
+pub fn fn_outram_blender__curve_mesh__spline_deform_mesh(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, spline: PyRef<'_, Py_outram_blender__curve__Spline>, axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_mesh::spline_deform_mesh(&mesh.inner, &spline.inner, axis.inner) } }
 
     // @item fn:outram_blender::curve_mesh::spline_to_mesh
 #[doc = "Convert a [`Spline`] to a mesh — a wire, a round tube, or a filled outline."]
 #[pyfunction(name = "spline_to_mesh")]
-pub fn fn_outram_blender__curve_mesh__spline_to_mesh(spline: Py_outram_blender__curve__Spline, tube_radius: Option<f64>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_mesh::spline_to_mesh(&spline.inner, tube_radius.map(|e| e)) } }
+pub fn fn_outram_blender__curve_mesh__spline_to_mesh(spline: PyRef<'_, Py_outram_blender__curve__Spline>, tube_radius: Option<f64>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_mesh::spline_to_mesh(&spline.inner, tube_radius.map(|e| e)) } }
 
     // @item fn:outram_blender::curve_surface::curve_to_mesh
 #[doc = "Evaluate `spline` into a [`Mesh`] per `opts`."]
 #[pyfunction(name = "curve_to_mesh")]
-pub fn fn_outram_blender__curve_surface__curve_to_mesh(spline: Py_outram_blender__curve__Spline, opts: Py_outram_blender__curve_surface__CurveGeometry) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_surface::curve_to_mesh(&spline.inner, &opts.inner) } }
+pub fn fn_outram_blender__curve_surface__curve_to_mesh(spline: PyRef<'_, Py_outram_blender__curve__Spline>, opts: PyRef<'_, Py_outram_blender__curve_surface__CurveGeometry>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::curve_surface::curve_to_mesh(&spline.inner, &opts.inner) } }
 
     // @item fn:outram_blender::decimate::decimate
 #[doc = "Simplify `mesh` down to roughly `target_faces` triangles by QEM edge\ncollapse, returning the simplified [`Mesh`].\n\nConvenience wrapper over [`decimate_with_reason`] that discards the stop\nreason. `target_faces` is a *lower bound goal*: the result has at most a\ncouple more faces than the target (collapses remove faces in pairs), or more\nif no further legal collapse exists. Non-triangular faces are fan-triangulated\nfirst, so the output is a triangle mesh."]
 #[pyfunction(name = "decimate")]
-pub fn fn_outram_blender__decimate__decimate(mesh: Py_outram_blender__mesh__Mesh, target_faces: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::decimate::decimate(&mesh.inner, target_faces) } }
+pub fn fn_outram_blender__decimate__decimate(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, target_faces: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::decimate::decimate(&mesh.inner, target_faces) } }
 
     // @item fn:outram_blender::decimate::decimate_with_reason
 #[doc = "Like [`decimate`] but also reports the [`StopReason`]."]
 #[pyfunction(name = "decimate_with_reason")]
-pub fn fn_outram_blender__decimate__decimate_with_reason(mesh: Py_outram_blender__mesh__Mesh, target_faces: usize) -> Py_outram_blender__decimate__DecimateResult { Py_outram_blender__decimate__DecimateResult { inner: ::outram_blender::decimate::decimate_with_reason(&mesh.inner, target_faces) } }
+pub fn fn_outram_blender__decimate__decimate_with_reason(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, target_faces: usize) -> Py_outram_blender__decimate__DecimateResult { Py_outram_blender__decimate__DecimateResult { inner: ::outram_blender::decimate::decimate_with_reason(&mesh.inner, target_faces) } }
 
     // @item fn:outram_blender::deform2::bind_to_surface
 #[doc = "Bind `mesh`'s vertices to `target`'s triangles at the current pose."]
 #[pyfunction(name = "bind_to_surface")]
-pub fn fn_outram_blender__deform2__bind_to_surface(mesh: Py_outram_blender__mesh__Mesh, target: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__deform2__SurfaceBind { Py_outram_blender__deform2__SurfaceBind { inner: ::outram_blender::deform2::bind_to_surface(&mesh.inner, &target.inner) } }
+pub fn fn_outram_blender__deform2__bind_to_surface(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, target: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__deform2__SurfaceBind { Py_outram_blender__deform2__SurfaceBind { inner: ::outram_blender::deform2::bind_to_surface(&mesh.inner, &target.inner) } }
 
     // @item fn:outram_blender::deform2::curve_deform
 #[doc = "Deform `mesh` so its `axis` coordinate rides `curve` (a polyline, `>= 2`\npoints). A vertex at axis-coordinate `c` is placed at arc-length\n`c - axis_min` along the curve, offset by its perpendicular components in\nthe curve's local frame (tangent + a stable up)."]
 #[pyfunction(name = "curve_deform")]
-pub fn fn_outram_blender__deform2__curve_deform(mesh: Py_outram_blender__mesh__Mesh, curve: Vec<Py_outram_blender__math__Vec3>, axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::curve_deform(&mesh.inner, &curve.into_iter().map(|e| e.inner).collect::<Vec<_>>(), axis.inner) } }
+pub fn fn_outram_blender__deform2__curve_deform(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, curve: Vec<Py_outram_blender__math__Vec3>, axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::curve_deform(&mesh.inner, &curve.into_iter().map(|e| e.inner).collect::<Vec<_>>(), axis.inner) } }
 
     // @item fn:outram_blender::deform2::hook
 #[doc = "A hook: drag `verts` by `to - from`, weighted by a smooth falloff from\n`from` out to `falloff_radius` (`0` = rigid within the whole selection)."]
 #[pyfunction(name = "hook")]
-pub fn fn_outram_blender__deform2__hook(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, from_: Py_outram_blender__math__Vec3, to: Py_outram_blender__math__Vec3, falloff_radius: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::hook(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), from_.inner, to.inner, falloff_radius) } }
+pub fn fn_outram_blender__deform2__hook(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, from_: Py_outram_blender__math__Vec3, to: Py_outram_blender__math__Vec3, falloff_radius: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::hook(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), from_.inner, to.inner, falloff_radius) } }
 
     // @item fn:outram_blender::deform2::laplacian_deform
 #[doc = "Anchored (Laplacian) deformation — forwards to [`crate::arap::arap_deform`]."]
 #[pyfunction(name = "laplacian_deform")]
-pub fn fn_outram_blender__deform2__laplacian_deform(mesh: Py_outram_blender__mesh__Mesh, handles: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__math__Vec3)>, iterations: u32) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::deform2::laplacian_deform(&mesh.inner, &handles.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>(), iterations)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+pub fn fn_outram_blender__deform2__laplacian_deform(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, handles: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__math__Vec3)>, iterations: u32) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::deform2::laplacian_deform(&mesh.inner, &handles.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>(), iterations)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
 
     // @item fn:outram_blender::deform2::lattice_deform
 #[doc = "Trilinear free-form deformation: each mesh vertex's normalised position in\nthe lattice's rest box picks a trilinear blend of the (possibly moved)\ncontrol points."]
 #[pyfunction(name = "lattice_deform")]
-pub fn fn_outram_blender__deform2__lattice_deform(mesh: Py_outram_blender__mesh__Mesh, lat: Py_outram_blender__deform2__Lattice) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::lattice_deform(&mesh.inner, &lat.inner) } }
+pub fn fn_outram_blender__deform2__lattice_deform(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, lat: PyRef<'_, Py_outram_blender__deform2__Lattice>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::lattice_deform(&mesh.inner, &lat.inner) } }
 
     // @item fn:outram_blender::deform2::shrinkwrap
 #[doc = "Move each vertex of `mesh` onto `target` per `mode`, blended by `factor`."]
 #[pyfunction(name = "shrinkwrap")]
-pub fn fn_outram_blender__deform2__shrinkwrap(mesh: Py_outram_blender__mesh__Mesh, target: Py_outram_blender__mesh__Mesh, mode: Py_outram_blender__deform2__ShrinkMode, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::shrinkwrap(&mesh.inner, &target.inner, mode.inner, factor) } }
+pub fn fn_outram_blender__deform2__shrinkwrap(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, target: PyRef<'_, Py_outram_blender__mesh__Mesh>, mode: Py_outram_blender__deform2__ShrinkMode, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::shrinkwrap(&mesh.inner, &target.inner, mode.inner, factor) } }
 
     // @item fn:outram_blender::deform2::surface_deform
 #[doc = "Re-evaluate a [`SurfaceBind`] against a deformed `target` (same topology),\nproducing the corresponding deformed source mesh."]
 #[pyfunction(name = "surface_deform")]
-pub fn fn_outram_blender__deform2__surface_deform(mesh: Py_outram_blender__mesh__Mesh, bind: Py_outram_blender__deform2__SurfaceBind, deformed_target: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::surface_deform(&mesh.inner, &bind.inner, &deformed_target.inner) } }
+pub fn fn_outram_blender__deform2__surface_deform(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, bind: PyRef<'_, Py_outram_blender__deform2__SurfaceBind>, deformed_target: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform2::surface_deform(&mesh.inner, &bind.inner, &deformed_target.inner) } }
 
     // @item fn:outram_blender::deform::cast
 #[doc = "Pull the selection a fraction `factor` of the way toward `target`\n(about the selection's centre)."]
 #[pyfunction(name = "cast")]
-pub fn fn_outram_blender__deform__cast(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, target: Py_outram_blender__deform__CastTarget, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::cast(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), target.inner, factor) } }
+pub fn fn_outram_blender__deform__cast(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, target: Py_outram_blender__deform__CastTarget, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::cast(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), target.inner, factor) } }
 
     // @item fn:outram_blender::deform::displace
 #[doc = "Displace along `direction` by `strength` times value noise sampled at\n`p * noise_scale`. A texture-free stand-in for Blender's Displace."]
 #[pyfunction(name = "displace")]
-pub fn fn_outram_blender__deform__displace(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, direction: Py_outram_blender__math__Vec3, strength: f64, noise_scale: f64, seed: u64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::displace(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), direction.inner, strength, noise_scale, seed) } }
+pub fn fn_outram_blender__deform__displace(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, direction: Py_outram_blender__math__Vec3, strength: f64, noise_scale: f64, seed: u64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::displace(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), direction.inner, strength, noise_scale, seed) } }
 
     // @item fn:outram_blender::deform::simple_deform
 #[doc = "Apply a [`SimpleDeform`] along `axis` over the selection's extent."]
 #[pyfunction(name = "simple_deform")]
-pub fn fn_outram_blender__deform__simple_deform(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, mode: Py_outram_blender__deform__SimpleDeform, axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::simple_deform(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), mode.inner, axis.inner) } }
+pub fn fn_outram_blender__deform__simple_deform(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, mode: Py_outram_blender__deform__SimpleDeform, axis: Py_outram_blender__selection__Axis) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::simple_deform(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), mode.inner, axis.inner) } }
 
     // @item fn:outram_blender::deform::warp
 #[doc = "Warp space so the segment `from` … `from2` maps onto `to` … `to2` (a\nrotate + scale + translate blended by proximity to `from`)."]
 #[pyfunction(name = "warp")]
-pub fn fn_outram_blender__deform__warp(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, from_: Py_outram_blender__math__Vec3, from2: Py_outram_blender__math__Vec3, to: Py_outram_blender__math__Vec3, to2: Py_outram_blender__math__Vec3, falloff_radius: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::warp(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), from_.inner, from2.inner, to.inner, to2.inner, falloff_radius) } }
+pub fn fn_outram_blender__deform__warp(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, from_: Py_outram_blender__math__Vec3, from2: Py_outram_blender__math__Vec3, to: Py_outram_blender__math__Vec3, to2: Py_outram_blender__math__Vec3, falloff_radius: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::warp(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), from_.inner, from2.inner, to.inner, to2.inner, falloff_radius) } }
 
     // @item fn:outram_blender::deform::wave
 #[doc = "A travelling sine ripple: displace along `axis` by\n`amplitude · sin(2π (r/wavelength − speed·time))` where `r` is the distance\nfrom the origin in the plane orthogonal to `axis`."]
 #[pyfunction(name = "wave")]
-pub fn fn_outram_blender__deform__wave(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, axis: Py_outram_blender__selection__Axis, amplitude: f64, wavelength: f64, speed: f64, time: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::wave(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), axis.inner, amplitude, wavelength, speed, time) } }
+pub fn fn_outram_blender__deform__wave(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, axis: Py_outram_blender__selection__Axis, amplitude: f64, wavelength: f64, speed: f64, time: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::deform::wave(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), axis.inner, amplitude, wavelength, speed, time) } }
 
     // @item fn:outram_blender::dissolve::delete
 #[doc = "Apply `mode` to the given elements, returning the rebuilt mesh."]
 #[pyfunction(name = "delete")]
-pub fn fn_outram_blender__dissolve__delete(mesh: Py_outram_blender__mesh__Mesh, mode: Py_outram_blender__dissolve__DeleteMode, verts: Vec<Py_outram_blender__mesh__VertexId>, edges: Vec<Py_outram_blender__mesh__EdgeId>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::delete(&mesh.inner, mode.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__dissolve__delete(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, mode: Py_outram_blender__dissolve__DeleteMode, verts: Vec<Py_outram_blender__mesh__VertexId>, edges: Vec<Py_outram_blender__mesh__EdgeId>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::delete(&mesh.inner, mode.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::dissolve::dissolve_edges
 #[doc = "Dissolve each interior edge in `edges` (merge its two faces). Dissolves are\napplied in id order; an edge whose faces were already merged is skipped."]
 #[pyfunction(name = "dissolve_edges")]
-pub fn fn_outram_blender__dissolve__dissolve_edges(mesh: Py_outram_blender__mesh__Mesh, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::dissolve_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__dissolve__dissolve_edges(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::dissolve_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::dissolve::dissolve_faces
 #[doc = "Merge a connected face set into a single n-gon. Returns the mesh unchanged\nif `faces` is empty, disconnected, or its union boundary is not one simple\nloop (e.g. it encloses a hole)."]
 #[pyfunction(name = "dissolve_faces")]
-pub fn fn_outram_blender__dissolve__dissolve_faces(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::dissolve_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__dissolve__dissolve_faces(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::dissolve_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::dissolve::dissolve_vertices
 #[doc = "Dissolve each vertex in `verts`: merge its incident faces and remove the\nvertex from the merged boundary."]
 #[pyfunction(name = "dissolve_vertices")]
-pub fn fn_outram_blender__dissolve__dissolve_vertices(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::dissolve_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__dissolve__dissolve_vertices(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::dissolve_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::dissolve::limited_dissolve
 #[doc = "Dissolve every interior edge whose two faces are within `angle` radians of\ncoplanar — Blender's Limited Dissolve (planar cleanup)."]
 #[pyfunction(name = "limited_dissolve")]
-pub fn fn_outram_blender__dissolve__limited_dissolve(mesh: Py_outram_blender__mesh__Mesh, angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::limited_dissolve(&mesh.inner, angle) } }
+pub fn fn_outram_blender__dissolve__limited_dissolve(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::dissolve::limited_dissolve(&mesh.inner, angle) } }
 
     // @item fn:outram_blender::draw_tool::box_from_drag
 #[doc = "A box from two opposite base corners (world points, assumed on/near the\nplane) and a `depth` along the plane normal. The footprint is the\naxis-aligned (in plane coords) rectangle spanned by the two corners."]
 #[pyfunction(name = "box_from_drag")]
-pub fn fn_outram_blender__draw_tool__box_from_drag(plane: Py_outram_blender__draw_tool__WorkPlane, corner_a: Py_outram_blender__math__Vec3, corner_b: Py_outram_blender__math__Vec3, depth: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::draw_tool::box_from_drag(&plane.inner, corner_a.inner, corner_b.inner, depth) } }
+pub fn fn_outram_blender__draw_tool__box_from_drag(plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>, corner_a: Py_outram_blender__math__Vec3, corner_b: Py_outram_blender__math__Vec3, depth: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::draw_tool::box_from_drag(&plane.inner, corner_a.inner, corner_b.inner, depth) } }
 
     // @item fn:outram_blender::draw_tool::circle_from_drag
 #[doc = "A cylinder from a base centre, a rim point (radius = their in-plane\ndistance) and a `depth` along the normal. `segments` clamped `>= 3`."]
 #[pyfunction(name = "circle_from_drag")]
-pub fn fn_outram_blender__draw_tool__circle_from_drag(plane: Py_outram_blender__draw_tool__WorkPlane, center: Py_outram_blender__math__Vec3, rim: Py_outram_blender__math__Vec3, depth: f64, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::draw_tool::circle_from_drag(&plane.inner, center.inner, rim.inner, depth, segments) } }
+pub fn fn_outram_blender__draw_tool__circle_from_drag(plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>, center: Py_outram_blender__math__Vec3, rim: Py_outram_blender__math__Vec3, depth: f64, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::draw_tool::circle_from_drag(&plane.inner, center.inner, rim.inner, depth, segments) } }
 
     // @item fn:outram_blender::draw_tool::cone_from_drag
 #[doc = "A cone (apex up) from a base centre, a rim point and a `depth`.\n`segments` clamped `>= 3`."]
 #[pyfunction(name = "cone_from_drag")]
-pub fn fn_outram_blender__draw_tool__cone_from_drag(plane: Py_outram_blender__draw_tool__WorkPlane, center: Py_outram_blender__math__Vec3, rim: Py_outram_blender__math__Vec3, depth: f64, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::draw_tool::cone_from_drag(&plane.inner, center.inner, rim.inner, depth, segments) } }
+pub fn fn_outram_blender__draw_tool__cone_from_drag(plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>, center: Py_outram_blender__math__Vec3, rim: Py_outram_blender__math__Vec3, depth: f64, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::draw_tool::cone_from_drag(&plane.inner, center.inner, rim.inner, depth, segments) } }
 
     // @item fn:outram_blender::draw_tool::eval_dimension
 #[doc = "Evaluate a scalar that may be a literal or an expression (`\"2*0.5\"`,\n`\"pi/4\"`); `None` on a parse error."]
@@ -4278,52 +4278,52 @@ pub fn fn_outram_blender__draw_tool__eval_dimension(s: String) -> Option<f64> { 
     // @item fn:outram_blender::draw_tool::snap_input
 #[doc = "Project one world point onto a snap target of `mesh`, returning the snapped\nposition (or `p` unchanged if nothing is within `max_dist`)."]
 #[pyfunction(name = "snap_input")]
-pub fn fn_outram_blender__draw_tool__snap_input(mesh: Py_outram_blender__mesh__Mesh, p: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::draw_tool::snap_input(&mesh.inner, p.inner, target.inner, max_dist) } }
+pub fn fn_outram_blender__draw_tool__snap_input(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, p: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::draw_tool::snap_input(&mesh.inner, p.inner, target.inner, max_dist) } }
 
     // @item fn:outram_blender::edge_bevel::bevel_edges
 #[doc = "Chamfer every edge of `mesh` by `width`, returning the beveled mesh.\n\n`width` is the distance each face is cut back from its edges, in mesh units;\nkeep it below half the shortest edge length to avoid inverting a face. The\nresult is consistently wound and outward-facing. This is infallible.\n\n# Examples\n\n```\nuse outram_blender::{primitives, edge_bevel::bevel_edges};\n\n// Beveling a cube's 12 edges: 6 shrunk squares + 12 edge quads + 8 corner\n// triangles = 26 faces, still a closed genus-0 surface (χ = 2).\nlet beveled = bevel_edges(&primitives::cube(2.0), 0.3);\nassert_eq!(beveled.face_count(), 26);\nassert_eq!(beveled.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "bevel_edges")]
-pub fn fn_outram_blender__edge_bevel__bevel_edges(mesh: Py_outram_blender__mesh__Mesh, width: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_bevel::bevel_edges(&mesh.inner, width) } }
+pub fn fn_outram_blender__edge_bevel__bevel_edges(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, width: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_bevel::bevel_edges(&mesh.inner, width) } }
 
     // @item fn:outram_blender::edge_tools::edge_split
 #[doc = "Split `mesh` along `edges`: each vertex the split separates into two or more\nface groups gets one copy per extra group. The Edge Split modifier as an\noperator (pair with a crease attribute later)."]
 #[pyfunction(name = "edge_split")]
-pub fn fn_outram_blender__edge_tools__edge_split(mesh: Py_outram_blender__mesh__Mesh, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_tools::edge_split(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__edge_tools__edge_split(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_tools::edge_split(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::edge_tools::rotate_edge
 #[doc = "Rotate `edge` to connect the next vertices of its two incident faces —\n`cw` picks the clockwise pair, `!cw` the counter-clockwise. A no-op unless\nthe edge has exactly two faces and the combined polygon stays simple."]
 #[pyfunction(name = "rotate_edge")]
-pub fn fn_outram_blender__edge_tools__rotate_edge(mesh: Py_outram_blender__mesh__Mesh, edge: Py_outram_blender__mesh__EdgeId, cw: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_tools::rotate_edge(&mesh.inner, edge.inner, cw) } }
+pub fn fn_outram_blender__edge_tools__rotate_edge(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edge: Py_outram_blender__mesh__EdgeId, cw: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_tools::rotate_edge(&mesh.inner, edge.inner, cw) } }
 
     // @item fn:outram_blender::edge_tools::set_edge_flow
 #[doc = "Relax the vertices of the edge loop `loop_edges` toward a smooth path:\n`iterations` passes, each moving every 2-rail loop vertex a fraction\n`strength` toward the midpoint of its two rail neighbours. Topology\nunchanged."]
 #[pyfunction(name = "set_edge_flow")]
-pub fn fn_outram_blender__edge_tools__set_edge_flow(mesh: Py_outram_blender__mesh__Mesh, loop_edges: Vec<Py_outram_blender__mesh__EdgeId>, iterations: u32, strength: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_tools::set_edge_flow(&mesh.inner, &loop_edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), iterations, strength) } }
+pub fn fn_outram_blender__edge_tools__set_edge_flow(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_edges: Vec<Py_outram_blender__mesh__EdgeId>, iterations: u32, strength: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::edge_tools::set_edge_flow(&mesh.inner, &loop_edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), iterations, strength) } }
 
     // @item fn:outram_blender::export::to_csg_primitive
 #[doc = "Fit `mesh` to an analytic CSG solid consumable by `outram-mc-libs`.\n\nRecognises the [`crate::primitives`] shapes it can express exactly and emits\nthe matching [`CsgDescription`] (local mirror types — no dependency on\n`outram-mc-libs`):\n\n- **axis-aligned cube/box** (8 vertices, 6 quad faces, all normals ±X/±Y/±Z,\n  every vertex on the bounding box) → six planes at the box bounds, region =\n  the intersection of the six inward half-spaces (the box interior);\n- **uv-sphere** (vertices equidistant from their centroid, and vertex/face\n  counts matching a `2 + (rings-1)*segments` / `rings*segments` uv-sphere) →\n  one `Sphere` at the fitted centre/radius, region = its interior\n  (`Negative` half-space);\n- **Z-axis cylinder** (a [`crate::primitives::cylinder`]: `2*segments`\n  vertices, `segments` side quads + two `segments`-gon caps, side vertices at\n  a constant radius about a Z-parallel axis) → one `ZCylinder` intersected\n  with two `ZPlane` caps;\n- **any other convex closed polyhedron** → the **faceted convex** route: one\n  general [`CsgSurface::Plane`] per face (outward normal), region = the\n  intersection of every inward (`Negative`) half-space. This is exact for a\n  convex solid — e.g"]
 #[pyfunction(name = "to_csg_primitive")]
-pub fn fn_outram_blender__export__to_csg_primitive(mesh: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__export__CsgDescription> { err(::outram_blender::export::to_csg_primitive(&mesh.inner)).map(|v| Py_outram_blender__export__CsgDescription { inner: v }) }
+pub fn fn_outram_blender__export__to_csg_primitive(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__export__CsgDescription> { err(::outram_blender::export::to_csg_primitive(&mesh.inner)).map(|v| Py_outram_blender__export__CsgDescription { inner: v }) }
 
     // @item fn:outram_blender::export::to_faceted_solid
 #[doc = "Build the DAGMC-style [`FacetedSolid`] boundary of `mesh`: fan-triangulate\nevery face and orient the triangles **outward** (positive enclosed volume).\n\nWorks for any closed mesh, convex or not — this is the fallback the analytic\n[`to_csg_primitive`] fitters do not cover. Outward orientation is enforced so\nthat a downstream consumer using face normals (not just the sign-agnostic\n[`FacetedSolid::contains`]) sees them pointing out of the solid.\n\n# This constructor does not validate the surface\n\nIt builds a [`FacetedSolid`] from whatever it is given, including an **open**\nmesh — for which [`FacetedSolid::contains`] returns confident but arbitrary\nanswers (see [`FacetedSolid::check_closed_manifold`] for why). Prefer\n[`to_faceted_solid_checked`] unless the mesh is already known closed; or call\n[`FacetedSolid::check_closed_manifold`] on the result. Two further caveats\nthis constructor cannot detect:\n\n- **Non-convex faces.** Fan triangulation from a face's first corner is exact\n  only for **convex** faces (as [`crate::primitives`] produces). A concave\n  `n`-gon — which [`crate::bisect`] and [`crate::boolean_general`] can emit —\n  fans into overlapping and outside-the-face triangles.\n- **Ze"]
 #[pyfunction(name = "to_faceted_solid")]
-pub fn fn_outram_blender__export__to_faceted_solid(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__export__FacetedSolid { Py_outram_blender__export__FacetedSolid { inner: ::outram_blender::export::to_faceted_solid(&mesh.inner) } }
+pub fn fn_outram_blender__export__to_faceted_solid(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__export__FacetedSolid { Py_outram_blender__export__FacetedSolid { inner: ::outram_blender::export::to_faceted_solid(&mesh.inner) } }
 
     // @item fn:outram_blender::export::to_faceted_solid_checked
 #[doc = "[`to_faceted_solid`], but **rejects** a surface on which the solid's\ninside/outside test would be meaningless.\n\nBuilds the faceted boundary exactly as [`to_faceted_solid`] does, then runs\n[`FacetedSolid::check_closed_manifold`] on it. Use this whenever the mesh's\nclosedness is not already guaranteed — an open or non-manifold boundary makes\n[`FacetedSolid::contains`] silently arbitrary, which downstream shows up as a\ntransport particle in the wrong material rather than as an error.\n\n# Errors\n\n[`ExportError::DegenerateTriangle`], [`ExportError::NonManifoldSurface`], or\n[`ExportError::NotClosedSurface`], naming the offending triangle and edge.\n\n# Examples\n\n```\nuse outram_blender::{primitives, export};\n\nassert!(export::to_faceted_solid_checked(&primitives::cube(2.0)).is_ok());\n// A flat patch encloses nothing; it is refused rather than silently accepted.\nassert!(export::to_faceted_solid_checked(&primitives::grid(2, 2, 1.0)).is_err());\n```"]
 #[pyfunction(name = "to_faceted_solid_checked")]
-pub fn fn_outram_blender__export__to_faceted_solid_checked(mesh: Py_outram_blender__mesh__Mesh) -> PyResult<Py_outram_blender__export__FacetedSolid> { err(::outram_blender::export::to_faceted_solid_checked(&mesh.inner)).map(|v| Py_outram_blender__export__FacetedSolid { inner: v }) }
+pub fn fn_outram_blender__export__to_faceted_solid_checked(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> PyResult<Py_outram_blender__export__FacetedSolid> { err(::outram_blender::export::to_faceted_solid_checked(&mesh.inner)).map(|v| Py_outram_blender__export__FacetedSolid { inner: v }) }
 
     // @item fn:outram_blender::export::to_polymesh_text
 #[doc = "Serialise `mesh` to the five OpenFOAM `polyMesh` files as strings.\n\nPure and filesystem-free (testable): builds `points`, `faces`, `owner`,\n`neighbour`, and `boundary` from the mesh's public topology. Faces are\nwritten in the mesh's own winding order. Every face is assigned owner cell\n`0` (a surface has no real cells) and `neighbour` is empty, so the result is\na **boundary patch for a volume mesher to fill, not a solve-ready volume\nmesh** (see [`PolyMeshText`]).\n\nCoordinates are copied verbatim as dimensionless model-space `f64`s; the\ncaller assigns a length unit (conventionally metres) at export."]
 #[pyfunction(name = "to_polymesh_text")]
-pub fn fn_outram_blender__export__to_polymesh_text(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__export__PolyMeshText { Py_outram_blender__export__PolyMeshText { inner: ::outram_blender::export::to_polymesh_text(&mesh.inner) } }
+pub fn fn_outram_blender__export__to_polymesh_text(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__export__PolyMeshText { Py_outram_blender__export__PolyMeshText { inner: ::outram_blender::export::to_polymesh_text(&mesh.inner) } }
 
     // @item fn:outram_blender::export::triangulate
 #[doc = "Fan-triangulate every face of `mesh` into an [`IndexedTriangles`] soup.\n\nEach `n`-gon face contributes `n - 2` triangles by a simple fan from its\nfirst vertex — valid for the convex faces the [`crate::primitives`]\ngenerators produce. Positions are copied 1:1 from the mesh (indices are\npreserved), so `positions.len()` equals `mesh.vertex_count()`.\n\nThis is real, tested code — the dependency-free foundation the solver\nbridges below build on."]
 #[pyfunction(name = "triangulate")]
-pub fn fn_outram_blender__export__triangulate(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__export__IndexedTriangles { Py_outram_blender__export__IndexedTriangles { inner: ::outram_blender::export::triangulate(&mesh.inner) } }
+pub fn fn_outram_blender__export__triangulate(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__export__IndexedTriangles { Py_outram_blender__export__IndexedTriangles { inner: ::outram_blender::export::triangulate(&mesh.inner) } }
 
     // @item fn:outram_blender::extra_objects::capsule
 #[doc = "A capsule about the `z` axis: a cylinder of `radius` and cylindrical length\n`length` (the straight part), capped top and bottom by hemispheres of the\nsame `radius`.\n\n`segments` around the axis (clamped `>= 3`), `rings` per hemisphere\n(clamped `>= 1`). Total height is `length + 2*radius`. Closed genus-0,\n`chi = 2`."]
@@ -4368,47 +4368,47 @@ pub fn fn_outram_blender__extra_objects__wedge(size_x: f64, size_y: f64, size_z:
     // @item fn:outram_blender::extrude::extrude_faces_along_normals
 #[doc = "Extrude the region `faces` by `amount`, each **vertex** moving along its\naveraged (area-weighted) normal over the selected faces. The selected faces\nbecome the raised top; boundary edges gain side walls."]
 #[pyfunction(name = "extrude_faces_along_normals")]
-pub fn fn_outram_blender__extrude__extrude_faces_along_normals(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>, amount: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_faces_along_normals(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), amount) } }
+pub fn fn_outram_blender__extrude__extrude_faces_along_normals(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>, amount: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_faces_along_normals(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), amount) } }
 
     // @item fn:outram_blender::extrude::extrude_faces_individual
 #[doc = "Extrude each face in `faces` **individually** by `amount` along its own\noutward normal. Each face gets its own duplicated top and side walls; the\noriginal faces are removed."]
 #[pyfunction(name = "extrude_faces_individual")]
-pub fn fn_outram_blender__extrude__extrude_faces_individual(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>, amount: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_faces_individual(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), amount) } }
+pub fn fn_outram_blender__extrude__extrude_faces_individual(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>, amount: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_faces_individual(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), amount) } }
 
     // @item fn:outram_blender::extrude::extrude_manifold
 #[doc = "Region extrude that removes the original faces — the source region becomes a\nclean opening bridged by the walls (Blender's Extrude Manifold). For a\nstandalone face group this is the same as [`crate::ops::extrude_faces`]."]
 #[pyfunction(name = "extrude_manifold")]
-pub fn fn_outram_blender__extrude__extrude_manifold(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_manifold(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
+pub fn fn_outram_blender__extrude__extrude_manifold(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_manifold(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
 
     // @item fn:outram_blender::extrude::extrude_vertices
 #[doc = "Extrude selected `verts` by `offset` — duplicate each and add an edge (a\ndegenerate two-sided face is avoided by emitting nothing but the edge via a\nwire; here we add a thin quad so the polygon-soup mesh keeps it). For a\nsurface mesh the more useful call is [`crate::ops::extrude_edges`]; this\ncovers the lone-vertex / wire case."]
 #[pyfunction(name = "extrude_vertices")]
-pub fn fn_outram_blender__extrude__extrude_vertices(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
+pub fn fn_outram_blender__extrude__extrude_vertices(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::extrude::extrude_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
 
     // @item fn:outram_blender::extrude::selection_boundary_edges
 #[doc = "The set of boundary edges of a face selection — handy for a caller wiring\n\"extrude then move the new boundary\"."]
 #[pyfunction(name = "selection_boundary_edges")]
-pub fn fn_outram_blender__extrude__selection_boundary_edges(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::extrude::selection_boundary_edges(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__extrude__selection_boundary_edges(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::extrude::selection_boundary_edges(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::fill::beauty_fill
 #[doc = "Flip the shared diagonal of every adjacent triangle pair toward the\nmax-min-angle (Delaunay) criterion — one pass. Non-triangle faces are left\nalone. Returns the rebuilt mesh."]
 #[pyfunction(name = "beauty_fill")]
-pub fn fn_outram_blender__fill__beauty_fill(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill::beauty_fill(&mesh.inner) } }
+pub fn fn_outram_blender__fill__beauty_fill(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill::beauty_fill(&mesh.inner) } }
 
     // @item fn:outram_blender::fill::grid_fill
 #[doc = "Fill the closed boundary loop `boundary` (ordered vertex ring) with a quad\ngrid. `span` is the number of edges on the first side; the loop must have\n`2 · span + 2 · other` vertices for some `other >= 1`. Returns the mesh\nunchanged if that does not hold."]
 #[pyfunction(name = "grid_fill")]
-pub fn fn_outram_blender__fill__grid_fill(mesh: Py_outram_blender__mesh__Mesh, boundary: Vec<Py_outram_blender__mesh__VertexId>, span: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill::grid_fill(&mesh.inner, &boundary.into_iter().map(|e| e.inner).collect::<Vec<_>>(), span) } }
+pub fn fn_outram_blender__fill__grid_fill(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, boundary: Vec<Py_outram_blender__mesh__VertexId>, span: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill::grid_fill(&mesh.inner, &boundary.into_iter().map(|e| e.inner).collect::<Vec<_>>(), span) } }
 
     // @item fn:outram_blender::fill::make_face
 #[doc = "Add one face through `verts` in the given order. If `verts.len() == 2` a\nwire edge is recorded instead (a zero-area sliver in the soup model).\nReturns the rebuilt mesh; `verts.len() < 2` is a no-op."]
 #[pyfunction(name = "make_face")]
-pub fn fn_outram_blender__fill__make_face(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill::make_face(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__fill__make_face(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill::make_face(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::fill_helpers::auto_mirror
 #[doc = "Bisect `mesh` by `plane` (keeping the half on the `−normal` side, matching\n[`crate::bisect::bisect`]), mirror that half across the plane, and weld the\ntwo halves along the cut with tolerance `weld_dist`.\n\nThe result is symmetric about `plane`. If the mesh lies entirely on one\nside, the kept half is just mirrored and welded (a doubled shell)."]
 #[pyfunction(name = "auto_mirror")]
-pub fn fn_outram_blender__fill_helpers__auto_mirror(mesh: Py_outram_blender__mesh__Mesh, plane: Py_outram_blender__draw_tool__WorkPlane, weld_dist: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill_helpers::auto_mirror(&mesh.inner, &plane.inner, weld_dist) } }
+pub fn fn_outram_blender__fill_helpers__auto_mirror(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>, weld_dist: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill_helpers::auto_mirror(&mesh.inner, &plane.inner, weld_dist) } }
 
     // @item fn:outram_blender::fill_helpers::bsurfaces
 #[doc = "A lofted quad surface through `strokes` (each an ordered polyline). Every\nstroke is resampled to `cols` points; consecutive strokes are bridged into\na `(strokes.len()-1) x (cols-1)` quad grid.\n\n`cols` is clamped `>= 2`; strokes with fewer than 2 points are skipped.\nNeeds at least two usable strokes, else an empty mesh."]
@@ -4418,217 +4418,227 @@ pub fn fn_outram_blender__fill_helpers__bsurfaces(strokes: Vec<Vec<Py_outram_ble
     // @item fn:outram_blender::fill_helpers::f2_fill
 #[doc = "Context-aware fill from a single boundary edge (F2's smart `F`).\n\n`edge` must be a boundary edge (used by exactly one face). The two boundary\nedges sharing its endpoints are followed to their far vertices `c` (past\nthe `verts[0]` end) and `d` (past the `verts[1]` end):\n\n- `c == d` → a triangle `(a, b, c)` is added;\n- otherwise → a quad `(c, a, b, d)` is added.\n\nReturns the mesh unchanged if `edge` is not a boundary edge or the\nneighbours cannot be found."]
 #[pyfunction(name = "f2_fill")]
-pub fn fn_outram_blender__fill_helpers__f2_fill(mesh: Py_outram_blender__mesh__Mesh, edge: Py_outram_blender__mesh__EdgeId) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill_helpers::f2_fill(&mesh.inner, edge.inner) } }
+pub fn fn_outram_blender__fill_helpers__f2_fill(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edge: Py_outram_blender__mesh__EdgeId) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill_helpers::f2_fill(&mesh.inner, edge.inner) } }
 
     // @item fn:outram_blender::fill_holes::fill_holes
 #[doc = "Cap every open boundary loop of `mesh` with a centroid triangle fan,\nreturning the watertight mesh.\n\nA mesh that is already closed (no boundary edges) is returned unchanged (a\nno-op rebuild). Each hole adds one centroid vertex and one triangle per\nboundary edge; the winding of every cap triangle is chosen to stay\nconsistent with the surrounding surface.\n\nThis is infallible: the result is always a valid mesh. Degenerate boundary\nloops (fewer than three edges) are left uncapped.\n\n# Examples\n\n```\nuse outram_blender::{primitives, fill_holes::fill_holes};\n\n// A closed cube has no holes, so filling is a no-op: still V=8, F=6, chi=2.\nlet cube = primitives::cube(2.0);\nlet filled = fill_holes(&cube);\nassert_eq!(filled.vertex_count(), 8);\nassert_eq!(filled.face_count(), 6);\nassert_eq!(filled.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "fill_holes")]
-pub fn fn_outram_blender__fill_holes__fill_holes(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill_holes::fill_holes(&mesh.inner) } }
+pub fn fn_outram_blender__fill_holes__fill_holes(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::fill_holes::fill_holes(&mesh.inner) } }
 
     // @item fn:outram_blender::gpu::probe
 #[doc = "Probe for a usable headless GPU compute adapter.\n\nCreates a [`wgpu::Instance`] over all backends enabled for this platform,\nrequests an adapter with **no surface** (headless compute — `power_preference\n= None`, no `compatible_surface`), then requests a device + queue with the\ndownlevel default limits (the broadest-compatibility profile, so software\nadapters like Lavapipe/WARP also qualify). The blocking wait on wgpu's async\nrequests is done with a tiny in-crate executor (`block_on`) so this crate\npulls in no async-runtime dependency.\n\nReturns `Some(GpuContext)` when a headless compute device is available, or\n`None` when the caller must fall back to the CPU path\n([`crate::transform::Affine3::transform_points`]). `None` is a normal,\nexpected outcome on headless CI and the Android emulator — it is **not** an\nerror."]
 #[pyfunction(name = "probe")]
 pub fn fn_outram_blender__gpu__probe() -> Option<Py_outram_blender__gpu__GpuContext> { ::outram_blender::gpu::probe().map(|e| Py_outram_blender__gpu__GpuContext { inner: e }) }
 
+    // @item fn:outram_blender::gpu::transform_vertices_gpu
+#[doc = "Apply `affine` to every position on the GPU, panicking on failure — the\nstrict convenience wrapper over [`try_transform_vertices_gpu`].\n\nUse this only when a GPU failure should abort (e.g. a benchmark that must run\non the GPU, or a test that has already confirmed an adapter via [`probe`]).\nFor normal use prefer [`Affine3::transform_points_best_effort`], which never\npanics and falls back to the CPU. **Results are `f32` precision.**\n\n# Panics\n\nPanics if [`try_transform_vertices_gpu`] returns a [`GpuError`]."]
+#[pyfunction(name = "transform_vertices_gpu")]
+pub fn fn_outram_blender__gpu__transform_vertices_gpu(ctx: PyRef<'_, Py_outram_blender__gpu__GpuContext>, affine: Py_outram_blender__transform__Affine3, positions: Vec<Py_outram_blender__math__Vec3>) -> Vec<Py_outram_blender__math__Vec3> { ::outram_blender::gpu::transform_vertices_gpu(&ctx.inner, affine.inner, &positions.into_iter().map(|e| e.inner).collect::<Vec<_>>()).into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>() }
+
+    // @item fn:outram_blender::gpu::try_transform_vertices_gpu
+#[doc = "Apply `affine` to every position in `positions` on the GPU, returning the\ntransformed positions in the same order — the **fallible** entry point.\n\nThis is the demonstrator GPU kernel. It uploads the positions as an `f32`\nstorage buffer, dispatches `AFFINE_TRANSFORM_WGSL` one invocation per\nvertex, and reads the result back. **Results are `f32` precision** — the\ncaller must treat them as an acceleration of, and approximation to,\n[`Affine3::transform_points`] (the trusted `f64` CPU reference), not as a\nbit-exact match.\n\nAn empty `positions` slice returns an empty `Vec` without touching the GPU.\n\n# Errors\n\nReturns [`GpuError`] if the submitted work cannot be completed (device lost\nduring the readback poll, or buffer-map failure). This is **recoverable**:\nthe caller should fall back to [`Affine3::transform_points`] — which\n[`Affine3::transform_points_best_effort`] does automatically. The \"no adapter\nat all\" case is handled earlier by [`crate::gpu::probe`] returning `None`, not here."]
+#[pyfunction(name = "try_transform_vertices_gpu")]
+pub fn fn_outram_blender__gpu__try_transform_vertices_gpu(ctx: PyRef<'_, Py_outram_blender__gpu__GpuContext>, affine: Py_outram_blender__transform__Affine3, positions: Vec<Py_outram_blender__math__Vec3>) -> PyResult<Vec<Py_outram_blender__math__Vec3>> { err(::outram_blender::gpu::try_transform_vertices_gpu(&ctx.inner, affine.inner, &positions.into_iter().map(|e| e.inner).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>()) }
+
     // @item fn:outram_blender::inset::inset_faces
 #[doc = "Inset every face of `mesh` by `amount`, returning the new mesh.\n\n`amount` is the fraction each corner moves **toward its face centroid**:\n`0.0` leaves the face unchanged (a no-op), `0.5` halves the face, and values\napproaching `1.0` collapse the inner face onto the centroid. Values `<= 0`\nare treated as a no-op; values `>= 1` are clamped just below `1` to avoid a\ndegenerate zero-area inner face.\n\nEach face becomes `1 + k` faces (one inner `k`-gon plus `k` ring quads) and\ngains `k` new inner vertices. This is infallible.\n\n# Examples\n\n```\nuse outram_blender::{primitives, inset::inset_faces};\n\n// Inset every face of a cube by 30%: 6 faces → 6 inner quads + 24 ring\n// quads = 30 faces, still a closed genus-0 surface (χ = 2).\nlet cube = primitives::cube(2.0);\nlet inset = inset_faces(&cube, 0.3);\nassert_eq!(inset.face_count(), 30);\nassert_eq!(inset.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "inset_faces")]
-pub fn fn_outram_blender__inset__inset_faces(mesh: Py_outram_blender__mesh__Mesh, amount: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::inset::inset_faces(&mesh.inner, amount) } }
+pub fn fn_outram_blender__inset__inset_faces(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, amount: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::inset::inset_faces(&mesh.inner, amount) } }
 
     // @item fn:outram_blender::knife::knife
 #[doc = "Apply `chords` to `mesh`. Chords are grouped by face; within a face they are\napplied in the given order. A chord whose endpoints resolve to the same\npoint, or whose face is not found, is skipped."]
 #[pyfunction(name = "knife")]
-pub fn fn_outram_blender__knife__knife(mesh: Py_outram_blender__mesh__Mesh, chords: Vec<Py_outram_blender__knife__Chord>) -> Py_outram_blender__knife__KnifeResult { Py_outram_blender__knife__KnifeResult { inner: ::outram_blender::knife::knife(&mesh.inner, &chords.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__knife__knife(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, chords: Vec<Py_outram_blender__knife__Chord>) -> Py_outram_blender__knife__KnifeResult { Py_outram_blender__knife__KnifeResult { inner: ::outram_blender::knife::knife(&mesh.inner, &chords.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::laplacian::boundary_vertices
 #[doc = "Flag each vertex that lies on the mesh **boundary** — incident to an edge\nused by only one triangle (an open border, e.g. a [`crate::primitives::grid`]\npatch). Returns a `bool` per vertex in [`crate::mesh::VertexId`] order.\n\nBoundary vertices are the ones a smoothing operator pins in place so the\nsurface does not shrink at its border. For a closed mesh (every edge shared\nby two triangles) this is all `false`."]
 #[pyfunction(name = "boundary_vertices")]
-pub fn fn_outram_blender__laplacian__boundary_vertices(mesh: Py_outram_blender__mesh__Mesh) -> Vec<bool> { ::outram_blender::laplacian::boundary_vertices(&mesh.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
+pub fn fn_outram_blender__laplacian__boundary_vertices(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Vec<bool> { ::outram_blender::laplacian::boundary_vertices(&mesh.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::laplacian::laplacian_smooth
 #[doc = "**Implicit Laplacian smoothing** (mesh fairing): relax vertex positions by\nsolving `(I + λL) x' = x` once per iteration, with boundary vertices pinned.\n\n# What it computes\n\nImplicit (backward-Euler) smoothing of the surface by the discrete Laplacian\n`L` ([`laplacian_triplets`], under `weighting`). Each iteration solves the\nsparse SPD system `(I + λL) x' = x` — unconditionally stable for any `lambda`\n(unlike explicit `x' = x - λL x`, which diverges for `λ` too large). With the\n[`LaplacianWeighting::Cotangent`] weighting this approximates mean-curvature\nflow (it denoises toward a smooth surface and gently shrinks); the\n[`LaplacianWeighting::Uniform`] weighting smooths by connectivity only.\n\n**Boundary vertices are pinned** (held fixed; see [`boundary_vertices`]) so an\nopen patch does not shrink at its border. The system is solved on the free\n(interior) vertices only, as a symmetric-positive-definite reduced system\n(pinned neighbours move to the right-hand side), factorized with `faer`'s\nsparse Cholesky. For a closed mesh every vertex is free.\n\nThe cotangent weights are **recomputed from the current positions each\niteration**, so the flow tracks the evolving geometry.\n\n# Inputs / unit"]
 #[pyfunction(name = "laplacian_smooth")]
-pub fn fn_outram_blender__laplacian__laplacian_smooth(mesh: Py_outram_blender__mesh__Mesh, weighting: Py_outram_blender__laplacian__LaplacianWeighting, lambda_: f64, iterations: u32) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::laplacian::laplacian_smooth(&mesh.inner, weighting.inner, lambda_, iterations)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+pub fn fn_outram_blender__laplacian__laplacian_smooth(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, weighting: Py_outram_blender__laplacian__LaplacianWeighting, lambda_: f64, iterations: u32) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::laplacian::laplacian_smooth(&mesh.inner, weighting.inner, lambda_, iterations)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
 
     // @item fn:outram_blender::laplacian::laplacian_triplets
 #[doc = "Assemble the discrete Laplacian `L` of `mesh` under `weighting`, as\n`(n, triplets)` — the vertex count and a list of `(row, col, value)` entries\n(COO / triplet form) suitable for building a sparse matrix.\n\n`L` is symmetric with zero row sums (see the module docs). Diagonal entries\nare summed into one triplet per vertex; off-diagonals are one `(i, j)` and\none `(j, i)` per edge. Vertices with no incident edge (isolated) contribute\nno entries (an all-zero row).\n\nThe triplet order is unspecified (it comes from a hash map); the assembled\nmatrix is independent of that order. This is the input a sparse-matrix\nbuilder ([`crate::faer`]) consumes; it is also directly testable by\nmaterializing a small dense matrix (see this module's tests)."]
 #[pyfunction(name = "laplacian_triplets")]
-pub fn fn_outram_blender__laplacian__laplacian_triplets(mesh: Py_outram_blender__mesh__Mesh, weighting: Py_outram_blender__laplacian__LaplacianWeighting) -> (usize, Vec<(usize, usize, f64)>) { { let (e0, e1) = ::outram_blender::laplacian::laplacian_triplets(&mesh.inner, weighting.inner); (e0, e1.into_iter().map(|e| { let (e0, e1, e2) = e; (e0, e1, e2) }).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__laplacian__laplacian_triplets(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, weighting: Py_outram_blender__laplacian__LaplacianWeighting) -> (usize, Vec<(usize, usize, f64)>) { { let (e0, e1) = ::outram_blender::laplacian::laplacian_triplets(&mesh.inner, weighting.inner); (e0, e1.into_iter().map(|e| { let (e0, e1, e2) = e; (e0, e1, e2) }).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::laplacian::taubin_smooth
 #[doc = "**Taubin `λ|μ` smoothing** — explicit, shrinkage-free mesh denoising.\n\n# What it computes\n\nTaubin's two-pass low-pass filter (Taubin, *A Signal Processing Approach to\nFair Surface Design*, 1995). Each iteration applies two **explicit**\nnormalized-Laplacian passes with opposite-sign factors:\n\n- a **shrinking** pass `x ← x + λ Δx` (`λ > 0`), then\n- an **un-shrinking** pass `x ← x + μ Δx` (`μ < 0`, with `|μ| > λ`),\n\nwhere `Δx_i = (Σ_j w_ij (x_j − x_i)) / (Σ_j w_ij)` is the *normalized*\ndiscrete Laplacian (a move toward the weighted one-ring average). Choosing\n`μ` slightly more negative than `−λ` gives a filter that removes\nhigh-frequency noise while (unlike plain [`laplacian_smooth`]) **not**\nshrinking the surface — the low frequencies that carry the overall shape pass\nthrough almost unchanged. Boundary vertices are pinned.\n\nUnlike [`laplacian_smooth`] this needs **no linear solve** (it is an explicit\nfilter), so it is cheaper per step but only conditionally stable — keep `λ`\nin `(0, 1)` and `μ ∈ (−1, −λ)`.\n\n# Inputs / units\n\n- `mesh` — source mesh (borrowed; topology preserved, positions change).\n- `weighting` — [`LaplacianWeighting::Uniform`] (robust; `Σw = degree > 0`)\n  or `Cotang"]
 #[pyfunction(name = "taubin_smooth")]
-pub fn fn_outram_blender__laplacian__taubin_smooth(mesh: Py_outram_blender__mesh__Mesh, weighting: Py_outram_blender__laplacian__LaplacianWeighting, lambda_: f64, mu: f64, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::laplacian::taubin_smooth(&mesh.inner, weighting.inner, lambda_, mu, iterations) } }
+pub fn fn_outram_blender__laplacian__taubin_smooth(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, weighting: Py_outram_blender__laplacian__LaplacianWeighting, lambda_: f64, mu: f64, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::laplacian::taubin_smooth(&mesh.inner, weighting.inner, lambda_, mu, iterations) } }
 
     // @item fn:outram_blender::loop_cut::loop_cut
 #[doc = "Insert `cuts` edge loops across the ring of `seed`. `cuts == 0` returns a\nclone with no new loops. `factor` is clamped to `[-1, 1]`."]
 #[pyfunction(name = "loop_cut")]
-pub fn fn_outram_blender__loop_cut__loop_cut(mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId, cuts: usize, factor: f64) -> Py_outram_blender__loop_cut__LoopCutResult { Py_outram_blender__loop_cut__LoopCutResult { inner: ::outram_blender::loop_cut::loop_cut(&mesh.inner, seed.inner, cuts, factor) } }
+pub fn fn_outram_blender__loop_cut__loop_cut(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId, cuts: usize, factor: f64) -> Py_outram_blender__loop_cut__LoopCutResult { Py_outram_blender__loop_cut__LoopCutResult { inner: ::outram_blender::loop_cut::loop_cut(&mesh.inner, seed.inner, cuts, factor) } }
 
     // @item fn:outram_blender::loop_subdivision::loop_subdivide
 #[doc = "Apply `iterations` steps of **Loop subdivision** to `mesh`, returning the\nrefined triangle mesh.\n\nEach step quadruples the triangle count and smooths toward the Loop limit\nsurface; `iterations = 0` fan-triangulates and returns (a no-op-shaped\nclone). Topology (Euler characteristic, boundary loops) is preserved. Input\nfaces are triangulated first, so the output is always a triangle mesh."]
 #[pyfunction(name = "loop_subdivide")]
-pub fn fn_outram_blender__loop_subdivision__loop_subdivide(mesh: Py_outram_blender__mesh__Mesh, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_subdivision::loop_subdivide(&mesh.inner, iterations) } }
+pub fn fn_outram_blender__loop_subdivision__loop_subdivide(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_subdivision::loop_subdivide(&mesh.inner, iterations) } }
 
     // @item fn:outram_blender::loop_tools::bridge
 #[doc = "Bridge two equal-length ordered loops with a quad strip."]
 #[pyfunction(name = "bridge")]
-pub fn fn_outram_blender__loop_tools__bridge(mesh: Py_outram_blender__mesh__Mesh, loop_a: Vec<Py_outram_blender__mesh__VertexId>, loop_b: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::bridge(&mesh.inner, &loop_a.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &loop_b.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
+pub fn fn_outram_blender__loop_tools__bridge(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_a: Vec<Py_outram_blender__mesh__VertexId>, loop_b: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::bridge(&mesh.inner, &loop_a.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &loop_b.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
 
     // @item fn:outram_blender::loop_tools::circle
 #[doc = "Snap the loop to the best-fit circle in its best-fit plane: same centroid,\nradius = mean vertex distance, vertices placed at even angular spacing\nstarting from the first vertex's current angle."]
 #[pyfunction(name = "circle")]
-pub fn fn_outram_blender__loop_tools__circle(mesh: Py_outram_blender__mesh__Mesh, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, _cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::circle(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), _cyclic) } }
+pub fn fn_outram_blender__loop_tools__circle(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, _cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::circle(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), _cyclic) } }
 
     // @item fn:outram_blender::loop_tools::curve
 #[doc = "Pull the loop toward a smooth Catmull–Rom spline through every `keep`-th\nvertex (the \"anchors\"), by `factor`. `keep >= 2`."]
 #[pyfunction(name = "curve")]
-pub fn fn_outram_blender__loop_tools__curve(mesh: Py_outram_blender__mesh__Mesh, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool, keep: usize, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::curve(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic, keep, factor) } }
+pub fn fn_outram_blender__loop_tools__curve(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool, keep: usize, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::curve(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic, keep, factor) } }
 
     // @item fn:outram_blender::loop_tools::flatten
 #[doc = "Project the loop's vertices onto their best-fit plane."]
 #[pyfunction(name = "flatten")]
-pub fn fn_outram_blender__loop_tools__flatten(mesh: Py_outram_blender__mesh__Mesh, loop_verts: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::flatten(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__loop_tools__flatten(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_verts: Vec<Py_outram_blender__mesh__VertexId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::flatten(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::loop_tools::gstretch
 #[doc = "Redistribute the loop's vertices to equal arc-length spacing along an\nexternal `stroke` polyline (the \"GStretch\" grease-pencil behaviour)."]
 #[pyfunction(name = "gstretch")]
-pub fn fn_outram_blender__loop_tools__gstretch(mesh: Py_outram_blender__mesh__Mesh, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, stroke: Vec<Py_outram_blender__math__Vec3>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::gstretch(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &stroke.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
+pub fn fn_outram_blender__loop_tools__gstretch(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, stroke: Vec<Py_outram_blender__math__Vec3>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::gstretch(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &stroke.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
 
     // @item fn:outram_blender::loop_tools::relax
 #[doc = "Laplacian smoothing along the loop: each vertex moves a `factor` fraction\ntoward the midpoint of its two loop neighbours, `iterations` times."]
 #[pyfunction(name = "relax")]
-pub fn fn_outram_blender__loop_tools__relax(mesh: Py_outram_blender__mesh__Mesh, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool, iterations: usize, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::relax(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic, iterations, factor) } }
+pub fn fn_outram_blender__loop_tools__relax(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool, iterations: usize, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::relax(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic, iterations, factor) } }
 
     // @item fn:outram_blender::loop_tools::space
 #[doc = "Redistribute the loop's vertices to equal arc-length spacing along the\npolyline through their current positions (endpoints of an open loop stay\nput)."]
 #[pyfunction(name = "space")]
-pub fn fn_outram_blender__loop_tools__space(mesh: Py_outram_blender__mesh__Mesh, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::space(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
+pub fn fn_outram_blender__loop_tools__space(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::space(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
 
     // @item fn:outram_blender::loop_tools::subdivide
 #[doc = "Split each edge of the loop at its midpoint, subdividing the faces those\nedges bound. A face that gains exactly two midpoints is cut in two along\nthe chord between them; a face gaining one keeps it as an extra boundary\nvertex."]
 #[pyfunction(name = "subdivide")]
-pub fn fn_outram_blender__loop_tools__subdivide(mesh: Py_outram_blender__mesh__Mesh, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::subdivide(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
+pub fn fn_outram_blender__loop_tools__subdivide(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, loop_verts: Vec<Py_outram_blender__mesh__VertexId>, cyclic: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::loop_tools::subdivide(&mesh.inner, &loop_verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cyclic) } }
 
     // @item fn:outram_blender::measure::bounding_box
 #[doc = "Axis-aligned bounding box `(min, max)`."]
 #[pyfunction(name = "bounding_box")]
-pub fn fn_outram_blender__measure__bounding_box(mesh: Py_outram_blender__mesh__Mesh) -> (Py_outram_blender__math__Vec3, Py_outram_blender__math__Vec3) { { let (e0, e1) = ::outram_blender::measure::bounding_box(&mesh.inner); (Py_outram_blender__math__Vec3 { inner: e0 }, Py_outram_blender__math__Vec3 { inner: e1 }) } }
+pub fn fn_outram_blender__measure__bounding_box(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> (Py_outram_blender__math__Vec3, Py_outram_blender__math__Vec3) { { let (e0, e1) = ::outram_blender::measure::bounding_box(&mesh.inner); (Py_outram_blender__math__Vec3 { inner: e0 }, Py_outram_blender__math__Vec3 { inner: e1 }) } }
 
     // @item fn:outram_blender::measure::corner_angle
 #[doc = "Interior angle of face `f` at corner `v`, in radians."]
 #[pyfunction(name = "corner_angle")]
-pub fn fn_outram_blender__measure__corner_angle(mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId, v: Py_outram_blender__mesh__VertexId) -> Option<f64> { ::outram_blender::measure::corner_angle(&mesh.inner, f.inner, v.inner).map(|e| e) }
+pub fn fn_outram_blender__measure__corner_angle(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId, v: Py_outram_blender__mesh__VertexId) -> Option<f64> { ::outram_blender::measure::corner_angle(&mesh.inner, f.inner, v.inner).map(|e| e) }
 
     // @item fn:outram_blender::measure::dihedral_angle
 #[doc = "Angle between the two faces on an edge, in radians (`0` = flat, `π` =\nfolded flat back). `None` if the edge does not have exactly two faces."]
 #[pyfunction(name = "dihedral_angle")]
-pub fn fn_outram_blender__measure__dihedral_angle(mesh: Py_outram_blender__mesh__Mesh, e: Py_outram_blender__mesh__EdgeId) -> Option<f64> { ::outram_blender::measure::dihedral_angle(&mesh.inner, e.inner).map(|e| e) }
+pub fn fn_outram_blender__measure__dihedral_angle(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, e: Py_outram_blender__mesh__EdgeId) -> Option<f64> { ::outram_blender::measure::dihedral_angle(&mesh.inner, e.inner).map(|e| e) }
 
     // @item fn:outram_blender::measure::dimensions
 #[doc = "The model's dimensions (bounding-box extent) — Blender's N-panel *Dimensions*."]
 #[pyfunction(name = "dimensions")]
-pub fn fn_outram_blender__measure__dimensions(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::measure::dimensions(&mesh.inner) } }
+pub fn fn_outram_blender__measure__dimensions(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::measure::dimensions(&mesh.inner) } }
 
     // @item fn:outram_blender::measure::distortion
 #[doc = "Distortion: how far face `f` deviates from planar, as the maximum angle\n(radians) between its per-triangle normals over a fan triangulation. `0` for\na triangle or a perfectly planar polygon."]
 #[pyfunction(name = "distortion")]
-pub fn fn_outram_blender__measure__distortion(mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId) -> f64 { ::outram_blender::measure::distortion(&mesh.inner, f.inner) }
+pub fn fn_outram_blender__measure__distortion(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId) -> f64 { ::outram_blender::measure::distortion(&mesh.inner, f.inner) }
 
     // @item fn:outram_blender::measure::edge_length
 #[doc = "Length of an edge (`0.0` if out of range)."]
 #[pyfunction(name = "edge_length")]
-pub fn fn_outram_blender__measure__edge_length(mesh: Py_outram_blender__mesh__Mesh, e: Py_outram_blender__mesh__EdgeId) -> f64 { ::outram_blender::measure::edge_length(&mesh.inner, e.inner) }
+pub fn fn_outram_blender__measure__edge_length(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, e: Py_outram_blender__mesh__EdgeId) -> f64 { ::outram_blender::measure::edge_length(&mesh.inner, e.inner) }
 
     // @item fn:outram_blender::measure::face_area
 #[doc = "Area of a face by Newell's method (robust for non-planar / concave faces)."]
 #[pyfunction(name = "face_area")]
-pub fn fn_outram_blender__measure__face_area(mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId) -> f64 { ::outram_blender::measure::face_area(&mesh.inner, f.inner) }
+pub fn fn_outram_blender__measure__face_area(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId) -> f64 { ::outram_blender::measure::face_area(&mesh.inner, f.inner) }
 
     // @item fn:outram_blender::measure::face_perimeter
 #[doc = "Perimeter of a face (sum of its edge lengths)."]
 #[pyfunction(name = "face_perimeter")]
-pub fn fn_outram_blender__measure__face_perimeter(mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId) -> f64 { ::outram_blender::measure::face_perimeter(&mesh.inner, f.inner) }
+pub fn fn_outram_blender__measure__face_perimeter(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId) -> f64 { ::outram_blender::measure::face_perimeter(&mesh.inner, f.inner) }
 
     // @item fn:outram_blender::measure::overhang
 #[doc = "Overhang: the angle of face `f`'s normal from `up`, in radians. `0` = the\nface points straight up; `π` = straight down. Used to flag unsupported\noverhangs for additive manufacturing."]
 #[pyfunction(name = "overhang")]
-pub fn fn_outram_blender__measure__overhang(mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId, up: Py_outram_blender__math__Vec3) -> f64 { ::outram_blender::measure::overhang(&mesh.inner, f.inner, up.inner) }
+pub fn fn_outram_blender__measure__overhang(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId, up: Py_outram_blender__math__Vec3) -> f64 { ::outram_blender::measure::overhang(&mesh.inner, f.inner, up.inner) }
 
     // @item fn:outram_blender::measure::self_intersections
 #[doc = "Pairs of faces whose triangulations intersect. `O(F²)` broad phase on\nbounding boxes then a triangle-triangle test — fine for interactive meshes,\nnot a spatial-hash implementation."]
 #[pyfunction(name = "self_intersections")]
-pub fn fn_outram_blender__measure__self_intersections(mesh: Py_outram_blender__mesh__Mesh) -> Vec<(Py_outram_blender__mesh__FaceId, Py_outram_blender__mesh__FaceId)> { ::outram_blender::measure::self_intersections(&mesh.inner).into_iter().map(|e| { let (e0, e1) = e; (Py_outram_blender__mesh__FaceId { inner: e0 }, Py_outram_blender__mesh__FaceId { inner: e1 }) }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__measure__self_intersections(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Vec<(Py_outram_blender__mesh__FaceId, Py_outram_blender__mesh__FaceId)> { ::outram_blender::measure::self_intersections(&mesh.inner).into_iter().map(|e| { let (e0, e1) = e; (Py_outram_blender__mesh__FaceId { inner: e0 }, Py_outram_blender__mesh__FaceId { inner: e1 }) }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::measure::sharp_edges
 #[doc = "Every edge whose dihedral angle exceeds `angle` radians — Blender's Mesh\nAnalysis \"sharp\" and the seed set for Mark Sharp."]
 #[pyfunction(name = "sharp_edges")]
-pub fn fn_outram_blender__measure__sharp_edges(mesh: Py_outram_blender__mesh__Mesh, angle: f64) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::measure::sharp_edges(&mesh.inner, angle).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__measure__sharp_edges(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, angle: f64) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::measure::sharp_edges(&mesh.inner, angle).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::measure::signed_volume
 #[doc = "Signed volume of the mesh via the divergence theorem (`Σ (a · (b × c)) / 6`\nover a fan triangulation of each face). Meaningful for a **closed**,\nconsistently-wound surface; positive for outward-facing winding."]
 #[pyfunction(name = "signed_volume")]
-pub fn fn_outram_blender__measure__signed_volume(mesh: Py_outram_blender__mesh__Mesh) -> f64 { ::outram_blender::measure::signed_volume(&mesh.inner) }
+pub fn fn_outram_blender__measure__signed_volume(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> f64 { ::outram_blender::measure::signed_volume(&mesh.inner) }
 
     // @item fn:outram_blender::measure::thickness
 #[doc = "Local wall thickness at face `f`: cast a ray from its centroid along `-normal`\nand return the distance to the first other face it hits, or `None`."]
 #[pyfunction(name = "thickness")]
-pub fn fn_outram_blender__measure__thickness(mesh: Py_outram_blender__mesh__Mesh, f: Py_outram_blender__mesh__FaceId) -> Option<f64> { ::outram_blender::measure::thickness(&mesh.inner, f.inner).map(|e| e) }
+pub fn fn_outram_blender__measure__thickness(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, f: Py_outram_blender__mesh__FaceId) -> Option<f64> { ::outram_blender::measure::thickness(&mesh.inner, f.inner).map(|e| e) }
 
     // @item fn:outram_blender::measure::total_edge_length
 #[doc = "Sum of all edge lengths."]
 #[pyfunction(name = "total_edge_length")]
-pub fn fn_outram_blender__measure__total_edge_length(mesh: Py_outram_blender__mesh__Mesh) -> f64 { ::outram_blender::measure::total_edge_length(&mesh.inner) }
+pub fn fn_outram_blender__measure__total_edge_length(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> f64 { ::outram_blender::measure::total_edge_length(&mesh.inner) }
 
     // @item fn:outram_blender::measure::total_surface_area
 #[doc = "Sum of all face areas."]
 #[pyfunction(name = "total_surface_area")]
-pub fn fn_outram_blender__measure__total_surface_area(mesh: Py_outram_blender__mesh__Mesh) -> f64 { ::outram_blender::measure::total_surface_area(&mesh.inner) }
+pub fn fn_outram_blender__measure__total_surface_area(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> f64 { ::outram_blender::measure::total_surface_area(&mesh.inner) }
 
     // @item fn:outram_blender::merge::merge_by_distance
 #[doc = "Merge vertices *within* `verts` that lie within `threshold` of each other,\nkeeping the lowest id of each cluster. The subset form of\n[`crate::weld::weld`]."]
 #[pyfunction(name = "merge_by_distance")]
-pub fn fn_outram_blender__merge__merge_by_distance(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, threshold: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::merge::merge_by_distance(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), threshold) } }
+pub fn fn_outram_blender__merge__merge_by_distance(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, threshold: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::merge::merge_by_distance(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), threshold) } }
 
     // @item fn:outram_blender::merge::merge_edges
 #[doc = "Collapse each edge in `edges` to its midpoint, independently (Blender's\n*Merge ▸ Collapse*). Chained edges collapse toward a shared vertex."]
 #[pyfunction(name = "merge_edges")]
-pub fn fn_outram_blender__merge__merge_edges(mesh: Py_outram_blender__mesh__Mesh, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::merge::merge_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__merge__merge_edges(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::merge::merge_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::merge::merge_vertices
 #[doc = "Collapse `verts` into a single vertex placed per `target`. Faces that become\ndegenerate (fewer than three distinct corners) are dropped. Returns the\nrebuilt mesh."]
 #[pyfunction(name = "merge_vertices")]
-pub fn fn_outram_blender__merge__merge_vertices(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, target: Py_outram_blender__merge__MergeTarget) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::merge::merge_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), target.inner) } }
+pub fn fn_outram_blender__merge__merge_vertices(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, target: Py_outram_blender__merge__MergeTarget) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::merge::merge_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), target.inner) } }
 
     // @item fn:outram_blender::normals::flip_faces
 #[doc = "Reverse the winding (hence normal) of the faces in `faces` (empty = all)."]
 #[pyfunction(name = "flip_faces")]
-pub fn fn_outram_blender__normals__flip_faces(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::normals::flip_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__normals__flip_faces(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::normals::flip_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::normals::harden_normals
 #[doc = "Harden normals: start from [`split_normals_by_angle`], then force every\ncorner of a face in `faces` to that face's flat normal (so the selection\nreads as a crisp, faceted region regardless of its neighbours). Blender's\n*Harden Normals*."]
 #[pyfunction(name = "harden_normals")]
-pub fn fn_outram_blender__normals__harden_normals(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>, angle: f64) -> Py_outram_blender__normals__SplitNormals { Py_outram_blender__normals__SplitNormals { inner: ::outram_blender::normals::harden_normals(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), angle) } }
+pub fn fn_outram_blender__normals__harden_normals(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>, angle: f64) -> Py_outram_blender__normals__SplitNormals { Py_outram_blender__normals__SplitNormals { inner: ::outram_blender::normals::harden_normals(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), angle) } }
 
     // @item fn:outram_blender::normals::point_normals_to_target
 #[doc = "Per-vertex normals aimed at `target` (`invert` flips them to aim away).\nBlender's *Point to Target*."]
 #[pyfunction(name = "point_normals_to_target")]
-pub fn fn_outram_blender__normals__point_normals_to_target(mesh: Py_outram_blender__mesh__Mesh, target: Py_outram_blender__math__Vec3, invert: bool) -> Vec<Py_outram_blender__math__Vec3> { ::outram_blender::normals::point_normals_to_target(&mesh.inner, target.inner, invert).into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__normals__point_normals_to_target(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, target: Py_outram_blender__math__Vec3, invert: bool) -> Vec<Py_outram_blender__math__Vec3> { ::outram_blender::normals::point_normals_to_target(&mesh.inner, target.inner, invert).into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::normals::recalculate
 #[doc = "Make the whole mesh's winding consistent and point it `outside` (or inside)."]
 #[pyfunction(name = "recalculate")]
-pub fn fn_outram_blender__normals__recalculate(mesh: Py_outram_blender__mesh__Mesh, outside: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::normals::recalculate(&mesh.inner, outside) } }
+pub fn fn_outram_blender__normals__recalculate(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, outside: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::normals::recalculate(&mesh.inner, outside) } }
 
     // @item fn:outram_blender::normals::split_normals_by_angle
 #[doc = "Auto-smooth split normals: a corner's normal is the average of the incident\nface normals whose angle to this face's normal is `<= angle` radians; a\nsteeper neighbour is excluded (a hard edge). `angle = 0` gives flat shading,\n`angle = π` gives fully smooth."]
 #[pyfunction(name = "split_normals_by_angle")]
-pub fn fn_outram_blender__normals__split_normals_by_angle(mesh: Py_outram_blender__mesh__Mesh, angle: f64) -> Py_outram_blender__normals__SplitNormals { Py_outram_blender__normals__SplitNormals { inner: ::outram_blender::normals::split_normals_by_angle(&mesh.inner, angle) } }
+pub fn fn_outram_blender__normals__split_normals_by_angle(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, angle: f64) -> Py_outram_blender__normals__SplitNormals { Py_outram_blender__normals__SplitNormals { inner: ::outram_blender::normals::split_normals_by_angle(&mesh.inner, angle) } }
 
     // @item fn:outram_blender::normals::vertex_normals
 #[doc = "Per-vertex normals for `mesh`, one entry per [`VertexId`], weighted per\n`weight`. A vertex on no face gets [`Vec3::ZERO`]."]
 #[pyfunction(name = "vertex_normals")]
-pub fn fn_outram_blender__normals__vertex_normals(mesh: Py_outram_blender__mesh__Mesh, weight: Py_outram_blender__normals__NormalWeight) -> Vec<Py_outram_blender__math__Vec3> { ::outram_blender::normals::vertex_normals(&mesh.inner, weight.inner).into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__normals__vertex_normals(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, weight: Py_outram_blender__normals__NormalWeight) -> Vec<Py_outram_blender__math__Vec3> { ::outram_blender::normals::vertex_normals(&mesh.inner, weight.inner).into_iter().map(|e| Py_outram_blender__math__Vec3 { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::object_ops::align
 #[doc = "Translate each object along `axis` so its world bounding box lines up per\n`mode` with the group's average reference coordinate. Returns new objects\n(translation-only change)."]
@@ -4648,7 +4658,7 @@ pub fn fn_outram_blender__object_ops__join(objects: Vec<Py_outram_blender__objec
     // @item fn:outram_blender::object_ops::separate_loose_parts
 #[doc = "Split `object`'s mesh into connected components (by shared vertices), each\nreturned as a new object with the **same** transform as the original\n(Separate → By Loose Parts)."]
 #[pyfunction(name = "separate_loose_parts")]
-pub fn fn_outram_blender__object_ops__separate_loose_parts(object: Py_outram_blender__object_ops__SceneObject) -> Vec<Py_outram_blender__object_ops__SceneObject> { ::outram_blender::object_ops::separate_loose_parts(&object.inner).into_iter().map(|e| Py_outram_blender__object_ops__SceneObject { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__object_ops__separate_loose_parts(object: PyRef<'_, Py_outram_blender__object_ops__SceneObject>) -> Vec<Py_outram_blender__object_ops__SceneObject> { ::outram_blender::object_ops::separate_loose_parts(&object.inner).into_iter().map(|e| Py_outram_blender__object_ops__SceneObject { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::object_ops::snap_objects
 #[doc = "Apply a Snap-menu target to every object (translation only)."]
@@ -4658,37 +4668,37 @@ pub fn fn_outram_blender__object_ops__snap_objects(objects: Vec<Py_outram_blende
     // @item fn:outram_blender::ops::bevel_vertices
 #[doc = "Vertex bevel / truncation — cut off every vertex, replacing it with a face.\n\n# What it computes\n\nThis is the vertex-only bevel (a single chamfer per vertex, the polyhedral\n*truncation* operation). For each vertex `V` and each incident edge `e`, one\n**edge-point** is placed at\n`V + w_e * normalize(other_end(e) - V)`, where `w_e = min(width, L_e / 2)`\nclamps the offset so the two edge-points on an edge of length `L_e` never\npass its midpoint. That edge-point is shared by the two faces on `e`.\n\nThe result mesh contains **only** the edge-points (every original vertex is\ncut away):\n\n- **Truncated faces.** Each original `n`-gon becomes a `2n`-gon: every\n  corner `V` is replaced, in winding order, by its two edge-points — the one\n  on the edge entering `V` then the one on the edge leaving `V`.\n- **Vertex faces.** Each original vertex contributes one new face joining its\n  edge-points in angular order around `V` (the order is read off the fan of\n  faces around `V`), wound so its normal points outward.\n\n# Counts (verification)\n\nTruncating a cube (`V=8, E=12, F=6`) gives the **truncated cube**:\n`V=24` (two edge-points per edge), `E=36`, `F=14` (6 octagons + 8 triangles),\n`chi=2`. This is ass"]
 #[pyfunction(name = "bevel_vertices")]
-pub fn fn_outram_blender__ops__bevel_vertices(mesh: Py_outram_blender__mesh__Mesh, width: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::bevel_vertices(&mesh.inner, width) } }
+pub fn fn_outram_blender__ops__bevel_vertices(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, width: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::bevel_vertices(&mesh.inner, width) } }
 
     // @item fn:outram_blender::ops::bevel_vertices_rounded
 #[doc = "Rounded (multi-segment) vertex bevel — truncate every vertex and replace the\nflat chamfer with a **spherical cap** of `segments` bands.\n\n# What it computes\n\nThe truncation (edge-points, widened faces) is identical to\n[`bevel_vertices`]; only the per-vertex cap differs. For `segments <= 1` this\n*is* [`bevel_vertices`] (one flat face per vertex). For `segments >= 2`, each\nvertex `V`'s edge-point ring is domed into a spherical cap on the sphere\ncentred at `V` of radius `~width`:\n\n- the ring of edge-points is **band 0** (shared with the truncated faces, so\n  the result stays watertight);\n- `segments - 1` **intermediate rings** are inserted by spherical-linear\n  interpolation (`slerp`) of each edge-point's direction toward the cap\n  **apex** `V + R * n`, where `n` is the outward vertex normal (sum of\n  incident face normals) and `R` the mean edge-point distance; the radius is\n  interpolated linearly so band 0 stays exactly on the (possibly\n  per-edge-clamped) edge-points;\n- the cap closes with a triangle fan to the apex.\n\nThe corner therefore becomes a smooth convex spherical cap of radius `~width`\nabout the original vertex — a *rounded* bevel. This is a mesh-authoring\nrounding (a spher"]
 #[pyfunction(name = "bevel_vertices_rounded")]
-pub fn fn_outram_blender__ops__bevel_vertices_rounded(mesh: Py_outram_blender__mesh__Mesh, width: f64, segments: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::bevel_vertices_rounded(&mesh.inner, width, segments) } }
+pub fn fn_outram_blender__ops__bevel_vertices_rounded(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, width: f64, segments: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::bevel_vertices_rounded(&mesh.inner, width, segments) } }
 
     // @item fn:outram_blender::ops::extrude_edges
 #[doc = "Extrude a set of edges: build one quad off each edge and its offset copy.\n\nFor each [`EdgeId`] in `edges`, the two endpoints are duplicated (shared\nacross edges that touch the same vertex) and translated by `offset`, then a\nquad `[a, b, b', a']` is added spanning the original edge `a–b` and its moved\ncopy `a'–b'`. The original faces are kept; the new quads are appended. This\nis the secondary, deliberately simple edge-extrude — it does not attempt to\nreason about which side the wall should face.\n\n# Inputs / units\n\n- `mesh` — source mesh (borrowed, unmodified).\n- `edges` — [`EdgeId`]s to extrude; out-of-range ids are ignored.\n- `offset` — model-space translation of the copies (dimensionless model\n  units)."]
 #[pyfunction(name = "extrude_edges")]
-pub fn fn_outram_blender__ops__extrude_edges(mesh: Py_outram_blender__mesh__Mesh, edges: Vec<Py_outram_blender__mesh__EdgeId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::extrude_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
+pub fn fn_outram_blender__ops__extrude_edges(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edges: Vec<Py_outram_blender__mesh__EdgeId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::extrude_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
 
     // @item fn:outram_blender::ops::extrude_faces
 #[doc = "Extrude a set of faces: duplicate their vertices, offset the duplicates, cap\nthe region with the moved copies, and wall the boundary edges.\n\n# What it computes\n\nFor the selected region (the faces named in `faces`, given as [`FaceId`]s):\n\n1. **Cap.** Every vertex used by a selected face is duplicated and the copy\n   is translated by `offset`. The selected faces are removed and replaced by\n   \"cap\" faces on the moved copies, preserving winding.\n2. **Side walls.** Each *boundary edge* of the region — an edge used by\n   exactly one selected face — gets a side quad `[a, b, b', a']` connecting\n   the old edge `a→b` (in that face's winding) to its moved copy `a'→b'`.\n   The winding is chosen so the wall's outward normal points away from the\n   region interior. Interior edges (shared by two selected faces) get no\n   wall.\n3. **Rest of the mesh.** Vertices and faces not in the selection are kept\n   unchanged.\n\nA single-quad selection therefore becomes a \"cup\": 4 side walls + 1 cap,\nwith the original quad's footprint left open.\n\n# Inputs / units\n\n- `mesh` — the source mesh (borrowed, unmodified).\n- `faces` — the [`FaceId`]s to extrude; out-of-range ids are ignored.\n- `offset` — model-space t"]
 #[pyfunction(name = "extrude_faces")]
-pub fn fn_outram_blender__ops__extrude_faces(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::extrude_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
+pub fn fn_outram_blender__ops__extrude_faces(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>, offset: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::extrude_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset.inner) } }
 
     // @item fn:outram_blender::ops::subdivide
 #[doc = "Simple midpoint subdivision — split every face into quads, no smoothing.\n\n# What it computes\n\nThis is **topological** subdivision (Blender's Subdivide with smoothness 0),\ndistinct from Catmull-Clark ([`crate::subdivision::catmull_clark`] /\n[`crate::modifiers::Modifier::Subsurf`]): new points are placed by plain\nlinear interpolation and existing vertices are **not** moved, so the surface\nkeeps its exact shape while gaining resolution.\n\nEach iteration, for every `n`-gon face:\n\n- add the midpoint of each of its edges (deduplicated across faces by a\n  canonical key on the sorted endpoint-index pair, so a shared edge yields a\n  single shared midpoint), and\n- add the face centroid (the vertex mean),\n\nthen replace the face with `n` quads, one per corner `v[i]`, wound\n`[centroid, midpoint(edge into v[i]), v[i], midpoint(edge out of v[i])]` —\nwhich preserves the original winding.\n\n# Counts per iteration\n\nFor a closed genus-0 mesh with `V, E, F`, one pass yields\n`V' = V + E + F`, `F' = sum of face side-counts` (`4F` when all faces are\nquads), and `chi = 2` is preserved. E.g. a cube (`V=8, E=12, F=6`) becomes\n`V=26, F=24, chi=2` after one pass.\n\n# Inputs\n\n- `mesh` — source mesh (borrowed, unm"]
 #[pyfunction(name = "subdivide")]
-pub fn fn_outram_blender__ops__subdivide(mesh: Py_outram_blender__mesh__Mesh, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::subdivide(&mesh.inner, iterations) } }
+pub fn fn_outram_blender__ops__subdivide(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::ops::subdivide(&mesh.inner, iterations) } }
 
     // @item fn:outram_blender::parameterize::flatten_to_plane
 #[doc = "Flatten `mesh` into the `z = 0` plane using its [`parameterize`] UVs: a new\nmesh with the same faces but positions `(u, v, 0)`. Convenience wrapper when\na 2D *mesh* (rather than a UV list) is wanted."]
 #[pyfunction(name = "flatten_to_plane")]
-pub fn fn_outram_blender__parameterize__flatten_to_plane(mesh: Py_outram_blender__mesh__Mesh, weighting: Py_outram_blender__laplacian__LaplacianWeighting, boundary: Py_outram_blender__parameterize__BoundaryShape) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::parameterize::flatten_to_plane(&mesh.inner, weighting.inner, boundary.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
+pub fn fn_outram_blender__parameterize__flatten_to_plane(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, weighting: Py_outram_blender__laplacian__LaplacianWeighting, boundary: Py_outram_blender__parameterize__BoundaryShape) -> PyResult<Py_outram_blender__mesh__Mesh> { err(::outram_blender::parameterize::flatten_to_plane(&mesh.inner, weighting.inner, boundary.inner)).map(|v| Py_outram_blender__mesh__Mesh { inner: v }) }
 
     // @item fn:outram_blender::parameterize::parameterize
 #[doc = "Parameterize `mesh` (a topological disk) to 2D, returning one `(u, v)` per\nvertex in [`crate::mesh::VertexId`] order (`result[i]` is the UV of vertex\n`i`).\n\nBoundary vertices land exactly on the [`BoundaryShape`] (by arc length);\ninterior vertices are the harmonic solution under `weighting` (see the module\ndocs). Use [`LaplacianWeighting::Uniform`] for a guaranteed flip-free (Tutte)\nembedding, or [`LaplacianWeighting::Cotangent`] for lower angle distortion on\na well-shaped mesh.\n\n# Errors\n\nSee [`ParamError`] — the mesh must be a single-boundary genus-0 disk."]
 #[pyfunction(name = "parameterize")]
-pub fn fn_outram_blender__parameterize__parameterize(mesh: Py_outram_blender__mesh__Mesh, weighting: Py_outram_blender__laplacian__LaplacianWeighting, boundary: Py_outram_blender__parameterize__BoundaryShape) -> PyResult<Vec<(f64, f64)>> { err(::outram_blender::parameterize::parameterize(&mesh.inner, weighting.inner, boundary.inner)).map(|v| v.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>()) }
+pub fn fn_outram_blender__parameterize__parameterize(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, weighting: Py_outram_blender__laplacian__LaplacianWeighting, boundary: Py_outram_blender__parameterize__BoundaryShape) -> PyResult<Vec<(f64, f64)>> { err(::outram_blender::parameterize::parameterize(&mesh.inner, weighting.inner, boundary.inner)).map(|v| v.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>()) }
 
     // @item fn:outram_blender::pdt::angle_between
 #[doc = "The angle `∠(a, vertex, b)` in radians, in `[0, π]`."]
@@ -4708,12 +4718,12 @@ pub fn fn_outram_blender__pdt__line_line_intersection(a0: Py_outram_blender__mat
     // @item fn:outram_blender::pdt::mirror_point
 #[doc = "Reflect a point across a [`WorkPlane`]."]
 #[pyfunction(name = "mirror_point")]
-pub fn fn_outram_blender__pdt__mirror_point(p: Py_outram_blender__math__Vec3, plane: Py_outram_blender__draw_tool__WorkPlane) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::pdt::mirror_point(p.inner, &plane.inner) } }
+pub fn fn_outram_blender__pdt__mirror_point(p: Py_outram_blender__math__Vec3, plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::pdt::mirror_point(p.inner, &plane.inner) } }
 
     // @item fn:outram_blender::pdt::mirror_vertices
 #[doc = "Reflect the given `verts` of `mesh` across `plane`, returning a new mesh\n(topology unchanged; other vertices untouched)."]
 #[pyfunction(name = "mirror_vertices")]
-pub fn fn_outram_blender__pdt__mirror_vertices(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, plane: Py_outram_blender__draw_tool__WorkPlane) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::pdt::mirror_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &plane.inner) } }
+pub fn fn_outram_blender__pdt__mirror_vertices(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, plane: PyRef<'_, Py_outram_blender__draw_tool__WorkPlane>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::pdt::mirror_vertices(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &plane.inner) } }
 
     // @item fn:outram_blender::pdt::offset_polyline
 #[doc = "Parallel-offset a polyline by `distance` along the in-plane normal\n(`plane_normal x segment_direction`), averaging the two adjacent segment\nnormals at each interior vertex. `cyclic` wraps the ends."]
@@ -4723,7 +4733,7 @@ pub fn fn_outram_blender__pdt__offset_polyline(pts: Vec<Py_outram_blender__math_
     // @item fn:outram_blender::pdt::place_vertex
 #[doc = "Add a vertex at `placement`'s point to `mesh`, returning the new mesh and\nthe id."]
 #[pyfunction(name = "place_vertex")]
-pub fn fn_outram_blender__pdt__place_vertex(mesh: Py_outram_blender__mesh__Mesh, placement: Py_outram_blender__pdt__Placement) -> (Py_outram_blender__mesh__Mesh, Py_outram_blender__mesh__VertexId) { { let (e0, e1) = ::outram_blender::pdt::place_vertex(&mesh.inner, &placement.inner); (Py_outram_blender__mesh__Mesh { inner: e0 }, Py_outram_blender__mesh__VertexId { inner: e1 }) } }
+pub fn fn_outram_blender__pdt__place_vertex(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, placement: PyRef<'_, Py_outram_blender__pdt__Placement>) -> (Py_outram_blender__mesh__Mesh, Py_outram_blender__mesh__VertexId) { { let (e0, e1) = ::outram_blender::pdt::place_vertex(&mesh.inner, &placement.inner); (Py_outram_blender__mesh__Mesh { inner: e0 }, Py_outram_blender__mesh__VertexId { inner: e1 }) } }
 
     // @item fn:outram_blender::pdt::taper
 #[doc = "Taper `points` along `axis` (unit): each point's component perpendicular to\n`axis`, measured from `pivot`, is scaled by `1 + rate * along`, where\n`along` is its signed distance from `pivot` along `axis`."]
@@ -4743,17 +4753,17 @@ pub fn fn_outram_blender__pdt__three_point_circle(p0: Py_outram_blender__math__V
     // @item fn:outram_blender::poke_quads::poke_faces
 #[doc = "Poke every face into a centroid fan. The centre vertex is\n`centroid + normal · offset`."]
 #[pyfunction(name = "poke_faces")]
-pub fn fn_outram_blender__poke_quads__poke_faces(mesh: Py_outram_blender__mesh__Mesh, offset: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::poke_quads::poke_faces(&mesh.inner, offset) } }
+pub fn fn_outram_blender__poke_quads__poke_faces(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, offset: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::poke_quads::poke_faces(&mesh.inner, offset) } }
 
     // @item fn:outram_blender::poke_quads::triangulate_quads
 #[doc = "Triangulate every quad by `method`; n-gons are centroid-fanned; triangles\nare kept."]
 #[pyfunction(name = "triangulate_quads")]
-pub fn fn_outram_blender__poke_quads__triangulate_quads(mesh: Py_outram_blender__mesh__Mesh, method: Py_outram_blender__poke_quads__QuadMethod) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::poke_quads::triangulate_quads(&mesh.inner, method.inner) } }
+pub fn fn_outram_blender__poke_quads__triangulate_quads(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, method: Py_outram_blender__poke_quads__QuadMethod) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::poke_quads::triangulate_quads(&mesh.inner, method.inner) } }
 
     // @item fn:outram_blender::poke_quads::tris_to_quads
 #[doc = "Greedily merge adjacent triangle pairs into quads. A pair is merged when the\nshared edge's two opposite vertices form a convex quad whose four corner\nangles are all within `max_angle` (radians) of 90°, and the two triangle\nnormals agree."]
 #[pyfunction(name = "tris_to_quads")]
-pub fn fn_outram_blender__poke_quads__tris_to_quads(mesh: Py_outram_blender__mesh__Mesh, max_angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::poke_quads::tris_to_quads(&mesh.inner, max_angle) } }
+pub fn fn_outram_blender__poke_quads__tris_to_quads(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, max_angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::poke_quads::tris_to_quads(&mesh.inner, max_angle) } }
 
     // @item fn:outram_blender::primitives::cube
 #[doc = "An axis-aligned cube of side `size`, centred on the origin.\n\nTopology: **8** vertices, **12** edges, **6** quad faces, `chi = 2`. Faces\nare wound counter-clockwise as seen from outside, so face normals point\noutward. `size` is the full edge length (a `size` of `1.0` spans `-0.5..0.5`\non each axis)."]
@@ -4803,32 +4813,32 @@ pub fn fn_outram_blender__primitives_extra__torus(major_segments: usize, minor_s
     // @item fn:outram_blender::proportional::proportional_move
 #[doc = "Apply the explicit displacements in `grabbed` and spread them to nearby\nvertices per `falloff` within `radius`. `connected_only` measures distance\nalong mesh edges (Dijkstra); otherwise straight-line. `seed` is used only\nby [`Falloff::Random`]."]
 #[pyfunction(name = "proportional_move")]
-pub fn fn_outram_blender__proportional__proportional_move(mesh: Py_outram_blender__mesh__Mesh, grabbed: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__math__Vec3)>, radius: f64, falloff: Py_outram_blender__proportional__Falloff, connected_only: bool, seed: u64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::proportional::proportional_move(&mesh.inner, &grabbed.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>(), radius, falloff.inner, connected_only, seed) } }
+pub fn fn_outram_blender__proportional__proportional_move(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, grabbed: Vec<(Py_outram_blender__mesh__VertexId, Py_outram_blender__math__Vec3)>, radius: f64, falloff: Py_outram_blender__proportional__Falloff, connected_only: bool, seed: u64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::proportional::proportional_move(&mesh.inner, &grabbed.into_iter().map(|e| { let (e0, e1) = e; (e0.inner, e1.inner) }).collect::<Vec<_>>(), radius, falloff.inner, connected_only, seed) } }
 
     // @item fn:outram_blender::reactor::htr10_core_envelope
 #[doc = "Author the HTR-10 pebble-bed core envelope as a closed, watertight,\noutward-wound surface [`Mesh`](crate::mesh::Mesh).\n\nThe envelope is a **surface of revolution** about the vertical (Z) axis with\nits base at `z = 0`:\n\n- **No conus** (`dims.conus == None`): a plain cylinder of radius\n  `cavity_radius` and height `cavity_height` — the cited volume-equivalent\n  cavity.\n- **With conus** (`dims.conus == Some(..)`): from the base up, a straight\n  discharge tube, then a conus frustum flaring out to `cavity_radius`, then\n  the straight cavity wall — an **illustrative** funnel-bottomed cavity.\n\n`segments` is the number of circumferential bands (`>= 3`); pass\n[`DEFAULT_SEGMENTS`] for a sensible default. The revolved side wall is capped\ntop and bottom by [`fill_holes`](crate::fill_holes::fill_holes) and its\nwinding is made outward by\n[`recalculate_normals`](crate::recalc_normals::recalculate_normals), so the\nresult satisfies the closed-2-manifold precondition of\n[`crate::foam_mesh::mesh_to_tet_dual`].\n\n# Examples\n\n```\nuse outram_blender::reactor::{htr10_core_envelope, Htr10CoreDimensions, DEFAULT_SEGMENTS};\n\nlet dims = Htr10CoreDimensions::iaea_benchmark();\nlet core = htr10_core_envelope(&di"]
 #[pyfunction(name = "htr10_core_envelope")]
-pub fn fn_outram_blender__reactor__htr10_core_envelope(dims: Py_outram_blender__reactor__Htr10CoreDimensions, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::reactor::htr10_core_envelope(&dims.inner, segments) } }
+pub fn fn_outram_blender__reactor__htr10_core_envelope(dims: PyRef<'_, Py_outram_blender__reactor__Htr10CoreDimensions>, segments: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::reactor::htr10_core_envelope(&dims.inner, segments) } }
 
     // @item fn:outram_blender::recalc_normals::recalculate_normals
 #[doc = "Return `mesh` with every face rewound so the surface is consistently wound\nand each connected component faces outward (positive enclosed volume).\n\nThis is infallible. An already-correct mesh is returned with the same\nwinding; an inconsistently-wound soup is repaired; a fully-inward mesh is\nflipped outward. Winding is the only thing changed — vertex positions and\nthe face-vertex sets are untouched.\n\n# Examples\n\n```\nuse outram_blender::{primitives, recalc_normals::recalculate_normals};\n\n// A pristine cube is already outward-wound, so this is a no-op on topology.\nlet cube = primitives::cube(2.0);\nlet fixed = recalculate_normals(&cube);\nassert_eq!(fixed.vertex_count(), 8);\nassert_eq!(fixed.face_count(), 6);\nassert_eq!(fixed.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "recalculate_normals")]
-pub fn fn_outram_blender__recalc_normals__recalculate_normals(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::recalc_normals::recalculate_normals(&mesh.inner) } }
+pub fn fn_outram_blender__recalc_normals__recalculate_normals(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::recalc_normals::recalculate_normals(&mesh.inner) } }
 
     // @item fn:outram_blender::remesh::mesh_to_volume
 #[doc = "Rasterise `mesh` (assumed closed and consistently wound) into a\n[`VoxelGrid`] of cell size `cell`. Adds one cell of padding on every side."]
 #[pyfunction(name = "mesh_to_volume")]
-pub fn fn_outram_blender__remesh__mesh_to_volume(mesh: Py_outram_blender__mesh__Mesh, cell: f64) -> Py_outram_blender__remesh__VoxelGrid { Py_outram_blender__remesh__VoxelGrid { inner: ::outram_blender::remesh::mesh_to_volume(&mesh.inner, cell) } }
+pub fn fn_outram_blender__remesh__mesh_to_volume(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, cell: f64) -> Py_outram_blender__remesh__VoxelGrid { Py_outram_blender__remesh__VoxelGrid { inner: ::outram_blender::remesh::mesh_to_volume(&mesh.inner, cell) } }
 
     // @item fn:outram_blender::remesh::volume_to_mesh
 #[doc = "Emit a watertight blocky surface: one outward-facing quad per occupied-cell\nface that borders an empty cell."]
 #[pyfunction(name = "volume_to_mesh")]
-pub fn fn_outram_blender__remesh__volume_to_mesh(grid: Py_outram_blender__remesh__VoxelGrid) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::remesh::volume_to_mesh(&grid.inner) } }
+pub fn fn_outram_blender__remesh__volume_to_mesh(grid: PyRef<'_, Py_outram_blender__remesh__VoxelGrid>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::remesh::volume_to_mesh(&grid.inner) } }
 
     // @item fn:outram_blender::remesh::voxel_remesh
 #[doc = "Voxel remesh: rasterise, re-surface, then `smooth_iters` Laplacian passes\n(`0` = the blocky result)."]
 #[pyfunction(name = "voxel_remesh")]
-pub fn fn_outram_blender__remesh__voxel_remesh(mesh: Py_outram_blender__mesh__Mesh, cell: f64, smooth_iters: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::remesh::voxel_remesh(&mesh.inner, cell, smooth_iters) } }
+pub fn fn_outram_blender__remesh__voxel_remesh(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, cell: f64, smooth_iters: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::remesh::voxel_remesh(&mesh.inner, cell, smooth_iters) } }
 
     // @item fn:outram_blender::revolve::revolve
 #[doc = "Sweep `profile` around the axis through `axis_point` along `axis_dir` by\n`angle` radians in `segments` steps, returning the surface of revolution.\n\n`segments` is the number of quad bands around the sweep (`>= 3` for a full\nrevolution, `>= 1` for a partial one); `profile` needs at least two points.\nAn `angle` of `2π` (or more) makes a closed loop; a smaller angle leaves the\nends open. `axis_dir` need not be unit length. This is infallible for valid\ninputs; a profile with fewer than two points or `segments == 0` yields an\nempty mesh.\n\n# Examples\n\n```\nuse outram_blender::{revolve::revolve, fill_holes::fill_holes, math::Vec3};\nuse std::f64::consts::TAU;\n\n// Revolve a vertical segment at radius 1 around Z into a 16-gon tube, then\n// cap it into a closed prism.\nlet profile = [Vec3::new(1.0, 0.0, -1.0), Vec3::new(1.0, 0.0, 1.0)];\nlet tube = revolve(&profile, Vec3::ZERO, Vec3::new(0.0, 0.0, 1.0), 16, TAU);\nassert_eq!(tube.face_count(), 16);\nassert_eq!(fill_holes(&tube).euler_characteristic(), 2);\n```"]
@@ -4838,62 +4848,62 @@ pub fn fn_outram_blender__revolve__revolve(profile: Vec<Py_outram_blender__math_
     // @item fn:outram_blender::rip_split::rip_edges
 #[doc = "Tear a slit along `edges`: each edge's vertices are duplicated and the faces\non **one** side of the edge (the second incident face, by id) get the\ncopies. An interior edge becomes an open slit; pair with\n[`crate::fill_holes`] for Rip Fill."]
 #[pyfunction(name = "rip_edges")]
-pub fn fn_outram_blender__rip_split__rip_edges(mesh: Py_outram_blender__mesh__Mesh, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::rip_split::rip_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__rip_split__rip_edges(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edges: Vec<Py_outram_blender__mesh__EdgeId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::rip_split::rip_edges(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::rip_split::separate_loose_parts
 #[doc = "Split `mesh` into one mesh per connected component (by shared edge)."]
 #[pyfunction(name = "separate_loose_parts")]
-pub fn fn_outram_blender__rip_split__separate_loose_parts(mesh: Py_outram_blender__mesh__Mesh) -> Vec<Py_outram_blender__mesh__Mesh> { ::outram_blender::rip_split::separate_loose_parts(&mesh.inner).into_iter().map(|e| Py_outram_blender__mesh__Mesh { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__rip_split__separate_loose_parts(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Vec<Py_outram_blender__mesh__Mesh> { ::outram_blender::rip_split::separate_loose_parts(&mesh.inner).into_iter().map(|e| Py_outram_blender__mesh__Mesh { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::rip_split::separate_selection
 #[doc = "Remove the selected faces from `mesh` and return `(remaining, separated)`.\nEach result is compacted to only its own vertices."]
 #[pyfunction(name = "separate_selection")]
-pub fn fn_outram_blender__rip_split__separate_selection(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>) -> (Py_outram_blender__mesh__Mesh, Py_outram_blender__mesh__Mesh) { { let (e0, e1) = ::outram_blender::rip_split::separate_selection(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()); (Py_outram_blender__mesh__Mesh { inner: e0 }, Py_outram_blender__mesh__Mesh { inner: e1 }) } }
+pub fn fn_outram_blender__rip_split__separate_selection(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> (Py_outram_blender__mesh__Mesh, Py_outram_blender__mesh__Mesh) { { let (e0, e1) = ::outram_blender::rip_split::separate_selection(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()); (Py_outram_blender__mesh__Mesh { inner: e0 }, Py_outram_blender__mesh__Mesh { inner: e1 }) } }
 
     // @item fn:outram_blender::rip_split::split_faces
 #[doc = "Disconnect the selected faces from the unselected ones: every vertex shared\nby both groups is duplicated so the two groups no longer share it. Returns\none mesh with two now-independent islands (positions unchanged)."]
 #[pyfunction(name = "split_faces")]
-pub fn fn_outram_blender__rip_split__split_faces(mesh: Py_outram_blender__mesh__Mesh, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::rip_split::split_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+pub fn fn_outram_blender__rip_split__split_faces(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, faces: Vec<Py_outram_blender__mesh__FaceId>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::rip_split::split_faces(&mesh.inner, &faces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_blender::slide::edge_slide
 #[doc = "Slide the vertices of the edge chain `edges` along their rails by `factor`\n(clamped to `[-1, 1]`). Returns a new mesh with the same topology and moved\npositions. `edges` should be edge-connected (a loop or an open run); a\ndisconnected set slides each component with its own side propagation."]
 #[pyfunction(name = "edge_slide")]
-pub fn fn_outram_blender__slide__edge_slide(mesh: Py_outram_blender__mesh__Mesh, edges: Vec<Py_outram_blender__mesh__EdgeId>, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::slide::edge_slide(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), factor) } }
+pub fn fn_outram_blender__slide__edge_slide(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, edges: Vec<Py_outram_blender__mesh__EdgeId>, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::slide::edge_slide(&mesh.inner, &edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(), factor) } }
 
     // @item fn:outram_blender::slide::vertex_slide
 #[doc = "Move `vert` a fraction `factor` (clamped to `[0, 1]`) of the way along\n`along_edge` toward its far end. Returns a new mesh; topology unchanged."]
 #[pyfunction(name = "vertex_slide")]
-pub fn fn_outram_blender__slide__vertex_slide(mesh: Py_outram_blender__mesh__Mesh, vert: Py_outram_blender__mesh__VertexId, along_edge: Py_outram_blender__mesh__EdgeId, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::slide::vertex_slide(&mesh.inner, vert.inner, along_edge.inner, factor) } }
+pub fn fn_outram_blender__slide__vertex_slide(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, vert: Py_outram_blender__mesh__VertexId, along_edge: Py_outram_blender__mesh__EdgeId, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::slide::vertex_slide(&mesh.inner, vert.inner, along_edge.inner, factor) } }
 
     // @item fn:outram_blender::snap::align_rotation_target
 #[doc = "The unit normal at a face snap (Blender's *Align Rotation to Target*), or\n`None` if the hit is not on a face."]
 #[pyfunction(name = "align_rotation_target")]
-pub fn fn_outram_blender__snap__align_rotation_target(mesh: Py_outram_blender__mesh__Mesh, hit: Py_outram_blender__snap__SnapHit) -> Option<Py_outram_blender__math__Vec3> { ::outram_blender::snap::align_rotation_target(&mesh.inner, &hit.inner).map(|e| Py_outram_blender__math__Vec3 { inner: e }) }
+pub fn fn_outram_blender__snap__align_rotation_target(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, hit: PyRef<'_, Py_outram_blender__snap__SnapHit>) -> Option<Py_outram_blender__math__Vec3> { ::outram_blender::snap::align_rotation_target(&mesh.inner, &hit.inner).map(|e| Py_outram_blender__math__Vec3 { inner: e }) }
 
     // @item fn:outram_blender::snap::snap_point
 #[doc = "The nearest snap target to `query`. `exclude` vertices (and any element\nusing only excluded vertices) are ignored — pass the moving selection to\ndisable snap-onto-self. Returns `None` if nothing is within `max_dist`\n(grid snaps always succeed)."]
 #[pyfunction(name = "snap_point")]
-pub fn fn_outram_blender__snap__snap_point(mesh: Py_outram_blender__mesh__Mesh, query: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64, exclude: Vec<Py_outram_blender__mesh__VertexId>) -> Option<Py_outram_blender__snap__SnapHit> { ::outram_blender::snap::snap_point(&mesh.inner, query.inner, target.inner, max_dist, &exclude.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| Py_outram_blender__snap__SnapHit { inner: e }) }
+pub fn fn_outram_blender__snap__snap_point(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, query: Py_outram_blender__math__Vec3, target: Py_outram_blender__snap__SnapTarget, max_dist: f64, exclude: Vec<Py_outram_blender__mesh__VertexId>) -> Option<Py_outram_blender__snap__SnapHit> { ::outram_blender::snap::snap_point(&mesh.inner, query.inner, target.inner, max_dist, &exclude.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| Py_outram_blender__snap__SnapHit { inner: e }) }
 
     // @item fn:outram_blender::snap::snap_translation
 #[doc = "The translation delta that snaps the [`SnapBase`] of `moving` (currently at\nits position `+ raw_delta`) onto the nearest [`SnapTarget`] of the static\ngeometry. Falls back to `raw_delta` when nothing is within `max_dist`."]
 #[pyfunction(name = "snap_translation")]
-pub fn fn_outram_blender__snap__snap_translation(mesh: Py_outram_blender__mesh__Mesh, moving: Vec<Py_outram_blender__mesh__VertexId>, raw_delta: Py_outram_blender__math__Vec3, base: Py_outram_blender__snap__SnapBase, target: Py_outram_blender__snap__SnapTarget, max_dist: f64) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::snap::snap_translation(&mesh.inner, &moving.into_iter().map(|e| e.inner).collect::<Vec<_>>(), raw_delta.inner, base.inner, target.inner, max_dist) } }
+pub fn fn_outram_blender__snap__snap_translation(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, moving: Vec<Py_outram_blender__mesh__VertexId>, raw_delta: Py_outram_blender__math__Vec3, base: Py_outram_blender__snap__SnapBase, target: Py_outram_blender__snap__SnapTarget, max_dist: f64) -> Py_outram_blender__math__Vec3 { Py_outram_blender__math__Vec3 { inner: ::outram_blender::snap::snap_translation(&mesh.inner, &moving.into_iter().map(|e| e.inner).collect::<Vec<_>>(), raw_delta.inner, base.inner, target.inner, max_dist) } }
 
     // @item fn:outram_blender::solidify::solidify
 #[doc = "Extrude `mesh` into a closed shell of the given `thickness`, returning the\nsolidified mesh.\n\n`thickness` is a length in mesh units; the inner shell is offset inward\n(against the outward vertex normals) by this amount. A `thickness` of `0`\nplaces the inner shell exactly on the outer one (a degenerate but valid\nmesh). Open boundaries are closed with rim quads; a closed input yields a\nhollow double shell.\n\nThis is infallible: the result is always a valid mesh.\n\n# Examples\n\n```\nuse outram_blender::{primitives, solidify::solidify};\n\n// A flat grid (open disk, chi = 1) solidifies into a closed slab (chi = 2).\nlet grid = primitives::grid(2, 2, 2.0);\nassert_eq!(grid.euler_characteristic(), 1);\nlet slab = solidify(&grid, 0.2);\nassert_eq!(slab.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "solidify")]
-pub fn fn_outram_blender__solidify__solidify(mesh: Py_outram_blender__mesh__Mesh, thickness: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::solidify::solidify(&mesh.inner, thickness) } }
+pub fn fn_outram_blender__solidify__solidify(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, thickness: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::solidify::solidify(&mesh.inner, thickness) } }
 
     // @item fn:outram_blender::spin_screw::screw
 #[doc = "[`spin`] with an axial translation: the profile advances `screw_offset`\nalong the axis over `turns` full revolutions in `steps` steps, tracing a\nhelix. Always bridged."]
 #[pyfunction(name = "screw")]
-pub fn fn_outram_blender__spin_screw__screw(mesh: Py_outram_blender__mesh__Mesh, profile: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, axis: Py_outram_blender__selection__Axis, screw_offset: f64, turns: f64, steps: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::spin_screw::screw(&mesh.inner, &profile.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, axis.inner, screw_offset, turns, steps) } }
+pub fn fn_outram_blender__spin_screw__screw(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, profile: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, axis: Py_outram_blender__selection__Axis, screw_offset: f64, turns: f64, steps: usize) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::spin_screw::screw(&mesh.inner, &profile.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, axis.inner, screw_offset, turns, steps) } }
 
     // @item fn:outram_blender::spin_screw::spin
 #[doc = "Rotate-copy `profile` (an ordered vertex chain) around the `axis` line\nthrough `center`, `steps` times over `angle` radians. When `!use_duplicates`\nthe consecutive copies are bridged into quads. Returns the mesh with the new\ngeometry appended."]
 #[pyfunction(name = "spin")]
-pub fn fn_outram_blender__spin_screw__spin(mesh: Py_outram_blender__mesh__Mesh, profile: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, axis: Py_outram_blender__selection__Axis, angle: f64, steps: usize, use_duplicates: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::spin_screw::spin(&mesh.inner, &profile.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, axis.inner, angle, steps, use_duplicates) } }
+pub fn fn_outram_blender__spin_screw__spin(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, profile: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, axis: Py_outram_blender__selection__Axis, angle: f64, steps: usize, use_duplicates: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::spin_screw::spin(&mesh.inner, &profile.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, axis.inner, angle, steps, use_duplicates) } }
 
     // @item fn:outram_blender::stl::from_stl_ascii
 #[doc = "Parse an **ASCII** STL string into a [`Mesh`] (an unwelded triangle soup).\n\nFacet normals in the file are ignored (recomputed on any re-export). The\nresult has one vertex per triangle corner; [`crate::weld::weld`] it to\nrecover shared-vertex topology.\n\n# Errors\n\n[`StlError::Parse`] if a `vertex` line lacks three parseable coordinates or\nthe vertex count is not a multiple of three."]
@@ -4918,82 +4928,82 @@ pub fn fn_outram_blender__stl__read_stl(path: String) -> PyResult<Py_outram_blen
     // @item fn:outram_blender::stl::to_stl_ascii
 #[doc = "Fan-triangulate `mesh` and return it as an **ASCII** STL string.\n\nEach triangle is written with an outward facet normal computed from its\ngeometry. Coordinates keep full `f64` precision (round-trippable). The solid\nis named `outram_blender`.\n\n# Examples\n\n```\nuse outram_blender::{primitives, stl::to_stl_ascii};\n\nlet stl = to_stl_ascii(&primitives::cube(2.0));\n// A cube's 6 quads fan-triangulate into 12 facets.\nassert_eq!(stl.matches(\"facet normal\").count(), 12);\n```"]
 #[pyfunction(name = "to_stl_ascii")]
-pub fn fn_outram_blender__stl__to_stl_ascii(mesh: Py_outram_blender__mesh__Mesh) -> String { ::outram_blender::stl::to_stl_ascii(&mesh.inner) }
+pub fn fn_outram_blender__stl__to_stl_ascii(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> String { ::outram_blender::stl::to_stl_ascii(&mesh.inner) }
 
     // @item fn:outram_blender::stl::to_stl_binary
 #[doc = "Fan-triangulate `mesh` and return it as a **binary** STL byte buffer.\n\nLayout: an 80-byte header, a little-endian `u32` triangle count, then 50\nbytes per triangle (facet normal + three vertices as `f32`, plus a `u16`\nattribute count of `0`). Coordinates are stored to `f32` precision."]
 #[pyfunction(name = "to_stl_binary")]
-pub fn fn_outram_blender__stl__to_stl_binary(mesh: Py_outram_blender__mesh__Mesh) -> Vec<u8> { ::outram_blender::stl::to_stl_binary(&mesh.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
+pub fn fn_outram_blender__stl__to_stl_binary(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Vec<u8> { ::outram_blender::stl::to_stl_binary(&mesh.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::subdivide::subdivide
 #[doc = "Subdivide every face of `mesh` per `opts`. `opts.cuts == 0` returns a clone."]
 #[pyfunction(name = "subdivide")]
-pub fn fn_outram_blender__subdivide__subdivide(mesh: Py_outram_blender__mesh__Mesh, opts: Py_outram_blender__subdivide__SubdivideOptions) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::subdivide::subdivide(&mesh.inner, opts.inner) } }
+pub fn fn_outram_blender__subdivide__subdivide(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, opts: Py_outram_blender__subdivide__SubdivideOptions) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::subdivide::subdivide(&mesh.inner, opts.inner) } }
 
     // @item fn:outram_blender::subdivide::un_subdivide
 #[doc = "Dissolve alternate rows/columns of a clean all-quad grid region, halving its\nresolution. A no-op where the topology is not a regular quad grid.\n\n`iterations` repeats the halving. Returns a new mesh."]
 #[pyfunction(name = "un_subdivide")]
-pub fn fn_outram_blender__subdivide__un_subdivide(mesh: Py_outram_blender__mesh__Mesh, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::subdivide::un_subdivide(&mesh.inner, iterations) } }
+pub fn fn_outram_blender__subdivide__un_subdivide(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, iterations: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::subdivide::un_subdivide(&mesh.inner, iterations) } }
 
     // @item fn:outram_blender::subdivision::catmull_clark
 #[doc = "Apply `levels` rounds of Catmull-Clark subdivision to `mesh`.\n\nReturns a new, denser, all-quad [`Mesh`] converging toward the Catmull-Clark\nlimit surface. Each level applies the face-point / edge-point / vertex-point\nstencils documented at the module level ([`crate::subdivision`]) once.\n\n- `levels == 0` returns a plain clone of the input (identical topology and\n  positions).\n- `levels == 1` on an `n`-gon mesh yields one all-quad mesh where every old\n  face has become `n` quads.\n\nAccepts any polygon mesh (tris, quads, or higher `n`-gons; closed or open\nwith a boundary). Boundary edges and vertices are treated with the crease\nstencils, so an open patch keeps its boundary shape and its Euler\ncharacteristic. The output is always an all-quad mesh."]
 #[pyfunction(name = "catmull_clark")]
-pub fn fn_outram_blender__subdivision__catmull_clark(mesh: Py_outram_blender__mesh__Mesh, levels: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::subdivision::catmull_clark(&mesh.inner, levels) } }
+pub fn fn_outram_blender__subdivision__catmull_clark(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, levels: u32) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::subdivision::catmull_clark(&mesh.inner, levels) } }
 
     // @item fn:outram_blender::symmetry::mirror_selection
 #[doc = "The mirror-image vertices of `verts` across the [`Axis`] plane, matched by\nposition within `tolerance`. Unmatched inputs are dropped."]
 #[pyfunction(name = "mirror_selection")]
-pub fn fn_outram_blender__symmetry__mirror_selection(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, axis: Py_outram_blender__selection__Axis, tolerance: f64) -> Vec<Py_outram_blender__mesh__VertexId> { ::outram_blender::symmetry::mirror_selection(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), axis.inner, tolerance).into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__symmetry__mirror_selection(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, axis: Py_outram_blender__selection__Axis, tolerance: f64) -> Vec<Py_outram_blender__mesh__VertexId> { ::outram_blender::symmetry::mirror_selection(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), axis.inner, tolerance).into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::symmetry::snap_to_symmetry
 #[doc = "Make `mesh` exactly symmetric about the [`Axis`] plane without changing\ntopology: each vertex moves to the average of its position and the\nposition of the vertex nearest its mirror image (within `match_threshold`).\nUnmatched vertices near the plane are snapped onto it."]
 #[pyfunction(name = "snap_to_symmetry")]
-pub fn fn_outram_blender__symmetry__snap_to_symmetry(mesh: Py_outram_blender__mesh__Mesh, axis: Py_outram_blender__selection__Axis, match_threshold: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::symmetry::snap_to_symmetry(&mesh.inner, axis.inner, match_threshold) } }
+pub fn fn_outram_blender__symmetry__snap_to_symmetry(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, axis: Py_outram_blender__selection__Axis, match_threshold: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::symmetry::snap_to_symmetry(&mesh.inner, axis.inner, match_threshold) } }
 
     // @item fn:outram_blender::symmetry::symmetrize
 #[doc = "Symmetrize `mesh` across the [`Axis`] plane through the origin. Keeps the\nside where `axis · p >= 0` when `keep_positive`, else the `<= 0` side;\nmirrors it onto the other side and welds vertices within `merge_threshold`\nof the plane (and of each other on the seam)."]
 #[pyfunction(name = "symmetrize")]
-pub fn fn_outram_blender__symmetry__symmetrize(mesh: Py_outram_blender__mesh__Mesh, axis: Py_outram_blender__selection__Axis, keep_positive: bool, merge_threshold: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::symmetry::symmetrize(&mesh.inner, axis.inner, keep_positive, merge_threshold) } }
+pub fn fn_outram_blender__symmetry__symmetrize(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, axis: Py_outram_blender__selection__Axis, keep_positive: bool, merge_threshold: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::symmetry::symmetrize(&mesh.inner, axis.inner, keep_positive, merge_threshold) } }
 
     // @item fn:outram_blender::text::text_to_contours
 #[doc = "The positioned, sized 2-D outlines for `text` — one contour list per glyph,\nalready offset along the baseline and scaled by `size`."]
 #[pyfunction(name = "text_to_contours")]
-pub fn fn_outram_blender__text__text_to_contours(text: String, font: Py_outram_blender__text__Font, size: f64, tracking: f64) -> Vec<Vec<Vec<f64>>> { ::outram_blender::text::text_to_contours(&text, &font.inner, size, tracking).into_iter().map(|e| e.into_iter().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>()).collect::<Vec<_>>() }
+pub fn fn_outram_blender__text__text_to_contours(text: String, font: PyRef<'_, Py_outram_blender__text__Font>, size: f64, tracking: f64) -> Vec<Vec<Vec<f64>>> { ::outram_blender::text::text_to_contours(&text, &font.inner, size, tracking).into_iter().map(|e| e.into_iter().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>()).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::text::text_to_mesh
 #[doc = "Build geometry for `text`: fill the outlines and, if `extrude > 0`, thicken\ninto a solid with (optional) beveled front/back edges."]
 #[pyfunction(name = "text_to_mesh")]
-pub fn fn_outram_blender__text__text_to_mesh(text: String, font: Py_outram_blender__text__Font, opts: Py_outram_blender__text__TextGeometry) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::text::text_to_mesh(&text, &font.inner, &opts.inner) } }
+pub fn fn_outram_blender__text__text_to_mesh(text: String, font: PyRef<'_, Py_outram_blender__text__Font>, opts: PyRef<'_, Py_outram_blender__text__TextGeometry>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::text::text_to_mesh(&text, &font.inner, &opts.inner) } }
 
     // @item fn:outram_blender::topology::boundary_loop
 #[doc = "The **boundary loop** containing `seed` — the ring of open (one-face) edges\naround a hole or the outer border. Empty if `seed` is not a boundary edge.\n(This is just [`edge_loop`] restricted to a boundary start, exposed\nseparately for intent.)"]
 #[pyfunction(name = "boundary_loop")]
-pub fn fn_outram_blender__topology__boundary_loop(topo: Py_outram_blender__topology__MeshTopology, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::boundary_loop(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__topology__boundary_loop(topo: PyRef<'_, Py_outram_blender__topology__MeshTopology>, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::boundary_loop(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::topology::edge_loop
 #[doc = "The full **edge loop** through `seed` — the chain of edges that runs\n\"straight\" across regular valence-4 vertices, or follows the mesh boundary\nwhen `seed` is a boundary edge. Blender's `Alt`-click edge select.\n\nThe result always contains `seed`; it is unordered. A closed loop (around a\ncylinder, say) terminates when the walk returns to `seed`; an open loop\nterminates at the first pole / non-manifold vertex on each side."]
 #[pyfunction(name = "edge_loop")]
-pub fn fn_outram_blender__topology__edge_loop(topo: Py_outram_blender__topology__MeshTopology, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::edge_loop(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__topology__edge_loop(topo: PyRef<'_, Py_outram_blender__topology__MeshTopology>, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::edge_loop(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::topology::edge_ring
 #[doc = "The full **edge ring** through `seed` — the edges \"parallel\" to `seed`, one\nper quad crossed as the walk steps to each quad's opposite edge. Blender's\n`Ctrl+Alt`-click edge select. Always contains `seed`; unordered."]
 #[pyfunction(name = "edge_ring")]
-pub fn fn_outram_blender__topology__edge_ring(topo: Py_outram_blender__topology__MeshTopology, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::edge_ring(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__topology__edge_ring(topo: PyRef<'_, Py_outram_blender__topology__MeshTopology>, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__EdgeId> { ::outram_blender::topology::edge_ring(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__EdgeId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::topology::face_loop
 #[doc = "The **face loop** perpendicular to `seed` — the strip of quads crossed by\nthe [`edge_ring`] walk (the faces, rather than their shared edges). Blender's\n`Alt`-click face select. Unordered; contains every face incident to `seed`."]
 #[pyfunction(name = "face_loop")]
-pub fn fn_outram_blender__topology__face_loop(topo: Py_outram_blender__topology__MeshTopology, mesh: Py_outram_blender__mesh__Mesh, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__FaceId> { ::outram_blender::topology::face_loop(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__FaceId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__topology__face_loop(topo: PyRef<'_, Py_outram_blender__topology__MeshTopology>, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, seed: Py_outram_blender__mesh__EdgeId) -> Vec<Py_outram_blender__mesh__FaceId> { ::outram_blender::topology::face_loop(&topo.inner, &mesh.inner, seed.inner).into_iter().map(|e| Py_outram_blender__mesh__FaceId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::topology::shortest_vertex_path
 #[doc = "A shortest **vertex path** from `from` to `to` along mesh edges, weighted by\nedge length (Dijkstra). Returns the ordered vertex chain including both\nends, or an empty `Vec` if they are not connected. Blender's `Ctrl`-click\n\"Select Shortest Path\" in vertex mode (geometry-distance flavour)."]
 #[pyfunction(name = "shortest_vertex_path")]
-pub fn fn_outram_blender__topology__shortest_vertex_path(topo: Py_outram_blender__topology__MeshTopology, mesh: Py_outram_blender__mesh__Mesh, from_: Py_outram_blender__mesh__VertexId, to: Py_outram_blender__mesh__VertexId) -> Vec<Py_outram_blender__mesh__VertexId> { ::outram_blender::topology::shortest_vertex_path(&topo.inner, &mesh.inner, from_.inner, to.inner).into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>() }
+pub fn fn_outram_blender__topology__shortest_vertex_path(topo: PyRef<'_, Py_outram_blender__topology__MeshTopology>, mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, from_: Py_outram_blender__mesh__VertexId, to: Py_outram_blender__mesh__VertexId) -> Vec<Py_outram_blender__mesh__VertexId> { ::outram_blender::topology::shortest_vertex_path(&topo.inner, &mesh.inner, from_.inner, to.inner).into_iter().map(|e| Py_outram_blender__mesh__VertexId { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:outram_blender::transform_input::apply_translation
 #[doc = "Move `verts` (empty = whole mesh) by `delta`. Positions only."]
 #[pyfunction(name = "apply_translation")]
-pub fn fn_outram_blender__transform_input__apply_translation(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, delta: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_input::apply_translation(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), delta.inner) } }
+pub fn fn_outram_blender__transform_input__apply_translation(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, delta: Py_outram_blender__math__Vec3) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_input::apply_translation(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), delta.inner) } }
 
     // @item fn:outram_blender::transform_input::eval_expr
 #[doc = "Evaluate a small arithmetic expression to `f64`. Supports `+ - * / ^`,\nparentheses, unary minus, and the constants `pi`, `tau`, `e`. Whitespace is\nignored. Returns `None` on any syntax error."]
@@ -5008,47 +5018,47 @@ pub fn fn_outram_blender__transform_input__resolve_translation(raw_delta: Py_out
     // @item fn:outram_blender::transform_ops::bend
 #[doc = "Bend the selection around an arc: a vertex at signed distance `t` along\n`along` from `center` is rotated by `angle · t / span` about the axis\n`axis`, where `span` is the selection's extent along `along`."]
 #[pyfunction(name = "bend")]
-pub fn fn_outram_blender__transform_ops__bend(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, along: Py_outram_blender__transform_ops__Axis, axis: Py_outram_blender__transform_ops__Axis, angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::bend(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, along.inner, axis.inner, angle) } }
+pub fn fn_outram_blender__transform_ops__bend(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, along: Py_outram_blender__transform_ops__Axis, axis: Py_outram_blender__transform_ops__Axis, angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::bend(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, along.inner, axis.inner, angle) } }
 
     // @item fn:outram_blender::transform_ops::push_pull
 #[doc = "Push (`distance < 0`) or pull (`distance > 0`) each vertex along the ray\nfrom `center`."]
 #[pyfunction(name = "push_pull")]
-pub fn fn_outram_blender__transform_ops__push_pull(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, distance: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::push_pull(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, distance) } }
+pub fn fn_outram_blender__transform_ops__push_pull(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, distance: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::push_pull(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, distance) } }
 
     // @item fn:outram_blender::transform_ops::randomize
 #[doc = "Deterministic per-vertex jitter of magnitude up to `amount`. `uniform`\ngives the same displacement magnitude to every vertex (only the direction\nvaries); otherwise the magnitude is random too."]
 #[pyfunction(name = "randomize")]
-pub fn fn_outram_blender__transform_ops__randomize(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, amount: f64, seed: u64, uniform: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::randomize(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), amount, seed, uniform) } }
+pub fn fn_outram_blender__transform_ops__randomize(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, amount: f64, seed: u64, uniform: bool) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::randomize(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), amount, seed, uniform) } }
 
     // @item fn:outram_blender::transform_ops::shear
 #[doc = "Shear: shift each vertex along `shear_axis` by `factor · coord(measure_axis)`."]
 #[pyfunction(name = "shear")]
-pub fn fn_outram_blender__transform_ops__shear(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, measure_axis: Py_outram_blender__transform_ops__Axis, shear_axis: Py_outram_blender__transform_ops__Axis, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::shear(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), measure_axis.inner, shear_axis.inner, factor) } }
+pub fn fn_outram_blender__transform_ops__shear(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, measure_axis: Py_outram_blender__transform_ops__Axis, shear_axis: Py_outram_blender__transform_ops__Axis, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::shear(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), measure_axis.inner, shear_axis.inner, factor) } }
 
     // @item fn:outram_blender::transform_ops::shrink_fatten
 #[doc = "Move each vertex `offset` along its averaged (incident-face) normal —\nBlender's Shrink/Fatten (offset along normals)."]
 #[pyfunction(name = "shrink_fatten")]
-pub fn fn_outram_blender__transform_ops__shrink_fatten(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, offset: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::shrink_fatten(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset) } }
+pub fn fn_outram_blender__transform_ops__shrink_fatten(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, offset: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::shrink_fatten(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), offset) } }
 
     // @item fn:outram_blender::transform_ops::to_sphere
 #[doc = "Blend the selection toward a sphere of `radius` about `center` by `factor`\n(`0` = unchanged, `1` = fully on the sphere)."]
 #[pyfunction(name = "to_sphere")]
-pub fn fn_outram_blender__transform_ops__to_sphere(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, radius: f64, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::to_sphere(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, radius, factor) } }
+pub fn fn_outram_blender__transform_ops__to_sphere(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, radius: f64, factor: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::to_sphere(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, radius, factor) } }
 
     // @item fn:outram_blender::transform_ops::warp
 #[doc = "Warp: bend the selection around `center` in the plane orthogonal to `axis`,\nmapping its `along` extent onto an arc of `angle`."]
 #[pyfunction(name = "warp")]
-pub fn fn_outram_blender__transform_ops__warp(mesh: Py_outram_blender__mesh__Mesh, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, along: Py_outram_blender__transform_ops__Axis, axis: Py_outram_blender__transform_ops__Axis, angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::warp(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, along.inner, axis.inner, angle) } }
+pub fn fn_outram_blender__transform_ops__warp(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, verts: Vec<Py_outram_blender__mesh__VertexId>, center: Py_outram_blender__math__Vec3, along: Py_outram_blender__transform_ops__Axis, axis: Py_outram_blender__transform_ops__Axis, angle: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::transform_ops::warp(&mesh.inner, &verts.into_iter().map(|e| e.inner).collect::<Vec<_>>(), center.inner, along.inner, axis.inner, angle) } }
 
     // @item fn:outram_blender::triangulate::triangulate
 #[doc = "Fan-triangulate every face of `mesh`, returning a triangle-only mesh.\n\nPositions are unchanged; only faces are re-cut. A face with fewer than three\ncorners is dropped (it is already degenerate); a triangle is passed through\nunchanged. This is infallible.\n\n# Examples\n\n```\nuse outram_blender::{primitives, triangulate::triangulate};\n\n// A cube's 6 quads fan-triangulate into 12 triangles; still χ = 2.\nlet cube = primitives::cube(2.0);\nlet tris = triangulate(&cube);\nassert_eq!(tris.face_count(), 12);\nassert_eq!(tris.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "triangulate")]
-pub fn fn_outram_blender__triangulate__triangulate(mesh: Py_outram_blender__mesh__Mesh) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::triangulate::triangulate(&mesh.inner) } }
+pub fn fn_outram_blender__triangulate__triangulate(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::triangulate::triangulate(&mesh.inner) } }
 
     // @item fn:outram_blender::weld::weld
 #[doc = "Merge vertices closer than `distance` into one, returning the welded mesh.\n\n`distance` is a Euclidean length in the mesh's coordinate units. A value of\n`0.0` (or negative) welds only bit-identical duplicate vertices, so it is a\nsafe no-op on a mesh that has none. Faces whose corners collapse to fewer\nthan three distinct vertices after welding are discarded; the winding order\nof every surviving face is preserved (only vertex identities are\nsubstituted).\n\nThis is infallible: the result is always a valid mesh (possibly with fewer\nvertices and faces than the input).\n\n# Examples\n\n```\nuse outram_blender::{primitives, weld::weld};\n\n// A pristine cube has no coincident vertices, so a zero-tolerance weld is a\n// no-op and even a generous tolerance below the edge length changes nothing.\nlet cube = primitives::cube(2.0);\nlet welded = weld(&cube, 0.1);\nassert_eq!(welded.vertex_count(), 8);\nassert_eq!(welded.face_count(), 6);\nassert_eq!(welded.euler_characteristic(), 2);\n```"]
 #[pyfunction(name = "weld")]
-pub fn fn_outram_blender__weld__weld(mesh: Py_outram_blender__mesh__Mesh, distance: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::weld::weld(&mesh.inner, distance) } }
+pub fn fn_outram_blender__weld__weld(mesh: PyRef<'_, Py_outram_blender__mesh__Mesh>, distance: f64) -> Py_outram_blender__mesh__Mesh { Py_outram_blender__mesh__Mesh { inner: ::outram_blender::weld::weld(&mesh.inner, distance) } }
 
     // @item const:outram_blender::reactor::DEFAULT_SEGMENTS
 pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
@@ -5266,6 +5276,8 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_blender__fill_helpers__f2_fill, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_blender__fill_holes__fill_holes, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_blender__gpu__probe, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_blender__gpu__transform_vertices_gpu, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_blender__gpu__try_transform_vertices_gpu, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_blender__inset__inset_faces, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_blender__knife__knife, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_blender__laplacian__boundary_vertices, m)?)?;

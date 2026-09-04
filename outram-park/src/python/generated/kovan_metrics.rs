@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:kovan_metrics::date::Date
 #[doc = "A proleptic-Gregorian calendar date: year, month (1-12), day (1-31).\n\nOrdering is chronological, so `from <= commit_date <= to` window tests are\njust comparisons."]
@@ -786,10 +786,10 @@ impl Py_kovan_metrics__trailer__TokenCounts {
     pub fn total(&self) -> u64 { ::kovan_metrics::trailer::TokenCounts::total(&self.inner) }
     // @item method:kovan_metrics::trailer::TokenCounts::add
     #[doc = "Component-wise sum."]
-    pub fn add(&mut self, other: Py_kovan_metrics__trailer__TokenCounts) -> () { ::kovan_metrics::trailer::TokenCounts::add(&mut self.inner, &other.inner) }
+    pub fn add(&mut self, other: PyRef<'_, Py_kovan_metrics__trailer__TokenCounts>) -> () { ::kovan_metrics::trailer::TokenCounts::add(&mut self.inner, &other.inner) }
     // @item method:kovan_metrics::trailer::TokenCounts::saturating_sub
     #[doc = "Component-wise `self - baseline`, clamped at zero.\n\nThe clamp matters: transcripts can be rotated or pruned between commits,\nwhich would otherwise yield a negative delta and a nonsense trailer."]
-    pub fn saturating_sub(&self, baseline: Py_kovan_metrics__trailer__TokenCounts) -> Py_kovan_metrics__trailer__TokenCounts { Py_kovan_metrics__trailer__TokenCounts { inner: ::kovan_metrics::trailer::TokenCounts::saturating_sub(&self.inner, &baseline.inner) } }
+    pub fn saturating_sub(&self, baseline: PyRef<'_, Py_kovan_metrics__trailer__TokenCounts>) -> Py_kovan_metrics__trailer__TokenCounts { Py_kovan_metrics__trailer__TokenCounts { inner: ::kovan_metrics::trailer::TokenCounts::saturating_sub(&self.inner, &baseline.inner) } }
     // @item ctor:kovan_metrics::trailer::TokenCounts
     #[new]
     #[pyo3(signature = (input=None, output=None, cache_read=None, cache_write=None))]
@@ -886,7 +886,7 @@ pub fn fn_kovan_metrics__baseline__path() -> String { ::kovan_metrics::baseline:
     // @item fn:kovan_metrics::baseline::save
 #[doc = "Write `counts` as the new baseline, recording `records` for diagnostics.\n\nErrors are swallowed: failing to advance the baseline must never abort a\ncommit. The next commit simply attributes a larger window."]
 #[pyfunction(name = "save")]
-pub fn fn_kovan_metrics__baseline__save(counts: Py_kovan_metrics__trailer__TokenCounts, records: u64) -> () { ::kovan_metrics::baseline::save(&counts.inner, records) }
+pub fn fn_kovan_metrics__baseline__save(counts: PyRef<'_, Py_kovan_metrics__trailer__TokenCounts>, records: u64) -> () { ::kovan_metrics::baseline::save(&counts.inner, records) }
 
     // @item fn:kovan_metrics::git::git_dir
 #[doc = "Absolute path to the `.git` directory (resolved against the repo root when\ngit reports it relatively, as it does from inside a hook)."]
@@ -941,12 +941,12 @@ pub fn fn_kovan_metrics__kloc__config__provenance_of(crate_name: String) -> Opti
     // @item fn:kovan_metrics::kloc::figure::productivity_svg
 #[doc = "Render the whole figure."]
 #[pyfunction(name = "productivity_svg")]
-pub fn fn_kovan_metrics__kloc__figure__productivity_svg(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: Py_kovan_metrics__kloc__BaselineTotals, agentic: Py_kovan_metrics__kloc__AgenticSummary) -> String { ::kovan_metrics::kloc::figure::productivity_svg(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner, &agentic.inner) }
+pub fn fn_kovan_metrics__kloc__figure__productivity_svg(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: PyRef<'_, Py_kovan_metrics__kloc__BaselineTotals>, agentic: PyRef<'_, Py_kovan_metrics__kloc__AgenticSummary>) -> String { ::kovan_metrics::kloc::figure::productivity_svg(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner, &agentic.inner) }
 
     // @item fn:kovan_metrics::kloc::find_repo
 #[doc = "Locate a checkout of `key`, or `None`.\n\nSearches `search_dirs` in order, then `vendor_dir`. With `github_only`, only\nthe vendor directory is consulted."]
 #[pyfunction(name = "find_repo")]
-pub fn fn_kovan_metrics__kloc__find_repo(options: Py_kovan_metrics__kloc__Options, key: String) -> Option<String> { ::kovan_metrics::kloc::find_repo(&options.inner, &key).map(|e| e.to_string_lossy().into_owned()) }
+pub fn fn_kovan_metrics__kloc__find_repo(options: PyRef<'_, Py_kovan_metrics__kloc__Options>, key: String) -> Option<String> { ::kovan_metrics::kloc::find_repo(&options.inner, &key).map(|e| e.to_string_lossy().into_owned()) }
 
     // @item fn:kovan_metrics::kloc::outputs::agentic_csv
 #[doc = "Render `agentic_crates.csv`."]
@@ -956,7 +956,7 @@ pub fn fn_kovan_metrics__kloc__outputs__agentic_csv(crate_rows: Vec<Py_kovan_met
     // @item fn:kovan_metrics::kloc::outputs::agentic_table_tex
 #[doc = "Render `agentic_table.tex` — `tab:agentic_crates`."]
 #[pyfunction(name = "agentic_table_tex")]
-pub fn fn_kovan_metrics__kloc__outputs__agentic_table_tex(crate_rows: Vec<Py_kovan_metrics__kloc__CrateStats>, agentic: Py_kovan_metrics__kloc__AgenticSummary) -> String { ::kovan_metrics::kloc::outputs::agentic_table_tex(&crate_rows.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &agentic.inner) }
+pub fn fn_kovan_metrics__kloc__outputs__agentic_table_tex(crate_rows: Vec<Py_kovan_metrics__kloc__CrateStats>, agentic: PyRef<'_, Py_kovan_metrics__kloc__AgenticSummary>) -> String { ::kovan_metrics::kloc::outputs::agentic_table_tex(&crate_rows.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &agentic.inner) }
 
     // @item fn:kovan_metrics::kloc::outputs::baseline_csv
 #[doc = "Render `baseline_repositories.csv`."]
@@ -966,12 +966,12 @@ pub fn fn_kovan_metrics__kloc__outputs__baseline_csv(base_stats: Vec<Py_kovan_me
     // @item fn:kovan_metrics::kloc::outputs::baseline_table_tex
 #[doc = "Render `baseline_table.tex` — `tab:preagentic_baseline`."]
 #[pyfunction(name = "baseline_table_tex")]
-pub fn fn_kovan_metrics__kloc__outputs__baseline_table_tex(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: Py_kovan_metrics__kloc__BaselineTotals) -> String { ::kovan_metrics::kloc::outputs::baseline_table_tex(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner) }
+pub fn fn_kovan_metrics__kloc__outputs__baseline_table_tex(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: PyRef<'_, Py_kovan_metrics__kloc__BaselineTotals>) -> String { ::kovan_metrics::kloc::outputs::baseline_table_tex(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner) }
 
     // @item fn:kovan_metrics::kloc::outputs::rate_table_tex
 #[doc = "Render `rate_table.tex` — the per-repository rate table, fastest first."]
 #[pyfunction(name = "rate_table_tex")]
-pub fn fn_kovan_metrics__kloc__outputs__rate_table_tex(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: Py_kovan_metrics__kloc__BaselineTotals, agentic: Py_kovan_metrics__kloc__AgenticSummary) -> String { ::kovan_metrics::kloc::outputs::rate_table_tex(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner, &agentic.inner) }
+pub fn fn_kovan_metrics__kloc__outputs__rate_table_tex(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: PyRef<'_, Py_kovan_metrics__kloc__BaselineTotals>, agentic: PyRef<'_, Py_kovan_metrics__kloc__AgenticSummary>) -> String { ::kovan_metrics::kloc::outputs::rate_table_tex(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner, &agentic.inner) }
 
     // @item fn:kovan_metrics::kloc::outputs::tex_month
 #[doc = "`2023-06-27` becomes `Jun 2023`; an empty date becomes `---`."]
@@ -1026,7 +1026,7 @@ pub fn fn_kovan_metrics__kloc__repo_url(key: String) -> String { ::kovan_metrics
     // @item fn:kovan_metrics::kloc::report
 #[doc = "Render the full report.\n\n`check` adds the drift comparison against the manuscript's published\nfigures."]
 #[pyfunction(name = "report")]
-pub fn fn_kovan_metrics__kloc__report(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: Py_kovan_metrics__kloc__BaselineTotals, crate_rows: Vec<Py_kovan_metrics__kloc__CrateStats>, agentic: Py_kovan_metrics__kloc__AgenticSummary, check: bool) -> String { ::kovan_metrics::kloc::report(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner, &crate_rows.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &agentic.inner, check) }
+pub fn fn_kovan_metrics__kloc__report(base_stats: Vec<Py_kovan_metrics__kloc__RepoStats>, base_totals: PyRef<'_, Py_kovan_metrics__kloc__BaselineTotals>, crate_rows: Vec<Py_kovan_metrics__kloc__CrateStats>, agentic: PyRef<'_, Py_kovan_metrics__kloc__AgenticSummary>, check: bool) -> String { ::kovan_metrics::kloc::report(&base_stats.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &base_totals.inner, &crate_rows.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &agentic.inner, check) }
 
     // @item fn:kovan_metrics::kloc::report::fmt
 #[doc = "Format an integer with comma thousands separators, matching Python's\n`f\"{n:,}\"`."]
@@ -1086,7 +1086,7 @@ pub fn fn_kovan_metrics__tokens__stamp_trailer(msgfile: String) -> () { ::kovan_
     // @item fn:kovan_metrics::trailer::format
 #[doc = "Render the two trailer lines appended to a commit message."]
 #[pyfunction(name = "format")]
-pub fn fn_kovan_metrics__trailer__format(delta: Py_kovan_metrics__trailer__TokenCounts, cumulative: Py_kovan_metrics__trailer__TokenCounts, source: String) -> String { ::kovan_metrics::trailer::format(&delta.inner, &cumulative.inner, &source) }
+pub fn fn_kovan_metrics__trailer__format(delta: PyRef<'_, Py_kovan_metrics__trailer__TokenCounts>, cumulative: PyRef<'_, Py_kovan_metrics__trailer__TokenCounts>, source: String) -> String { ::kovan_metrics::trailer::format(&delta.inner, &cumulative.inner, &source) }
 
     // @item fn:kovan_metrics::trailer::group
 #[doc = "Format an integer with thousands separators, e.g. `1234567` -> `1,234,567`."]

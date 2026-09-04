@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:kovan::advanced_git::BranchInfo
 #[doc = "One local branch."]
@@ -1883,7 +1883,7 @@ pub struct Py_kovan__digitiser__trace__CurveSelector { pub inner: ::kovan::digit
 impl Py_kovan__digitiser__trace__CurveSelector {
     // @item method:kovan::digitiser::trace::CurveSelector::matches
     #[doc = "Does the pixel at `(x, y)` count as curve ink under this selector?"]
-    pub fn matches(&self, raster: Py_kovan__digitiser__raster__PlotRaster, x: u32, y: u32) -> bool { ::kovan::digitiser::trace::CurveSelector::matches(&self.inner, &raster.inner, x, y) }
+    pub fn matches(&self, raster: PyRef<'_, Py_kovan__digitiser__raster__PlotRaster>, x: u32, y: u32) -> bool { ::kovan::digitiser::trace::CurveSelector::matches(&self.inner, &raster.inner, x, y) }
     // @item variant:kovan::digitiser::trace::CurveSelector::DarkestBand
     #[staticmethod]
     #[pyo3(name = "DarkestBand")]
@@ -2408,18 +2408,18 @@ impl Py_kovan__graph__KnowledgeGraph {
     // @item method:kovan::graph::KnowledgeGraph::rebuild
     #[doc = "Rebuild the whole graph from `root`'s tracked files, given an\nalready-scanned `index` (avoids a second directory walk — callers\nnormally already have one from `KnowledgeIndex::load_or_rebuild`)."]
     #[staticmethod]
-    pub fn rebuild(root: Py_kovan__root__KovanRoot, index: Py_kovan__index__KnowledgeIndex) -> Py_kovan__graph__KnowledgeGraph { Py_kovan__graph__KnowledgeGraph { inner: ::kovan::graph::KnowledgeGraph::rebuild(&root.inner, &index.inner) } }
+    pub fn rebuild(root: PyRef<'_, Py_kovan__root__KovanRoot>, index: PyRef<'_, Py_kovan__index__KnowledgeIndex>) -> Py_kovan__graph__KnowledgeGraph { Py_kovan__graph__KnowledgeGraph { inner: ::kovan::graph::KnowledgeGraph::rebuild(&root.inner, &index.inner) } }
     // @item method:kovan::graph::KnowledgeGraph::save_cache
     #[doc = "Persist to `.kovan/graph/graph.toml`, atomically — same convention\nas [`KnowledgeIndex::save_cache`]."]
-    pub fn save_cache(&self, root: Py_kovan__root__KovanRoot) -> PyResult<()> { err(::kovan::graph::KnowledgeGraph::save_cache(&self.inner, &root.inner)).map(|v| v) }
+    pub fn save_cache(&self, root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<()> { err(::kovan::graph::KnowledgeGraph::save_cache(&self.inner, &root.inner)).map(|v| v) }
     // @item method:kovan::graph::KnowledgeGraph::load_cache
     #[doc = "Read a previously saved cache — `None` on any failure, exactly like\n[`KnowledgeIndex::load_cache`]: a caller's only correct response is\nto [`rebuild`](Self::rebuild) instead."]
     #[staticmethod]
-    pub fn load_cache(root: Py_kovan__root__KovanRoot) -> Option<Py_kovan__graph__KnowledgeGraph> { ::kovan::graph::KnowledgeGraph::load_cache(&root.inner).map(|e| Py_kovan__graph__KnowledgeGraph { inner: e }) }
+    pub fn load_cache(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> Option<Py_kovan__graph__KnowledgeGraph> { ::kovan::graph::KnowledgeGraph::load_cache(&root.inner).map(|e| Py_kovan__graph__KnowledgeGraph { inner: e }) }
     // @item method:kovan::graph::KnowledgeGraph::load_or_rebuild
     #[doc = "The normal call site: prefer a valid cache, falling back to (and\nre-persisting) a full rebuild."]
     #[staticmethod]
-    pub fn load_or_rebuild(root: Py_kovan__root__KovanRoot, index: Py_kovan__index__KnowledgeIndex) -> Py_kovan__graph__KnowledgeGraph { Py_kovan__graph__KnowledgeGraph { inner: ::kovan::graph::KnowledgeGraph::load_or_rebuild(&root.inner, &index.inner) } }
+    pub fn load_or_rebuild(root: PyRef<'_, Py_kovan__root__KovanRoot>, index: PyRef<'_, Py_kovan__index__KnowledgeIndex>) -> Py_kovan__graph__KnowledgeGraph { Py_kovan__graph__KnowledgeGraph { inner: ::kovan::graph::KnowledgeGraph::load_or_rebuild(&root.inner, &index.inner) } }
     // @item method:kovan::graph::KnowledgeGraph::backlinks
     #[doc = "Every edge pointing **at** `target` — backlinks, always derived,\nnever authored (§33)."]
     pub fn backlinks(&self, target: String) -> Vec<Py_kovan__graph__Edge> { ::kovan::graph::KnowledgeGraph::backlinks(&self.inner, &target).into_iter().map(|e| Py_kovan__graph__Edge { inner: e.clone() }).collect::<Vec<_>>() }
@@ -2538,18 +2538,18 @@ impl Py_kovan__index__KnowledgeIndex {
     // @item method:kovan::index::KnowledgeIndex::rebuild
     #[doc = "Rebuild the index by walking `root`'s `papers/`, `topics/` and\n`projects/` trees and reading each `kovan.toml` found. **This is the\nonly source of truth** — everything else in this module is a\ncourtesy cache on top of it.\n\nTotal: an entity directory whose `kovan.toml` fails to parse is\nsilently skipped, the same \"kept total so a library with one\nmalformed entity can still be browsed\" rule [`EntityConfig::load`]\nitself documents. A missing directory (e.g. a freshly created\nlibrary with no papers yet) is likewise not an error — it just\ncontributes nothing."]
     #[staticmethod]
-    pub fn rebuild(root: Py_kovan__root__KovanRoot) -> Py_kovan__index__KnowledgeIndex { Py_kovan__index__KnowledgeIndex { inner: ::kovan::index::KnowledgeIndex::rebuild(&root.inner) } }
+    pub fn rebuild(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> Py_kovan__index__KnowledgeIndex { Py_kovan__index__KnowledgeIndex { inner: ::kovan::index::KnowledgeIndex::rebuild(&root.inner) } }
     // @item method:kovan::index::KnowledgeIndex::save_cache
     #[doc = "Persist this index to `.kovan/index/index.toml`, atomically (temp\nfile + rename, same pattern as [`crate::project::write_index`])."]
-    pub fn save_cache(&self, root: Py_kovan__root__KovanRoot) -> PyResult<()> { err(::kovan::index::KnowledgeIndex::save_cache(&self.inner, &root.inner)).map(|v| v) }
+    pub fn save_cache(&self, root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<()> { err(::kovan::index::KnowledgeIndex::save_cache(&self.inner, &root.inner)).map(|v| v) }
     // @item method:kovan::index::KnowledgeIndex::load_cache
     #[doc = "Read a previously saved cache. Returns `None` on any failure —\nmissing file, malformed TOML, or a `schema_version` this build\ndoesn't recognise — so a caller's only correct response to `None` is\nto call [`rebuild`](Self::rebuild) instead, never to treat it as\nfatal (§1: `rm -rf .kovan` must always be safe)."]
     #[staticmethod]
-    pub fn load_cache(root: Py_kovan__root__KovanRoot) -> Option<Py_kovan__index__KnowledgeIndex> { ::kovan::index::KnowledgeIndex::load_cache(&root.inner).map(|e| Py_kovan__index__KnowledgeIndex { inner: e }) }
+    pub fn load_cache(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> Option<Py_kovan__index__KnowledgeIndex> { ::kovan::index::KnowledgeIndex::load_cache(&root.inner).map(|e| Py_kovan__index__KnowledgeIndex { inner: e }) }
     // @item method:kovan::index::KnowledgeIndex::load_or_rebuild
     #[doc = "The normal path a GUI/CLI should call on opening a library: prefer a\nvalid cache, falling back to (and re-persisting) a full rebuild."]
     #[staticmethod]
-    pub fn load_or_rebuild(root: Py_kovan__root__KovanRoot) -> Py_kovan__index__KnowledgeIndex { Py_kovan__index__KnowledgeIndex { inner: ::kovan::index::KnowledgeIndex::load_or_rebuild(&root.inner) } }
+    pub fn load_or_rebuild(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> Py_kovan__index__KnowledgeIndex { Py_kovan__index__KnowledgeIndex { inner: ::kovan::index::KnowledgeIndex::load_or_rebuild(&root.inner) } }
     // @item method:kovan::index::KnowledgeIndex::children_of
     #[doc = "Collections whose path is a **direct** child of `parent_path` (`\"\"`\nfor both tree roots together). Never returns a deeper descendant —\nthis is what lets a browser drill down one level at a time instead\nof ever materialising the whole tree, which is how §8's \"must not\nrender thousands of paper nodes at root level\" stays true regardless\nof library size."]
     pub fn children_of(&self, parent_path: String) -> Vec<Py_kovan__index__CollectionEntry> { ::kovan::index::KnowledgeIndex::children_of(&self.inner, &parent_path).into_iter().map(|e| Py_kovan__index__CollectionEntry { inner: e.clone() }).collect::<Vec<_>>() }
@@ -3084,6 +3084,13 @@ impl Py_kovan__repository__SaveSummary {
 pub struct Py_kovan__research_record__ResearchRecordIndex { pub inner: ::kovan::research_record::ResearchRecordIndex }
 #[pymethods]
 impl Py_kovan__research_record__ResearchRecordIndex {
+    // @item method:kovan::research_record::ResearchRecordIndex::from_session
+    #[doc = "Build fresh from `session`'s current buffer. The only constructor —\nthere is deliberately no `from_path`/`from_disk`, so a stale index\ncannot be built by accident."]
+    #[staticmethod]
+    pub fn from_session(session: PyRef<'_, Py_kovan__session__PaperSession>) -> Py_kovan__research_record__ResearchRecordIndex { Py_kovan__research_record__ResearchRecordIndex { inner: ::kovan::research_record::ResearchRecordIndex::from_session(&session.inner) } }
+    // @item method:kovan::research_record::ResearchRecordIndex::refresh
+    #[doc = "Rebuild in place from `session`'s current buffer — call this after\nevery edit that should be reflected (an artifact insertion, a\nmanual edit once `op-9vo6.17`'s editor exists)."]
+    pub fn refresh(&mut self, session: PyRef<'_, Py_kovan__session__PaperSession>) -> () { ::kovan::research_record::ResearchRecordIndex::refresh(&mut self.inner, &session.inner) }
     // @item method:kovan::research_record::ResearchRecordIndex::citekey
     #[doc = ""]
     pub fn citekey(&self) -> String { ::kovan::research_record::ResearchRecordIndex::citekey(&self.inner).clone().to_string() }
@@ -3357,7 +3364,7 @@ impl Py_kovan__session__PaperSession {
     // @item method:kovan::session::PaperSession::open
     #[doc = "Open the paper `citekey` from `root`, reading its canonical\nMarkdown once into memory. Nothing else touches disk again until\n[`Self::save_document`]."]
     #[staticmethod]
-    pub fn open(root: Py_kovan__root__KovanRoot, citekey: String) -> PyResult<Py_kovan__session__PaperSession> { err(::kovan::session::PaperSession::open(&root.inner, &citekey)).map(|v| Py_kovan__session__PaperSession { inner: v }) }
+    pub fn open(root: PyRef<'_, Py_kovan__root__KovanRoot>, citekey: String) -> PyResult<Py_kovan__session__PaperSession> { err(::kovan::session::PaperSession::open(&root.inner, &citekey)).map(|v| Py_kovan__session__PaperSession { inner: v }) }
     // @item method:kovan::session::PaperSession::citekey
     #[doc = ""]
     pub fn citekey(&self) -> String { ::kovan::session::PaperSession::citekey(&self.inner).clone().to_string() }
@@ -3441,10 +3448,17 @@ impl Py_kovan__sync__SyncController {
     // @item method:kovan::sync::SyncController::allow_follow
     #[doc = "Whether a Follow sync (a PDF page change updating the editor/\nhighlight) is currently allowed. `false` while the user is\nactively typing — an explicit jump ignores this entirely, by\ndesign: a deliberate click always wins."]
     pub fn allow_follow(&self) -> bool { ::kovan::sync::SyncController::allow_follow(&self.inner) }
+    // @item method:kovan::sync::SyncController::follow_page
+    #[doc = "§31's Follow: the artifacts anchored to `page`, softly highlighted\nrather than forcibly jumped to. Returns nothing if\n[`Self::allow_follow`] is `false` — call sites should still call\nthis every page change and let it self-gate, rather than checking\n`allow_follow` separately, so the guard cannot be forgotten at a\ncall site."]
+    pub fn follow_page(&self, index: PyRef<'_, Py_kovan__research_record__ResearchRecordIndex>, page: u32) -> Vec<Py_kovan__artifact__Artifact> { ::kovan::sync::SyncController::follow_page(&self.inner, &index.inner, page).into_iter().map(|e| Py_kovan__artifact__Artifact { inner: e.clone() }).collect::<Vec<_>>() }
     // @item method:kovan::sync::SyncController::jump_to_source
     #[doc = "§31's Explicit jump, artifact → PDF: where to send the reader.\n`None` for a free-standing note with no `[source]` anchor."]
     #[staticmethod]
-    pub fn jump_to_source(artifact: Py_kovan__artifact__Artifact) -> Option<Py_kovan__sync__PdfJumpTarget> { ::kovan::sync::SyncController::jump_to_source(&artifact.inner).map(|e| Py_kovan__sync__PdfJumpTarget { inner: e }) }
+    pub fn jump_to_source(artifact: PyRef<'_, Py_kovan__artifact__Artifact>) -> Option<Py_kovan__sync__PdfJumpTarget> { ::kovan::sync::SyncController::jump_to_source(&artifact.inner).map(|e| Py_kovan__sync__PdfJumpTarget { inner: e }) }
+    // @item method:kovan::sync::SyncController::artifact_at_editor_line
+    #[doc = "§31's Explicit jump, PDF → editor: every artifact whose heading is\nat or before `editor_line` and whose *next* artifact (if any)\nstarts after it — i.e. \"which artifact is the editor cursor\ncurrently inside\", the counterpart query to clicking a PDF region\nand being taken to its artifact in the Markdown."]
+    #[staticmethod]
+    pub fn artifact_at_editor_line(index: PyRef<'_, Py_kovan__research_record__ResearchRecordIndex>, editor_line: usize) -> Option<Py_kovan__artifact__Artifact> { ::kovan::sync::SyncController::artifact_at_editor_line(&index.inner, editor_line).map(|e| Py_kovan__artifact__Artifact { inner: e.clone() }) }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
     #[staticmethod]
@@ -3499,43 +3513,43 @@ impl Py_kovan__tui__Tab {
     // @item fn:kovan::advanced_git::fetch
 #[doc = "`git fetch <remote>` — network I/O via the system binary, never gitoxide."]
 #[pyfunction(name = "fetch")]
-pub fn fn_kovan__advanced_git__fetch(root: Py_kovan__root__KovanRoot, remote: String) -> PyResult<String> { err(::kovan::advanced_git::fetch(&root.inner, &remote)).map(|v| v) }
+pub fn fn_kovan__advanced_git__fetch(root: PyRef<'_, Py_kovan__root__KovanRoot>, remote: String) -> PyResult<String> { err(::kovan::advanced_git::fetch(&root.inner, &remote)).map(|v| v) }
 
     // @item fn:kovan::advanced_git::history
 #[cfg(feature = "kovan-discovery")]
 #[doc = "Up to `max` commits of history, newest first — reuses\n`kovan_discovery::git::GitProvider`, already this workspace's tested\ngit-history reader, rather than a second implementation."]
 #[pyfunction(name = "history")]
-pub fn fn_kovan__advanced_git__history(root: Py_kovan__root__KovanRoot, max: usize) -> PyResult<Vec<crate::python::generated::kovan_discovery::Py_kovan_discovery__git__CommitInfo>> { err(::kovan::advanced_git::history(&root.inner, max)).map(|v| v.into_iter().map(|e| crate::python::generated::kovan_discovery::Py_kovan_discovery__git__CommitInfo { inner: e }).collect::<Vec<_>>()) }
+pub fn fn_kovan__advanced_git__history(root: PyRef<'_, Py_kovan__root__KovanRoot>, max: usize) -> PyResult<Vec<crate::python::generated::kovan_discovery::Py_kovan_discovery__git__CommitInfo>> { err(::kovan::advanced_git::history(&root.inner, max)).map(|v| v.into_iter().map(|e| crate::python::generated::kovan_discovery::Py_kovan_discovery__git__CommitInfo { inner: e }).collect::<Vec<_>>()) }
 
     // @item fn:kovan::advanced_git::list_remotes
 #[doc = "The library's configured remotes (`git remote -v`, fetch URLs, deduped\nby name)."]
 #[pyfunction(name = "list_remotes")]
-pub fn fn_kovan__advanced_git__list_remotes(root: Py_kovan__root__KovanRoot) -> PyResult<Vec<Py_kovan__advanced_git__RemoteInfo>> { err(::kovan::advanced_git::list_remotes(&root.inner)).map(|v| v.into_iter().map(|e| Py_kovan__advanced_git__RemoteInfo { inner: e }).collect::<Vec<_>>()) }
+pub fn fn_kovan__advanced_git__list_remotes(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<Vec<Py_kovan__advanced_git__RemoteInfo>> { err(::kovan::advanced_git::list_remotes(&root.inner)).map(|v| v.into_iter().map(|e| Py_kovan__advanced_git__RemoteInfo { inner: e }).collect::<Vec<_>>()) }
 
     // @item fn:kovan::advanced_git::local_branches
 #[doc = "Local branches (`refs/heads/*`), marking which one `HEAD` points at."]
 #[pyfunction(name = "local_branches")]
-pub fn fn_kovan__advanced_git__local_branches(root: Py_kovan__root__KovanRoot) -> PyResult<Vec<Py_kovan__advanced_git__BranchInfo>> { err(::kovan::advanced_git::local_branches(&root.inner)).map(|v| v.into_iter().map(|e| Py_kovan__advanced_git__BranchInfo { inner: e }).collect::<Vec<_>>()) }
+pub fn fn_kovan__advanced_git__local_branches(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<Vec<Py_kovan__advanced_git__BranchInfo>> { err(::kovan::advanced_git::local_branches(&root.inner)).map(|v| v.into_iter().map(|e| Py_kovan__advanced_git__BranchInfo { inner: e }).collect::<Vec<_>>()) }
 
     // @item fn:kovan::advanced_git::pull
 #[doc = "`git pull <remote> <branch>`."]
 #[pyfunction(name = "pull")]
-pub fn fn_kovan__advanced_git__pull(root: Py_kovan__root__KovanRoot, remote: String, branch: String) -> PyResult<String> { err(::kovan::advanced_git::pull(&root.inner, &remote, &branch)).map(|v| v) }
+pub fn fn_kovan__advanced_git__pull(root: PyRef<'_, Py_kovan__root__KovanRoot>, remote: String, branch: String) -> PyResult<String> { err(::kovan::advanced_git::pull(&root.inner, &remote, &branch)).map(|v| v) }
 
     // @item fn:kovan::advanced_git::push
 #[doc = "`git push <remote> <branch>`."]
 #[pyfunction(name = "push")]
-pub fn fn_kovan__advanced_git__push(root: Py_kovan__root__KovanRoot, remote: String, branch: String) -> PyResult<String> { err(::kovan::advanced_git::push(&root.inner, &remote, &branch)).map(|v| v) }
+pub fn fn_kovan__advanced_git__push(root: PyRef<'_, Py_kovan__root__KovanRoot>, remote: String, branch: String) -> PyResult<String> { err(::kovan::advanced_git::push(&root.inner, &remote, &branch)).map(|v| v) }
 
     // @item fn:kovan::advanced_git::save
 #[doc = "§37's \"Save Repository\" — `git add .` + `git commit`, deterministic, no\nAI (`crate::repository::save_repository`'s own doc). `Ok(None)` means\nthere was nothing to commit. Exposed here, alongside [`status`], so the\nAdvanced Git view only ever imports from this module (op-nswf, GH issue\n#35 2026-09-01 05:42: \"Under the git tab, i expect to see save to\nrepository. I don't see any button\" — the backend already existed and\nwas tested; it just had no button wired to it)."]
 #[pyfunction(name = "save")]
-pub fn fn_kovan__advanced_git__save(root: Py_kovan__root__KovanRoot) -> PyResult<Option<Py_kovan__repository__SaveSummary>> { err(::kovan::advanced_git::save(&root.inner)).map(|v| v.map(|e| Py_kovan__repository__SaveSummary { inner: e })) }
+pub fn fn_kovan__advanced_git__save(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<Option<Py_kovan__repository__SaveSummary>> { err(::kovan::advanced_git::save(&root.inner)).map(|v| v.map(|e| Py_kovan__repository__SaveSummary { inner: e })) }
 
     // @item fn:kovan::advanced_git::status
 #[doc = "Local working-tree status (§37/§38) — what [`crate::repository::save_repository`]\nwould commit, without committing it."]
 #[pyfunction(name = "status")]
-pub fn fn_kovan__advanced_git__status(root: Py_kovan__root__KovanRoot) -> PyResult<Py_kovan__repository__SaveSummary> { err(::kovan::advanced_git::status(&root.inner)).map(|v| Py_kovan__repository__SaveSummary { inner: v }) }
+pub fn fn_kovan__advanced_git__status(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<Py_kovan__repository__SaveSummary> { err(::kovan::advanced_git::status(&root.inner)).map(|v| Py_kovan__repository__SaveSummary { inner: v }) }
 
     // @item fn:kovan::advanced_git::system_git_available
 #[doc = "Whether the system `git` binary can be run at all."]
@@ -3550,17 +3564,42 @@ pub fn fn_kovan__artifact__parse_document(markdown: String) -> Py_kovan__artifac
     // @item fn:kovan::artifact::render_artifact_block
 #[doc = "Render `heading`/`toml`/`body` as the Markdown block §13 defines:\nheading, immediately followed by a fenced `toml` block, followed by the\nbody. The exact counterpart to [`parse_document`] — text produced here\nre-parses to an equivalent [`Artifact`] (see the round-trip test below).\n\n`level` is the heading depth, 1 for `#` through 6 for `######` — same\nmeaning as [`Artifact::level`].\n\n# Errors\n\nOnly if `toml`'s own TOML serialisation fails, which cannot happen for\nits field types (see [`ArtifactToml`]'s fields) — the `Result` spares\ncallers an `unwrap`."]
 #[pyfunction(name = "render_artifact_block")]
-pub fn fn_kovan__artifact__render_artifact_block(level: u8, heading: String, payload: Py_kovan__artifact__ArtifactToml, body: String) -> PyResult<String> { err(::kovan::artifact::render_artifact_block(level, &heading, &payload.inner, &body)).map(|v| v) }
+pub fn fn_kovan__artifact__render_artifact_block(level: u8, heading: String, payload: PyRef<'_, Py_kovan__artifact__ArtifactToml>, body: String) -> PyResult<String> { err(::kovan::artifact::render_artifact_block(level, &heading, &payload.inner, &body)).map(|v| v) }
+
+    // @item fn:kovan::autocomplete::artifact_candidates
+#[doc = "§30's `#`-completion: once a paper has been selected in a `[[...]]`\nlink, complete its artifacts/anchors."]
+#[pyfunction(name = "artifact_candidates")]
+pub fn fn_kovan__autocomplete__artifact_candidates(index: PyRef<'_, Py_kovan__research_record__ResearchRecordIndex>, query: String) -> Vec<Py_kovan__autocomplete__Candidate> { ::kovan::autocomplete::artifact_candidates(&index.inner, &query).into_iter().map(|e| Py_kovan__autocomplete__Candidate { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:kovan::autocomplete::citation_candidates
 #[doc = "§29: fuzzy bibliography completion for `@`, searchable by citekey,\nauthor, title, year, DOI. Reads `root`'s bibliography fresh each call —\nsee the module doc on why a cache isn't worth it here."]
 #[pyfunction(name = "citation_candidates")]
-pub fn fn_kovan__autocomplete__citation_candidates(root: Py_kovan__root__KovanRoot, query: String) -> Vec<Py_kovan__autocomplete__Candidate> { ::kovan::autocomplete::citation_candidates(&root.inner, &query).into_iter().map(|e| Py_kovan__autocomplete__Candidate { inner: e }).collect::<Vec<_>>() }
+pub fn fn_kovan__autocomplete__citation_candidates(root: PyRef<'_, Py_kovan__root__KovanRoot>, query: String) -> Vec<Py_kovan__autocomplete__Candidate> { ::kovan::autocomplete::citation_candidates(&root.inner, &query).into_iter().map(|e| Py_kovan__autocomplete__Candidate { inner: e }).collect::<Vec<_>>() }
 
     // @item fn:kovan::autocomplete::wiki_candidates
 #[doc = "§30: wiki completion for `[[`, across papers, topics/projects/subtopics."]
 #[pyfunction(name = "wiki_candidates")]
-pub fn fn_kovan__autocomplete__wiki_candidates(index: Py_kovan__index__KnowledgeIndex, query: String) -> Vec<Py_kovan__autocomplete__Candidate> { ::kovan::autocomplete::wiki_candidates(&index.inner, &query).into_iter().map(|e| Py_kovan__autocomplete__Candidate { inner: e }).collect::<Vec<_>>() }
+pub fn fn_kovan__autocomplete__wiki_candidates(index: PyRef<'_, Py_kovan__index__KnowledgeIndex>, query: String) -> Vec<Py_kovan__autocomplete__Candidate> { ::kovan::autocomplete::wiki_candidates(&index.inner, &query).into_iter().map(|e| Py_kovan__autocomplete__Candidate { inner: e }).collect::<Vec<_>>() }
+
+    // @item fn:kovan::classify::classify_selection
+#[doc = "Build and insert a fine-grained classification artifact into `session`'s\nbuffer (never straight to disk — call `session.save_document()`\nafterwards to persist it, per §37's Save Document/Save Repository\nsplit).\n\n`heading` becomes both the artifact's display heading and, slugified,\nits stable id (disambiguated against `index` if it collides). `anchor`\nis validated against §15's invariants before anything is written.\n\nThis is [`insert_artifact`] with no `[extraction]` block — the shape a\nnote / annotation / source-reference takes."]
+#[pyfunction(name = "classify_selection")]
+pub fn fn_kovan__classify__classify_selection(mut session: PyRefMut<'_, Py_kovan__session__PaperSession>, index: PyRef<'_, Py_kovan__research_record__ResearchRecordIndex>, heading: String, kind: Py_kovan__artifact__ArtifactKind, anchor: Py_kovan__artifact__SourceAnchor, classification: Py_kovan__entity__Classification, body: String) -> PyResult<Py_kovan__artifact__Artifact> { err(::kovan::classify::classify_selection(&mut session.inner, &index.inner, &heading, kind.inner, anchor.inner, classification.inner, &body)).map(|v| Py_kovan__artifact__Artifact { inner: v }) }
+
+    // @item fn:kovan::classify::insert_artifact
+#[doc = "Build and append one fenced-TOML artifact (§13/§14) to `session`'s\nbuffer — the single writer every artifact-producing flow goes through\n(text selection, PDF annotation save, digitiser CSV save), so id\ndisambiguation, `[kovan]`/`[source]`/`[extraction]` construction and the\n§13 Markdown rendering live in exactly one place.\n\n`anchor` (when `Some`) is validated against §15's invariants first.\n`extraction` is set for `DigitisedTable`/`DigitisedGraph` and `None`\notherwise. Returns the artifact as re-parsed from the updated buffer, so\ncallers get its final `line`."]
+#[pyfunction(name = "insert_artifact")]
+pub fn fn_kovan__classify__insert_artifact(mut session: PyRefMut<'_, Py_kovan__session__PaperSession>, index: PyRef<'_, Py_kovan__research_record__ResearchRecordIndex>, heading: String, kind: Py_kovan__artifact__ArtifactKind, anchor: Option<Py_kovan__artifact__SourceAnchor>, classification: Py_kovan__entity__Classification, extraction: Option<Py_kovan__artifact__Extraction>, body: String) -> PyResult<Py_kovan__artifact__Artifact> { err(::kovan::classify::insert_artifact(&mut session.inner, &index.inner, &heading, kind.inner, anchor.map(|e| e.inner), classification.inner, extraction.map(|e| e.inner), &body)).map(|v| Py_kovan__artifact__Artifact { inner: v }) }
+
+    // @item fn:kovan::classify::replace_artifact_body
+#[doc = "Replace the **body** (everything after the metadata fence) of the\nartifact with stable id `id` in `session`'s buffer, re-rendering its\nblock so the `[kovan]` TOML stays exactly as `parse_document` expects,\nbumping `modified`, and leaving every other line of the document\nuntouched. The mechanism the page-context panel's inline block editor\nuses so a schema-sensitive block is never hand-edited as raw text.\n\n# Errors\n\n[`ClassifyError::NoUsableId`] if no artifact has that id;\n[`ClassifyError::Render`] if re-serialising its (unchanged) metadata\nfails."]
+#[pyfunction(name = "replace_artifact_body")]
+pub fn fn_kovan__classify__replace_artifact_body(mut session: PyRefMut<'_, Py_kovan__session__PaperSession>, id: String, new_body: String) -> PyResult<Py_kovan__artifact__Artifact> { err(::kovan::classify::replace_artifact_body(&mut session.inner, &id, &new_body)).map(|v| Py_kovan__artifact__Artifact { inner: v }) }
+
+    // @item fn:kovan::classify::sort_artifacts_by_page
+#[doc = "Reorder a document's page-anchored artifact blocks into page order,\nin place, leaving everything else exactly where it is (maintainer,\n2026-09-02: \"if the annotations are disordered, order them when opening\nthem\"). Returns whether anything moved.\n\nOnly the anchored blocks' *text* is permuted between their existing\nspans, so the paper title, `## Summary`, any prose between blocks and any\nun-anchored artifact all keep their position. The sort is stable, so\nsame-page blocks keep the order they were written in. Bails out (doing\nnothing) if the blocks are already ordered, or if any two spans overlap —\na nested artifact is not something to shuffle blindly."]
+#[pyfunction(name = "sort_artifacts_by_page")]
+pub fn fn_kovan__classify__sort_artifacts_by_page(mut session: PyRefMut<'_, Py_kovan__session__PaperSession>) -> bool { ::kovan::classify::sort_artifacts_by_page(&mut session.inner) }
 
     // @item fn:kovan::commands::cost::run
 #[doc = "Read `path` and print its estimated token cost — the whole-file total by\ndefault, or a per-line breakdown with `by_line`.\n\n# Errors\n\nA message if `path` cannot be read (missing, a directory, or not valid\nUTF-8 — the estimator operates on `&str`, so a binary file is reported\nrather than guessed at)."]
@@ -3666,12 +3705,12 @@ pub fn fn_kovan__commands__workspace__is_workspace_root(path: String) -> bool { 
     // @item fn:kovan::digitiser::auto::auto_digitise
 #[doc = "Run the full automatic pipeline: detect (or derive) the frame, build the\ncalibration, trace the curve, and package a [`DigitisedDataset`] with the\ncomplete provenance record. Deterministic: same raster + config +\nprovenance strings → identical dataset.\n\nFrame detection is skipped only when **both** axes use\n[`AxisPixelRefs::Explicit`] *and* automatic detection fails — in that case\nthe trace region falls back to the rectangle spanned by the explicit\nreference pixels. When either axis anchors to\n[`AxisPixelRefs::FrameEdges`], detection must succeed.\n\n`digitised_by`/`digitised_at` are recorded verbatim; pass\n[`super::dataset::utc_now_iso8601`] for `digitised_at` unless a\nreproducible stamp is required. The returned dataset is always\n[`super::dataset::ReviewStatus::Unreviewed`].\n\n# Errors\n\nAny [`DigitiserError`] from detection, calibration, or tracing."]
 #[pyfunction(name = "auto_digitise")]
-pub fn fn_kovan__digitiser__auto__auto_digitise(raster: Py_kovan__digitiser__raster__PlotRaster, config: Py_kovan__digitiser__auto__AutoDigitiseConfig, source: Py_kovan__digitiser__dataset__FigureSource, x_label: String, y_label: String, digitised_by: String, digitised_at: String) -> PyResult<Py_kovan__digitiser__dataset__DigitisedDataset> { err(::kovan::digitiser::auto::auto_digitise(&raster.inner, &config.inner, source.inner, x_label, y_label, digitised_by, digitised_at)).map(|v| Py_kovan__digitiser__dataset__DigitisedDataset { inner: v }) }
+pub fn fn_kovan__digitiser__auto__auto_digitise(raster: PyRef<'_, Py_kovan__digitiser__raster__PlotRaster>, config: PyRef<'_, Py_kovan__digitiser__auto__AutoDigitiseConfig>, source: Py_kovan__digitiser__dataset__FigureSource, x_label: String, y_label: String, digitised_by: String, digitised_at: String) -> PyResult<Py_kovan__digitiser__dataset__DigitisedDataset> { err(::kovan::digitiser::auto::auto_digitise(&raster.inner, &config.inner, source.inner, x_label, y_label, digitised_by, digitised_at)).map(|v| Py_kovan__digitiser__dataset__DigitisedDataset { inner: v }) }
 
     // @item fn:kovan::digitiser::dataset::uncertainty_interval
 #[doc = "Map a `± half_pixels` pixel reading error at `pixel` through an axis\ncalibration, returning `(minus, plus)` magnitudes in data units (both\n`>= 0`).\n\nOn a linear axis the two magnitudes are equal; on a logarithmic axis they\nare asymmetric and grow with the value — which is why they are computed by\nevaluating the calibration at `pixel ± half_pixels` rather than by a\nconstant scale factor."]
 #[pyfunction(name = "uncertainty_interval")]
-pub fn fn_kovan__digitiser__dataset__uncertainty_interval(axis: Py_kovan__digitiser__calibration__AxisCalibration, pixel: f64, half_pixels: f64) -> (f64, f64) { { let (e0, e1) = ::kovan::digitiser::dataset::uncertainty_interval(&axis.inner, pixel, half_pixels); (e0, e1) } }
+pub fn fn_kovan__digitiser__dataset__uncertainty_interval(axis: PyRef<'_, Py_kovan__digitiser__calibration__AxisCalibration>, pixel: f64, half_pixels: f64) -> (f64, f64) { { let (e0, e1) = ::kovan::digitiser::dataset::uncertainty_interval(&axis.inner, pixel, half_pixels); (e0, e1) } }
 
     // @item fn:kovan::digitiser::dataset::utc_now_iso8601
 #[doc = "Current UTC time as an ISO 8601 string (`YYYY-MM-DDTHH:MM:SSZ`), from the\nsystem clock and pure `std` (no chrono dependency). Used by the binaries\nto stamp `digitised_at` / review times; pass an explicit string instead\nwhen reproducible output is needed (the CLI's `--timestamp` flag)."]
@@ -3681,12 +3720,12 @@ pub fn fn_kovan__digitiser__dataset__utc_now_iso8601() -> String { ::kovan::digi
     // @item fn:kovan::digitiser::dataset::xy_uncertainty_interval
 #[doc = "The [`PlotCalibration`]-level generalisation of [`uncertainty_interval`]\n— a pixel-space perturbation of `half_px_x`/`half_px_y` around\n`(x_px, y_px)`, read off as data-value spread in each axis (op-vyb9).\n\n[`PlotCalibration::AxisAligned`] delegates straight to\n[`uncertainty_interval`] for each axis — **byte-identical to the\npre-parallelogram behaviour**, since x only ever depended on column and y\nonly ever depended on row there. [`PlotCalibration::Parallelogram`]\nperturbs the pixel column (for x) or row (for y) by the same half-pixel\namount and reads the resulting spread off [`PlotCalibration::point_at`] —\npixel space is still a plain image grid even though the pixel→data map is\nskewed, so \"perturb the column, see how x moves\" still makes sense; it\njust no longer decomposes into two independent 1-D calibrations the way\nthe axis-aligned case does, and a small amount of the other axis's\nmovement is folded in along with it (an accepted simplification, same\nspirit as `uncertainty_interval`'s own \"treat x and y as independent\"\nassumption)."]
 #[pyfunction(name = "xy_uncertainty_interval")]
-pub fn fn_kovan__digitiser__dataset__xy_uncertainty_interval(cal: Py_kovan__digitiser__calibration__PlotCalibration, x_px: f64, y_px: f64, half_px_x: f64, half_px_y: f64) -> ((f64, f64), (f64, f64)) { { let (e0, e1) = ::kovan::digitiser::dataset::xy_uncertainty_interval(&cal.inner, x_px, y_px, half_px_x, half_px_y); ({ let (e0, e1) = e0; (e0, e1) }, { let (e0, e1) = e1; (e0, e1) }) } }
+pub fn fn_kovan__digitiser__dataset__xy_uncertainty_interval(cal: PyRef<'_, Py_kovan__digitiser__calibration__PlotCalibration>, x_px: f64, y_px: f64, half_px_x: f64, half_px_y: f64) -> ((f64, f64), (f64, f64)) { { let (e0, e1) = ::kovan::digitiser::dataset::xy_uncertainty_interval(&cal.inner, x_px, y_px, half_px_x, half_px_y); ({ let (e0, e1) = e0; (e0, e1) }, { let (e0, e1) = e1; (e0, e1) }) } }
 
     // @item fn:kovan::digitiser::detect::detect_plot_frame
 #[doc = "Detect the plot frame (axis box) of a black-on-white figure.\n\n**Method (deterministic).** Every row's and column's longest contiguous\ndark run is measured. Rows/columns whose run covers at least\n[`DetectConfig::min_line_fraction`] of the image dimension are axis-line\ncandidates. With two or more candidate rows *and* columns (a fully boxed\nplot), the frame is their outermost members. With exactly one of either\n(an L-shaped plot: one x axis, one y axis), the missing top/right edges\nare taken from the dark extent of the detected axis lines themselves.\n\n# Errors\n\n[`DigitiserError::Detection`] when no candidate row or column exists, or\nthe resulting rectangle is degenerate (under 10 px in either direction) —\nin that case supply explicit pixel reference points instead (see\n[`super::auto::AxisPixelRefs`])."]
 #[pyfunction(name = "detect_plot_frame")]
-pub fn fn_kovan__digitiser__detect__detect_plot_frame(raster: Py_kovan__digitiser__raster__PlotRaster, config: Py_kovan__digitiser__detect__DetectConfig) -> PyResult<Py_kovan__digitiser__detect__PixelRect> { err(::kovan::digitiser::detect::detect_plot_frame(&raster.inner, &config.inner)).map(|v| Py_kovan__digitiser__detect__PixelRect { inner: v }) }
+pub fn fn_kovan__digitiser__detect__detect_plot_frame(raster: PyRef<'_, Py_kovan__digitiser__raster__PlotRaster>, config: PyRef<'_, Py_kovan__digitiser__detect__DetectConfig>) -> PyResult<Py_kovan__digitiser__detect__PixelRect> { err(::kovan::digitiser::detect::detect_plot_frame(&raster.inner, &config.inner)).map(|v| Py_kovan__digitiser__detect__PixelRect { inner: v }) }
 
     // @item fn:kovan::digitiser::frontend::parse_scale
 #[doc = "Parse `linear` / `log` (also accepts `lin` / `logarithmic`)."]
@@ -3706,22 +3745,22 @@ pub fn fn_kovan__digitiser__gui__run(image_arg: Option<String>) -> PyResult<()> 
     // @item fn:kovan::digitiser::synthetic::render_synthetic_plot
 #[doc = "Render the spec to an image, returning the raster **and the exact\ncalibration** implied by the frame/ranges (which is also the ground-truth\ncalibration a digitising test should use).\n\n**Method (deterministic).** White background; 1-px black frame on the\nspec's rectangle; then for every pixel column strictly inside the frame,\n`x = x_axis.value_at(col)` and the curve pixel row is\n`y_axis.pixel_at(curve(x))`. A vertical band of `2*half+1` px is inked at\nthe rounded row, and consecutive columns are connected by filling the row\ninterval between them, so steep curves have no gaps. Curve values that\nfall outside the frame (or are non-finite / non-positive on a log axis)\nare simply not drawn for that column.\n\n# Errors\n\n[`DigitiserError::Calibration`] if the axis ranges are invalid for their\nscale (via [`AxisCalibration::new`]), or the frame does not fit in the\nimage."]
 #[pyfunction(name = "render_synthetic_plot")]
-pub fn fn_kovan__digitiser__synthetic__render_synthetic_plot(spec: Py_kovan__digitiser__synthetic__SyntheticPlotSpec) -> PyResult<(Py_kovan__digitiser__raster__PlotRaster, Py_kovan__digitiser__calibration__PlotCalibration)> { err(::kovan::digitiser::synthetic::render_synthetic_plot(&spec.inner)).map(|v| { let (e0, e1) = v; (Py_kovan__digitiser__raster__PlotRaster { inner: e0 }, Py_kovan__digitiser__calibration__PlotCalibration { inner: e1 }) }) }
+pub fn fn_kovan__digitiser__synthetic__render_synthetic_plot(spec: PyRef<'_, Py_kovan__digitiser__synthetic__SyntheticPlotSpec>) -> PyResult<(Py_kovan__digitiser__raster__PlotRaster, Py_kovan__digitiser__calibration__PlotCalibration)> { err(::kovan::digitiser::synthetic::render_synthetic_plot(&spec.inner)).map(|v| { let (e0, e1) = v; (Py_kovan__digitiser__raster__PlotRaster { inner: e0 }, Py_kovan__digitiser__calibration__PlotCalibration { inner: e1 }) }) }
 
     // @item fn:kovan::digitiser::trace::trace_curve
 #[doc = "Trace the curve inside `frame`, one sample per scanned column.\n\n**Method (deterministic).** For each sampled column inside the frame\n(shrunk by [`TraceConfig::inset`]), the contiguous vertical runs of pixels\nmatching [`TraceConfig::selector`] are collected. Columns whose matched\nfraction exceeds [`TraceConfig::max_column_fill`] are skipped as vertical\ngridlines. One run is accepted per remaining column according to\n[`TraceConfig::strategy`], and its centroid row becomes the sample.\nColumns with no matching pixels yield no sample (gaps are permitted —\ndashed curves still trace).\n\nReturns the samples in strictly increasing `x_px` order; possibly empty\n(e.g. an empty plot region) — emptiness is the *caller's* signal to warn,\nnot an error, because a legitimately empty sub-range can occur when\ntracing a figure region-by-region.\n\n# Errors\n\n[`DigitiserError::Trace`] if `frame` (after inset) leaves no columns or\nrows to scan, or `column_step == 0`."]
 #[pyfunction(name = "trace_curve")]
-pub fn fn_kovan__digitiser__trace__trace_curve(raster: Py_kovan__digitiser__raster__PlotRaster, frame: Py_kovan__digitiser__detect__PixelRect, config: Py_kovan__digitiser__trace__TraceConfig) -> PyResult<Vec<Py_kovan__digitiser__trace__PixelTracePoint>> { err(::kovan::digitiser::trace::trace_curve(&raster.inner, &frame.inner, &config.inner)).map(|v| v.into_iter().map(|e| Py_kovan__digitiser__trace__PixelTracePoint { inner: e }).collect::<Vec<_>>()) }
+pub fn fn_kovan__digitiser__trace__trace_curve(raster: PyRef<'_, Py_kovan__digitiser__raster__PlotRaster>, frame: PyRef<'_, Py_kovan__digitiser__detect__PixelRect>, config: PyRef<'_, Py_kovan__digitiser__trace__TraceConfig>) -> PyResult<Vec<Py_kovan__digitiser__trace__PixelTracePoint>> { err(::kovan::digitiser::trace::trace_curve(&raster.inner, &frame.inner, &config.inner)).map(|v| v.into_iter().map(|e| Py_kovan__digitiser__trace__PixelTracePoint { inner: e }).collect::<Vec<_>>()) }
 
     // @item fn:kovan::entity::ensure_classification_paths
 #[doc = "[`ensure_collection_path`] for every path in `topics` (as\n[`EntityKind::Topic`]) and `projects` (as [`EntityKind::Project`]) —\nthe shape both [`crate::ingest::ingest`] and a reclassify action need to\ncall with one line."]
 #[pyfunction(name = "ensure_classification_paths")]
-pub fn fn_kovan__entity__ensure_classification_paths(root: Py_kovan__root__KovanRoot, topics: Vec<String>, projects: Vec<String>) -> PyResult<()> { err(::kovan::entity::ensure_classification_paths(&root.inner, &topics.into_iter().map(|e| e).collect::<Vec<_>>(), &projects.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v) }
+pub fn fn_kovan__entity__ensure_classification_paths(root: PyRef<'_, Py_kovan__root__KovanRoot>, topics: Vec<String>, projects: Vec<String>) -> PyResult<()> { err(::kovan::entity::ensure_classification_paths(&root.inner, &topics.into_iter().map(|e| e).collect::<Vec<_>>(), &projects.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v) }
 
     // @item fn:kovan::entity::ensure_collection_path
 #[doc = "Ensure every collection along a slash-separated `path` exists as a real\nentity directory under `root`'s `topics/` or `projects/` tree, creating\nwhichever segments are missing (parents first).\n\nFixes op-8aq6 (GH issue #35's 2026-09-01 checkpoint, §6-7): classifying a\npaper into e.g. `\"htgrs/neutronics\"` used to only ever write that string\ninto the paper's own `kovan.toml` — nothing created the corresponding\n`topics/htgrs/neutronics/kovan.toml` collection entity. Since\n[`crate::index::KnowledgeIndex::children_of`] only lists collections that\nexist as real directories, a classification with no backing entity has no\nlink anywhere in the Wiki tree that reaches it — the paper becomes\npermanently unreachable by drill-down, silently, even though it is still\non disk and in the index. Both [`crate::ingest::ingest`] and the Wiki's\nown reclassify flow must call this before writing a classification that\nnames a path, so \"classification changes where a paper appears; it must\nnever determine whether a paper exists or is discoverable\" (the\ncheckpoint's own invariant) actually holds.\n\nA segment's display name defaults to the segment itself — the same\n\"slug doubles as name until renamed\" convention "]
 #[pyfunction(name = "ensure_collection_path")]
-pub fn fn_kovan__entity__ensure_collection_path(root: Py_kovan__root__KovanRoot, kind: Py_kovan__entity__EntityKind, path: String) -> PyResult<()> { err(::kovan::entity::ensure_collection_path(&root.inner, kind.inner, &path)).map(|v| v) }
+pub fn fn_kovan__entity__ensure_collection_path(root: PyRef<'_, Py_kovan__root__KovanRoot>, kind: Py_kovan__entity__EntityKind, path: String) -> PyResult<()> { err(::kovan::entity::ensure_collection_path(&root.inner, kind.inner, &path)).map(|v| v) }
 
     // @item fn:kovan::graph::artifact_node
 #[doc = "An artifact node identity: `artifact:<citekey>#<id>` — the literal §33\nglobal identity, e.g. `artifact:wang2018multiphysics#table-4-4`."]
@@ -3751,17 +3790,17 @@ pub fn fn_kovan__graph__paper_node(citekey: String) -> String { ::kovan::graph::
     // @item fn:kovan::ingest::ingest
 #[doc = "Run §23's write transaction: store the PDF, create/update the\nbibliography, create the paper directory and its `kovan.toml` +\ncanonical Markdown stub, and refresh the derived index cache.\n\n§23 step 10 (\"open Research workspace\") is deliberately not this\nfunction's job — it is GUI navigation, not a filesystem write, and the\nResearch workspace itself is `op-9vo6.25`'s later step. A caller opens\nit itself once this returns `Ok`."]
 #[pyfunction(name = "ingest")]
-pub fn fn_kovan__ingest__ingest(root: Py_kovan__root__KovanRoot, preview: Py_kovan__ingest__IngestPreview, choice: Py_kovan__ingest__IngestChoice) -> PyResult<()> { err(::kovan::ingest::ingest(&root.inner, &preview.inner, choice.inner)).map(|v| v) }
+pub fn fn_kovan__ingest__ingest(root: PyRef<'_, Py_kovan__root__KovanRoot>, preview: PyRef<'_, Py_kovan__ingest__IngestPreview>, choice: Py_kovan__ingest__IngestChoice) -> PyResult<()> { err(::kovan::ingest::ingest(&root.inner, &preview.inner, choice.inner)).map(|v| v) }
 
     // @item fn:kovan::ingest::preview
 #[doc = "Run the automatic-detection half of §22 over `pdf_path`. Writes nothing."]
 #[pyfunction(name = "preview")]
-pub fn fn_kovan__ingest__preview(root: Py_kovan__root__KovanRoot, pdf_path: String) -> PyResult<Py_kovan__ingest__IngestPreview> { err(::kovan::ingest::preview(&root.inner, std::path::Path::new(&pdf_path))).map(|v| Py_kovan__ingest__IngestPreview { inner: v }) }
+pub fn fn_kovan__ingest__preview(root: PyRef<'_, Py_kovan__root__KovanRoot>, pdf_path: String) -> PyResult<Py_kovan__ingest__IngestPreview> { err(::kovan::ingest::preview(&root.inner, std::path::Path::new(&pdf_path))).map(|v| Py_kovan__ingest__IngestPreview { inner: v }) }
 
     // @item fn:kovan::mindmap::literature_card
 #[doc = "Build a paper's literature card from its index entry, bibliography\nrecord, and its own Markdown (for artifact counts and its `## Summary`)."]
 #[pyfunction(name = "literature_card")]
-pub fn fn_kovan__mindmap__literature_card(root: Py_kovan__root__KovanRoot, index: Py_kovan__index__KnowledgeIndex, graph: Py_kovan__graph__KnowledgeGraph, citekey: String) -> Py_kovan__mindmap__LiteratureCard { Py_kovan__mindmap__LiteratureCard { inner: ::kovan::mindmap::literature_card(&root.inner, &index.inner, &graph.inner, &citekey) } }
+pub fn fn_kovan__mindmap__literature_card(root: PyRef<'_, Py_kovan__root__KovanRoot>, index: PyRef<'_, Py_kovan__index__KnowledgeIndex>, graph: PyRef<'_, Py_kovan__graph__KnowledgeGraph>, citekey: String) -> Py_kovan__mindmap__LiteratureCard { Py_kovan__mindmap__LiteratureCard { inner: ::kovan::mindmap::literature_card(&root.inner, &index.inner, &graph.inner, &citekey) } }
 
     // @item fn:kovan::project::append_to_section
 #[doc = "Append `block` (already-formatted markdown, e.g. one `### …` subsection\nwith a fenced CSV or an annotation's metadata bullets + free text) to the\nend of `section_name`'s current body, then write it back via\n[`write_section`] — op-96am's \"digitiser export lands its CSV in\n`graph_csvs`/`table_csvs`\" and \"an annotation lands in `annotations`\",\ndesign doc §5's \"a digitiser export landing its CSV into a section\"\ntrigger.\n\nIf `section_name`'s marker doesn't exist in this document yet (an older\ndocument from before schema v2 added `annotations`, or simply the first\nannotation/digitisation ever saved into it), the marker + a default\nheading (`default_heading_for`, private below) are created at the **end of the file**\n— `scan_markdown_sections` does not require markers to appear in\n[`SECTION_ORDER`]'s canonical order within the file, only that each name\nis valid and appears at most once, so this is a safe, non-reordering\nappend rather than a rewrite of the rest of the document."]
@@ -3786,17 +3825,22 @@ pub fn fn_kovan__project__scan_markdown_sections(markdown_path: String, markdown
     // @item fn:kovan::project::write_index
 #[doc = "Serialise `index` and write it to `root/kovan.toml` atomically (temp\nfile + rename — design doc §5 step 5), preceded by\n`GENERATED_HEADER` (the \"do not edit by hand\" comment block)."]
 #[pyfunction(name = "write_index")]
-pub fn fn_kovan__project__write_index(root: String, index: Py_kovan__project__ProjectIndex) -> PyResult<()> { err(::kovan::project::write_index(std::path::Path::new(&root), &index.inner)).map(|v| v) }
+pub fn fn_kovan__project__write_index(root: String, index: PyRef<'_, Py_kovan__project__ProjectIndex>) -> PyResult<()> { err(::kovan::project::write_index(std::path::Path::new(&root), &index.inner)).map(|v| v) }
 
     // @item fn:kovan::repository::save_repository
 #[doc = "§37's \"Save Repository\": build a tree from the current (non-excluded)\nworktree and commit it with a deterministic summary message, no AI.\nReturns `Ok(None)` — a no-op — when there is nothing to commit.\n\n`op-3gxp`: when a private literature submodule is configured and ready\n(see [`crate::root::KovanRoot::private_submodule_ready`]), its own\nworktree is committed **first** ([`save_private_submodule`]), before\nanything about the parent repository is touched — a failure there aborts\nthis whole call via `?`, so a parent commit can never reference an\ninvalid or uncommitted submodule state. The parent tree then records the\nsubmodule's current commit as a gitlink entry (see [`SubmoduleGitlink`])\ninstead of walking its contents, and `.gitmodules` is written/refreshed\nso real `git submodule` tooling recognises it too. When no private\nsubmodule is configured or ready, behaviour is unchanged from before\nthis existed: the directory is excluded from the parent tree entirely,\nsame as any other gitignored, local-only content."]
 #[pyfunction(name = "save_repository")]
-pub fn fn_kovan__repository__save_repository(root: Py_kovan__root__KovanRoot) -> PyResult<Option<Py_kovan__repository__SaveSummary>> { err(::kovan::repository::save_repository(&root.inner)).map(|v| v.map(|e| Py_kovan__repository__SaveSummary { inner: e })) }
+pub fn fn_kovan__repository__save_repository(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<Option<Py_kovan__repository__SaveSummary>> { err(::kovan::repository::save_repository(&root.inner)).map(|v| v.map(|e| Py_kovan__repository__SaveSummary { inner: e })) }
 
     // @item fn:kovan::repository::status
 #[doc = "What would change if [`save_repository`] ran right now — the \"N changes\nsince last repository save\" the UI shows (§37) — without writing\nanything. See [`private_submodule_head`] for the one documented gap in\nthat guarantee's coverage."]
 #[pyfunction(name = "status")]
-pub fn fn_kovan__repository__status(root: Py_kovan__root__KovanRoot) -> PyResult<Py_kovan__repository__SaveSummary> { err(::kovan::repository::status(&root.inner)).map(|v| Py_kovan__repository__SaveSummary { inner: v }) }
+pub fn fn_kovan__repository__status(root: PyRef<'_, Py_kovan__root__KovanRoot>) -> PyResult<Py_kovan__repository__SaveSummary> { err(::kovan::repository::status(&root.inner)).map(|v| Py_kovan__repository__SaveSummary { inner: v }) }
+
+    // @item fn:kovan::root::gitignore_for
+#[doc = "The `.gitignore` a newly created library gets (§4).\n\nDerived from `paths` rather than hard-coded, because the restricted-source\nlocation is configurable: a library that moves `restricted_sources`\nelsewhere must still have *that* directory ignored. Hard-coding\n`/literature/proprietary/` would silently leave restricted PDFs\ncommittable in any library that customised the layout — the exact failure\n§4 exists to prevent.\n\nCovers the three categories §4 requires: Kovan's disposable derived state,\nrestricted source documents, and editor/temporary files.\n\n**Skips the restricted-source pattern entirely when `private_submodule`\nis configured.** Once `restricted_sources` is a private submodule\ncheckout (a gitlink Git tracks specially, not a plain blob), gitignoring\nit is at best redundant and at worst confusing — `.gitignore` should\ndescribe what is *not* under version control, and a configured\nsubmodule is very much under version control, just in a different\nrepository."]
+#[pyfunction(name = "gitignore_for")]
+pub fn fn_kovan__root__gitignore_for(paths: PyRef<'_, Py_kovan__root__RootPaths>, private_submodule: Option<PyRef<'_, Py_kovan__root__PrivateSubmoduleConfig>>) -> String { ::kovan::root::gitignore_for(&paths.inner, private_submodule.as_ref().map(|r| &r.inner)) }
 
     // @item const:kovan::commands::skill_gen::DEFAULT_OUT
     // @item const:kovan::digitiser::dataset::DATASET_SCHEMA_VERSION
@@ -3920,8 +3964,13 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_kovan__advanced_git__system_git_available, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__artifact__parse_document, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__artifact__render_artifact_block, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__autocomplete__artifact_candidates, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__autocomplete__citation_candidates, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__autocomplete__wiki_candidates, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__classify__classify_selection, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__classify__insert_artifact, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__classify__replace_artifact_body, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__classify__sort_artifacts_by_page, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__commands__cost__run, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__commands__discover__run, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__commands__historian__run, m)?)?;
@@ -3970,6 +4019,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_kovan__project__write_index, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__repository__save_repository, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__repository__status, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__root__gitignore_for, m)?)?;
     m.add("DEFAULT_OUT", ::kovan::commands::skill_gen::DEFAULT_OUT.clone().to_string())?;
     m.add("DATASET_SCHEMA_VERSION", ::kovan::digitiser::dataset::DATASET_SCHEMA_VERSION)?;
     m.add("TABLE_SCHEMA_VERSION", ::kovan::digitiser::table_ocr::TABLE_SCHEMA_VERSION)?;

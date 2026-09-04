@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_mc_libs::depletion::DepletionMatrix
 #[doc = "A dense `n x n` depletion (burnup) matrix `A` in units of inverse seconds,\ndefining the linear system `dN/dt = A N`.\n\nStored row-major (`A[row][col] == data[row * n + col]`). The matrix is\ntypically sparse in practice (each nuclide feeds only a handful of\ndaughters), but depletion chains handled by this crate are small (tens of\nnuclides), so a dense store is simplest and keeps the CRAM linear solves\nstraightforward. See the module docs for the sign/index convention."]
@@ -166,7 +166,7 @@ impl Py_outram_mc_libs__depletion__chain__DepletionChain {
     pub fn decay_constant_of(&self, name: String) -> Option<f64> { ::outram_mc_libs::depletion::chain::DepletionChain::decay_constant_of(&self.inner, &name).map(|e| e) }
     // @item method:outram_mc_libs::depletion::chain::DepletionChain::build_matrix
     #[doc = "Assemble the burnup matrix `A` (`dN/dt = A N`, units `1/s`) from one-group\n[`ReactionRates`].\n\n# Convention (see [`DepletionMatrix`])\n\n`dN[row]/dt = sum_col A[row][col] N[col]`; off-diagonal `A[i][j] >= 0` is\nthe production rate of `i` from `j`; diagonal `A[j][j] <= 0` is the total\nremoval rate of `j`.\n\n# What it does, per nuclide `j` (column)\n\n* **Decay** (`lambda_j = ln2 / T_half`, `0` if stable): for each decay\n  branch to an in-chain target `t` with branching `b`,\n  `A[idx(t)][j] += b * lambda_j`; and once, `A[j][j] -= lambda_j` (total\n  decay removal, whether or not the daughters are tracked).\n* **Neutron reactions** — only the channels the chain declares for `j` are\n  read from `rates.rate_for(name_j)`:\n  * `(n,gamma)` (rate `= gamma`): `A[j][j] -= gamma`; if the gamma target\n    is in-chain, `A[idx(target)][j] += gamma`. An out-of-chain / `Nothing`\n    target is removal only (no production).\n  * fission (rate `= fission`): `A[j][j] -= fission`; for each in-chain\n    fission product `p` with yield `y`, `A[idx(p)][j] += fission * y`.\n  * `(n,2n)` (rate `= n2n`): `A[j][j] -= n2n`; if the target is in-chain,\n    `A[idx(target)][j] += n2n`.\n\nRates are already flux-multiplied (`1/"]
-    pub fn build_matrix(&self, rates: Py_outram_mc_libs__depletion__ReactionRates) -> Py_outram_mc_libs__depletion__DepletionMatrix { Py_outram_mc_libs__depletion__DepletionMatrix { inner: ::outram_mc_libs::depletion::chain::DepletionChain::build_matrix(&self.inner, &rates.inner) } }
+    pub fn build_matrix(&self, rates: PyRef<'_, Py_outram_mc_libs__depletion__ReactionRates>) -> Py_outram_mc_libs__depletion__DepletionMatrix { Py_outram_mc_libs__depletion__DepletionMatrix { inner: ::outram_mc_libs::depletion::chain::DepletionChain::build_matrix(&self.inner, &rates.inner) } }
     // @item method:outram_mc_libs::depletion::chain::DepletionChain::decay_matrix
     #[doc = "The pure-decay burnup matrix (no flux / no transmutation), i.e.\n`build_matrix(&ReactionRates::zero())`.\n\nConvenience for decay-only inventory evolution and for the atom-conservation\nchecks the `cram` module relies on: for a decay chain whose daughters are\nall in-chain, every column sums to zero."]
     pub fn decay_matrix(&self) -> Py_outram_mc_libs__depletion__DepletionMatrix { Py_outram_mc_libs__depletion__DepletionMatrix { inner: ::outram_mc_libs::depletion::chain::DepletionChain::decay_matrix(&self.inner) } }
@@ -418,6 +418,7 @@ impl Py_outram_mc_libs__geometry__lattice__LatticeType {
     // @item type:outram_mc_libs::geometry::surface::Plane
 #[doc = "General plane: A·x + B·y + C·z = D.\n\nThe unrestricted-orientation plane (the axis-aligned [`XPlane`]/[`YPlane`]/\n[`ZPlane`] are the cheap special cases). Maps to OpenMC `SurfacePlane`\n(`src/surface.cpp`). `(A, B, C)` need not be unit — [`Surface::normal`]\nnormalises them."]
 #[pyclass(name = "Plane", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__Plane { pub inner: ::outram_mc_libs::geometry::surface::Plane }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__Plane {
@@ -449,11 +450,13 @@ impl Py_outram_mc_libs__geometry__surface__Plane {
     // @item ctor:outram_mc_libs::geometry::surface::Plane
     #[new]
     pub fn __new__(a: f64, b: f64, c: f64, d: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::Plane { a: a, b: b, c: c, d: d, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::Quadric
 #[doc = "General quadric: A x² + B y² + C z² + D xy + E yz + F xz + G x + H y + J z + K = 0.\n\nThe most general second-order surface — every other surface here is a special\ncase, but the explicit forms above are cheaper and are preferred when the\ngeometry allows. Maps to OpenMC `SurfaceQuadric` (`src/surface.cpp`)."]
 #[pyclass(name = "Quadric", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__Quadric { pub inner: ::outram_mc_libs::geometry::surface::Quadric }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__Quadric {
@@ -515,11 +518,13 @@ impl Py_outram_mc_libs__geometry__surface__Quadric {
     // @item ctor:outram_mc_libs::geometry::surface::Quadric
     #[new]
     pub fn __new__(a: f64, b: f64, c: f64, d: f64, e: f64, f: f64, g: f64, h: f64, j: f64, k: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::Quadric { a: a, b: b, c: c, d: d, e: e, f: f, g: g, h: h, j: j, k: k, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::XCone
 #[doc = "Double-napped cone about the X axis: (y-y0)² + (z-z0)² = r_sq·(x-x0)².\n\nX-axis twin of [`ZCone`]; `r_sq` is the slope². Ported from OpenMC\n`SurfaceXCone` (`src/surface.cpp`)."]
 #[pyclass(name = "XCone", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__XCone { pub inner: ::outram_mc_libs::geometry::surface::XCone }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__XCone {
@@ -551,11 +556,13 @@ impl Py_outram_mc_libs__geometry__surface__XCone {
     // @item ctor:outram_mc_libs::geometry::surface::XCone
     #[new]
     pub fn __new__(x0: f64, y0: f64, z0: f64, r_sq: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::XCone { x0: x0, y0: y0, z0: z0, r_sq: r_sq, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::XCylinder
 #[doc = "Infinite cylinder along the X axis: (y-y0)² + (z-z0)² = r².\n\nThe X-axis twin of [`ZCylinder`]; same intersection algebra with the radial\npair `(y, z)` and the parallel axis `x`. Ported from OpenMC\n`axis_aligned_cylinder_distance<0,1,2>` (`src/surface.cpp`)."]
 #[pyclass(name = "XCylinder", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__XCylinder { pub inner: ::outram_mc_libs::geometry::surface::XCylinder }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__XCylinder {
@@ -582,11 +589,13 @@ impl Py_outram_mc_libs__geometry__surface__XCylinder {
     // @item ctor:outram_mc_libs::geometry::surface::XCylinder
     #[new]
     pub fn __new__(y0: f64, z0: f64, r: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::XCylinder { y0: y0, z0: z0, r: r, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::XTorus
 #[doc = "Torus about the **X** axis, centred at `(x0, y0, z0)`.\n\nRadial pair `(y, z)`, axial `x`:\n  `((sqrt((y−y0)² + (z−z0)²) − a) / b)² + ((x−x0) / c)² − 1 = 0`.\nX-axis twin of [`ZTorus`]; maps to OpenMC `SurfaceXTorus` (`src/surface.cpp`)."]
 #[pyclass(name = "XTorus", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__XTorus { pub inner: ::outram_mc_libs::geometry::surface::XTorus }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__XTorus {
@@ -628,11 +637,13 @@ impl Py_outram_mc_libs__geometry__surface__XTorus {
     // @item ctor:outram_mc_libs::geometry::surface::XTorus
     #[new]
     pub fn __new__(x0: f64, y0: f64, z0: f64, a: f64, b: f64, c: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::XTorus { x0: x0, y0: y0, z0: z0, a: a, b: b, c: c, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::YCone
 #[doc = "Double-napped cone about the Y axis: (x-x0)² + (z-z0)² = r_sq·(y-y0)².\n\nY-axis twin of [`ZCone`]; `r_sq` is the slope². Ported from OpenMC\n`SurfaceYCone` (`src/surface.cpp`)."]
 #[pyclass(name = "YCone", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__YCone { pub inner: ::outram_mc_libs::geometry::surface::YCone }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__YCone {
@@ -664,11 +675,13 @@ impl Py_outram_mc_libs__geometry__surface__YCone {
     // @item ctor:outram_mc_libs::geometry::surface::YCone
     #[new]
     pub fn __new__(x0: f64, y0: f64, z0: f64, r_sq: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::YCone { x0: x0, y0: y0, z0: z0, r_sq: r_sq, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::YCylinder
 #[doc = "Infinite cylinder along the Y axis: (x-x0)² + (z-z0)² = r².\n\nThe Y-axis twin of [`ZCylinder`]; radial pair `(x, z)`, parallel axis `y`.\nPorted from OpenMC `axis_aligned_cylinder_distance<1,0,2>` (`src/surface.cpp`)."]
 #[pyclass(name = "YCylinder", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__YCylinder { pub inner: ::outram_mc_libs::geometry::surface::YCylinder }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__YCylinder {
@@ -695,11 +708,13 @@ impl Py_outram_mc_libs__geometry__surface__YCylinder {
     // @item ctor:outram_mc_libs::geometry::surface::YCylinder
     #[new]
     pub fn __new__(x0: f64, z0: f64, r: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::YCylinder { x0: x0, z0: z0, r: r, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::YTorus
 #[doc = "Torus about the **Y** axis, centred at `(x0, y0, z0)`.\n\nRadial pair `(x, z)`, axial `y`:\n  `((sqrt((x−x0)² + (z−z0)²) − a) / b)² + ((y−y0) / c)² − 1 = 0`.\nY-axis twin of [`ZTorus`]; maps to OpenMC `SurfaceYTorus` (`src/surface.cpp`)."]
 #[pyclass(name = "YTorus", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__YTorus { pub inner: ::outram_mc_libs::geometry::surface::YTorus }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__YTorus {
@@ -741,11 +756,13 @@ impl Py_outram_mc_libs__geometry__surface__YTorus {
     // @item ctor:outram_mc_libs::geometry::surface::YTorus
     #[new]
     pub fn __new__(x0: f64, y0: f64, z0: f64, a: f64, b: f64, c: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::YTorus { x0: x0, y0: y0, z0: z0, a: a, b: b, c: c, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::ZCone
 #[doc = "Double-napped cone about the Z axis: (x-x0)² + (y-y0)² = r_sq·(z-z0)².\n\n`r_sq` is the **square of the slope** (tan² of the half-opening-angle), the\nsame parameterisation OpenMC `SurfaceZCone` stores (`src/surface.cpp`). The\nsurface is the full double cone (both naps); a single nap is selected in CSG\nby intersecting with a half-space (e.g. `z > z0`)."]
 #[pyclass(name = "ZCone", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__ZCone { pub inner: ::outram_mc_libs::geometry::surface::ZCone }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__ZCone {
@@ -777,11 +794,13 @@ impl Py_outram_mc_libs__geometry__surface__ZCone {
     // @item ctor:outram_mc_libs::geometry::surface::ZCone
     #[new]
     pub fn __new__(x0: f64, y0: f64, z0: f64, r_sq: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::ZCone { x0: x0, y0: y0, z0: z0, r_sq: r_sq, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::geometry::surface::ZTorus
 #[doc = "Torus about the **Z** axis, centred at `(x0, y0, z0)`.\n\nRadial pair `(x, y)`, axial `z`:\n  `((sqrt((x−x0)² + (y−y0)²) − a) / b)² + ((z−z0) / c)² − 1 = 0`.\n\n`a` = major radius, `b` = in-plane minor radius, `c` = axial minor radius\n(all cm). Maps to OpenMC `SurfaceZTorus` (`src/surface.cpp`)."]
 #[pyclass(name = "ZTorus", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__geometry__surface__ZTorus { pub inner: ::outram_mc_libs::geometry::surface::ZTorus }
 #[pymethods]
 impl Py_outram_mc_libs__geometry__surface__ZTorus {
@@ -823,6 +842,7 @@ impl Py_outram_mc_libs__geometry__surface__ZTorus {
     // @item ctor:outram_mc_libs::geometry::surface::ZTorus
     #[new]
     pub fn __new__(x0: f64, y0: f64, z0: f64, a: f64, b: f64, c: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::geometry::surface::ZTorus { x0: x0, y0: y0, z0: z0, a: a, b: b, c: c, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::gpu::GpuContext
@@ -976,10 +996,10 @@ impl Py_outram_mc_libs__gpu__capabilities__SplitPolicy {
     // @item method:outram_mc_libs::gpu::capabilities::SplitPolicy::auto_fraction
     #[doc = "The GPU share this policy implies for the given hardware.\n\n# `Auto` is a heuristic, not a measurement\n\nThe `Auto` constants below are **starting points chosen from device\nclass, not from benchmarks on this workload**. They encode only what is\ndefensible without measuring:\n\n- **No GPU** -> 0.0. Nothing else is possible.\n- **Software adapter** ([`DeviceClass::Cpu`]) -> 0.0. Such an adapter *is*\n  the CPU, reached through a driver; giving it work is strictly worse than\n  running the native CPU path.\n- **Integrated** -> 0.5. It shares memory bandwidth with the very cores\n  running the CPU half, so the two halves contend; an even split avoids\n  assuming either side wins.\n- **Discrete / virtual / other** -> 0.75. Independent VRAM and bandwidth,\n  so the GPU takes the majority — but the CPU keeps a real quarter of the\n  work rather than idling.\n\n**Do not read these as optimal.** For a workload that matters, call\n[`measured_gpu_fraction`] and pass the result as\n[`SplitPolicy::GpuFraction`]. The honest default is \"both sides do work\",\nnot \"we know the ratio\"."]
     #[staticmethod]
-    pub fn auto_fraction(caps: Py_outram_mc_libs__gpu__capabilities__HardwareCapabilities) -> f64 { ::outram_mc_libs::gpu::capabilities::SplitPolicy::auto_fraction(&caps.inner) }
+    pub fn auto_fraction(caps: PyRef<'_, Py_outram_mc_libs__gpu__capabilities__HardwareCapabilities>) -> f64 { ::outram_mc_libs::gpu::capabilities::SplitPolicy::auto_fraction(&caps.inner) }
     // @item method:outram_mc_libs::gpu::capabilities::SplitPolicy::gpu_fraction
     #[doc = "Resolve to a concrete GPU share in `[0, 1]` for this hardware."]
-    pub fn gpu_fraction(&self, caps: Py_outram_mc_libs__gpu__capabilities__HardwareCapabilities) -> f64 { ::outram_mc_libs::gpu::capabilities::SplitPolicy::gpu_fraction(self.inner.clone(), &caps.inner) }
+    pub fn gpu_fraction(&self, caps: PyRef<'_, Py_outram_mc_libs__gpu__capabilities__HardwareCapabilities>) -> f64 { ::outram_mc_libs::gpu::capabilities::SplitPolicy::gpu_fraction(self.inner.clone(), &caps.inner) }
     // @item variant:outram_mc_libs::gpu::capabilities::SplitPolicy::CpuOnly
     #[staticmethod]
     #[pyo3(name = "CpuOnly")]
@@ -1096,9 +1116,20 @@ impl Py_outram_mc_libs__gpu__union_grid__UnionTotalXs {
     pub fn get_temperature_k(&self) -> f64 { let v = self.inner.temperature_k.clone(); v }
     #[setter(temperature_k)]
     pub fn set_temperature_k(&mut self, v: f64) { self.inner.temperature_k = v; }
+    // @item method:outram_mc_libs::gpu::union_grid::UnionTotalXs::tabulate
+    #[doc = "Tabulate [`Material::macro_xs_total`] on `n_points` **log-spaced**\nenergies in the closed interval `[e_min_ev, e_max_ev]` \\[eV\\].\n\n# What is computed\nA dense resampling of the material's macroscopic total cross section:\n`grid[i] = 10^(log10(e_min) + t_i * (log10(e_max) - log10(e_min)))` with\n`t_i = i / (n_points - 1)` for `i` in `0..n_points`, and\n`sigma_total[i] = material.macro_xs_total(grid[i], nuclides)` \\[cm^-1\\].\nThe stored `temperature_k` is `material.temperature` \\[K\\].\n\n# This is NOT a native-breakpoint union\nThe grid is uniform in `log10(E)`, chosen independently of where the\nnuclide data actually has energy nodes. It therefore does **not**\nguarantee a grid point sits on every resonance peak — narrow resonances\nfalling between log-spaced nodes are smeared or skipped. A true union of\nthe constituent nuclides' native ENDF breakpoints is the remaining part\nof beads op-u6s.4 and is intentionally not done here. Treat this as an\nacceleration-only approximation whose accuracy grows with `n_points`.\n\n# Inputs / assumptions\n- `material` — the mixture whose Sigma_t is tabulated; its `temperature`\n  drives every Doppler lookup.\n- `nuclides` — the global nuclide array the material's "]
+    #[staticmethod]
+    pub fn tabulate(material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, e_min_ev: f64, e_max_ev: f64, n_points: usize) -> Py_outram_mc_libs__gpu__union_grid__UnionTotalXs { Py_outram_mc_libs__gpu__union_grid__UnionTotalXs { inner: ::outram_mc_libs::gpu::union_grid::UnionTotalXs::tabulate(&material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), e_min_ev, e_max_ev, n_points) } }
+    // @item method:outram_mc_libs::gpu::union_grid::UnionTotalXs::tabulate_native
+    #[doc = "Tabulate the material's macroscopic total Sigma_t \\[cm^-1\\] on the\n**UNION of its constituent nuclides' NATIVE energy breakpoints**\n(from [`Nuclide::native_energy_grid`]), merged with a log-spaced backbone\nfloor, over the closed interval `[e_min_ev, e_max_ev]` \\[eV\\].\n\n# What is computed\nA native-breakpoint *unionized* energy grid, then Sigma_t evaluated on it:\n1. For **each** component of `material`, gather that nuclide's native\n   energy nodes via `nuclides[c.nuclide_idx].native_energy_grid(e_min_ev,\n   e_max_ev)` — WMP window edges + fast MGXS group bounds for LOW/`Core`\n   nuclides, the unioned reconstructed section grids for HIGH/`Pointwise`.\n2. Merge a **log-spaced backbone** of `backbone_points` points spanning\n   `[e_min_ev, e_max_ev]` (guarded to `>= 2`).\n3. Push both endpoints, sort ascending, and dedup to a **strictly\n   increasing** grid (nodes within `~1e-12` relative of the previous are\n   dropped) — strict monotonicity is required by the binary-search\n   interpolation in [`lookup_cpu`](Self::lookup_cpu) /\n   [`lookup_gpu`](Self::lookup_gpu) and the WGSL kernel.\n4. Evaluate `sigma_total[i] = material.macro_xs_total(grid[i], nuclides)`\n   \\[cm^-1\\] at every node; store"]
+    #[staticmethod]
+    pub fn tabulate_native(material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, e_min_ev: f64, e_max_ev: f64, backbone_points: usize) -> Py_outram_mc_libs__gpu__union_grid__UnionTotalXs { Py_outram_mc_libs__gpu__union_grid__UnionTotalXs { inner: ::outram_mc_libs::gpu::union_grid::UnionTotalXs::tabulate_native(&material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), e_min_ev, e_max_ev, backbone_points) } }
     // @item method:outram_mc_libs::gpu::union_grid::UnionTotalXs::lookup_cpu
     #[doc = "Batched **CPU reference** lookup: the macroscopic total Sigma_t \\[cm^-1\\]\nat each query energy \\[eV\\], returned in the same order as `queries_ev`.\n\nThis is the trusted `f64` path. It delegates to\n[`crate::gpu::xs_interp::interp_xs_cpu`], which linearly interpolates the\nstored `sigma_total` between bracketing grid points (and linearly\nextrapolates using the end interval for queries outside the grid). A query\nlanding exactly on a grid point returns the stored value bit-for-bit (the\ninterpolation factor is exactly `0`).\n\nUnits: `queries_ev` in **eV**, returned values in **cm^-1**."]
     pub fn lookup_cpu(&self, queries_ev: Vec<f64>) -> Vec<f64> { ::outram_mc_libs::gpu::union_grid::UnionTotalXs::lookup_cpu(&self.inner, &queries_ev.into_iter().map(|e| e).collect::<Vec<_>>()).into_iter().map(|e| e).collect::<Vec<_>>() }
+    // @item method:outram_mc_libs::gpu::union_grid::UnionTotalXs::lookup_gpu
+    #[doc = "Batched **GPU-accelerated** lookup (`f32`): the same macroscopic total\nSigma_t \\[cm^-1\\] as [`lookup_cpu`](Self::lookup_cpu), but computed on the\nGPU via [`crate::gpu::xs_interp::interp_xs_gpu`].\n\nThe grid, tabulated `sigma_total`, and query energies are cast to `f32`\nand interpolated by the WGSL compute kernel. Results carry single-precision\nrounding, so they are held only to a *tolerance* against the `f64` CPU\nreference (see the V&V test in this module) — never trusted as the\nreference themselves, per this crate's CPU-is-truth rule.\n\nUnits: `queries_ev` in **eV**, returned values in **cm^-1** (as `f32`).\n\nCompiled on non-Android targets only (the GPU path depends on `wgpu`,\nwhich is target-gated out on Android); callers on Android use\n[`lookup_cpu`](Self::lookup_cpu)."]
+    pub fn lookup_gpu(&self, ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, queries_ev: Vec<f64>) -> Vec<f32> { ::outram_mc_libs::gpu::union_grid::UnionTotalXs::lookup_gpu(&self.inner, &ctx.inner, &queries_ev.into_iter().map(|e| e).collect::<Vec<_>>()).into_iter().map(|e| e).collect::<Vec<_>>() }
     // @item ctor:outram_mc_libs::gpu::union_grid::UnionTotalXs
     #[new]
     pub fn __new__(grid: Vec<f64>, sigma_total: Vec<f64>, temperature_k: f64) -> Self { Self { inner: ::outram_mc_libs::gpu::union_grid::UnionTotalXs { grid: grid.into_iter().map(|e| e).collect::<Vec<_>>(), sigma_total: sigma_total.into_iter().map(|e| e).collect::<Vec<_>>(), temperature_k: temperature_k } } }
@@ -1369,7 +1400,7 @@ impl Py_outram_mc_libs__pebble_beds__sphere_packing__PackingError {
 
     // @item type:outram_mc_libs::pebble_beds::sphere_packing::Sphere
 #[doc = "One packed spherical particle (e.g. a TRISO kernel) in a stochastic medium."]
-#[pyclass(name = "Sphere", module = "outram_park.outram_mc_libs")]
+#[pyclass(name = "sphere_packing_Sphere", module = "outram_park.outram_mc_libs")]
 #[derive(Clone)]
 pub struct Py_outram_mc_libs__pebble_beds__sphere_packing__Sphere { pub inner: ::outram_mc_libs::pebble_beds::sphere_packing::Sphere }
 #[pymethods]
@@ -1897,6 +1928,7 @@ impl Py_outram_mc_libs__prelude__BuildReport {
     // @item type:outram_mc_libs::prelude::Cell
 #[doc = "A CSG cell. Maps to `openmc::Cell`."]
 #[pyclass(name = "Cell", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__Cell { pub inner: ::outram_mc_libs::prelude::Cell }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__Cell {
@@ -1929,9 +1961,16 @@ impl Py_outram_mc_libs__prelude__Cell {
     #[doc = "Build a material cell with no translation — the common leaf case."]
     #[staticmethod]
     pub fn material(id: i32, region: Vec<Py_outram_mc_libs__prelude__RegionToken>, material_idx: usize, temperature: f64) -> Py_outram_mc_libs__prelude__Cell { Py_outram_mc_libs__prelude__Cell { inner: ::outram_mc_libs::prelude::Cell::material(id, region.into_iter().map(|e| e.inner).collect::<Vec<_>>(), material_idx, temperature) } }
+    // @item method:outram_mc_libs::prelude::Cell::contains
+    #[doc = "Whether position `r` lies inside this cell's region.\n\nEvaluates the RPN token stream over a boolean stack (mirrors the semantics\nof `Region::contains` in `src/cell.cpp`, generalised to explicit RPN so\nintersection, union and complement are all handled by one evaluator). A\nhalf-space pushes `sense_matches`; `Intersection`/`Union` pop two and push\ntheir AND/OR; `Complement` negates the top.\n\n`surfaces` is the global surface array the tokens index into. A malformed\n(stack-underflowing) region conservatively returns `false`."]
+    pub fn contains(&self, r: Py_outram_mc_libs__prelude__Position, surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>) -> bool { ::outram_mc_libs::prelude::Cell::contains(&self.inner, r.inner, &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
+    // @item method:outram_mc_libs::prelude::Cell::distance_to_boundary
+    #[doc = "Distance along ray `(r, u)` to the nearest surface bounding this cell.\n\nPorted from `Region::distance` (`src/cell.cpp:947`): take the minimum\n`distance` over every half-space surface in the region (operators are\nskipped). `on_surface` is the global surface index the particle currently\nsits on (`usize::MAX` if none) — that surface is queried with the\n`coincident` flag so round-off cannot re-report a zero crossing.\n\nReturns `(distance, surface_idx)`; `surface_idx == usize::MAX` when no\nbounding surface is crossed (distance `INFINITY`)."]
+    pub fn distance_to_boundary(&self, r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction, surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>, on_surface: usize) -> (f64, usize) { { let (e0, e1) = ::outram_mc_libs::prelude::Cell::distance_to_boundary(&self.inner, r.inner, u.inner, &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), on_surface); (e0, e1) } }
     // @item ctor:outram_mc_libs::prelude::Cell
     #[new]
     pub fn __new__(id: i32, region: Vec<Py_outram_mc_libs__prelude__RegionToken>, fill: Py_outram_mc_libs__prelude__CellFill, temperature: f64, translation: Py_outram_mc_libs__prelude__Position) -> Self { Self { inner: ::outram_mc_libs::prelude::Cell { id: id, region: region.into_iter().map(|e| e.inner).collect::<Vec<_>>(), fill: fill.inner, temperature: temperature, translation: translation.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::CellFill
@@ -2023,6 +2062,7 @@ impl Py_outram_mc_libs__prelude__ClsMedium {
     // @item type:outram_mc_libs::prelude::CoherentElasticTable
 #[doc = "Coherent-elastic (Bragg) scattering for one crystalline scatterer at one\ntemperature, stored **exactly** as the Bragg-edge step table.\n\nσ_coh_el(E) is a `1/E` sawtooth that steps *discontinuously* upward at each\nBragg edge, so — unlike the smooth channels — resampling it onto a log grid\nwould smear every edge. Instead this holds the edge energies and the\ncumulative structure factor from\n[`CoherentElasticScattering::bragg_edge_table`](njoy_outram_park_fork::thermr::scattering::CoherentElasticScattering::bragg_edge_table),\nwhich reproduces both σ(E) and the sampling law with no interpolation error\nat all. ENDF/B-VIII.0 crystalline graphite tabulates 221 edges, so the table\nis ~3.5 kB — *cheaper* than the log resample it replaces, as well as exact\n(measured worst relative deviation from the njoy surface: 7.67e-16 over\n21 199 points spanning 1e-4 → 4 eV; see `tests/thermal_graphite_elastic.rs`).\n\nUnits: edge energies \\[eV\\], cross sections \\[barn\\] **per principal atom**\n(per carbon for graphite — the caller multiplies by the principal-atom\nnumber density in atoms/barn·cm)."]
 #[pyclass(name = "CoherentElasticTable", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__CoherentElasticTable { pub inner: ::outram_mc_libs::prelude::CoherentElasticTable }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__CoherentElasticTable {
@@ -2032,6 +2072,7 @@ impl Py_outram_mc_libs__prelude__CoherentElasticTable {
     // @item method:outram_mc_libs::prelude::CoherentElasticTable::bragg_cutoff_ev
     #[doc = "The Bragg cutoff \\[eV\\] — the lowest energy at which coherent-elastic\nscattering is possible (1.8223 meV for ENDF/B-VIII.0 graphite, the (002)\nplane). Returns `f64::INFINITY` for an empty table."]
     pub fn bragg_cutoff_ev(&self) -> f64 { ::outram_mc_libs::prelude::CoherentElasticTable::bragg_cutoff_ev(&self.inner) }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::CollisionTables
@@ -2105,6 +2146,10 @@ impl Py_outram_mc_libs__prelude__CollisionTables {
     pub fn get_temperature_k(&self) -> f64 { let v = self.inner.temperature_k.clone(); v }
     #[setter(temperature_k)]
     pub fn set_temperature_k(&mut self, v: f64) { self.inner.temperature_k = v; }
+    // @item method:outram_mc_libs::prelude::CollisionTables::build
+    #[doc = "Build the per-nuclide reaction tables on the material's\n**native-breakpoint union grid** over `[e_min_ev, e_max_ev]` \\[eV\\].\n\nThe grid is exactly [`UnionTotalXs::tabulate_native`]'s (native nuclide\nbreakpoints merged with a log-spaced backbone of `backbone_points`), so the\nflight kernel and the collision kernel share one grid and one binary search.\nAt every grid node each nuclide's [`MicroXS`](crate::material::nuclide::MicroXS)\nis evaluated at the material temperature and split into the tabulated\nchannels; `macro_total` is `sum_j N_j * σ_t,j` so it is consistent with the\nper-nuclide totals the kernel sums when sampling the collision nuclide.\n\n# Inputs / assumptions\n- `material` — the mixture; its `temperature` \\[K\\] drives every lookup and\n  its `components` set the nuclide order.\n- `nuclides` — the global nuclide array the components index into.\n- `e_min_ev`, `e_max_ev` — strictly positive energy bounds \\[eV\\],\n  `e_min_ev < e_max_ev` (the backbone is log-spaced).\n- `backbone_points` — log-spaced backbone floor size (guarded `>= 2`); the\n  final grid length `G >= backbone_points`.\n\nPure — no RNG, no I/O."]
+    #[staticmethod]
+    pub fn build(material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, e_min_ev: f64, e_max_ev: f64, backbone_points: usize) -> Py_outram_mc_libs__prelude__CollisionTables { Py_outram_mc_libs__prelude__CollisionTables { inner: ::outram_mc_libs::prelude::CollisionTables::build(&material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), e_min_ev, e_max_ev, backbone_points) } }
     // @item method:outram_mc_libs::prelude::CollisionTables::n_grid
     #[doc = "Number of energy grid points `G`."]
     pub fn n_grid(&self) -> usize { ::outram_mc_libs::prelude::CollisionTables::n_grid(&self.inner) }
@@ -2308,6 +2353,14 @@ impl Py_outram_mc_libs__prelude__DerivedTally {
     pub fn get_std_devs(&self) -> Vec<f64> { let v = self.inner.std_devs.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
     #[setter(std_devs)]
     pub fn set_std_devs(&mut self, v: Vec<f64>) { self.inner.std_devs = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item method:outram_mc_libs::prelude::DerivedTally::from_tally
+    #[doc = "Build a derived tally from **all** of a tally's bins, flat, in stored order.\n\nUse this for a single-score tally (one score type), where each bin is a\ndistinct filter bin. For a multi-score tally use\n[`DerivedTally::from_tally_score`] to extract one score across the filter\nbins. `n_realizations` is the number of active batches the tally accumulated\n(its per-bin `count`)."]
+    #[staticmethod]
+    pub fn from_tally(tally: PyRef<'_, Py_outram_mc_libs__prelude__Tally>, n_realizations: u64) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::from_tally(&tally.inner, n_realizations) } }
+    // @item method:outram_mc_libs::prelude::DerivedTally::from_tally_score
+    #[doc = "Extract a single score (`score_idx`) across every filter bin of a\nmulti-score tally.\n\nTally bins are laid out `[filter_bin * n_scores + score_idx]` (see\n[`Tally`]); this strides over the filter bins picking one score, giving a\nper-filter-bin derived tally for that score. `n_realizations` is the number\nof active batches. Panics if `score_idx >= tally.scores.len()`."]
+    #[staticmethod]
+    pub fn from_tally_score(tally: PyRef<'_, Py_outram_mc_libs__prelude__Tally>, score_idx: usize, n_realizations: u64) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::from_tally_score(&tally.inner, score_idx, n_realizations) } }
     // @item method:outram_mc_libs::prelude::DerivedTally::new
     #[doc = "Construct directly from parallel mean / std-dev arrays (must be equal length)."]
     #[new]
@@ -2326,16 +2379,16 @@ impl Py_outram_mc_libs__prelude__DerivedTally {
     pub fn slice(&self, start: usize, end: usize) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::slice(&self.inner, start, end) } }
     // @item method:outram_mc_libs::prelude::DerivedTally::add
     #[doc = "Elementwise sum `a + b` with `σ = sqrt(σa² + σb²)`. Panics on length mismatch."]
-    pub fn add(&self, other: Py_outram_mc_libs__prelude__DerivedTally) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::add(&self.inner, &other.inner) } }
+    pub fn add(&self, other: PyRef<'_, Py_outram_mc_libs__prelude__DerivedTally>) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::add(&self.inner, &other.inner) } }
     // @item method:outram_mc_libs::prelude::DerivedTally::sub
     #[doc = "Elementwise difference `a - b` with `σ = sqrt(σa² + σb²)`. Panics on length\nmismatch."]
-    pub fn sub(&self, other: Py_outram_mc_libs__prelude__DerivedTally) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::sub(&self.inner, &other.inner) } }
+    pub fn sub(&self, other: PyRef<'_, Py_outram_mc_libs__prelude__DerivedTally>) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::sub(&self.inner, &other.inner) } }
     // @item method:outram_mc_libs::prelude::DerivedTally::mul
     #[doc = "Elementwise product `a · b` with `σ = |a·b|·sqrt((σa/a)² + (σb/b)²)`.\nPanics on length mismatch."]
-    pub fn mul(&self, other: Py_outram_mc_libs__prelude__DerivedTally) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::mul(&self.inner, &other.inner) } }
+    pub fn mul(&self, other: PyRef<'_, Py_outram_mc_libs__prelude__DerivedTally>) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::mul(&self.inner, &other.inner) } }
     // @item method:outram_mc_libs::prelude::DerivedTally::div
     #[doc = "Elementwise quotient `a / b` with `σ = |a/b|·sqrt((σa/a)² + (σb/b)²)`.\nPanics on length mismatch. A zero denominator yields a non-finite value —\nthe caller must guard against zero-flux bins (the verification test does)."]
-    pub fn div(&self, other: Py_outram_mc_libs__prelude__DerivedTally) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::div(&self.inner, &other.inner) } }
+    pub fn div(&self, other: PyRef<'_, Py_outram_mc_libs__prelude__DerivedTally>) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::div(&self.inner, &other.inner) } }
     // @item method:outram_mc_libs::prelude::DerivedTally::scalar_mul
     #[doc = "Scale every bin by an **exact** scalar `k`: value `k·a`, `σ = |k|·σa`.\n\nBecause `k` is exact (no uncertainty), this is *not* the same as adding a\ntally to itself `k` times — `scalar_mul(2)` gives `σ = 2σa`, whereas\n`add(a, a)` gives `σ = σa·√2` under the uncorrelated assumption."]
     pub fn scalar_mul(&self, k: f64) -> Py_outram_mc_libs__prelude__DerivedTally { Py_outram_mc_libs__prelude__DerivedTally { inner: ::outram_mc_libs::prelude::DerivedTally::scalar_mul(&self.inner, k) } }
@@ -2541,6 +2594,10 @@ impl Py_outram_mc_libs__prelude__EventTablesF32 {
     pub fn get_n_nuclide(&self) -> usize { let v = self.inner.n_nuclide.clone(); v }
     #[setter(n_nuclide)]
     pub fn set_n_nuclide(&mut self, v: usize) { self.inner.n_nuclide = v; }
+    // @item method:outram_mc_libs::prelude::EventTablesF32::from_collision_tables
+    #[doc = "Pack a [`CollisionTables`] (built on the CPU in `f64`) into the flat `f32`\nlayout the GPU kernel and the CPU mirror read. Down-casts every value to\n`f32` (the acceleration precision)."]
+    #[staticmethod]
+    pub fn from_collision_tables(t: PyRef<'_, Py_outram_mc_libs__prelude__CollisionTables>) -> Py_outram_mc_libs__prelude__EventTablesF32 { Py_outram_mc_libs__prelude__EventTablesF32 { inner: ::outram_mc_libs::prelude::EventTablesF32::from_collision_tables(&t.inner) } }
     // @item ctor:outram_mc_libs::prelude::EventTablesF32
     #[new]
     pub fn __new__(xs: Vec<f32>, n_grid: usize, n_nuclide: usize) -> Self { Self { inner: ::outram_mc_libs::prelude::EventTablesF32 { xs: xs.into_iter().map(|e| e).collect::<Vec<_>>(), n_grid: n_grid, n_nuclide: n_nuclide } } }
@@ -2779,6 +2836,26 @@ impl Py_outram_mc_libs__prelude__FlightSphere {
 pub struct Py_outram_mc_libs__prelude__Geometry { pub inner: ::outram_mc_libs::prelude::Geometry }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__Geometry {
+    // @item field:outram_mc_libs::prelude::Geometry::surfaces
+    #[getter(surfaces)]
+    pub fn get_surfaces(&self) -> Vec<Py_outram_mc_libs__prelude__SurfaceKind> { let v = self.inner.surfaces.clone(); v.into_iter().map(|e| Py_outram_mc_libs__prelude__SurfaceKind { inner: e }).collect::<Vec<_>>() }
+    #[setter(surfaces)]
+    pub fn set_surfaces(&mut self, v: Vec<Py_outram_mc_libs__prelude__SurfaceKind>) { self.inner.surfaces = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:outram_mc_libs::prelude::Geometry::cells
+    #[getter(cells)]
+    pub fn get_cells(&self) -> Vec<Py_outram_mc_libs__prelude__Cell> { let v = self.inner.cells.clone(); v.into_iter().map(|e| Py_outram_mc_libs__prelude__Cell { inner: e }).collect::<Vec<_>>() }
+    #[setter(cells)]
+    pub fn set_cells(&mut self, v: Vec<Py_outram_mc_libs__prelude__Cell>) { self.inner.cells = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:outram_mc_libs::prelude::Geometry::universes
+    #[getter(universes)]
+    pub fn get_universes(&self) -> Vec<Py_outram_mc_libs__prelude__Universe> { let v = self.inner.universes.clone(); v.into_iter().map(|e| Py_outram_mc_libs__prelude__Universe { inner: e }).collect::<Vec<_>>() }
+    #[setter(universes)]
+    pub fn set_universes(&mut self, v: Vec<Py_outram_mc_libs__prelude__Universe>) { self.inner.universes = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:outram_mc_libs::prelude::Geometry::lattices
+    #[getter(lattices)]
+    pub fn get_lattices(&self) -> Vec<Py_outram_mc_libs__prelude__Lattice> { let v = self.inner.lattices.clone(); v.into_iter().map(|e| Py_outram_mc_libs__prelude__Lattice { inner: e }).collect::<Vec<_>>() }
+    #[setter(lattices)]
+    pub fn set_lattices(&mut self, v: Vec<Py_outram_mc_libs__prelude__Lattice>) { self.inner.lattices = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
     // @item field:outram_mc_libs::prelude::Geometry::root_universe
     #[getter(root_universe)]
     pub fn get_root_universe(&self) -> usize { let v = self.inner.root_universe.clone(); v }
@@ -2787,9 +2864,18 @@ impl Py_outram_mc_libs__prelude__Geometry {
     // @item method:outram_mc_libs::prelude::Geometry::locate
     #[doc = "Locate the particle at global position `r` moving along `u`.\n\nDescends from the root universe: at each level it finds the containing\ncell; a `Material`/`Void` fill terminates the descent, a `Universe` fill\nrecurses into that universe (applying the cell translation), and a\n`Lattice` fill resolves the tile index and recurses into the tile's\nuniverse (recentring the position to the tile). Ported from\n`find_cell_inner` (`src/geometry.cpp:102`).\n\n`on_surface` is the global surface index the particle sits on\n(`usize::MAX` if none); it is carried through into the returned path for\ncoincident-distance handling. Returns `None` if the particle is in no cell\nat some level (a \"lost\" particle — outside the geometry)."]
     pub fn locate(&self, r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction, on_surface: usize) -> Option<Py_outram_mc_libs__prelude__GeometryPath> { ::outram_mc_libs::prelude::Geometry::locate(&self.inner, r.inner, u.inner, on_surface).map(|e| Py_outram_mc_libs__prelude__GeometryPath { inner: e }) }
+    // @item method:outram_mc_libs::prelude::Geometry::distance_to_boundary
+    #[doc = "Distance to the nearest boundary — surface or lattice tile — over all\ncoordinate levels of `path`.\n\nPorted from `distance_to_boundary` (`src/geometry.cpp:361`): each level\ncontributes its cell's nearest bounding-surface distance and, if the level\nis a lattice tile, the distance to the next tile edge; the global minimum\nwins. Because nested frames here are pure translations (no rotation), the\nglobal `on_surface` index is valid for coincident checks at every level."]
+    pub fn distance_to_boundary(&self, path: PyRef<'_, Py_outram_mc_libs__prelude__GeometryPath>) -> Py_outram_mc_libs__prelude__BoundaryHit { Py_outram_mc_libs__prelude__BoundaryHit { inner: ::outram_mc_libs::prelude::Geometry::distance_to_boundary(&self.inner, &path.inner) } }
+    // @item method:outram_mc_libs::prelude::Geometry::sigma_t_at
+    #[doc = "Total macroscopic cross section of the cell a point is in — a convenience\nfor delta-tracking majorant lookups. `None` if the point is lost (outside\nthe geometry) or in a void cell.\n\n`materials`/`nuclides` are the global arrays the leaf material indexes into."]
+    pub fn sigma_t_at(&self, r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction, e: f64, materials: Vec<Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>) -> Option<f64> { ::outram_mc_libs::prelude::Geometry::sigma_t_at(&self.inner, r.inner, u.inner, e, &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| e) }
     // @item method:outram_mc_libs::prelude::Geometry::cross_surface
     #[doc = "Apply a surface crossing to a global position/direction and return the\npost-crossing state plus whether the particle survives.\n\nThe particle is assumed already streamed to the surface at global `r`.\nA **reflective** surface reflects `u` about its outward normal; a\n**vacuum** surface kills the particle (leak); transmissive/lattice\ncrossings pass through unchanged. The returned position is nudged a hair\npast the surface along the outgoing direction so the next `locate` lands\nunambiguously on the far side.\n\nMirrors the boundary-condition dispatch in `cross_surface`\n(`src/surface.cpp` / `src/geometry.cpp`), reduced to the vacuum/reflective/\ntransmissive cases this crate implements."]
     pub fn cross_surface(&self, i_surf: usize, r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction) -> (Py_outram_mc_libs__prelude__Position, Py_outram_mc_libs__prelude__Direction, bool) { { let (e0, e1, e2) = ::outram_mc_libs::prelude::Geometry::cross_surface(&self.inner, i_surf, r.inner, u.inner); (Py_outram_mc_libs__prelude__Position { inner: e0 }, Py_outram_mc_libs__prelude__Direction { inner: e1 }, e2) } }
+    // @item ctor:outram_mc_libs::prelude::Geometry
+    #[new]
+    pub fn __new__(surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>, cells: Vec<Py_outram_mc_libs__prelude__Cell>, universes: Vec<Py_outram_mc_libs__prelude__Universe>, lattices: Vec<Py_outram_mc_libs__prelude__Lattice>, root_universe: usize) -> Self { Self { inner: ::outram_mc_libs::prelude::Geometry { surfaces: surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cells: cells.into_iter().map(|e| e.inner).collect::<Vec<_>>(), universes: universes.into_iter().map(|e| e.inner).collect::<Vec<_>>(), lattices: lattices.into_iter().map(|e| e.inner).collect::<Vec<_>>(), root_universe: root_universe } } }
 }
 
     // @item type:outram_mc_libs::prelude::GeometryPath
@@ -2847,6 +2933,7 @@ impl Py_outram_mc_libs__prelude__HalfSpaceSense {
     // @item type:outram_mc_libs::prelude::HexLattice
 #[doc = "A hexagonal lattice. Maps to `openmc::HexLattice`.\n\nC++ source: `src/lattice.cpp:456` (constructor) and the `HexLattice::*`\nmethods that follow it, `include/openmc/lattice.h:253`.\n\n# What it represents\n\nA hexagonal lattice tiles the plane with `3*n_rings*(n_rings-1) + 1`\nhexagonal tiles arranged in `n_rings` concentric rings (the innermost \"ring\"\nis the single central tile). Each tile maps to a universe index. Optionally\nthe lattice is stacked `n_axial` times along z.\n\n# Indexing (this is the crux)\n\nInternally OpenMC stores the tiles in a **skewed** `(2*n_rings-1) x\n(2*n_rings-1)` *square* array, with the unused corner entries set to\n[`HEX_NONE`]. A tile is addressed by a signed index triplet `[ix, iy, iz]`\nwhere `ix, iy` are the two skewed lattice axes offset by `n_rings-1` (so the\ncentral tile is `[n_rings-1, n_rings-1, 0]`) and `iz` is the axial level. The\nflat storage index is\n`(2*n_rings-1)^2 * iz + (2*n_rings-1) * iy + ix` (see\n[`Self::flat_index`]). Membership in the hexagon (as opposed to a skipped\ncorner) is [`Self::are_valid_indices`].\n\nUnits: `center`/`pitch` in cm."]
 #[pyclass(name = "HexLattice", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__HexLattice { pub inner: ::outram_mc_libs::prelude::HexLattice }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__HexLattice {
@@ -2899,6 +2986,7 @@ impl Py_outram_mc_libs__prelude__HexLattice {
     #[doc = "Build a **3-D** hexagonal lattice: `levels.len()` axially-stacked copies\nof a hexagonal ring fill, one full ring description per axial level.\n\nMirrors OpenMC's 3-D `HexLattice` input, where `universes` is nested one\nlevel deeper than the 2-D case — `[axial_level][ring][element]` — and the\nC++ `fill_lattice_x`/`fill_lattice_y` (`src/lattice.cpp:546,598`) wrap the\n2-D ring walk in an outer axial `m` loop. Each axial level is an\nindependent 2-D hexagonal fill written into its own `(2*n_rings-1)^2`\nslice of [`Self::universes`] at flat offset `(2*n_rings-1)^2 * iz` (see\n[`Self::flat_index`]). The 2-D [`Self::from_rings`] is the special case\n`levels.len() == 1`; a single-level call here reproduces its planar layout\n(only `n_axial`/`pitch[1]` differ).\n\n# Parameters\n- `id`, `orientation`, `center`, `outer` — as [`Self::from_rings`];\n  `center.z` is the axial centre of the whole stack, in cm.\n- `radial_pitch` — tile flat-to-flat pitch in cm (`pitch[0]`).\n- `axial_pitch` — height of one axial level in cm (`pitch[1]`).\n- `levels` — one entry per axial level. **`levels[0]` is the bottom level**\n  (`iz = 0`, lowest z; its centre sits at `center.z - (n_axial-1)/2 ·\n  axial_pitch`), matching the "]
     #[staticmethod]
     pub fn from_rings_3d(id: i32, orientation: Py_outram_mc_libs__prelude__HexOrientation, center: Py_outram_mc_libs__prelude__Position, radial_pitch: f64, axial_pitch: f64, levels: Vec<Vec<Vec<usize>>>, outer: Option<usize>) -> Py_outram_mc_libs__prelude__HexLattice { Py_outram_mc_libs__prelude__HexLattice { inner: ::outram_mc_libs::prelude::HexLattice::from_rings_3d(id, orientation.inner, center.inner, radial_pitch, axial_pitch, &levels.into_iter().map(|e| e.into_iter().map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()).collect::<Vec<_>>()).collect::<Vec<_>>(), outer.map(|e| e)) } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::HexOrientation
@@ -2961,12 +3049,14 @@ impl Py_outram_mc_libs__prelude__InclusionSphere {
     // @item type:outram_mc_libs::prelude::IncoherentElasticTable
 #[doc = "Incoherent-elastic scattering for one hydrogenous solid at one temperature,\npre-tabulated on a log energy grid.\n\nσ_inc_el(E) = (σ_b/2N)·(1 − e^{−4EW'})/(2EW') is smooth in E — no edges — so\nunlike the coherent channel a 200-point log grid resolves it. Each grid point\nalso carries the equally-probable cosines of the forward-peaked angular law\np(μ) ∝ e^{−2EW'(1−μ)}, the ACE ITCA block's in-memory analogue.\n\nUnits: energies \\[eV\\], cross sections \\[barn per principal atom\\], cosines\ndimensionless on \\[−1, 1\\]."]
 #[pyclass(name = "IncoherentElasticTable", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__IncoherentElasticTable { pub inner: ::outram_mc_libs::prelude::IncoherentElasticTable }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__IncoherentElasticTable {
     // @item method:outram_mc_libs::prelude::IncoherentElasticTable::cross_section
     #[doc = "Incoherent-elastic cross section \\[barn per principal atom\\] at incident\nenergy `e` \\[eV\\], linearly interpolated on the pre-tabulated grid and\nclamped to its endpoints."]
     pub fn cross_section(&self, e: f64) -> f64 { ::outram_mc_libs::prelude::IncoherentElasticTable::cross_section(&self.inner, e) }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::IndexError
@@ -3119,6 +3209,7 @@ impl Py_outram_mc_libs__prelude__KeffSettings {
     // @item type:outram_mc_libs::prelude::Lattice
 #[doc = "A lattice fill — dispatched by enum, not a trait object (per the workspace\n\"enums over `dyn`\" rule). [`crate::geometry::geometry::Geometry`] holds a\n`Vec<Lattice>` and matches on the variant during descent."]
 #[pyclass(name = "Lattice", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__Lattice { pub inner: ::outram_mc_libs::prelude::Lattice }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__Lattice {
@@ -3128,10 +3219,19 @@ impl Py_outram_mc_libs__prelude__Lattice {
     // @item method:outram_mc_libs::prelude::Lattice::get_indices
     #[doc = "Skewed/signed tile index for `(r, u)` in this lattice's local frame."]
     pub fn get_indices(&self, r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction) -> Vec<i32> { ::outram_mc_libs::prelude::Lattice::get_indices(&self.inner, r.inner, u.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
+    // @item variant:outram_mc_libs::prelude::Lattice::Rect
+    #[staticmethod]
+    #[pyo3(name = "Rect")]
+    pub fn v_Rect(a0: Py_outram_mc_libs__prelude__RectLattice) -> Self { Self { inner: ::outram_mc_libs::prelude::Lattice::Rect(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::Lattice::Hex
+    #[staticmethod]
+    #[pyo3(name = "Hex")]
+    pub fn v_Hex(a0: Py_outram_mc_libs__prelude__HexLattice) -> Self { Self { inner: ::outram_mc_libs::prelude::Lattice::Hex(a0.inner) } }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_mc_libs::prelude::Lattice::Rect(..) => "Rect", ::outram_mc_libs::prelude::Lattice::Hex(..) => "Hex", _ => "unknown" }
     }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::LegendreAxis
@@ -3216,6 +3316,14 @@ impl Py_outram_mc_libs__prelude__Majorant {
     #[doc = "A single flat majorant `sigma_max` \\[cm⁻¹\\] valid at all energies.\n\nThe simplest bound: one conservative constant. Correct as long as\n`sigma_max ≥ Σ_t` everywhere the neutron can travel; looser than an\nenergy-dependent majorant, so it produces more virtual collisions."]
     #[staticmethod]
     pub fn uniform(sigma_max: f64) -> Py_outram_mc_libs__prelude__Majorant { Py_outram_mc_libs__prelude__Majorant { inner: ::outram_mc_libs::prelude::Majorant::uniform(sigma_max) } }
+    // @item method:outram_mc_libs::prelude::Majorant::from_materials
+    #[doc = "Build the majorant `Σ_maj(E) = max_m Σ_t,m(E)` over `materials` on the\nsupplied energy grid, with a small `margin` fraction added for safety.\n\nFor each grid energy this takes the maximum macroscopic total over every\nmaterial (each evaluated at its own temperature), then multiplies by\n`1 + margin` so floating-point round-off at the exact grid points can never\nlet a real `Σ_t` slip above the bound. Pass `margin = 0.0` for the tight\nbound, or e.g. `0.01` for a 1 % cushion.\n\n# Parameters\n- `materials` — every material the neutron might enter (fuel, matrix, …).\n- `nuclides` — the global nuclide array the materials index into.\n- `energies` — ascending energy grid \\[eV\\] to tabulate the majorant on.\n- `margin` — non-negative safety fraction added to each majorant value."]
+    #[staticmethod]
+    pub fn from_materials(materials: Vec<Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, energies: Vec<f64>, margin: f64) -> Py_outram_mc_libs__prelude__Majorant { Py_outram_mc_libs__prelude__Majorant { inner: ::outram_mc_libs::prelude::Majorant::from_materials(&materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &energies.into_iter().map(|e| e).collect::<Vec<_>>(), margin) } }
+    // @item method:outram_mc_libs::prelude::Majorant::bounding
+    #[doc = "Build a **provably bounding** majorant by taking, for each energy bin, the\nmaximum of `Σ_t` over a dense sub-sample of that bin — not just its\nendpoints.\n\n[`Self::from_materials`] evaluates `Σ_t` only at the grid *points*, so a\nresonance peak that falls *between* two points slips under the bound — fatal\nfor delta tracking, whose whole contract is `Σ_maj ≥ Σ_t` **everywhere**\n(an under-bound biases the real/virtual split toward the higher-`Σ_t`\nmaterial). This constructor instead lays a log grid of `n_bins` bins over\n`[e_min, e_max]` and, for each bin, evaluates the per-material macroscopic\ntotal at `subsamples` energies spanning the bin and keeps the largest. That\nbin maximum is written to **both** bin edges, so [`Self::at`]'s\nbracket-maximum returns a value `≥` the bin's true peak for any energy inside\nit. A final `1 + margin` cushion covers sub-bin structure narrower than the\nsampling.\n\nThe cost is `n_bins · subsamples` cross-section evaluations at construction\n(once), in exchange for an unbiased flight. For resonance data (WMP / HIGH\ntier) prefer this over [`Self::from_materials`]; for smooth or group data the\ncheaper point sampler is adequate.\n\n# Parameters\n- `materials` / `nuc"]
+    #[staticmethod]
+    pub fn bounding(materials: Vec<Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, e_min: f64, e_max: f64, n_bins: usize, subsamples: usize, margin: f64) -> Py_outram_mc_libs__prelude__Majorant { Py_outram_mc_libs__prelude__Majorant { inner: ::outram_mc_libs::prelude::Majorant::bounding(&materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), e_min, e_max, n_bins, subsamples, margin) } }
     // @item method:outram_mc_libs::prelude::Majorant::at
     #[doc = "The majorant Σ_maj \\[cm⁻¹\\] at energy `e` \\[eV\\] — conservative (takes the\nlarger bracketing grid value so it never under-bounds between points)."]
     pub fn at(&self, e: f64) -> f64 { ::outram_mc_libs::prelude::Majorant::at(&self.inner, e) }
@@ -3230,6 +3338,7 @@ impl Py_outram_mc_libs__prelude__Majorant {
     // @item type:outram_mc_libs::prelude::Material
 #[doc = "A material — mixture of nuclides.  Maps to `openmc::Material`."]
 #[pyclass(name = "Material", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__Material { pub inner: ::outram_mc_libs::prelude::Material }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__Material {
@@ -3253,9 +3362,16 @@ impl Py_outram_mc_libs__prelude__Material {
     pub fn get_temperature(&self) -> f64 { let v = self.inner.temperature.clone(); v }
     #[setter(temperature)]
     pub fn set_temperature(&mut self, v: f64) { self.inner.temperature = v; }
+    // @item method:outram_mc_libs::prelude::Material::macro_xs
+    #[doc = "Macroscopic cross sections at energy `e` \\[eV\\], summed over all nuclides.\n\n`nuclides` is the global nuclide array; each component indexes into it.\nUses the material temperature for Doppler-broadened lookups."]
+    pub fn macro_xs(&self, e: f64, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>) -> Py_outram_mc_libs__prelude__MacroXs { Py_outram_mc_libs__prelude__MacroXs { inner: ::outram_mc_libs::prelude::Material::macro_xs(&self.inner, e, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
+    // @item method:outram_mc_libs::prelude::Material::macro_xs_total
+    #[doc = "Macroscopic total cross section Σ_t(E) \\[cm⁻¹\\] = Σ_i N_i·σ_t,i(E)."]
+    pub fn macro_xs_total(&self, e: f64, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>) -> f64 { ::outram_mc_libs::prelude::Material::macro_xs_total(&self.inner, e, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>()) }
     // @item ctor:outram_mc_libs::prelude::Material
     #[new]
     pub fn __new__(id: i32, name: String, components: Vec<Py_outram_mc_libs__material__material__NuclideComponent>, temperature: f64) -> Self { Self { inner: ::outram_mc_libs::prelude::Material { id: id, name: name, components: components.into_iter().map(|e| e.inner).collect::<Vec<_>>(), temperature: temperature } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::MaterialFilter
@@ -3385,6 +3501,7 @@ impl Py_outram_mc_libs__prelude__MicroXS {
     // @item type:outram_mc_libs::prelude::Nuclide
 #[doc = "One isotope's cross-section data, pulled from `njoy-outram-park-fork`.\n\nTwo constructors give the two fidelity tiers, both feeding the *same*\n[`Nuclide::xs_at_energy`] seam so the transport kernel never knows the\ndifference:\n\n- [`Nuclide::from_core`] — **LOW**: embedded WMP + fast MGXS, offline.\n- [`Nuclide::from_endf`] — **HIGH**: download raw ENDF, RECONR + BROADR to\n  pointwise σ(E) (behind the `net-fetch` feature)."]
 #[pyclass(name = "Nuclide", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__Nuclide { pub inner: ::outram_mc_libs::prelude::Nuclide }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__Nuclide {
@@ -3402,6 +3519,9 @@ impl Py_outram_mc_libs__prelude__Nuclide {
     #[doc = "**LOW fidelity.** Resolve a nuclide from the embedded CORE nuclear-data\nlibraries.\n\nPulls the WMP evaluator from [`WmpLibrary::core`] and the fast MGXS set\nfrom [`MgxsLibrary::core`] (absent for nuclides whose WMP already reaches\n20 MeV). ν̄ is a compact per-nuclide constant table ([`nubar_for`]) — a\nstopgap until ACER 4b lands (see `docs/keff-doppler-roadmap.md`).\n\n# Errors\n[`NjoyError`] if `name` is not in the CORE WMP container."]
     #[staticmethod]
     pub fn from_core(name: String) -> PyResult<Py_outram_mc_libs__prelude__Nuclide> { err(::outram_mc_libs::prelude::Nuclide::from_core(&name)).map(|v| Py_outram_mc_libs__prelude__Nuclide { inner: v }) }
+    // @item method:outram_mc_libs::prelude::Nuclide::with_thermal_scattering
+    #[doc = "Attach a bound-atom S(α,β) [`ThermalScattering`] treatment to this nuclide\n(builder style, consumes and returns `self`).\n\nUse it on the moderator nuclide of a *thermal* problem — the H-1 in light\nwater gets the H-in-H₂O `tsl` table; the C-12/C-13 of an HTR-10 pebble\ngets `tsl-crystalline-graphite`. Below the table's thermal cutoff (~4 eV)\nthe neutron then scatters off the bound-atom law instead of the free-gas\nelastic kernel: the bound cross section (inelastic **plus** the\nscatterer's elastic channel, if it has one) is used in\n[`Nuclide::xs_at_energy`] and the secondary energy/angle are drawn by\n[`Nuclide::sample_thermal`], giving the up-scatter that thermalizes the\nspectrum. Above the cutoff nothing changes.\n\nIt is the caller's responsibility that `thermal` matches this nuclide\n(an H-in-H₂O table on H-1, at the material temperature)."]
+    pub fn with_thermal_scattering(&self, thermal: Py_outram_mc_libs__prelude__ThermalScattering) -> Py_outram_mc_libs__prelude__Nuclide { Py_outram_mc_libs__prelude__Nuclide { inner: ::outram_mc_libs::prelude::Nuclide::with_thermal_scattering(self.inner.clone(), thermal.inner) } }
     // @item method:outram_mc_libs::prelude::Nuclide::xs_at_energy
     #[doc = "Microscopic cross sections at incident energy `e` \\[eV\\] and temperature\n`temp_k` \\[K\\].\n\n- **LOW (`Core`):** below `e_max` the analytic-Doppler WMP form is used\n  (temperature-dependent); above `e_max` the fast MGXS constant-per-group\n  lookup takes over (temperature-independent — the fast range is smooth).\n- **HIGH (`Pointwise`):** a direct pointwise lookup on the reconstructed\n  σ(E). The data was already Doppler-broadened to its target temperature at\n  construction, so `temp_k` is ignored here.\n\nIn both tiers the transport kernel partitions on `total`/`fission`/\n`absorption`; `elastic` is reported for completeness but the kernel treats\n`total − absorption` as the scattering channel (lumping inelastic and\n(n,xn) into elastic-like events — see the keff module fidelity note)."]
     pub fn xs_at_energy(&self, e: f64, temp_k: f64) -> Py_outram_mc_libs__prelude__MicroXS { Py_outram_mc_libs__prelude__MicroXS { inner: ::outram_mc_libs::prelude::Nuclide::xs_at_energy(&self.inner, e, temp_k) } }
@@ -3414,6 +3534,7 @@ impl Py_outram_mc_libs__prelude__Nuclide {
     // @item method:outram_mc_libs::prelude::Nuclide::native_energy_grid
     #[doc = "The native energy breakpoints \\[eV\\] this nuclide's cross-section data\nactually tabulates (or is defined on), restricted to `[e_min_ev, e_max_ev]`,\nreturned **ascending** and **deduplicated** (strictly increasing).\n\n# What this is for\nA caller building a *union energy grid* over all nuclides in a material —\nmirroring OpenMC, where each nuclide carries its own native pointwise grid\n(`Nuclide::grid_[T].energy`, read at `src/nuclide.cpp:234`) and a single\nbinary search, accelerated by an equal-logarithmic mapping grid layered on\ntop (`src/nuclide.cpp:506`), serves every lookup. The union grid merges\neach nuclide's native breakpoints into one global sorted set so a lookup\nresolves real data features. This method exposes *this* nuclide's\ncontribution — its genuine data nodes (section breakpoints, or structural\nwindow + group edges) rather than an arbitrary mesh — so the union lands\nnodes where σ(E) actually has structure.\n\n# Per-tier meaning of \"native\"\n- **LOW tier (`Core`, analytic WMP):** the windowed-multipole form has **no\n  native pointwise grid** — it is an *analytic* Doppler evaluation, smooth\n  between window edges. Its genuinely-native nodes are therefore only the\n  data's *st"]
     pub fn native_energy_grid(&self, e_min_ev: f64, e_max_ev: f64) -> Vec<f64> { ::outram_mc_libs::prelude::Nuclide::native_energy_grid(&self.inner, e_min_ev, e_max_ev).into_iter().map(|e| e).collect::<Vec<_>>() }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::PackedSpheres
@@ -3709,6 +3830,7 @@ impl Py_outram_mc_libs__prelude__Position {
     // @item type:outram_mc_libs::prelude::RectLattice
 #[doc = "A rectangular lattice. Maps to `openmc::RectLattice`."]
 #[pyclass(name = "RectLattice", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__RectLattice { pub inner: ::outram_mc_libs::prelude::RectLattice }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__RectLattice {
@@ -3744,6 +3866,7 @@ impl Py_outram_mc_libs__prelude__RectLattice {
     // @item method:outram_mc_libs::prelude::RectLattice::distance
     #[doc = "Distance \\[cm\\] to the next lattice-tile boundary along `(r, u)`, with `r`\nexpressed in the current tile's local frame (tile centre at origin).\n\nPorted from `RectLattice::distance` (`src/lattice.cpp:252`): the oncoming\ntile edge is at `±½·pitch` in the sign of each direction cosine, and the\nreturned distance is the minimum over the active axes. Also returns the\ntile-index translation `[±1,0,0]` etc. of the crossing."]
     pub fn distance(&self, r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction) -> (f64, Vec<i32>) { { let (e0, e1) = ::outram_mc_libs::prelude::RectLattice::distance(&self.inner, r.inner, u.inner); (e0, e1.into_iter().map(|e| e).collect::<Vec<_>>()) } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::RegionToken
@@ -3867,6 +3990,9 @@ impl Py_outram_mc_libs__prelude__SclsMedium {
     // @item method:outram_mc_libs::prelude::SclsMedium::set_sphere_radius
     #[doc = "Set the retention-window radius \\[cm\\] directly, then cull anything the resized\nwindow no longer covers. Used by the adaptive-radius extension ([`AdaptiveRadius`],\nbead `op-eby.6`) to replace the fixed `λ_TMFP + R_largest` rule with a\nlocally-estimated radius. Clamped at 0."]
     pub fn set_sphere_radius(&mut self, radius: f64) -> () { ::outram_mc_libs::prelude::SclsMedium::set_sphere_radius(&mut self.inner, radius) }
+    // @item method:outram_mc_libs::prelude::SclsMedium::adapt_radius
+    #[doc = "One adaptive step: feed the just-completed collision-to-collision `track_length`\n\\[cm\\] to `controller`, resize the retention window to the radius it returns, and\ncull. This is design-doc §17's variable-radius SCLS — the window grows where the\nneutron streams (long tracks → more geometry worth remembering) and shrinks where\nit collides often (short tracks → local memory suffices), instead of holding the\nstatic `λ_TMFP` a fixed-radius run assumes."]
+    pub fn adapt_radius(&mut self, mut controller: PyRefMut<'_, Py_outram_mc_libs__prelude__AdaptiveRadius>, track_length: f64) -> () { ::outram_mc_libs::prelude::SclsMedium::adapt_radius(&mut self.inner, &mut controller.inner, track_length) }
     // @item method:outram_mc_libs::prelude::SclsMedium::retained_material_at
     #[doc = "Material at `p` \\[cm\\] **if remembered geometry already answers the question**.\n\nReturns `Some(inclusion_material)` when `p` falls inside a retained inclusion.\nReturns `None` when no history covers `p` — which does *not* mean \"matrix\", only\n\"not remembered\": the point may lie in an inclusion that was never sampled or has\nbeen culled. Resolving `None` requires sampling, which is the transport driver's\njob (bead `op-eby.3`)."]
     pub fn retained_material_at(&self, p: Py_outram_mc_libs__prelude__Position) -> Option<Py_outram_mc_libs__prelude__MaterialId> { ::outram_mc_libs::prelude::SclsMedium::retained_material_at(&self.inner, p.inner).map(|e| Py_outram_mc_libs__prelude__MaterialId { inner: e }) }
@@ -4200,7 +4326,8 @@ impl Py_outram_mc_libs__prelude__SpatialLegendreFilter {
 
     // @item type:outram_mc_libs::prelude::Sphere
 #[doc = "Sphere: (x-x0)² + (y-y0)² + (z-z0)² = r²"]
-#[pyclass(name = "prelude_Sphere", module = "outram_park.outram_mc_libs")]
+#[pyclass(name = "Sphere", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__Sphere { pub inner: ::outram_mc_libs::prelude::Sphere }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__Sphere {
@@ -4232,6 +4359,7 @@ impl Py_outram_mc_libs__prelude__Sphere {
     // @item ctor:outram_mc_libs::prelude::Sphere
     #[new]
     pub fn __new__(x0: f64, y0: f64, z0: f64, r: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::prelude::Sphere { x0: x0, y0: y0, z0: z0, r: r, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::StochasticMedium
@@ -4272,6 +4400,7 @@ impl Py_outram_mc_libs__prelude__StochasticMedium {
     // @item type:outram_mc_libs::prelude::SurfaceKind
 #[doc = "A CSG quadric surface — the closed set the geometry navigator dispatches over.\n\nWraps each concrete surface struct. Maps to the OpenMC `Surface` polymorphic\nhierarchy (`src/surface.cpp`), realised here as an enum so `match` gives\nexhaustiveness and rust-analyzer go-to-definition on every variant."]
 #[pyclass(name = "SurfaceKind", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__SurfaceKind { pub inner: ::outram_mc_libs::prelude::SurfaceKind }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__SurfaceKind {
@@ -4296,10 +4425,71 @@ impl Py_outram_mc_libs__prelude__SurfaceKind {
     // @item method:outram_mc_libs::prelude::SurfaceKind::sphere_centre_radius
     #[doc = "Centre `[x0, y0, z0]` (cm) and radius (cm), for surfaces that have them.\n\n`Some` for [`Sphere`] only; `None` for every other variant. Mirrors\n`Surface::get_center` / `Surface::get_radius` in the vendored\n`liangjg/openmc` `virtual_lattice` fork\n(`include/openmc/surface.h:88`, `src/surface.cpp:762`), where the base\nclass returns an empty vector and only `SurfaceSphere` overrides them.\n\nUsed by [`crate::geometry::virtual_lattice`] to place TRISO kernels in\nvoxels and to test point containment."]
     pub fn sphere_centre_radius(&self) -> Option<(Vec<f64>, f64)> { ::outram_mc_libs::prelude::SurfaceKind::sphere_centre_radius(&self.inner).map(|e| { let (e0, e1) = e; (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1) }) }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::XPlane
+    #[staticmethod]
+    #[pyo3(name = "XPlane")]
+    pub fn v_XPlane(a0: Py_outram_mc_libs__prelude__XPlane) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::XPlane(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::YPlane
+    #[staticmethod]
+    #[pyo3(name = "YPlane")]
+    pub fn v_YPlane(a0: Py_outram_mc_libs__prelude__YPlane) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::YPlane(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::ZPlane
+    #[staticmethod]
+    #[pyo3(name = "ZPlane")]
+    pub fn v_ZPlane(a0: Py_outram_mc_libs__prelude__ZPlane) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::ZPlane(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::Plane
+    #[staticmethod]
+    #[pyo3(name = "Plane")]
+    pub fn v_Plane(a0: Py_outram_mc_libs__geometry__surface__Plane) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::Plane(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::Sphere
+    #[staticmethod]
+    #[pyo3(name = "Sphere")]
+    pub fn v_Sphere(a0: Py_outram_mc_libs__prelude__Sphere) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::Sphere(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::XCylinder
+    #[staticmethod]
+    #[pyo3(name = "XCylinder")]
+    pub fn v_XCylinder(a0: Py_outram_mc_libs__geometry__surface__XCylinder) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::XCylinder(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::YCylinder
+    #[staticmethod]
+    #[pyo3(name = "YCylinder")]
+    pub fn v_YCylinder(a0: Py_outram_mc_libs__geometry__surface__YCylinder) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::YCylinder(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::ZCylinder
+    #[staticmethod]
+    #[pyo3(name = "ZCylinder")]
+    pub fn v_ZCylinder(a0: Py_outram_mc_libs__prelude__ZCylinder) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::ZCylinder(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::XCone
+    #[staticmethod]
+    #[pyo3(name = "XCone")]
+    pub fn v_XCone(a0: Py_outram_mc_libs__geometry__surface__XCone) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::XCone(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::YCone
+    #[staticmethod]
+    #[pyo3(name = "YCone")]
+    pub fn v_YCone(a0: Py_outram_mc_libs__geometry__surface__YCone) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::YCone(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::ZCone
+    #[staticmethod]
+    #[pyo3(name = "ZCone")]
+    pub fn v_ZCone(a0: Py_outram_mc_libs__geometry__surface__ZCone) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::ZCone(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::Quadric
+    #[staticmethod]
+    #[pyo3(name = "Quadric")]
+    pub fn v_Quadric(a0: Py_outram_mc_libs__geometry__surface__Quadric) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::Quadric(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::XTorus
+    #[staticmethod]
+    #[pyo3(name = "XTorus")]
+    pub fn v_XTorus(a0: Py_outram_mc_libs__geometry__surface__XTorus) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::XTorus(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::YTorus
+    #[staticmethod]
+    #[pyo3(name = "YTorus")]
+    pub fn v_YTorus(a0: Py_outram_mc_libs__geometry__surface__YTorus) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::YTorus(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::SurfaceKind::ZTorus
+    #[staticmethod]
+    #[pyo3(name = "ZTorus")]
+    pub fn v_ZTorus(a0: Py_outram_mc_libs__geometry__surface__ZTorus) -> Self { Self { inner: ::outram_mc_libs::prelude::SurfaceKind::ZTorus(a0.inner) } }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_mc_libs::prelude::SurfaceKind::XPlane(..) => "XPlane", ::outram_mc_libs::prelude::SurfaceKind::YPlane(..) => "YPlane", ::outram_mc_libs::prelude::SurfaceKind::ZPlane(..) => "ZPlane", ::outram_mc_libs::prelude::SurfaceKind::Plane(..) => "Plane", ::outram_mc_libs::prelude::SurfaceKind::Sphere(..) => "Sphere", ::outram_mc_libs::prelude::SurfaceKind::XCylinder(..) => "XCylinder", ::outram_mc_libs::prelude::SurfaceKind::YCylinder(..) => "YCylinder", ::outram_mc_libs::prelude::SurfaceKind::ZCylinder(..) => "ZCylinder", ::outram_mc_libs::prelude::SurfaceKind::XCone(..) => "XCone", ::outram_mc_libs::prelude::SurfaceKind::YCone(..) => "YCone", ::outram_mc_libs::prelude::SurfaceKind::ZCone(..) => "ZCone", ::outram_mc_libs::prelude::SurfaceKind::Quadric(..) => "Quadric", ::outram_mc_libs::prelude::SurfaceKind::XTorus(..) => "XTorus", ::outram_mc_libs::prelude::SurfaceKind::YTorus(..) => "YTorus", ::outram_mc_libs::prelude::SurfaceKind::ZTorus(..) => "ZTorus", _ => "unknown" }
     }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::SurfaceQuery
@@ -4416,6 +4606,7 @@ impl Py_outram_mc_libs__prelude__TallyBin {
     // @item type:outram_mc_libs::prelude::ThermalElastic
 #[doc = "The bound-atom thermal **elastic** channel of one scatterer, if it has one.\n\nAn ENDF `tsl` evaluation carries at most one MF=7/MT=2 elastic law, so this\nis an enum rather than a set (and enum dispatch is the workspace rule — no\ntrait objects). Both elastic laws share the defining property that the\nneutron **keeps its energy** (`E_out = E_in`, ENDF-102 Eq. 7-1) and only its\ndirection changes; they differ in how μ is distributed.\n\nC++ analogue: the `ThermalData::elastic_` slot in OpenMC's `src/thermal.cpp`,\nwhose distribution is a `CoherentElasticAE` or an `IncoherentElasticAE`."]
 #[pyclass(name = "ThermalElastic", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__ThermalElastic { pub inner: ::outram_mc_libs::prelude::ThermalElastic }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__ThermalElastic {
@@ -4429,15 +4620,25 @@ impl Py_outram_mc_libs__prelude__ThermalElastic {
     #[staticmethod]
     #[pyo3(name = "None_")]
     pub fn v_None() -> Self { Self { inner: ::outram_mc_libs::prelude::ThermalElastic::None } }
+    // @item variant:outram_mc_libs::prelude::ThermalElastic::Coherent
+    #[staticmethod]
+    #[pyo3(name = "Coherent")]
+    pub fn v_Coherent(a0: Py_outram_mc_libs__prelude__CoherentElasticTable) -> Self { Self { inner: ::outram_mc_libs::prelude::ThermalElastic::Coherent(a0.inner) } }
+    // @item variant:outram_mc_libs::prelude::ThermalElastic::Incoherent
+    #[staticmethod]
+    #[pyo3(name = "Incoherent")]
+    pub fn v_Incoherent(a0: Py_outram_mc_libs__prelude__IncoherentElasticTable) -> Self { Self { inner: ::outram_mc_libs::prelude::ThermalElastic::Incoherent(a0.inner) } }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_mc_libs::prelude::ThermalElastic::None => "None", ::outram_mc_libs::prelude::ThermalElastic::Coherent(..) => "Coherent", ::outram_mc_libs::prelude::ThermalElastic::Incoherent(..) => "Incoherent", _ => "unknown" }
     }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::ThermalScattering
 #[doc = "Bound-atom thermal scattering for one scatterer at one temperature — the\ntransport-side data surface, carrying **both** the incoherent-inelastic\nS(α,β) channel and the scatterer's elastic channel (if it has one).\n\nBuilt once per material+temperature with [`from_endf_file`](Self::from_endf_file),\nthen queried in the transport loop by:\n- [`inelastic_xs`](Self::inelastic_xs) — σ_inel(E) **per principal atom**\n  \\[barn\\] at incident energy `E` \\[eV\\] (multiply by the principal-atom number\n  density to get the macroscopic contribution);\n- [`elastic_xs`](Self::elastic_xs) — σ_el(E) \\[barn per principal atom\\],\n  zero when the scatterer has no thermal elastic law;\n- [`total_xs`](Self::total_xs) — their sum, which is what replaces the\n  free-gas elastic channel below the cutoff;\n- [`sample`](Self::sample) — a laboratory-frame outgoing energy \\[eV\\] and\n  cosine for a thermal scatter, choosing elastic vs inelastic in proportion\n  to their cross sections.\n\nCross sections are **per principal atom** (per H for H-in-H₂O, per C for\ngraphite). The material composition (two H per H₂O) is the caller's\nnumber-density bookkeeping."]
 #[pyclass(name = "ThermalScattering", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__ThermalScattering { pub inner: ::outram_mc_libs::prelude::ThermalScattering }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__ThermalScattering {
@@ -4455,12 +4656,20 @@ impl Py_outram_mc_libs__prelude__ThermalScattering {
     #[doc = "Build the tables from an S(α,β) law **regenerated by LEAPR**, with no\nexternal ENDF file involved.\n\nThis is the same physics as [`from_endf_file`](Self::from_endf_file) —\nidentical tape, identical channel constructors, identical grids — but the\ntape comes from njoy's\n[`leapr::generate`](njoy_outram_park_fork::leapr::generate), which\nrecomputes it from the ~12 kB `.leapr` card deck compiled into the njoy\ncrate. Nothing has to be downloaded or kept on disk, so a thermal-reactor\ntest runs anywhere; the alternative needs a multi-MB `tsl-*.endf` that CI\ncontainers do not have.\n\n- `material` — which bound scatterer, e.g.\n  [`SabMaterial::HInH2O`](njoy_outram_park_fork::leapr::decks::SabMaterial::HInH2O)\n  for the hydrogen of light water. The ENDF MAT number is taken from the\n  material, so it cannot be mismatched to the deck the way the `mat`\n  argument of `from_endf_file` can.\n- `temperature_k` — regeneration accepts any positive temperature (the\n  law is computed *at* it, not interpolated between tabulated points),\n  but stay near the deck's own range; see the njoy `generate` module docs\n  for the `rho(E)` caveat.\n- `name` — a diagnostics label, as above.\n\n# Validation standing\n\n**A re"]
     #[staticmethod]
     pub fn from_leapr(material: crate::python::generated::njoy_outram_park_fork::Py_njoy_outram_park_fork__leapr__decks__SabMaterial, temperature_k: f64, name: String) -> PyResult<Py_outram_mc_libs__prelude__ThermalScattering> { err(::outram_mc_libs::prelude::ThermalScattering::from_leapr(material.inner, temperature_k, &name)).map(|v| Py_outram_mc_libs__prelude__ThermalScattering { inner: v }) }
+    // @item method:outram_mc_libs::prelude::ThermalScattering::from_tape
+    #[cfg(feature = "njoy-outram-park-fork")]
+    #[doc = "Bake the tables from an already-parsed ENDF tape — the shared body of\n[`from_endf_file`](Self::from_endf_file) and\n[`from_leapr`](Self::from_leapr).\n\nKept public so a caller holding a tape for other reasons does not have to\nwrite it back out to a file first. Same arguments, grids, elastic-channel\ndetection and errors as [`from_endf_file`](Self::from_endf_file)."]
+    #[staticmethod]
+    pub fn from_tape(tape: PyRef<'_, crate::python::generated::njoy_outram_park_fork::Py_njoy_outram_park_fork__endf__Tape>, mat: i32, temperature_k: f64, name: String) -> PyResult<Py_outram_mc_libs__prelude__ThermalScattering> { err(::outram_mc_libs::prelude::ThermalScattering::from_tape(&tape.inner, mat, temperature_k, &name)).map(|v| Py_outram_mc_libs__prelude__ThermalScattering { inner: v }) }
     // @item method:outram_mc_libs::prelude::ThermalScattering::cutoff_ev
     #[doc = "Upper energy \\[eV\\] of the S(α,β) treatment (the thermal cutoff). Above it\nthe caller uses ordinary free-gas / WMP elastic scattering."]
     pub fn cutoff_ev(&self) -> f64 { ::outram_mc_libs::prelude::ThermalScattering::cutoff_ev(&self.inner) }
     // @item method:outram_mc_libs::prelude::ThermalScattering::selected_temperature_k
     #[doc = "The temperature \\[K\\] the S(α,β) tables actually represent — a tabulated\ngrid point when the request matched one within NJOY's `T/1000 + 5` K\ntolerance, otherwise the requested temperature itself (the tables were\ninterpolated to it). Recorded so a V&V reader knows the exact data point."]
     pub fn selected_temperature_k(&self) -> f64 { ::outram_mc_libs::prelude::ThermalScattering::selected_temperature_k(&self.inner) }
+    // @item method:outram_mc_libs::prelude::ThermalScattering::elastic
+    #[doc = "The scatterer's thermal **elastic** channel, detected from the\nevaluation: coherent (Bragg) for a crystalline solid, incoherent for a\nhydrogenous solid, or [`ThermalElastic::None`] for a liquid such as\nlight water."]
+    pub fn elastic(&self) -> Py_outram_mc_libs__prelude__ThermalElastic { Py_outram_mc_libs__prelude__ThermalElastic { inner: ::outram_mc_libs::prelude::ThermalScattering::elastic(&self.inner).clone() } }
     // @item method:outram_mc_libs::prelude::ThermalScattering::elastic_xs
     #[doc = "Thermal-elastic cross section σ_el(E) **per principal atom** \\[barn\\] at\nincident energy `e` \\[eV\\]. Zero at or above the thermal cutoff, and\nzero at every energy for a scatterer with no elastic law.\n\nFor graphite this is the **dominant** thermal channel below ~0.1 eV."]
     pub fn elastic_xs(&self, e: f64) -> f64 { ::outram_mc_libs::prelude::ThermalScattering::elastic_xs(&self.inner, e) }
@@ -4470,6 +4679,7 @@ impl Py_outram_mc_libs__prelude__ThermalScattering {
     // @item method:outram_mc_libs::prelude::ThermalScattering::inelastic_xs
     #[doc = "Incoherent-inelastic cross section σ_inel(E) **per principal atom**\n\\[barn\\] at incident energy `e` \\[eV\\], by linear interpolation on the\npre-tabulated grid. Zero at or above the cutoff (the caller reverts to\nfree-gas there); clamped to the grid endpoints below it."]
     pub fn inelastic_xs(&self, e: f64) -> f64 { ::outram_mc_libs::prelude::ThermalScattering::inelastic_xs(&self.inner, e) }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::ThreadCount
@@ -4551,9 +4761,32 @@ impl Py_outram_mc_libs__prelude__TrisoMaterials {
     // @item type:outram_mc_libs::prelude::TrisoParticle
 #[doc = "One assembled TRISO particle: the concentric surfaces, the per-shell cells,\nand the universe that searches them.\n\nThe [`Universe::cell_indices`] point at `cells` offset by the `cell_base`\npassed to [`build_triso_particle`]; each cell's region tokens index `surfaces`\noffset by `surface_base`. With both bases `0` (the [`triso_particle`]\nconvenience) the vectors are self-contained and can be dropped straight into a\n[`Geometry`] via [`TrisoParticle::into_geometry`]."]
 #[pyclass(name = "TrisoParticle", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__TrisoParticle { pub inner: ::outram_mc_libs::prelude::TrisoParticle }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__TrisoParticle {
+    // @item field:outram_mc_libs::prelude::TrisoParticle::surfaces
+    #[getter(surfaces)]
+    pub fn get_surfaces(&self) -> Vec<Py_outram_mc_libs__prelude__SurfaceKind> { let v = self.inner.surfaces.clone(); v.into_iter().map(|e| Py_outram_mc_libs__prelude__SurfaceKind { inner: e }).collect::<Vec<_>>() }
+    #[setter(surfaces)]
+    pub fn set_surfaces(&mut self, v: Vec<Py_outram_mc_libs__prelude__SurfaceKind>) { self.inner.surfaces = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:outram_mc_libs::prelude::TrisoParticle::cells
+    #[getter(cells)]
+    pub fn get_cells(&self) -> Vec<Py_outram_mc_libs__prelude__Cell> { let v = self.inner.cells.clone(); v.into_iter().map(|e| Py_outram_mc_libs__prelude__Cell { inner: e }).collect::<Vec<_>>() }
+    #[setter(cells)]
+    pub fn set_cells(&mut self, v: Vec<Py_outram_mc_libs__prelude__Cell>) { self.inner.cells = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:outram_mc_libs::prelude::TrisoParticle::universe
+    #[getter(universe)]
+    pub fn get_universe(&self) -> Py_outram_mc_libs__prelude__Universe { let v = self.inner.universe.clone(); Py_outram_mc_libs__prelude__Universe { inner: v } }
+    #[setter(universe)]
+    pub fn set_universe(&mut self, v: Py_outram_mc_libs__prelude__Universe) { self.inner.universe = v.inner; }
+    // @item method:outram_mc_libs::prelude::TrisoParticle::into_geometry
+    #[doc = "Wrap this self-contained particle (built with `surface_base = cell_base =\n0`) as a standalone [`Geometry`] whose root is the particle universe.\n\nOnly valid when the particle was built with both bases `0` (e.g. via\n[`triso_particle`]); otherwise the internal indices would not line up with\nthe fresh single-universe arrays."]
+    pub fn into_geometry(&self) -> Py_outram_mc_libs__prelude__Geometry { Py_outram_mc_libs__prelude__Geometry { inner: ::outram_mc_libs::prelude::TrisoParticle::into_geometry(self.inner.clone()) } }
+    // @item ctor:outram_mc_libs::prelude::TrisoParticle
+    #[new]
+    pub fn __new__(surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>, cells: Vec<Py_outram_mc_libs__prelude__Cell>, universe: Py_outram_mc_libs__prelude__Universe) -> Self { Self { inner: ::outram_mc_libs::prelude::TrisoParticle { surfaces: surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), cells: cells.into_iter().map(|e| e.inner).collect::<Vec<_>>(), universe: universe.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::TrisoRadii
@@ -4604,6 +4837,7 @@ impl Py_outram_mc_libs__prelude__TrisoRadii {
     // @item type:outram_mc_libs::prelude::Universe
 #[doc = "A universe — an ordered list of cells searched top-to-bottom.\nMaps to `openmc::Universe`."]
 #[pyclass(name = "Universe", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__Universe { pub inner: ::outram_mc_libs::prelude::Universe }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__Universe {
@@ -4617,9 +4851,13 @@ impl Py_outram_mc_libs__prelude__Universe {
     pub fn get_cell_indices(&self) -> Vec<usize> { let v = self.inner.cell_indices.clone(); v.into_iter().map(|e| e).collect::<Vec<_>>() }
     #[setter(cell_indices)]
     pub fn set_cell_indices(&mut self, v: Vec<usize>) { self.inner.cell_indices = v.into_iter().map(|e| e).collect::<Vec<_>>(); }
+    // @item method:outram_mc_libs::prelude::Universe::find_cell
+    #[doc = "Find the first cell in this universe that contains `r` (in this universe's\nlocal frame).\n\nPorted from `Universe::find_cell` (`src/universe.cpp:40`): iterate the\nuniverse's cells in order and return the first whose region contains the\npoint. Returns the **global cell index**, or `None` if the point is in no\ncell of this universe (a geometry \"lost particle\")."]
+    pub fn find_cell(&self, r: Py_outram_mc_libs__prelude__Position, surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>, cells: Vec<Py_outram_mc_libs__prelude__Cell>) -> Option<usize> { ::outram_mc_libs::prelude::Universe::find_cell(&self.inner, r.inner, &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &cells.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| e) }
     // @item ctor:outram_mc_libs::prelude::Universe
     #[new]
     pub fn __new__(id: i32, cell_indices: Vec<usize>) -> Self { Self { inner: ::outram_mc_libs::prelude::Universe { id: id, cell_indices: cell_indices.into_iter().map(|e| e).collect::<Vec<_>>() } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::UniverseFilter
@@ -4663,6 +4901,16 @@ impl Py_outram_mc_libs__prelude__VirtualLattice {
     // @item method:outram_mc_libs::prelude::VirtualLattice::clamped_indices_at
     #[doc = "Voxel indices containing `r`, clamped into the grid.\n\nMirrors the `max(min(floor(...), shape-1), 0)` clamp at the top of\n`Universe::find_cell_in_virtual_lattice` (`src/universe.cpp:68`)."]
     pub fn clamped_indices_at(&self, r: Py_outram_mc_libs__prelude__Position) -> Vec<usize> { ::outram_mc_libs::prelude::VirtualLattice::clamped_indices_at(&self.inner, r.inner).into_iter().map(|e| e).collect::<Vec<_>>() }
+    // @item method:outram_mc_libs::prelude::VirtualLattice::find_containing
+    #[doc = "Index of the sphere strictly containing `r`, searching only the voxel\n`r` falls in.\n\nMirrors the containment half of `Universe::find_cell_in_virtual_lattice`\n(`src/universe.cpp:68`): the point-location counterpart of\n[`VirtualLattice::distance`]. Returns `None` when `r` is in the matrix\nbetween particles — upstream's \"fall through to the base cell\" case.\n\nContainment is strict (`d^2 < r^2`), matching upstream. A point exactly\non a sphere surface is therefore *not* inside it; surface-crossing\nbookkeeping is the caller's job, as it is upstream."]
+    pub fn find_containing(&self, r: Py_outram_mc_libs__prelude__Position, surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>) -> Option<usize> { ::outram_mc_libs::prelude::VirtualLattice::find_containing(&self.inner, r.inner, &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>()).map(|e| e) }
+    // @item method:outram_mc_libs::prelude::VirtualLattice::distance
+    #[doc = "Distance to the nearest registered surface along the ray `(r, u)`,\nsearching only the voxels the ray actually crosses.\n\nThis is the accelerated counterpart of\n[`crate::geometry::cell::Cell::distance_to_boundary`]: same contract,\nbut O(spheres per voxel x voxels crossed) instead of O(all surfaces).\n\n# Arguments\n\n- `r` — ray origin, cm. Need not lie inside the grid; a ray starting\n  outside walks in along its first boundary index (see below).\n- `u` — ray direction. Normalised internally, mirroring upstream, which\n  carries the comment *\"don't know if u has been normalized\"*.\n- `on_surface` — global index of the surface the particle currently sits\n  on, or `usize::MAX` if none. That surface is queried with the\n  `coincident` flag so round-off cannot re-report a zero crossing.\n- `max_distance` — stop walking once the voxel exit distance exceeds\n  this. Upstream passes the sampled collision distance\n  (`p->collision_distance()`): there is no point tracking surfaces\n  beyond the next collision. Pass `f64::INFINITY` for no cutoff.\n\n# Returns\n\n`(distance, surface_idx)`, with `surface_idx == usize::MAX` and\n`distance == f64::INFINITY` when no registered surface is hit.\n\n# Early-exit conditi"]
+    pub fn distance(&self, r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction, surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>, on_surface: usize, max_distance: f64) -> (f64, usize) { { let (e0, e1) = ::outram_mc_libs::prelude::VirtualLattice::distance(&self.inner, r.inner, u.inner, &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), on_surface, max_distance); (e0, e1) } }
+    // @item method:outram_mc_libs::prelude::VirtualLattice::distance_brute_force
+    #[doc = "Brute-force reference: nearest surface over *every* index in\n`surface_indices`, ignoring the grid entirely.\n\nNot used in transport — it exists so tests can assert that\n[`VirtualLattice::distance`] returns the same answer as the\nunaccelerated scan, which is the correctness property that matters.\nSame `(distance, surface_idx)` contract."]
+    #[staticmethod]
+    pub fn distance_brute_force(r: Py_outram_mc_libs__prelude__Position, u: Py_outram_mc_libs__prelude__Direction, surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>, surface_indices: Vec<usize>, on_surface: usize) -> (f64, usize) { { let (e0, e1) = ::outram_mc_libs::prelude::VirtualLattice::distance_brute_force(r.inner, u.inner, &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &surface_indices.into_iter().map(|e| e).collect::<Vec<_>>(), on_surface); (e0, e1) } }
     pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
     pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
@@ -4670,6 +4918,7 @@ impl Py_outram_mc_libs__prelude__VirtualLattice {
     // @item type:outram_mc_libs::prelude::XPlane
 #[doc = "Infinite plane perpendicular to the X axis: x = x0."]
 #[pyclass(name = "XPlane", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__XPlane { pub inner: ::outram_mc_libs::prelude::XPlane }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__XPlane {
@@ -4686,11 +4935,13 @@ impl Py_outram_mc_libs__prelude__XPlane {
     // @item ctor:outram_mc_libs::prelude::XPlane
     #[new]
     pub fn __new__(x0: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::prelude::XPlane { x0: x0, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::YPlane
 #[doc = "Infinite plane perpendicular to the Y axis: y = y0."]
 #[pyclass(name = "YPlane", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__YPlane { pub inner: ::outram_mc_libs::prelude::YPlane }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__YPlane {
@@ -4707,11 +4958,13 @@ impl Py_outram_mc_libs__prelude__YPlane {
     // @item ctor:outram_mc_libs::prelude::YPlane
     #[new]
     pub fn __new__(y0: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::prelude::YPlane { y0: y0, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::ZCylinder
 #[doc = "Infinite cylinder along the Z axis: (x-x0)² + (y-y0)² = r²"]
 #[pyclass(name = "ZCylinder", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__ZCylinder { pub inner: ::outram_mc_libs::prelude::ZCylinder }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__ZCylinder {
@@ -4738,11 +4991,13 @@ impl Py_outram_mc_libs__prelude__ZCylinder {
     // @item ctor:outram_mc_libs::prelude::ZCylinder
     #[new]
     pub fn __new__(x0: f64, y0: f64, r: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::prelude::ZCylinder { x0: x0, y0: y0, r: r, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::prelude::ZPlane
 #[doc = "Infinite plane perpendicular to the Z axis: z = z0."]
 #[pyclass(name = "ZPlane", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
 pub struct Py_outram_mc_libs__prelude__ZPlane { pub inner: ::outram_mc_libs::prelude::ZPlane }
 #[pymethods]
 impl Py_outram_mc_libs__prelude__ZPlane {
@@ -4759,6 +5014,7 @@ impl Py_outram_mc_libs__prelude__ZPlane {
     // @item ctor:outram_mc_libs::prelude::ZPlane
     #[new]
     pub fn __new__(z0: f64, bc: Py_outram_mc_libs__prelude__BoundaryType) -> Self { Self { inner: ::outram_mc_libs::prelude::ZPlane { z0: z0, bc: bc.inner } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
 }
 
     // @item type:outram_mc_libs::rng::lcg::Lcg64
@@ -5033,22 +5289,22 @@ impl Py_outram_mc_libs__tally__filter__FilterEvent {
     // @item fn:outram_mc_libs::depletion::cram::cram16
 #[doc = "Order-16 IPF CRAM approximation of `N(t + dt) = exp(A * dt) * N(t)`.\n\n# What it computes\n\nEvolves the nuclide number densities `n0` forward by `dt_seconds` under the\nburnup matrix `a` (radioactive decay + neutron transmutation), using the\norder-16 (8 complex pole-pairs) Chebyshev rational approximation of the\nmatrix exponential in incomplete-partial-factorization form.\n\n# Units\n\n* `a` — burnup matrix, coefficients `1/s`. Sign convention: off-diagonal\n  `A[i][j] >= 0` (production of `i` from `j`), diagonal `A[j][j] <= 0` (total\n  removal of `j`); see [`DepletionMatrix`].\n* `n0` — initial densities (atoms or atoms/(barn·cm), any consistent unit);\n  `n0.len()` must equal `a.order()`.\n* `dt_seconds` — step length in seconds, `>= 0`.\n\nReturns the evolved densities as a fresh `Vec<f64>` of length `a.order()`.\n\n# Accuracy\n\nOrder-16 CRAM reproduces the matrix exponential of a physical burnup matrix\nto roughly 1e-5 relative even for stiff systems (eigenvalues spanning many\norders of magnitude); the tests in this module measure the errors actually\nachieved. For very high accuracy use [`cram48`].\n\n# Degenerate inputs\n\n`dt_seconds == 0`, a zero-order matrix, or an all-zero matrix return `n0`\nu"]
 #[pyfunction(name = "cram16")]
-pub fn fn_outram_mc_libs__depletion__cram__cram16(a: Py_outram_mc_libs__depletion__DepletionMatrix, n0: Vec<f64>, dt_seconds: f64) -> Vec<f64> { ::outram_mc_libs::depletion::cram::cram16(&a.inner, &n0.into_iter().map(|e| e).collect::<Vec<_>>(), dt_seconds).into_iter().map(|e| e).collect::<Vec<_>>() }
+pub fn fn_outram_mc_libs__depletion__cram__cram16(a: PyRef<'_, Py_outram_mc_libs__depletion__DepletionMatrix>, n0: Vec<f64>, dt_seconds: f64) -> Vec<f64> { ::outram_mc_libs::depletion::cram::cram16(&a.inner, &n0.into_iter().map(|e| e).collect::<Vec<_>>(), dt_seconds).into_iter().map(|e| e).collect::<Vec<_>>() }
 
     // @item fn:outram_mc_libs::depletion::cram::cram48
 #[doc = "Order-48 IPF CRAM approximation of `N(t + dt) = exp(A * dt) * N(t)`.\n\nSame contract, units, and degenerate-input handling as [`cram16`], but uses\nthe order-48 (24 complex pole-pairs) coefficient set, which reproduces the\nmatrix exponential to near machine precision (relative error ~1e-14 for the\nanalytic chains in the tests). Costs 3x the linear solves of [`cram16`].\n\n# Provenance\n\nPorted from OpenMC `openmc/deplete/cram.py` (MIT), `IPFCramSolver.__call__`\nwith the `c48_theta` / `c48_alpha` / `c48_alpha0` coefficients (lines\n~139-201). GPL-3.0 translation; not official OpenMC."]
 #[pyfunction(name = "cram48")]
-pub fn fn_outram_mc_libs__depletion__cram__cram48(a: Py_outram_mc_libs__depletion__DepletionMatrix, n0: Vec<f64>, dt_seconds: f64) -> Vec<f64> { ::outram_mc_libs::depletion::cram::cram48(&a.inner, &n0.into_iter().map(|e| e).collect::<Vec<_>>(), dt_seconds).into_iter().map(|e| e).collect::<Vec<_>>() }
+pub fn fn_outram_mc_libs__depletion__cram__cram48(a: PyRef<'_, Py_outram_mc_libs__depletion__DepletionMatrix>, n0: Vec<f64>, dt_seconds: f64) -> Vec<f64> { ::outram_mc_libs::depletion::cram::cram48(&a.inner, &n0.into_iter().map(|e| e).collect::<Vec<_>>(), dt_seconds).into_iter().map(|e| e).collect::<Vec<_>>() }
 
     // @item fn:outram_mc_libs::depletion::operator::deplete_predictor
 #[doc = "Run a predictor (forward-Euler) burnup calculation on `chain`, starting from\nthe inventory `initial` (`(nuclide_name, atom_density)` in atoms/(barn·cm)).\n\nNuclides in `initial` that are not in `chain` are ignored; chain nuclides\nabsent from `initial` start at zero density. Returns one [`BurnupStep`] per\nrecorded point (beginning-of-life plus `settings.n_steps` steps).\n\nThis is the honest, one-group demonstration described in the module docs; the\ntransmutation step itself (CRAM) is verified to analytic accuracy in\n[`super::cram`], and the inventory *trends* are checked against the notebook\nin the `depletion` verification test."]
 #[pyfunction(name = "deplete_predictor")]
-pub fn fn_outram_mc_libs__depletion__operator__deplete_predictor(chain: Py_outram_mc_libs__depletion__chain__DepletionChain, initial: Vec<(String, f64)>, settings: Py_outram_mc_libs__depletion__operator__BurnupSettings) -> Py_outram_mc_libs__depletion__operator__BurnupResult { Py_outram_mc_libs__depletion__operator__BurnupResult { inner: ::outram_mc_libs::depletion::operator::deplete_predictor(&chain.inner, &initial.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>(), &settings.inner) } }
+pub fn fn_outram_mc_libs__depletion__operator__deplete_predictor(chain: PyRef<'_, Py_outram_mc_libs__depletion__chain__DepletionChain>, initial: Vec<(String, f64)>, settings: PyRef<'_, Py_outram_mc_libs__depletion__operator__BurnupSettings>) -> Py_outram_mc_libs__depletion__operator__BurnupResult { Py_outram_mc_libs__depletion__operator__BurnupResult { inner: ::outram_mc_libs::depletion::operator::deplete_predictor(&chain.inner, &initial.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>(), &settings.inner) } }
 
     // @item fn:outram_mc_libs::depletion::operator::mc_keff_of_actinide_sphere
 #[doc = "Run a real Monte Carlo `k_eff` power iteration on a **bare sphere** of the\ngiven actinide/fission-product inventory — a demonstration that the evolved\ndepletion inventory feeds straight back into the transport kernel.\n\n`inventory` is `(nuclide_name, atom_density)` in atoms/(barn·cm). Only\nnuclides the CORE provider carries are included. `radius_cm` sets the sphere\nsize. **This is a fast-spectrum bare sphere**, so the absolute `k` is far\nbelow a moderated pin cell's — it is not comparable to the notebook's `k`;\nits value is that it exercises the genuine MC transport path on a depleted\ninventory. Returns the [`KeffResult`]."]
 #[pyfunction(name = "mc_keff_of_actinide_sphere")]
-pub fn fn_outram_mc_libs__depletion__operator__mc_keff_of_actinide_sphere(inventory: Vec<(String, f64)>, radius_cm: f64, settings: Py_outram_mc_libs__prelude__KeffSettings) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::depletion::operator::mc_keff_of_actinide_sphere(&inventory.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>(), radius_cm, &settings.inner) } }
+pub fn fn_outram_mc_libs__depletion__operator__mc_keff_of_actinide_sphere(inventory: Vec<(String, f64)>, radius_cm: f64, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::depletion::operator::mc_keff_of_actinide_sphere(&inventory.into_iter().map(|e| { let (e0, e1) = e; (e0, e1) }).collect::<Vec<_>>(), radius_cm, &settings.inner) } }
 
     // @item fn:outram_mc_libs::geometry::position::stream
 #[doc = "Advance a position by `distance` along `direction`.\n\nEquivalent to `r + d * distance` — the core operation in particle streaming."]
@@ -5068,17 +5324,102 @@ pub fn fn_outram_mc_libs__gpu__capabilities__measured_gpu_fraction(gpu_items_per
     // @item fn:outram_mc_libs::gpu::capabilities::plan_split
 #[doc = "Plan how to divide `total` work items between GPU and CPU.\n\n# Arguments\n\n- `total` — items in the batch.\n- `caps` — hardware, from [`HardwareCapabilities::with_gpu`].\n- `policy` — see [`SplitPolicy`].\n- `storage_buffers_needed` — how many storage buffers the kernel binds in one\n  stage. The GPU share is dropped to zero if the adapter cannot host that\n  many; this is the guard that would have turned the `surf_dist.bgl` panic\n  into a clean CPU fallback.\n- `stride` — bytes per item in the largest storage binding, used with the\n  driver's binding-size limit to size dispatch chunks.\n- `workgroup_size` — threads per workgroup the kernel uses.\n\n# Guarantees\n\n- `gpu_items + cpu_items == total`.\n- `gpu_items == 0` whenever there is no usable GPU for this kernel, so the\n  caller's CPU path covers everything.\n- `gpu_chunk_items > 0` whenever `gpu_items > 0`."]
 #[pyfunction(name = "plan_split")]
-pub fn fn_outram_mc_libs__gpu__capabilities__plan_split(total: usize, caps: Py_outram_mc_libs__gpu__capabilities__HardwareCapabilities, policy: Py_outram_mc_libs__gpu__capabilities__SplitPolicy, storage_buffers_needed: u32, stride: u64, workgroup_size: u32) -> Py_outram_mc_libs__gpu__capabilities__WorkSplit { Py_outram_mc_libs__gpu__capabilities__WorkSplit { inner: ::outram_mc_libs::gpu::capabilities::plan_split(total, &caps.inner, policy.inner, storage_buffers_needed, stride, workgroup_size) } }
+pub fn fn_outram_mc_libs__gpu__capabilities__plan_split(total: usize, caps: PyRef<'_, Py_outram_mc_libs__gpu__capabilities__HardwareCapabilities>, policy: Py_outram_mc_libs__gpu__capabilities__SplitPolicy, storage_buffers_needed: u32, stride: u64, workgroup_size: u32) -> Py_outram_mc_libs__gpu__capabilities__WorkSplit { Py_outram_mc_libs__gpu__capabilities__WorkSplit { inner: ::outram_mc_libs::gpu::capabilities::plan_split(total, &caps.inner, policy.inner, storage_buffers_needed, stride, workgroup_size) } }
 
     // @item fn:outram_mc_libs::gpu::probe
 #[doc = "Probe for a usable **headless compute** GPU and return a live\n[`GpuContext`], or `None` when the caller must fall back to the CPU path.\n\nReturns `None` (⇒ run CPU) when no adapter is present — headless servers, a\ncontainer with no Vulkan/Metal loader, or CI without a GPU — or when device\ncreation fails. This is the *normal, expected* outcome in most CI, and is\nnever an error: every kernel here has a CPU reference implementation that\nruns whenever this returns `None`.\n\nA default power preference is requested (no window, so\n`compatible_surface: None`), which is all a compute-only workload needs.\n\n# Limits are sourced, not assumed\n\nThis requests `adapter.limits()` — **what the hardware actually reports**\n— rather than [`wgpu::Limits::downlevel_defaults`].\n\nIt used to request the downlevel defaults, which pin\n`max_storage_buffers_per_shader_stage` to **4**. The `surface_distance`\nkernel binds **7**, so `create_bind_group_layout` rejected `surf_dist.bgl`\nwith *\"Too many bindings of type StorageBuffers … limit is 4, count was\n7\"* on hardware that in fact allows 1,048,576 of them (bead `op-bjd`).\nThe ceiling was self-imposed.\n\nRequesting the adapter's own limits is always satisfiable by d"]
 #[pyfunction(name = "probe")]
 pub fn fn_outram_mc_libs__gpu__probe() -> Option<Py_outram_mc_libs__gpu__GpuContext> { ::outram_mc_libs::gpu::probe().map(|e| Py_outram_mc_libs__gpu__GpuContext { inner: e }) }
 
+    // @item fn:outram_mc_libs::gpu::surface_distance::surface_distance_hybrid
+#[doc = "Evaluate a query batch across **both** devices: the GPU takes the front of\nthe batch, the CPU takes the back, and the two run concurrently.\n\nReturns the distances in query order (identical layout to\n[`surface_distance_cpu_f32`]) together with the [`WorkSplit`] actually used,\nso a caller can log or assert which devices did work.\n\n# How the split is decided\n\nEntirely from **sourced hardware capability**, never assumption — see\n[`crate::gpu::capabilities`]. [`plan_split`] is given this kernel's real\nrequirements ([`STORAGE_BUFFERS_NEEDED`], [`QUERY_STRIDE_BYTES`],\n[`WORKGROUP_SIZE`]) and returns an all-CPU plan whenever the GPU cannot host\nthe kernel, is absent, or the policy asks for none.\n\n# Concurrency\n\nThe CPU half runs on a `rayon` parallel iterator inside a scoped thread while\nthis thread drives the GPU dispatch, so the two genuinely overlap rather than\nrunning one after the other. The GPU half is issued in chunks of at most\n`split.gpu_chunk_items` so an oversized batch cannot exceed the driver's\nbinding-size or workgroup-count limits.\n\n# Accuracy\n\nThe GPU half is `f32` and will not bit-match the CPU half (crate `CLAUDE.md`\ncontract 2). **Do not use this for anything feeding V&V"]
+#[pyfunction(name = "surface_distance_hybrid")]
+pub fn fn_outram_mc_libs__gpu__surface_distance__surface_distance_hybrid(ctx: Option<PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>>, encoded: PyRef<'_, Py_outram_mc_libs__prelude__EncodedSurfaces>, queries: Vec<Py_outram_mc_libs__prelude__SurfaceQuery>, policy: Py_outram_mc_libs__gpu__capabilities__SplitPolicy) -> (Vec<f32>, Py_outram_mc_libs__gpu__capabilities__WorkSplit) { { let (e0, e1) = ::outram_mc_libs::gpu::surface_distance::surface_distance_hybrid(ctx.as_ref().map(|r| &r.inner), &encoded.inner, &queries.into_iter().map(|e| e.inner).collect::<Vec<_>>(), policy.inner); (e0.into_iter().map(|e| e).collect::<Vec<_>>(), Py_outram_mc_libs__gpu__capabilities__WorkSplit { inner: e1 }) } }
+
+    // @item fn:outram_mc_libs::physics::keff::run_keff_cpu_multi
+#[doc = "Rayon-parallel fission-source power iteration ([`ComputeType::CpuMultiThread`]).\n\nSame physics and same power-iteration structure as [`run_keff_cpu_single`],\nbut the histories **within each generation** are transported in parallel with\n[`rayon`]. The generation loop itself stays sequential — generation `g+1`'s\nsource is the resampled fission bank of generation `g`, a hard data\ndependency.\n\n# Thread pool sizing\n\nThe parallel sections run inside a **dedicated** [`rayon::ThreadPool`] sized\nto `thread_count.resolve()` (min 1), **not** the implicit global pool — the\ncaller gets explicit, controllable sizing. [`ThreadCount::Auto`] (the\ndefault) resolves via [`std::thread::available_parallelism`], so the pool\nscales with the CPU's strength: a big desktop CPU gets many threads, an\nAndroid phone gets few, with no special-casing. [`ThreadCount::Fixed`] pins\nan exact count and [`ThreadCount::Fraction`] takes a fraction of the logical\ncores (both clamped to `>= 1`). This whole path is Android-clean — `rayon`\nand `available_parallelism` both work there — so it is **not** target-gated.\n\n# Reproducibility (independent of thread count)\n\nEach history is given a **completely independent, determinist"]
+#[pyfunction(name = "run_keff_cpu_multi")]
+pub fn fn_outram_mc_libs__physics__keff__run_keff_cpu_multi(radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>, thread_count: Py_outram_mc_libs__prelude__ThreadCount) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::keff::run_keff_cpu_multi(radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner, thread_count.inner) } }
+
+    // @item fn:outram_mc_libs::physics::keff::run_keff_cpu_single
+#[doc = "Scalar, single-thread fission-source power iteration — the **trusted,\ndeterministic, bit-reproducible reference** backend\n([`ComputeType::CpuSingleThread`]).\n\nThis is the original [`run_keff`] algorithm: raw `f64` throughout, with a\n**single** RNG `seed` threaded sequentially through the whole run (initial\nsource sampling, every history's transport, and every generation's resample\nall draw from the one stream). A fixed [`KeffSettings::seed`] therefore yields\nthe same eigenvalue bit-for-bit on every machine. The other two backends\n([`run_keff_cpu_multi`], [`run_keff_gpu`]) are acceleration only and are\nvalidated *against* this reference, never above it.\n\nReturns the mean eigenvalue and its standard error over the active\ngenerations. See the module docs for the algorithm and fidelity caveats."]
+#[pyfunction(name = "run_keff_cpu_single")]
+pub fn fn_outram_mc_libs__physics__keff__run_keff_cpu_single(radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::keff::run_keff_cpu_single(radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner) } }
+
+    // @item fn:outram_mc_libs::physics::keff::run_keff_event_cpu_mirror
+#[doc = "**CPU-mirror event-based power iteration** — the non-GPU reference for the\nfused collision-on-GPU path ([`run_keff_gpu_event`]).\n\nRuns the identical event-based algorithm — a resident batch advanced one event\nat a time, flight **and** collision resolved by\n[`crate::gpu::batched_event::advance_generation_cpu_mirror`] (the same f32\narithmetic path as the WGSL kernel) — but entirely on the CPU. It builds on\n**every** target (no `wgpu`), so it validates the fused event physics on\nAndroid and on CPU-only CI where the GPU path cannot run. Like the multi-thread\nand GPU backends it uses independent per-history LCG streams (f32 uniforms), so\nit is a statistically independent estimate of the same eigenvalue — not\nbit-locked to [`run_keff_cpu_single`], but agreeing within combined uncertainty."]
+#[pyfunction(name = "run_keff_event_cpu_mirror")]
+pub fn fn_outram_mc_libs__physics__keff__run_keff_event_cpu_mirror(radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::keff::run_keff_event_cpu_mirror(radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner) } }
+
+    // @item fn:outram_mc_libs::physics::keff::run_keff_gpu
+#[doc = "GPU-accelerated fission-source power iteration ([`ComputeType::Gpu`]), with a\n**graceful CPU fallback** — never an error, never a panic on a missing GPU.\n\nIf a usable GPU adapter is present ([`crate::gpu::probe`] returns `Some`), the\nrun is handed to [`run_keff_gpu_batched`] — the **event-based batched-flight**\npath, which keeps a whole batch of live neutrons resident in GPU buffers and\nadvances them one flight at a time on the GPU (RNG draw + native-union Sigma_t\nlookup + collision-distance sample + streaming + leak test), leaving only the\nbranchy per-collision reaction physics on the CPU (see that function for\nexactly how far the GPU reaches into the loop). The earlier\n[`run_keff_gpu_inner`] (first-flight-only GPU Sigma_t) is retained for\ncomparison but no longer the default. If no adapter is available — a headless\nserver, CI with no Vulkan/Metal loader, or **Android**, where the whole `wgpu`\npath is compiled out — it emits a `log::debug!` line and transparently runs\nthe trusted [`run_keff_cpu_single`] reference instead.\n\nThe GPU path is `f32` **acceleration only**; the single-thread CPU path\nremains the trusted, deterministic reference."]
+#[pyfunction(name = "run_keff_gpu")]
+pub fn fn_outram_mc_libs__physics__keff__run_keff_gpu(radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::keff::run_keff_gpu(radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner) } }
+
+    // @item fn:outram_mc_libs::physics::keff::run_keff_gpu_batched
+#[doc = "**Event-based, batched-flight GPU power iteration** ([`ComputeType::Gpu`]) —\nthe deep GPU penetration of beads op-u6s.7. Desktop / non-Android only.\n\n# How far the GPU reaches into the transport loop (the honest split)\n\nUnlike the earlier first-flight-only [`run_keff_gpu_inner`], this driver keeps\na **whole batch of live neutrons resident in GPU buffers** and advances them\n**one flight (one event) at a time, in parallel, per GPU dispatch**. For each\nlive particle, one [`crate::gpu::batched_flight::advance_flight_gpu`] dispatch\ndoes, on the GPU (`f32`):\n\n1. **RNG** — advance the particle's own 64-bit LCG one step (the state math is\n   bit-exact vs the CPU LCG; the derived uniform is `f32`), giving the\n   collision-distance random number.\n2. **Sigma_t lookup** — binary-search the shared **native-breakpoint union\n   grid** ([`crate::gpu::union_grid::UnionTotalXs::tabulate_native`]) and\n   linearly interpolate the macroscopic total Sigma_t at the particle energy.\n3. **Distance-to-collision** — `d_col = -ln(xi) / Sigma_t`.\n4. **Distance-to-boundary** — the bounding sphere intersection.\n5. **Stream + leak test** — move to the nearer of the two; flag `Leaked`\n   (reached vacuum) or `Colli"]
+#[pyfunction(name = "run_keff_gpu_batched")]
+pub fn fn_outram_mc_libs__physics__keff__run_keff_gpu_batched(ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::keff::run_keff_gpu_batched(&ctx.inner, radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner) } }
+
+    // @item fn:outram_mc_libs::physics::keff::run_keff_gpu_event
+#[doc = "**Event-based COLLISION-on-GPU power iteration** ([`ComputeType::Gpu`]) — the\nop-u6s.8 deep-penetration path. Desktop / non-Android only.\n\n# How far the GPU reaches (the honest split)\nUnlike [`run_keff_gpu_batched`] (which kept the collision on the CPU and\nround-tripped **per event**), this driver keeps a whole generation's batch\n**resident in GPU buffers** and advances it through every event — flight **and**\nthe branchy collision physics — on the GPU\n([`crate::gpu::batched_event::advance_generation_gpu`]). Per event, on the GPU\nin `f32`: advance each neutron's LCG; look up Σ_t; sample the flight; on\ncollision sample the nuclide, partition the reaction (fission | capture |\ninelastic | elastic), and apply the scatter kinematics. The only CPU traffic is\na 4-byte live-count read per event and one per-generation fission read-back; the\nfission **daughters** are then banked on the CPU once per generation\n([`bank_event_fission`]) from the handed-back seeds.\n\n# Trust / reproducibility\nThe `f32` GPU results are **acceleration only**; [`run_keff_cpu_single`] stays\nthe trusted reference. Independent per-history LCG streams make this a\nstatistically independent estimate (not bit-locked to sing"]
+#[pyfunction(name = "run_keff_gpu_event")]
+pub fn fn_outram_mc_libs__physics__keff__run_keff_gpu_event(ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::keff::run_keff_gpu_event(&ctx.inner, radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner) } }
+
+    // @item fn:outram_mc_libs::physics::keff::run_keff_gpu_inner
+#[doc = "The genuine GPU path behind [`run_keff_gpu`] (desktop / non-Android only).\n\n# How far the GPU reaches into the transport loop\n\nThe transport loop is **structurally identical** to [`run_keff_cpu_single`] —\nsame sequential single-`seed` threading, same RNG draw order — so `k_gpu`\nstays tightly correlated with the single-thread reference. The **only**\ndifference is where the macroscopic total Sigma_t comes from:\n\n1. **Build once.** A dense log-spaced table of the material's macroscopic\n   Sigma_t is tabulated up front over `[1e-3, 2e7]` eV with 16 384 points\n   ([`crate::gpu::union_grid::UnionTotalXs::tabulate`]). Temperature is fixed\n   for the whole run, so one table serves every generation. 16 384 points is\n   dense enough that the resampling error versus a direct\n   [`Material::macro_xs_total`] call is small (it is judged against the\n   reference below, not trusted above it).\n2. **GPU batch per generation (the genuine GPU penetration).** At the start of\n   every generation, the birth energies of **all** source sites are looked up\n   in **one GPU dispatch** ([`crate::gpu::union_grid::UnionTotalXs::lookup_gpu`],\n   `f32`). Each history then **consumes** its GPU-computed `f32` Sigma_"]
+#[pyfunction(name = "run_keff_gpu_inner")]
+pub fn fn_outram_mc_libs__physics__keff__run_keff_gpu_inner(ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::keff::run_keff_gpu_inner(&ctx.inner, radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner) } }
+
+    // @item fn:outram_mc_libs::physics::physics_mg::run_keff_mg
+#[doc = "Run multigroup fission-source power iteration over a CSG [`Geometry`].\n\nThe MG twin of [`run_keff_csg`](crate::physics::transport_csg::run_keff_csg):\nidentical surface-tracking transport and power-iteration bookkeeping, but the\nparticle carries a group index and every cross section comes from `lib`\n(indexed by the geometry's material indices) instead of CE nuclide data.\n\n# Parameters\n- `geom` — the CSG model (surfaces/cells/universes/lattices + root universe).\n- `lib` — MGXS library, one [`Mgxs`] per material index the geometry uses.\n- `source_box` — box the initial source is rejection-sampled into (must\n  overlap a fissile region).\n- `settings` — power-iteration controls (see [`MgSettings`]).\n\nReturns the mean eigenvalue and standard error over the active generations (a\n[`KeffResult`], the same type as the CE drivers)."]
+#[pyfunction(name = "run_keff_mg")]
+pub fn fn_outram_mc_libs__physics__physics_mg__run_keff_mg(geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>, lib: PyRef<'_, Py_outram_mc_libs__physics__physics_mg__MgxsLibrary>, source_box: Py_outram_mc_libs__prelude__SourceBox, settings: PyRef<'_, Py_outram_mc_libs__physics__physics_mg__MgSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::physics_mg::run_keff_mg(&geom.inner, &lib.inner, source_box.inner, &settings.inner) } }
+
+    // @item fn:outram_mc_libs::physics::transport_csg::run_keff_csg_par
+#[doc = "Rayon-parallel CSG power iteration ([`ComputeType::CpuMultiThread`]).\n\nSame physics and power-iteration structure as [`run_keff_csg_seq`], but the\nhistories **within each generation** are transported in parallel with\n[`rayon`] in a dedicated pool sized to `thread_count` (never the implicit\nglobal pool). The generation loop stays sequential — generation `g+1`'s source\nis `g`'s resampled fission bank, a hard data dependency.\n\n# Reproducibility (independent of thread count)\n\nEach history is given a **completely independent, deterministic** RNG stream\nderived only from `(settings.seed, generation, history index)` via the LCG\njump-ahead ([`crate::rng::lcg::future_seed`]) — never a shared mutable seed —\nso the result never races and is identical regardless of how rayon schedules\nthe work. This mirrors [`crate::physics::keff::run_keff_cpu_multi`]; see its\ndocs for the `HIST_STRIDE` / `GEN_STRIDE` non-overlap argument. The initial\nsource sampling and each resample run on a separate sequential `src_seed`\nstream, kept off the parallel path. Because the per-history stream structure\ndiffers from the single sequential stream, this backend does **not** bit-match\n[`run_keff_csg_seq`] — it is a st"]
+#[pyfunction(name = "run_keff_csg_par")]
+pub fn fn_outram_mc_libs__physics__transport_csg__run_keff_csg_par(geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>, materials: Vec<Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, source_box: Py_outram_mc_libs__prelude__SourceBox, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>, mut tally: Option<PyRefMut<'_, Py_outram_mc_libs__prelude__Tally>>, thread_count: Py_outram_mc_libs__prelude__ThreadCount) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::transport_csg::run_keff_csg_par(&geom.inner, &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), source_box.inner, &settings.inner, tally.as_mut().map(|r| &mut r.inner), thread_count.inner) } }
+
+    // @item fn:outram_mc_libs::physics::transport_csg::run_keff_csg_seq
+#[doc = "Scalar, single-thread CSG power iteration — the **trusted, deterministic,\nbit-reproducible reference** backend ([`ComputeType::CpuSingleThread`]).\n\nOne `f64` RNG stream is threaded sequentially through the whole run (initial\nsource rejection-sampling, every history's transport, every resample), so a\nfixed [`KeffSettings::seed`] yields the same eigenvalue — and the same tally\nrealizations — bit-for-bit on every machine. [`run_keff_csg_par`] is\nacceleration only and is validated against this reference."]
+#[pyfunction(name = "run_keff_csg_seq")]
+pub fn fn_outram_mc_libs__physics__transport_csg__run_keff_csg_seq(geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>, materials: Vec<Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, source_box: Py_outram_mc_libs__prelude__SourceBox, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>, mut tally: Option<PyRefMut<'_, Py_outram_mc_libs__prelude__Tally>>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::physics::transport_csg::run_keff_csg_seq(&geom.inner, &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), source_box.inner, &settings.inner, tally.as_mut().map(|r| &mut r.inner)) } }
+
+    // @item fn:outram_mc_libs::prelude::advance_event_cpu_mirror
+#[doc = "Advance **every currently-alive neutron** in `batch` through **one event**\n(flight + collision) on the CPU, using the **exact same f32 arithmetic path**\nas the GPU kernel `shaders/batched_event.wgsl`.\n\nThis is the bit-level logic reference for the GPU kernel (same LCG emulation,\nsame top-24 uniform, same grid search, same kinematics, same draw order). It is\n**unconditional** (builds and runs on Android too).\n\nPer alive neutron `i`: advance RNG → `xi`; look up Σ_t; leak/absorb ⇒\n`alive[i]=0`; else stream to the collision site, sample nuclide + reaction, and\neither mark fission (`fiss_nuc[i]`, `production[i]`, dead), capture (dead), or\nscatter (update `energy`/`dir`, stay alive). Returns the number of neutrons\nstill alive after the event."]
+#[pyfunction(name = "advance_event_cpu_mirror")]
+pub fn fn_outram_mc_libs__prelude__advance_event_cpu_mirror(tables: PyRef<'_, Py_outram_mc_libs__prelude__EventTablesF32>, mut batch: PyRefMut<'_, Py_outram_mc_libs__prelude__EventBatch>, sphere: Py_outram_mc_libs__prelude__EventSphere) -> usize { ::outram_mc_libs::prelude::advance_event_cpu_mirror(&tables.inner, &mut batch.inner, sphere.inner) }
+
+    // @item fn:outram_mc_libs::prelude::advance_flight_cpu_mirror
+#[doc = "Advance every particle in `batch` through **one flight** on the CPU, using\nthe **exact same `f32` arithmetic path** as the GPU shader.\n\nThis is the bit-level reference implementation for the GPU kernel's logic:\nsame emulated one-step LCG advance (via native `u64`, then split), same\ntop-24-bit f32 uniform, same f32 grid search / interpolation, same f32 sphere\ndistance. It is **unconditional** (builds and runs on Android too, where the\nGPU path is absent).\n\n# Physical meaning\n- `grid`   — ascending union energy grid (eV), `grid.len() >= 2`, f32.\n- `sigma`  — macroscopic total cross section `Sigma_t` (cm^-1) tabulated on\n  `grid`, same length as `grid`, f32.\n- `batch`  — the SoA particle state ([`FlightBatch`]); `pos` and `rng_hi/lo`\n  are updated in place (RNG advanced one step for every particle; `pos`\n  advanced to the collision site for collided particles).\n- `sphere` — the bounding [`FlightSphere`] (cm).\n- returns  — one [`FlightOutcome`] per particle, in index order.\n\n# Behaviour per particle\nAdvance RNG one step → `xi`; interpolate `Sigma_t` at `energy[i]`; if\n`Sigma_t <= 0` → `Leaked`; else `d_col = -ln(xi)/Sigma_t`; compute the sphere\ndistance `d_bound`; if `d_col >= d_bound`"]
+#[pyfunction(name = "advance_flight_cpu_mirror")]
+pub fn fn_outram_mc_libs__prelude__advance_flight_cpu_mirror(grid: Vec<f32>, sigma: Vec<f32>, mut batch: PyRefMut<'_, Py_outram_mc_libs__prelude__FlightBatch>, sphere: Py_outram_mc_libs__prelude__FlightSphere) -> Vec<Py_outram_mc_libs__prelude__FlightOutcome> { ::outram_mc_libs::prelude::advance_flight_cpu_mirror(&grid.into_iter().map(|e| e).collect::<Vec<_>>(), &sigma.into_iter().map(|e| e).collect::<Vec<_>>(), &mut batch.inner, sphere.inner).into_iter().map(|e| Py_outram_mc_libs__prelude__FlightOutcome { inner: e }).collect::<Vec<_>>() }
+
+    // @item fn:outram_mc_libs::prelude::advance_flight_gpu
+#[doc = "Advance every particle in `batch` through **one flight on the GPU**, via the\nWGSL compute shader `shaders/batched_flight.wgsl`. This is the `f32`\naccelerated counterpart of [`advance_flight_cpu_mirror`]; the two are held to\nagreement by the V&V test in this module.\n\n# Physical meaning (identical to [`advance_flight_cpu_mirror`])\n- `grid`   — ascending union energy grid (eV), `grid.len() >= 2`, f32.\n- `sigma`  — macroscopic total cross section `Sigma_t` (cm^-1) on `grid`, f32,\n  same length as `grid`.\n- `batch`  — SoA particle state; on return, `batch.pos` (collision sites) and\n  `batch.rng_hi`/`batch.rng_lo` (advanced one LCG step) are updated in place.\n- `sphere` — the bounding [`FlightSphere`] (cm).\n- returns  — one [`FlightOutcome`] per particle, in index order.\n\n# How it works\nUploads `grid`, `sigma`, `dir`, `energy` as read-only storage buffers, `pos`,\n`rng_hi`, `rng_lo`, `outcome` as read-write storage buffers (with `COPY_SRC`\nso they can be read back), and a 32-byte `Params` uniform. Dispatches\n`ceil(N / 64)` workgroups of the `main` entry point, copies `pos`, `rng_hi`,\n`rng_lo`, `outcome` into their own mappable staging buffers, blocks on\n`device.poll(PollType::wait_indefin"]
+#[pyfunction(name = "advance_flight_gpu")]
+pub fn fn_outram_mc_libs__prelude__advance_flight_gpu(ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, grid: Vec<f32>, sigma: Vec<f32>, mut batch: PyRefMut<'_, Py_outram_mc_libs__prelude__FlightBatch>, sphere: Py_outram_mc_libs__prelude__FlightSphere) -> Vec<Py_outram_mc_libs__prelude__FlightOutcome> { ::outram_mc_libs::prelude::advance_flight_gpu(&ctx.inner, &grid.into_iter().map(|e| e).collect::<Vec<_>>(), &sigma.into_iter().map(|e| e).collect::<Vec<_>>(), &mut batch.inner, sphere.inner).into_iter().map(|e| Py_outram_mc_libs__prelude__FlightOutcome { inner: e }).collect::<Vec<_>>() }
+
+    // @item fn:outram_mc_libs::prelude::advance_generation_cpu_mirror
+#[doc = "Run a whole generation on the CPU mirror: repeatedly [`advance_event_cpu_mirror`]\nuntil the batch drains or `max_events` is hit. Returns the number of events run.\nThis is the non-GPU reference driver for the fused event path (Android-clean)."]
+#[pyfunction(name = "advance_generation_cpu_mirror")]
+pub fn fn_outram_mc_libs__prelude__advance_generation_cpu_mirror(tables: PyRef<'_, Py_outram_mc_libs__prelude__EventTablesF32>, mut batch: PyRefMut<'_, Py_outram_mc_libs__prelude__EventBatch>, sphere: Py_outram_mc_libs__prelude__EventSphere, max_events: usize) -> usize { ::outram_mc_libs::prelude::advance_generation_cpu_mirror(&tables.inner, &mut batch.inner, sphere.inner, max_events) }
+
+    // @item fn:outram_mc_libs::prelude::advance_generation_gpu
+#[doc = "Advance a whole generation on the **GPU**, keeping the batch resident in GPU\nbuffers across every event ([`crate::gpu`] `mod.rs` precision contract applies).\n\nUploads the packed tables (`xs`), the integer state (`seed_lo ++ seed_hi ++\nalive ++ fiss_nuc`), the float state (`pos ++ dir ++ energy ++ production`), and\na control atomic **once**, then loops: reset the live counter, dispatch the\nfused event kernel over all `N` neutrons, and read back the 4-byte live count.\nThe loop stops when no neutron is alive or `max_events` is reached; only then is\nthe full state read back into `batch`. Returns the number of events dispatched.\n\nThis is the `f32` accelerated counterpart of [`advance_generation_cpu_mirror`];\nthe per-event GPU logic is held to the CPU mirror by the V&V test in this file.\nAn empty batch returns `0` without touching the GPU."]
+#[pyfunction(name = "advance_generation_gpu")]
+pub fn fn_outram_mc_libs__prelude__advance_generation_gpu(ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, tables: PyRef<'_, Py_outram_mc_libs__prelude__EventTablesF32>, mut batch: PyRefMut<'_, Py_outram_mc_libs__prelude__EventBatch>, sphere: Py_outram_mc_libs__prelude__EventSphere, max_events: usize) -> usize { ::outram_mc_libs::prelude::advance_generation_gpu(&ctx.inner, &tables.inner, &mut batch.inner, sphere.inner, max_events) }
+
     // @item fn:outram_mc_libs::prelude::build_triso_particle
 #[doc = "Build a full nested-shell TRISO particle universe from five radii and six\nmaterial ids.\n\nPlaces five concentric [`Sphere`] surfaces (all [`BoundaryType::Transmissive`]\n— these are internal material interfaces, not model boundaries) at `center`\nwith the cumulative outer radii in `radii`, then one [`Cell`] per region:\n\n- **kernel** — `−sense` of sphere 0 (the innermost ball),\n- **buffer / IPyC / SiC / OPyC** — `+sense` of the previous sphere ∧ `−sense`\n  of this shell's sphere (the annular gap between consecutive spheres),\n- **matrix** — `+sense` of sphere 4 (everything outside the OPyC), filling the\n  rest of the universe.\n\n`surface_base` / `cell_base` are the global offsets at which these surfaces /\ncells will live in the enclosing [`Geometry`]'s flat arrays, so the region\ntokens and the universe's `cell_indices` refer to the right global slots when\nthis universe is spliced into a larger model (a lattice of particles, a\npebble, …). For a standalone particle pass `0` for both (see\n[`triso_particle`]). `temperature` \\[K\\] is stamped on every cell.\n\n# Panics (debug only)\n\nDebug-asserts that `radii` is strictly increasing; in release, non-increasing\nradii silently produce empty (unreac"]
 #[pyfunction(name = "build_triso_particle")]
 pub fn fn_outram_mc_libs__prelude__build_triso_particle(center: Py_outram_mc_libs__prelude__Position, radii: Py_outram_mc_libs__prelude__TrisoRadii, materials: Py_outram_mc_libs__prelude__TrisoMaterials, temperature: f64, universe_id: i32, surface_base: usize, cell_base: usize) -> Py_outram_mc_libs__prelude__TrisoParticle { Py_outram_mc_libs__prelude__TrisoParticle { inner: ::outram_mc_libs::prelude::build_triso_particle(center.inner, radii.inner, materials.inner, temperature, universe_id, surface_base, cell_base) } }
+
+    // @item fn:outram_mc_libs::prelude::encode_surfaces
+#[doc = "Flatten a slice of [`SurfaceKind`] into the [`EncodedSurfaces`] GPU layout.\n\nThe tag is the variant's declaration order in [`SurfaceKind`]\n(`XPlane=0, YPlane=1, ZPlane=2, Plane=3, Sphere=4, XCylinder=5, YCylinder=6,\nZCylinder=7, XCone=8, YCone=9, ZCone=10, Quadric=11, XTorus=12, YTorus=13,\nZTorus=14`). Coefficients are stored in the order each struct declares its\nfields:\n\n- planes: `XPlane→[x0]`, `YPlane→[y0]`, `ZPlane→[z0]`, `Plane→[a,b,c,d]`\n- `Sphere→[x0,y0,z0,r]`\n- `XCylinder→[y0,z0,r]`, `YCylinder→[x0,z0,r]`, `ZCylinder→[x0,y0,r]`\n- cones `{X,Y,Z}Cone→[x0,y0,z0,r_sq]`\n- `Quadric→[a,b,c,d,e,f,g,h,j,k]`\n- tori `{X,Y,Z}Torus→[x0,y0,z0,a,b,c]`\n\nThe `bc` (boundary condition) field is intentionally not encoded — this kernel\ncomputes geometric distance only."]
+#[pyfunction(name = "encode_surfaces")]
+pub fn fn_outram_mc_libs__prelude__encode_surfaces(surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>) -> Py_outram_mc_libs__prelude__EncodedSurfaces { Py_outram_mc_libs__prelude__EncodedSurfaces { inner: ::outram_mc_libs::prelude::encode_surfaces(&surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>()) } }
 
     // @item fn:outram_mc_libs::prelude::future_seed
 #[doc = "Advance the seed `n` steps in O(log n) using the LCG jump-ahead identity.\n\nMaps to `uint64_t future_seed(uint64_t n, uint64_t seed)`.\nAlgorithm: each iteration squares `a` and halves `n`, accumulating the\ncombined multiplier/increment for odd bits.  Identical to Knuth §3.2.1."]
@@ -5094,6 +5435,11 @@ pub fn fn_outram_mc_libs__prelude__init_seed(id: i64, offset: i64, master_seed: 
 #[doc = "Linearly interpolate a tabulated cross section onto a set of query energies.\n\nThis is the **trusted, deterministic f64 reference path** against which the\nGPU path ([`interp_xs_gpu`]) is judged. It mirrors the energy-grid bracket +\nlinear interpolation performed by OpenMC's `Nuclide::calculate_xs`\n(`/home/teddy0/Documents/research/openmc/src/nuclide.cpp:716-760`).\n\n# Physical meaning\n- `grid`   — monotonically increasing energy grid points, units **eV**.\n- `sigma`  — the cross section tabulated on `grid`, units **barn**. Must be\n  the same length as `grid` (`sigma[i]` is the cross section at `grid[i]`).\n- `queries` — the energies (eV) at which the cross section is wanted.\n- returns — one interpolated cross section (barn) per query, in order.\n\n# Bracketing / extrapolation (mirrors nuclide.cpp:716-740)\nFor each query energy `q`, with `n = grid.len()`:\n- `q < grid[0]`         → `i_grid = 0`      (clamp: use the first interval,\n  `f` becomes negative so this linearly extrapolates below the grid — this\n  matches OpenMC, where the total XS grid always spans the problem range so\n  this branch is effectively a clamp to the first tabulated interval).\n- `q > grid[n-1]`       → `i_grid = n-2` "]
 #[pyfunction(name = "interp_xs_cpu")]
 pub fn fn_outram_mc_libs__prelude__interp_xs_cpu(grid: Vec<f64>, sigma: Vec<f64>, queries: Vec<f64>) -> Vec<f64> { ::outram_mc_libs::prelude::interp_xs_cpu(&grid.into_iter().map(|e| e).collect::<Vec<_>>(), &sigma.into_iter().map(|e| e).collect::<Vec<_>>(), &queries.into_iter().map(|e| e).collect::<Vec<_>>()).into_iter().map(|e| e).collect::<Vec<_>>() }
+
+    // @item fn:outram_mc_libs::prelude::interp_xs_gpu
+#[doc = "Linearly interpolate a tabulated cross section onto query energies **on the\nGPU**, via a WGSL compute shader. This is the f32 accelerated counterpart of\nthe f64 reference [`interp_xs_cpu`]; the two are held to agreement by the\nV&V test in this module.\n\n# Physical meaning (identical to [`interp_xs_cpu`], but single precision)\n- `grid`    — ascending energy grid points, units **eV** (f32).\n- `sigma`   — cross section tabulated on `grid`, units **barn** (f32).\n- `queries` — energies (eV) at which the cross section is wanted (f32).\n- returns   — one interpolated cross section (barn) per query, in order.\n\n# Preconditions\n- `grid.len() == sigma.len()`.\n- `grid.len() >= 2` (the shader indexes `i_grid + 1`; a degenerate 0/1-point\n  grid is not supported on the GPU path — use [`interp_xs_cpu`] for those).\n- `grid` sorted ascending.\n\nAn empty `queries` returns an empty `Vec` without touching the GPU.\n\n# How it works\nUploads `grid`, `sigma`, `queries` as read-only storage buffers, a\n`[n_grid, n_query, 0, 0]` uniform params block, dispatches\n`ceil(n_query / 64)` workgroups of the `main` entry point, copies the result\nstorage buffer into a mappable staging buffer, blocks on\n`device.poll(PollTyp"]
+#[pyfunction(name = "interp_xs_gpu")]
+pub fn fn_outram_mc_libs__prelude__interp_xs_gpu(ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, grid: Vec<f32>, sigma: Vec<f32>, queries: Vec<f32>) -> Vec<f32> { ::outram_mc_libs::prelude::interp_xs_gpu(&ctx.inner, &grid.into_iter().map(|e| e).collect::<Vec<_>>(), &sigma.into_iter().map(|e| e).collect::<Vec<_>>(), &queries.into_iter().map(|e| e).collect::<Vec<_>>()).into_iter().map(|e| e).collect::<Vec<_>>() }
 
     // @item fn:outram_mc_libs::prelude::matrix_mean_chord_length
 #[doc = "Mean chord length \\[cm\\] through the *matrix* phase between spherical inclusions.\n\nFor a binary stochastic mixture the two phases' mean chords are tied to their volume\nfractions by the Markovian relation `p_i = <ℓ_i> / (<ℓ_1> + <ℓ_2>)`, i.e.\n`<ℓ_matrix> / <ℓ_incl> = p_matrix / p_incl`. With the inclusion phase occupying the\npacking fraction `pf` and the matrix the remaining `1 - pf`:\n\n```text\n<ℓ_matrix> = (4r/3) · (1 - pf) / pf\n```\n\nSo a sparse packing gives long matrix flights and a dense one gives short flights,\nas expected.\n\n# Parameters\n- `radius` — inclusion radius \\[cm\\].\n- `packing_fraction` — inclusion volume fraction, in (0, 1).\n\nReturns [`f64::INFINITY`] when `packing_fraction` is 0 (no inclusions, so the\nneutron never hits one) and 0 when it is >= 1 (no matrix to fly through)."]
@@ -5115,10 +5461,40 @@ pub fn fn_outram_mc_libs__prelude__pack_spheres(radius: f64, half_width: f64, pa
 #[pyfunction(name = "pack_spheres_crp")]
 pub fn fn_outram_mc_libs__prelude__pack_spheres_crp(radius: f64, half_width: f64, packing_fraction: f64, seed: u64) -> PyResult<Vec<Py_outram_mc_libs__pebble_beds__sphere_packing__Sphere>> { err(::outram_mc_libs::prelude::pack_spheres_crp(radius, half_width, packing_fraction, seed)).map(|v| v.into_iter().map(|e| Py_outram_mc_libs__pebble_beds__sphere_packing__Sphere { inner: e }).collect::<Vec<_>>()) }
 
+    // @item fn:outram_mc_libs::prelude::run_fixed_source
+#[doc = "Run a fixed-source transport calculation.\n\nSamples `settings.n_particles` neutrons from `source`, transports each (and\nits fission secondaries) through `geom` to death, and — if a `tally` is\nsupplied — accumulates its track-length scores in place (flushed once per\nbatch, so read it back with `settings.n_batches` realizations). Returns a\n[`FixedSourceResult`] balance.\n\nSingle-threaded reference path (deterministic for a fixed `seed`).\n\n# Example — void streaming (the analytic check)\n```\nuse outram_mc_libs::physics::fixed_source::{run_fixed_source, FixedSource, FixedSourceSettings};\nuse outram_mc_libs::geometry::position::Position;\nuse outram_mc_libs::geometry::surface::{Sphere, SurfaceKind, BoundaryType};\nuse outram_mc_libs::geometry::cell::{Cell, CellFill, HalfSpaceSense, RegionToken};\nuse outram_mc_libs::geometry::universe::Universe;\nuse outram_mc_libs::geometry::geometry::Geometry;\n\n// A vacuum sphere of radius R: a point source at the centre streams straight\n// out, so every neutron travels exactly R — the mean path length is R.\nlet r_cm = 5.0;\nlet geom = Geometry {\n    surfaces: vec![SurfaceKind::Sphere(Sphere { x0: 0.0, y0: 0.0, z0: 0.0, r: r_cm, bc: BoundaryType::Vacuum })],\n"]
+#[pyfunction(name = "run_fixed_source")]
+pub fn fn_outram_mc_libs__prelude__run_fixed_source(geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>, materials: Vec<Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, source: PyRef<'_, Py_outram_mc_libs__prelude__FixedSource>, settings: PyRef<'_, Py_outram_mc_libs__prelude__FixedSourceSettings>, mut tally: Option<PyRefMut<'_, Py_outram_mc_libs__prelude__Tally>>) -> Py_outram_mc_libs__prelude__FixedSourceResult { Py_outram_mc_libs__prelude__FixedSourceResult { inner: ::outram_mc_libs::prelude::run_fixed_source(&geom.inner, &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &source.inner, &settings.inner, tally.as_mut().map(|r| &mut r.inner)) } }
+
+    // @item fn:outram_mc_libs::prelude::run_keff
+#[doc = "Run fission-source power iteration on a bare sphere of radius `radius_cm`\n(centred at the origin, vacuum outside) filled with `material`.\n\n`nuclides` is the global nuclide array the material's components index into.\nReturns the mean eigenvalue and its standard error over the active\ngenerations. See the module docs for the algorithm and fidelity caveats.\n\nThis function is a thin **dispatcher**: it selects the transport backend from\n[`settings.compute`](KeffSettings::compute) and forwards to the matching\nentry point. The physics is identical across backends.\n\n- [`ComputeType::CpuSingleThread`] → [`run_keff_cpu_single`] (the trusted,\n  bit-reproducible reference),\n- [`ComputeType::CpuMultiThread`] → [`run_keff_cpu_multi`] (rayon-parallel),\n- [`ComputeType::Gpu`] → [`run_keff_gpu`] (GPU Sigma_t lookup, CPU fallback)."]
+#[pyfunction(name = "run_keff")]
+pub fn fn_outram_mc_libs__prelude__run_keff(radius_cm: f64, material: PyRef<'_, Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::prelude::run_keff(radius_cm, &material.inner, &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &settings.inner) } }
+
+    // @item fn:outram_mc_libs::prelude::run_keff_csg
+#[doc = "Run fission-source power iteration over an arbitrary CSG [`Geometry`].\n\n# Parameters\n- `geom` — the CSG model (surfaces/cells/universes/lattices + root universe).\n- `materials` — global material array the geometry's cells index into.\n- `nuclides` — global nuclide array the materials index into.\n- `source_box` — box the initial source is rejection-sampled into (must\n  overlap the fissile region).\n- `settings` — power-iteration controls (see [`KeffSettings`]).\n- `tally` — optional track-length tally scored on active generations. Its\n  `bins` are accumulated in place, one realization per active generation.\n\nReturns the mean eigenvalue and standard error over the active generations\n(a [`KeffResult`], same type as the bare-sphere driver). If a `tally` is\nsupplied its bins are accumulated in place.\n\n# Compute backend\n\nThis is a thin **dispatcher** over [`settings.compute`](KeffSettings::compute),\nmirroring [`crate::physics::keff::run_keff`]. The physics is identical across\nbackends; only the execution strategy differs:\n\n- [`ComputeType::CpuSingleThread`] → [`run_keff_csg_seq`], the scalar,\n  single-RNG-stream **reference** — deterministic and bit-reproducible for a\n  fixed seed.\n- [`Comp"]
+#[pyfunction(name = "run_keff_csg")]
+pub fn fn_outram_mc_libs__prelude__run_keff_csg(geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>, materials: Vec<Py_outram_mc_libs__prelude__Material>, nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>, source_box: Py_outram_mc_libs__prelude__SourceBox, settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>, mut tally: Option<PyRefMut<'_, Py_outram_mc_libs__prelude__Tally>>) -> Py_outram_mc_libs__prelude__KeffResult { Py_outram_mc_libs__prelude__KeffResult { inner: ::outram_mc_libs::prelude::run_keff_csg(&geom.inner, &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(), &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(), source_box.inner, &settings.inner, tally.as_mut().map(|r| &mut r.inner)) } }
+
+    // @item fn:outram_mc_libs::prelude::surface_distance_cpu_f32
+#[doc = "CPU `f32` reference for a batch of ray–surface distance queries.\n\nEvaluates [`surface_distance_one_f32`] for each [`SurfaceQuery`], returning one\ndistance per query in order ([`MISS`] where the ray does not cross). This is\nboth the deterministic CPU path and the reference the GPU kernel is judged\nagainst; it is itself judged against the trusted `f64` [`SurfaceKind::distance`]\nby the tests in this module."]
+#[pyfunction(name = "surface_distance_cpu_f32")]
+pub fn fn_outram_mc_libs__prelude__surface_distance_cpu_f32(encoded: PyRef<'_, Py_outram_mc_libs__prelude__EncodedSurfaces>, queries: Vec<Py_outram_mc_libs__prelude__SurfaceQuery>) -> Vec<f32> { ::outram_mc_libs::prelude::surface_distance_cpu_f32(&encoded.inner, &queries.into_iter().map(|e| e.inner).collect::<Vec<_>>()).into_iter().map(|e| e).collect::<Vec<_>>() }
+
+    // @item fn:outram_mc_libs::prelude::surface_distance_gpu
+#[doc = "Compute ray–surface distances for a batch of queries **on the GPU**, via the\n`shaders/surface_distance.wgsl` compute shader. The `f32` accelerated twin of\n[`surface_distance_cpu_f32`]; the two are held to agreement by the V&V test in\nthis module.\n\n# Parameters\n- `ctx` — a live [`crate::gpu::GpuContext`] from [`crate::gpu::probe`].\n- `encoded` — surfaces flattened by [`encode_surfaces`].\n- `queries` — the rays to test; each names a surface index, a coincident flag,\n  an origin (cm) and a unit direction.\n\nReturns one distance per query in order ([`MISS`] on a miss). An empty\n`queries` returns an empty `Vec` without touching the GPU.\n\n# How it works\nUploads the tag, coeff, per-query surface-index, per-query flag, origin, and\ndirection arrays as read-only storage buffers plus an `[n_surf, n_query, 0, 0]`\nuniform, dispatches `ceil(n_query / 64)` workgroups of `main`, copies the\nresult buffer to a mappable staging buffer, blocks on\n`device.poll(PollType::wait_indefinitely())`, and reads it back."]
+#[pyfunction(name = "surface_distance_gpu")]
+pub fn fn_outram_mc_libs__prelude__surface_distance_gpu(ctx: PyRef<'_, Py_outram_mc_libs__gpu__GpuContext>, encoded: PyRef<'_, Py_outram_mc_libs__prelude__EncodedSurfaces>, queries: Vec<Py_outram_mc_libs__prelude__SurfaceQuery>) -> Vec<f32> { ::outram_mc_libs::prelude::surface_distance_gpu(&ctx.inner, &encoded.inner, &queries.into_iter().map(|e| e.inner).collect::<Vec<_>>()).into_iter().map(|e| e).collect::<Vec<_>>() }
+
     // @item fn:outram_mc_libs::prelude::triso_particle
 #[doc = "Convenience: a self-contained TRISO particle centred at `center`\n(`surface_base = cell_base = 0`, universe id `1`).\n\nThe returned [`TrisoParticle`]'s vectors are internally consistent and can be\nturned into a standalone [`Geometry`] with [`TrisoParticle::into_geometry`]."]
 #[pyfunction(name = "triso_particle")]
 pub fn fn_outram_mc_libs__prelude__triso_particle(center: Py_outram_mc_libs__prelude__Position, radii: Py_outram_mc_libs__prelude__TrisoRadii, materials: Py_outram_mc_libs__prelude__TrisoMaterials, temperature: f64) -> Py_outram_mc_libs__prelude__TrisoParticle { Py_outram_mc_libs__prelude__TrisoParticle { inner: ::outram_mc_libs::prelude::triso_particle(center.inner, radii.inner, materials.inner, temperature) } }
+
+    // @item fn:outram_mc_libs::tally::scoring::score_collision
+#[doc = "Score one real collision into `tally` via the collision estimator.\n\n# Parameters\n- `tally` — the tally to accumulate into (filters + scores + bins).\n- `cell_idx` / `material_idx` / `universe_idx` — the leaf geometry indices of\n  the collision site (for Cell/Material/Universe filters).\n- `energy` — incident energy \\[eV\\] (for an EnergyFilter).\n- `sigma_t` — macroscopic total Σ_t \\[cm⁻¹\\] at the collision.\n- `macro_xs` — the material's macroscopic cross sections at `energy`, for the\n  reaction-rate scores.\n- `weight` — particle statistical weight (1.0 for analog transport).\n\nIf any attached filter does not match the event, the collision is not scored\n(the filters act as a conjunction)."]
+#[pyfunction(name = "score_collision")]
+pub fn fn_outram_mc_libs__tally__scoring__score_collision(mut tally: PyRefMut<'_, Py_outram_mc_libs__prelude__Tally>, cell_idx: usize, material_idx: usize, universe_idx: usize, energy: f64, sigma_t: f64, macro_xs: PyRef<'_, Py_outram_mc_libs__prelude__MacroXs>, weight: f64) -> () { ::outram_mc_libs::tally::scoring::score_collision(&mut tally.inner, cell_idx, material_idx, universe_idx, energy, sigma_t, &macro_xs.inner, weight) }
 
     // @item const:outram_mc_libs::geometry::lattice::HEX_NONE
     // @item const:outram_mc_libs::gpu::surface_distance::QUERY_STRIDE_BYTES
@@ -5298,15 +5674,39 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__gpu__capabilities__measured_gpu_fraction, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__gpu__capabilities__plan_split, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__gpu__probe, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__gpu__surface_distance__surface_distance_hybrid, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__keff__run_keff_cpu_multi, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__keff__run_keff_cpu_single, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__keff__run_keff_event_cpu_mirror, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__keff__run_keff_gpu, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__keff__run_keff_gpu_batched, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__keff__run_keff_gpu_event, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__keff__run_keff_gpu_inner, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__physics_mg__run_keff_mg, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__transport_csg__run_keff_csg_par, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__physics__transport_csg__run_keff_csg_seq, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__advance_event_cpu_mirror, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__advance_flight_cpu_mirror, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__advance_flight_gpu, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__advance_generation_cpu_mirror, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__advance_generation_gpu, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__build_triso_particle, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__encode_surfaces, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__future_seed, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__init_seed, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__interp_xs_cpu, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__interp_xs_gpu, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__matrix_mean_chord_length, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__mean_chord_length_sphere, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__pack_spheres, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__pack_spheres_crp, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__run_fixed_source, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__run_keff, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__run_keff_csg, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__surface_distance_cpu_f32, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__surface_distance_gpu, m)?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__triso_particle, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_outram_mc_libs__tally__scoring__score_collision, m)?)?;
     m.add("HEX_NONE", ::outram_mc_libs::geometry::lattice::HEX_NONE)?;
     m.add("QUERY_STRIDE_BYTES", ::outram_mc_libs::gpu::surface_distance::QUERY_STRIDE_BYTES)?;
     m.add("STORAGE_BUFFERS_NEEDED", ::outram_mc_libs::gpu::surface_distance::STORAGE_BUFFERS_NEEDED)?;

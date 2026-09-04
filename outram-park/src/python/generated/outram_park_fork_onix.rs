@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_park_fork_onix::BurnupMatrix
 #[doc = "A dense, row-major depletion matrix `A` with units `1/s`.\n\nIndex convention: `A[i][j]` is the rate at which parent `j` feeds nuclide\n`i` (off-diagonal, `>= 0`); the diagonal `A[i][i]` is the total loss rate of\nnuclide `i` (`<= 0`). Multiply by a timestep Δt (seconds) to get the\ndimensionless matrix whose exponential action gives the depleted inventory."]
@@ -391,7 +391,7 @@ impl Py_outram_park_fork_onix__ReactionRates {
     // @item fn:outram_park_fork_onix::cram16
 #[doc = "Order-16 CRAM: `n(Δt) = exp(A·Δt)·n0`.\n\n* `a` — burnup matrix `A` (units `1/s`), see [`BurnupMatrix`].\n* `dt` — timestep Δt in **seconds** (`>= 0`).\n* `n0` — initial number densities (atoms, or atoms·cm⁻³); length must equal\n  `a.dim()`.\n\nReturns the depleted inventory `n(Δt)` in the same units as `n0`. Negative\nentries (a known CRAM artefact for species that should be exactly zero) are\n**not** clamped here — see [`clamp_nonnegative`] for the optional\nphysicality filter ONIX applies in `CRAM_density_check`\n(`onix/salameche/cram.py:127`).\n\nAlgorithm ported from ONIX `CRAM16` (`onix/salameche/cram.py:6–59`)."]
 #[pyfunction(name = "cram16")]
-pub fn fn_outram_park_fork_onix__cram16(a: Py_outram_park_fork_onix__BurnupMatrix, dt: f64, n0: Vec<f64>) -> PyResult<Vec<f64>> { err(::outram_park_fork_onix::cram16(&a.inner, dt, &n0.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
+pub fn fn_outram_park_fork_onix__cram16(a: PyRef<'_, Py_outram_park_fork_onix__BurnupMatrix>, dt: f64, n0: Vec<f64>) -> PyResult<Vec<f64>> { err(::outram_park_fork_onix::cram16(&a.inner, dt, &n0.into_iter().map(|e| e).collect::<Vec<_>>())).map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>()) }
 
 pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_fork_onix__BurnupMatrix>()?;

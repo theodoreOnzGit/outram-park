@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_park_digital_twin_engine::animation::ControlRodDrive
 #[doc = "A control-rod drive slewing the **drawn** insertion fraction toward the\ncommanded one at a bounded speed.\n\nInsertion fraction is dimensionless in `[0, 1]`: `0.0` fully withdrawn,\n`1.0` fully inserted. `stroke` is the physical travel the fraction spans and\n`speed` the drive speed, so the fraction rate is `speed / stroke` per second\n— expressing it that way rather than as a bare \"fraction per second\" keeps\nthe two physical quantities visible and `uom`-checked at the call site.\n\n`Copy`, small, and free of any `egui` type, so an application can keep one\nper rod bank in whatever state it already owns."]
@@ -369,7 +369,10 @@ impl Py_outram_park_digital_twin_engine__ciet_opcua__CietControl {
     pub fn valid_range(&self) -> (f64, f64) { { let (e0, e1) = ::outram_park_digital_twin_engine::ciet_opcua::CietControl::valid_range(&self.inner); (e0, e1) } }
     // @item method:outram_park_digital_twin_engine::ciet_opcua::CietControl::read
     #[doc = "Read this control's current value out of a state snapshot, so a client\ncan see what the set point actually is after clamping."]
-    pub fn read(&self, state: Py_outram_park_digital_twin_engine__ciet_opcua__CietState) -> f64 { ::outram_park_digital_twin_engine::ciet_opcua::CietControl::read(&self.inner, &state.inner) }
+    pub fn read(&self, state: PyRef<'_, Py_outram_park_digital_twin_engine__ciet_opcua__CietState>) -> f64 { ::outram_park_digital_twin_engine::ciet_opcua::CietControl::read(&self.inner, &state.inner) }
+    // @item method:outram_park_digital_twin_engine::ciet_opcua::CietControl::write
+    #[doc = "Apply a client's write to plant state, clamped to\n[`valid_range`](Self::valid_range).\n\nReturns the value actually stored, which a caller may log or feed back."]
+    pub fn write(&self, mut state: PyRefMut<'_, Py_outram_park_digital_twin_engine__ciet_opcua__CietState>, value: f64) -> f64 { ::outram_park_digital_twin_engine::ciet_opcua::CietControl::write(&self.inner, &mut state.inner, value) }
     // @item variant:outram_park_digital_twin_engine::ciet_opcua::CietControl::HeaterPowerKw
     #[staticmethod]
     #[pyo3(name = "HeaterPowerKw")]
@@ -469,7 +472,7 @@ impl Py_outram_park_digital_twin_engine__ciet_opcua__CietSignal {
     pub fn unit(&self) -> String { ::outram_park_digital_twin_engine::ciet_opcua::CietSignal::unit(&self.inner).clone().to_string() }
     // @item method:outram_park_digital_twin_engine::ciet_opcua::CietSignal::read
     #[doc = "Read this signal's current value out of a state snapshot.\n\nThis is the only place the OPC-UA read callbacks touch plant state, so\nthe mapping from node to field exists exactly once."]
-    pub fn read(&self, state: Py_outram_park_digital_twin_engine__ciet_opcua__CietState) -> f64 { ::outram_park_digital_twin_engine::ciet_opcua::CietSignal::read(&self.inner, &state.inner) }
+    pub fn read(&self, state: PyRef<'_, Py_outram_park_digital_twin_engine__ciet_opcua__CietState>) -> f64 { ::outram_park_digital_twin_engine::ciet_opcua::CietSignal::read(&self.inner, &state.inner) }
     // @item variant:outram_park_digital_twin_engine::ciet_opcua::CietSignal::HeaterPowerKw
     #[staticmethod]
     #[pyo3(name = "HeaterPowerKw")]
@@ -1117,7 +1120,10 @@ impl Py_outram_park_digital_twin_engine__ciet_opcua__CietSwitch {
     pub fn display_name(&self) -> String { ::outram_park_digital_twin_engine::ciet_opcua::CietSwitch::display_name(&self.inner).clone().to_string() }
     // @item method:outram_park_digital_twin_engine::ciet_opcua::CietSwitch::read
     #[doc = "Read this switch's current value out of a state snapshot."]
-    pub fn read(&self, state: Py_outram_park_digital_twin_engine__ciet_opcua__CietState) -> bool { ::outram_park_digital_twin_engine::ciet_opcua::CietSwitch::read(&self.inner, &state.inner) }
+    pub fn read(&self, state: PyRef<'_, Py_outram_park_digital_twin_engine__ciet_opcua__CietState>) -> bool { ::outram_park_digital_twin_engine::ciet_opcua::CietSwitch::read(&self.inner, &state.inner) }
+    // @item method:outram_park_digital_twin_engine::ciet_opcua::CietSwitch::write
+    #[doc = "Apply a client's write to plant state."]
+    pub fn write(&self, mut state: PyRefMut<'_, Py_outram_park_digital_twin_engine__ciet_opcua__CietState>, value: bool) -> () { ::outram_park_digital_twin_engine::ciet_opcua::CietSwitch::write(&self.inner, &mut state.inner, value) }
     // @item variant:outram_park_digital_twin_engine::ciet_opcua::CietSwitch::AdvancedHeaterControlOn
     #[staticmethod]
     #[pyo3(name = "AdvancedHeaterControlOn")]
@@ -1283,6 +1289,9 @@ impl Py_outram_park_digital_twin_engine__ciet_opcua__user_controls__CietUserCont
     // @item method:outram_park_digital_twin_engine::ciet_opcua::user_controls::CietUserControls::applied_request_count
     #[doc = "Total requests applied since start-up. Diagnostic only."]
     pub fn applied_request_count(&self) -> u64 { ::outram_park_digital_twin_engine::ciet_opcua::user_controls::CietUserControls::applied_request_count(&self.inner) }
+    // @item method:outram_park_digital_twin_engine::ciet_opcua::user_controls::CietUserControls::apply_and_clear
+    #[doc = "Apply every outstanding request to `state`, then clear them.\n\nCalled by the physics thread once per timestep, before it reads the\ncontrols it will integrate with. Returns how many requests were applied,\nso a caller can log or display remote activity.\n\nClamping happens here, inside [`CietControl::write`], so plant state\nnever holds an out-of-envelope value even momentarily, and a NaN request\nis discarded rather than poisoning the solver."]
+    pub fn apply_and_clear(&mut self, mut state: PyRefMut<'_, Py_outram_park_digital_twin_engine__ciet_opcua__CietState>) -> usize { ::outram_park_digital_twin_engine::ciet_opcua::user_controls::CietUserControls::apply_and_clear(&mut self.inner, &mut state.inner) }
     // @item method:outram_park_digital_twin_engine::ciet_opcua::user_controls::CietUserControls::clear_without_applying
     #[doc = "Discard every outstanding request without applying it.\n\nFor a UI \"take local control\" action: the operator at the keyboard\ndrops whatever remote clients have queued rather than letting it land on\nthe next timestep."]
     pub fn clear_without_applying(&mut self) -> () { ::outram_park_digital_twin_engine::ciet_opcua::user_controls::CietUserControls::clear_without_applying(&mut self.inner) }
@@ -4313,7 +4322,7 @@ pub fn fn_outram_park_digital_twin_engine__components__heat_exchanger__path_frac
     // @item fn:outram_park_digital_twin_engine::components::heat_exchanger::profile_temperature_bounds
 #[doc = "The temperature window the profile strip is plotted against, as\n`(bottom, top)`.\n\nScaled to the **four terminal temperatures**, not to the display range: the\ncolour scale is usually set for a whole plant, and plotting a 20 K approach\nagainst a 600 K scale would draw two flat lines on top of each other. A 12 %\nmargin is added at both ends so the extreme profiles do not sit on the strip\nborder, and the window is never narrower than **1 K**, so a degenerate state\n(all four temperatures equal, which is what zero duty gives) still draws a\nstrip rather than collapsing to a line or dividing by zero.\n\nColour is unaffected — every colour in the artwork, profile strip included,\nstill comes from the caller's [`HeatExchangerDisplayRange`]."]
 #[pyfunction(name = "profile_temperature_bounds")]
-pub fn fn_outram_park_digital_twin_engine__components__heat_exchanger__profile_temperature_bounds(scalars: Py_outram_park_digital_twin_engine__components__HeatExchangerScalars) -> (f64, f64) { { let (e0, e1) = ::outram_park_digital_twin_engine::components::heat_exchanger::profile_temperature_bounds(&scalars.inner); (to_si(e0), to_si(e1)) } }
+pub fn fn_outram_park_digital_twin_engine__components__heat_exchanger__profile_temperature_bounds(scalars: PyRef<'_, Py_outram_park_digital_twin_engine__components__HeatExchangerScalars>) -> (f64, f64) { { let (e0, e1) = ::outram_park_digital_twin_engine::components::heat_exchanger::profile_temperature_bounds(&scalars.inner); (to_si(e0), to_si(e1)) } }
 
     // @item fn:outram_park_digital_twin_engine::components::heat_exchanger::terminal_approaches
 #[doc = "The two **terminal approaches**, as `(left_end, right_end)`.\n\nA terminal approach is the temperature difference between the two streams at\none end of the exchanger — the driving force there. Both are returned as\nsigned [`TemperatureInterval`]s (`hot - cold` at that end), because the sign\nis the whole diagnostic: a negative approach means heat would have to flow\nfrom the cold stream to the hot one at that end, which cannot happen.\n\nThe pair returned is exactly the `(dt1, dt2)` that\n[`outram_park_fork_dwsim_libs::heat_exchanger::lmtd::lmtd`] forms for the\nsame arrangement, which is why the drawing's end-brackets can be read as the\ntwo ends of the log-mean:\n\n- [`HeatExchangerKind::CounterFlow`]: `(T_hot_in - T_cold_out,\n  T_hot_out - T_cold_in)`.\n- [`HeatExchangerKind::ParallelFlow`]: `(T_hot_in - T_cold_in,\n  T_hot_out - T_cold_out)`.\n\nNo log-mean is taken here and no duty is computed — this is the geometry the\nend brackets are drawn from, not a rating."]
@@ -4363,7 +4372,7 @@ pub fn fn_outram_park_digital_twin_engine__htr10__neutronics__choo_xiao_2024_res
     // @item fn:outram_park_digital_twin_engine::htr10::neutronics::critical_height_from_two_points
 #[doc = "Linearly interpolate (or extrapolate) the loading height at which\nk_eff = 1, from two points on a loading curve.\n\nh_crit = h_low + (h_high - h_low) * (1 - k_low) / (k_high - k_low).\n\nThis is the procedure the IAEA benchmark document itself used to state its\nB1 answers, and the unit tests in this module reproduce all four of its\npublished critical heights with it. When both k values are below 1 the\nresult is an **extrapolation** beyond `high` — the IAEA's own MCNP\noriginal-benchmark answer (126.116 cm from points at 120 and 126 cm) is\nexactly such a case, so this is intended behaviour, not a bug.\n\nReturns `None` if the two k values are equal (no slope to invert)."]
 #[pyfunction(name = "critical_height_from_two_points")]
-pub fn fn_outram_park_digital_twin_engine__htr10__neutronics__critical_height_from_two_points(low: Py_outram_park_digital_twin_engine__htr10__neutronics__LoadingCurvePoint, high: Py_outram_park_digital_twin_engine__htr10__neutronics__LoadingCurvePoint) -> Option<f64> { ::outram_park_digital_twin_engine::htr10::neutronics::critical_height_from_two_points(&low.inner, &high.inner).map(|e| to_si(e)) }
+pub fn fn_outram_park_digital_twin_engine__htr10__neutronics__critical_height_from_two_points(low: PyRef<'_, Py_outram_park_digital_twin_engine__htr10__neutronics__LoadingCurvePoint>, high: PyRef<'_, Py_outram_park_digital_twin_engine__htr10__neutronics__LoadingCurvePoint>) -> Option<f64> { ::outram_park_digital_twin_engine::htr10::neutronics::critical_height_from_two_points(&low.inner, &high.inner).map(|e| to_si(e)) }
 
     // @item fn:outram_park_digital_twin_engine::htr10::neutronics::inet_b2_results
 #[doc = "INET's B2 full-core results, calculated with VSOP, for both variants\n(IAEA benchmark document, Tables 4-6 and 4-12, Open tier).\n\nThe full core is the 5 m^3 core, corresponding to a pebble-bed height of\n180.114 cm (14,091 fuel + 10,630 dummy balls = 24,721 mixed balls).\nAll six values are under **helium** — the deviated B2 differs from the\noriginal only in the dummy-ball density and impurity, not in atmosphere,\nbecause B2 was defined as a helium problem and INET kept it that way."]

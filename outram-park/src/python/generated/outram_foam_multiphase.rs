@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_foam_multiphase::MultiphaseError
 #[doc = "Errors produced by the multiphase solvers in this crate."]
@@ -222,7 +222,7 @@ impl Py_outram_foam_multiphase__drift_flux__SlipModel {
     // @item method:outram_foam_multiphase::drift_flux::SlipModel::drift_velocity
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "Per-cell drift velocity `U_dm` `[m/s]`, one `Vector3` per mesh cell.\n\n# Parameters\n- `u_m` — mixture cell velocity field `U_m` `[m/s]` (used by\n  [`ZuberFindlay`](Self::ZuberFindlay); the volumetric-flux surrogate).\n- `alpha` — dispersed volume fraction `α` `[-]` (used by the hindrance /\n  crowding factors).\n\nBoth fields must be defined on the same mesh; the returned vector has\nlength `mesh.n_cells`.\n\n# Errors\n[`MultiphaseError::InvalidInput`] if a [`UserDefined`](Self::UserDefined)\nfield length does not match the cell count."]
-    pub fn drift_velocity(&self, u_m: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField, alpha: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField) -> PyResult<Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3>> { err(::outram_foam_multiphase::drift_flux::SlipModel::drift_velocity(&self.inner, &u_m.inner, &alpha.inner)).map(|v| v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { inner: e }).collect::<Vec<_>>()) }
+    pub fn drift_velocity(&self, u_m: PyRef<'_, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField>, alpha: PyRef<'_, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>) -> PyResult<Vec<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3>> { err(::outram_foam_multiphase::drift_flux::SlipModel::drift_velocity(&self.inner, &u_m.inner, &alpha.inner)).map(|v| v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { inner: e }).collect::<Vec<_>>()) }
     // @item variant:outram_foam_multiphase::drift_flux::SlipModel::ZuberFindlay
     #[staticmethod]
     #[pyo3(name = "ZuberFindlay")]
@@ -557,6 +557,10 @@ impl Py_outram_foam_multiphase__pimple__DriftFluxPimple {
 pub struct Py_outram_foam_multiphase__two_fluid__DragModel { pub inner: ::outram_foam_multiphase::two_fluid::DragModel }
 #[pymethods]
 impl Py_outram_foam_multiphase__two_fluid__DragModel {
+    // @item method:outram_foam_multiphase::two_fluid::DragModel::k_d
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Per-cell volumetric drag coefficient `K_d` `[kg/(m³·s)]` for the given\ntwo-fluid `system`.\n\nReturns a `VolScalarField` in `kg/(m³·s)` with zero-gradient boundaries.\nThe correlation variants read `ρ_c`, `ν_c` from the continuous phase, the\ndiameter `d` and fraction `α_d` from the dispersed phase, and the slip\nReynolds number from [`TwoFluidSystem::reynolds_number`].\n\n# Errors\n- [`MultiphaseError::InvalidInput`] for [`Constant`](Self::Constant) with\n  `k_d < 0`, or (for the correlation variants) if the Reynolds-number\n  evaluation fails its own preconditions (`ν_c > 0`, `d > 0`)."]
+    pub fn k_d(&self, system: PyRef<'_, Py_outram_foam_multiphase__two_fluid__TwoFluidSystem>) -> PyResult<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField> { err(::outram_foam_multiphase::two_fluid::DragModel::k_d(&self.inner, &system.inner)).map(|v| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: v }) }
     // @item variant:outram_foam_multiphase::two_fluid::DragModel::SchillerNaumann
     #[staticmethod]
     #[pyo3(name = "SchillerNaumann")]
@@ -581,6 +585,10 @@ impl Py_outram_foam_multiphase__two_fluid__DragModel {
 pub struct Py_outram_foam_multiphase__two_fluid__InterfacialForce { pub inner: ::outram_foam_multiphase::two_fluid::InterfacialForce }
 #[pymethods]
 impl Py_outram_foam_multiphase__two_fluid__InterfacialForce {
+    // @item method:outram_foam_multiphase::two_fluid::InterfacialForce::momentum_coefficient
+    #[cfg(feature = "outram-foam-basic-lib")]
+    #[doc = "Per-cell interfacial momentum-transfer coefficient `[kg/(m³·s)]` for the\ngiven `system`.\n\nFor [`Drag`](Self::Drag) this is the drag coefficient `K_d` (see\n[`DragModel::k_d`]). All other variants are unported scaffolds.\n\n# Errors\n- Propagates [`DragModel::k_d`]'s errors for [`Drag`](Self::Drag).\n- [`MultiphaseError::NotImplemented`] for every scaffold variant (lift,\n  virtual mass, wall lubrication, turbulent dispersion) — their closures\n  are not yet ported."]
+    pub fn momentum_coefficient(&self, system: PyRef<'_, Py_outram_foam_multiphase__two_fluid__TwoFluidSystem>) -> PyResult<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField> { err(::outram_foam_multiphase::two_fluid::InterfacialForce::momentum_coefficient(&self.inner, &system.inner)).map(|v| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: v }) }
     // @item variant:outram_foam_multiphase::two_fluid::InterfacialForce::Lift
     #[staticmethod]
     #[pyo3(name = "Lift")]
@@ -1023,7 +1031,7 @@ pub struct Py_outram_foam_multiphase__wall_boiling__WallBoilingModel { pub inner
 impl Py_outram_foam_multiphase__wall_boiling__WallBoilingModel {
     // @item method:outram_foam_multiphase::wall_boiling::WallBoilingModel::partition
     #[doc = "Partition the wall heat flux using the selected regime model.\n\nDispatches to the wrapped concrete model's\n[`WallHeatFluxPartition::partition`]. Only\n[`NucleateBoiling`](Self::NucleateBoiling) is implemented; the other\nvariants return [`MultiphaseError::NotImplemented`].\n\n# Errors\nPropagates the wrapped model's error — [`MultiphaseError::InvalidInput`]\nfor non-physical inputs, [`MultiphaseError::NotImplemented`] for the\nplaceholder regimes."]
-    pub fn partition(&self, conditions: Py_outram_foam_multiphase__wall_boiling__WallBoilingConditions) -> PyResult<Py_outram_foam_multiphase__wall_boiling__HeatFluxPartition> { err(::outram_foam_multiphase::wall_boiling::WallBoilingModel::partition(&self.inner, &conditions.inner)).map(|v| Py_outram_foam_multiphase__wall_boiling__HeatFluxPartition { inner: v }) }
+    pub fn partition(&self, conditions: PyRef<'_, Py_outram_foam_multiphase__wall_boiling__WallBoilingConditions>) -> PyResult<Py_outram_foam_multiphase__wall_boiling__HeatFluxPartition> { err(::outram_foam_multiphase::wall_boiling::WallBoilingModel::partition(&self.inner, &conditions.inner)).map(|v| Py_outram_foam_multiphase__wall_boiling__HeatFluxPartition { inner: v }) }
     // @item variant:outram_foam_multiphase::wall_boiling::WallBoilingModel::NucleateBoiling
     #[staticmethod]
     #[pyo3(name = "NucleateBoiling")]

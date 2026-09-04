@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_park_fork_thermochimica::gem::BinaryInteraction
 #[doc = "One binary Redlich-Kister interaction term between two species of a phase.\n\nContributes to the molar excess Gibbs energy of mixing (upstream\n`CompExcessGibbsEnergyRKMP.f90`, binary term):\n\n```text\ng^ex_pair = x_i · x_j · Σ_{v=0}^{N} L_v · (x_i − x_j)^v      [J/mol]\n```\n\nwhere `x_i`, `x_j` are the within-phase mole fractions \\[-\\] of the two\ninteracting species and `L_v` \\[J/mol\\] is the order-`v` mixing coefficient.\n`v = 0` alone is a **regular** solution (symmetric); adding `v = 1` makes it\n**subregular** (asymmetric); higher orders extend the polynomial. Coefficients\nare treated as constants at the solve temperature — a caller wanting\n`L_v(T) = a + bT` evaluates it before building the model (temperature-\ndependent `L` storage is out of scope here)."]

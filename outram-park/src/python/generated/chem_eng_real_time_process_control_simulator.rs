@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:chem_eng_real_time_process_control_simulator::alpha_nightly::controllers::AnalogController
 #[doc = "generic enum for a Continuous Time Controller"]

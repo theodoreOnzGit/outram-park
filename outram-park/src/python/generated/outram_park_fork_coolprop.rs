@@ -3,7 +3,7 @@
 #![allow(non_snake_case, non_camel_case_types, unused_imports,
          unreachable_patterns, clippy::all)]
 use pyo3::prelude::*;
-use crate::python::runtime::{from_si, to_si, err};
+use crate::python::runtime::{err, from_si, to_si};
 
     // @item type:outram_park_fork_coolprop::FlashError
 #[doc = "Why a flash solve did not produce a state."]
@@ -856,6 +856,9 @@ impl Py_outram_park_fork_coolprop__HelmholtzDerivs {
 pub struct Py_outram_park_fork_coolprop__IdealTerm { pub inner: ::outram_park_fork_coolprop::IdealTerm }
 #[pymethods]
 impl Py_outram_park_fork_coolprop__IdealTerm {
+    // @item method:outram_park_fork_coolprop::IdealTerm::accumulate
+    #[doc = "Accumulate this ideal-gas term group's contribution to `acc`."]
+    pub fn accumulate(&self, delta: f64, tau: f64, mut acc: PyRefMut<'_, Py_outram_park_fork_coolprop__HelmholtzDerivs>) -> () { ::outram_park_fork_coolprop::IdealTerm::accumulate(&self.inner, delta, tau, &mut acc.inner) }
     // @item variant:outram_park_fork_coolprop::IdealTerm::Lead
     #[staticmethod]
     #[pyo3(name = "Lead")]
@@ -1301,6 +1304,9 @@ impl Py_outram_park_fork_coolprop__PhaseAtPh {
 pub struct Py_outram_park_fork_coolprop__ResidualTerm { pub inner: ::outram_park_fork_coolprop::ResidualTerm }
 #[pymethods]
 impl Py_outram_park_fork_coolprop__ResidualTerm {
+    // @item method:outram_park_fork_coolprop::ResidualTerm::accumulate
+    #[doc = "Accumulate this term group's contribution to `acc` at `(delta, tau)`."]
+    pub fn accumulate(&self, delta: f64, tau: f64, mut acc: PyRefMut<'_, Py_outram_park_fork_coolprop__HelmholtzDerivs>) -> () { ::outram_park_fork_coolprop::ResidualTerm::accumulate(&self.inner, delta, tau, &mut acc.inner) }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_park_fork_coolprop::ResidualTerm::Power { .. } => "Power", ::outram_park_fork_coolprop::ResidualTerm::Gaussian { .. } => "Gaussian", ::outram_park_fork_coolprop::ResidualTerm::Exponential { .. } => "Exponential", ::outram_park_fork_coolprop::ResidualTerm::DoubleExponential { .. } => "DoubleExponential", ::outram_park_fork_coolprop::ResidualTerm::GaoB { .. } => "GaoB", ::outram_park_fork_coolprop::ResidualTerm::NonAnalytic { .. } => "NonAnalytic", _ => "unknown" }
@@ -2476,6 +2482,9 @@ impl Py_outram_park_fork_coolprop__mixtures__binary_pairs__BinaryPair {
 pub struct Py_outram_park_fork_coolprop__mixtures__departure__DepartureTerm { pub inner: ::outram_park_fork_coolprop::mixtures::departure::DepartureTerm }
 #[pymethods]
 impl Py_outram_park_fork_coolprop__mixtures__departure__DepartureTerm {
+    // @item method:outram_park_fork_coolprop::mixtures::departure::DepartureTerm::accumulate
+    #[doc = "Accumulate this departure term's contribution to `acc` at reduced state\n`(δ, τ)` (before the `x_i x_j F_{ij}` binary weighting — see\n[`super::Mixture::residual_derivs`])."]
+    pub fn accumulate(&self, delta: f64, tau: f64, mut acc: PyRefMut<'_, Py_outram_park_fork_coolprop__HelmholtzDerivs>) -> () { ::outram_park_fork_coolprop::mixtures::departure::DepartureTerm::accumulate(&self.inner, delta, tau, &mut acc.inner) }
     // @item variant:outram_park_fork_coolprop::mixtures::departure::DepartureTerm::Power
     #[staticmethod]
     #[pyo3(name = "Power")]
@@ -3007,12 +3016,12 @@ pub fn fn_outram_park_fork_coolprop__mixtures__binary_pairs__lookup(a: Py_outram
     // @item fn:outram_park_fork_coolprop::mixtures::reducing::reducing_density
 #[doc = "Composition-dependent reducing molar density `ρ_r(x)` \\[mol/m³\\]."]
 #[pyfunction(name = "reducing_density")]
-pub fn fn_outram_park_fork_coolprop__mixtures__reducing__reducing_density(mix: Py_outram_park_fork_coolprop__mixtures__Mixture) -> f64 { ::outram_park_fork_coolprop::mixtures::reducing::reducing_density(&mix.inner) }
+pub fn fn_outram_park_fork_coolprop__mixtures__reducing__reducing_density(mix: PyRef<'_, Py_outram_park_fork_coolprop__mixtures__Mixture>) -> f64 { ::outram_park_fork_coolprop::mixtures::reducing::reducing_density(&mix.inner) }
 
     // @item fn:outram_park_fork_coolprop::mixtures::reducing::reducing_temperature
 #[doc = "Composition-dependent reducing temperature `T_r(x)` \\[K\\]."]
 #[pyfunction(name = "reducing_temperature")]
-pub fn fn_outram_park_fork_coolprop__mixtures__reducing__reducing_temperature(mix: Py_outram_park_fork_coolprop__mixtures__Mixture) -> f64 { ::outram_park_fork_coolprop::mixtures::reducing::reducing_temperature(&mix.inner) }
+pub fn fn_outram_park_fork_coolprop__mixtures__reducing__reducing_temperature(mix: PyRef<'_, Py_outram_park_fork_coolprop__mixtures__Mixture>) -> f64 { ::outram_park_fork_coolprop::mixtures::reducing::reducing_temperature(&mix.inner) }
 
     // @item fn:outram_park_fork_coolprop::phase_at_ph
 #[doc = "Classify a `(p, h)` state (pressure \\[Pa\\], specific enthalpy \\[J/kg\\]) as\nsingle- or two-phase, returning the quality and temperature when two-phase.\n\nSub-critical only: finds `T_sat(p)`, then the saturated-phase enthalpies\n`h'`,`h''`; `h ∈ [h', h'']` ⇒ two-phase with `x = (h−h')/(h''−h')`. Above the\ncritical pressure (or when the fluid has no ancillaries) it returns\n[`PhaseAtPh::SinglePhase`] — the two-phase region does not apply."]
