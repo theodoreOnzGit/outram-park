@@ -4,10 +4,8 @@
 
 \documentclass[aspectratio=169]{beamer}
 
-\usepackage{beamerthememidcenturymodern}
 
 % Theme
-\mcmTheme{Kraft}
 
 \institute{Singapore Nuclear Research and Safety Initiative}
 
@@ -18,12 +16,13 @@
 
 \begin{document}
 
-% =============================================================================
+
+%------------------------------------------------------------
 \begin{frame}
-    \titlepage
+\titlepage
 \end{frame}
 
-% =============================================================================
+%------------------------------------------------------------
 \begin{frame}{What is a High Temperature Gas-Cooled Reactor (HTGR)?}
 
 \begin{columns}
@@ -31,19 +30,19 @@
 \begin{column}{0.55\textwidth}
 
 \begin{itemize}
-    \item Uses helium gas as coolant
-    \item Uses graphite to moderate neutrons
-    \item Produces heat through nuclear fission
-    \item Heat is converted into electricity
-    \item Designed with strong passive safety features
+\item Uses helium gas as coolant
+\item Uses graphite to slow neutrons
+\item Produces heat through nuclear fission
+\item Converts heat into electricity
+\item Designed with strong passive safety features
 \end{itemize}
 
-\vspace{1em}
+\vspace{0.5cm}
 
 \begin{block}{Key Idea}
-A nuclear reactor is simply a large heat source.
+A nuclear reactor is a heat source.
 
-The heat can be used to generate electricity.
+The heat is used to generate electricity.
 \end{block}
 
 \end{column}
@@ -52,8 +51,7 @@ The heat can be used to generate electricity.
 
 \centering
 
-% Replace this with your schematic screenshot
-\includegraphics[width=\linewidth]{htr_sim_full.png}
+%\includegraphics[width=\linewidth]{htr_sim_full.png}
 
 \end{column}
 
@@ -61,56 +59,31 @@ The heat can be used to generate electricity.
 
 \end{frame}
 
-% =============================================================================
+%------------------------------------------------------------
 \begin{frame}{How Does Heat Become Electricity?}
 
-\centering
+\begin{enumerate}
+\item The reactor produces heat.
+\item Helium carries heat away from the reactor.
+\item A steam generator transfers heat to water.
+\item Steam drives a turbine.
+\item The turbine generates electricity.
+\end{enumerate}
 
-\Huge
+\vspace{0.5cm}
 
-Reactor
+\begin{block}{Energy Conversion Chain}
+Reactor $\rightarrow$ Helium Coolant $\rightarrow$ Steam Generator
+$\rightarrow$ Turbine $\rightarrow$ Electricity
+\end{block}
 
-\vspace{0.4em}
+\vspace{0.3cm}
 
-$\Downarrow$
-
-\vspace{0.4em}
-
-Helium Coolant
-
-\vspace{0.4em}
-
-$\Downarrow$
-
-\vspace{0.4em}
-
-Steam Generator
-
-\vspace{0.4em}
-
-$\Downarrow$
-
-\vspace{0.4em}
-
-Steam Turbine
-
-\vspace{0.4em}
-
-$\Downarrow$
-
-\vspace{0.4em}
-
-Electricity
-
-\vspace{1em}
-
-\normalsize
-
-We can follow this entire process in the simulator.
+Everything shown in the simulator is part of this process.
 
 \end{frame}
 
-% =============================================================================
+%------------------------------------------------------------
 \begin{frame}{What Can We Explore in the Simulator?}
 
 \begin{columns}
@@ -118,20 +91,19 @@ We can follow this entire process in the simulator.
 \begin{column}{0.55\textwidth}
 
 \begin{itemize}
-    \item Reactor power
-    \item Control rod position
-    \item Helium coolant flow
-    \item Steam generation
-    \item Turbine power output
-    \item Electrical generation
-    \item System response to changing conditions
+\item Reactor power
+\item Control rod position
+\item Helium coolant flow
+\item Steam generation
+\item Turbine power output
+\item Electrical generation
+\item System response to changing conditions
 \end{itemize}
 
-\vspace{1em}
+\vspace{0.5cm}
 
 \begin{alertblock}{Live Demonstration}
-Let's change some operating conditions and see how the
-plant responds.
+Let's change operating conditions and observe how the plant responds.
 \end{alertblock}
 
 \end{column}
@@ -140,8 +112,7 @@ plant responds.
 
 \centering
 
-% Replace with your controls screenshot
-\includegraphics[width=\linewidth]{htr_sim_controls.png}
+%\includegraphics[width=\linewidth]{htr_sim_controls.png}
 
 \end{column}
 
@@ -149,38 +120,29 @@ plant responds.
 
 \end{frame}
 
-% =============================================================================
-\begin{frame}
-
-\centering
-
-\Huge
-Live Demonstration
-
-\vspace{2em}
+%------------------------------------------------------------
+\begin{frame}{Questions}
 
 \Large
-Questions are welcome throughout.
+
+Common questions:
+
+\begin{itemize}
+\item Why is Singapore studying nuclear energy?
+\item Is nuclear energy safe?
+\item Is this a real reactor?
+\item Why do engineers use simulations?
+\item Was this simulator developed at SNRSI?
+\end{itemize}
+
+\vspace{1cm}
+
+\centering
+\Large
+Let's explore the simulator together.
 
 \end{frame}
 
-% =============================================================================
+
 
 \end{document}
-
-
-My actual speaking notes would be:
-
-Slide 1 (60 s)
-
-"This is a high-temperature gas-cooled reactor. It uses helium gas to transport heat."
-
-Slide 2 (90 s)
-
-Point at reactor → helium loop → steam generator → turbine.
-
-Slide 3 (60 s)
-
-"Now let's see what happens when we change reactor power, coolant flow and other operating conditions."
-
-Then immediately switch to the simulator and spend the rest of the station interacting with the schematic. Given the event brief only allocates ~15 minutes per station and asks for a simplified explanation of reactor operation and simulation, this is probably about the right amount of structure.
