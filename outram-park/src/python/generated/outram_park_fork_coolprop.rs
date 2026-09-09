@@ -2279,142 +2279,6 @@ impl Py_outram_park_fork_coolprop__OPCPFluidArray {
             .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
             .collect::<Vec<_>>();
     }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_temperature_vector_avg_conductance
-    #[doc = "Register one lateral (radial) thermal link to another array/solid at a\nuniform conductance, for use in the next [`Self::step`].\n\n`temperature_vec` must have length `mesh.n_cells` — one neighbour\ntemperature per cell. `average_thermal_conductance` \\[W/K\\] is applied\nuniformly to every cell (the caller is responsible for any Nusselt /\ngeometry calculation that produced it — this array does not compute\none itself).\n\nMultiple calls accumulate independent links (e.g. coupling to several\nneighbouring arrays); all links are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
-    pub fn lateral_link_new_temperature_vector_avg_conductance(
-        &mut self,
-        average_thermal_conductance: f64,
-        temperature_vec: Vec<f64>,
-    ) -> PyResult<()> {
-        err(::outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_temperature_vector_avg_conductance(&mut self.inner, from_si(average_thermal_conductance), temperature_vec.into_iter().map(|e| from_si(e)).collect::<Vec<_>>())).map(|v| v)
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_power_vector
-    #[doc = "Register a volumetric heat source for use in the next [`Self::step`].\n\n`power_source` \\[W\\] is the total power; `q_fraction_vec` (length\n`mesh.n_cells`) distributes it across cells (need not sum to 1 —\nmirrors TUAS's `q_fraction_vector`). Multiple calls accumulate\nindependent sources; all are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
-    pub fn lateral_link_new_power_vector(
-        &mut self,
-        power_source: f64,
-        q_fraction_vec: Vec<f64>,
-    ) -> PyResult<()> {
-        err(
-            ::outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_power_vector(
-                &mut self.inner,
-                from_si(power_source),
-                q_fraction_vec.into_iter().map(|e| e).collect::<Vec<_>>(),
-            ),
-        )
-        .map(|v| v)
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::clear_vectors
-    #[doc = "Empty all registered lateral-coupling and heat-source vectors.\n\nCalled once at the end of [`Self::step`] (matches TUAS's\n`advance_timestep_with_mass_flowrate`, which calls its own\n`clear_vectors` at the very end) — links/sources are per-timestep\nregistrations, not persistent state."]
-    pub fn clear_vectors(&mut self) -> () {
-        ::outram_park_fork_coolprop::OPCPFluidArray::clear_vectors(&mut self.inner)
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_hydraulic_diameter
-    #[doc = "Hydraulic diameter `D_h = 4 * xs_area / wetted_perimeter` \\[m\\]."]
-    pub fn get_hydraulic_diameter(&self) -> f64 {
-        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_hydraulic_diameter(&self.inner))
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::clear_inlet_mass_flowrate
-    #[doc = "Removes any prescribed mass-flow inlet, leaving the inlet velocity\nboundary condition at whatever value the last corrector derived. Pair\nwith [`Self::set_inlet_velocity`] if a specific velocity is wanted\nafterwards (that setter clears the mass-flow inlet by itself)."]
-    pub fn clear_inlet_mass_flowrate(&mut self) -> () {
-        ::outram_park_fork_coolprop::OPCPFluidArray::clear_inlet_mass_flowrate(&mut self.inner)
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_inlet_mass_flowrate_actual
-    #[doc = "The mass flowrate \\[kg/s\\] **actually** crossing the inlet (`\"left\"`)\npatch in the most recent [`super::OPCPFluidArray::step`], read off the\nsolved face mass flux `phi`. Positive means flow **into** the domain.\n\nThis is the diagnostic to check a prescribed flow against: with a\nmass-flow inlet ([`Self::set_inlet_mass_flowrate`]) it should reproduce\nthe prescribed value to round-off, and with a velocity inlet derived\nfrom an assumed density it shows the drift that assumption introduces.\nZero before the first step (`phi` starts at zero)."]
-    pub fn get_inlet_mass_flowrate_actual(&self) -> f64 {
-        to_si(
-            ::outram_park_fork_coolprop::OPCPFluidArray::get_inlet_mass_flowrate_actual(
-                &self.inner,
-            ),
-        )
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_mass_flowrate_actual
-    #[doc = "The mass flowrate \\[kg/s\\] leaving the outlet (`\"right\"`) patch in the\nmost recent [`super::OPCPFluidArray::step`]. Positive means flow **out\nof** the domain.\n\nCompared against [`Self::get_inlet_mass_flowrate_actual`] this is the\narray's **global mass balance**, and at steady state the two agree to\nround-off: measured 2026-08-12 on the 8-cell heated fixture,\n`ṁ_out = 1.000000000×10⁻³ kg/s` against an exactly-imposed\n`1.0×10⁻³ kg/s` inlet (−0.0000 %), and likewise at 16 and 32 cells.\n\n**History.** Until 2026-08-12 this returned the *predictor* flux\n`φ_HbyA`, because [`super::OPCPFluidArray::step`] applied the pressure\ncorrection `−ρ_f·rAU_f·snGrad(p)·|Sf|` to internal faces only; a\nfixed-pressure outlet therefore reported a pre-correction value and the\nsteady mass balance was out by −0.7035 % at 8 cells, −0.3150 % at 16 and\n−0.1482 % at 32. Applying that correction to boundary faces as well —\nwhich is what OpenFOAM's `phi = phiHbyA - pEqn.flux()` does — removed it\n(bead op-nnqi). The correction is self-selecting: `snGrad` is zero on a\nzero-gradient pressure patch, so a prescribed-velocity or mass-flow\ninlet is untouched.\n\n**Remaining caveat, transient only.** A tight *boundary* bala"]
-    pub fn get_outlet_mass_flowrate_actual(&self) -> f64 {
-        to_si(
-            ::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_mass_flowrate_actual(
-                &self.inner,
-            ),
-        )
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_temperature_vector
-    #[doc = "Per-cell temperature \\[K\\], read from the `t` field (length `mesh.n_cells`)."]
-    pub fn get_temperature_vector(&self) -> Vec<f64> {
-        ::outram_park_fork_coolprop::OPCPFluidArray::get_temperature_vector(&self.inner)
-            .into_iter()
-            .map(|e| to_si(e))
-            .collect::<Vec<_>>()
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_temperature_vector
-    #[doc = "Overwrite the per-cell temperature at the current pressure.\n\nDoes a per-cell `(p, T)` flash and writes `he`/`rho`/`t`/`psi` together\n— **not** a plain `t` field write. `he` (specific enthalpy) is the\nactual PIMPLE state variable; writing `t` alone would be silently\nundone by the next [`Self::correct_thermo`] `(p, h)` flash. If a\ncell's `(p, T)` does not converge to a single-phase state, that\ncell's fields are left untouched (mirrors `correct_thermo`'s own\nerror handling — never a wrong number)."]
-    pub fn set_temperature_vector(&mut self, temperature_vec: Vec<f64>) -> PyResult<()> {
-        err(
-            ::outram_park_fork_coolprop::OPCPFluidArray::set_temperature_vector(
-                &mut self.inner,
-                temperature_vec
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-            ),
-        )
-        .map(|v| v)
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_inlet_velocity
-    #[doc = "Prescribes a fixed inlet velocity boundary condition on the\n`\"left\"` patch (x = 0, see [`crate::openfoam_algorithms::openfoam_source::interface::one_dimensional_meshing::create_one_d_mesh`]).\n\nFor driving this array as a simple pipe/tube with a known inlet\nflow (e.g. from an upstream pump). `velocity` is the x-direction\nflow speed; positive means fluid entering the domain (flowing\nleft-to-right, +x) -- takes effect on the next [`super::OPCPFluidArray::step`]\nand persists across steps (the BC template is re-stamped inside\n`step`).\n\n**Clears any prescribed mass-flow inlet** ([`Self::set_inlet_mass_flowrate`]):\nthe two prescribe the same patch, and a velocity fixed here would\notherwise be silently overwritten by the flow-rate inlet on the next\ncorrector. If what you want is a mass flow, prescribe it directly rather\nthan converting it to a velocity with an assumed density — see that\nmethod for why the conversion drifts."]
-    pub fn set_inlet_velocity(&mut self, velocity: f64) -> () {
-        ::outram_park_fork_coolprop::OPCPFluidArray::set_inlet_velocity(
-            &mut self.inner,
-            from_si(velocity),
-        )
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_inlet_enthalpy
-    #[doc = "Prescribes the specific enthalpy carried by fluid **entering** through\nthe `\"left\"` end (x = 0) -- the upstream state of that end when it acts\nas an inlet. Pairs with [`Self::set_inlet_velocity`] (or\n[`Self::set_inlet_mass_flowrate`]) to fully specify the inlet\nthermodynamic state.\n\n## This is an advection terminal, not a Dirichlet patch\nThese arrays are **pipes**: their ends are junctions with a flow network,\nnot patches on a standalone domain. The value set here is therefore used\n**only while fluid is flowing in through this end**, and is ignored when\nthe flow reverses and the end becomes an outlet — the same\ndirection-switched upwind rule as `tuas_boussinesq_solver`'s\n`single_control_vol/boundary_condition_interactions/advection_to_bcs.rs`\n(and OpenFOAM's `inletOutlet`). See\n`openfoam_source::fv_operators::fvc::div_limited`'s boundary section for\nthe full statement. Use [`Self::set_outlet_enthalpy`] to give the other\nend its own upstream state for the reversed case.\n\nThe boundary condition **persists across steps**: it enters the energy\nequation through the convective inflow `∇·(φh)` and through the enthalpy\ndiffusion term, and [`super::OPCPFluidArray::step`] re-stamps the BC\nte"]
-    pub fn set_inlet_enthalpy(&mut self, h: f64) -> () {
-        ::outram_park_fork_coolprop::OPCPFluidArray::set_inlet_enthalpy(&mut self.inner, from_si(h))
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_outlet_enthalpy
-    #[doc = "Prescribes the specific enthalpy carried by fluid **entering** through\nthe `\"right\"` end (x = length) — i.e. the upstream state to use *if the\nflow reverses* and that end becomes an inlet. The mirror of\n[`Self::set_inlet_enthalpy`].\n\nWhile flow leaves through this end (the normal case) the value set here\nis **ignored**, and the exported enthalpy is the interior cell's own —\nthe domain chooses what it exports. Only when the boundary mass flux\nturns negative does this value enter the energy equation. Same\ndirection-switched upwind rule as\n`tuas_boussinesq_solver`'s `advection_to_bcs.rs`; see\n`openfoam_source::fv_operators::fvc::div_limited`.\n\nIf it is never called, the right end keeps its default zero-gradient\nterminal: on reversal it would advect the domain's own last-cell\nenthalpy back in (TUAS's \"non-set-temperature\" advection, a legitimate\nbut self-referential mode). **Set it whenever a reversal is physically\npossible and you know the upstream state** — for a pipe in a loop, that\nis the enthalpy of whatever component sits downstream.\n\n## Units\n`h` is a specific enthalpy \\[J/kg\\] on the [`crate::flash`] EOS's\nreference scale, as for [`Self::set_inlet_enthalpy`]."]
-    pub fn set_outlet_enthalpy(&mut self, h: f64) -> () {
-        ::outram_park_fork_coolprop::OPCPFluidArray::set_outlet_enthalpy(
-            &mut self.inner,
-            from_si(h),
-        )
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_inlet_advected_enthalpy
-    #[doc = "The specific enthalpy the fluid actually carries **across the `\"left\"`\nend** in the state left by the most recent [`super::OPCPFluidArray::step`]\n— i.e. the upstream value the direction-switched advection terminal\nselected, whichever side that turned out to be.\n\nOn inflow (`φ < 0`) this is the value given to\n[`Self::set_inlet_enthalpy`] (or the extrapolated cell value if none was\ngiven); on outflow it is cell 0's own enthalpy. Together with\n[`Self::get_inlet_mass_flowrate_actual`] it gives the enthalpy flow\nthrough that end, which is what a network-level energy balance needs."]
-    pub fn get_inlet_advected_enthalpy(&self) -> f64 {
-        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_inlet_advected_enthalpy(&self.inner))
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_advected_enthalpy
-    #[doc = "The specific enthalpy the fluid actually carries **across the `\"right\"`\nend** in the state left by the most recent\n[`super::OPCPFluidArray::step`] — the mirror of\n[`Self::get_inlet_advected_enthalpy`]. On the normal outflow direction\nthis is the last cell's own enthalpy."]
-    pub fn get_outlet_advected_enthalpy(&self) -> f64 {
-        to_si(
-            ::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_advected_enthalpy(&self.inner),
-        )
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_outlet_pressure
-    #[doc = "Prescribes a fixed outlet pressure boundary condition on the\n`\"right\"` patch (x = length) -- e.g. the downstream pressure a\nturbine or condenser imposes."]
-    pub fn set_outlet_pressure(&mut self, p: f64) -> () {
-        ::outram_park_fork_coolprop::OPCPFluidArray::set_outlet_pressure(
-            &mut self.inner,
-            from_si(p),
-        )
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_pressure
-    #[doc = "Outlet-cell (the last cell, owner of the `\"right\"` patch) pressure\n-- for a caller reading the downstream state after [`super::OPCPFluidArray::step`]."]
-    pub fn get_outlet_pressure(&self) -> f64 {
-        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_pressure(&self.inner))
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_enthalpy
-    #[doc = "Outlet-cell specific enthalpy."]
-    pub fn get_outlet_enthalpy(&self) -> f64 {
-        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_enthalpy(&self.inner))
-    }
-    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_temperature
-    #[doc = "Outlet-cell temperature."]
-    pub fn get_outlet_temperature(&self) -> f64 {
-        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_temperature(&self.inner))
-    }
     // @item method:outram_park_fork_coolprop::OPCPFluidArray::new
     #[doc = "Build a 1-D pipe array of `fluid` with uniform initial conditions.\n\nThe mesh spans x ∈ \\[0, `length`\\] with `number_of_cells` equal cells and\nconstant cross-sectional area `xs_area`. Both end patches (`\"left\"`,\n`\"right\"`) are generic; set field boundary conditions afterwards to impose\ninlets/outlets.\n\nFields are initialised to a **single-phase reference state at p = 1 bar,\nT = 300 K**, with `ρ`, the specific enthalpy `h` and the compressibility\n`ψ = (∂ρ/∂p)_T` taken from `fluid`'s CoolProp Helmholtz EOS (so the first\n`correct_thermo` `(p, h)` flash is well-posed). If that reference `(p, T)`\nis not single-phase for `fluid` (e.g. a liquid, which the single-phase\nsolver cannot reach), it falls back to inert placeholders\n(ρ = 1 kg/m³, h = 0, ψ = 1e-5 s²/m²); overwrite the fields after\nconstruction for a specific case. `μ`/`αh` start at fixed placeholders\n(air-like values) and are overwritten by [`Self::correct_transport`] on\nthe first call — call it once after construction if the initial step\nshould already use the fluid's real transport properties.\n\n## Parameters\n- `fluid`           — working fluid (its EOS closes the thermo update)\n- `length`          — total pipe length \\[m\\]\n- `xs_"]
     #[new]
@@ -2616,6 +2480,142 @@ impl Py_outram_park_fork_coolprop__OPCPFluidArray {
             from_si(h_min),
             from_si(h_max),
         )
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_temperature_vector_avg_conductance
+    #[doc = "Register one lateral (radial) thermal link to another array/solid at a\nuniform conductance, for use in the next [`Self::step`].\n\n`temperature_vec` must have length `mesh.n_cells` — one neighbour\ntemperature per cell. `average_thermal_conductance` \\[W/K\\] is applied\nuniformly to every cell (the caller is responsible for any Nusselt /\ngeometry calculation that produced it — this array does not compute\none itself).\n\nMultiple calls accumulate independent links (e.g. coupling to several\nneighbouring arrays); all links are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
+    pub fn lateral_link_new_temperature_vector_avg_conductance(
+        &mut self,
+        average_thermal_conductance: f64,
+        temperature_vec: Vec<f64>,
+    ) -> PyResult<()> {
+        err(::outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_temperature_vector_avg_conductance(&mut self.inner, from_si(average_thermal_conductance), temperature_vec.into_iter().map(|e| from_si(e)).collect::<Vec<_>>())).map(|v| v)
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_power_vector
+    #[doc = "Register a volumetric heat source for use in the next [`Self::step`].\n\n`power_source` \\[W\\] is the total power; `q_fraction_vec` (length\n`mesh.n_cells`) distributes it across cells (need not sum to 1 —\nmirrors TUAS's `q_fraction_vector`). Multiple calls accumulate\nindependent sources; all are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
+    pub fn lateral_link_new_power_vector(
+        &mut self,
+        power_source: f64,
+        q_fraction_vec: Vec<f64>,
+    ) -> PyResult<()> {
+        err(
+            ::outram_park_fork_coolprop::OPCPFluidArray::lateral_link_new_power_vector(
+                &mut self.inner,
+                from_si(power_source),
+                q_fraction_vec.into_iter().map(|e| e).collect::<Vec<_>>(),
+            ),
+        )
+        .map(|v| v)
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::clear_vectors
+    #[doc = "Empty all registered lateral-coupling and heat-source vectors.\n\nCalled once at the end of [`Self::step`] (matches TUAS's\n`advance_timestep_with_mass_flowrate`, which calls its own\n`clear_vectors` at the very end) — links/sources are per-timestep\nregistrations, not persistent state."]
+    pub fn clear_vectors(&mut self) -> () {
+        ::outram_park_fork_coolprop::OPCPFluidArray::clear_vectors(&mut self.inner)
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_hydraulic_diameter
+    #[doc = "Hydraulic diameter `D_h = 4 * xs_area / wetted_perimeter` \\[m\\]."]
+    pub fn get_hydraulic_diameter(&self) -> f64 {
+        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_hydraulic_diameter(&self.inner))
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::clear_inlet_mass_flowrate
+    #[doc = "Removes any prescribed mass-flow inlet, leaving the inlet velocity\nboundary condition at whatever value the last corrector derived. Pair\nwith [`Self::set_inlet_velocity`] if a specific velocity is wanted\nafterwards (that setter clears the mass-flow inlet by itself)."]
+    pub fn clear_inlet_mass_flowrate(&mut self) -> () {
+        ::outram_park_fork_coolprop::OPCPFluidArray::clear_inlet_mass_flowrate(&mut self.inner)
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_inlet_mass_flowrate_actual
+    #[doc = "The mass flowrate \\[kg/s\\] **actually** crossing the inlet (`\"left\"`)\npatch in the most recent [`super::OPCPFluidArray::step`], read off the\nsolved face mass flux `phi`. Positive means flow **into** the domain.\n\nThis is the diagnostic to check a prescribed flow against: with a\nmass-flow inlet ([`Self::set_inlet_mass_flowrate`]) it should reproduce\nthe prescribed value to round-off, and with a velocity inlet derived\nfrom an assumed density it shows the drift that assumption introduces.\nZero before the first step (`phi` starts at zero)."]
+    pub fn get_inlet_mass_flowrate_actual(&self) -> f64 {
+        to_si(
+            ::outram_park_fork_coolprop::OPCPFluidArray::get_inlet_mass_flowrate_actual(
+                &self.inner,
+            ),
+        )
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_mass_flowrate_actual
+    #[doc = "The mass flowrate \\[kg/s\\] leaving the outlet (`\"right\"`) patch in the\nmost recent [`super::OPCPFluidArray::step`]. Positive means flow **out\nof** the domain.\n\nCompared against [`Self::get_inlet_mass_flowrate_actual`] this is the\narray's **global mass balance**, and at steady state the two agree to\nround-off: measured 2026-08-12 on the 8-cell heated fixture,\n`ṁ_out = 1.000000000×10⁻³ kg/s` against an exactly-imposed\n`1.0×10⁻³ kg/s` inlet (−0.0000 %), and likewise at 16 and 32 cells.\n\n**History.** Until 2026-08-12 this returned the *predictor* flux\n`φ_HbyA`, because [`super::OPCPFluidArray::step`] applied the pressure\ncorrection `−ρ_f·rAU_f·snGrad(p)·|Sf|` to internal faces only; a\nfixed-pressure outlet therefore reported a pre-correction value and the\nsteady mass balance was out by −0.7035 % at 8 cells, −0.3150 % at 16 and\n−0.1482 % at 32. Applying that correction to boundary faces as well —\nwhich is what OpenFOAM's `phi = phiHbyA - pEqn.flux()` does — removed it\n(bead op-nnqi). The correction is self-selecting: `snGrad` is zero on a\nzero-gradient pressure patch, so a prescribed-velocity or mass-flow\ninlet is untouched.\n\n**Remaining caveat, transient only.** A tight *boundary* bala"]
+    pub fn get_outlet_mass_flowrate_actual(&self) -> f64 {
+        to_si(
+            ::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_mass_flowrate_actual(
+                &self.inner,
+            ),
+        )
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_temperature_vector
+    #[doc = "Per-cell temperature \\[K\\], read from the `t` field (length `mesh.n_cells`)."]
+    pub fn get_temperature_vector(&self) -> Vec<f64> {
+        ::outram_park_fork_coolprop::OPCPFluidArray::get_temperature_vector(&self.inner)
+            .into_iter()
+            .map(|e| to_si(e))
+            .collect::<Vec<_>>()
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_temperature_vector
+    #[doc = "Overwrite the per-cell temperature at the current pressure.\n\nDoes a per-cell `(p, T)` flash and writes `he`/`rho`/`t`/`psi` together\n— **not** a plain `t` field write. `he` (specific enthalpy) is the\nactual PIMPLE state variable; writing `t` alone would be silently\nundone by the next [`Self::correct_thermo`] `(p, h)` flash. If a\ncell's `(p, T)` does not converge to a single-phase state, that\ncell's fields are left untouched (mirrors `correct_thermo`'s own\nerror handling — never a wrong number)."]
+    pub fn set_temperature_vector(&mut self, temperature_vec: Vec<f64>) -> PyResult<()> {
+        err(
+            ::outram_park_fork_coolprop::OPCPFluidArray::set_temperature_vector(
+                &mut self.inner,
+                temperature_vec
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+            ),
+        )
+        .map(|v| v)
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_inlet_velocity
+    #[doc = "Prescribes a fixed inlet velocity boundary condition on the\n`\"left\"` patch (x = 0, see [`crate::openfoam_algorithms::openfoam_source::interface::one_dimensional_meshing::create_one_d_mesh`]).\n\nFor driving this array as a simple pipe/tube with a known inlet\nflow (e.g. from an upstream pump). `velocity` is the x-direction\nflow speed; positive means fluid entering the domain (flowing\nleft-to-right, +x) -- takes effect on the next [`super::OPCPFluidArray::step`]\nand persists across steps (the BC template is re-stamped inside\n`step`).\n\n**Clears any prescribed mass-flow inlet** ([`Self::set_inlet_mass_flowrate`]):\nthe two prescribe the same patch, and a velocity fixed here would\notherwise be silently overwritten by the flow-rate inlet on the next\ncorrector. If what you want is a mass flow, prescribe it directly rather\nthan converting it to a velocity with an assumed density — see that\nmethod for why the conversion drifts."]
+    pub fn set_inlet_velocity(&mut self, velocity: f64) -> () {
+        ::outram_park_fork_coolprop::OPCPFluidArray::set_inlet_velocity(
+            &mut self.inner,
+            from_si(velocity),
+        )
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_inlet_enthalpy
+    #[doc = "Prescribes the specific enthalpy carried by fluid **entering** through\nthe `\"left\"` end (x = 0) -- the upstream state of that end when it acts\nas an inlet. Pairs with [`Self::set_inlet_velocity`] (or\n[`Self::set_inlet_mass_flowrate`]) to fully specify the inlet\nthermodynamic state.\n\n## This is an advection terminal, not a Dirichlet patch\nThese arrays are **pipes**: their ends are junctions with a flow network,\nnot patches on a standalone domain. The value set here is therefore used\n**only while fluid is flowing in through this end**, and is ignored when\nthe flow reverses and the end becomes an outlet — the same\ndirection-switched upwind rule as `tuas_boussinesq_solver`'s\n`single_control_vol/boundary_condition_interactions/advection_to_bcs.rs`\n(and OpenFOAM's `inletOutlet`). See\n`openfoam_source::fv_operators::fvc::div_limited`'s boundary section for\nthe full statement. Use [`Self::set_outlet_enthalpy`] to give the other\nend its own upstream state for the reversed case.\n\nThe boundary condition **persists across steps**: it enters the energy\nequation through the convective inflow `∇·(φh)` and through the enthalpy\ndiffusion term, and [`super::OPCPFluidArray::step`] re-stamps the BC\nte"]
+    pub fn set_inlet_enthalpy(&mut self, h: f64) -> () {
+        ::outram_park_fork_coolprop::OPCPFluidArray::set_inlet_enthalpy(&mut self.inner, from_si(h))
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_outlet_enthalpy
+    #[doc = "Prescribes the specific enthalpy carried by fluid **entering** through\nthe `\"right\"` end (x = length) — i.e. the upstream state to use *if the\nflow reverses* and that end becomes an inlet. The mirror of\n[`Self::set_inlet_enthalpy`].\n\nWhile flow leaves through this end (the normal case) the value set here\nis **ignored**, and the exported enthalpy is the interior cell's own —\nthe domain chooses what it exports. Only when the boundary mass flux\nturns negative does this value enter the energy equation. Same\ndirection-switched upwind rule as\n`tuas_boussinesq_solver`'s `advection_to_bcs.rs`; see\n`openfoam_source::fv_operators::fvc::div_limited`.\n\nIf it is never called, the right end keeps its default zero-gradient\nterminal: on reversal it would advect the domain's own last-cell\nenthalpy back in (TUAS's \"non-set-temperature\" advection, a legitimate\nbut self-referential mode). **Set it whenever a reversal is physically\npossible and you know the upstream state** — for a pipe in a loop, that\nis the enthalpy of whatever component sits downstream.\n\n## Units\n`h` is a specific enthalpy \\[J/kg\\] on the [`crate::flash`] EOS's\nreference scale, as for [`Self::set_inlet_enthalpy`]."]
+    pub fn set_outlet_enthalpy(&mut self, h: f64) -> () {
+        ::outram_park_fork_coolprop::OPCPFluidArray::set_outlet_enthalpy(
+            &mut self.inner,
+            from_si(h),
+        )
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_inlet_advected_enthalpy
+    #[doc = "The specific enthalpy the fluid actually carries **across the `\"left\"`\nend** in the state left by the most recent [`super::OPCPFluidArray::step`]\n— i.e. the upstream value the direction-switched advection terminal\nselected, whichever side that turned out to be.\n\nOn inflow (`φ < 0`) this is the value given to\n[`Self::set_inlet_enthalpy`] (or the extrapolated cell value if none was\ngiven); on outflow it is cell 0's own enthalpy. Together with\n[`Self::get_inlet_mass_flowrate_actual`] it gives the enthalpy flow\nthrough that end, which is what a network-level energy balance needs."]
+    pub fn get_inlet_advected_enthalpy(&self) -> f64 {
+        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_inlet_advected_enthalpy(&self.inner))
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_advected_enthalpy
+    #[doc = "The specific enthalpy the fluid actually carries **across the `\"right\"`\nend** in the state left by the most recent\n[`super::OPCPFluidArray::step`] — the mirror of\n[`Self::get_inlet_advected_enthalpy`]. On the normal outflow direction\nthis is the last cell's own enthalpy."]
+    pub fn get_outlet_advected_enthalpy(&self) -> f64 {
+        to_si(
+            ::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_advected_enthalpy(&self.inner),
+        )
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::set_outlet_pressure
+    #[doc = "Prescribes a fixed outlet pressure boundary condition on the\n`\"right\"` patch (x = length) -- e.g. the downstream pressure a\nturbine or condenser imposes."]
+    pub fn set_outlet_pressure(&mut self, p: f64) -> () {
+        ::outram_park_fork_coolprop::OPCPFluidArray::set_outlet_pressure(
+            &mut self.inner,
+            from_si(p),
+        )
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_pressure
+    #[doc = "Outlet-cell (the last cell, owner of the `\"right\"` patch) pressure\n-- for a caller reading the downstream state after [`super::OPCPFluidArray::step`]."]
+    pub fn get_outlet_pressure(&self) -> f64 {
+        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_pressure(&self.inner))
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_enthalpy
+    #[doc = "Outlet-cell specific enthalpy."]
+    pub fn get_outlet_enthalpy(&self) -> f64 {
+        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_enthalpy(&self.inner))
+    }
+    // @item method:outram_park_fork_coolprop::OPCPFluidArray::get_outlet_temperature
+    #[doc = "Outlet-cell temperature."]
+    pub fn get_outlet_temperature(&self) -> f64 {
+        to_si(::outram_park_fork_coolprop::OPCPFluidArray::get_outlet_temperature(&self.inner))
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -5252,20 +5252,6 @@ impl Py_outram_park_fork_coolprop__mixtures__Mixture {
     pub fn set_mole_fractions(&mut self, v: Vec<f64>) {
         self.inner.mole_fractions = v.into_iter().map(|e| e).collect::<Vec<_>>();
     }
-    // @item method:outram_park_fork_coolprop::mixtures::Mixture::air
-    #[doc = "Standard dry air as a three-component multi-fluid mixture — Nitrogen /\nOxygen / Argon.\n\nMole fractions (CoolProp `Air.mix`, from\n`dev/mixtures/predefined_mixtures.json`):\n\n| Component | `x_i` \\[-\\] |\n|---|---|\n| Nitrogen | 0.7812 |\n| Oxygen   | 0.2096 |\n| Argon    | 0.0092 |\n\nThese sum to exactly 1. This is the Lemmon et al. (2000) reference dry-air\ncomposition CoolProp uses for its pseudo-pure `Air` fluid, here evaluated\nthrough the *actual* three-component multi-fluid surface\n([`Mixture::state_trho_molar`]).\n\nReturns an error only if the shared [`Mixture::new`] validation ever\nrejects this (fixed, valid) composition — in practice it does not."]
-    #[staticmethod]
-    pub fn air() -> PyResult<Py_outram_park_fork_coolprop__mixtures__Mixture> {
-        err(::outram_park_fork_coolprop::mixtures::Mixture::air())
-            .map(|v| Py_outram_park_fork_coolprop__mixtures__Mixture { inner: v })
-    }
-    // @item method:outram_park_fork_coolprop::mixtures::Mixture::r410a
-    #[doc = "R-410A refrigerant blend — a near-azeotropic binary of R-32 and R-125.\n\nMole fractions (CoolProp `R410A.mix`, from\n`dev/mixtures/predefined_mixtures.json`):\n\n| Component | `x_i` \\[-\\] |\n|---|---|\n| R32  | 0.697614699375863 |\n| R125 | 0.302385300624138 |\n\n(This is the mole-fraction split CoolProp derives from R-410A's nominal\n50/50 *mass* split of R-32/R-125.) Provided as a second, chemically\ndistinct predefined blend alongside [`Mixture::air`].\n\nReturns an error only if the shared [`Mixture::new`] validation ever\nrejects this (fixed, valid) composition — in practice it does not."]
-    #[staticmethod]
-    pub fn r410a() -> PyResult<Py_outram_park_fork_coolprop__mixtures__Mixture> {
-        err(::outram_park_fork_coolprop::mixtures::Mixture::r410a())
-            .map(|v| Py_outram_park_fork_coolprop__mixtures__Mixture { inner: v })
-    }
     // @item method:outram_park_fork_coolprop::mixtures::Mixture::new
     #[doc = "Build a mixture, validating the composition:\n- `components.len()` and `mole_fractions.len()` match, and there are ≥ 2\n  components ([`MixtureError::MalformedComposition`]);\n- every mole fraction is finite and non-negative\n  ([`MixtureError::InvalidMoleFraction`]);\n- `Σ x_i = 1` within [`Mixture::SUM_TOLERANCE`]\n  ([`MixtureError::UnnormalizedComposition`]).\n\nThe sum is **checked, not silently renormalised**: an unnormalised\nvector is treated as a caller bug and surfaced as an error, matching the\ncrate's \"propagate, don't paper over\" error style."]
     #[new]
@@ -5319,6 +5305,20 @@ impl Py_outram_park_fork_coolprop__mixtures__Mixture {
             ),
         )
         .map(|v| Py_outram_park_fork_coolprop__mixtures__MixtureState { inner: v })
+    }
+    // @item method:outram_park_fork_coolprop::mixtures::Mixture::air
+    #[doc = "Standard dry air as a three-component multi-fluid mixture — Nitrogen /\nOxygen / Argon.\n\nMole fractions (CoolProp `Air.mix`, from\n`dev/mixtures/predefined_mixtures.json`):\n\n| Component | `x_i` \\[-\\] |\n|---|---|\n| Nitrogen | 0.7812 |\n| Oxygen   | 0.2096 |\n| Argon    | 0.0092 |\n\nThese sum to exactly 1. This is the Lemmon et al. (2000) reference dry-air\ncomposition CoolProp uses for its pseudo-pure `Air` fluid, here evaluated\nthrough the *actual* three-component multi-fluid surface\n([`Mixture::state_trho_molar`]).\n\nReturns an error only if the shared [`Mixture::new`] validation ever\nrejects this (fixed, valid) composition — in practice it does not."]
+    #[staticmethod]
+    pub fn air() -> PyResult<Py_outram_park_fork_coolprop__mixtures__Mixture> {
+        err(::outram_park_fork_coolprop::mixtures::Mixture::air())
+            .map(|v| Py_outram_park_fork_coolprop__mixtures__Mixture { inner: v })
+    }
+    // @item method:outram_park_fork_coolprop::mixtures::Mixture::r410a
+    #[doc = "R-410A refrigerant blend — a near-azeotropic binary of R-32 and R-125.\n\nMole fractions (CoolProp `R410A.mix`, from\n`dev/mixtures/predefined_mixtures.json`):\n\n| Component | `x_i` \\[-\\] |\n|---|---|\n| R32  | 0.697614699375863 |\n| R125 | 0.302385300624138 |\n\n(This is the mole-fraction split CoolProp derives from R-410A's nominal\n50/50 *mass* split of R-32/R-125.) Provided as a second, chemically\ndistinct predefined blend alongside [`Mixture::air`].\n\nReturns an error only if the shared [`Mixture::new`] validation ever\nrejects this (fixed, valid) composition — in practice it does not."]
+    #[staticmethod]
+    pub fn r410a() -> PyResult<Py_outram_park_fork_coolprop__mixtures__Mixture> {
+        err(::outram_park_fork_coolprop::mixtures::Mixture::r410a())
+            .map(|v| Py_outram_park_fork_coolprop__mixtures__Mixture { inner: v })
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)

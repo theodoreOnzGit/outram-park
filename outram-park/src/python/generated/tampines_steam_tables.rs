@@ -931,6 +931,104 @@ impl Py_tampines_steam_tables__backward_eqn_chebyshev_experimental__p_rho_h__Rho
     }
 }
 
+// @item type:tampines_steam_tables::prelude::BackwdEqnSubRegion
+#[doc = "an enum to help represent the appropriate\nregions in the forward equations"]
+#[pyclass(
+    name = "BackwdEqnSubRegion",
+    module = "outram_park.tampines_steam_tables"
+)]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__prelude__BackwdEqnSubRegion {
+    pub inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__prelude__BackwdEqnSubRegion {
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region1
+    #[staticmethod]
+    #[pyo3(name = "Region1")]
+    pub fn v_Region1() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region1,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2a
+    #[staticmethod]
+    #[pyo3(name = "Region2a")]
+    pub fn v_Region2a() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2a,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2b
+    #[staticmethod]
+    #[pyo3(name = "Region2b")]
+    pub fn v_Region2b() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2b,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2c
+    #[staticmethod]
+    #[pyo3(name = "Region2c")]
+    pub fn v_Region2c() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2c,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region3a
+    #[staticmethod]
+    #[pyo3(name = "Region3a")]
+    pub fn v_Region3a() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region3a,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region3b
+    #[staticmethod]
+    #[pyo3(name = "Region3b")]
+    pub fn v_Region3b() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region3b,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region4
+    #[staticmethod]
+    #[pyo3(name = "Region4")]
+    pub fn v_Region4() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region4,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::BackwdEqnSubRegion::Region5
+    #[staticmethod]
+    #[pyo3(name = "Region5")]
+    pub fn v_Region5() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region5,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region1 => "Region1",
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2a => "Region2a",
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2b => "Region2b",
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region2c => "Region2c",
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region3a => "Region3a",
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region3b => "Region3b",
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region4 => "Region4",
+            ::tampines_steam_tables::prelude::BackwdEqnSubRegion::Region5 => "Region5",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:tampines_steam_tables::prelude::CvMassEnthalpyChanges
 #[doc = "Ordered ledger of mass source/sink terms applied to a control volume over a\nsingle timestep.\n\nEach entry is a `(mass, specific-enthalpy)` pair: the amount of mass crossing\nthe boundary and the specific enthalpy that mass carries. Mass added to the\nsystem is stored with a positive mass; mass removed is stored with a negative\nmass (use [`add_mass`](Self::add_mass) / [`remove_mass`](Self::remove_mass) so\nthe sign convention is handled for you).\n\nThis is deliberately a separate, owned (non-`Copy`) type: the control volume\nitself stays a small `Copy` value, and the variable-length list of pending\nchanges lives here. Build one per timestep (or reuse it and\n[`clear`](Self::clear) between timesteps), then hand it to\n[`TampinesSteamTableCV::advance_timestep`]."]
 #[pyclass(
@@ -1014,6 +1112,74 @@ impl Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges {
     }
 }
 
+// @item type:tampines_steam_tables::prelude::FwdEqnRegion
+#[doc = "an enum to help represent the appropriate\nregions in the forward equations"]
+#[pyclass(name = "FwdEqnRegion", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__prelude__FwdEqnRegion {
+    pub inner: ::tampines_steam_tables::prelude::FwdEqnRegion,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__prelude__FwdEqnRegion {
+    // @item variant:tampines_steam_tables::prelude::FwdEqnRegion::Region1
+    #[staticmethod]
+    #[pyo3(name = "Region1")]
+    pub fn v_Region1() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::FwdEqnRegion::Region1,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::FwdEqnRegion::Region2
+    #[staticmethod]
+    #[pyo3(name = "Region2")]
+    pub fn v_Region2() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::FwdEqnRegion::Region2,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::FwdEqnRegion::Region3
+    #[staticmethod]
+    #[pyo3(name = "Region3")]
+    pub fn v_Region3() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::FwdEqnRegion::Region3,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::FwdEqnRegion::Region4
+    #[staticmethod]
+    #[pyo3(name = "Region4")]
+    pub fn v_Region4() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::FwdEqnRegion::Region4,
+        }
+    }
+    // @item variant:tampines_steam_tables::prelude::FwdEqnRegion::Region5
+    #[staticmethod]
+    #[pyo3(name = "Region5")]
+    pub fn v_Region5() -> Self {
+        Self {
+            inner: ::tampines_steam_tables::prelude::FwdEqnRegion::Region5,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::tampines_steam_tables::prelude::FwdEqnRegion::Region1 => "Region1",
+            ::tampines_steam_tables::prelude::FwdEqnRegion::Region2 => "Region2",
+            ::tampines_steam_tables::prelude::FwdEqnRegion::Region3 => "Region3",
+            ::tampines_steam_tables::prelude::FwdEqnRegion::Region4 => "Region4",
+            ::tampines_steam_tables::prelude::FwdEqnRegion::Region5 => "Region5",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:tampines_steam_tables::prelude::TampinesSteamTableCV
 #[doc = "this is the bread and butter for tampines steam tables,\nthe control volume"]
 #[pyclass(
@@ -1026,17 +1192,6 @@ pub struct Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
 }
 #[pymethods]
 impl Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep
-    #[doc = "Applies one timestep of mass-and-energy exchange recorded in `changes`,\nupdating the control volume in place to its new thermodynamic state.\n\nThe geometric volume is held fixed (control-volume definition). See the\n[module documentation](self) for the full derivation. In brief:\n\n1. `m_new = m_old + Σ dm_i`\n2. `h_new = (m_old · h_old + Σ dm_i · h_i) / m_new`\n3. `v_new = V / m_new`, then solve `v(p, h_new) = v_new` for `p` by\n   regula falsi and rebuild the state from `(p, h_new)`.\n\n# Panics\n\nPanics if the resulting mass is not strictly positive (the control volume\nwould be emptied or driven negative), or if no pressure in the IF97 range\nreproduces the target `(v_new, h_new)` state — both indicate\nnon-physical inputs rather than a recoverable condition."]
-    pub fn advance_timestep(
-        &mut self,
-        changes: PyRef<'_, Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges>,
-    ) -> () {
-        ::tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep(
-            &mut self.inner,
-            &changes.inner,
-        )
-    }
     // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::set_tpx
     #[doc = "Re-flashes the control volume in place from `(T,p,x)`, where\ntemperature `T` is in K, pressure `p` is in Pa, and `x` is the\nsteam quality (vapour mass fraction, only meaningful on the\nsaturation line). The fixed control-volume `volume` is preserved;\nall intensive properties are recomputed via\n[`Self::new_from_tp_quality`]."]
     pub fn set_tpx(&mut self, t: f64, p: f64, x: f64) -> () {
@@ -1275,10 +1430,8 @@ impl Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
     }
     // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::get_region
     #[doc = "Returns the IAPWS-IF97 forward-equation region (1-5) the control\nvolume's current `(pressure, specific_enthalpy)` state falls in, via\na `(p,h)` flash."]
-    pub fn get_region(
-        &self,
-    ) -> Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-        Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
+    pub fn get_region(&self) -> Py_tampines_steam_tables__prelude__FwdEqnRegion {
+        Py_tampines_steam_tables__prelude__FwdEqnRegion {
             inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::get_region(&self.inner),
         }
     }
@@ -1493,6 +1646,17 @@ impl Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
                 ),
         }
     }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep
+    #[doc = "Applies one timestep of mass-and-energy exchange recorded in `changes`,\nupdating the control volume in place to its new thermodynamic state.\n\nThe geometric volume is held fixed (control-volume definition). See the\n[module documentation](self) for the full derivation. In brief:\n\n1. `m_new = m_old + Σ dm_i`\n2. `h_new = (m_old · h_old + Σ dm_i · h_i) / m_new`\n3. `v_new = V / m_new`, then solve `v(p, h_new) = v_new` for `p` by\n   regula falsi and rebuild the state from `(p, h_new)`.\n\n# Panics\n\nPanics if the resulting mass is not strictly positive (the control volume\nwould be emptied or driven negative), or if no pressure in the IF97 range\nreproduces the target `(v_new, h_new)` state — both indicate\nnon-physical inputs rather than a recoverable condition."]
+    pub fn advance_timestep(
+        &mut self,
+        changes: PyRef<'_, Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges>,
+    ) -> () {
+        ::tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep(
+            &mut self.inner,
+            &changes.inner,
+        )
+    }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
     }
@@ -1538,131 +1702,6 @@ impl Py_tampines_steam_tables__prelude__checked__SteamTablesError {
     }
     pub fn __str__(&self) -> String {
         format!("{}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion
-#[doc = "an enum to help represent the appropriate\nregions in the forward equations"]
-#[pyclass(
-    name = "BackwdEqnSubRegion",
-    module = "outram_park.tampines_steam_tables"
-)]
-#[derive(Clone)]
-pub struct Py_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__BackwdEqnSubRegion
-{
-    pub inner:
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion,
-}
-#[pymethods]
-impl Py_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__BackwdEqnSubRegion {
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region1
-    #[staticmethod]
-    #[pyo3(name = "Region1")]
-    pub fn v_Region1() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region1 }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2a
-    #[staticmethod]
-    #[pyo3(name = "Region2a")]
-    pub fn v_Region2a() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2a }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2b
-    #[staticmethod]
-    #[pyo3(name = "Region2b")]
-    pub fn v_Region2b() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2b }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2c
-    #[staticmethod]
-    #[pyo3(name = "Region2c")]
-    pub fn v_Region2c() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2c }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region3a
-    #[staticmethod]
-    #[pyo3(name = "Region3a")]
-    pub fn v_Region3a() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region3a }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region3b
-    #[staticmethod]
-    #[pyo3(name = "Region3b")]
-    pub fn v_Region3b() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region3b }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region4
-    #[staticmethod]
-    #[pyo3(name = "Region4")]
-    pub fn v_Region4() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region4 }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region5
-    #[staticmethod]
-    #[pyo3(name = "Region5")]
-    pub fn v_Region5() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region5 }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner { ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region1 => "Region1", ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2a => "Region2a", ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2b => "Region2b", ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region2c => "Region2c", ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region3a => "Region3a", ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region3b => "Region3b", ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region4 => "Region4", ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::BackwdEqnSubRegion::Region5 => "Region5", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion
-#[doc = "an enum to help represent the appropriate\nregions in the forward equations"]
-#[pyclass(name = "FwdEqnRegion", module = "outram_park.tampines_steam_tables")]
-#[derive(Clone)]
-pub struct Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-    pub inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion,
-}
-#[pymethods]
-impl Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-    // @item variant:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region1
-    #[staticmethod]
-    #[pyo3(name = "Region1")]
-    pub fn v_Region1() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region1 }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region2
-    #[staticmethod]
-    #[pyo3(name = "Region2")]
-    pub fn v_Region2() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region2 }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region3
-    #[staticmethod]
-    #[pyo3(name = "Region3")]
-    pub fn v_Region3() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region3 }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region4
-    #[staticmethod]
-    #[pyo3(name = "Region4")]
-    pub fn v_Region4() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region4 }
-    }
-    // @item variant:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region5
-    #[staticmethod]
-    #[pyo3(name = "Region5")]
-    pub fn v_Region5() -> Self {
-        Self { inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region5 }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner { ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region1 => "Region1", ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region2 => "Region2", ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region3 => "Region3", ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region4 => "Region4", ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::FwdEqnRegion::Region5 => "Region5", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
     }
     pub fn __eq__(&self, other: &Self) -> bool {
         self.inner == other.inner
@@ -2541,6 +2580,53 @@ pub fn fn_tampines_steam_tables__dynamic_viscosity__mu_tp_eqm_two_phase(
     )
 }
 
+// @item fn:tampines_steam_tables::prelude::alpha_p_rho_t_3
+#[doc = "Returns the region-3 relative pressure coefficient"]
+#[pyfunction(name = "alpha_p_rho_t_3")]
+pub fn fn_tampines_steam_tables__prelude__alpha_p_rho_t_3(rho: f64, t: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::alpha_p_rho_t_3(
+        from_si(rho),
+        from_si(t),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::alpha_v_ph_eqm
+#[doc = "returns the isobaric cubic expansion coefficient"]
+#[pyfunction(name = "alpha_v_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__alpha_v_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::alpha_v_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::alpha_v_ps_eqm
+#[doc = "returns the isobaric cubic expansion coefficient"]
+#[pyfunction(name = "alpha_v_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__alpha_v_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::alpha_v_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::alpha_v_tp_eqm_single_phase
+#[doc = "returns the isobaric cubic expansion coefficient"]
+#[pyfunction(name = "alpha_v_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__alpha_v_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::alpha_v_tp_eqm_single_phase(from_si(t), from_si(p)))
+}
+
+// @item fn:tampines_steam_tables::prelude::beta_p_rho_t_3
+#[doc = "Returns the region-3 isothermal stress coefficient"]
+#[pyfunction(name = "beta_p_rho_t_3")]
+pub fn fn_tampines_steam_tables__prelude__beta_p_rho_t_3(rho: f64, t: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::beta_p_rho_t_3(
+        from_si(rho),
+        from_si(t),
+    ))
+}
+
 // @item fn:tampines_steam_tables::prelude::checked::check_ph_envelope
 #[doc = "Validates a `(p, h)` pair against the envelope the unchecked `(p,h)`\ninternals actually accept: `p` in `[p_sat(273.15 K), 100 MPa]` (both\nedges inclusive, matching `is_outside_pressure_range`) and `h` between\nthe 273.15 K and 1073.15 K isotherm enthalpies at that pressure.\nReturns `Ok(())` when every wrapped `try_*_ph_*` function is safe to\ncall.\n\nInputs: `p` is an absolute pressure (Pa), `h` a specific enthalpy\n(J/kg); the valid `h` window is pressure-dependent and is reported in\nthe error when violated."]
 #[pyfunction(name = "check_ph_envelope")]
@@ -3371,789 +3457,87 @@ pub fn fn_tampines_steam_tables__prelude__checked__two_phase__try_w_tp_eqm_two_p
     .map(|v| to_si(v))
 }
 
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::cp_hs_eqm
+// @item fn:tampines_steam_tables::prelude::cp_hs_eqm
 #[doc = "returns cp given\nenthalpy and entropy point\nuses ph flash"]
 #[pyfunction(name = "cp_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__cp_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::cp_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
+pub fn fn_tampines_steam_tables__prelude__cp_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::cp_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
 }
 
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::find_pressure_from_hs_region_4
+// @item fn:tampines_steam_tables::prelude::cp_ph_eqm
+#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
+#[pyfunction(name = "cp_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__cp_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::cp_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::cp_ps_eqm
+#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
+#[pyfunction(name = "cp_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__cp_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::cp_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::cp_tp_eqm_single_phase
+#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
+#[pyfunction(name = "cp_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__cp_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::cp_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::cv_ph_eqm
+#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
+#[pyfunction(name = "cv_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__cv_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::cv_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::cv_ps_eqm
+#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
+#[pyfunction(name = "cv_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__cv_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::cv_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::cv_tp_eqm_single_phase
+#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
+#[pyfunction(name = "cv_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__cv_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::cv_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::find_pressure_from_hs_region_4
 #[doc = "Finds pressure given enthalpy and entropy using bisection method\n\nGiven: h and s (known state point)\nFind: p such that s(p, h) = s_target\n\nUses bisection between minimum pressure\n(triple point) and critical pressure\nvibe coded and edited"]
 #[pyfunction(name = "find_pressure_from_hs_region_4")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__find_pressure_from_hs_region_4(
+pub fn fn_tampines_steam_tables__prelude__find_pressure_from_hs_region_4(
     h_target: f64,
     s_target: f64,
 ) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::find_pressure_from_hs_region_4(from_si(h_target), from_si(s_target)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::hs_flash_region
-#[doc = "allows the user to check which region one is in based on a ph flash\n\nnote that ph flash does not work in region 5\n\nthe way to do region separation is first by entropy according to\nfig 2.14\n\nonce that is done, then we separate region by enthalpy."]
-#[pyfunction(name = "hs_flash_region")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__hs_flash_region(
-    h: f64,
-    s: f64,
-) -> Py_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__BackwdEqnSubRegion {
-    Py_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__BackwdEqnSubRegion {
-        inner:
-            ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::hs_flash_region(
-                from_si(h),
-                from_si(s),
-            ),
-    }
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::kappa_hs_eqm
-#[doc = "returns kappa (isentropic exponent) given\nenthalpy and entropy point\nuses ph flash"]
-#[pyfunction(name = "kappa_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__kappa_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
     to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::kappa_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::lambda_hs_eqm
-#[doc = "returns lambda (thermal conductivity) given\nenthalpy and entropy point\nuses ph flash"]
-#[pyfunction(name = "lambda_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__lambda_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::lambda_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::mu_hs_eqm
-#[doc = "returns mu, or sometimes eta (dynamic viscosity) given\nenthalpy and entropy point\nuses ph flash"]
-#[pyfunction(name = "mu_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__mu_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::mu_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::p_hs_eqm
-#[doc = "returns pressure given\nenthalpy and entropy point\n\n"]
-#[pyfunction(name = "p_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__p_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::p_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::t_hs_eqm
-#[doc = "returns temperature given\nenthalpy and entropy point\n\n"]
-#[pyfunction(name = "t_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__t_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::t_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::tpvx_hs_flash_eqm
-#[doc = "returns temperature, pressure, specific volume and quality given\nenthalpy and entropy point\n\nI'm doing this combined function to prevent double calculation\n"]
-#[pyfunction(name = "tpvx_hs_flash_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__tpvx_hs_flash_eqm(
-    h: f64,
-    s: f64,
-) -> (f64, f64, f64, f64) {
-    {
-        let (e0, e1, e2, e3) = ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::tpvx_hs_flash_eqm(from_si(h), from_si(s));
-        (to_si(e0), to_si(e1), to_si(e2), to_si(e3))
-    }
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::v_hs_eqm
-#[doc = "returns specific volume given\nenthalpy and entropy point\n\n"]
-#[pyfunction(name = "v_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__v_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::v_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::validity_range::hs_is_above_isotherm_t_273_15_kelvin
-#[doc = "based on page 72 boundary, we use this\nfor all pressure"]
-#[pyfunction(name = "hs_is_above_isotherm_t_273_15_kelvin")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__validity_range__hs_is_above_isotherm_t_273_15_kelvin(
-    h: f64,
-    s: f64,
-) -> bool {
-    ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::validity_range::hs_is_above_isotherm_t_273_15_kelvin(from_si(h), from_si(s))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::validity_range::hs_is_below_isobar_p_100_mpa_in_region1
-#[doc = "based on page 73 boundary, we use this at\nthis only applies to region 1\n\nNOTE: unimplemented for the in-region-1 case — falls through to\n`todo!()` and panics unless the early `(h,s)` bound check above already\nreturns `false`."]
-#[pyfunction(name = "hs_is_below_isobar_p_100_mpa_in_region1")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__validity_range__hs_is_below_isobar_p_100_mpa_in_region1(
-    h: f64,
-    s: f64,
-) -> bool {
-    ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::validity_range::hs_is_below_isobar_p_100_mpa_in_region1(from_si(h), from_si(s))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::w_hs_eqm
-#[doc = "returns w (speed of sound) given\nenthalpy and entropy point\nuses ph flash"]
-#[pyfunction(name = "w_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__w_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::w_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::x_hs_eqm
-#[doc = "returns quality given\nenthalpy and entropy point\n\n"]
-#[pyfunction(name = "x_hs_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__x_hs_eqm(
-    h: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::hs_flash_eqm::x_hs_eqm(
-            from_si(h),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::alpha_v_ph_eqm
-#[doc = "returns the isobaric cubic expansion coefficient"]
-#[pyfunction(name = "alpha_v_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__alpha_v_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::alpha_v_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::cp_ph_eqm
-#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
-#[pyfunction(name = "cp_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__cp_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::cp_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::cv_ph_eqm
-#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
-#[pyfunction(name = "cv_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__cv_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::cv_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::kappa_ph_eqm
-#[doc = "returns the isentropic exponent"]
-#[pyfunction(name = "kappa_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__kappa_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::kappa_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::lambda_ph_eqm
-#[doc = "Returns the thermal conductivity in W/(m*K) given a `(p,h)` flash, where\npressure `p` is in Pa and specific enthalpy `h` is in J/kg.\n\nCombines the IAPWS thermal-conductivity correlation's dilute-gas\n(`lambda_0`), residual (`lambda_1`) and critical-enhancement (`lambda_2`)\nterms, evaluated at the temperature/density/quality resolved from the\n`(p,h)` flash via [`ph_flash_region`]. Valid over the same `(p,h)` range\nas the rest of this module (Regions 1-4; Region 5 is unsupported)."]
-#[pyfunction(name = "lambda_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__lambda_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::lambda_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::ph_flash_region
-#[doc = "Determines which IAPWS-IF97 forward-equation region a `(p,h)` point\nbelongs to, where pressure `p` is in Pa and specific enthalpy `h` is in\nJ/kg.\n\nDispatches to Region 1 (subcooled liquid), Region 2 (vapour), Region 3\n(single-phase near-critical/supercritical) or Region 4 (vapour-liquid\nequilibrium) by comparing `h` against the region-boundary enthalpies at\nthe given pressure. Panics (via `check_if_within_ph_validity_region`) if\nthe point falls outside the valid pressure/enthalpy envelope, including\nabove the 1073.15 K isotherm — Region 5 has no IAPWS-IF97 backward\n`(p,h)` correlation, so `(p,h)` flashing does not work in Region 5."]
-#[pyfunction(name = "ph_flash_region")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__ph_flash_region(
-    p: f64,
-    h: f64,
-) -> Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-    Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-        inner:
-            ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::ph_flash_region(
-                from_si(p),
-                from_si(h),
-            ),
-    }
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::s_ph_eqm
-#[doc = "returns the specific entropy given temperature and pressure"]
-#[pyfunction(name = "s_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__s_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::s_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::t_ph_eqm
-#[doc = "obtains temperature given pressure and enthalpy"]
-#[pyfunction(name = "t_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__t_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::t_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::u_ph_eqm
-#[doc = "returns the internal energy given temperature and pressure"]
-#[pyfunction(name = "u_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__u_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::u_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::v_ph_eqm
-#[doc = "obtains volume given pressure and enthalpy (except for region 5)"]
-#[pyfunction(name = "v_ph_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__v_ph_eqm(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::v_ph_eqm(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::w_ph_wood_wallis
-#[doc = "returns the speed of sound given temperature and pressure\nNote: when in the equilibrium zone (Region 4) it WILL give the\nwood wallis speed of sound, the frozen speed of sound"]
-#[pyfunction(name = "w_ph_wood_wallis")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__w_ph_wood_wallis(
-    p: f64,
-    h: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::w_ph_wood_wallis(
-            from_si(p),
-            from_si(h),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::w_two_phase_homogeneous_wood_wallis
-#[doc = "Returns the speed of sound in a two-phase mixture using the\nhomogeneous equilibrium model\n\nThis model assumes:\n- Thermal and mechanical equilibrium between phases\n- No slip between liquid and vapor phases\n- Isentropic process\n\nFormula: w_mix = sqrt(1 / (rho_mix * ((x/(rho_g * w_g^2)) + ((1-x)/(rho_f * w_f^2)))))\n\nwhere:\n- x = steam quality (vapor mass fraction)\n- rho_g = vapor density\n- rho_f = liquid density\n- w_g = speed of sound in vapor\n- w_f = speed of sound in liquid\n- rho_mix = mixture density = 1/((x/rho_g) + ((1-x)/rho_f))\n\nThough to be fair,\nwe find that the speed of sound drops drastically in steam\nwe need to account for that\n\nThis is shown in:\n\nKieffer, S. W. (1977). Sound speed in liquid‐gas mixtures:\nWater‐air and water‐steam. Journal of Geophysical research,\n82(20), 2895-2904.\nhttps://geology.illinois.edu/~skieffer/papers/SoundSpeed_JGR1977.pdf\n\nThe steam tables aren't that helpful\nThough page 364 of Kretzchmar wagner provides the speed of sound\nfor purely vapour or purely fluid, and supercritical phase\n\nHowever, VLE is not covered\n\nThe illinois paper is more useful, and so is this\n\nhttps://ojs.cvut.cz/ojs/index.php/ap/article/view/2321/3200\nFig 1. also gives a simil"]
-#[pyfunction(name = "w_two_phase_homogeneous_wood_wallis")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__w_two_phase_homogeneous_wood_wallis(
-    steam_quality: f64,
-    w_liq: f64,
-    w_vap: f64,
-    rho_liq: f64,
-    rho_vap: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::w_two_phase_homogeneous_wood_wallis(from_si(steam_quality), from_si(w_liq), from_si(w_vap), from_si(rho_liq), from_si(rho_vap)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::x_ph_flash
-#[doc = "obtains steam quality (vap fraction) given\npressure and enthalpy"]
-#[pyfunction(name = "x_ph_flash")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__x_ph_flash(
-    p: f64,
-    h: f64,
-) -> f64 {
-    ::tampines_steam_tables::prelude::functional_programming::ph_flash_eqm::x_ph_flash(
-        from_si(p),
-        from_si(h),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::alpha_v_ps_eqm
-#[doc = "returns the isobaric cubic expansion coefficient"]
-#[pyfunction(name = "alpha_v_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__alpha_v_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::alpha_v_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::cp_ps_eqm
-#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
-#[pyfunction(name = "cp_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__cp_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::cp_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::cv_ps_eqm
-#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
-#[pyfunction(name = "cv_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__cv_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::cv_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::h_ps_eqm
-#[doc = "returns the specific enthalpy given entropy and pressure"]
-#[pyfunction(name = "h_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__h_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::h_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::kappa_ps_eqm
-#[doc = "returns the isentropic exponent"]
-#[pyfunction(name = "kappa_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__kappa_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::kappa_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::mass_flux_ps_eqm_throat
-#[doc = "returns the mass flux given properties at throat (this is not\nstagnation pressure)\nc² = -v² * (dp/dv|_s) = -v² / (dv/dp|_s)\nc = v * sqrt(-1/dv_dp_s)\n\nconsider that critical mass flux in terms of throat properties is c*rho\nwhich is 1/v\n\nc*rho = sqrt(-1/dv_dp_s)\n\n# Known limitation — x = 0 (saturated liquid boundary)\n\nWhen s == s_f(p) exactly (throat quality = 0), the finite-difference step\ndp = p * 1e-5 is too small to span a meaningful two-phase region:\n  - v_ps_eqm(p + dp, s) lands in Region 1 (s < s_f at p+dp) → pure-liquid compressibility\n  - v_ps_eqm(p - dp, s) barely enters Region 4 with near-zero quality → still ~pure-liquid\n\nThe resulting dv/dp_s reflects liquid compressibility, so G ≈ ρ_l · c_l ≈ 1.5×10⁶ kg/m²/s\n(liquid sound speed), which is unphysically large for HEM two-phase critical flow.\nThis inflated G then drives h_0 = h_f + 1125 kJ/kg, causing p_hs_eqm to panic with\n\"enthalpy too high\".\n\n\nBasically around bubble point, the function will return a mass flux\nreflective of quality at 1e-4\n\nThis was validated using Zaloudek's data"]
-#[pyfunction(name = "mass_flux_ps_eqm_throat")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__mass_flux_ps_eqm_throat(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::mass_flux_ps_eqm_throat(from_si(p), from_si(s)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::ps_flash_region
-#[doc = "Determines which IAPWS-IF97 forward-equation region a `(p,s)` point\nbelongs to, where pressure `p` is in Pa and specific entropy `s` is in\nJ/(kg*K).\n\nDispatches to Region 1 (subcooled liquid), Region 2 (vapour), Region 3\n(single-phase near-critical/supercritical) or Region 4 (vapour-liquid\nequilibrium) by comparing `s` against the region-boundary entropies at\nthe given pressure. Panics (via `check_if_within_ps_validity_region`) if\nthe point falls outside the valid pressure/entropy envelope; Region 5 is\nnot yet implemented for the callers that key off this dispatcher (see\n`todo!` panics in `t_ps_eqm`/`v_ps_eqm`)."]
-#[pyfunction(name = "ps_flash_region")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__ps_flash_region(
-    p: f64,
-    s: f64,
-) -> Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-    Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-        inner:
-            ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::ps_flash_region(
-                from_si(p),
-                from_si(s),
-            ),
-    }
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::t_ps_eqm
-#[doc = "obtains temperature given pressure and entropy"]
-#[pyfunction(name = "t_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__t_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::t_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::u_ps_eqm
-#[doc = "returns the internal energy given entropy and pressure"]
-#[pyfunction(name = "u_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__u_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::u_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::v_ps_eqm
-#[doc = "obtains volume given pressure and entropy (except for region 5)"]
-#[pyfunction(name = "v_ps_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__v_ps_eqm(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::v_ps_eqm(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::w_ps_wood_wallis
-#[doc = "returns the speed of sound given temperature and pressure\nNote: when in the equilibrium zone (Region 4) it WILL give the\nwood wallis speed of sound, the frozen speed of sound"]
-#[pyfunction(name = "w_ps_wood_wallis")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__w_ps_wood_wallis(
-    p: f64,
-    s: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::w_ps_wood_wallis(
-            from_si(p),
-            from_si(s),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::x_ps_flash
-#[doc = "obtains steam quality (vap fraction) given\npressure and entropy"]
-#[pyfunction(name = "x_ps_flash")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__x_ps_flash(
-    p: f64,
-    s: f64,
-) -> f64 {
-    ::tampines_steam_tables::prelude::functional_programming::ps_flash_eqm::x_ps_flash(
-        from_si(p),
-        from_si(s),
-    )
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::alpha_v_tp_eqm_single_phase
-#[doc = "returns the isobaric cubic expansion coefficient"]
-#[pyfunction(name = "alpha_v_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__alpha_v_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::alpha_v_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::cp_tp_eqm_single_phase
-#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
-#[pyfunction(name = "cp_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__cp_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::cp_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::cv_tp_eqm_single_phase
-#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
-#[pyfunction(name = "cv_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__cv_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::cv_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::h_tp_eqm_single_phase
-#[doc = "returns the enthalpy given temperature and pressure\nsingle phase only!"]
-#[pyfunction(name = "h_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__h_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::h_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::kappa_tp_eqm_single_phase
-#[doc = "returns the isentropic exponent"]
-#[pyfunction(name = "kappa_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__kappa_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::kappa_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::alpha_v_tp_eqm_two_phase
-#[doc = "returns the isobaric cubic expansion coefficient"]
-#[pyfunction(name = "alpha_v_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__alpha_v_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::alpha_v_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::cp_tp_eqm_two_phase
-#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
-#[pyfunction(name = "cp_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__cp_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::cp_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::cv_tp_eqm_two_phase
-#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
-#[pyfunction(name = "cv_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__cv_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::cv_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::h_tp_eqm_two_phase
-#[doc = "Returns the specific enthalpy in J/kg given a `(T,p,x)` forward flash,\nwhere temperature `T` is in K, pressure `p` is in Pa, and `x` is the\nsteam quality (vapour mass fraction). Unlike `h_tp_eqm_single_phase`,\nthis variant handles two-phase (Region 4) points and the Region 3/4\nboundary near the critical point by weighting the liquid/vapour enthalpy\nby `x`."]
-#[pyfunction(name = "h_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__h_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::h_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::kappa_tp_eqm_two_phase
-#[doc = "returns the isentropic exponent"]
-#[pyfunction(name = "kappa_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__kappa_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::kappa_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::region_fwd_eqn_two_phase
-#[doc = "Determines which IAPWS-IF97 forward-equation region a `(T,p,x)` point\nbelongs to, where temperature `T` is in K, pressure `p` is in Pa, and `x`\nis the steam quality (vapour mass fraction, clamped to `[0,1]`).\n\nThis is the two-phase-aware counterpart of `region_fwd_eqn_single_phase`:\nit additionally recognises when `(T,p)` sits on the saturation line with\n`0 < x < 1` (Region 4), or exactly at the bubble/dew point (`x == 0` or\n`x == 1`), routing those points to Region 1/2 below 623.15 K or Region 3\nabove it. Points above the critical temperature or pressure, or off the\nsaturation line, fall back to `region_fwd_eqn_single_phase`."]
-#[pyfunction(name = "region_fwd_eqn_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__region_fwd_eqn_two_phase(
-    t: f64,
-    p: f64,
-    steam_quality: f64,
-) -> Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-    Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion { inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::region_fwd_eqn_two_phase(from_si(t), from_si(p), steam_quality) }
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::s_tp_eqm_two_phase
-#[doc = "returns the specific entropy given temperature and pressure"]
-#[pyfunction(name = "s_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__s_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::s_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::u_tp_eqm_two_phase
-#[doc = "returns the internal energy given temperature and pressure"]
-#[pyfunction(name = "u_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__u_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::u_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::v_tp_eqm_two_phase
-#[doc = "returns the specific volume given temperature and pressure"]
-#[pyfunction(name = "v_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__v_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::v_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::w_tp_eqm_two_phase
-#[doc = "returns the speed of sound given temperature and pressure\n\nnote, for region 4, this is estimated using weighted average of\nliquid and vapour phases (ACCURACY NOT GUARANTEED)"]
-#[pyfunction(name = "w_tp_eqm_two_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__w_tp_eqm_two_phase(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::multiphase_flashing::w_tp_eqm_two_phase(from_si(t), from_si(p), x))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::region_fwd_eqn_single_phase
-#[doc = "Determines which region of the pT chart\na point belongs to.\n\nTemperature is assumed to be in K\nPressure is assumed to be in Pa\n\n# Validity envelope (and which edges are inclusive)\n\nIAPWS-IF97 is defined for `273.15 K <= T <= 1073.15 K` at\n`0 < p <= 100 MPa` (Regions 1-4), extended to\n`1073.15 K <= T <= 2273.15 K` at `0 < p <= 50 MPa` (Region 5). **Both\npressure ceilings are inclusive** — `p = 100 MPa` exactly is a valid\nIF97 state at every temperature up to 1073.15 K, and `p = 50 MPa`\nexactly is valid in Region 5. Corroborated inside this crate by the\nIAPWS-published backward-equation verification points at exactly\n100 MPa in Region 3, i.e. at temperatures well above 623.15 K:\n`t_ph_3a(100 MPa, 2100 kJ/kg) = 733.6163014 K` and\n`v_ph_3a(100 MPa, 2100 kJ/kg) = 1.676229776e-3 m^3/kg`\n(see `region_3_.../tests/region_3_backward_t_ph.rs::t3a_ph_test3` and\n`.../region_3_backward_v_ph.rs::v3a_ph_test3`), and by\n`is_outside_pressure_range` in the `(p,h)` validity check, which\nrejects only `p > 100 MPa`.\n\nThe match arms below therefore all close their 100 MPa edge with\n`..=100e6`. Before 2026-08-11 the Region-2 and Region-3 arms used a\nhalf-open `..100e6`, so exactly 100 MPa above 623.15 K m"]
-#[pyfunction(name = "region_fwd_eqn_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__region_fwd_eqn_single_phase(
-    t: f64,
-    p: f64,
-) -> Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion {
-    Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion { inner: ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::region_fwd_eqn_single_phase(from_si(t), from_si(p)) }
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::s_tp_eqm_single_phase
-#[doc = "returns the specific entropy given temperature and pressure"]
-#[pyfunction(name = "s_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__s_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::s_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::u_tp_eqm_single_phase
-#[doc = "returns the internal energy given temperature and pressure"]
-#[pyfunction(name = "u_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__u_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::u_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::v_tp_eqm_single_phase
-#[doc = "returns the specific volume given temperature and pressure"]
-#[pyfunction(name = "v_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__v_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::v_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::w_tp_eqm_single_phase
-#[doc = "returns the speed of sound given temperature and pressure"]
-#[pyfunction(name = "w_tp_eqm_single_phase")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__w_tp_eqm_single_phase(
-    t: f64,
-    p: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::w_tp_eqm_single_phase(from_si(t), from_si(p)))
-}
-
-// @item fn:tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::w_tpx_eqm
-#[doc = "returns speed of sound at vle given (t,p and x)\nx being quality\n\n\nnote: there is some bug in the regioning algorithm here,\nit is better to use p,s algorithm"]
-#[pyfunction(name = "w_tpx_eqm")]
-pub fn fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__w_tpx_eqm(
-    t: f64,
-    p: f64,
-    x: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::prelude::functional_programming::pt_flash_eqm::w_tpx_eqm(
-            from_si(t),
-            from_si(p),
-            x,
+        ::tampines_steam_tables::prelude::find_pressure_from_hs_region_4(
+            from_si(h_target),
+            from_si(s_target),
         ),
     )
 }
@@ -4173,6 +3557,581 @@ pub fn fn_tampines_steam_tables__prelude__get_choked_flow_massrate_and_state_fro
             Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: e1 },
         )
     }
+}
+
+// @item fn:tampines_steam_tables::prelude::h_ps_eqm
+#[doc = "returns the specific enthalpy given entropy and pressure"]
+#[pyfunction(name = "h_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__h_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::h_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::h_tp_eqm_single_phase
+#[doc = "returns the enthalpy given temperature and pressure\nsingle phase only!"]
+#[pyfunction(name = "h_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__h_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::h_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::hs_flash_region
+#[doc = "allows the user to check which region one is in based on a ph flash\n\nnote that ph flash does not work in region 5\n\nthe way to do region separation is first by entropy according to\nfig 2.14\n\nonce that is done, then we separate region by enthalpy."]
+#[pyfunction(name = "hs_flash_region")]
+pub fn fn_tampines_steam_tables__prelude__hs_flash_region(
+    h: f64,
+    s: f64,
+) -> Py_tampines_steam_tables__prelude__BackwdEqnSubRegion {
+    Py_tampines_steam_tables__prelude__BackwdEqnSubRegion {
+        inner: ::tampines_steam_tables::prelude::hs_flash_region(from_si(h), from_si(s)),
+    }
+}
+
+// @item fn:tampines_steam_tables::prelude::kappa_hs_eqm
+#[doc = "returns kappa (isentropic exponent) given\nenthalpy and entropy point\nuses ph flash"]
+#[pyfunction(name = "kappa_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__kappa_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::kappa_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::kappa_ph_eqm
+#[doc = "returns the isentropic exponent"]
+#[pyfunction(name = "kappa_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__kappa_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::kappa_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::kappa_ps_eqm
+#[doc = "returns the isentropic exponent"]
+#[pyfunction(name = "kappa_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__kappa_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::kappa_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::kappa_tp_eqm_single_phase
+#[doc = "returns the isentropic exponent"]
+#[pyfunction(name = "kappa_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__kappa_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::kappa_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::lambda_hs_eqm
+#[doc = "returns lambda (thermal conductivity) given\nenthalpy and entropy point\nuses ph flash"]
+#[pyfunction(name = "lambda_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__lambda_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::lambda_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::lambda_ph_eqm
+#[doc = "Returns the thermal conductivity in W/(m*K) given a `(p,h)` flash, where\npressure `p` is in Pa and specific enthalpy `h` is in J/kg.\n\nCombines the IAPWS thermal-conductivity correlation's dilute-gas\n(`lambda_0`), residual (`lambda_1`) and critical-enhancement (`lambda_2`)\nterms, evaluated at the temperature/density/quality resolved from the\n`(p,h)` flash via [`ph_flash_region`]. Valid over the same `(p,h)` range\nas the rest of this module (Regions 1-4; Region 5 is unsupported)."]
+#[pyfunction(name = "lambda_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__lambda_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::lambda_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::mass_flux_ps_eqm_throat
+#[doc = "returns the mass flux given properties at throat (this is not\nstagnation pressure)\nc² = -v² * (dp/dv|_s) = -v² / (dv/dp|_s)\nc = v * sqrt(-1/dv_dp_s)\n\nconsider that critical mass flux in terms of throat properties is c*rho\nwhich is 1/v\n\nc*rho = sqrt(-1/dv_dp_s)\n\n# Known limitation — x = 0 (saturated liquid boundary)\n\nWhen s == s_f(p) exactly (throat quality = 0), the finite-difference step\ndp = p * 1e-5 is too small to span a meaningful two-phase region:\n  - v_ps_eqm(p + dp, s) lands in Region 1 (s < s_f at p+dp) → pure-liquid compressibility\n  - v_ps_eqm(p - dp, s) barely enters Region 4 with near-zero quality → still ~pure-liquid\n\nThe resulting dv/dp_s reflects liquid compressibility, so G ≈ ρ_l · c_l ≈ 1.5×10⁶ kg/m²/s\n(liquid sound speed), which is unphysically large for HEM two-phase critical flow.\nThis inflated G then drives h_0 = h_f + 1125 kJ/kg, causing p_hs_eqm to panic with\n\"enthalpy too high\".\n\n\nBasically around bubble point, the function will return a mass flux\nreflective of quality at 1e-4\n\nThis was validated using Zaloudek's data"]
+#[pyfunction(name = "mass_flux_ps_eqm_throat")]
+pub fn fn_tampines_steam_tables__prelude__mass_flux_ps_eqm_throat(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::mass_flux_ps_eqm_throat(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::mu_hs_eqm
+#[doc = "returns mu, or sometimes eta (dynamic viscosity) given\nenthalpy and entropy point\nuses ph flash"]
+#[pyfunction(name = "mu_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__mu_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::mu_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::alpha_v_tp_eqm_two_phase
+#[doc = "returns the isobaric cubic expansion coefficient"]
+#[pyfunction(name = "alpha_v_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__alpha_v_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::alpha_v_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::cp_tp_eqm_two_phase
+#[doc = "returns the isobaric (const pressure) heat capacitygiven temperature and pressure"]
+#[pyfunction(name = "cp_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__cp_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::cp_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::cv_tp_eqm_two_phase
+#[doc = "returns the isochoric (const vol) heat capacity given temperature and pressure"]
+#[pyfunction(name = "cv_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__cv_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::cv_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::h_tp_eqm_two_phase
+#[doc = "Returns the specific enthalpy in J/kg given a `(T,p,x)` forward flash,\nwhere temperature `T` is in K, pressure `p` is in Pa, and `x` is the\nsteam quality (vapour mass fraction). Unlike `h_tp_eqm_single_phase`,\nthis variant handles two-phase (Region 4) points and the Region 3/4\nboundary near the critical point by weighting the liquid/vapour enthalpy\nby `x`."]
+#[pyfunction(name = "h_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__h_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::h_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::kappa_tp_eqm_two_phase
+#[doc = "returns the isentropic exponent"]
+#[pyfunction(name = "kappa_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__kappa_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::kappa_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::region_fwd_eqn_two_phase
+#[doc = "Determines which IAPWS-IF97 forward-equation region a `(T,p,x)` point\nbelongs to, where temperature `T` is in K, pressure `p` is in Pa, and `x`\nis the steam quality (vapour mass fraction, clamped to `[0,1]`).\n\nThis is the two-phase-aware counterpart of `region_fwd_eqn_single_phase`:\nit additionally recognises when `(T,p)` sits on the saturation line with\n`0 < x < 1` (Region 4), or exactly at the bubble/dew point (`x == 0` or\n`x == 1`), routing those points to Region 1/2 below 623.15 K or Region 3\nabove it. Points above the critical temperature or pressure, or off the\nsaturation line, fall back to `region_fwd_eqn_single_phase`."]
+#[pyfunction(name = "region_fwd_eqn_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__region_fwd_eqn_two_phase(
+    t: f64,
+    p: f64,
+    steam_quality: f64,
+) -> Py_tampines_steam_tables__prelude__FwdEqnRegion {
+    Py_tampines_steam_tables__prelude__FwdEqnRegion {
+        inner: ::tampines_steam_tables::prelude::multiphase_flashing::region_fwd_eqn_two_phase(
+            from_si(t),
+            from_si(p),
+            steam_quality,
+        ),
+    }
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::s_tp_eqm_two_phase
+#[doc = "returns the specific entropy given temperature and pressure"]
+#[pyfunction(name = "s_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__s_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::s_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::u_tp_eqm_two_phase
+#[doc = "returns the internal energy given temperature and pressure"]
+#[pyfunction(name = "u_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__u_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::u_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::v_tp_eqm_two_phase
+#[doc = "returns the specific volume given temperature and pressure"]
+#[pyfunction(name = "v_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__v_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::v_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::multiphase_flashing::w_tp_eqm_two_phase
+#[doc = "returns the speed of sound given temperature and pressure\n\nnote, for region 4, this is estimated using weighted average of\nliquid and vapour phases (ACCURACY NOT GUARANTEED)"]
+#[pyfunction(name = "w_tp_eqm_two_phase")]
+pub fn fn_tampines_steam_tables__prelude__multiphase_flashing__w_tp_eqm_two_phase(
+    t: f64,
+    p: f64,
+    x: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::multiphase_flashing::w_tp_eqm_two_phase(
+            from_si(t),
+            from_si(p),
+            x,
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::p_hs_eqm
+#[doc = "returns pressure given\nenthalpy and entropy point\n\n"]
+#[pyfunction(name = "p_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__p_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::p_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::ph_flash_region
+#[doc = "Determines which IAPWS-IF97 forward-equation region a `(p,h)` point\nbelongs to, where pressure `p` is in Pa and specific enthalpy `h` is in\nJ/kg.\n\nDispatches to Region 1 (subcooled liquid), Region 2 (vapour), Region 3\n(single-phase near-critical/supercritical) or Region 4 (vapour-liquid\nequilibrium) by comparing `h` against the region-boundary enthalpies at\nthe given pressure. Panics (via `check_if_within_ph_validity_region`) if\nthe point falls outside the valid pressure/enthalpy envelope, including\nabove the 1073.15 K isotherm — Region 5 has no IAPWS-IF97 backward\n`(p,h)` correlation, so `(p,h)` flashing does not work in Region 5."]
+#[pyfunction(name = "ph_flash_region")]
+pub fn fn_tampines_steam_tables__prelude__ph_flash_region(
+    p: f64,
+    h: f64,
+) -> Py_tampines_steam_tables__prelude__FwdEqnRegion {
+    Py_tampines_steam_tables__prelude__FwdEqnRegion {
+        inner: ::tampines_steam_tables::prelude::ph_flash_region(from_si(p), from_si(h)),
+    }
+}
+
+// @item fn:tampines_steam_tables::prelude::ps_flash_region
+#[doc = "Determines which IAPWS-IF97 forward-equation region a `(p,s)` point\nbelongs to, where pressure `p` is in Pa and specific entropy `s` is in\nJ/(kg*K).\n\nDispatches to Region 1 (subcooled liquid), Region 2 (vapour), Region 3\n(single-phase near-critical/supercritical) or Region 4 (vapour-liquid\nequilibrium) by comparing `s` against the region-boundary entropies at\nthe given pressure. Panics (via `check_if_within_ps_validity_region`) if\nthe point falls outside the valid pressure/entropy envelope; Region 5 is\nnot yet implemented for the callers that key off this dispatcher (see\n`todo!` panics in `t_ps_eqm`/`v_ps_eqm`)."]
+#[pyfunction(name = "ps_flash_region")]
+pub fn fn_tampines_steam_tables__prelude__ps_flash_region(
+    p: f64,
+    s: f64,
+) -> Py_tampines_steam_tables__prelude__FwdEqnRegion {
+    Py_tampines_steam_tables__prelude__FwdEqnRegion {
+        inner: ::tampines_steam_tables::prelude::ps_flash_region(from_si(p), from_si(s)),
+    }
+}
+
+// @item fn:tampines_steam_tables::prelude::region_fwd_eqn_single_phase
+#[doc = "Determines which region of the pT chart\na point belongs to.\n\nTemperature is assumed to be in K\nPressure is assumed to be in Pa\n\n# Validity envelope (and which edges are inclusive)\n\nIAPWS-IF97 is defined for `273.15 K <= T <= 1073.15 K` at\n`0 < p <= 100 MPa` (Regions 1-4), extended to\n`1073.15 K <= T <= 2273.15 K` at `0 < p <= 50 MPa` (Region 5). **Both\npressure ceilings are inclusive** — `p = 100 MPa` exactly is a valid\nIF97 state at every temperature up to 1073.15 K, and `p = 50 MPa`\nexactly is valid in Region 5. Corroborated inside this crate by the\nIAPWS-published backward-equation verification points at exactly\n100 MPa in Region 3, i.e. at temperatures well above 623.15 K:\n`t_ph_3a(100 MPa, 2100 kJ/kg) = 733.6163014 K` and\n`v_ph_3a(100 MPa, 2100 kJ/kg) = 1.676229776e-3 m^3/kg`\n(see `region_3_.../tests/region_3_backward_t_ph.rs::t3a_ph_test3` and\n`.../region_3_backward_v_ph.rs::v3a_ph_test3`), and by\n`is_outside_pressure_range` in the `(p,h)` validity check, which\nrejects only `p > 100 MPa`.\n\nThe match arms below therefore all close their 100 MPa edge with\n`..=100e6`. Before 2026-08-11 the Region-2 and Region-3 arms used a\nhalf-open `..100e6`, so exactly 100 MPa above 623.15 K m"]
+#[pyfunction(name = "region_fwd_eqn_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__region_fwd_eqn_single_phase(
+    t: f64,
+    p: f64,
+) -> Py_tampines_steam_tables__prelude__FwdEqnRegion {
+    Py_tampines_steam_tables__prelude__FwdEqnRegion {
+        inner: ::tampines_steam_tables::prelude::region_fwd_eqn_single_phase(
+            from_si(t),
+            from_si(p),
+        ),
+    }
+}
+
+// @item fn:tampines_steam_tables::prelude::s_ph_eqm
+#[doc = "returns the specific entropy given temperature and pressure"]
+#[pyfunction(name = "s_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__s_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::s_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::s_tp_eqm_single_phase
+#[doc = "returns the specific entropy given temperature and pressure"]
+#[pyfunction(name = "s_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__s_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::s_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::sat_pressure_4
+#[doc = "returns sat pressure in region 4"]
+#[pyfunction(name = "sat_pressure_4")]
+pub fn fn_tampines_steam_tables__prelude__sat_pressure_4(t: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::sat_pressure_4(from_si(t)))
+}
+
+// @item fn:tampines_steam_tables::prelude::sat_temp_4
+#[doc = "Returns the IAPWS-IF97 Region 4 saturation temperature `T_sat(p)`:\npressure `p` (Pa) in, `ThermodynamicTemperature` (K) out. Valid from the\ntriple point up to the critical point (p_c = 22.064 MPa)."]
+#[pyfunction(name = "sat_temp_4")]
+pub fn fn_tampines_steam_tables__prelude__sat_temp_4(p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::sat_temp_4(from_si(p)))
+}
+
+// @item fn:tampines_steam_tables::prelude::t_hs_eqm
+#[doc = "returns temperature given\nenthalpy and entropy point\n\n"]
+#[pyfunction(name = "t_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__t_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::t_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::t_ph_eqm
+#[doc = "obtains temperature given pressure and enthalpy"]
+#[pyfunction(name = "t_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__t_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::t_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::t_ps_eqm
+#[doc = "obtains temperature given pressure and entropy"]
+#[pyfunction(name = "t_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__t_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::t_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::tpvx_hs_flash_eqm
+#[doc = "returns temperature, pressure, specific volume and quality given\nenthalpy and entropy point\n\nI'm doing this combined function to prevent double calculation\n"]
+#[pyfunction(name = "tpvx_hs_flash_eqm")]
+pub fn fn_tampines_steam_tables__prelude__tpvx_hs_flash_eqm(
+    h: f64,
+    s: f64,
+) -> (f64, f64, f64, f64) {
+    {
+        let (e0, e1, e2, e3) =
+            ::tampines_steam_tables::prelude::tpvx_hs_flash_eqm(from_si(h), from_si(s));
+        (to_si(e0), to_si(e1), to_si(e2), to_si(e3))
+    }
+}
+
+// @item fn:tampines_steam_tables::prelude::u_ph_eqm
+#[doc = "returns the internal energy given temperature and pressure"]
+#[pyfunction(name = "u_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__u_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::u_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::u_ps_eqm
+#[doc = "returns the internal energy given entropy and pressure"]
+#[pyfunction(name = "u_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__u_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::u_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::u_tp_eqm_single_phase
+#[doc = "returns the internal energy given temperature and pressure"]
+#[pyfunction(name = "u_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__u_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::u_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::v_hs_eqm
+#[doc = "returns specific volume given\nenthalpy and entropy point\n\n"]
+#[pyfunction(name = "v_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__v_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::v_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::v_ph_eqm
+#[doc = "obtains volume given pressure and enthalpy (except for region 5)"]
+#[pyfunction(name = "v_ph_eqm")]
+pub fn fn_tampines_steam_tables__prelude__v_ph_eqm(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::v_ph_eqm(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::v_ps_eqm
+#[doc = "obtains volume given pressure and entropy (except for region 5)"]
+#[pyfunction(name = "v_ps_eqm")]
+pub fn fn_tampines_steam_tables__prelude__v_ps_eqm(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::v_ps_eqm(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::v_tp_eqm_single_phase
+#[doc = "returns the specific volume given temperature and pressure"]
+#[pyfunction(name = "v_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__v_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::v_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::w_hs_eqm
+#[doc = "returns w (speed of sound) given\nenthalpy and entropy point\nuses ph flash"]
+#[pyfunction(name = "w_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__w_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::w_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::w_ph_wood_wallis
+#[doc = "returns the speed of sound given temperature and pressure\nNote: when in the equilibrium zone (Region 4) it WILL give the\nwood wallis speed of sound, the frozen speed of sound"]
+#[pyfunction(name = "w_ph_wood_wallis")]
+pub fn fn_tampines_steam_tables__prelude__w_ph_wood_wallis(p: f64, h: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::w_ph_wood_wallis(
+        from_si(p),
+        from_si(h),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::w_ps_wood_wallis
+#[doc = "returns the speed of sound given temperature and pressure\nNote: when in the equilibrium zone (Region 4) it WILL give the\nwood wallis speed of sound, the frozen speed of sound"]
+#[pyfunction(name = "w_ps_wood_wallis")]
+pub fn fn_tampines_steam_tables__prelude__w_ps_wood_wallis(p: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::w_ps_wood_wallis(
+        from_si(p),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::w_tp_eqm_single_phase
+#[doc = "returns the speed of sound given temperature and pressure"]
+#[pyfunction(name = "w_tp_eqm_single_phase")]
+pub fn fn_tampines_steam_tables__prelude__w_tp_eqm_single_phase(t: f64, p: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::w_tp_eqm_single_phase(
+        from_si(t),
+        from_si(p),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::w_tpx_eqm
+#[doc = "returns speed of sound at vle given (t,p and x)\nx being quality\n\n\nnote: there is some bug in the regioning algorithm here,\nit is better to use p,s algorithm"]
+#[pyfunction(name = "w_tpx_eqm")]
+pub fn fn_tampines_steam_tables__prelude__w_tpx_eqm(t: f64, p: f64, x: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::w_tpx_eqm(
+        from_si(t),
+        from_si(p),
+        x,
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::w_two_phase_homogeneous_wood_wallis
+#[doc = "Returns the speed of sound in a two-phase mixture using the\nhomogeneous equilibrium model\n\nThis model assumes:\n- Thermal and mechanical equilibrium between phases\n- No slip between liquid and vapor phases\n- Isentropic process\n\nFormula: w_mix = sqrt(1 / (rho_mix * ((x/(rho_g * w_g^2)) + ((1-x)/(rho_f * w_f^2)))))\n\nwhere:\n- x = steam quality (vapor mass fraction)\n- rho_g = vapor density\n- rho_f = liquid density\n- w_g = speed of sound in vapor\n- w_f = speed of sound in liquid\n- rho_mix = mixture density = 1/((x/rho_g) + ((1-x)/rho_f))\n\nThough to be fair,\nwe find that the speed of sound drops drastically in steam\nwe need to account for that\n\nThis is shown in:\n\nKieffer, S. W. (1977). Sound speed in liquid‐gas mixtures:\nWater‐air and water‐steam. Journal of Geophysical research,\n82(20), 2895-2904.\nhttps://geology.illinois.edu/~skieffer/papers/SoundSpeed_JGR1977.pdf\n\nThe steam tables aren't that helpful\nThough page 364 of Kretzchmar wagner provides the speed of sound\nfor purely vapour or purely fluid, and supercritical phase\n\nHowever, VLE is not covered\n\nThe illinois paper is more useful, and so is this\n\nhttps://ojs.cvut.cz/ojs/index.php/ap/article/view/2321/3200\nFig 1. also gives a simil"]
+#[pyfunction(name = "w_two_phase_homogeneous_wood_wallis")]
+pub fn fn_tampines_steam_tables__prelude__w_two_phase_homogeneous_wood_wallis(
+    steam_quality: f64,
+    w_liq: f64,
+    w_vap: f64,
+    rho_liq: f64,
+    rho_vap: f64,
+) -> f64 {
+    to_si(
+        ::tampines_steam_tables::prelude::w_two_phase_homogeneous_wood_wallis(
+            from_si(steam_quality),
+            from_si(w_liq),
+            from_si(w_vap),
+            from_si(rho_liq),
+            from_si(rho_vap),
+        ),
+    )
+}
+
+// @item fn:tampines_steam_tables::prelude::x_hs_eqm
+#[doc = "returns quality given\nenthalpy and entropy point\n\n"]
+#[pyfunction(name = "x_hs_eqm")]
+pub fn fn_tampines_steam_tables__prelude__x_hs_eqm(h: f64, s: f64) -> f64 {
+    to_si(::tampines_steam_tables::prelude::x_hs_eqm(
+        from_si(h),
+        from_si(s),
+    ))
+}
+
+// @item fn:tampines_steam_tables::prelude::x_ph_flash
+#[doc = "obtains steam quality (vap fraction) given\npressure and enthalpy"]
+#[pyfunction(name = "x_ph_flash")]
+pub fn fn_tampines_steam_tables__prelude__x_ph_flash(p: f64, h: f64) -> f64 {
+    ::tampines_steam_tables::prelude::x_ph_flash(from_si(p), from_si(h))
+}
+
+// @item fn:tampines_steam_tables::prelude::x_ps_flash
+#[doc = "obtains steam quality (vap fraction) given\npressure and entropy"]
+#[pyfunction(name = "x_ps_flash")]
+pub fn fn_tampines_steam_tables__prelude__x_ps_flash(p: f64, s: f64) -> f64 {
+    ::tampines_steam_tables::prelude::x_ps_flash(from_si(p), from_si(s))
 }
 
 // @item fn:tampines_steam_tables::region_1_subcooled_liquid::backward_eqn_hs_1::p_hs_1
@@ -5338,16 +5297,6 @@ pub fn fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam_
     ::tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::dimensionless_tau_and_delta::tau_3(from_si(t))
 }
 
-// @item fn:tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::intensive_properties::alpha_p_rho_t_3
-#[doc = "Returns the region-3 relative pressure coefficient"]
-#[pyfunction(name = "alpha_p_rho_t_3")]
-pub fn fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__alpha_p_rho_t_3(
-    rho: f64,
-    t: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::intensive_properties::alpha_p_rho_t_3(from_si(rho), from_si(t)))
-}
-
 // @item fn:tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::intensive_properties::alpha_v_rho_t_3
 #[doc = "Returns the region-3 isobaric cubic expansion coeff"]
 #[pyfunction(name = "alpha_v_rho_t_3")]
@@ -5356,16 +5305,6 @@ pub fn fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam_
     t: f64,
 ) -> f64 {
     to_si(::tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::intensive_properties::alpha_v_rho_t_3(from_si(rho), from_si(t)))
-}
-
-// @item fn:tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::intensive_properties::beta_p_rho_t_3
-#[doc = "Returns the region-3 isothermal stress coefficient"]
-#[pyfunction(name = "beta_p_rho_t_3")]
-pub fn fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__beta_p_rho_t_3(
-    rho: f64,
-    t: f64,
-) -> f64 {
-    to_si(::tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::intensive_properties::beta_p_rho_t_3(from_si(rho), from_si(t)))
 }
 
 // @item fn:tampines_steam_tables::region_3_single_phase_plus_supercritical_steam::intensive_properties::cp_rho_t_3
@@ -5530,26 +5469,6 @@ pub fn fn_tampines_steam_tables__region_4_vap_liq_equilibrium__beta_dimensionles
     p: f64,
 ) -> f64 {
     ::tampines_steam_tables::region_4_vap_liq_equilibrium::beta_dimensionless_pressure_4(from_si(p))
-}
-
-// @item fn:tampines_steam_tables::region_4_vap_liq_equilibrium::sat_pressure::sat_pressure_4
-#[doc = "returns sat pressure in region 4"]
-#[pyfunction(name = "sat_pressure_4")]
-pub fn fn_tampines_steam_tables__region_4_vap_liq_equilibrium__sat_pressure__sat_pressure_4(
-    t: f64,
-) -> f64 {
-    to_si(
-        ::tampines_steam_tables::region_4_vap_liq_equilibrium::sat_pressure::sat_pressure_4(
-            from_si(t),
-        ),
-    )
-}
-
-// @item fn:tampines_steam_tables::region_4_vap_liq_equilibrium::sat_temp::sat_temp_4
-#[doc = "Returns the IAPWS-IF97 Region 4 saturation temperature `T_sat(p)`:\npressure `p` (Pa) in, `ThermodynamicTemperature` (K) out. Valid from the\ntriple point up to the critical point (p_c = 22.064 MPa)."]
-#[pyfunction(name = "sat_temp_4")]
-pub fn fn_tampines_steam_tables__region_4_vap_liq_equilibrium__sat_temp__sat_temp_4(p: f64) -> f64 {
-    to_si(::tampines_steam_tables::region_4_vap_liq_equilibrium::sat_temp::sat_temp_4(from_si(p)))
 }
 
 // @item fn:tampines_steam_tables::region_4_vap_liq_equilibrium::speed_of_sound_eqm::w_ps_eqm_region4_finite_diff_vol
@@ -6252,11 +6171,11 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_tampines_steam_tables__TampinesSteamArrayError>()?;
     m.add_class::<Py_tampines_steam_tables__backward_eqn_chebyshev_experimental__p_rho_h__RhoHFitPiece>()?;
     m.add_class::<Py_tampines_steam_tables__backward_eqn_chebyshev_experimental__p_rho_h__RhoHRegion>()?;
+    m.add_class::<Py_tampines_steam_tables__prelude__BackwdEqnSubRegion>()?;
     m.add_class::<Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges>()?;
+    m.add_class::<Py_tampines_steam_tables__prelude__FwdEqnRegion>()?;
     m.add_class::<Py_tampines_steam_tables__prelude__TampinesSteamTableCV>()?;
     m.add_class::<Py_tampines_steam_tables__prelude__checked__SteamTablesError>()?;
-    m.add_class::<Py_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__BackwdEqnSubRegion>()?;
-    m.add_class::<Py_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__FwdEqnRegion>()?;
     m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__generator__ThreePhaseElectricGeneratorTurbine>()?;
     m.add_class::<Py_tampines_steam_tables__tabulated_data__TabulatedData>()?;
     m.add_class::<Py_tampines_steam_tables__tabulated_data__TabulatedQuantity>()?;
@@ -6362,6 +6281,26 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_tampines_steam_tables__dynamic_viscosity__mu_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__alpha_p_rho_t_3,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__alpha_v_ph_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__alpha_v_ps_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__alpha_v_tp_eqm_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__beta_p_rho_t_3,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -6590,171 +6529,234 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__cp_hs_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__find_pressure_from_hs_region_4, m)?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__hs_flash_region,
+        fn_tampines_steam_tables__prelude__cp_hs_eqm,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__kappa_hs_eqm,
+        fn_tampines_steam_tables__prelude__cp_ph_eqm,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__lambda_hs_eqm,
+        fn_tampines_steam_tables__prelude__cp_ps_eqm,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__mu_hs_eqm,
+        fn_tampines_steam_tables__prelude__cp_tp_eqm_single_phase,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__p_hs_eqm,
+        fn_tampines_steam_tables__prelude__cv_ph_eqm,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__t_hs_eqm,
+        fn_tampines_steam_tables__prelude__cv_ps_eqm,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__tpvx_hs_flash_eqm,
+        fn_tampines_steam_tables__prelude__cv_tp_eqm_single_phase,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__v_hs_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__validity_range__hs_is_above_isotherm_t_273_15_kelvin, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__validity_range__hs_is_below_isobar_p_100_mpa_in_region1, m)?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__w_hs_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__hs_flash_eqm__x_hs_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__alpha_v_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__cp_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__cv_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__kappa_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__lambda_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__ph_flash_region,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__s_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__t_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__u_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__v_ph_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__w_ph_wood_wallis,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__w_two_phase_homogeneous_wood_wallis, m)?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ph_flash_eqm__x_ph_flash,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__alpha_v_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__cp_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__cv_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__h_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__kappa_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__mass_flux_ps_eqm_throat, m)?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__ps_flash_region,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__t_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__u_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__v_ps_eqm,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__w_ps_wood_wallis,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__ps_flash_eqm__x_ps_flash,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__alpha_v_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__cp_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__cv_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__h_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__kappa_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__alpha_v_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__cp_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__cv_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__h_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__kappa_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__region_fwd_eqn_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__s_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__u_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__v_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__multiphase_flashing__w_tp_eqm_two_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__region_fwd_eqn_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__s_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__u_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__v_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__w_tp_eqm_single_phase, m)?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__prelude__functional_programming__pt_flash_eqm__w_tpx_eqm,
+        fn_tampines_steam_tables__prelude__find_pressure_from_hs_region_4,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__prelude__get_choked_flow_massrate_and_state_from_stagnation_properties_and_area, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__h_ps_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__h_tp_eqm_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__hs_flash_region,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__kappa_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__kappa_ph_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__kappa_ps_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__kappa_tp_eqm_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__lambda_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__lambda_ph_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__mass_flux_ps_eqm_throat,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__mu_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__alpha_v_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__cp_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__cv_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__h_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__kappa_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__region_fwd_eqn_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__s_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__u_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__v_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__multiphase_flashing__w_tp_eqm_two_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__p_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__ph_flash_region,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__ps_flash_region,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__region_fwd_eqn_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__s_ph_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__s_tp_eqm_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__sat_pressure_4,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__sat_temp_4,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__t_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__t_ph_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__t_ps_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__tpvx_hs_flash_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__u_ph_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__u_ps_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__u_tp_eqm_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__v_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__v_ph_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__v_ps_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__v_tp_eqm_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__w_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__w_ph_wood_wallis,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__w_ps_wood_wallis,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__w_tp_eqm_single_phase,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__w_tpx_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__w_two_phase_homogeneous_wood_wallis,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__x_hs_eqm,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__x_ph_flash,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_tampines_steam_tables__prelude__x_ps_flash,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(
         fn_tampines_steam_tables__region_1_subcooled_liquid__backward_eqn_hs_1__p_hs_1,
         m
@@ -6997,9 +6999,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__backward_eqn_pt_3__v_tp_3z, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__dimensionless_tau_and_delta__delta_3, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__dimensionless_tau_and_delta__tau_3, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__alpha_p_rho_t_3, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__alpha_v_rho_t_3, m)?)?;
-    m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__beta_p_rho_t_3, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__cp_rho_t_3, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__cv_rho_t_3, m)?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_3_single_phase_plus_supercritical_steam__intensive_properties__h_rho_t_3, m)?)?;
@@ -7020,14 +7020,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_tampines_steam_tables__region_4_vap_liq_equilibrium__beta_dimensionless_pressure_4,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__region_4_vap_liq_equilibrium__sat_pressure__sat_pressure_4,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_tampines_steam_tables__region_4_vap_liq_equilibrium__sat_temp__sat_temp_4,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_tampines_steam_tables__region_4_vap_liq_equilibrium__speed_of_sound_eqm__w_ps_eqm_region4_finite_diff_vol, m)?)?;

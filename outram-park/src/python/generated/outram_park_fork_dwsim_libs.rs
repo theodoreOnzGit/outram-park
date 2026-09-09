@@ -29776,6 +29776,69 @@ pub struct Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
 }
 #[pymethods]
 impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_a
+    #[doc = "Attraction-parameter prefactor `Ωa` [-] in `a_i = Ωa α(Tr) R² Tc² / Pc`."]
+    pub fn omega_a(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_a(self.inner.clone())
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_b
+    #[doc = "Co-volume prefactor `Ωb` [-] in `b_i = Ωb R Tc / Pc`."]
+    pub fn omega_b(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_b(self.inner.clone())
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::u
+    #[doc = "Cubic-form constant `u` [-] in the denominator `V² + u b V + w b²`.\nPR: `u = 2`; SRK: `u = 1`."]
+    pub fn u(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::u(self.inner.clone())
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::w
+    #[doc = "Cubic-form constant `w` [-] in the denominator `V² + u b V + w b²`.\nPR: `w = −1`; SRK: `w = 0`."]
+    pub fn w(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::w(self.inner.clone())
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::sqrt_disc
+    #[doc = "`√(u² − 4w)` [-] — the discriminant root appearing in every\nlogarithmic term of the fugacity and departure expressions.\nPR: `√8 = 2√2`; SRK: `1`."]
+    pub fn sqrt_disc(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::sqrt_disc(self.inner.clone())
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha_slope
+    #[doc = "α-function slope: PR's `κ(ω)` or SRK's `m(ω)` [-].\n\nPR: `κ = 0.37464 + 1.54226 ω − 0.26992 ω²`\n(`PengRobinson.vb` L263). SRK: `m = 0.480 + 1.574 ω − 0.176 ω²`\n(`SoaveRedlichKwong.vb` L121). `ω` is the Pitzer acentric factor [-]."]
+    pub fn alpha_slope(&self, acentric_factor: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha_slope(
+            self.inner.clone(),
+            acentric_factor,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha
+    #[doc = "Temperature-dependent scaling factor `α(Tr) = [1 + slope·(1 − √Tr)]²`\n[-] at reduced temperature `tr = T/Tc` [-].\n\nEquals 1 exactly at the critical point (`tr = 1`) for both models\n(`PengRobinson.vb` L263, `SoaveRedlichKwong.vb` L121)."]
+    pub fn alpha(&self, tr: f64, acentric_factor: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha(
+            self.inner.clone(),
+            tr,
+            acentric_factor,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::a_i
+    #[doc = "Pure-component attraction parameter `a_i(T) = Ωa α(Tr) R² Tc² / Pc`\n[J·m³/mol²] at temperature `t` [K].\n\nValid for `t > 0`; physically meaningful over the sub-/super-critical\nrange where the EOS is applied. `PengRobinson.vb` L264,\n`SoaveRedlichKwong.vb` L122."]
+    pub fn a_i(
+        &self,
+        comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        t: f64,
+    ) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::a_i(
+            self.inner.clone(),
+            &comp.inner,
+            t,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_i
+    #[doc = "Pure-component co-volume `b_i = Ωb R Tc / Pc` [m³/mol].\n\nTemperature-independent. `PengRobinson.vb` L265,\n`SoaveRedlichKwong.vb` L123."]
+    pub fn b_i(&self, comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>) -> f64 {
+        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_i(
+            self.inner.clone(),
+            &comp.inner,
+        )
+    }
     // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_mix
     #[doc = "Van der Waals one-fluid mixture co-volume `b_mix = Σ z_i b_i` [m³/mol].\n\n`comps` and mole fractions `z` [-] must have equal length; `z` should sum\nto 1. `PengRobinson.vb` L278-282 / L1235."]
     pub fn b_mix(
@@ -29954,69 +30017,6 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
             kij.as_ref().map(|r| &r.inner),
         )
         .map(|e| e)
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_a
-    #[doc = "Attraction-parameter prefactor `Ωa` [-] in `a_i = Ωa α(Tr) R² Tc² / Pc`."]
-    pub fn omega_a(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_a(self.inner.clone())
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_b
-    #[doc = "Co-volume prefactor `Ωb` [-] in `b_i = Ωb R Tc / Pc`."]
-    pub fn omega_b(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::omega_b(self.inner.clone())
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::u
-    #[doc = "Cubic-form constant `u` [-] in the denominator `V² + u b V + w b²`.\nPR: `u = 2`; SRK: `u = 1`."]
-    pub fn u(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::u(self.inner.clone())
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::w
-    #[doc = "Cubic-form constant `w` [-] in the denominator `V² + u b V + w b²`.\nPR: `w = −1`; SRK: `w = 0`."]
-    pub fn w(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::w(self.inner.clone())
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::sqrt_disc
-    #[doc = "`√(u² − 4w)` [-] — the discriminant root appearing in every\nlogarithmic term of the fugacity and departure expressions.\nPR: `√8 = 2√2`; SRK: `1`."]
-    pub fn sqrt_disc(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::sqrt_disc(self.inner.clone())
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha_slope
-    #[doc = "α-function slope: PR's `κ(ω)` or SRK's `m(ω)` [-].\n\nPR: `κ = 0.37464 + 1.54226 ω − 0.26992 ω²`\n(`PengRobinson.vb` L263). SRK: `m = 0.480 + 1.574 ω − 0.176 ω²`\n(`SoaveRedlichKwong.vb` L121). `ω` is the Pitzer acentric factor [-]."]
-    pub fn alpha_slope(&self, acentric_factor: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha_slope(
-            self.inner.clone(),
-            acentric_factor,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha
-    #[doc = "Temperature-dependent scaling factor `α(Tr) = [1 + slope·(1 − √Tr)]²`\n[-] at reduced temperature `tr = T/Tc` [-].\n\nEquals 1 exactly at the critical point (`tr = 1`) for both models\n(`PengRobinson.vb` L263, `SoaveRedlichKwong.vb` L121)."]
-    pub fn alpha(&self, tr: f64, acentric_factor: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::alpha(
-            self.inner.clone(),
-            tr,
-            acentric_factor,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::a_i
-    #[doc = "Pure-component attraction parameter `a_i(T) = Ωa α(Tr) R² Tc² / Pc`\n[J·m³/mol²] at temperature `t` [K].\n\nValid for `t > 0`; physically meaningful over the sub-/super-critical\nrange where the EOS is applied. `PengRobinson.vb` L264,\n`SoaveRedlichKwong.vb` L122."]
-    pub fn a_i(
-        &self,
-        comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        t: f64,
-    ) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::a_i(
-            self.inner.clone(),
-            &comp.inner,
-            t,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_i
-    #[doc = "Pure-component co-volume `b_i = Ωb R Tc / Pc` [m³/mol].\n\nTemperature-independent. `PengRobinson.vb` L265,\n`SoaveRedlichKwong.vb` L123."]
-    pub fn b_i(&self, comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_i(
-            self.inner.clone(),
-            &comp.inner,
-        )
     }
     // @item variant:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::PengRobinson
     #[staticmethod]

@@ -148,28 +148,6 @@ pub struct Py_outram_foam_multiphase__chf__GroeneveldLut {
 }
 #[pymethods]
 impl Py_outram_foam_multiphase__chf__GroeneveldLut {
-    // @item method:outram_foam_multiphase::chf::GroeneveldLut::to_csv
-    #[doc = "Serialise the table to CSV text (tidy / long format).\n\nThe output is a leading comment recording the reference diameter, one\nheader line `pressure_pa,mass_flux_kg_m2_s,quality,chf_w_m2`, then one\nrow per node — all `np·ng·nx` combinations, row-major (quality fastest).\nNumbers use Rust's shortest round-trip `f64` formatting so\n[`from_csv`](Self::from_csv) reconstructs the exact same table."]
-    pub fn to_csv(&self) -> String {
-        ::outram_foam_multiphase::chf::GroeneveldLut::to_csv(&self.inner)
-    }
-    // @item method:outram_foam_multiphase::chf::GroeneveldLut::from_csv
-    #[doc = "Parse a table from CSV text produced by [`to_csv`](Self::to_csv) (tidy\nformat: header line, then `pressure_pa,mass_flux,quality,chf` rows).\n\nThe distinct pressure / mass-flux / quality values seen in the rows form\nthe three axes (sorted ascending); every combination must appear exactly\nonce. A leading `# ... reference_diameter_m=<v>` comment sets the\nreference diameter (default 0.008 m if absent). Blank lines and other\n`#` comments are ignored.\n\n# Errors\n[`MultiphaseError::InvalidInput`] on a malformed row, a non-numeric\nfield, a missing/duplicated `(P, G, x)` combination, or fewer than 2\ndistinct values on any axis."]
-    #[staticmethod]
-    pub fn from_csv(text: String) -> PyResult<Py_outram_foam_multiphase__chf__GroeneveldLut> {
-        err(::outram_foam_multiphase::chf::GroeneveldLut::from_csv(
-            &text,
-        ))
-        .map(|v| Py_outram_foam_multiphase__chf__GroeneveldLut { inner: v })
-    }
-    // @item method:outram_foam_multiphase::chf::GroeneveldLut::sample
-    #[doc = "A **small synthetic sample** LUT for demos/tests — **NOT** the real\nGroeneveld data.\n\nA 3×3×3 grid over `P ∈ {5, 10, 15} MPa`, `G ∈ {500, 2000, 4000}\nkg·m⁻²·s⁻¹`, `x ∈ {−0.1, 0.1, 0.3}`, with round, made-up CHF values that\ndecrease with quality and vary mildly with pressure/flux. Its only role\nis to exercise the interpolation and CSV paths; do not use its numbers\nfor any physical purpose. Reference diameter 8 mm."]
-    #[staticmethod]
-    pub fn sample() -> Py_outram_foam_multiphase__chf__GroeneveldLut {
-        Py_outram_foam_multiphase__chf__GroeneveldLut {
-            inner: ::outram_foam_multiphase::chf::GroeneveldLut::sample(),
-        }
-    }
     // @item method:outram_foam_multiphase::chf::GroeneveldLut::new
     #[doc = "Build a look-up table from explicit axes and a row-major value array.\n\n# Parameters\n- `pressures` — pressure axis `[Pa]`, strictly ascending, `≥ 2` nodes.\n- `mass_fluxes` — mass-flux axis `[kg·m⁻²·s⁻¹]`, strictly ascending, `≥ 2`.\n- `qualities` — quality axis `[-]`, strictly ascending, `≥ 2`.\n- `chf` — CHF values `[W/m²]`, length `np·ng·nx`, row-major with quality\n  fastest (`[ip·ng·nx + ig·nx + ix]`).\n- `reference_diameter` — the table's reference tube diameter `[m]`\n  (8 mm for the Groeneveld LUT). Must be `> 0`.\n\n# Errors\n[`MultiphaseError::InvalidInput`] if any axis is not strictly ascending\nor too short, if `chf.len() != np·ng·nx`, or if\n`reference_diameter ≤ 0`."]
     #[new]
@@ -213,6 +191,28 @@ impl Py_outram_foam_multiphase__chf__GroeneveldLut {
     #[doc = "Groeneveld cylindrical-tube **diameter-correction factor** `K1`, scaling\nthe reference CHF to a tube of diameter `D` `[m]`.\n\n`K1 = (D_ref / D)^{1/2}` for `0.002 m ≤ D ≤ 0.016 m`; for `D > 0.016 m`\nthe factor is held at its value at 16 mm, and for `D < 0.002 m` at its\nvalue at 2 mm (the recommended clamps from Groeneveld et al., 2007). With\nthe 8 mm reference this gives `K1 = 1` at `D = 8 mm`."]
     pub fn diameter_factor(&self, diameter_m: f64) -> f64 {
         ::outram_foam_multiphase::chf::GroeneveldLut::diameter_factor(&self.inner, diameter_m)
+    }
+    // @item method:outram_foam_multiphase::chf::GroeneveldLut::to_csv
+    #[doc = "Serialise the table to CSV text (tidy / long format).\n\nThe output is a leading comment recording the reference diameter, one\nheader line `pressure_pa,mass_flux_kg_m2_s,quality,chf_w_m2`, then one\nrow per node — all `np·ng·nx` combinations, row-major (quality fastest).\nNumbers use Rust's shortest round-trip `f64` formatting so\n[`from_csv`](Self::from_csv) reconstructs the exact same table."]
+    pub fn to_csv(&self) -> String {
+        ::outram_foam_multiphase::chf::GroeneveldLut::to_csv(&self.inner)
+    }
+    // @item method:outram_foam_multiphase::chf::GroeneveldLut::from_csv
+    #[doc = "Parse a table from CSV text produced by [`to_csv`](Self::to_csv) (tidy\nformat: header line, then `pressure_pa,mass_flux,quality,chf` rows).\n\nThe distinct pressure / mass-flux / quality values seen in the rows form\nthe three axes (sorted ascending); every combination must appear exactly\nonce. A leading `# ... reference_diameter_m=<v>` comment sets the\nreference diameter (default 0.008 m if absent). Blank lines and other\n`#` comments are ignored.\n\n# Errors\n[`MultiphaseError::InvalidInput`] on a malformed row, a non-numeric\nfield, a missing/duplicated `(P, G, x)` combination, or fewer than 2\ndistinct values on any axis."]
+    #[staticmethod]
+    pub fn from_csv(text: String) -> PyResult<Py_outram_foam_multiphase__chf__GroeneveldLut> {
+        err(::outram_foam_multiphase::chf::GroeneveldLut::from_csv(
+            &text,
+        ))
+        .map(|v| Py_outram_foam_multiphase__chf__GroeneveldLut { inner: v })
+    }
+    // @item method:outram_foam_multiphase::chf::GroeneveldLut::sample
+    #[doc = "A **small synthetic sample** LUT for demos/tests — **NOT** the real\nGroeneveld data.\n\nA 3×3×3 grid over `P ∈ {5, 10, 15} MPa`, `G ∈ {500, 2000, 4000}\nkg·m⁻²·s⁻¹`, `x ∈ {−0.1, 0.1, 0.3}`, with round, made-up CHF values that\ndecrease with quality and vary mildly with pressure/flux. Its only role\nis to exercise the interpolation and CSV paths; do not use its numbers\nfor any physical purpose. Reference diameter 8 mm."]
+    #[staticmethod]
+    pub fn sample() -> Py_outram_foam_multiphase__chf__GroeneveldLut {
+        Py_outram_foam_multiphase__chf__GroeneveldLut {
+            inner: ::outram_foam_multiphase::chf::GroeneveldLut::sample(),
+        }
     }
 }
 

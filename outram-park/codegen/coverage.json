@@ -25,13 +25,13 @@
   "types_no_clone": 3
  },
  "kovan": {
-  "consts": 12,
-  "fns": 66,
-  "fns_skipped": 17,
-  "methods": 125,
-  "methods_skipped": 5,
-  "types": 97,
-  "types_no_clone": 19
+  "consts": 14,
+  "fns": 80,
+  "fns_skipped": 20,
+  "methods": 164,
+  "methods_skipped": 6,
+  "types": 117,
+  "types_no_clone": 21
  },
  "kovan-codegen": {
   "fns": 14,
@@ -81,7 +81,7 @@
   "consts": 85,
   "fns": 223,
   "fns_skipped": 26,
-  "methods": 421,
+  "methods": 422,
   "methods_skipped": 26,
   "types": 283,
   "types_generic_skipped": 1,
@@ -152,7 +152,7 @@
   "consts": 15,
   "fns": 42,
   "fns_skipped": 26,
-  "methods": 238,
+  "methods": 240,
   "methods_skipped": 32,
   "types": 153,
   "types_no_clone": 29
@@ -160,10 +160,10 @@
  "outram-park-digital-twin-engine": {
   "consts": 52,
   "fns": 56,
-  "fns_skipped": 37,
-  "methods": 218,
-  "methods_skipped": 91,
-  "types": 100,
+  "fns_skipped": 41,
+  "methods": 226,
+  "methods_skipped": 92,
+  "types": 103,
   "types_from_alias": 1,
   "types_generic_skipped": 3,
   "types_lifetime_skipped": 1,
@@ -261,7 +261,7 @@
  },
  "tampines-steam-tables": {
   "consts": 24,
-  "fns": 337,
+  "fns": 335,
   "fns_skipped": 16,
   "methods": 121,
   "types": 16,
@@ -271,7 +271,7 @@
   "consts": 3,
   "fns": 7,
   "methods": 57,
-  "methods_skipped": 20,
+  "methods_skipped": 22,
   "types": 14,
   "types_no_clone": 2
  },

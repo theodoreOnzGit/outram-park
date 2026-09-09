@@ -463,6 +463,21 @@ impl Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_parti
     pub fn get_rng(&self) -> Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__central_limit_theorem__oorandom_rng__OoRng64 { let v = self.inner.rng.clone(); Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__central_limit_theorem__oorandom_rng__OoRng64 { inner: v } }
     #[setter(rng)]
     pub fn set_rng(&mut self, v: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__central_limit_theorem__oorandom_rng__OoRng64) { self.inner.rng = v.inner; }
+    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_triso_particle
+    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a Gaussian direction\nwithin a triso particle"]
+    pub fn move_single_decaying_particle_gaussian_triso_particle(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, triso_cell: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, timestep: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_triso_particle(&mut self.inner, &mut single_particle_sim.inner, triso_cell.inner, from_si(timestep)) }
+    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_isotropically
+    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a random walk direction\nyou'll need to define a linear number density (ie\nmacroscopic cross section)"]
+    pub fn move_single_decaying_particle_isotropically(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, sigma_s: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_isotropically(&mut self.inner, &mut single_particle_sim.inner, from_si(sigma_s)) }
+    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_mfp_and_no_of_collisions
+    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a Gaussian direction\nproviding the mean free path and number of collisions"]
+    pub fn move_single_decaying_particle_gaussian_mfp_and_no_of_collisions(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, mean_free_path: f64, no_of_collisions: u64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_mfp_and_no_of_collisions(&mut self.inner, &mut single_particle_sim.inner, from_si(mean_free_path), no_of_collisions) }
+    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso
+    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a Gaussian direction\nproviding the mean free path and number of collisions\n\nI want to have it done through 100 collisions rather than\none single collision in every timestep\n"]
+    pub fn move_single_decaying_particle_within_triso(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, triso_cell: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, timestep: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso(&mut self.inner, &mut single_particle_sim.inner, triso_cell.inner, from_si(timestep)) }
+    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso_based_on_fourier_no
+    #[doc = "this helps to auto_timestep based on the fourier number"]
+    pub fn move_single_decaying_particle_within_triso_based_on_fourier_no(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, triso_cell: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, timestep: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso_based_on_fourier_no(&mut self.inner, &mut single_particle_sim.inner, triso_cell.inner, from_si(timestep)) }
     // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_triso_particle_cached
     #[doc = "CACHED VERSION: Move single decaying particle with Gaussian sampling in TRISO particle"]
     pub fn move_single_decaying_particle_gaussian_triso_particle_cached(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, triso_cell: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, timestep: f64, cache: PyRef<'_, Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__cached_normals__DiffusionRandomCache>) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_triso_particle_cached(&mut self.inner, &mut single_particle_sim.inner, triso_cell.inner, from_si(timestep), &cache.inner) }
@@ -494,21 +509,6 @@ impl Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_parti
     // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::scatter_isotropically_using_macro_xs
     #[doc = ""]
     pub fn scatter_isotropically_using_macro_xs(&mut self, sigma_s: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::scatter_isotropically_using_macro_xs(&mut self.inner, from_si(sigma_s)) }
-    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_triso_particle
-    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a Gaussian direction\nwithin a triso particle"]
-    pub fn move_single_decaying_particle_gaussian_triso_particle(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, triso_cell: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, timestep: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_triso_particle(&mut self.inner, &mut single_particle_sim.inner, triso_cell.inner, from_si(timestep)) }
-    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_isotropically
-    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a random walk direction\nyou'll need to define a linear number density (ie\nmacroscopic cross section)"]
-    pub fn move_single_decaying_particle_isotropically(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, sigma_s: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_isotropically(&mut self.inner, &mut single_particle_sim.inner, from_si(sigma_s)) }
-    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_mfp_and_no_of_collisions
-    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a Gaussian direction\nproviding the mean free path and number of collisions"]
-    pub fn move_single_decaying_particle_gaussian_mfp_and_no_of_collisions(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, mean_free_path: f64, no_of_collisions: u64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_gaussian_mfp_and_no_of_collisions(&mut self.inner, &mut single_particle_sim.inner, from_si(mean_free_path), no_of_collisions) }
-    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso
-    #[doc = "moves the particle in the SingleNuclideSimulatorMC\nin a Gaussian direction\nproviding the mean free path and number of collisions\n\nI want to have it done through 100 collisions rather than\none single collision in every timestep\n"]
-    pub fn move_single_decaying_particle_within_triso(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, triso_cell: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, timestep: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso(&mut self.inner, &mut single_particle_sim.inner, triso_cell.inner, from_si(timestep)) }
-    // @item method:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso_based_on_fourier_no
-    #[doc = "this helps to auto_timestep based on the fourier number"]
-    pub fn move_single_decaying_particle_within_triso_based_on_fourier_no(&mut self, mut single_particle_sim: PyRefMut<'_, Py_boon_lay__prelude__SingleNuclideSimulatorMC>, triso_cell: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__single_particle_simulator__constructive_solid_geometry__TrisoCell, timestep: f64) -> () { ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC::move_single_decaying_particle_within_triso_based_on_fourier_no(&mut self.inner, &mut single_particle_sim.inner, triso_cell.inner, from_si(timestep)) }
     // @item ctor:boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC
     #[new]
     pub fn __new__(position: (f64, f64, f64), rng: Py_boon_lay__lagrangian_decay_simulator__lagrangian_diffusion__central_limit_theorem__oorandom_rng__OoRng64) -> Self { Self { inner: ::boon_lay::lagrangian_decay_simulator::lagrangian_diffusion::single_particle_simulator::SingleParticleDiffusionSimulatorMC { position: { let (e0, e1, e2) = position; (from_si(e0), from_si(e1), from_si(e2)) }, rng: rng.inner } } }
@@ -2222,14 +2222,6 @@ impl Py_boon_lay__prelude__decay_library__DecayLibrary {
     ) {
         self.inner.random_number_generator = v.inner;
     }
-    // @item method:boon_lay::prelude::decay_library::DecayLibrary::new
-    #[doc = ""]
-    #[new]
-    pub fn new() -> Py_boon_lay__prelude__decay_library__DecayLibrary {
-        Py_boon_lay__prelude__decay_library__DecayLibrary {
-            inner: ::boon_lay::prelude::decay_library::DecayLibrary::new(),
-        }
-    }
     // @item method:boon_lay::prelude::decay_library::DecayLibrary::get_random_number_and_rng
     #[cfg(feature = "outram-mc-libs")]
     #[doc = "allows user to obtain a random number and a clone of\nthe rng"]
@@ -2250,6 +2242,14 @@ impl Py_boon_lay__prelude__decay_library__DecayLibrary {
                     inner: e1,
                 },
             )
+        }
+    }
+    // @item method:boon_lay::prelude::decay_library::DecayLibrary::new
+    #[doc = ""]
+    #[new]
+    pub fn new() -> Py_boon_lay__prelude__decay_library__DecayLibrary {
+        Py_boon_lay__prelude__decay_library__DecayLibrary {
+            inner: ::boon_lay::prelude::decay_library::DecayLibrary::new(),
         }
     }
     pub fn __repr__(&self) -> String {

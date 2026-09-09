@@ -13,7 +13,7 @@ reactor simulation engine. One crate, three faces:
 
 The wheel is not a hand-written façade over a few chosen entry points: it
 wraps the public API of **every** backend crate, one Python submodule per
-crate — currently 2 137 classes, 3 873 methods, 1 739 functions and 485
+crate — currently 2 188 classes, 4 912 methods, 2 243 functions and 498
 constants across 36 crates.
 
 ```python
@@ -74,7 +74,7 @@ needs anything beyond the tools listed, and no step needs an AI assistant.
 | dependency | why | install |
 | --- | --- | --- |
 | Rust stable | builds the crate and the wheel | `rustup toolchain install stable` |
-| Rust **nightly** | rustdoc JSON is nightly-only; used to read the backend API | `rustup toolchain install nightly` |
+| Rust **nightly** | rustdoc JSON is nightly-only; used to read the backend API. Only needed to *refresh* that JSON — see `--skip-doc` in step 2 | `rustup toolchain install nightly` |
 | Python 3.9+ with `venv` | runs the pipeline scripts and the build venv | Debian/Ubuntu also need `apt install python3-venv` |
 | git | the backend is a submodule | — |
 | ~15 GB free disk | Rust build artefacts for ~1.1 M lines of backend | — |
@@ -106,7 +106,22 @@ One command:
 python3 outram-park/codegen/refresh.py --wheel
 ```
 
-It can be run from anywhere; it resolves its own paths. It prints each
+If the backend's rustdoc JSON is already in `outram-park-backend/target/doc`
+from an earlier run, add `--skip-doc` to reuse it:
+
+```sh
+python3 outram-park/codegen/refresh.py --skip-doc --wheel
+```
+
+That variant never shells out to `cargo +nightly`, so it builds the whole
+wheel on stable alone. It is the one to reach for when your nightly emits a
+rustdoc JSON `format_version` that `gen_bindings.py` does not accept: the
+generator refuses a schema it was not written against, and reusing JSON that
+it does accept sidesteps the bump entirely. The trade-off is that the JSON is
+only as current as the run that produced it, so drop `--skip-doc` after the
+backend's public API changes.
+
+Either form can be run from anywhere; it resolves its own paths. It prints each
 stage as it goes and finishes with the path to the wheel:
 
 ```
@@ -116,18 +131,20 @@ $ python3 .../gen_bindings.py
 bedok                        types=36    methods=17     fns=43    consts=11
 ...                                              (one line per backend crate)
 $ python3 .../repair.py 25
-pass 1: clean (56 items blacklisted in total)
+pass 2: clean (58 items blacklisted in total)
 
-2137 classes, 3873 methods, 1739 functions, 485 constants across 36 crates
-2182 items unmappable, 56 dropped by the compiler
-done in 33s
+2188 classes, 4912 methods, 2243 functions, 498 constants across 36 crates
+835 items unmappable, 58 dropped by the compiler
+done in 270s
 $ .../.build-venv/bin/maturin build --release --zig --compatibility manylinux2014
 
-wheel: .../target/wheels/outram_park-0.1.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (36.5 MB)
+wheel: .../target/wheels/outram_park-0.1.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (48.8 MB)
 ```
 
 **Timing.** On a warm build tree the binding stage takes about 30 seconds
-and the release wheel two to four minutes. The *first* run on a fresh
+when nothing has changed, or a few minutes when the backend has moved and
+the repair loop has to recompile the generated tree once per pass. The
+release wheel is a further two to four minutes. The *first* run on a fresh
 clone is far longer — tens of minutes — because it compiles the whole
 backend twice over (once for rustdoc, once for the wheel). That is a
 one-off; afterwards cargo's cache carries it.

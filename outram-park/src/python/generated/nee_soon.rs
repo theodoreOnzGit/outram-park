@@ -22,8 +22,19 @@ impl Py_nee_soon__NeeSoon {
     // @item method:nee_soon::NeeSoon::new_prompt_excursion_model
     #[cfg(feature = "teh-o-prke")]
     #[doc = "Creates a Nordheim-Fuchs exact-timestepper prompt-excursion model\n(`teh-o-prke`'s [`NordheimFuchsExactTimestepper`]) -- the \"Prompt\nExcursion Layer\" of the recommended Outram Park architecture: a\nreal-time-friendly, closed-form model of a prompt reactivity\nexcursion with adiabatic fuel-temperature feedback, distinct from\n(and much cheaper than) full point reactor kinetics. See that\ntype's doc comment for the governing equations, preconditions\n(`alpha_f < 0`, `Lambda > 0`, `C_f > 0`), and limitations.\n\nThis is a thin pass-through -- `NeeSoon` does not reimplement or\nwrap the physics, it only exposes `teh-o-prke`'s constructor\nthrough the crate's single-facade entry point."]
-    pub fn new_prompt_excursion_model(&self, prompt_neutron_generation_time: f64, delayed_neutron_fraction: f64, fuel_heat_capacity: f64, fuel_feedback_coefficient: f64, fuel_reference_temperature: f64, initial_fuel_temperature: f64, initial_power: f64) -> PyResult<crate::python::generated::teh_o_prke::Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper>{
-        err(::nee_soon::NeeSoon::new_prompt_excursion_model(&self.inner, from_si(prompt_neutron_generation_time), from_si(delayed_neutron_fraction), from_si(fuel_heat_capacity), from_si(fuel_feedback_coefficient), from_si(fuel_reference_temperature), from_si(initial_fuel_temperature), from_si(initial_power))).map(|v| crate::python::generated::teh_o_prke::Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper { inner: v })
+    pub fn new_prompt_excursion_model(
+        &self,
+        prompt_neutron_generation_time: f64,
+        delayed_neutron_fraction: f64,
+        fuel_heat_capacity: f64,
+        fuel_feedback_coefficient: f64,
+        fuel_reference_temperature: f64,
+        initial_fuel_temperature: f64,
+        initial_power: f64,
+    ) -> PyResult<
+        crate::python::generated::teh_o_prke::Py_teh_o_prke__prelude__NordheimFuchsExactTimestepper,
+    > {
+        err(::nee_soon::NeeSoon::new_prompt_excursion_model(&self.inner, from_si(prompt_neutron_generation_time), from_si(delayed_neutron_fraction), from_si(fuel_heat_capacity), from_si(fuel_feedback_coefficient), from_si(fuel_reference_temperature), from_si(initial_fuel_temperature), from_si(initial_power))).map(|v| crate::python::generated::teh_o_prke::Py_teh_o_prke__prelude__NordheimFuchsExactTimestepper { inner: v })
     }
     // @item defaultctor:nee_soon::NeeSoon
     #[new]

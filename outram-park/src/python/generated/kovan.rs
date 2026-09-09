@@ -231,6 +231,11 @@ impl Py_kovan__artifact__Artifact {
     pub fn csv_block(&self) -> Option<String> {
         ::kovan::artifact::Artifact::csv_block(&self.inner).map(|e| e.clone().to_string())
     }
+    // @item method:kovan::artifact::Artifact::csv_export
+    #[doc = "This artifact's CSV as it should be **exported to a `.csv` file**:\nthe header row and the data rows, with any `#` provenance comment\nlines dropped.\n\nBodies written since GH issue #35 (2026-09-08) carry no comments in\nthe first place, so this is a no-op on them; it exists so an\nartifact saved in the older commented form still exports cleanly\n(maintainer direction: \"only the data within backticks, nothing\nmore\")."]
+    pub fn csv_export(&self) -> Option<String> {
+        ::kovan::artifact::Artifact::csv_export(&self.inner).map(|e| e)
+    }
     // @item ctor:kovan::artifact::Artifact
     #[new]
     pub fn __new__(
@@ -319,6 +324,14 @@ pub struct Py_kovan__artifact__ArtifactKind {
 }
 #[pymethods]
 impl Py_kovan__artifact__ArtifactKind {
+    // @item variant:kovan::artifact::ArtifactKind::Paper
+    #[staticmethod]
+    #[pyo3(name = "Paper")]
+    pub fn v_Paper() -> Self {
+        Self {
+            inner: ::kovan::artifact::ArtifactKind::Paper,
+        }
+    }
     // @item variant:kovan::artifact::ArtifactKind::Note
     #[staticmethod]
     #[pyo3(name = "Note")]
@@ -367,15 +380,34 @@ impl Py_kovan__artifact__ArtifactKind {
             inner: ::kovan::artifact::ArtifactKind::DigitisedGraph,
         }
     }
+    // @item variant:kovan::artifact::ArtifactKind::Relation
+    #[staticmethod]
+    #[pyo3(name = "Relation")]
+    pub fn v_Relation() -> Self {
+        Self {
+            inner: ::kovan::artifact::ArtifactKind::Relation,
+        }
+    }
+    // @item variant:kovan::artifact::ArtifactKind::Mindmap
+    #[staticmethod]
+    #[pyo3(name = "Mindmap")]
+    pub fn v_Mindmap() -> Self {
+        Self {
+            inner: ::kovan::artifact::ArtifactKind::Mindmap,
+        }
+    }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner {
+            ::kovan::artifact::ArtifactKind::Paper => "Paper",
             ::kovan::artifact::ArtifactKind::Note => "Note",
             ::kovan::artifact::ArtifactKind::Annotation => "Annotation",
             ::kovan::artifact::ArtifactKind::SourceReference => "SourceReference",
             ::kovan::artifact::ArtifactKind::Formula => "Formula",
             ::kovan::artifact::ArtifactKind::DigitisedTable => "DigitisedTable",
             ::kovan::artifact::ArtifactKind::DigitisedGraph => "DigitisedGraph",
+            ::kovan::artifact::ArtifactKind::Relation => "Relation",
+            ::kovan::artifact::ArtifactKind::Mindmap => "Mindmap",
             _ => "unknown",
         }
     }
@@ -522,6 +554,26 @@ impl Py_kovan__artifact__ArtifactToml {
     pub fn set_extraction(&mut self, v: Option<Py_kovan__artifact__Extraction>) {
         self.inner.extraction = v.map(|e| e.inner);
     }
+    // @item field:kovan::artifact::ArtifactToml::relation
+    #[getter(relation)]
+    pub fn get_relation(&self) -> Option<Py_kovan__relation__RelationRecord> {
+        let v = self.inner.relation.clone();
+        v.map(|e| Py_kovan__relation__RelationRecord { inner: e })
+    }
+    #[setter(relation)]
+    pub fn set_relation(&mut self, v: Option<Py_kovan__relation__RelationRecord>) {
+        self.inner.relation = v.map(|e| e.inner);
+    }
+    // @item field:kovan::artifact::ArtifactToml::connections
+    #[getter(connections)]
+    pub fn get_connections(&self) -> Vec<String> {
+        let v = self.inner.connections.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(connections)]
+    pub fn set_connections(&mut self, v: Vec<String>) {
+        self.inner.connections = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
     // @item ctor:kovan::artifact::ArtifactToml
     #[new]
     pub fn __new__(
@@ -529,6 +581,8 @@ impl Py_kovan__artifact__ArtifactToml {
         source: Option<Py_kovan__artifact__SourceAnchor>,
         classification: Py_kovan__entity__Classification,
         extraction: Option<Py_kovan__artifact__Extraction>,
+        relation: Option<Py_kovan__relation__RelationRecord>,
+        connections: Vec<String>,
     ) -> Self {
         Self {
             inner: ::kovan::artifact::ArtifactToml {
@@ -536,6 +590,8 @@ impl Py_kovan__artifact__ArtifactToml {
                 source: source.map(|e| e.inner),
                 classification: classification.inner,
                 extraction: extraction.map(|e| e.inner),
+                relation: relation.map(|e| e.inner),
+                connections: connections.into_iter().map(|e| e).collect::<Vec<_>>(),
             },
         }
     }
@@ -576,14 +632,92 @@ impl Py_kovan__artifact__Extraction {
     pub fn set_engine(&mut self, v: Option<String>) {
         self.inner.engine = v.map(|e| e);
     }
-    // @item ctor:kovan::artifact::Extraction
+    // @item field:kovan::artifact::Extraction::figure
+    #[getter(figure)]
+    pub fn get_figure(&self) -> Option<String> {
+        let v = self.inner.figure.clone();
+        v.map(|e| e)
+    }
+    #[setter(figure)]
+    pub fn set_figure(&mut self, v: Option<String>) {
+        self.inner.figure = v.map(|e| e);
+    }
+    // @item field:kovan::artifact::Extraction::x_label
+    #[getter(x_label)]
+    pub fn get_x_label(&self) -> Option<String> {
+        let v = self.inner.x_label.clone();
+        v.map(|e| e)
+    }
+    #[setter(x_label)]
+    pub fn set_x_label(&mut self, v: Option<String>) {
+        self.inner.x_label = v.map(|e| e);
+    }
+    // @item field:kovan::artifact::Extraction::y_label
+    #[getter(y_label)]
+    pub fn get_y_label(&self) -> Option<String> {
+        let v = self.inner.y_label.clone();
+        v.map(|e| e)
+    }
+    #[setter(y_label)]
+    pub fn set_y_label(&mut self, v: Option<String>) {
+        self.inner.y_label = v.map(|e| e);
+    }
+    // @item field:kovan::artifact::Extraction::x_axis
+    #[getter(x_axis)]
+    pub fn get_x_axis(&self) -> Option<String> {
+        let v = self.inner.x_axis.clone();
+        v.map(|e| e)
+    }
+    #[setter(x_axis)]
+    pub fn set_x_axis(&mut self, v: Option<String>) {
+        self.inner.x_axis = v.map(|e| e);
+    }
+    // @item field:kovan::artifact::Extraction::y_axis
+    #[getter(y_axis)]
+    pub fn get_y_axis(&self) -> Option<String> {
+        let v = self.inner.y_axis.clone();
+        v.map(|e| e)
+    }
+    #[setter(y_axis)]
+    pub fn set_y_axis(&mut self, v: Option<String>) {
+        self.inner.y_axis = v.map(|e| e);
+    }
+    // @item field:kovan::artifact::Extraction::digitised_by
+    #[getter(digitised_by)]
+    pub fn get_digitised_by(&self) -> Option<String> {
+        let v = self.inner.digitised_by.clone();
+        v.map(|e| e)
+    }
+    #[setter(digitised_by)]
+    pub fn set_digitised_by(&mut self, v: Option<String>) {
+        self.inner.digitised_by = v.map(|e| e);
+    }
+    // @item field:kovan::artifact::Extraction::digitised_at
+    #[getter(digitised_at)]
+    pub fn get_digitised_at(&self) -> Option<String> {
+        let v = self.inner.digitised_at.clone();
+        v.map(|e| e)
+    }
+    #[setter(digitised_at)]
+    pub fn set_digitised_at(&mut self, v: Option<String>) {
+        self.inner.digitised_at = v.map(|e| e);
+    }
+    // @item field:kovan::artifact::Extraction::review
+    #[getter(review)]
+    pub fn get_review(&self) -> Option<String> {
+        let v = self.inner.review.clone();
+        v.map(|e| e)
+    }
+    #[setter(review)]
+    pub fn set_review(&mut self, v: Option<String>) {
+        self.inner.review = v.map(|e| e);
+    }
+    // @item method:kovan::artifact::Extraction::new
+    #[doc = "An [`Extraction`] with only the method and engine set — the shape\nused by non-digitiser paths (a table lifted natively from the PDF,\nsay) that have no plot calibration to record."]
     #[new]
-    pub fn __new__(method: String, engine: Option<String>) -> Self {
-        Self {
-            inner: ::kovan::artifact::Extraction {
-                method: method,
-                engine: engine.map(|e| e),
-            },
+    pub fn new(method: String, engine: Option<String>) -> Py_kovan__artifact__Extraction {
+        Py_kovan__artifact__Extraction {
+            inner: ::kovan::artifact::Extraction::new(method, engine.map(|e| e)),
         }
     }
     pub fn __repr__(&self) -> String {
@@ -722,6 +856,29 @@ impl Py_kovan__artifact__Region {
     #[setter(y1)]
     pub fn set_y1(&mut self, v: f64) {
         self.inner.y1 = v;
+    }
+    // @item method:kovan::artifact::Region::from_pixels
+    #[doc = "This rectangle in normalised page fractions, from a pixel rectangle\non a page of size `w` x `h` pixels (§15: fractions of the page,\norigin top-left). Corners may be given in any order — they are\nsorted here.\n\n`None` for a degenerate page size (`w` or `h` non-positive) or a\nzero-area / out-of-range rectangle, i.e. exactly when the result\nwould fail [`Region::is_valid`].\n\nThe one place this normalisation lives: the PDF reader's crop and\nannotation paths and [`crate::classify`]'s legacy-section migration\nall go through it rather than repeating the arithmetic."]
+    #[staticmethod]
+    pub fn from_pixels(
+        min: (f32, f32),
+        max: (f32, f32),
+        w: f32,
+        h: f32,
+    ) -> Option<Py_kovan__artifact__Region> {
+        ::kovan::artifact::Region::from_pixels(
+            {
+                let (e0, e1) = min;
+                (e0, e1)
+            },
+            {
+                let (e0, e1) = max;
+                (e0, e1)
+            },
+            w,
+            h,
+        )
+        .map(|e| Py_kovan__artifact__Region { inner: e })
     }
     // @item method:kovan::artifact::Region::is_valid
     #[doc = "Whether every coordinate is in `0.0..=1.0` and the rectangle is\nnon-degenerate (`x0 < x1`, `y0 < y1`)."]
@@ -877,6 +1034,172 @@ impl Py_kovan__autocomplete__Candidate {
     }
 }
 
+// @item type:kovan::autocomplete::CandidateKind
+#[doc = "The kind of node a [`LibraryCandidate`] identifies (GitHub issue #35's\nlayer-1 prototype finding, `op-30um.4`: `artifact_candidates` above is\nper-paper, so \"Add connection...\" can only offer artifacts from\nwhichever single [`ResearchRecordIndex`] the caller happens to have\nopen — a prototype had to fan out over every paper by hand to work\naround it).\n\nDeclaration order (`Paper` < `Artifact` < `Topic` < `Project`) is the\ntie-break order [`library_candidates`] sorts by when two candidates\nshare a label — it carries no meaning beyond \"some fixed order\", it\njust has to be a fixed one."]
+#[pyclass(name = "CandidateKind", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__autocomplete__CandidateKind {
+    pub inner: ::kovan::autocomplete::CandidateKind,
+}
+#[pymethods]
+impl Py_kovan__autocomplete__CandidateKind {
+    // @item variant:kovan::autocomplete::CandidateKind::Paper
+    #[staticmethod]
+    #[pyo3(name = "Paper")]
+    pub fn v_Paper() -> Self {
+        Self {
+            inner: ::kovan::autocomplete::CandidateKind::Paper,
+        }
+    }
+    // @item variant:kovan::autocomplete::CandidateKind::Artifact
+    #[staticmethod]
+    #[pyo3(name = "Artifact")]
+    pub fn v_Artifact() -> Self {
+        Self {
+            inner: ::kovan::autocomplete::CandidateKind::Artifact,
+        }
+    }
+    // @item variant:kovan::autocomplete::CandidateKind::Topic
+    #[staticmethod]
+    #[pyo3(name = "Topic")]
+    pub fn v_Topic() -> Self {
+        Self {
+            inner: ::kovan::autocomplete::CandidateKind::Topic,
+        }
+    }
+    // @item variant:kovan::autocomplete::CandidateKind::Project
+    #[staticmethod]
+    #[pyo3(name = "Project")]
+    pub fn v_Project() -> Self {
+        Self {
+            inner: ::kovan::autocomplete::CandidateKind::Project,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::kovan::autocomplete::CandidateKind::Paper => "Paper",
+            ::kovan::autocomplete::CandidateKind::Artifact => "Artifact",
+            ::kovan::autocomplete::CandidateKind::Topic => "Topic",
+            ::kovan::autocomplete::CandidateKind::Project => "Project",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::autocomplete::LibraryCandidate
+#[doc = "One hit from [`library_candidates`]: a typed node identity plus the\ncompletion payload a caller would otherwise get from\n[`citation_candidates`]/[`wiki_candidates`]/[`artifact_candidates`]."]
+#[pyclass(name = "LibraryCandidate", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__autocomplete__LibraryCandidate {
+    pub inner: ::kovan::autocomplete::LibraryCandidate,
+}
+#[pymethods]
+impl Py_kovan__autocomplete__LibraryCandidate {
+    // @item field:kovan::autocomplete::LibraryCandidate::kind
+    #[getter(kind)]
+    pub fn get_kind(&self) -> Py_kovan__autocomplete__CandidateKind {
+        let v = self.inner.kind.clone();
+        Py_kovan__autocomplete__CandidateKind { inner: v }
+    }
+    #[setter(kind)]
+    pub fn set_kind(&mut self, v: Py_kovan__autocomplete__CandidateKind) {
+        self.inner.kind = v.inner;
+    }
+    // @item field:kovan::autocomplete::LibraryCandidate::node
+    #[getter(node)]
+    pub fn get_node(&self) -> String {
+        let v = self.inner.node.clone();
+        v
+    }
+    #[setter(node)]
+    pub fn set_node(&mut self, v: String) {
+        self.inner.node = v;
+    }
+    // @item field:kovan::autocomplete::LibraryCandidate::candidate
+    #[getter(candidate)]
+    pub fn get_candidate(&self) -> Py_kovan__autocomplete__Candidate {
+        let v = self.inner.candidate.clone();
+        Py_kovan__autocomplete__Candidate { inner: v }
+    }
+    #[setter(candidate)]
+    pub fn set_candidate(&mut self, v: Py_kovan__autocomplete__Candidate) {
+        self.inner.candidate = v.inner;
+    }
+    // @item ctor:kovan::autocomplete::LibraryCandidate
+    #[new]
+    pub fn __new__(
+        kind: Py_kovan__autocomplete__CandidateKind,
+        node: String,
+        candidate: Py_kovan__autocomplete__Candidate,
+    ) -> Self {
+        Self {
+            inner: ::kovan::autocomplete::LibraryCandidate {
+                kind: kind.inner,
+                node: node,
+                candidate: candidate.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::classify::CascadeError
+#[doc = "Errors from [`delete_artifact_cascade`]."]
+#[pyclass(name = "CascadeError", module = "outram_park.kovan")]
+pub struct Py_kovan__classify__CascadeError {
+    pub inner: ::kovan::classify::CascadeError,
+}
+#[pymethods]
+impl Py_kovan__classify__CascadeError {
+    // @item variant:kovan::classify::CascadeError::CannotDeletePaper
+    #[staticmethod]
+    #[pyo3(name = "CannotDeletePaper")]
+    pub fn v_CannotDeletePaper(citekey: String) -> Self {
+        Self {
+            inner: ::kovan::classify::CascadeError::CannotDeletePaper { citekey: citekey },
+        }
+    }
+    // @item variant:kovan::classify::CascadeError::ArtifactNotFound
+    #[staticmethod]
+    #[pyo3(name = "ArtifactNotFound")]
+    pub fn v_ArtifactNotFound(citekey: String, artifact_id: String) -> Self {
+        Self {
+            inner: ::kovan::classify::CascadeError::ArtifactNotFound {
+                citekey: citekey,
+                artifact_id: artifact_id,
+            },
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::kovan::classify::CascadeError::CannotDeletePaper { .. } => "CannotDeletePaper",
+            ::kovan::classify::CascadeError::ArtifactNotFound { .. } => "ArtifactNotFound",
+            ::kovan::classify::CascadeError::Session(..) => "Session",
+            ::kovan::classify::CascadeError::Relation(..) => "Relation",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+}
+
 // @item type:kovan::classify::ClassifyError
 #[doc = "Errors building or inserting a fine-grained classification artifact."]
 #[pyclass(name = "ClassifyError", module = "outram_park.kovan")]
@@ -917,6 +1240,17 @@ impl Py_kovan__classify__ClassifyError {
             inner: ::kovan::classify::ClassifyError::Render(a0),
         }
     }
+    // @item variant:kovan::classify::ClassifyError::NotReadableBack
+    #[staticmethod]
+    #[pyo3(name = "NotReadableBack")]
+    pub fn v_NotReadableBack(id: String, fences: usize) -> Self {
+        Self {
+            inner: ::kovan::classify::ClassifyError::NotReadableBack {
+                id: id,
+                fences: fences,
+            },
+        }
+    }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner {
@@ -924,6 +1258,7 @@ impl Py_kovan__classify__ClassifyError {
             ::kovan::classify::ClassifyError::UnknownId(..) => "UnknownId",
             ::kovan::classify::ClassifyError::BadAnchor(..) => "BadAnchor",
             ::kovan::classify::ClassifyError::Render(..) => "Render",
+            ::kovan::classify::ClassifyError::NotReadableBack { .. } => "NotReadableBack",
             _ => "unknown",
         }
     }
@@ -932,6 +1267,69 @@ impl Py_kovan__classify__ClassifyError {
     }
     pub fn __str__(&self) -> String {
         format!("{}", self.inner)
+    }
+}
+
+// @item type:kovan::classify::LegacyCsvSection
+#[doc = "One **legacy** digitiser CSV section — the pre-artifact format the graph\nand table digitisers wrote when no paper was active, as a plain Markdown\nheading plus a bare ```csv fence and no `[kovan]` block at all:\n\n```text\n### Fig 1. — page 3, pixel bbox [38.6, 71.9, 1215.4, 797.4], 2026-09-02T02:31:04Z, unnamed\n\n```csv\n…\n```\n```\n\nBecause such a section carries no fenced TOML, [`parse_document`] does not\nsee it as an artifact at all: it has no id, no kind and no `[source]`, so\nthe PDF canvas cannot draw a region box for it and the page-context panel\ncannot list it. That is the whole reason a digitised graph or table saved\nthis way is invisible in the GUI while annotations show up fine.\n\nThe heading itself carries everything needed to rebuild a real artifact\nexcept the page's pixel size, which the caller supplies — see\n[`migrate_legacy_csv_sections`]."]
+#[pyclass(name = "LegacyCsvSection", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__classify__LegacyCsvSection {
+    pub inner: ::kovan::classify::LegacyCsvSection,
+}
+#[pymethods]
+impl Py_kovan__classify__LegacyCsvSection {
+    // @item field:kovan::classify::LegacyCsvSection::heading
+    #[getter(heading)]
+    pub fn get_heading(&self) -> String {
+        let v = self.inner.heading.clone();
+        v
+    }
+    #[setter(heading)]
+    pub fn set_heading(&mut self, v: String) {
+        self.inner.heading = v;
+    }
+    // @item field:kovan::classify::LegacyCsvSection::kind
+    #[getter(kind)]
+    pub fn get_kind(&self) -> Py_kovan__artifact__ArtifactKind {
+        let v = self.inner.kind.clone();
+        Py_kovan__artifact__ArtifactKind { inner: v }
+    }
+    #[setter(kind)]
+    pub fn set_kind(&mut self, v: Py_kovan__artifact__ArtifactKind) {
+        self.inner.kind = v.inner;
+    }
+    // @item field:kovan::classify::LegacyCsvSection::page
+    #[getter(page)]
+    pub fn get_page(&self) -> Option<u32> {
+        let v = self.inner.page.clone();
+        v.map(|e| e)
+    }
+    #[setter(page)]
+    pub fn set_page(&mut self, v: Option<u32>) {
+        self.inner.page = v.map(|e| e);
+    }
+    // @item field:kovan::classify::LegacyCsvSection::bbox
+    #[getter(bbox)]
+    pub fn get_bbox(&self) -> Option<Vec<f32>> {
+        let v = self.inner.bbox.clone();
+        v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+    }
+    // @item field:kovan::classify::LegacyCsvSection::csv
+    #[getter(csv)]
+    pub fn get_csv(&self) -> String {
+        let v = self.inner.csv.clone();
+        v
+    }
+    #[setter(csv)]
+    pub fn set_csv(&mut self, v: String) {
+        self.inner.csv = v;
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
     }
 }
 
@@ -2561,6 +2959,26 @@ impl Py_kovan__digitiser__dataset__DigitisedDataset {
     pub fn to_csv_string(&self) -> String {
         ::kovan::digitiser::dataset::DigitisedDataset::to_csv_string(&self.inner)
     }
+    // @item method:kovan::digitiser::dataset::DigitisedDataset::to_csv_data_only
+    #[doc = "The CSV **data alone**: the `x,y` header row and one row per point,\nwith no `#` provenance comments at all.\n\nThis is what goes inside a Markdown artifact's ```csv fence and what\n[`Self::write_csv`] exports (maintainer direction, GH issue #35,\n2026-09-08: \"when exporting csv not in markdown, should only export\ncsv data with headers, only the data within backticks, nothing\nmore\"). A spreadsheet or a plotting script can read the result\ndirectly, with no comment-stripping step.\n\nThe provenance those comments used to carry is not lost — in\nMarkdown it moves up into the artifact's `[extraction]` table (see\n[`Self::extraction`]), which is the metadata half of the block, and\nthe full per-point record stays in\n[`Self::to_json_string`]. [`Self::to_csv_string`] still produces the\ncommented form for anyone who wants one file carrying both."]
+    pub fn to_csv_data_only(&self) -> String {
+        ::kovan::digitiser::dataset::DigitisedDataset::to_csv_data_only(&self.inner)
+    }
+    // @item method:kovan::digitiser::dataset::DigitisedDataset::extraction
+    #[doc = "This dataset's provenance as an [`crate::artifact::Extraction`] — the\nmetadata that used to sit in `#` comments inside the CSV fence.\n\n`method` is the extraction method (e.g. `\"manual_digitisation\"`) and\n`engine` the tool where there was one (e.g. `\"kopitiam-ocr\"`)."]
+    pub fn extraction(
+        &self,
+        method: String,
+        engine: Option<String>,
+    ) -> Py_kovan__artifact__Extraction {
+        Py_kovan__artifact__Extraction {
+            inner: ::kovan::digitiser::dataset::DigitisedDataset::extraction(
+                &self.inner,
+                &method,
+                engine.map(|e| e),
+            ),
+        }
+    }
     // @item method:kovan::digitiser::dataset::DigitisedDataset::write_csv
     #[doc = "Write the CSV form to `path`.\n\n# Errors\n\n[`DigitiserError::Io`] on filesystem failure."]
     pub fn write_csv(&self, path: String) -> PyResult<()> {
@@ -3551,6 +3969,64 @@ impl Py_kovan__digitiser__frontend__AutoArgs {
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
+    }
+}
+
+// @item type:kovan::digitiser::gui::Startup
+#[doc = "Which state to open the window in, from the command line — see\n[`crate::app::DigitiseApp::open_root_and_paper`]. Both fields absent is\nthe ordinary interactive launch (the Home screen)."]
+#[pyclass(name = "Startup", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__digitiser__gui__Startup {
+    pub inner: ::kovan::digitiser::gui::Startup,
+}
+#[pymethods]
+impl Py_kovan__digitiser__gui__Startup {
+    // @item field:kovan::digitiser::gui::Startup::root
+    #[getter(root)]
+    pub fn get_root(&self) -> Option<String> {
+        let v = self.inner.root.clone();
+        v.map(|e| e)
+    }
+    #[setter(root)]
+    pub fn set_root(&mut self, v: Option<String>) {
+        self.inner.root = v.map(|e| e);
+    }
+    // @item field:kovan::digitiser::gui::Startup::paper
+    #[getter(paper)]
+    pub fn get_paper(&self) -> Option<String> {
+        let v = self.inner.paper.clone();
+        v.map(|e| e)
+    }
+    #[setter(paper)]
+    pub fn set_paper(&mut self, v: Option<String>) {
+        self.inner.paper = v.map(|e| e);
+    }
+    // @item ctor:kovan::digitiser::gui::Startup
+    #[new]
+    #[pyo3(signature = (root=None, paper=None))]
+    pub fn __new__(root: Option<String>, paper: Option<String>) -> Self {
+        let d = <::kovan::digitiser::gui::Startup as Default>::default();
+        Self {
+            inner: ::kovan::digitiser::gui::Startup {
+                root: {
+                    let v = root.map(|e| e);
+                    if v.is_some() { v } else { d.root }
+                },
+                paper: {
+                    let v = paper.map(|e| e);
+                    if v.is_some() { v } else { d.paper }
+                },
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
     }
 }
 
@@ -5868,6 +6344,709 @@ impl Py_kovan__mindmap__MindmapState {
     }
 }
 
+// @item type:kovan::mindmap_layout::Bounds
+#[doc = "An axis-aligned bounding box in world space, as produced by\n[`bounds_for`]."]
+#[pyclass(name = "Bounds", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_layout__Bounds {
+    pub inner: ::kovan::mindmap_layout::Bounds,
+}
+#[pymethods]
+impl Py_kovan__mindmap_layout__Bounds {
+    // @item field:kovan::mindmap_layout::Bounds::min_x
+    #[getter(min_x)]
+    pub fn get_min_x(&self) -> f64 {
+        let v = self.inner.min_x.clone();
+        v
+    }
+    #[setter(min_x)]
+    pub fn set_min_x(&mut self, v: f64) {
+        self.inner.min_x = v;
+    }
+    // @item field:kovan::mindmap_layout::Bounds::min_y
+    #[getter(min_y)]
+    pub fn get_min_y(&self) -> f64 {
+        let v = self.inner.min_y.clone();
+        v
+    }
+    #[setter(min_y)]
+    pub fn set_min_y(&mut self, v: f64) {
+        self.inner.min_y = v;
+    }
+    // @item field:kovan::mindmap_layout::Bounds::max_x
+    #[getter(max_x)]
+    pub fn get_max_x(&self) -> f64 {
+        let v = self.inner.max_x.clone();
+        v
+    }
+    #[setter(max_x)]
+    pub fn set_max_x(&mut self, v: f64) {
+        self.inner.max_x = v;
+    }
+    // @item field:kovan::mindmap_layout::Bounds::max_y
+    #[getter(max_y)]
+    pub fn get_max_y(&self) -> f64 {
+        let v = self.inner.max_y.clone();
+        v
+    }
+    #[setter(max_y)]
+    pub fn set_max_y(&mut self, v: f64) {
+        self.inner.max_y = v;
+    }
+    // @item method:kovan::mindmap_layout::Bounds::width
+    #[doc = "Width, floored at `1.0` so a single-point or degenerate bounds\nnever divides by zero in [`Camera::fit`]."]
+    pub fn width(&self) -> f64 {
+        ::kovan::mindmap_layout::Bounds::width(&self.inner)
+    }
+    // @item method:kovan::mindmap_layout::Bounds::height
+    #[doc = "Height, floored at `1.0` — see [`width`](Self::width)."]
+    pub fn height(&self) -> f64 {
+        ::kovan::mindmap_layout::Bounds::height(&self.inner)
+    }
+    // @item method:kovan::mindmap_layout::Bounds::centre
+    #[doc = "The bounds' centre point."]
+    pub fn centre(&self) -> Py_kovan__mindmap_layout__Point {
+        Py_kovan__mindmap_layout__Point {
+            inner: ::kovan::mindmap_layout::Bounds::centre(&self.inner),
+        }
+    }
+    // @item ctor:kovan::mindmap_layout::Bounds
+    #[new]
+    pub fn __new__(min_x: f64, min_y: f64, max_x: f64, max_y: f64) -> Self {
+        Self {
+            inner: ::kovan::mindmap_layout::Bounds {
+                min_x: min_x,
+                min_y: min_y,
+                max_x: max_x,
+                max_y: max_y,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_layout::Camera
+#[doc = "The mindmap camera: a viewport size, a zoom factor, and a world-space\ncentre point. GUI-independent — `crate::app`/`crate::mindmap` reads\nthis to decide where to draw, but nothing here touches `egui`."]
+#[pyclass(name = "Camera", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_layout__Camera {
+    pub inner: ::kovan::mindmap_layout::Camera,
+}
+#[pymethods]
+impl Py_kovan__mindmap_layout__Camera {
+    // @item field:kovan::mindmap_layout::Camera::viewport_w
+    #[getter(viewport_w)]
+    pub fn get_viewport_w(&self) -> f64 {
+        let v = self.inner.viewport_w.clone();
+        v
+    }
+    #[setter(viewport_w)]
+    pub fn set_viewport_w(&mut self, v: f64) {
+        self.inner.viewport_w = v;
+    }
+    // @item field:kovan::mindmap_layout::Camera::viewport_h
+    #[getter(viewport_h)]
+    pub fn get_viewport_h(&self) -> f64 {
+        let v = self.inner.viewport_h.clone();
+        v
+    }
+    #[setter(viewport_h)]
+    pub fn set_viewport_h(&mut self, v: f64) {
+        self.inner.viewport_h = v;
+    }
+    // @item field:kovan::mindmap_layout::Camera::zoom
+    #[getter(zoom)]
+    pub fn get_zoom(&self) -> f64 {
+        let v = self.inner.zoom.clone();
+        v
+    }
+    #[setter(zoom)]
+    pub fn set_zoom(&mut self, v: f64) {
+        self.inner.zoom = v;
+    }
+    // @item field:kovan::mindmap_layout::Camera::centre
+    #[getter(centre)]
+    pub fn get_centre(&self) -> Py_kovan__mindmap_layout__Point {
+        let v = self.inner.centre.clone();
+        Py_kovan__mindmap_layout__Point { inner: v }
+    }
+    #[setter(centre)]
+    pub fn set_centre(&mut self, v: Py_kovan__mindmap_layout__Point) {
+        self.inner.centre = v.inner;
+    }
+    // @item method:kovan::mindmap_layout::Camera::new
+    #[doc = "A camera over a `viewport_w x viewport_h` viewport, zoom `1.0`,\ncentred on the world origin."]
+    #[new]
+    pub fn new(viewport_w: f64, viewport_h: f64) -> Py_kovan__mindmap_layout__Camera {
+        Py_kovan__mindmap_layout__Camera {
+            inner: ::kovan::mindmap_layout::Camera::new(viewport_w, viewport_h),
+        }
+    }
+    // @item method:kovan::mindmap_layout::Camera::fit
+    #[doc = "\"Fit All\": centre on `bounds` and choose the largest zoom (clamped\nto `[0.25, 3.0]`) that still fits `bounds` inside the viewport after\nsubtracting `padding` on every side."]
+    pub fn fit(&mut self, bounds: Py_kovan__mindmap_layout__Bounds, padding: f64) -> () {
+        ::kovan::mindmap_layout::Camera::fit(&mut self.inner, bounds.inner, padding)
+    }
+    // @item method:kovan::mindmap_layout::Camera::centre_on
+    #[doc = "\"Centre Selection\": recentre on `p`. Zoom is deliberately\nunchanged — this is not [`fit`](Self::fit)."]
+    pub fn centre_on(&mut self, p: Py_kovan__mindmap_layout__Point) -> () {
+        ::kovan::mindmap_layout::Camera::centre_on(&mut self.inner, p.inner)
+    }
+    // @item method:kovan::mindmap_layout::Camera::zoom_at
+    #[doc = "Zoom by `factor` while keeping the world point `cursor_world`\nvisually fixed under the cursor — i.e. after this call, the same\nworld point still projects to the same viewport pixel it did\nbefore. A no-op if clamping leaves the zoom unchanged (e.g.\nalready at the `3.0` ceiling and zooming in further)."]
+    pub fn zoom_at(&mut self, factor: f64, cursor_world: Py_kovan__mindmap_layout__Point) -> () {
+        ::kovan::mindmap_layout::Camera::zoom_at(&mut self.inner, factor, cursor_world.inner)
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_layout::LayoutState
+#[doc = "World-space positions for every currently laid-out node, plus which of\nthem are manually pinned."]
+#[pyclass(name = "LayoutState", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_layout__LayoutState {
+    pub inner: ::kovan::mindmap_layout::LayoutState,
+}
+#[pymethods]
+impl Py_kovan__mindmap_layout__LayoutState {
+    // @item method:kovan::mindmap_layout::LayoutState::new
+    #[doc = "An empty layout: no positions, nothing pinned."]
+    #[new]
+    pub fn new() -> Py_kovan__mindmap_layout__LayoutState {
+        Py_kovan__mindmap_layout__LayoutState {
+            inner: ::kovan::mindmap_layout::LayoutState::new(),
+        }
+    }
+    // @item method:kovan::mindmap_layout::LayoutState::position
+    #[doc = "The current position of `node_id`, if [`layout`] has placed it."]
+    pub fn position(&self, node_id: String) -> Option<Py_kovan__mindmap_layout__Point> {
+        ::kovan::mindmap_layout::LayoutState::position(&self.inner, &node_id)
+            .map(|e| Py_kovan__mindmap_layout__Point { inner: e })
+    }
+    // @item method:kovan::mindmap_layout::LayoutState::is_pinned
+    #[doc = "Whether `node_id` is currently manually pinned."]
+    pub fn is_pinned(&self, node_id: String) -> bool {
+        ::kovan::mindmap_layout::LayoutState::is_pinned(&self.inner, &node_id)
+    }
+    // @item method:kovan::mindmap_layout::LayoutState::pin
+    #[doc = "Manually pin `node_id` at `p` (e.g. after a user drag). A pinned\nnode keeps this exact position across every subsequent\n[`layout`] call, until [`unpin`](Self::unpin)ned."]
+    pub fn pin(&mut self, node_id: String, p: Py_kovan__mindmap_layout__Point) -> () {
+        ::kovan::mindmap_layout::LayoutState::pin(&mut self.inner, &node_id, p.inner)
+    }
+    // @item method:kovan::mindmap_layout::LayoutState::unpin
+    #[doc = "Release `node_id`'s manual pin — the next [`layout`] call is free\nto place it automatically again."]
+    pub fn unpin(&mut self, node_id: String) -> () {
+        ::kovan::mindmap_layout::LayoutState::unpin(&mut self.inner, &node_id)
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:kovan::mindmap_layout::Point
+#[doc = "A point in world space (the same space [`layout`] places nodes in)."]
+#[pyclass(name = "Point", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_layout__Point {
+    pub inner: ::kovan::mindmap_layout::Point,
+}
+#[pymethods]
+impl Py_kovan__mindmap_layout__Point {
+    // @item field:kovan::mindmap_layout::Point::x
+    #[getter(x)]
+    pub fn get_x(&self) -> f64 {
+        let v = self.inner.x.clone();
+        v
+    }
+    #[setter(x)]
+    pub fn set_x(&mut self, v: f64) {
+        self.inner.x = v;
+    }
+    // @item field:kovan::mindmap_layout::Point::y
+    #[getter(y)]
+    pub fn get_y(&self) -> f64 {
+        let v = self.inner.y.clone();
+        v
+    }
+    #[setter(y)]
+    pub fn set_y(&mut self, v: f64) {
+        self.inner.y = v;
+    }
+    // @item method:kovan::mindmap_layout::Point::new
+    #[doc = ""]
+    #[new]
+    pub fn new(x: f64, y: f64) -> Py_kovan__mindmap_layout__Point {
+        Py_kovan__mindmap_layout__Point {
+            inner: ::kovan::mindmap_layout::Point::new(x, y),
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_model::DetailLevel
+#[doc = "Semantic zoom's three presentation levels (prototype thresholds:\n`< 0.55` compact, `< 1.15` normal, otherwise detailed). Presentation\nonly — see the module doc's rule 2. A GUI caller uses this to decide\nhow much detail to draw on a node, never whether the node is present."]
+#[pyclass(name = "DetailLevel", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_model__DetailLevel {
+    pub inner: ::kovan::mindmap_model::DetailLevel,
+}
+#[pymethods]
+impl Py_kovan__mindmap_model__DetailLevel {
+    // @item variant:kovan::mindmap_model::DetailLevel::Compact
+    #[staticmethod]
+    #[pyo3(name = "Compact")]
+    pub fn v_Compact() -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::DetailLevel::Compact,
+        }
+    }
+    // @item variant:kovan::mindmap_model::DetailLevel::Normal
+    #[staticmethod]
+    #[pyo3(name = "Normal")]
+    pub fn v_Normal() -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::DetailLevel::Normal,
+        }
+    }
+    // @item variant:kovan::mindmap_model::DetailLevel::Detailed
+    #[staticmethod]
+    #[pyo3(name = "Detailed")]
+    pub fn v_Detailed() -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::DetailLevel::Detailed,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::kovan::mindmap_model::DetailLevel::Compact => "Compact",
+            ::kovan::mindmap_model::DetailLevel::Normal => "Normal",
+            ::kovan::mindmap_model::DetailLevel::Detailed => "Detailed",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_model::MapEdge
+#[doc = "One edge in the mindmap's logical graph — either a canonical\n[`KnowledgeGraph`] edge (classification/wiki-link/citation) or a\nuser-authored relation coming in through the [`TypedEdge`] seam.\n`label` is a short, human-readable tag (`\"Classification\"`,\n`\"WikiLink\"`, `\"Cites\"`, or whatever [`TypedEdge::label`] said) —\ndisplay only, never re-parsed to recover the original\n[`crate::graph::EdgeKind`]/`RelationKind`."]
+#[pyclass(name = "MapEdge", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_model__MapEdge {
+    pub inner: ::kovan::mindmap_model::MapEdge,
+}
+#[pymethods]
+impl Py_kovan__mindmap_model__MapEdge {
+    // @item field:kovan::mindmap_model::MapEdge::source
+    #[getter(source)]
+    pub fn get_source(&self) -> String {
+        let v = self.inner.source.clone();
+        v
+    }
+    #[setter(source)]
+    pub fn set_source(&mut self, v: String) {
+        self.inner.source = v;
+    }
+    // @item field:kovan::mindmap_model::MapEdge::target
+    #[getter(target)]
+    pub fn get_target(&self) -> String {
+        let v = self.inner.target.clone();
+        v
+    }
+    #[setter(target)]
+    pub fn set_target(&mut self, v: String) {
+        self.inner.target = v;
+    }
+    // @item field:kovan::mindmap_model::MapEdge::label
+    #[getter(label)]
+    pub fn get_label(&self) -> String {
+        let v = self.inner.label.clone();
+        v
+    }
+    #[setter(label)]
+    pub fn set_label(&mut self, v: String) {
+        self.inner.label = v;
+    }
+    // @item ctor:kovan::mindmap_model::MapEdge
+    #[new]
+    pub fn __new__(source: String, target: String, label: String) -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::MapEdge {
+                source: source,
+                target: target,
+                label: label,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_model::MapNode
+#[doc = "One node in the mindmap's logical graph.\n\n`parent` is the single hierarchy edge [`MindmapModel::visible_nodes`]\nwalks — deliberately not a `Vec` of parents, matching the prototype's\nchoice to keep classification (many-to-many, already a\n[`crate::graph::EdgeKind::Classification`] edge) separate from the tree\na mindmap actually draws chevrons over. A paper today has `parent:\nNone`; its topic/project memberships surface as ordinary edges, not as\na second tree."]
+#[pyclass(name = "MapNode", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_model__MapNode {
+    pub inner: ::kovan::mindmap_model::MapNode,
+}
+#[pymethods]
+impl Py_kovan__mindmap_model__MapNode {
+    // @item field:kovan::mindmap_model::MapNode::id
+    #[getter(id)]
+    pub fn get_id(&self) -> String {
+        let v = self.inner.id.clone();
+        v
+    }
+    #[setter(id)]
+    pub fn set_id(&mut self, v: String) {
+        self.inner.id = v;
+    }
+    // @item field:kovan::mindmap_model::MapNode::kind
+    #[getter(kind)]
+    pub fn get_kind(&self) -> Py_kovan__mindmap_model__MapNodeKind {
+        let v = self.inner.kind.clone();
+        Py_kovan__mindmap_model__MapNodeKind { inner: v }
+    }
+    #[setter(kind)]
+    pub fn set_kind(&mut self, v: Py_kovan__mindmap_model__MapNodeKind) {
+        self.inner.kind = v.inner;
+    }
+    // @item field:kovan::mindmap_model::MapNode::title
+    #[getter(title)]
+    pub fn get_title(&self) -> String {
+        let v = self.inner.title.clone();
+        v
+    }
+    #[setter(title)]
+    pub fn set_title(&mut self, v: String) {
+        self.inner.title = v;
+    }
+    // @item field:kovan::mindmap_model::MapNode::parent
+    #[getter(parent)]
+    pub fn get_parent(&self) -> Option<String> {
+        let v = self.inner.parent.clone();
+        v.map(|e| e)
+    }
+    #[setter(parent)]
+    pub fn set_parent(&mut self, v: Option<String>) {
+        self.inner.parent = v.map(|e| e);
+    }
+    // @item field:kovan::mindmap_model::MapNode::subtitle
+    #[getter(subtitle)]
+    pub fn get_subtitle(&self) -> String {
+        let v = self.inner.subtitle.clone();
+        v
+    }
+    #[setter(subtitle)]
+    pub fn set_subtitle(&mut self, v: String) {
+        self.inner.subtitle = v;
+    }
+    // @item ctor:kovan::mindmap_model::MapNode
+    #[new]
+    pub fn __new__(
+        id: String,
+        kind: Py_kovan__mindmap_model__MapNodeKind,
+        title: String,
+        parent: Option<String>,
+        subtitle: String,
+    ) -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::MapNode {
+                id: id,
+                kind: kind.inner,
+                title: title,
+                parent: parent.map(|e| e),
+                subtitle: subtitle,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_model::MapNodeKind
+#[doc = "What kind of thing a [`MapNode`] represents.\n\nA thin classification over the node id's own namespace\n(`collection:`/`paper:`/`artifact:`, per [`crate::graph`]) — kept as an\nenum, not re-derived from the id string at every use site, so a `match`\non it is exhaustive and a new collection/artifact kind is a compile\nerror everywhere it matters."]
+#[pyclass(name = "MapNodeKind", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_model__MapNodeKind {
+    pub inner: ::kovan::mindmap_model::MapNodeKind,
+}
+#[pymethods]
+impl Py_kovan__mindmap_model__MapNodeKind {
+    // @item variant:kovan::mindmap_model::MapNodeKind::Collection
+    #[staticmethod]
+    #[pyo3(name = "Collection")]
+    pub fn v_Collection(a0: Py_kovan__entity__EntityKind) -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::MapNodeKind::Collection(a0.inner),
+        }
+    }
+    // @item variant:kovan::mindmap_model::MapNodeKind::Paper
+    #[staticmethod]
+    #[pyo3(name = "Paper")]
+    pub fn v_Paper() -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::MapNodeKind::Paper,
+        }
+    }
+    // @item variant:kovan::mindmap_model::MapNodeKind::Artifact
+    #[staticmethod]
+    #[pyo3(name = "Artifact")]
+    pub fn v_Artifact(a0: Py_kovan__artifact__ArtifactKind) -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::MapNodeKind::Artifact(a0.inner),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::kovan::mindmap_model::MapNodeKind::Collection(..) => "Collection",
+            ::kovan::mindmap_model::MapNodeKind::Paper => "Paper",
+            ::kovan::mindmap_model::MapNodeKind::Artifact(..) => "Artifact",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_model::MindmapModel
+#[doc = "The mindmap view-model: every known node/edge, plus the user-controlled\nexpansion/selection/zoom state layered over them.\n\nConstruct with [`build_model`] from a live library, or assemble by hand\nwith [`MindmapModel::add_node`]/[`add_edge`](Self::add_edge) for tests\n(see this module's own test suite for the latter)."]
+#[pyclass(name = "MindmapModel", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_model__MindmapModel {
+    pub inner: ::kovan::mindmap_model::MindmapModel,
+}
+#[pymethods]
+impl Py_kovan__mindmap_model__MindmapModel {
+    // @item method:kovan::mindmap_model::MindmapModel::new
+    #[doc = "An empty model with no nodes/edges, nothing expanded, nothing\nselected, and zoom at `1.0` (matches the prototype's default)."]
+    #[new]
+    pub fn new() -> Py_kovan__mindmap_model__MindmapModel {
+        Py_kovan__mindmap_model__MindmapModel {
+            inner: ::kovan::mindmap_model::MindmapModel::new(),
+        }
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::add_node
+    #[doc = "Add (or replace) one node. Registers it under its parent's child\nlist when `node.parent` is `Some`."]
+    pub fn add_node(&mut self, node: Py_kovan__mindmap_model__MapNode) -> () {
+        ::kovan::mindmap_model::MindmapModel::add_node(&mut self.inner, node.inner)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::add_edge
+    #[doc = "Add one edge — a canonical [`KnowledgeGraph`] edge or a\nuser-relation [`TypedEdge`], already converted to a [`MapEdge`] by\nthe caller (see [`build_model`])."]
+    pub fn add_edge(&mut self, edge: Py_kovan__mindmap_model__MapEdge) -> () {
+        ::kovan::mindmap_model::MindmapModel::add_edge(&mut self.inner, edge.inner)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::node
+    #[doc = "Look a node up by id."]
+    pub fn node(&self, id: String) -> Option<Py_kovan__mindmap_model__MapNode> {
+        ::kovan::mindmap_model::MindmapModel::node(&self.inner, &id)
+            .map(|e| Py_kovan__mindmap_model__MapNode { inner: e.clone() })
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::children_of
+    #[doc = "The ids of `id`'s direct children in the hierarchy tree, in the\norder they were added. Empty (not an error) for a node with no\nchildren, or for an id the model does not know."]
+    pub fn children_of(&self, id: String) -> Vec<String> {
+        ::kovan::mindmap_model::MindmapModel::children_of(&self.inner, &id)
+            .clone()
+            .iter()
+            .cloned()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::toggle
+    #[doc = "Flip `node_id` between expanded and collapsed."]
+    pub fn toggle(&mut self, node_id: String) -> () {
+        ::kovan::mindmap_model::MindmapModel::toggle(&mut self.inner, &node_id)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::expand
+    #[doc = "Explicitly expand `node_id` (a no-op if already expanded, or if\n`node_id` is not a known node — expansion state for an id the\nmodel has never seen is harmless and simply has no visible\neffect)."]
+    pub fn expand(&mut self, node_id: String) -> () {
+        ::kovan::mindmap_model::MindmapModel::expand(&mut self.inner, &node_id)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::collapse
+    #[doc = "Explicitly collapse `node_id`."]
+    pub fn collapse(&mut self, node_id: String) -> () {
+        ::kovan::mindmap_model::MindmapModel::collapse(&mut self.inner, &node_id)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::is_expanded
+    #[doc = "Whether `node_id` is currently expanded."]
+    pub fn is_expanded(&self, node_id: String) -> bool {
+        ::kovan::mindmap_model::MindmapModel::is_expanded(&self.inner, &node_id)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::selected
+    #[doc = "The currently selected node, if any."]
+    pub fn selected(&self) -> Option<String> {
+        ::kovan::mindmap_model::MindmapModel::selected(&self.inner).map(|e| e.clone().to_string())
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::focus
+    #[doc = "Select `node_id` and expand only its ancestor path — the headless\nequivalent of egui's \"Show in Mindmap\" / \"Centre Selection\". Never\ntouches any node outside that path: siblings, other relations and\nunrelated branches stay exactly as expanded/collapsed as they were.\n\n# Errors\n\n[`UnknownNodeError`] if `node_id` has never been\n[`add_node`](Self::add_node)-ed."]
+    pub fn focus(&mut self, node_id: String) -> PyResult<()> {
+        err(::kovan::mindmap_model::MindmapModel::focus(
+            &mut self.inner,
+            &node_id,
+        ))
+        .map(|v| v)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::visible_nodes
+    #[doc = "Every node currently visible: every root (`parent.is_none()`), plus\nthe children of any expanded node, transitively, plus the selected\nnode (kept visible even if its ancestors happen to collapse again —\nmatching the prototype's step 8, \"collapse Terry; target paper\nremains independent\"). Sorted by id for a deterministic, testable\norder — the underlying storage is a `HashMap` with no ordering\nguarantee of its own."]
+    pub fn visible_nodes(&self) -> Vec<Py_kovan__mindmap_model__MapNode> {
+        ::kovan::mindmap_model::MindmapModel::visible_nodes(&self.inner)
+            .into_iter()
+            .map(|e| Py_kovan__mindmap_model__MapNode { inner: e.clone() })
+            .collect::<Vec<_>>()
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::visible_edges
+    #[doc = "Every edge whose `source` and `target` are both currently visible\n(per [`visible_nodes`](Self::visible_nodes))."]
+    pub fn visible_edges(&self) -> Vec<Py_kovan__mindmap_model__MapEdge> {
+        ::kovan::mindmap_model::MindmapModel::visible_edges(&self.inner)
+            .into_iter()
+            .map(|e| Py_kovan__mindmap_model__MapEdge { inner: e.clone() })
+            .collect::<Vec<_>>()
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::zoom
+    #[doc = "The current zoom factor."]
+    pub fn zoom(&self) -> f64 {
+        ::kovan::mindmap_model::MindmapModel::zoom(&self.inner)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::zoom_by
+    #[doc = "Multiply the zoom factor by `factor`, clamped to `[0.25, 3.0]`\n(matching [`crate::mindmap_layout::Camera`]'s clamp). Never touches\n`expanded`/`selected` — see the module doc's rule 2."]
+    pub fn zoom_by(&mut self, factor: f64) -> () {
+        ::kovan::mindmap_model::MindmapModel::zoom_by(&mut self.inner, factor)
+    }
+    // @item method:kovan::mindmap_model::MindmapModel::detail_level
+    #[doc = "The presentation level implied by the current zoom."]
+    pub fn detail_level(&self) -> Py_kovan__mindmap_model__DetailLevel {
+        Py_kovan__mindmap_model__DetailLevel {
+            inner: ::kovan::mindmap_model::MindmapModel::detail_level(&self.inner),
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:kovan::mindmap_model::TypedEdge
+#[doc = "The seam this module exposes for user-authored typed relations, until\n`op-30um.1` lands the canonical `RelationKind`/`UserRelation` model in\n[`crate::relation`].\n\nThis is deliberately **not** the canonical relation type — it is a\nplain, engine-agnostic `(source, target, label)` triple. Once\n`op-30um.1` exists, its expected shape is a small adapter at the\n`build_model` call site that turns each `UserRelation` into one\n`TypedEdge` (`label` from `RelationKind`'s `Display`/`Debug`, most\nlikely) — this module should not need to change for that to happen."]
+#[pyclass(name = "TypedEdge", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_model__TypedEdge {
+    pub inner: ::kovan::mindmap_model::TypedEdge,
+}
+#[pymethods]
+impl Py_kovan__mindmap_model__TypedEdge {
+    // @item field:kovan::mindmap_model::TypedEdge::source
+    #[getter(source)]
+    pub fn get_source(&self) -> String {
+        let v = self.inner.source.clone();
+        v
+    }
+    #[setter(source)]
+    pub fn set_source(&mut self, v: String) {
+        self.inner.source = v;
+    }
+    // @item field:kovan::mindmap_model::TypedEdge::target
+    #[getter(target)]
+    pub fn get_target(&self) -> String {
+        let v = self.inner.target.clone();
+        v
+    }
+    #[setter(target)]
+    pub fn set_target(&mut self, v: String) {
+        self.inner.target = v;
+    }
+    // @item field:kovan::mindmap_model::TypedEdge::label
+    #[getter(label)]
+    pub fn get_label(&self) -> String {
+        let v = self.inner.label.clone();
+        v
+    }
+    #[setter(label)]
+    pub fn set_label(&mut self, v: String) {
+        self.inner.label = v;
+    }
+    // @item ctor:kovan::mindmap_model::TypedEdge
+    #[new]
+    pub fn __new__(source: String, target: String, label: String) -> Self {
+        Self {
+            inner: ::kovan::mindmap_model::TypedEdge {
+                source: source,
+                target: target,
+                label: label,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::mindmap_model::UnknownNodeError
+#[doc = "An operation on a [`MindmapModel`] was given a node id the model has\nnever seen (via [`MindmapModel::add_node`])."]
+#[pyclass(name = "UnknownNodeError", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__mindmap_model__UnknownNodeError {
+    pub inner: ::kovan::mindmap_model::UnknownNodeError,
+}
+#[pymethods]
+impl Py_kovan__mindmap_model__UnknownNodeError {
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:kovan::project::DocumentEntry
 #[doc = "One document's entry in `kovan.toml` (design doc §3)."]
 #[pyclass(name = "DocumentEntry", module = "outram_park.kovan")]
@@ -6237,6 +7416,325 @@ impl Py_kovan__project__SectionRanges {
     }
 }
 
+// @item type:kovan::relation::RelationError
+#[doc = "Errors from the connection CRUD operations."]
+#[pyclass(name = "RelationError", module = "outram_park.kovan")]
+pub struct Py_kovan__relation__RelationError {
+    pub inner: ::kovan::relation::RelationError,
+}
+#[pymethods]
+impl Py_kovan__relation__RelationError {
+    // @item variant:kovan::relation::RelationError::SourceNotArtifact
+    #[staticmethod]
+    #[pyo3(name = "SourceNotArtifact")]
+    pub fn v_SourceNotArtifact(a0: String) -> Self {
+        Self {
+            inner: ::kovan::relation::RelationError::SourceNotArtifact(a0),
+        }
+    }
+    // @item variant:kovan::relation::RelationError::SelfRelation
+    #[staticmethod]
+    #[pyo3(name = "SelfRelation")]
+    pub fn v_SelfRelation(a0: String) -> Self {
+        Self {
+            inner: ::kovan::relation::RelationError::SelfRelation(a0),
+        }
+    }
+    // @item variant:kovan::relation::RelationError::ArtifactNotFound
+    #[staticmethod]
+    #[pyo3(name = "ArtifactNotFound")]
+    pub fn v_ArtifactNotFound(citekey: String, artifact_id: String) -> Self {
+        Self {
+            inner: ::kovan::relation::RelationError::ArtifactNotFound {
+                citekey: citekey,
+                artifact_id: artifact_id,
+            },
+        }
+    }
+    // @item variant:kovan::relation::RelationError::RelationNotFound
+    #[staticmethod]
+    #[pyo3(name = "RelationNotFound")]
+    pub fn v_RelationNotFound(a0: String) -> Self {
+        Self {
+            inner: ::kovan::relation::RelationError::RelationNotFound(a0),
+        }
+    }
+    // @item variant:kovan::relation::RelationError::Render
+    #[staticmethod]
+    #[pyo3(name = "Render")]
+    pub fn v_Render(a0: String) -> Self {
+        Self {
+            inner: ::kovan::relation::RelationError::Render(a0),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::kovan::relation::RelationError::SourceNotArtifact(..) => "SourceNotArtifact",
+            ::kovan::relation::RelationError::SelfRelation(..) => "SelfRelation",
+            ::kovan::relation::RelationError::Session(..) => "Session",
+            ::kovan::relation::RelationError::ArtifactNotFound { .. } => "ArtifactNotFound",
+            ::kovan::relation::RelationError::RelationNotFound(..) => "RelationNotFound",
+            ::kovan::relation::RelationError::Render(..) => "Render",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+}
+
+// @item type:kovan::relation::RelationKind
+#[doc = "What kind of relationship a [`UserRelation`] records between two nodes\n(the layer-1 prototype's `RelationKind`, ported verbatim).\n\nDeliberately not exhaustive of every scientific-argument shape a user\nmight want — it is the fixed vocabulary the prototype dogfooded and\nagreed on; widening it is a future decision, not something this module\npre-empts by adding a catch-all variant."]
+#[pyclass(name = "RelationKind", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__relation__RelationKind {
+    pub inner: ::kovan::relation::RelationKind,
+}
+#[pymethods]
+impl Py_kovan__relation__RelationKind {
+    // @item method:kovan::relation::RelationKind::as_str
+    #[doc = "The snake_case wire name, as written in a relation artifact's\n`[relation] kind` and shown in its heading."]
+    pub fn as_str(&self) -> String {
+        ::kovan::relation::RelationKind::as_str(self.inner.clone())
+            .clone()
+            .to_string()
+    }
+    // @item method:kovan::relation::RelationKind::label
+    #[doc = "A short, lower-case, human-readable label, e.g. `\"supports\"` — reads\nnaturally inline (\"this note supports that table\")."]
+    pub fn label(&self) -> String {
+        ::kovan::relation::RelationKind::label(self.inner.clone())
+            .clone()
+            .to_string()
+    }
+    // @item method:kovan::relation::RelationKind::next
+    #[doc = "The next variant in [`Self::ALL`]'s fixed order, wrapping back to the\nfirst after the last — the whole implementation of a UI's \"cycle\nkind\" button, so no call site hand-rolls its own wraparound."]
+    pub fn next(&self) -> Py_kovan__relation__RelationKind {
+        Py_kovan__relation__RelationKind {
+            inner: ::kovan::relation::RelationKind::next(self.inner.clone()),
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::RelatedTo
+    #[staticmethod]
+    #[pyo3(name = "RelatedTo")]
+    pub fn v_RelatedTo() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::RelatedTo,
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::Supports
+    #[staticmethod]
+    #[pyo3(name = "Supports")]
+    pub fn v_Supports() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::Supports,
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::Contradicts
+    #[staticmethod]
+    #[pyo3(name = "Contradicts")]
+    pub fn v_Contradicts() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::Contradicts,
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::DerivedFrom
+    #[staticmethod]
+    #[pyo3(name = "DerivedFrom")]
+    pub fn v_DerivedFrom() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::DerivedFrom,
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::UsesDataFrom
+    #[staticmethod]
+    #[pyo3(name = "UsesDataFrom")]
+    pub fn v_UsesDataFrom() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::UsesDataFrom,
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::Validates
+    #[staticmethod]
+    #[pyo3(name = "Validates")]
+    pub fn v_Validates() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::Validates,
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::VerifiedAgainst
+    #[staticmethod]
+    #[pyo3(name = "VerifiedAgainst")]
+    pub fn v_VerifiedAgainst() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::VerifiedAgainst,
+        }
+    }
+    // @item variant:kovan::relation::RelationKind::Implements
+    #[staticmethod]
+    #[pyo3(name = "Implements")]
+    pub fn v_Implements() -> Self {
+        Self {
+            inner: ::kovan::relation::RelationKind::Implements,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::kovan::relation::RelationKind::RelatedTo => "RelatedTo",
+            ::kovan::relation::RelationKind::Supports => "Supports",
+            ::kovan::relation::RelationKind::Contradicts => "Contradicts",
+            ::kovan::relation::RelationKind::DerivedFrom => "DerivedFrom",
+            ::kovan::relation::RelationKind::UsesDataFrom => "UsesDataFrom",
+            ::kovan::relation::RelationKind::Validates => "Validates",
+            ::kovan::relation::RelationKind::VerifiedAgainst => "VerifiedAgainst",
+            ::kovan::relation::RelationKind::Implements => "Implements",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::relation::RelationRecord
+#[doc = "The `[relation]` table of a relation artifact.\n\nBoth endpoints are explicit: a relation is its own artifact now, not a\nrecord nested inside the thing it starts from, so nothing about it is\nimplied by where it is written. The id lives in `[kovan] id`, like every\nother artifact's."]
+#[pyclass(name = "RelationRecord", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__relation__RelationRecord {
+    pub inner: ::kovan::relation::RelationRecord,
+}
+#[pymethods]
+impl Py_kovan__relation__RelationRecord {
+    // @item field:kovan::relation::RelationRecord::source
+    #[getter(source)]
+    pub fn get_source(&self) -> String {
+        let v = self.inner.source.clone();
+        v
+    }
+    #[setter(source)]
+    pub fn set_source(&mut self, v: String) {
+        self.inner.source = v;
+    }
+    // @item field:kovan::relation::RelationRecord::target
+    #[getter(target)]
+    pub fn get_target(&self) -> String {
+        let v = self.inner.target.clone();
+        v
+    }
+    #[setter(target)]
+    pub fn set_target(&mut self, v: String) {
+        self.inner.target = v;
+    }
+    // @item field:kovan::relation::RelationRecord::kind
+    #[getter(kind)]
+    pub fn get_kind(&self) -> Py_kovan__relation__RelationKind {
+        let v = self.inner.kind.clone();
+        Py_kovan__relation__RelationKind { inner: v }
+    }
+    #[setter(kind)]
+    pub fn set_kind(&mut self, v: Py_kovan__relation__RelationKind) {
+        self.inner.kind = v.inner;
+    }
+    // @item ctor:kovan::relation::RelationRecord
+    #[new]
+    pub fn __new__(source: String, target: String, kind: Py_kovan__relation__RelationKind) -> Self {
+        Self {
+            inner: ::kovan::relation::RelationRecord {
+                source: source,
+                target: target,
+                kind: kind.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:kovan::relation::UserRelation
+#[doc = "One user-authored relation between two graph nodes, in memory.\n\nThis is the full triple a caller reasons about; only [`RelationRecord`]\n(the `target`/`kind` half, with `source` implicit) is ever written to\ndisk — see the module docs for why."]
+#[pyclass(name = "UserRelation", module = "outram_park.kovan")]
+#[derive(Clone)]
+pub struct Py_kovan__relation__UserRelation {
+    pub inner: ::kovan::relation::UserRelation,
+}
+#[pymethods]
+impl Py_kovan__relation__UserRelation {
+    // @item field:kovan::relation::UserRelation::id
+    #[getter(id)]
+    pub fn get_id(&self) -> String {
+        let v = self.inner.id.clone();
+        v
+    }
+    #[setter(id)]
+    pub fn set_id(&mut self, v: String) {
+        self.inner.id = v;
+    }
+    // @item field:kovan::relation::UserRelation::source
+    #[getter(source)]
+    pub fn get_source(&self) -> String {
+        let v = self.inner.source.clone();
+        v
+    }
+    #[setter(source)]
+    pub fn set_source(&mut self, v: String) {
+        self.inner.source = v;
+    }
+    // @item field:kovan::relation::UserRelation::target
+    #[getter(target)]
+    pub fn get_target(&self) -> String {
+        let v = self.inner.target.clone();
+        v
+    }
+    #[setter(target)]
+    pub fn set_target(&mut self, v: String) {
+        self.inner.target = v;
+    }
+    // @item field:kovan::relation::UserRelation::kind
+    #[getter(kind)]
+    pub fn get_kind(&self) -> Py_kovan__relation__RelationKind {
+        let v = self.inner.kind.clone();
+        Py_kovan__relation__RelationKind { inner: v }
+    }
+    #[setter(kind)]
+    pub fn set_kind(&mut self, v: Py_kovan__relation__RelationKind) {
+        self.inner.kind = v.inner;
+    }
+    // @item ctor:kovan::relation::UserRelation
+    #[new]
+    pub fn __new__(
+        id: String,
+        source: String,
+        target: String,
+        kind: Py_kovan__relation__RelationKind,
+    ) -> Self {
+        Self {
+            inner: ::kovan::relation::UserRelation {
+                id: id,
+                source: source,
+                target: target,
+                kind: kind.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:kovan::repository::RepositoryError
 #[doc = ""]
 #[pyclass(name = "RepositoryError", module = "outram_park.kovan")]
@@ -6577,8 +8075,15 @@ impl Py_kovan__root__KovanRoot {
             .to_string_lossy()
             .into_owned()
     }
+    // @item method:kovan::root::KovanRoot::mindmap_markdown
+    #[doc = "Absolute path of one paper's canonical research Markdown,\n`papers/<citekey>/<citekey>.md` (§12).\n\nThe directory name, the filename, the wiki-link target and the citation\nkey are all the same string — that is the point of the §7 amendment.\nThe library's mindmap document, `<root>/mindmap.md`.\n\nTracked, human-readable Markdown in the same artifact schema as any\npaper — the mindmap is not a private binary or a `.kovan/` cache.\nEvery relation artifact lives here (maintainer direction, GH issue\n#35, 2026-09-08), so the connectors between papers are one file a\nreader can open, diff and review, rather than being scattered\nthrough the papers they join."]
+    pub fn mindmap_markdown(&self) -> String {
+        ::kovan::root::KovanRoot::mindmap_markdown(&self.inner)
+            .to_string_lossy()
+            .into_owned()
+    }
     // @item method:kovan::root::KovanRoot::paper_markdown
-    #[doc = "Absolute path of one paper's canonical research Markdown,\n`papers/<citekey>/<citekey>.md` (§12).\n\nThe directory name, the filename, the wiki-link target and the citation\nkey are all the same string — that is the point of the §7 amendment."]
+    #[doc = ""]
     pub fn paper_markdown(&self, citekey: String) -> String {
         ::kovan::root::KovanRoot::paper_markdown(&self.inner, &citekey)
             .to_string_lossy()
@@ -7002,6 +8507,11 @@ impl Py_kovan__session__PaperSession {
     pub fn append_block(&mut self, heading_and_block: String) -> () {
         ::kovan::session::PaperSession::append_block(&mut self.inner, &heading_and_block)
     }
+    // @item method:kovan::session::PaperSession::reload
+    #[doc = "Re-read the paper's Markdown from disk, replacing the buffer and\nclearing the dirty flag.\n\nNeeded because a few operations deliberately work on their own\nshort-lived sessions rather than this one —\n[`crate::classify::delete_artifact_cascade`] must edit *several*\npapers' files (an incoming relation lives in the other paper's\nMarkdown), so it opens each from disk and saves it. Without this, a\nGUI holding an open session would keep showing the deleted artifact\nand would write its stale buffer back over the deletion on the next\nsave. Call it after any such out-of-band write.\n\nDiscards unsaved edits: save first if the buffer matters."]
+    pub fn reload(&mut self) -> PyResult<()> {
+        err(::kovan::session::PaperSession::reload(&mut self.inner)).map(|v| v)
+    }
     // @item method:kovan::session::PaperSession::save_document
     #[doc = "§37's \"Save Document\": write the buffer to disk. Does not stage or\ncommit anything — that is `op-9vo6.19`'s separate \"Save Repository\"."]
     pub fn save_document(&mut self) -> PyResult<()> {
@@ -7372,7 +8882,7 @@ pub fn fn_kovan__artifact__parse_document(markdown: String) -> Py_kovan__artifac
 }
 
 // @item fn:kovan::artifact::render_artifact_block
-#[doc = "Render `heading`/`toml`/`body` as the Markdown block §13 defines:\nheading, immediately followed by a fenced `toml` block, followed by the\nbody. The exact counterpart to [`parse_document`] — text produced here\nre-parses to an equivalent [`Artifact`] (see the round-trip test below).\n\n`level` is the heading depth, 1 for `#` through 6 for `######` — same\nmeaning as [`Artifact::level`].\n\n# Errors\n\nOnly if `toml`'s own TOML serialisation fails, which cannot happen for\nits field types (see [`ArtifactToml`]'s fields) — the `Result` spares\ncallers an `unwrap`."]
+#[doc = ""]
 #[pyfunction(name = "render_artifact_block")]
 pub fn fn_kovan__artifact__render_artifact_block(
     level: u8,
@@ -7387,6 +8897,20 @@ pub fn fn_kovan__artifact__render_artifact_block(
         &body,
     ))
     .map(|v| v)
+}
+
+// @item fn:kovan::artifact::render_csv_body
+#[doc = "Render `heading`/`toml`/`body` as the Markdown block §13 defines:\nheading, immediately followed by a fenced `toml` block, followed by the\nbody. The exact counterpart to [`parse_document`] — text produced here\nre-parses to an equivalent [`Artifact`] (see the round-trip test below).\n\n`level` is the heading depth, 1 for `#` through 6 for `######` — same\nmeaning as [`Artifact::level`].\n\n# Errors\n\nOnly if `toml`'s own TOML serialisation fails, which cannot happen for\nits field types (see [`ArtifactToml`]'s fields) — the `Result` spares\ncallers an `unwrap`.\nWrap `csv_data` — the header row plus data rows, and nothing else — as a\nsentinel-delimited fenced CSV body ready for\n[`render_artifact_block`].\n\nThe provenance that used to sit in `#` comments inside the fence belongs\nin the artifact's `[extraction]` table instead (see [`Extraction`]), so\nwhat lands between the backticks is exactly what a spreadsheet would\nread."]
+#[pyfunction(name = "render_csv_body")]
+pub fn fn_kovan__artifact__render_csv_body(csv_data: String) -> String {
+    ::kovan::artifact::render_csv_body(&csv_data)
+}
+
+// @item fn:kovan::artifact::render_latex_body
+#[doc = "Wrap `latex` — a BibTeX record or a formula — as a fenced ```latex\nblock, the schema's third block type alongside ```toml (metadata) and\n```csv (data)."]
+#[pyfunction(name = "render_latex_body")]
+pub fn fn_kovan__artifact__render_latex_body(latex: String) -> String {
+    ::kovan::artifact::render_latex_body(&latex)
 }
 
 // @item fn:kovan::autocomplete::artifact_candidates
@@ -7413,6 +8937,26 @@ pub fn fn_kovan__autocomplete__citation_candidates(
         .into_iter()
         .map(|e| Py_kovan__autocomplete__Candidate { inner: e })
         .collect::<Vec<_>>()
+}
+
+// @item fn:kovan::autocomplete::library_candidates
+#[doc = "One library-wide fuzzy search across every paper, artifact, topic and\nproject `root` currently has, so a single field (e.g. an \"Add\nconnection...\" target picker) can search the whole library instead of\nfanning out over each paper's own [`ResearchRecordIndex`] by hand.\n\n`kinds` restricts which [`CandidateKind`]s are searched at all — pass\n`&[]` to search every kind. Filtering this way (rather than searching\neverything and letting the caller discard rows) is what lets a caller\nskip the expensive half described below when it doesn't need artifacts.\n\n# Paper matching reuses [`citation_candidates`], not just the citekey\n\nA `Paper` hit is produced by calling [`citation_candidates`] (which\nsearches citekey, author, title, year and DOI from the bibliography)\nand keeping only the results whose citekey is also in `index.papers` —\nthe bibliography can list papers that were never added to this library,\nand those must not appear here. This means a query for an author\nsurname or a title word finds a paper here exactly as it would in the\n`@`-completion popup; matching on citekey alone was tried and rejected\nbecause it silently narrowed this surface below what already shipped.\n\nOne consequence: a "]
+#[pyfunction(name = "library_candidates")]
+pub fn fn_kovan__autocomplete__library_candidates(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+    index: PyRef<'_, Py_kovan__index__KnowledgeIndex>,
+    query: String,
+    kinds: Vec<Py_kovan__autocomplete__CandidateKind>,
+) -> Vec<Py_kovan__autocomplete__LibraryCandidate> {
+    ::kovan::autocomplete::library_candidates(
+        &root.inner,
+        &index.inner,
+        &query,
+        &kinds.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+    )
+    .into_iter()
+    .map(|e| Py_kovan__autocomplete__LibraryCandidate { inner: e })
+    .collect::<Vec<_>>()
 }
 
 // @item fn:kovan::autocomplete::wiki_candidates
@@ -7450,6 +8994,36 @@ pub fn fn_kovan__classify__classify_selection(
         &body,
     ))
     .map(|v| Py_kovan__artifact__Artifact { inner: v })
+}
+
+// @item fn:kovan::classify::delete_artifact_cascade
+#[doc = "Delete artifact `artifact_id` from paper `citekey`, **and** every\n[`crate::relation::UserRelation`] incident to it (as either its source or\nits target), as one operation this function owns end to end (op-30um.2).\n\n# Design: the confirm dialog only decides whether to call this\n\nThe layer-1 prototype's requirement is that the egui \"Delete\nannotation...\" confirmation (\"Sure anot? [No] [Yes]\") must not itself\nwalk the graph, delete edges, or leave a half-applied state — it may only\ndecide whether this function is called at all. No: nothing runs, nothing\nchanges. Yes: this function runs exactly once and owns every step.\n\n# What \"one transaction\" means here, and its real limit\n\n**Checked before anything is written:** the artifact must actually exist\nin `citekey`'s paper, or this returns\n[`CascadeError::ArtifactNotFound`] having touched no file at all — a\nfailed precondition can never leave a partial mutation behind.\n\n**Ordered once writing starts:** incident relations are removed first\n([`crate::relation::delete_incident`]), the artifact's own block second.\nIf the process is interrupted between the two, the surviving state is\n\"artifact still present, no relations pointing at it\" rather t"]
+#[pyfunction(name = "delete_artifact_cascade")]
+pub fn fn_kovan__classify__delete_artifact_cascade(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+    index: PyRef<'_, Py_kovan__index__KnowledgeIndex>,
+    citekey: String,
+    artifact_id: String,
+) -> PyResult<usize> {
+    err(::kovan::classify::delete_artifact_cascade(
+        &root.inner,
+        &index.inner,
+        &citekey,
+        &artifact_id,
+    ))
+    .map(|v| v)
+}
+
+// @item fn:kovan::classify::find_legacy_csv_sections
+#[doc = "Every legacy digitiser CSV section in `md`, in document order.\n\nRecognises a level-3 heading whose text either is `Digitised table` or is\nfollowed by the ` — page N, pixel bbox [...], <timestamp>, <author>` tail\nthe legacy writers appended, and which is followed by a ```csv fence. A\nheading with no CSV fence before the next heading is not a legacy section\nand is skipped.\n\nPure: takes and returns owned data, touches no file, so the recogniser is\nunit-testable without a session or a PDF."]
+#[pyfunction(name = "find_legacy_csv_sections")]
+pub fn fn_kovan__classify__find_legacy_csv_sections(
+    md: String,
+) -> Vec<Py_kovan__classify__LegacyCsvSection> {
+    ::kovan::classify::find_legacy_csv_sections(&md)
+        .into_iter()
+        .map(|e| Py_kovan__classify__LegacyCsvSection { inner: e })
+        .collect::<Vec<_>>()
 }
 
 // @item fn:kovan::classify::insert_artifact
@@ -7873,8 +9447,15 @@ pub fn fn_kovan__digitiser__frontend__parse_strategy(
 // @item fn:kovan::digitiser::gui::run
 #[doc = "Open the digitiser window, optionally pre-loading `image_arg` as the plot\nimage. Blocks until the window is closed."]
 #[pyfunction(name = "run")]
-pub fn fn_kovan__digitiser__gui__run(image_arg: Option<String>) -> PyResult<()> {
-    err(::kovan::digitiser::gui::run(image_arg.map(|e| e))).map(|v| v)
+pub fn fn_kovan__digitiser__gui__run(
+    image_arg: Option<String>,
+    startup: Py_kovan__digitiser__gui__Startup,
+) -> PyResult<()> {
+    err(::kovan::digitiser::gui::run(
+        image_arg.map(|e| e),
+        startup.inner,
+    ))
+    .map(|v| v)
 }
 
 // @item fn:kovan::digitiser::synthetic::render_synthetic_plot
@@ -8035,6 +9616,72 @@ pub fn fn_kovan__mindmap__literature_card(
     }
 }
 
+// @item fn:kovan::mindmap_layout::ascii_render
+#[doc = "Render `model`'s currently visible hierarchy (per [`layout`]'s same\nvisibility rules — this function does not itself decide what is\nvisible, it only draws what [`MindmapModel::visible_nodes`] already\nsaid) as a fixed-width ASCII tree, followed by a `RELATIONS` section\nlisting every currently visible edge.\n\nThis is a **harness check, not physics/UI validation** — it exists so\nthe mindmap's hierarchy and expansion behaviour can be asserted in a\nplain `#[test]` with no window, exactly like this workspace's headless-\nmode rule for egui simulators. It says nothing about whether the actual\negui rendering (colour, pixel layout, hit-testing) is correct.\n\n`width` is accepted for API stability with the prototype (a future\nwrapping/truncation pass may use it) but the current renderer does not\nwrap long lines — every line's `[KIND] Title` may exceed `width` for a\nlong title, which is preferable to silently truncating a title a test\nfixture then can't distinguish from another."]
+#[pyfunction(name = "ascii_render")]
+pub fn fn_kovan__mindmap_layout__ascii_render(
+    model: PyRef<'_, Py_kovan__mindmap_model__MindmapModel>,
+    state: PyRef<'_, Py_kovan__mindmap_layout__LayoutState>,
+    _width: usize,
+) -> String {
+    ::kovan::mindmap_layout::ascii_render(&model.inner, &state.inner, _width)
+}
+
+// @item fn:kovan::mindmap_layout::layout
+#[doc = "Lay out `model`'s *currently visible* nodes (per\n[`MindmapModel::visible_nodes`]) as a stable left-to-right hierarchy\ndiagram: each root starts a horizontal lane at `x = 0`, each child is\none `x_gap` further right than its parent, and a parent's `y` is the\naverage of its children's `y` (a leaf just takes the next free `y` in\nits lane, `y_gap` apart). Independent roots are separated vertically by\n`root_gap` so unrelated papers/collections don't run into each other.\n\n**Only hierarchy drives this — see the module's DESIGN RULE.** Cross-\nlinks ([`MindmapModel::visible_edges`]) are never consulted here.\n\n`previous` carries forward pinned positions (see [`LayoutState::pin`])\nso a relayout after a topology change (an expand/collapse, a focus)\nnever moves a node the user has manually placed, and — because the\nautomatic placement algorithm itself is a pure function of the visible\nhierarchy — re-running `layout` on an unchanged model always places\nevery *unpinned* node at exactly the position it had before, too."]
+#[pyfunction(name = "layout")]
+pub fn fn_kovan__mindmap_layout__layout(
+    model: PyRef<'_, Py_kovan__mindmap_model__MindmapModel>,
+    previous: Option<PyRef<'_, Py_kovan__mindmap_layout__LayoutState>>,
+    x_gap: f64,
+    y_gap: f64,
+    root_gap: f64,
+) -> Py_kovan__mindmap_layout__LayoutState {
+    Py_kovan__mindmap_layout__LayoutState {
+        inner: ::kovan::mindmap_layout::layout(
+            &model.inner,
+            previous.as_ref().map(|r| &r.inner),
+            x_gap,
+            y_gap,
+            root_gap,
+        ),
+    }
+}
+
+// @item fn:kovan::mindmap_layout::layout_default
+#[doc = "Lay out `model` with the prototype's default spacing\n(`x_gap = 280`, `y_gap = 90`, `root_gap = 150`)."]
+#[pyfunction(name = "layout_default")]
+pub fn fn_kovan__mindmap_layout__layout_default(
+    model: PyRef<'_, Py_kovan__mindmap_model__MindmapModel>,
+    previous: Option<PyRef<'_, Py_kovan__mindmap_layout__LayoutState>>,
+) -> Py_kovan__mindmap_layout__LayoutState {
+    Py_kovan__mindmap_layout__LayoutState {
+        inner: ::kovan::mindmap_layout::layout_default(
+            &model.inner,
+            previous.as_ref().map(|r| &r.inner),
+        ),
+    }
+}
+
+// @item fn:kovan::mindmap_model::build_model
+#[doc = "Build a fresh [`MindmapModel`] from a live library: every collection and\npaper from `index`, every artifact of every paper (opened fresh via\n[`PaperSession::open`] — a paper whose session fails to open\ncontributes just its paper node, matching [`crate::mindmap::literature_card`]'s\n\"no session, no artifact counts\" tolerance rather than failing the whole\nbuild), every canonical edge from `graph`, and every `user_edges` entry\nas an additional [`MapEdge`] (see [`TypedEdge`]'s seam documentation).\n\nExpansion/selection/zoom all start at the [`MindmapModel::new`] default\n— this function only populates topology, never opens anything."]
+#[pyfunction(name = "build_model")]
+pub fn fn_kovan__mindmap_model__build_model(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+    index: PyRef<'_, Py_kovan__index__KnowledgeIndex>,
+    graph: PyRef<'_, Py_kovan__graph__KnowledgeGraph>,
+    user_edges: Vec<Py_kovan__mindmap_model__TypedEdge>,
+) -> Py_kovan__mindmap_model__MindmapModel {
+    Py_kovan__mindmap_model__MindmapModel {
+        inner: ::kovan::mindmap_model::build_model(
+            &root.inner,
+            &index.inner,
+            &graph.inner,
+            &user_edges.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        ),
+    }
+}
+
 // @item fn:kovan::project::append_to_section
 #[doc = "Append `block` (already-formatted markdown, e.g. one `### …` subsection\nwith a fenced CSV or an annotation's metadata bullets + free text) to the\nend of `section_name`'s current body, then write it back via\n[`write_section`] — op-96am's \"digitiser export lands its CSV in\n`graph_csvs`/`table_csvs`\" and \"an annotation lands in `annotations`\",\ndesign doc §5's \"a digitiser export landing its CSV into a section\"\ntrigger.\n\nIf `section_name`'s marker doesn't exist in this document yet (an older\ndocument from before schema v2 added `annotations`, or simply the first\nannotation/digitisation ever saved into it), the marker + a default\nheading (`default_heading_for`, private below) are created at the **end of the file**\n— `scan_markdown_sections` does not require markers to appear in\n[`SECTION_ORDER`]'s canonical order within the file, only that each name\nis valid and appears at most once, so this is a safe, non-reordering\nappend rather than a rewrite of the rest of the document."]
 #[pyfunction(name = "append_to_section")]
@@ -8101,6 +9748,82 @@ pub fn fn_kovan__project__write_index(
     .map(|v| v)
 }
 
+// @item fn:kovan::relation::add_connection
+#[doc = "Record a new typed relation from `source` to `target`, as a relation\nartifact appended to `source`'s own paper.\n\n# Errors\n\n[`RelationError::SourceNotArtifact`] when `source` is not an artifact or\npaper node (a collection cannot own a relation, having no file of its\nown), and [`RelationError::Session`]/[`RelationError::Render`] on a\nfailure to read, render or write the paper."]
+#[pyfunction(name = "add_connection")]
+pub fn fn_kovan__relation__add_connection(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+    source: String,
+    target: String,
+    kind: Py_kovan__relation__RelationKind,
+) -> PyResult<Py_kovan__relation__UserRelation> {
+    err(::kovan::relation::add_connection(
+        &root.inner,
+        &source,
+        &target,
+        kind.inner,
+    ))
+    .map(|v| Py_kovan__relation__UserRelation { inner: v })
+}
+
+// @item fn:kovan::relation::connections
+#[doc = "Every relation with `node` at either end.\n\nScans every paper in `index`; see the module docs on why that is\nacceptable at library scale and what would replace it if it stops being."]
+#[pyfunction(name = "connections")]
+pub fn fn_kovan__relation__connections(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+    index: PyRef<'_, Py_kovan__index__KnowledgeIndex>,
+    node: String,
+) -> Vec<Py_kovan__relation__UserRelation> {
+    ::kovan::relation::connections(&root.inner, &index.inner, &node)
+        .into_iter()
+        .map(|e| Py_kovan__relation__UserRelation { inner: e })
+        .collect::<Vec<_>>()
+}
+
+// @item fn:kovan::relation::connections_all
+#[doc = "Every relation in the library, read from the mindmap document.\n\nThe whole-library read the mindmap needs; [`connections`] filters this\nto one node."]
+#[pyfunction(name = "connections_all")]
+pub fn fn_kovan__relation__connections_all(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+) -> Vec<Py_kovan__relation__UserRelation> {
+    ::kovan::relation::connections_all(&root.inner)
+        .into_iter()
+        .map(|e| Py_kovan__relation__UserRelation { inner: e })
+        .collect::<Vec<_>>()
+}
+
+// @item fn:kovan::relation::delete_connection
+#[doc = "Delete relation `id`.\n\n# Errors\n\n[`RelationError::NotFound`] when no relation artifact has that id."]
+#[pyfunction(name = "delete_connection")]
+pub fn fn_kovan__relation__delete_connection(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+    index: PyRef<'_, Py_kovan__index__KnowledgeIndex>,
+    id: String,
+) -> PyResult<()> {
+    err(::kovan::relation::delete_connection(
+        &root.inner,
+        &index.inner,
+        &id,
+    ))
+    .map(|v| v)
+}
+
+// @item fn:kovan::relation::delete_incident
+#[doc = "Delete every relation with `node` at either end, returning how many went.\n\nThis is what makes [`crate::classify::delete_artifact_cascade`] a\ncascade: an *incoming* relation lives in the other paper's file, so\nremoving an artifact has to reach beyond its own document."]
+#[pyfunction(name = "delete_incident")]
+pub fn fn_kovan__relation__delete_incident(
+    root: PyRef<'_, Py_kovan__root__KovanRoot>,
+    index: PyRef<'_, Py_kovan__index__KnowledgeIndex>,
+    node: String,
+) -> PyResult<usize> {
+    err(::kovan::relation::delete_incident(
+        &root.inner,
+        &index.inner,
+        &node,
+    ))
+    .map(|v| v)
+}
+
 // @item fn:kovan::repository::save_repository
 #[doc = "§37's \"Save Repository\": build a tree from the current (non-excluded)\nworktree and commit it with a deterministic summary message, no AI.\nReturns `Ok(None)` — a no-op — when there is nothing to commit.\n\n`op-3gxp`: when a private literature submodule is configured and ready\n(see [`crate::root::KovanRoot::private_submodule_ready`]), its own\nworktree is committed **first** ([`save_private_submodule`]), before\nanything about the parent repository is touched — a failure there aborts\nthis whole call via `?`, so a parent commit can never reference an\ninvalid or uncommitted submodule state. The parent tree then records the\nsubmodule's current commit as a gitlink entry (see [`SubmoduleGitlink`])\ninstead of walking its contents, and `.gitmodules` is written/refreshed\nso real `git submodule` tooling recognises it too. When no private\nsubmodule is configured or ready, behaviour is unchanged from before\nthis existed: the directory is excluded from the parent tree entirely,\nsame as any other gitignored, local-only content."]
 #[pyfunction(name = "save_repository")]
@@ -8131,6 +9854,7 @@ pub fn fn_kovan__root__gitignore_for(
     ::kovan::root::gitignore_for(&paths.inner, private_submodule.as_ref().map(|r| &r.inner))
 }
 
+// @item const:kovan::artifact::ARTIFACT_LEVEL
 // @item const:kovan::commands::skill_gen::DEFAULT_OUT
 // @item const:kovan::digitiser::dataset::DATASET_SCHEMA_VERSION
 // @item const:kovan::digitiser::table_ocr::TABLE_SCHEMA_VERSION
@@ -8140,6 +9864,7 @@ pub fn fn_kovan__root__gitignore_for(
 // @item const:kovan::graph::GRAPH_SCHEMA_VERSION
 // @item const:kovan::index::INDEX_SCHEMA_VERSION
 // @item const:kovan::project::PROJECT_SCHEMA_VERSION
+// @item const:kovan::relation::MINDMAP_DOC
 // @item const:kovan::root::ROOT_MARKER
 // @item const:kovan::root::SCHEMA_VERSION
 // @item const:kovan::root::STATE_DIR
@@ -8157,7 +9882,11 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_kovan__artifact__Region>()?;
     m.add_class::<Py_kovan__artifact__SourceAnchor>()?;
     m.add_class::<Py_kovan__autocomplete__Candidate>()?;
+    m.add_class::<Py_kovan__autocomplete__CandidateKind>()?;
+    m.add_class::<Py_kovan__autocomplete__LibraryCandidate>()?;
+    m.add_class::<Py_kovan__classify__CascadeError>()?;
     m.add_class::<Py_kovan__classify__ClassifyError>()?;
+    m.add_class::<Py_kovan__classify__LegacyCsvSection>()?;
     m.add_class::<Py_kovan__commands__KindArg>()?;
     m.add_class::<Py_kovan__commands__LangArg>()?;
     m.add_class::<Py_kovan__commands__api_docs__Scope>()?;
@@ -8192,6 +9921,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_kovan__digitiser__detect__DetectConfig>()?;
     m.add_class::<Py_kovan__digitiser__detect__PixelRect>()?;
     m.add_class::<Py_kovan__digitiser__frontend__AutoArgs>()?;
+    m.add_class::<Py_kovan__digitiser__gui__Startup>()?;
     m.add_class::<Py_kovan__digitiser__raster__PlotRaster>()?;
     m.add_class::<Py_kovan__digitiser__synthetic__SyntheticPlotSpec>()?;
     m.add_class::<Py_kovan__digitiser__table_ocr__RecognizedTable>()?;
@@ -8222,11 +9952,26 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_kovan__mindmap__LiteratureCard>()?;
     m.add_class::<Py_kovan__mindmap__MindmapAction>()?;
     m.add_class::<Py_kovan__mindmap__MindmapState>()?;
+    m.add_class::<Py_kovan__mindmap_layout__Bounds>()?;
+    m.add_class::<Py_kovan__mindmap_layout__Camera>()?;
+    m.add_class::<Py_kovan__mindmap_layout__LayoutState>()?;
+    m.add_class::<Py_kovan__mindmap_layout__Point>()?;
+    m.add_class::<Py_kovan__mindmap_model__DetailLevel>()?;
+    m.add_class::<Py_kovan__mindmap_model__MapEdge>()?;
+    m.add_class::<Py_kovan__mindmap_model__MapNode>()?;
+    m.add_class::<Py_kovan__mindmap_model__MapNodeKind>()?;
+    m.add_class::<Py_kovan__mindmap_model__MindmapModel>()?;
+    m.add_class::<Py_kovan__mindmap_model__TypedEdge>()?;
+    m.add_class::<Py_kovan__mindmap_model__UnknownNodeError>()?;
     m.add_class::<Py_kovan__project__DocumentEntry>()?;
     m.add_class::<Py_kovan__project__ProjectError>()?;
     m.add_class::<Py_kovan__project__ProjectIndex>()?;
     m.add_class::<Py_kovan__project__SectionContent>()?;
     m.add_class::<Py_kovan__project__SectionRanges>()?;
+    m.add_class::<Py_kovan__relation__RelationError>()?;
+    m.add_class::<Py_kovan__relation__RelationKind>()?;
+    m.add_class::<Py_kovan__relation__RelationRecord>()?;
+    m.add_class::<Py_kovan__relation__UserRelation>()?;
     m.add_class::<Py_kovan__repository__RepositoryError>()?;
     m.add_class::<Py_kovan__repository__SaveSummary>()?;
     m.add_class::<Py_kovan__research_record__ResearchRecordIndex>()?;
@@ -8259,6 +10004,8 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         fn_kovan__artifact__render_artifact_block,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__artifact__render_csv_body, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__artifact__render_latex_body, m)?)?;
     m.add_function(wrap_pyfunction!(
         fn_kovan__autocomplete__artifact_candidates,
         m
@@ -8268,10 +10015,22 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_kovan__autocomplete__library_candidates,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_kovan__autocomplete__wiki_candidates,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__classify__classify_selection, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_kovan__classify__delete_artifact_cascade,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_kovan__classify__find_legacy_csv_sections,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__classify__insert_artifact, m)?)?;
     m.add_function(wrap_pyfunction!(
         fn_kovan__classify__replace_artifact_body,
@@ -8367,6 +10126,13 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_kovan__ingest__ingest, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__ingest__preview, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__mindmap__literature_card, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__mindmap_layout__ascii_render, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__mindmap_layout__layout, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_kovan__mindmap_layout__layout_default,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__mindmap_model__build_model, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__project__append_to_section, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__project__regenerate, m)?)?;
     m.add_function(wrap_pyfunction!(
@@ -8378,9 +10144,15 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__project__write_index, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__relation__add_connection, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__relation__connections, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__relation__connections_all, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__relation__delete_connection, m)?)?;
+    m.add_function(wrap_pyfunction!(fn_kovan__relation__delete_incident, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__repository__save_repository, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__repository__status, m)?)?;
     m.add_function(wrap_pyfunction!(fn_kovan__root__gitignore_for, m)?)?;
+    m.add("ARTIFACT_LEVEL", ::kovan::artifact::ARTIFACT_LEVEL)?;
     m.add(
         "DEFAULT_OUT",
         ::kovan::commands::skill_gen::DEFAULT_OUT
@@ -8406,6 +10178,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add(
         "PROJECT_SCHEMA_VERSION",
         ::kovan::project::PROJECT_SCHEMA_VERSION,
+    )?;
+    m.add(
+        "MINDMAP_DOC",
+        ::kovan::relation::MINDMAP_DOC.clone().to_string(),
     )?;
     m.add(
         "ROOT_MARKER",

@@ -883,13 +883,6 @@ impl Py_outram_foam_mesh__block_mesh__BlockMeshDict {
     pub fn set_patches(&mut self, v: Vec<Py_outram_foam_mesh__block_mesh__PatchDef>) {
         self.inner.patches = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
     }
-    // @item method:outram_foam_mesh::block_mesh::BlockMeshDict::parse
-    #[doc = "Parse `blockMeshDict` text into a [`BlockMeshDict`].\n\nHandles `//` and `/* */` comments, the `FoamFile` header, and the\n`convertToMeters`/`scale`, `vertices`, `blocks`, `edges` (skipped),\n`boundary`/`patches`, and `mergePatchPairs` (skipped) entries. See the\nmodule docs for deferred features.\n\n# Errors\n[`MeshError::DictParse`] on malformed syntax; [`MeshError::NotImplemented`]\nfor an unsupported block shape (only `hex`). All grading forms —\n`simpleGrading`, multi-grading, and full per-edge `edgeGrading` — parse."]
-    #[staticmethod]
-    pub fn parse(text: String) -> PyResult<Py_outram_foam_mesh__block_mesh__BlockMeshDict> {
-        err(::outram_foam_mesh::block_mesh::BlockMeshDict::parse(&text))
-            .map(|v| Py_outram_foam_mesh__block_mesh__BlockMeshDict { inner: v })
-    }
     // @item method:outram_foam_mesh::block_mesh::BlockMeshDict::build
     #[doc = "Subdivide every block, merge coincident points, dedupe faces, assign\nboundary patches, and return the [`PolyMesh`].\n\n# Errors\n[`MeshError::Construction`] on a non-manifold face (a face shared by more\nthan two cells) or a failed validate; boundary faces that match no patch\nare collected into a trailing `defaultFaces` patch rather than erroring."]
     pub fn build(&self) -> PyResult<Py_outram_foam_mesh__block_mesh__PolyMesh> {
@@ -897,6 +890,13 @@ impl Py_outram_foam_mesh__block_mesh__BlockMeshDict {
             &self.inner,
         ))
         .map(|v| Py_outram_foam_mesh__block_mesh__PolyMesh { inner: v })
+    }
+    // @item method:outram_foam_mesh::block_mesh::BlockMeshDict::parse
+    #[doc = "Parse `blockMeshDict` text into a [`BlockMeshDict`].\n\nHandles `//` and `/* */` comments, the `FoamFile` header, and the\n`convertToMeters`/`scale`, `vertices`, `blocks`, `edges` (skipped),\n`boundary`/`patches`, and `mergePatchPairs` (skipped) entries. See the\nmodule docs for deferred features.\n\n# Errors\n[`MeshError::DictParse`] on malformed syntax; [`MeshError::NotImplemented`]\nfor an unsupported block shape (only `hex`). All grading forms —\n`simpleGrading`, multi-grading, and full per-edge `edgeGrading` — parse."]
+    #[staticmethod]
+    pub fn parse(text: String) -> PyResult<Py_outram_foam_mesh__block_mesh__BlockMeshDict> {
+        err(::outram_foam_mesh::block_mesh::BlockMeshDict::parse(&text))
+            .map(|v| Py_outram_foam_mesh__block_mesh__BlockMeshDict { inner: v })
     }
     // @item ctor:outram_foam_mesh::block_mesh::BlockMeshDict
     #[cfg(feature = "outram-foam-basic-lib")]

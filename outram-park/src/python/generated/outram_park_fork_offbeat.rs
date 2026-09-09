@@ -12607,45 +12607,6 @@ pub struct Py_outram_park_fork_offbeat__rheology__aster__IsotropicHardening {
 }
 #[pymethods]
 impl Py_outram_park_fork_offbeat__rheology__aster__IsotropicHardening {
-    // @item method:outram_park_fork_offbeat::rheology::aster::IsotropicHardening::radial_return
-    #[doc = "Solve the von Mises radial return for the plastic multiplier.\n\n# Arguments\n\n- `trial_equivalent_stress` — the von Mises equivalent `σ_eq` \\[Pa\\] of\n  the **elastic trial** deviatoric stress, i.e. `√(3/2 s:s)` computed\n  from the stress the step would reach with no plastic flow. Must be\n  non-negative.\n- `shear_modulus` — `μ` \\[Pa\\]. Must be positive. Upstream carries\n  `deuxmu = 2μ = E/(1+ν)` and writes `1.5*deuxmu`; this port takes `μ`\n  itself and writes `3μ`, which is the same number.\n- `accumulated_strain` — `p_m` \\[-\\], the accumulated equivalent plastic\n  strain at the start of the step. Must be non-negative.\n\n# Returns\n\n`None` if the step is elastic — `σ_eq ≤ R(p_m)`, upstream's\n`seuil ≤ 0` branch, which sets `dp = 0` and takes no iteration at all.\nOtherwise `Some(solution)` with the plastic multiplier `Δp` in\n`solution.root`.\n\n# Which solver, and why two variants are not iterated\n\n[`Perfect`](IsotropicHardening::Perfect) and\n[`Linear`](IsotropicHardening::Linear) admit the closed form\n`Δp = (σ_eq - σ_y - H p_m) / (H + 3μ)` — with `H = 0` for `Perfect` —\nwhich upstream also uses rather than iterating. It is exact, so\niterating it would only add rounding.\n\nThe three nonlinear"]
-    pub fn radial_return(
-        &self,
-        trial_equivalent_stress: f64,
-        shear_modulus: f64,
-        accumulated_strain: f64,
-        control: PyRef<'_, Py_outram_park_fork_offbeat__rheology__aster__SolverControl>,
-    ) -> PyResult<Option<Py_outram_park_fork_offbeat__rheology__aster__LocalSolution>> {
-        err(
-            ::outram_park_fork_offbeat::rheology::aster::IsotropicHardening::radial_return(
-                &self.inner,
-                trial_equivalent_stress,
-                shear_modulus,
-                accumulated_strain,
-                &control.inner,
-            ),
-        )
-        .map(|v| {
-            v.map(|e| Py_outram_park_fork_offbeat__rheology__aster__LocalSolution { inner: e })
-        })
-    }
-    // @item method:outram_park_fork_offbeat::rheology::aster::IsotropicHardening::return_residual
-    #[doc = "Upstream's `nmcri2` residual, `R(p_m + Δp) + 3μ Δp - σ_eq^trial`.\n\nZero exactly when the returned stress lies on the yield surface.\nExposed because a caller assembling a consistent tangent needs the same\nfunction, and because a test that cannot see the residual cannot show\nthe return actually landed on the surface."]
-    pub fn return_residual(
-        &self,
-        delta_p: f64,
-        trial_equivalent_stress: f64,
-        three_shear_moduli: f64,
-        accumulated_strain: f64,
-    ) -> f64 {
-        ::outram_park_fork_offbeat::rheology::aster::IsotropicHardening::return_residual(
-            &self.inner,
-            delta_p,
-            trial_equivalent_stress,
-            three_shear_moduli,
-            accumulated_strain,
-        )
-    }
     // @item method:outram_park_fork_offbeat::rheology::aster::IsotropicHardening::value
     #[doc = "Flow stress `R(p)` \\[Pa\\] at accumulated equivalent plastic strain `p`\n\\[-\\].\n\n`p` is an accumulated (monotone) measure and should be non-negative. A\nnegative argument is **clamped to zero** rather than rejected, which is\nthe physically meaningful extension — plastic strain never\nun-accumulates — and is needed because a Newton iterate driving one of\nthe porous-plastic return maps can transiently overshoot below zero."]
     pub fn value(&self, p: f64) -> f64 {
@@ -12686,6 +12647,45 @@ impl Py_outram_park_fork_offbeat__rheology__aster__IsotropicHardening {
             ),
         )
         .map(|v| v)
+    }
+    // @item method:outram_park_fork_offbeat::rheology::aster::IsotropicHardening::radial_return
+    #[doc = "Solve the von Mises radial return for the plastic multiplier.\n\n# Arguments\n\n- `trial_equivalent_stress` — the von Mises equivalent `σ_eq` \\[Pa\\] of\n  the **elastic trial** deviatoric stress, i.e. `√(3/2 s:s)` computed\n  from the stress the step would reach with no plastic flow. Must be\n  non-negative.\n- `shear_modulus` — `μ` \\[Pa\\]. Must be positive. Upstream carries\n  `deuxmu = 2μ = E/(1+ν)` and writes `1.5*deuxmu`; this port takes `μ`\n  itself and writes `3μ`, which is the same number.\n- `accumulated_strain` — `p_m` \\[-\\], the accumulated equivalent plastic\n  strain at the start of the step. Must be non-negative.\n\n# Returns\n\n`None` if the step is elastic — `σ_eq ≤ R(p_m)`, upstream's\n`seuil ≤ 0` branch, which sets `dp = 0` and takes no iteration at all.\nOtherwise `Some(solution)` with the plastic multiplier `Δp` in\n`solution.root`.\n\n# Which solver, and why two variants are not iterated\n\n[`Perfect`](IsotropicHardening::Perfect) and\n[`Linear`](IsotropicHardening::Linear) admit the closed form\n`Δp = (σ_eq - σ_y - H p_m) / (H + 3μ)` — with `H = 0` for `Perfect` —\nwhich upstream also uses rather than iterating. It is exact, so\niterating it would only add rounding.\n\nThe three nonlinear"]
+    pub fn radial_return(
+        &self,
+        trial_equivalent_stress: f64,
+        shear_modulus: f64,
+        accumulated_strain: f64,
+        control: PyRef<'_, Py_outram_park_fork_offbeat__rheology__aster__SolverControl>,
+    ) -> PyResult<Option<Py_outram_park_fork_offbeat__rheology__aster__LocalSolution>> {
+        err(
+            ::outram_park_fork_offbeat::rheology::aster::IsotropicHardening::radial_return(
+                &self.inner,
+                trial_equivalent_stress,
+                shear_modulus,
+                accumulated_strain,
+                &control.inner,
+            ),
+        )
+        .map(|v| {
+            v.map(|e| Py_outram_park_fork_offbeat__rheology__aster__LocalSolution { inner: e })
+        })
+    }
+    // @item method:outram_park_fork_offbeat::rheology::aster::IsotropicHardening::return_residual
+    #[doc = "Upstream's `nmcri2` residual, `R(p_m + Δp) + 3μ Δp - σ_eq^trial`.\n\nZero exactly when the returned stress lies on the yield surface.\nExposed because a caller assembling a consistent tangent needs the same\nfunction, and because a test that cannot see the residual cannot show\nthe return actually landed on the surface."]
+    pub fn return_residual(
+        &self,
+        delta_p: f64,
+        trial_equivalent_stress: f64,
+        three_shear_moduli: f64,
+        accumulated_strain: f64,
+    ) -> f64 {
+        ::outram_park_fork_offbeat::rheology::aster::IsotropicHardening::return_residual(
+            &self.inner,
+            delta_p,
+            trial_equivalent_stress,
+            three_shear_moduli,
+            accumulated_strain,
+        )
     }
     // @item variant:outram_park_fork_offbeat::rheology::aster::IsotropicHardening::Perfect
     #[staticmethod]

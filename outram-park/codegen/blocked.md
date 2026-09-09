@@ -12,12 +12,12 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | items | type | crates | examples |
 |---:|---|---:|---|
 | 38 | `&mut u64` | 2 | boon_lay::sample_dimensioned_gaussian_vector (seed); boon_lay::does_transmit (seed); boon_lay::sample_dimensionless_exit_time (seed); boon_lay::sample_first_passage_time (seed) |
-| 28 | `impl Trait` | 10 | kovan::from_rgb_fn (f); kovan_semantics::add_user_concept (aliases); kovan_semantics::add_literature_concept (aliases); kovan_semantics::concepts (-> return) |
+| 29 | `impl Trait` | 10 | kovan::from_rgb_fn (f); kovan::all_nodes (-> return); kovan_semantics::add_user_concept (aliases); kovan_semantics::add_literature_concept (aliases) |
 | 24 | `&mut VolScalarField` | 1 | outram_foam_appbuilder_lib::alpha_mut (-> return); outram_foam_appbuilder_lib::alpha_mut (-> return); outram_foam_appbuilder_lib::mag_velocity_mut (-> return); outram_foam_appbuilder_lib::alpha_rho_mag_u_mut (-> return) |
-| 23 | `Nuclide` | 1 | boon_lay::new (nuclide); boon_lay::new_at_center (nuclide); boon_lay::scatter_within_triso_particle_gaussian_cached (nuclide); boon_lay::scatter_within_triso_particle_gaussian_simple_cached (nuclide) |
+| 23 | `Nuclide` | 1 | boon_lay::new (nuclide); boon_lay::new_at_center (nuclide); boon_lay::scatter_within_triso_particle_gaussian (nuclide); boon_lay::scatter_within_triso_particle_gaussian_simple (nuclide) |
 | 23 | `&mut [f64]` | 7 | njoy_outram_park_fork::xspsl (b_re); outram_foam_basic_lib::harmonise_cpu_half (cpu_values); outram_foam_basic_lib::apply_on (z); outram_foam_basic_lib::apply_on (z) |
 | 21 | `Pos2` | 1 | outram_park_digital_twin_engine::new (screen_position); outram_park_digital_twin_engine::from_scalars (screen_position); outram_park_digital_twin_engine::new (screen_position); outram_park_digital_twin_engine::from_scalars (screen_position) |
-| 21 | `fn pointer` | 2 | teh_o_prke::fuel_temp_feedback (resonance_esc_feedback); teh_o_prke::moderator_density_feedback (mod_void_feedback); teh_o_prke::reflector_density_feedback (mod_void_feedback); teh_o_prke::control_rod_feedback (ctrl_rod_feedback) |
+| 21 | `fn pointer` | 2 | teh_o_prke::new (ode_system); teh_o_prke::fuel_temp_feedback (resonance_esc_feedback); teh_o_prke::moderator_density_feedback (mod_void_feedback); teh_o_prke::reflector_density_feedback (mod_void_feedback) |
 | 21 | `JoinHandle<Self>` | 1 | tuas_boussinesq_solver::advance_timestep_thread_spawn (-> return); tuas_boussinesq_solver::lateral_connection_thread_spawn (-> return); tuas_boussinesq_solver::lateral_connection_thread_spawn (-> return); tuas_boussinesq_solver::advance_timestep_thread_spawn (-> return) |
 | 13 | `[Length; N]` | 1 | boon_lay::new (position); boon_lay::move_particle_using_array (length_array); boon_lay::new_sphere (center); boon_lay::is_within_region (point) |
 | 13 | `[i32; N]` | 2 | njoy_outram_park_fork::expand_mt_pairs (mstrip); njoy_outram_park_fork::is_mt_stripped (mstrip); outram_mc_libs::flat_index (i); outram_mc_libs::are_valid_indices (i) |
@@ -30,8 +30,9 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | 10 | `InversePressure` | 1 | tampines_steam_tables::kappa_t_ph_eqm (-> return); tampines_steam_tables::kappa_t_ps_eqm (-> return); tampines_steam_tables::kappa_t_tp_eqm (-> return); tampines_steam_tables::kappa_t_tp_eqm (-> return) |
 | 9 | `Vec2` | 1 | outram_park_digital_twin_engine::size (-> return); outram_park_digital_twin_engine::size (-> return); outram_park_digital_twin_engine::size (-> return); outram_park_digital_twin_engine::new (size) |
 | 9 | `&[[usize; N]]` | 1 | outram_park_fork_cfmesh::carve_box (tris); outram_park_fork_cfmesh::carve_region (outer_tris); outram_park_fork_cfmesh::refine_near_boundary (tris); outram_park_fork_cfmesh::refine_near_boundary_banded (tris) |
+| 8 | `Option<&str>` | 4 | kovan::ensure_paper_header (bitex_source); kovan::save_digitised_csv (replace_id); kovan::run (crate_dir); kovan::edit_connection (target) |
+| 8 | `Rect` | 1 | outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available) |
 | 7 | `&[[f64; N]]` | 3 | boon_lay::l2_norms_sq_3d_f64 (vs); boon_lay::l2_norms_sqrt_3d_f64 (vs); njoy_outram_park_fork::from_rows (rows); njoy_outram_park_fork::from_image (image) |
-| 7 | `Rect` | 1 | outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available) |
 | 6 | `&Array3<usize>` | 1 | bedok::convert_grid3d (whichsigma); bedok::diffusion_solverxyz (whichsigma); bedok::geometry_ends3d (whichsigma); bedok::makesigmadfxyz (whichsigma) |
 | 6 | `Result<()>` | 2 | kovan::run (-> return); kovan::run (-> return); kovan::run (-> return); outram_blender::write_polymesh (-> return) |
 | 6 | `VolumetricRelaxationCoefficient` | 1 | outram_foam_appbuilder_lib::drag_coefficient (kd); outram_foam_appbuilder_lib::drag_coefficient (kd); outram_foam_appbuilder_lib::dispersion_coefficient (kd); outram_foam_appbuilder_lib::relaxation_coefficient (-> return) |
@@ -39,7 +40,6 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | 6 | `Option<&[Vec<f64>]>` | 1 | outram_park_fork_dwsim_libs::compressibility_factor_lkp (kij); outram_park_fork_dwsim_libs::enthalpy_departure (kij); outram_park_fork_dwsim_libs::entropy_departure (kij); outram_park_fork_dwsim_libs::enthalpy_departure_mix (kij) |
 | 6 | `MpiResult<Vec<f64>>` | 1 | outram_park_fork_pflotran::matvec (-> return); outram_park_fork_pflotran::matvec (-> return); outram_park_fork_pflotran::step (-> return); outram_park_fork_pflotran::poisson_matvec_2d (-> return) |
 | 6 | `MpiResult<(Vec<f64>, usize)>` | 1 | outram_park_fork_pflotran::solve (-> return); outram_park_fork_pflotran::solve_bicgstab (-> return); outram_park_fork_pflotran::solve (-> return); outram_park_fork_pflotran::solve_jacobi_pcg (-> return) |
-| 5 | `Option<&str>` | 3 | kovan::save_digitised_csv (replace_id); kovan::run (crate_dir); kovan_metrics::active_days (since); outram_park_fork_dwsim_libs::add_object (tag) |
 | 5 | `Option<&Path>` | 2 | kovan::resolve_out_dir (explicit); kovan::output_dir (explicit); kovan::resolve (explicit); kovan_metrics::measure_repo (path) |
 | 5 | `&[BoundaryCondition<f64>]` | 2 | outram_foam_appbuilder_lib::with_cross_sections (flux_boundary); outram_foam_appbuilder_lib::with_cross_sections (flux_boundary); outram_foam_appbuilder_lib::new (flux_boundary); outram_park_fork_moltres::new (flux_boundary) |
 | 5 | `MassFlux` | 2 | outram_park_digital_twin_engine::kta_pressure_gradient (mass_flux); outram_park_digital_twin_engine::packed_bed_reynolds (mass_flux); outram_park_digital_twin_engine::superficial_mass_flux (-> return); tampines::packed_bed_reynolds (mass_flux) |
@@ -55,11 +55,12 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | 4 | `&Context` | 1 | outram_park_digital_twin_engine::end_frame (ctx); outram_park_digital_twin_engine::show_crash_modal_if_crashed (ctx); outram_park_digital_twin_engine::show_crash_modal_with_restart (ctx); outram_park_digital_twin_engine::slewed_control_rod_insertion (ctx) |
 | 4 | `Button` | 1 | outram_park_digital_twin_engine::black_red (-> return); outram_park_digital_twin_engine::black_red_degc (-> return); outram_park_digital_twin_engine::blue_red (-> return); outram_park_digital_twin_engine::blue_red_degc (-> return) |
 | 4 | `Result<InversePressure>` | 1 | tampines_steam_tables::try_kappa_t_ps_eqm (-> return); tampines_steam_tables::try_kappa_t_ph_eqm (-> return); tampines_steam_tables::try_kappa_t_tp_eqm (-> return); tampines_steam_tables::try_kappa_t_tp_eqm_two_phase (-> return) |
+| 4 | `Result<Array1<VolumetricNumberDensity>, TehOPrkeError>` | 1 | teh_o_prke::solve_next_timestep_precursor_concentration_and_neutron_pop_vector_explicit (-> return); teh_o_prke::solve_next_timestep_precursor_concentration_and_neutron_pop_vector_implicit (-> return); teh_o_prke::step_implicit (-> return); teh_o_prke::step_explicit (-> return) |
 | 4 | `&mut Array1<ThermodynamicTemperature>` | 1 | tuas_boussinesq_solver::advance_timestep_fluid_node_array_pipe_high_peclet_number (last_timestep_temperature_solid); tuas_boussinesq_solver::advance_timestep_fluid_shell_array_high_peclet_number (last_timestep_temperature_inner_side); tuas_boussinesq_solver::advance_timestep_solid_cylindrical_core_node_no_axial_conduction (last_timestep_temperature_adjacent_side); tuas_boussinesq_solver::advance_timestep_solid_cylindrical_shell_node_no_axial_conduction (last_timestep_temperature_inner_side) |
 | 3 | `&Array2<f64>` | 1 | bedok::calc_a1234_expansionxyz (gradterms); bedok::calc_transleakagexyz (gradterms); bedok::calcdiffvalues3d (sigmatotvalues) |
 | 3 | `Array2<f64>` | 2 | bedok::buckling_blocks (-> return); bedok::calc_relpower3d (-> return); outram_park_fork_dwsim_libs::lu_solve (a) |
 | 3 | `&Array4<f64>` | 1 | bedok::calc_abefghxyz (diffvalues); bedok::calc_sanodalxyz (diffvalues); bedok::makegrad_dxyz (diffd) |
-| 3 | `Vec<Nuclide>` | 1 | boon_lay::get_decay_chain_vec (-> return); boon_lay::chain_nuclides_unique_sorted (-> return); boon_lay::all_chain_nuclides_unique_sorted (-> return) |
+| 3 | `Vec<Nuclide>` | 1 | boon_lay::chain_nuclides_unique_sorted (-> return); boon_lay::all_chain_nuclides_unique_sorted (-> return); boon_lay::get_decay_chain_vec (-> return) |
 | 3 | `&mut Ui` | 2 | kovan::ui (ui); outram_park_digital_twin_engine::draw (ui); outram_park_digital_twin_engine::draw_csv_panel (ui) |
 | 3 | `Result<PathBuf>` | 3 | kovan::generate (-> return); njoy_outram_park_fork::write_local_perf_report (-> return); outram_mc_libs::write_local_report (-> return) |
 | 3 | `&mut f64` | 2 | njoy_outram_park_fork::add_discrete_oscillators (dwpix); njoy_outram_park_fork::add_translation (tempf); outram_foam_basic_lib::solve_step (x) |
@@ -70,6 +71,5 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | 3 | `FlowField` | 1 | outram_park_fork_pflotran::new (flow); outram_park_fork_pflotran::new (flow); outram_park_fork_pflotran::new (flow) |
 | 2 | `Option<(Nuclide, DecayType)>` | 1 | boon_lay::get_next_target_nuclide_with_rng (-> return); boon_lay::get_next_target_nuclide_with_float (-> return) |
 | 2 | `(Nuclide, HalfLifeAndDecayEnergyInfo)` | 1 | boon_lay::advance_timestep (-> return); boon_lay::force_decay_to_next_nuclide (-> return) |
-| 2 | `&mut [WoSWalker]` | 1 | boon_lay::advance_multilayer_best_effort (walkers); boon_lay::try_advance_multilayer_gpu (walkers) |
 
-Total blocked signatures: 623, over 173 distinct type shapes.
+Total blocked signatures: 631, over 174 distinct type shapes.

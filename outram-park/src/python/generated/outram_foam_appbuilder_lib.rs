@@ -2745,29 +2745,6 @@ pub struct Py_outram_foam_appbuilder_lib__genfoam__neutronics__Sp3Neutronics {
 }
 #[pymethods]
 impl Py_outram_foam_appbuilder_lib__genfoam__neutronics__Sp3Neutronics {
-    // @item method:outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::step
-    #[doc = "Advance the coupled SP3 moment + precursor system by one implicit\n(backward-Euler) time step at the state's current `k_eff`.\n\nBoth moment equations carry the SP3 time terms\n(`ddt((1-eig) IV, Phi0)` and `ddt(3 (1-eig) IV, phi2)`) plus the\ncross-moment `fvc::ddt` coupling from GeN-Foam `fluxEqSP3.H`. The prompt\nfission is taken at the frozen `k_eff` with the delayed source from the\nprevious step's precursors; the in-scatter and cross-moment terms are\nlagged one step (single-pass, matching the diffusion transient). The\nprecursors are then advanced by the closed-form per-cell update of\n`dC_k/dt + lambda_k C_k = beta_k/k S_n` (GeN-Foam `precEq.H`, non-liquid\nbranch) with the freshly updated fission source.\n\n`k_eff` is held fixed: at the eigenvalue and starting from the eigenvector\nwith equilibrium precursors this is the exact steady solution, so a null\ntransient holds steady (see the V&V tests). The implicit/integral\npredictors, Aitken acceleration, and the multi-pass neutron sub-iterations\nof the full GeN-Foam loop are deferred.\n\n# Errors\n\n[`NeutronicsError::ModelNotImplemented`] for a state-only scaffold, or\n[`NeutronicsError::NonPositiveTimeStep`] if `dt <= 0`."]
-    pub fn step(&mut self, dt: f64) -> PyResult<()> {
-        err(
-            ::outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::step(
-                &mut self.inner,
-                from_si(dt),
-            ),
-        )
-        .map(|v| v)
-    }
-    // @item method:outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::solve_eigenvalue
-    #[doc = "Solve the SP3 k-eigenvalue problem by outer power iteration.\n\nEach outer iteration holds the fission source lagged at the previous\nphysical flux, then sweeps the groups: for group `g` it solves the 0th\ncomposite-moment equation\n`laplacian(D0_g) + Sp(Sigma_{r,g})` against\n`Q_g + 2 Sigma_{r,g} phi2_g`, then the 2nd-moment equation\n`laplacian(D2_g) + Sp(A2_g)` against\n`(2/3)(Sigma_{r,g} Phi0_g - Q_g)`, and reconstructs the physical flux\n`phi0_g = Phi0_g - 2 phi2_g` (GeN-Foam `fluxEqSP3.H`). Both moment\noperators are symmetric positive-definite, so they solve with\nwarm-started CG. It then updates `k^{n+1} = k^n F^{n+1}/F^n` from the\nfission-production integral `F` (GeN-Foam `calcKeff.H`) and renormalises\nthe moments so `F = 1` (`normFluxesSP3.H`).\n\nOn return the state's `k_eff`, physical flux, power density, one-group\nflux, and total power — and the SP3 moment fields — are all updated.\n\n# Errors\n\n[`NeutronicsError::ModelNotImplemented`] if this is a state-only scaffold\n(built with [`Self::new`] rather than [`Self::with_cross_sections`]);\n[`NeutronicsError::NoFissionSource`] if the initial fission production is\nzero; or [`NeutronicsError::NotConverged`] if the outer loop exhausts\n`max_o"]
-    pub fn solve_eigenvalue(
-        &mut self,
-    ) -> PyResult<Py_outram_foam_appbuilder_lib__genfoam__neutronics__EigenvalueReport> {
-        err(
-            ::outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::solve_eigenvalue(
-                &mut self.inner,
-            ),
-        )
-        .map(|v| Py_outram_foam_appbuilder_lib__genfoam__neutronics__EigenvalueReport { inner: v })
-    }
     // @item method:outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::new
     #[cfg(feature = "outram-foam-basic-lib")]
     #[doc = "Allocate a **state-only SP3 scaffold** with `energy_groups` flux fields\nand `prec_groups` precursor fields on `mesh` (no cross sections).\n\nThe shared [`crate::genfoam::neutronics::NeutronicsModel`] surface\n(`power`, `k_eff`) works, but [`Self::solve_eigenvalue`] returns\n[`NeutronicsError::ModelNotImplemented`] until the model is built with\ncross sections via [`Self::with_cross_sections`]."]
@@ -2838,6 +2815,29 @@ impl Py_outram_foam_appbuilder_lib__genfoam__neutronics__Sp3Neutronics {
     #[doc = "Number of delayed-neutron precursor groups `N`."]
     pub fn prec_groups(&self) -> usize {
         ::outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::prec_groups(&self.inner)
+    }
+    // @item method:outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::step
+    #[doc = "Advance the coupled SP3 moment + precursor system by one implicit\n(backward-Euler) time step at the state's current `k_eff`.\n\nBoth moment equations carry the SP3 time terms\n(`ddt((1-eig) IV, Phi0)` and `ddt(3 (1-eig) IV, phi2)`) plus the\ncross-moment `fvc::ddt` coupling from GeN-Foam `fluxEqSP3.H`. The prompt\nfission is taken at the frozen `k_eff` with the delayed source from the\nprevious step's precursors; the in-scatter and cross-moment terms are\nlagged one step (single-pass, matching the diffusion transient). The\nprecursors are then advanced by the closed-form per-cell update of\n`dC_k/dt + lambda_k C_k = beta_k/k S_n` (GeN-Foam `precEq.H`, non-liquid\nbranch) with the freshly updated fission source.\n\n`k_eff` is held fixed: at the eigenvalue and starting from the eigenvector\nwith equilibrium precursors this is the exact steady solution, so a null\ntransient holds steady (see the V&V tests). The implicit/integral\npredictors, Aitken acceleration, and the multi-pass neutron sub-iterations\nof the full GeN-Foam loop are deferred.\n\n# Errors\n\n[`NeutronicsError::ModelNotImplemented`] for a state-only scaffold, or\n[`NeutronicsError::NonPositiveTimeStep`] if `dt <= 0`."]
+    pub fn step(&mut self, dt: f64) -> PyResult<()> {
+        err(
+            ::outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::step(
+                &mut self.inner,
+                from_si(dt),
+            ),
+        )
+        .map(|v| v)
+    }
+    // @item method:outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::solve_eigenvalue
+    #[doc = "Solve the SP3 k-eigenvalue problem by outer power iteration.\n\nEach outer iteration holds the fission source lagged at the previous\nphysical flux, then sweeps the groups: for group `g` it solves the 0th\ncomposite-moment equation\n`laplacian(D0_g) + Sp(Sigma_{r,g})` against\n`Q_g + 2 Sigma_{r,g} phi2_g`, then the 2nd-moment equation\n`laplacian(D2_g) + Sp(A2_g)` against\n`(2/3)(Sigma_{r,g} Phi0_g - Q_g)`, and reconstructs the physical flux\n`phi0_g = Phi0_g - 2 phi2_g` (GeN-Foam `fluxEqSP3.H`). Both moment\noperators are symmetric positive-definite, so they solve with\nwarm-started CG. It then updates `k^{n+1} = k^n F^{n+1}/F^n` from the\nfission-production integral `F` (GeN-Foam `calcKeff.H`) and renormalises\nthe moments so `F = 1` (`normFluxesSP3.H`).\n\nOn return the state's `k_eff`, physical flux, power density, one-group\nflux, and total power — and the SP3 moment fields — are all updated.\n\n# Errors\n\n[`NeutronicsError::ModelNotImplemented`] if this is a state-only scaffold\n(built with [`Self::new`] rather than [`Self::with_cross_sections`]);\n[`NeutronicsError::NoFissionSource`] if the initial fission production is\nzero; or [`NeutronicsError::NotConverged`] if the outer loop exhausts\n`max_o"]
+    pub fn solve_eigenvalue(
+        &mut self,
+    ) -> PyResult<Py_outram_foam_appbuilder_lib__genfoam__neutronics__EigenvalueReport> {
+        err(
+            ::outram_foam_appbuilder_lib::genfoam::neutronics::Sp3Neutronics::solve_eigenvalue(
+                &mut self.inner,
+            ),
+        )
+        .map(|v| Py_outram_foam_appbuilder_lib__genfoam__neutronics__EigenvalueReport { inner: v })
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -13738,51 +13738,23 @@ pub fn fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__von_mises_stres
     to_si(::outram_foam_appbuilder_lib::genfoam::thermo_mechanics::von_mises_stress(sigma.inner))
 }
 
-// @item fn:outram_foam_appbuilder_lib::io::field_reader::read_vol_scalar_field
-#[doc = "Read the `internalField` of a `volScalarField` file.\n\nHandles:\n- `internalField uniform <value>;`\n- `internalField nonuniform List<scalar> N\\n(\\n<value>\\n...\\n);`"]
-#[pyfunction(name = "read_vol_scalar_field")]
-pub fn fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_scalar_field(
-    path: String,
-    n_cells: usize,
-) -> PyResult<Vec<f64>> {
+// @item fn:outram_foam_appbuilder_lib::io::output::write_scalar_field
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Write a scalar field to `<time_dir>/<field_name>` in OpenFOAM ASCII format.\n\n**Not yet implemented — calling this panics (`todo!`).** The intended output\nfollows the standard OpenFOAM field file layout:\n```text\nFoamFile { version 2.0; format ascii; class volScalarField; object p; }\ndimensions [kg m-1 s-2];\ninternalField nonuniform List<scalar> N ( v0 v1 … vN-1 );\nboundaryField { … }\n```"]
+#[pyfunction(name = "write_scalar_field")]
+pub fn fn_outram_foam_appbuilder_lib__io__output__write_scalar_field(
+    time_dir: String,
+    field: PyRef<'_, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>,
+    dimensions: String,
+) -> PyResult<()> {
     err(
-        ::outram_foam_appbuilder_lib::io::field_reader::read_vol_scalar_field(
-            std::path::Path::new(&path),
-            n_cells,
+        ::outram_foam_appbuilder_lib::io::output::write_scalar_field(
+            std::path::Path::new(&time_dir),
+            &field.inner,
+            &dimensions,
         ),
     )
-    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
-}
-
-// @item fn:outram_foam_appbuilder_lib::io::field_reader::read_vol_scalar_field_full
-#[cfg(feature = "outram-foam-basic-lib")]
-#[doc = "Read a complete `volScalarField` (internal + boundary) bound to `mesh`."]
-#[pyfunction(name = "read_vol_scalar_field_full")]
-pub fn fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_scalar_field_full(path: String, mesh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh) -> PyResult<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>{
-    err(::outram_foam_appbuilder_lib::io::field_reader::read_vol_scalar_field_full(std::path::Path::new(&path), &std::sync::Arc::new(mesh.inner))).map(|v| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: v })
-}
-
-// @item fn:outram_foam_appbuilder_lib::io::field_reader::read_vol_vector_field
-#[cfg(feature = "outram-foam-basic-lib")]
-#[doc = "Read the `internalField` of a `volVectorField` file.\n\nHandles:\n- `internalField uniform (x y z);`\n- `internalField nonuniform List<vector> N\\n(\\n(x y z)\\n...\\n);`"]
-#[pyfunction(name = "read_vol_vector_field")]
-pub fn fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_vector_field(
-    path: String,
-    n_cells: usize,
-) -> PyResult<
-    Vec<
-        crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3,
-    >,
-> {
-    err(::outram_foam_appbuilder_lib::io::field_reader::read_vol_vector_field(std::path::Path::new(&path), n_cells)).map(|v| v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { inner: e }).collect::<Vec<_>>())
-}
-
-// @item fn:outram_foam_appbuilder_lib::io::field_reader::read_vol_vector_field_full
-#[cfg(feature = "outram-foam-basic-lib")]
-#[doc = "Read a complete `volVectorField` (internal + boundary) bound to `mesh`."]
-#[pyfunction(name = "read_vol_vector_field_full")]
-pub fn fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_vector_field_full(path: String, mesh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh) -> PyResult<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField>{
-    err(::outram_foam_appbuilder_lib::io::field_reader::read_vol_vector_field_full(std::path::Path::new(&path), &std::sync::Arc::new(mesh.inner))).map(|v| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField { inner: v })
+    .map(|v| v)
 }
 
 // @item fn:outram_foam_appbuilder_lib::io::output::write_vector_field
@@ -13876,21 +13848,51 @@ pub fn fn_outram_foam_appbuilder_lib__prelude__read_poly_mesh(
     })
 }
 
-// @item fn:outram_foam_appbuilder_lib::prelude::write_scalar_field
+// @item fn:outram_foam_appbuilder_lib::prelude::read_vol_scalar_field
+#[doc = "Read the `internalField` of a `volScalarField` file.\n\nHandles:\n- `internalField uniform <value>;`\n- `internalField nonuniform List<scalar> N\\n(\\n<value>\\n...\\n);`"]
+#[pyfunction(name = "read_vol_scalar_field")]
+pub fn fn_outram_foam_appbuilder_lib__prelude__read_vol_scalar_field(
+    path: String,
+    n_cells: usize,
+) -> PyResult<Vec<f64>> {
+    err(
+        ::outram_foam_appbuilder_lib::prelude::read_vol_scalar_field(
+            std::path::Path::new(&path),
+            n_cells,
+        ),
+    )
+    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+}
+
+// @item fn:outram_foam_appbuilder_lib::prelude::read_vol_scalar_field_full
 #[cfg(feature = "outram-foam-basic-lib")]
-#[doc = "Write a scalar field to `<time_dir>/<field_name>` in OpenFOAM ASCII format.\n\n**Not yet implemented — calling this panics (`todo!`).** The intended output\nfollows the standard OpenFOAM field file layout:\n```text\nFoamFile { version 2.0; format ascii; class volScalarField; object p; }\ndimensions [kg m-1 s-2];\ninternalField nonuniform List<scalar> N ( v0 v1 … vN-1 );\nboundaryField { … }\n```"]
-#[pyfunction(name = "write_scalar_field")]
-pub fn fn_outram_foam_appbuilder_lib__prelude__write_scalar_field(
-    time_dir: String,
-    field: PyRef<'_, crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>,
-    dimensions: String,
-) -> PyResult<()> {
-    err(::outram_foam_appbuilder_lib::prelude::write_scalar_field(
-        std::path::Path::new(&time_dir),
-        &field.inner,
-        &dimensions,
-    ))
-    .map(|v| v)
+#[doc = "Read a complete `volScalarField` (internal + boundary) bound to `mesh`."]
+#[pyfunction(name = "read_vol_scalar_field_full")]
+pub fn fn_outram_foam_appbuilder_lib__prelude__read_vol_scalar_field_full(path: String, mesh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh) -> PyResult<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField>{
+    err(::outram_foam_appbuilder_lib::prelude::read_vol_scalar_field_full(std::path::Path::new(&path), &std::sync::Arc::new(mesh.inner))).map(|v| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolScalarField { inner: v })
+}
+
+// @item fn:outram_foam_appbuilder_lib::prelude::read_vol_vector_field
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Read the `internalField` of a `volVectorField` file.\n\nHandles:\n- `internalField uniform (x y z);`\n- `internalField nonuniform List<vector> N\\n(\\n(x y z)\\n...\\n);`"]
+#[pyfunction(name = "read_vol_vector_field")]
+pub fn fn_outram_foam_appbuilder_lib__prelude__read_vol_vector_field(
+    path: String,
+    n_cells: usize,
+) -> PyResult<
+    Vec<
+        crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3,
+    >,
+> {
+    err(::outram_foam_appbuilder_lib::prelude::read_vol_vector_field(std::path::Path::new(&path), n_cells)).map(|v| v.into_iter().map(|e| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__Vector3 { inner: e }).collect::<Vec<_>>())
+}
+
+// @item fn:outram_foam_appbuilder_lib::prelude::read_vol_vector_field_full
+#[cfg(feature = "outram-foam-basic-lib")]
+#[doc = "Read a complete `volVectorField` (internal + boundary) bound to `mesh`."]
+#[pyfunction(name = "read_vol_vector_field_full")]
+pub fn fn_outram_foam_appbuilder_lib__prelude__read_vol_vector_field_full(path: String, mesh: crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__FvMesh) -> PyResult<crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField>{
+    err(::outram_foam_appbuilder_lib::prelude::read_vol_vector_field_full(std::path::Path::new(&path), &std::sync::Arc::new(mesh.inner))).map(|v| crate::python::generated::outram_foam_basic_lib::Py_outram_foam_basic_lib__prelude__VolVectorField { inner: v })
 }
 
 // @item fn:outram_foam_appbuilder_lib::solvers::schemes::ddt_vec_scheme
@@ -14247,23 +14249,9 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         fn_outram_foam_appbuilder_lib__genfoam__thermo_mechanics__von_mises_stress,
         m
     )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_scalar_field,
-        m
-    )?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
     m.add_function(wrap_pyfunction!(
-        fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_scalar_field_full,
-        m
-    )?)?;
-    #[cfg(feature = "outram-foam-basic-lib")]
-    m.add_function(wrap_pyfunction!(
-        fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_vector_field,
-        m
-    )?)?;
-    #[cfg(feature = "outram-foam-basic-lib")]
-    m.add_function(wrap_pyfunction!(
-        fn_outram_foam_appbuilder_lib__io__field_reader__read_vol_vector_field_full,
+        fn_outram_foam_appbuilder_lib__io__output__write_scalar_field,
         m
     )?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
@@ -14293,9 +14281,23 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         fn_outram_foam_appbuilder_lib__prelude__read_poly_mesh,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_foam_appbuilder_lib__prelude__read_vol_scalar_field,
+        m
+    )?)?;
     #[cfg(feature = "outram-foam-basic-lib")]
     m.add_function(wrap_pyfunction!(
-        fn_outram_foam_appbuilder_lib__prelude__write_scalar_field,
+        fn_outram_foam_appbuilder_lib__prelude__read_vol_scalar_field_full,
+        m
+    )?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(
+        fn_outram_foam_appbuilder_lib__prelude__read_vol_vector_field,
+        m
+    )?)?;
+    #[cfg(feature = "outram-foam-basic-lib")]
+    m.add_function(wrap_pyfunction!(
+        fn_outram_foam_appbuilder_lib__prelude__read_vol_vector_field_full,
         m
     )?)?;
     #[cfg(feature = "outram-foam-basic-lib")]

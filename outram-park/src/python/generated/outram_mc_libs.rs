@@ -2423,50 +2423,6 @@ impl Py_outram_mc_libs__gpu__union_grid__UnionTotalXs {
     }
 }
 
-// @item type:outram_mc_libs::material::material::NuclideComponent
-#[doc = "Material composition and macroscopic cross-section lookup.\n\nC++ source: `src/material.cpp` (1603 LOC), `include/openmc/material.h`.\n\nA `Material` is a mixture of nuclides at specified atom/weight densities.\nDuring transport, the material provides:\n  - Macroscopic total cross section Σ_t (sum of nuclide contributions)\n  - Nuclide sampling (select which nuclide the neutron collides with)\n  - Temperature for Doppler-broadened cross-section lookup\nA nuclide component within a material."]
-#[pyclass(name = "NuclideComponent", module = "outram_park.outram_mc_libs")]
-#[derive(Clone)]
-pub struct Py_outram_mc_libs__material__material__NuclideComponent {
-    pub inner: ::outram_mc_libs::material::material::NuclideComponent,
-}
-#[pymethods]
-impl Py_outram_mc_libs__material__material__NuclideComponent {
-    // @item field:outram_mc_libs::material::material::NuclideComponent::nuclide_idx
-    #[getter(nuclide_idx)]
-    pub fn get_nuclide_idx(&self) -> usize {
-        let v = self.inner.nuclide_idx.clone();
-        v
-    }
-    #[setter(nuclide_idx)]
-    pub fn set_nuclide_idx(&mut self, v: usize) {
-        self.inner.nuclide_idx = v;
-    }
-    // @item field:outram_mc_libs::material::material::NuclideComponent::atom_density
-    #[getter(atom_density)]
-    pub fn get_atom_density(&self) -> f64 {
-        let v = self.inner.atom_density.clone();
-        v
-    }
-    #[setter(atom_density)]
-    pub fn set_atom_density(&mut self, v: f64) {
-        self.inner.atom_density = v;
-    }
-    // @item ctor:outram_mc_libs::material::material::NuclideComponent
-    #[new]
-    pub fn __new__(nuclide_idx: usize, atom_density: f64) -> Self {
-        Self {
-            inner: ::outram_mc_libs::material::material::NuclideComponent {
-                nuclide_idx: nuclide_idx,
-                atom_density: atom_density,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-}
-
 // @item type:outram_mc_libs::material::nuclide::Inelastic
 #[doc = "A sampled inelastic scattering channel — the outcome of\n[`Nuclide::sample_inelastic`], telling the transport kernel which kinematics\nto apply.\n\nKept as an enum (not a trait object) per the workspace design rules: the set\nof inelastic secondary-energy laws is closed and known at compile time."]
 #[pyclass(name = "Inelastic", module = "outram_park.outram_mc_libs")]
@@ -4219,7 +4175,7 @@ impl Py_outram_mc_libs__prelude__CellFill {
 }
 
 // @item type:outram_mc_libs::prelude::CellFilter
-#[doc = "Filter by cell.  Maps to `openmc::CellFilter`."]
+#[doc = "Filter by cell.  Maps to `openmc::CellFilter`.\n\n**These are 0-based indices into the geometry's cell array, not cell IDs.**\nOpenMC's C++ filters bin by user-assigned global ID; this port bins by\narray position, matching [`FilterEvent::cell_idx`]. Passing an ID here\nsilently produces wrong bins rather than an error, so the distinction\nmatters more than it looks.\n\n```\nuse outram_mc_libs::prelude::*;\n// the first and third cells of the geometry, not cells with IDs 1 and 3\nlet f = CellFilter { cell_indices: vec![0, 2] };\nassert_eq!(f.n_bins(), 2);\n```"]
 #[pyclass(name = "CellFilter", module = "outram_park.outram_mc_libs")]
 pub struct Py_outram_mc_libs__prelude__CellFilter {
     pub inner: ::outram_mc_libs::prelude::CellFilter,
@@ -5184,7 +5140,7 @@ impl Py_outram_mc_libs__prelude__EncodedSurfaces {
 }
 
 // @item type:outram_mc_libs::prelude::EnergyFilter
-#[doc = "Filter by energy bin (contiguous group boundaries in eV).\nMaps to `openmc::EnergyFilter`."]
+#[doc = "Filter by energy bin (contiguous group boundaries in eV).\nMaps to `openmc::EnergyFilter`.\n\n**`bins` holds bin EDGES, not bin centres and not counts.** `n + 1`\nascending edges define `n` bins. The name is short for \"bin boundaries\";\nread it as edges every time.\n\nEnergies outside `[bins[0], bins[last])` are not scored at all -- the event\nis dropped, not clamped into the end bin.\n\n```\nuse outram_mc_libs::prelude::*;\n// 3 edges -> 2 bins: [0, 1) MeV and [1, 20) MeV, in eV\nlet f = EnergyFilter { bins: vec![0.0, 1.0e6, 20.0e6] };\nassert_eq!(f.n_bins(), 2);\n```"]
 #[pyclass(name = "EnergyFilter", module = "outram_park.outram_mc_libs")]
 pub struct Py_outram_mc_libs__prelude__EnergyFilter {
     pub inner: ::outram_mc_libs::prelude::EnergyFilter,
@@ -7057,17 +7013,14 @@ impl Py_outram_mc_libs__prelude__Material {
     }
     // @item field:outram_mc_libs::prelude::Material::components
     #[getter(components)]
-    pub fn get_components(&self) -> Vec<Py_outram_mc_libs__material__material__NuclideComponent> {
+    pub fn get_components(&self) -> Vec<Py_outram_mc_libs__prelude__NuclideComponent> {
         let v = self.inner.components.clone();
         v.into_iter()
-            .map(|e| Py_outram_mc_libs__material__material__NuclideComponent { inner: e })
+            .map(|e| Py_outram_mc_libs__prelude__NuclideComponent { inner: e })
             .collect::<Vec<_>>()
     }
     #[setter(components)]
-    pub fn set_components(
-        &mut self,
-        v: Vec<Py_outram_mc_libs__material__material__NuclideComponent>,
-    ) {
+    pub fn set_components(&mut self, v: Vec<Py_outram_mc_libs__prelude__NuclideComponent>) {
         self.inner.components = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
     }
     // @item field:outram_mc_libs::prelude::Material::temperature
@@ -7113,7 +7066,7 @@ impl Py_outram_mc_libs__prelude__Material {
     pub fn __new__(
         id: i32,
         name: String,
-        components: Vec<Py_outram_mc_libs__material__material__NuclideComponent>,
+        components: Vec<Py_outram_mc_libs__prelude__NuclideComponent>,
         temperature: f64,
     ) -> Self {
         Self {
@@ -7131,7 +7084,7 @@ impl Py_outram_mc_libs__prelude__Material {
 }
 
 // @item type:outram_mc_libs::prelude::MaterialFilter
-#[doc = "Filter by material.  Maps to `openmc::MaterialFilter`."]
+#[doc = "Filter by material.  Maps to `openmc::MaterialFilter`.\n\n**These are 0-based indices into the material array, not material IDs** --\nsame convention as [`CellFilter`], and the same silent-wrong-answer trap if\nyou pass an ID."]
 #[pyclass(name = "MaterialFilter", module = "outram_park.outram_mc_libs")]
 pub struct Py_outram_mc_libs__prelude__MaterialFilter {
     pub inner: ::outram_mc_libs::prelude::MaterialFilter,
@@ -7399,6 +7352,46 @@ impl Py_outram_mc_libs__prelude__Nuclide {
             ),
         }
     }
+    // @item method:outram_mc_libs::prelude::Nuclide::from_endf_file
+    #[doc = "Build a nuclide from an ENDF file **on disk** — the ordinary case.\n\nSupply the evaluation yourself, point at it, get a transport-ready\nnuclide. No network, no feature gate, no MAT table lookup: the material\nnumber is read from the tape.\n\n```no_run\nuse outram_mc_libs::material::nuclide::Nuclide;\nuse std::path::Path;\n\nlet u235 = Nuclide::from_endf_file(\n    Path::new(\"reference-data/endf/n-092_U_235-ENDF8.0.endf\"),\n    \"U235\",\n    293.6,   // K\n    1e-3,    // RECONR tolerance\n)?;\n# Ok::<(), outram_mc_libs::NjoyError>(())\n```\n\n# Errors\n\n[`NjoyError`] if the file cannot be read or parsed, if it holds no\nmaterial, or for any reason [`Self::from_tape`] reports."]
+    #[staticmethod]
+    pub fn from_endf_file(
+        path: String,
+        name: String,
+        temp_k: f64,
+        tolerance: f64,
+    ) -> PyResult<Py_outram_mc_libs__prelude__Nuclide> {
+        err(::outram_mc_libs::prelude::Nuclide::from_endf_file(
+            std::path::Path::new(&path),
+            &name,
+            temp_k,
+            tolerance,
+        ))
+        .map(|v| Py_outram_mc_libs__prelude__Nuclide { inner: v })
+    }
+    // @item method:outram_mc_libs::prelude::Nuclide::from_tape
+    #[cfg(feature = "njoy-outram-park-fork")]
+    #[doc = "Build a nuclide from an ENDF tape **already in hand** — no network, no\nfeature gate.\n\nThis is the local half of [`Self::from_endf`]: RECONR to pointwise\nσ(E), Doppler-broaden to `temp_k`, then pull ν̄, χ, the inelastic level\nstructure and the elastic angular distribution off the same tape.\n`from_endf` is this function with a download bolted to the front.\n\n`mat` is the ENDF material number, `tolerance` the RECONR\nreconstruction tolerance (1e-3 is a reasonable default), and `temp_k`\nthe temperature to broaden to \\[K\\].\n\nMost callers want [`Self::from_endf_file`] instead, which reads the\nfile and finds `mat` for you. Reach for this one when you already hold\na [`Tape`](njoy_outram_park_fork::endf::tape::Tape) — several nuclides\noff one tape, or a tape that did not come from a file.\n\n# Errors\n\n[`NjoyError`] if the tape lacks the sections RECONR needs, or the\nevaluation uses a resonance format RECONR does not reconstruct."]
+    #[staticmethod]
+    pub fn from_tape(
+        tape: PyRef<
+            '_,
+            crate::python::generated::njoy_outram_park_fork::Py_njoy_outram_park_fork__endf__Tape,
+        >,
+        mat: i32,
+        name: String,
+        temp_k: f64,
+        tolerance: f64,
+    ) -> PyResult<Py_outram_mc_libs__prelude__Nuclide> {
+        err(::outram_mc_libs::prelude::Nuclide::from_tape(
+            &tape.inner,
+            mat,
+            &name,
+            temp_k,
+            tolerance,
+        ))
+        .map(|v| Py_outram_mc_libs__prelude__Nuclide { inner: v })
+    }
     // @item method:outram_mc_libs::prelude::Nuclide::xs_at_energy
     #[doc = "Microscopic cross sections at incident energy `e` \\[eV\\] and temperature\n`temp_k` \\[K\\].\n\n- **LOW (`Core`):** below `e_max` the analytic-Doppler WMP form is used\n  (temperature-dependent); above `e_max` the fast MGXS constant-per-group\n  lookup takes over (temperature-independent — the fast range is smooth).\n- **HIGH (`Pointwise`):** a direct pointwise lookup on the reconstructed\n  σ(E). The data was already Doppler-broadened to its target temperature at\n  construction, so `temp_k` is ignored here.\n\nIn both tiers the transport kernel partitions on `total`/`fission`/\n`absorption`; `elastic` is reported for completeness but the kernel treats\n`total − absorption` as the scattering channel (lumping inelastic and\n(n,xn) into elastic-like events — see the keff module fidelity note)."]
     pub fn xs_at_energy(&self, e: f64, temp_k: f64) -> Py_outram_mc_libs__prelude__MicroXS {
@@ -7423,6 +7416,50 @@ impl Py_outram_mc_libs__prelude__Nuclide {
             .into_iter()
             .map(|e| e)
             .collect::<Vec<_>>()
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:outram_mc_libs::prelude::NuclideComponent
+#[doc = "Material composition and macroscopic cross-section lookup.\n\nC++ source: `src/material.cpp` (1603 LOC), `include/openmc/material.h`.\n\nA `Material` is a mixture of nuclides at specified atom/weight densities.\nDuring transport, the material provides:\n  - Macroscopic total cross section Σ_t (sum of nuclide contributions)\n  - Nuclide sampling (select which nuclide the neutron collides with)\n  - Temperature for Doppler-broadened cross-section lookup\nA nuclide component within a material."]
+#[pyclass(name = "NuclideComponent", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__NuclideComponent {
+    pub inner: ::outram_mc_libs::prelude::NuclideComponent,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__NuclideComponent {
+    // @item field:outram_mc_libs::prelude::NuclideComponent::nuclide_idx
+    #[getter(nuclide_idx)]
+    pub fn get_nuclide_idx(&self) -> usize {
+        let v = self.inner.nuclide_idx.clone();
+        v
+    }
+    #[setter(nuclide_idx)]
+    pub fn set_nuclide_idx(&mut self, v: usize) {
+        self.inner.nuclide_idx = v;
+    }
+    // @item field:outram_mc_libs::prelude::NuclideComponent::atom_density
+    #[getter(atom_density)]
+    pub fn get_atom_density(&self) -> f64 {
+        let v = self.inner.atom_density.clone();
+        v
+    }
+    #[setter(atom_density)]
+    pub fn set_atom_density(&mut self, v: f64) {
+        self.inner.atom_density = v;
+    }
+    // @item ctor:outram_mc_libs::prelude::NuclideComponent
+    #[new]
+    pub fn __new__(nuclide_idx: usize, atom_density: f64) -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::NuclideComponent {
+                nuclide_idx: nuclide_idx,
+                atom_density: atom_density,
+            },
+        }
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -11681,7 +11718,7 @@ pub fn fn_outram_mc_libs__prelude__run_fixed_source(
 }
 
 // @item fn:outram_mc_libs::prelude::run_keff
-#[doc = "Run fission-source power iteration on a bare sphere of radius `radius_cm`\n(centred at the origin, vacuum outside) filled with `material`.\n\n`nuclides` is the global nuclide array the material's components index into.\nReturns the mean eigenvalue and its standard error over the active\ngenerations. See the module docs for the algorithm and fidelity caveats.\n\nThis function is a thin **dispatcher**: it selects the transport backend from\n[`settings.compute`](KeffSettings::compute) and forwards to the matching\nentry point. The physics is identical across backends.\n\n- [`ComputeType::CpuSingleThread`] → [`run_keff_cpu_single`] (the trusted,\n  bit-reproducible reference),\n- [`ComputeType::CpuMultiThread`] → [`run_keff_cpu_multi`] (rayon-parallel),\n- [`ComputeType::Gpu`] → [`run_keff_gpu`] (GPU Sigma_t lookup, CPU fallback)."]
+#[doc = "Run fission-source power iteration on a bare sphere of radius `radius_cm`\n(centred at the origin, vacuum outside) filled with `material`.\n\n`nuclides` is the global nuclide array the material's components index into.\nReturns the mean eigenvalue and its standard error over the active\ngenerations. See the module docs for the algorithm and fidelity caveats.\n\nThis function is a thin **dispatcher**: it selects the transport backend from\n[`settings.compute`](KeffSettings::compute) and forwards to the matching\nentry point. The physics is identical across backends.\n\n- [`ComputeType::CpuSingleThread`] → [`run_keff_cpu_single`] (the trusted,\n  bit-reproducible reference),\n- [`ComputeType::CpuMultiThread`] → [`run_keff_cpu_multi`] (rayon-parallel),\n- [`ComputeType::Gpu`] → [`run_keff_gpu`] (GPU Sigma_t lookup, CPU fallback).\n\n# This does not take tallies, deliberately\n\nThere is no `Tally` parameter here, and that is a design choice rather than\nan omission: eigenvalue generations are run for convergence, and scoring\nthrough them costs throughput while mixing in the inactive generations that\nhave not yet converged onto the fundamental mode.\n\nTo score flux or reaction rates, run [`crate::physics:"]
 #[pyfunction(name = "run_keff")]
 pub fn fn_outram_mc_libs__prelude__run_keff(
     radius_cm: f64,
@@ -11846,7 +11883,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_mc_libs__gpu__capabilities__SplitReason>()?;
     m.add_class::<Py_outram_mc_libs__gpu__capabilities__WorkSplit>()?;
     m.add_class::<Py_outram_mc_libs__gpu__union_grid__UnionTotalXs>()?;
-    m.add_class::<Py_outram_mc_libs__material__material__NuclideComponent>()?;
     m.add_class::<Py_outram_mc_libs__material__nuclide__Inelastic>()?;
     m.add_class::<Py_outram_mc_libs__material__reaction__ReactionMT>()?;
     m.add_class::<Py_outram_mc_libs__particle__bank__Bank>()?;
@@ -11916,6 +11952,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_mc_libs__prelude__MeshFilter>()?;
     m.add_class::<Py_outram_mc_libs__prelude__MicroXS>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Nuclide>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__NuclideComponent>()?;
     m.add_class::<Py_outram_mc_libs__prelude__PackedSpheres>()?;
     m.add_class::<Py_outram_mc_libs__prelude__PackingConfig>()?;
     m.add_class::<Py_outram_mc_libs__prelude__PackingMethod>()?;

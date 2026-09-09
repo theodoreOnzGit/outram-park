@@ -809,7 +809,7 @@ impl Py_njoy_outram_park_fork__acer__AceTable {
     #[doc = "Assemble a continuous-energy ACE table from RECONR/BROADR output.\n\n# Parameters\n- `result` — reconstructed (and optionally Doppler-broadened) cross\n  sections for one material.\n- `kt_mev` — table temperature as kT \\[MeV\\] (`0.0` for a 0 K table). Use\n  `k_B[eV/K] · T[K] / 1e6`.\n- `suffix` — the ZAID identifier suffix as hundredths (e.g. `0` → `.00c`,\n  `3` → `.03c`), the conventional MCNP temperature/evaluation tag.\n\nThe build is faithful to `acelod`: the ESZ total is recomputed as\n`elastic + Σ partials` on the union grid (not copied from the ENDF MT=1),\nso it is exactly consistent with the stored partials. This constructor\nleaves heating (ESZ column 5) zero; supply a HEATR KERMA via\n[`from_reconr_full`][Self::from_reconr_full] to fill it.\n\nThis form writes **no** angular distributions (the AND block is absent).\nTo include the elastic angular distribution, use\n[`from_reconr_with_angular`][Self::from_reconr_with_angular]."]
     #[staticmethod]
     pub fn from_reconr(
-        result: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        result: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
         kt_mev: f64,
         suffix: u32,
     ) -> Py_njoy_outram_park_fork__acer__AceTable {
@@ -825,7 +825,7 @@ impl Py_njoy_outram_park_fork__acer__AceTable {
     #[doc = "Assemble an ACE table including the **elastic** angular distribution.\n\nSame as [`from_reconr`][Self::from_reconr] but also writes the LAND/AND\nblocks from `angular` (parse MF=4/MT=2 with\n[`parse_elastic_angular`][super::angular::parse_elastic_angular]). If the\ndistribution is isotropic at every incident energy, the AND block is\nomitted (elastic stays isotropic, the reader's default)."]
     #[staticmethod]
     pub fn from_reconr_with_angular(
-        result: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        result: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
         kt_mev: f64,
         suffix: u32,
         angular: PyRef<'_, Py_njoy_outram_park_fork__acer__angular__ElasticAngular>,
@@ -843,7 +843,7 @@ impl Py_njoy_outram_park_fork__acer__AceTable {
     #[doc = "Assemble a full ACE table: cross sections, the elastic angular\ndistribution, **and** the secondary-neutron energy distributions (TYR /\nLDLW / DLW) for the producing reactions in `emissions` (build them with\n[`build_emissions`][super::energy::build_emissions]).\n\nThis is the loadable-transport path: reactions listed in `emissions` get a\nTYR yield and a DLW law (Law 3 for discrete levels, Law 4 for continuum /\n(n,xn)); their secondary angular distribution is left isotropic (an\nAND-block upgrade is future work). NXS(5)=NR is set to the producer count.\n`heating` is the MT=301 KERMA cross section (build it with\n[`Kerma::from_reconr`][crate::heatr::Kerma::from_reconr]); when supplied,\nthe ESZ heating column is filled with the ACE heating number\n`KERMA(E) / σ_total(E)` \\[MeV\\] (`acefc`'s `xss(ih+j)`). `None` leaves it\nzero."]
     #[staticmethod]
     pub fn from_reconr_full(
-        result: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        result: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
         kt_mev: f64,
         suffix: u32,
         angular: Option<PyRef<'_, Py_njoy_outram_park_fork__acer__angular__ElasticAngular>>,
@@ -4590,7 +4590,7 @@ impl Py_njoy_outram_park_fork__endf__Tape {
         self.inner.tpid = v;
     }
     // @item method:njoy_outram_park_fork::endf::Tape::read_file
-    #[doc = "Parse an ENDF ASCII tape from any [`Read`] source.\n\nLine length must be 80 characters (padded with spaces if shorter is fine).\nBinary (blocked-binary) tapes are not supported in this version.\nParse an ENDF ASCII tape from a file on disk.\n\n[`Tape::read`] is generic over [`Read`], which is right for Rust and\nunreachable from a binding generator that cannot monomorphise a type\nparameter. This is the same parse behind a concrete signature, so\n`Tape::read_file(\"n-094_Pu_239.endf\")` works from Rust and from Python\nalike -- the ordinary case, without the caller opening the file first.\n\n# Errors\n\n[`NjoyError::Io`] if the file cannot be opened or read, or any parse\nerror [`Tape::read`] reports."]
+    #[doc = "Parse an ENDF ASCII tape from any [`Read`] source.\n\nLine length must be 80 characters (padded with spaces if shorter is fine).\nBinary (blocked-binary) tapes are not supported in this version.\nParse an ENDF ASCII tape from a file on disk.\n\n[`Tape::read`] is generic over [`Read`], which is right for Rust and\nunreachable from a binding generator that cannot monomorphise a type\nparameter. This is the same parse behind a concrete signature, so\n`Tape::read_file(\"n-094_Pu_239.endf\")` works from Rust and from Python\nalike -- the ordinary case, without the caller opening the file first.\n\n# Errors\n\n[`NjoyError::Io`] if the file cannot be opened or read, or any parse\nerror [`Tape::read`] reports.\n```no_run\nuse njoy_outram_park_fork::endf::tape::Tape;\nuse std::path::Path;\n\nlet tape = Tape::read_file(Path::new(\"n-092_U_238.endf\"))?;\nlet mat = tape.materials()[0];          // the tape knows its own MAT\nlet mf3_total = tape.section(mat, 3, 1); // MF=3, MT=1: total cross section\n# Ok::<(), njoy_outram_park_fork::NjoyError>(())\n```\n\nPrefer this over `File::open` + [`Tape::read`] for a file on disk. The\ngeneric [`Tape::read`] is for the cases this cannot serve — a socket, a\ndecompressor, an in-memor"]
     #[staticmethod]
     pub fn read_file(path: String) -> PyResult<Py_njoy_outram_park_fork__endf__Tape> {
         err(::njoy_outram_park_fork::endf::Tape::read_file(
@@ -4609,8 +4609,16 @@ impl Py_njoy_outram_park_fork__endf__Tape {
         ::njoy_outram_park_fork::endf::Tape::section(&self.inner, mat, mf, mt)
             .map(|e| Py_njoy_outram_park_fork__endf__Section { inner: e.clone() })
     }
+    // @item method:njoy_outram_park_fork::endf::Tape::materials
+    #[doc = "Iterate over all sections in file order.\nEvery ENDF material number on this tape, ascending and deduplicated.\n\nA tape carries its own MAT numbers, so a caller should never have to\nlook one up in a table to use the file they already hold. Most\nevaluations contain exactly one material, which makes\n`tape.materials()[0]` the common case."]
+    pub fn materials(&self) -> Vec<i32> {
+        ::njoy_outram_park_fork::endf::Tape::materials(&self.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
     // @item method:njoy_outram_park_fork::endf::Tape::sections
-    #[doc = "Iterate over all sections in file order."]
+    #[doc = ""]
     pub fn sections(&self) -> Vec<Py_njoy_outram_park_fork__endf__Section> {
         ::njoy_outram_park_fork::endf::Tape::sections(&self.inner)
             .clone()
@@ -7849,7 +7857,7 @@ impl Py_njoy_outram_park_fork__gaspr__GasProduction {
     #[doc = "Compute gas-production cross sections from a reconstructed evaluation.\n\nCollects the union of every gas-producing section's energy grid, then at\neach grid point sums `n_particle(mt) · σ_mt(E)` (lin-lin interpolated,\n[`crate::reconr::eval_lin_lin`]) over every contributing MT. Sections\nwith a zero [`gas_yield`] (the overwhelming majority — elastic,\ninelastic, capture, fission, pure `(n,xn)`, …) are skipped entirely.\n\nReturns an all-empty [`GasProduction`] if the evaluation has no\ngas-producing lumped channels (non-threshold-reaction nuclides, or one\nusing only the unported legacy MT=600–849 breakdown — see the module\ndocs)."]
     #[staticmethod]
     pub fn from_reconr(
-        recon: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        recon: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
     ) -> Py_njoy_outram_park_fork__gaspr__GasProduction {
         Py_njoy_outram_park_fork__gaspr__GasProduction {
             inner: ::njoy_outram_park_fork::gaspr::GasProduction::from_reconr(&recon.inner),
@@ -9031,14 +9039,14 @@ impl Py_njoy_outram_park_fork__groupr__GrouprInput {
     }
     // @item field:njoy_outram_park_fork::groupr::GrouprInput::neutron_groups
     #[getter(neutron_groups)]
-    pub fn get_neutron_groups(&self) -> Py_njoy_outram_park_fork__groupr__NeutronGroupStructure {
+    pub fn get_neutron_groups(&self) -> Py_njoy_outram_park_fork__prelude__NeutronGroupStructure {
         let v = self.inner.neutron_groups.clone();
-        Py_njoy_outram_park_fork__groupr__NeutronGroupStructure { inner: v }
+        Py_njoy_outram_park_fork__prelude__NeutronGroupStructure { inner: v }
     }
     #[setter(neutron_groups)]
     pub fn set_neutron_groups(
         &mut self,
-        v: Py_njoy_outram_park_fork__groupr__NeutronGroupStructure,
+        v: Py_njoy_outram_park_fork__prelude__NeutronGroupStructure,
     ) {
         self.inner.neutron_groups = v.inner;
     }
@@ -9202,7 +9210,7 @@ impl Py_njoy_outram_park_fork__groupr__GrouprInput {
     pub fn __new__(
         units: Option<Py_njoy_outram_park_fork__groupr__UnitAssignments>,
         matb: Option<i32>,
-        neutron_groups: Option<Py_njoy_outram_park_fork__groupr__NeutronGroupStructure>,
+        neutron_groups: Option<Py_njoy_outram_park_fork__prelude__NeutronGroupStructure>,
         photon_groups: Option<Py_njoy_outram_park_fork__groupr__PhotonGroupStructure>,
         weight: Option<Py_njoy_outram_park_fork__groupr__WeightSelection>,
         lord: Option<i32>,
@@ -9346,371 +9354,6 @@ impl Py_njoy_outram_park_fork__groupr__MtdClass {
         match &self.inner {
             ::njoy_outram_park_fork::groupr::MtdClass::CrossSection { .. } => "CrossSection",
             ::njoy_outram_park_fork::groupr::MtdClass::DerivedQuantity => "DerivedQuantity",
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:njoy_outram_park_fork::groupr::NeutronGroupStructure
-#[doc = "Named handle for a built-in neutron group structure.\n\nThis is a convenience wrapper over the integer `ign` index used by NJOY. Each\nvariant maps to one `ign`; [`NeutronGroupStructure::boundaries`] returns the\neV boundaries (ascending in energy, length = groups + 1) by delegating to\n[`neutron_group_structure`]. The `Arbitrary` variant corresponds to\n`abs(ign)==1`, which is read from input and has no built-in table."]
-#[pyclass(
-    name = "NeutronGroupStructure",
-    module = "outram_park.njoy_outram_park_fork"
-)]
-#[derive(Clone)]
-pub struct Py_njoy_outram_park_fork__groupr__NeutronGroupStructure {
-    pub inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure,
-}
-#[pymethods]
-impl Py_njoy_outram_park_fork__groupr__NeutronGroupStructure {
-    // @item method:njoy_outram_park_fork::groupr::NeutronGroupStructure::ign
-    #[doc = "The integer `ign` index NJOY uses for this structure."]
-    pub fn ign(&self) -> i32 {
-        ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ign(self.inner.clone())
-    }
-    // @item method:njoy_outram_park_fork::groupr::NeutronGroupStructure::boundaries
-    #[doc = "Group-boundary energies in eV, ascending, length = groups + 1.\n\nDelegates to [`neutron_group_structure`]. Returns [`NjoyError::NotPorted`]\nfor [`NeutronGroupStructure::Arbitrary`], which is read from input."]
-    pub fn boundaries(&self) -> PyResult<Vec<f64>> {
-        err(::njoy_outram_park_fork::groupr::NeutronGroupStructure::boundaries(self.inner.clone()))
-            .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Arbitrary
-    #[staticmethod]
-    #[pyo3(name = "Arbitrary")]
-    pub fn v_Arbitrary() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Arbitrary,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Csewg239
-    #[staticmethod]
-    #[pyo3(name = "Csewg239")]
-    pub fn v_Csewg239() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Csewg239,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl30
-    #[staticmethod]
-    #[pyo3(name = "Lanl30")]
-    pub fn v_Lanl30() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl30,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Anl27
-    #[staticmethod]
-    #[pyo3(name = "Anl27")]
-    pub fn v_Anl27() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Anl27,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Rrd50
-    #[staticmethod]
-    #[pyo3(name = "Rrd50")]
-    pub fn v_Rrd50() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Rrd50,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::GamI68
-    #[staticmethod]
-    #[pyo3(name = "GamI68")]
-    pub fn v_GamI68() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::GamI68,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::GamII100
-    #[staticmethod]
-    #[pyo3(name = "GamII100")]
-    pub fn v_GamII100() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::GamII100,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::LaserThermos35
-    #[staticmethod]
-    #[pyo3(name = "LaserThermos35")]
-    pub fn v_LaserThermos35() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::LaserThermos35,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::EpriCpm69
-    #[staticmethod]
-    #[pyo3(name = "EpriCpm69")]
-    pub fn v_EpriCpm69() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::EpriCpm69,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl187
-    #[staticmethod]
-    #[pyo3(name = "Lanl187")]
-    pub fn v_Lanl187() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl187,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl70
-    #[staticmethod]
-    #[pyo3(name = "Lanl70")]
-    pub fn v_Lanl70() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl70,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::SandII620
-    #[staticmethod]
-    #[pyo3(name = "SandII620")]
-    pub fn v_SandII620() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::SandII620,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl80
-    #[staticmethod]
-    #[pyo3(name = "Lanl80")]
-    pub fn v_Lanl80() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl80,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Eurlib100
-    #[staticmethod]
-    #[pyo3(name = "Eurlib100")]
-    pub fn v_Eurlib100() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Eurlib100,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::SandIIA640
-    #[staticmethod]
-    #[pyo3(name = "SandIIA640")]
-    pub fn v_SandIIA640() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::SandIIA640,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::VitaminE174
-    #[staticmethod]
-    #[pyo3(name = "VitaminE174")]
-    pub fn v_VitaminE174() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::VitaminE174,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::VitaminJ175
-    #[staticmethod]
-    #[pyo3(name = "VitaminJ175")]
-    pub fn v_VitaminJ175() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::VitaminJ175,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Xmas172
-    #[staticmethod]
-    #[pyo3(name = "Xmas172")]
-    pub fn v_Xmas172() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Xmas172,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco33
-    #[staticmethod]
-    #[pyo3(name = "Ecco33")]
-    pub fn v_Ecco33() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco33,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco1968
-    #[staticmethod]
-    #[pyo3(name = "Ecco1968")]
-    pub fn v_Ecco1968() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco1968,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Tripoli315
-    #[staticmethod]
-    #[pyo3(name = "Tripoli315")]
-    pub fn v_Tripoli315() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Tripoli315,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::XmasLwpc172
-    #[staticmethod]
-    #[pyo3(name = "XmasLwpc172")]
-    pub fn v_XmasLwpc172() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::XmasLwpc172,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::VitJLwpc175
-    #[staticmethod]
-    #[pyo3(name = "VitJLwpc175")]
-    pub fn v_VitJLwpc175() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::VitJLwpc175,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemCea281
-    #[staticmethod]
-    #[pyo3(name = "ShemCea281")]
-    pub fn v_ShemCea281() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemCea281,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemEpm295
-    #[staticmethod]
-    #[pyo3(name = "ShemEpm295")]
-    pub fn v_ShemEpm295() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemEpm295,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemCeaEpm361
-    #[staticmethod]
-    #[pyo3(name = "ShemCeaEpm361")]
-    pub fn v_ShemCeaEpm361() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemCeaEpm361,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemEpm315
-    #[staticmethod]
-    #[pyo3(name = "ShemEpm315")]
-    pub fn v_ShemEpm315() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemEpm315,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::RahabAecl89
-    #[staticmethod]
-    #[pyo3(name = "RahabAecl89")]
-    pub fn v_RahabAecl89() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::RahabAecl89,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ccfe660
-    #[staticmethod]
-    #[pyo3(name = "Ccfe660")]
-    pub fn v_Ccfe660() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ccfe660,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1025
-    #[staticmethod]
-    #[pyo3(name = "Ukaea1025")]
-    pub fn v_Ukaea1025() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1025,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1067
-    #[staticmethod]
-    #[pyo3(name = "Ukaea1067")]
-    pub fn v_Ukaea1067() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1067,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1102
-    #[staticmethod]
-    #[pyo3(name = "Ukaea1102")]
-    pub fn v_Ukaea1102() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1102,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea142
-    #[staticmethod]
-    #[pyo3(name = "Ukaea142")]
-    pub fn v_Ukaea142() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea142,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl618
-    #[staticmethod]
-    #[pyo3(name = "Lanl618")]
-    pub fn v_Lanl618() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl618,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Apollo99
-    #[staticmethod]
-    #[pyo3(name = "Apollo99")]
-    pub fn v_Apollo99() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Apollo99,
-        }
-    }
-    // @item variant:njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco1962
-    #[staticmethod]
-    #[pyo3(name = "Ecco1962")]
-    pub fn v_Ecco1962() -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco1962,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Arbitrary => "Arbitrary",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Csewg239 => "Csewg239",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl30 => "Lanl30",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Anl27 => "Anl27",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Rrd50 => "Rrd50",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::GamI68 => "GamI68",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::GamII100 => "GamII100",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::LaserThermos35 => {
-                "LaserThermos35"
-            }
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::EpriCpm69 => "EpriCpm69",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl187 => "Lanl187",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl70 => "Lanl70",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::SandII620 => "SandII620",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl80 => "Lanl80",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Eurlib100 => "Eurlib100",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::SandIIA640 => "SandIIA640",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::VitaminE174 => "VitaminE174",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::VitaminJ175 => "VitaminJ175",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Xmas172 => "Xmas172",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco33 => "Ecco33",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco1968 => "Ecco1968",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Tripoli315 => "Tripoli315",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::XmasLwpc172 => "XmasLwpc172",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::VitJLwpc175 => "VitJLwpc175",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemCea281 => "ShemCea281",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemEpm295 => "ShemEpm295",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemCeaEpm361 => {
-                "ShemCeaEpm361"
-            }
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::ShemEpm315 => "ShemEpm315",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::RahabAecl89 => "RahabAecl89",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ccfe660 => "Ccfe660",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1025 => "Ukaea1025",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1067 => "Ukaea1067",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea1102 => "Ukaea1102",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ukaea142 => "Ukaea142",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Lanl618 => "Lanl618",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Apollo99 => "Apollo99",
-            ::njoy_outram_park_fork::groupr::NeutronGroupStructure::Ecco1962 => "Ecco1962",
             _ => "unknown",
         }
     }
@@ -12156,7 +11799,7 @@ impl Py_njoy_outram_park_fork__heatr__DamageEnergy {
     #[doc = "Compute the damage-energy cross section (MT=444) from a reconstructed\nevaluation, summed over the elastic (MT=2) and discrete-inelastic\n(MT=51–90) two-body recoil channels.\n\nThe target's proton number `z` and displacement threshold `e_d` \\[eV\\]\n(pass [`default_displacement_energy`]`(z)` for the built-in default) set\nthe Lindhard partition; mass ratio `A` comes from `recon.material.awr`.\nReturns an empty table if the material has none of these channels."]
     #[staticmethod]
     pub fn from_reconr(
-        recon: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        recon: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
         z: u32,
         e_d: f64,
     ) -> Py_njoy_outram_park_fork__heatr__DamageEnergy {
@@ -12266,7 +11909,7 @@ impl Py_njoy_outram_park_fork__heatr__Kerma {
     #[doc = "Compute the kinematic-limit KERMA from a reconstructed evaluation.\n\n**H1–H5** are covered (elastic; capture + charged-particle-only exits;\nsingle-escaping-neutron reactions; fission; multi-neutron-exit + continuum\ninelastic); every other reaction contributes 0 (see the module docs).\n\n- `awr` is the target's mass ratio (`ReconrResult::material::awr`).\n- `nu`/`chi` are the fission neutron yield and birth spectrum (from\n  [`crate::nuclear_data::secondary`]) used only by the `Fission` model —\n  pass [`NuBar::default`]/[`FissionSpectrum::default`] for a\n  non-fissionable material (no MT=18 section ⇒ they are never evaluated).\n- `emission` maps each H5 multi-neutron / continuum-inelastic reaction\n  (MT=11, 16, 17, 24, 25, 30, 37, 41, 42, 91) to its emitted-neutron\n  spectrum ([`EmissionSpectrum`], from ENDF MF=5 *or* MF=6); the mean of\n  that spectrum is subtracted `ȳ` times (once per escaping neutron). A\n  reaction present in `recon` but absent from `emission` contributes 0 —\n  pass `&[]` to skip all of H5."]
     #[staticmethod]
     pub fn from_reconr(
-        recon: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        recon: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
         nu: PyRef<'_, Py_njoy_outram_park_fork__nuclear_data__secondary__NuBar>,
         chi: PyRef<'_, Py_njoy_outram_park_fork__nuclear_data__secondary__FissionSpectrum>,
         emission: Vec<(
@@ -12294,7 +11937,7 @@ impl Py_njoy_outram_park_fork__heatr__Kerma {
     pub fn with_energy_balance(
         &self,
         photon: PyRef<'_, Py_njoy_outram_park_fork__photon__PhotonProduction>,
-        recon: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        recon: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
     ) -> Py_njoy_outram_park_fork__heatr__Kerma {
         Py_njoy_outram_park_fork__heatr__Kerma {
             inner: ::njoy_outram_park_fork::heatr::Kerma::with_energy_balance(
@@ -16909,7 +16552,7 @@ impl Py_njoy_outram_park_fork__nuclear_data__Mgxs {
     #[doc = "Build the standard fast MGXS set directly from **RECONR pointwise output** —\nthe in-crate bake path for the high-energy fallback.\n\nUses the reconstructed lin-lin σ(E) grid ([`ReconrResult`]) as the fine\ninput, [`FAST_GROUP_COUNT`] log-spaced groups from `e_lo` (the nuclide's WMP\n`e_max`) to [`ENDF_MAX_ENERGY_EV`] (20 MeV), and the caller-chosen weight\n([`Self::collapse`]). Channels are taken from the standard MTs:\ntotal = MT 1 (or elastic+fission+capture if MT 1 is absent), elastic = MT 2,\nfission = MT 18, capture = MT 102; ν·σ_f folds in `nu` at each energy.\n\nThe fine grid is the union of every section's native energies within\n`[e_lo, 20 MeV]` (so σ kinks are represented exactly) plus the group\nboundaries (so no group is empty). Faithful to RECONR's pointwise data — no\nre-reconstruction, just group collapse.\n\n`elastic_angular` is the parsed ENDF MF=4/MT=2 distribution (CM frame); pass\n`Some` to bake a per-group mean-cosine μ̄ column for forward-peaked elastic,\nor `None` to leave μ̄ = 0 (isotropic-CM)."]
     #[staticmethod]
     pub fn collapse_from_reconr(
-        result: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        result: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
         name: String,
         e_lo: f64,
         nu: PyRef<'_, Py_njoy_outram_park_fork__nuclear_data__secondary__NuBar>,
@@ -17817,7 +17460,7 @@ impl Py_njoy_outram_park_fork__photon__PhotonProduction {
     pub fn from_endf(
         tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
         mat: i32,
-        recon: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        recon: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
     ) -> Py_njoy_outram_park_fork__photon__PhotonProduction {
         Py_njoy_outram_park_fork__photon__PhotonProduction {
             inner: ::njoy_outram_park_fork::photon::PhotonProduction::from_endf(
@@ -17832,7 +17475,7 @@ impl Py_njoy_outram_park_fork__photon__PhotonProduction {
     pub fn eval(
         &self,
         e: f64,
-        recon: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrResult>,
+        recon: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
     ) -> f64 {
         ::njoy_outram_park_fork::photon::PhotonProduction::eval(&self.inner, e, &recon.inner)
     }
@@ -17856,6 +17499,480 @@ impl Py_njoy_outram_park_fork__photon__PhotonProduction {
         Self {
             inner: Default::default(),
         }
+    }
+}
+
+// @item type:njoy_outram_park_fork::prelude::NeutronGroupStructure
+#[doc = "Named handle for a built-in neutron group structure.\n\nThis is a convenience wrapper over the integer `ign` index used by NJOY. Each\nvariant maps to one `ign`; [`NeutronGroupStructure::boundaries`] returns the\neV boundaries (ascending in energy, length = groups + 1) by delegating to\n[`neutron_group_structure`]. The `Arbitrary` variant corresponds to\n`abs(ign)==1`, which is read from input and has no built-in table."]
+#[pyclass(
+    name = "NeutronGroupStructure",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__prelude__NeutronGroupStructure {
+    pub inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__prelude__NeutronGroupStructure {
+    // @item method:njoy_outram_park_fork::prelude::NeutronGroupStructure::ign
+    #[doc = "The integer `ign` index NJOY uses for this structure."]
+    pub fn ign(&self) -> i32 {
+        ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ign(self.inner.clone())
+    }
+    // @item method:njoy_outram_park_fork::prelude::NeutronGroupStructure::boundaries
+    #[doc = "Group-boundary energies in eV, ascending, length = groups + 1.\n\nDelegates to [`neutron_group_structure`]. Returns [`NjoyError::NotPorted`]\nfor [`NeutronGroupStructure::Arbitrary`], which is read from input."]
+    pub fn boundaries(&self) -> PyResult<Vec<f64>> {
+        err(::njoy_outram_park_fork::prelude::NeutronGroupStructure::boundaries(self.inner.clone()))
+            .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Arbitrary
+    #[staticmethod]
+    #[pyo3(name = "Arbitrary")]
+    pub fn v_Arbitrary() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Arbitrary,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Csewg239
+    #[staticmethod]
+    #[pyo3(name = "Csewg239")]
+    pub fn v_Csewg239() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Csewg239,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl30
+    #[staticmethod]
+    #[pyo3(name = "Lanl30")]
+    pub fn v_Lanl30() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl30,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Anl27
+    #[staticmethod]
+    #[pyo3(name = "Anl27")]
+    pub fn v_Anl27() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Anl27,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Rrd50
+    #[staticmethod]
+    #[pyo3(name = "Rrd50")]
+    pub fn v_Rrd50() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Rrd50,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::GamI68
+    #[staticmethod]
+    #[pyo3(name = "GamI68")]
+    pub fn v_GamI68() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::GamI68,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::GamII100
+    #[staticmethod]
+    #[pyo3(name = "GamII100")]
+    pub fn v_GamII100() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::GamII100,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::LaserThermos35
+    #[staticmethod]
+    #[pyo3(name = "LaserThermos35")]
+    pub fn v_LaserThermos35() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::LaserThermos35,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::EpriCpm69
+    #[staticmethod]
+    #[pyo3(name = "EpriCpm69")]
+    pub fn v_EpriCpm69() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::EpriCpm69,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl187
+    #[staticmethod]
+    #[pyo3(name = "Lanl187")]
+    pub fn v_Lanl187() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl187,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl70
+    #[staticmethod]
+    #[pyo3(name = "Lanl70")]
+    pub fn v_Lanl70() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl70,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::SandII620
+    #[staticmethod]
+    #[pyo3(name = "SandII620")]
+    pub fn v_SandII620() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::SandII620,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl80
+    #[staticmethod]
+    #[pyo3(name = "Lanl80")]
+    pub fn v_Lanl80() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl80,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Eurlib100
+    #[staticmethod]
+    #[pyo3(name = "Eurlib100")]
+    pub fn v_Eurlib100() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Eurlib100,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::SandIIA640
+    #[staticmethod]
+    #[pyo3(name = "SandIIA640")]
+    pub fn v_SandIIA640() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::SandIIA640,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::VitaminE174
+    #[staticmethod]
+    #[pyo3(name = "VitaminE174")]
+    pub fn v_VitaminE174() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::VitaminE174,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::VitaminJ175
+    #[staticmethod]
+    #[pyo3(name = "VitaminJ175")]
+    pub fn v_VitaminJ175() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::VitaminJ175,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Xmas172
+    #[staticmethod]
+    #[pyo3(name = "Xmas172")]
+    pub fn v_Xmas172() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Xmas172,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco33
+    #[staticmethod]
+    #[pyo3(name = "Ecco33")]
+    pub fn v_Ecco33() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco33,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco1968
+    #[staticmethod]
+    #[pyo3(name = "Ecco1968")]
+    pub fn v_Ecco1968() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco1968,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Tripoli315
+    #[staticmethod]
+    #[pyo3(name = "Tripoli315")]
+    pub fn v_Tripoli315() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Tripoli315,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::XmasLwpc172
+    #[staticmethod]
+    #[pyo3(name = "XmasLwpc172")]
+    pub fn v_XmasLwpc172() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::XmasLwpc172,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::VitJLwpc175
+    #[staticmethod]
+    #[pyo3(name = "VitJLwpc175")]
+    pub fn v_VitJLwpc175() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::VitJLwpc175,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemCea281
+    #[staticmethod]
+    #[pyo3(name = "ShemCea281")]
+    pub fn v_ShemCea281() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemCea281,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemEpm295
+    #[staticmethod]
+    #[pyo3(name = "ShemEpm295")]
+    pub fn v_ShemEpm295() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemEpm295,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemCeaEpm361
+    #[staticmethod]
+    #[pyo3(name = "ShemCeaEpm361")]
+    pub fn v_ShemCeaEpm361() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemCeaEpm361,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemEpm315
+    #[staticmethod]
+    #[pyo3(name = "ShemEpm315")]
+    pub fn v_ShemEpm315() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemEpm315,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::RahabAecl89
+    #[staticmethod]
+    #[pyo3(name = "RahabAecl89")]
+    pub fn v_RahabAecl89() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::RahabAecl89,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ccfe660
+    #[staticmethod]
+    #[pyo3(name = "Ccfe660")]
+    pub fn v_Ccfe660() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ccfe660,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1025
+    #[staticmethod]
+    #[pyo3(name = "Ukaea1025")]
+    pub fn v_Ukaea1025() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1025,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1067
+    #[staticmethod]
+    #[pyo3(name = "Ukaea1067")]
+    pub fn v_Ukaea1067() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1067,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1102
+    #[staticmethod]
+    #[pyo3(name = "Ukaea1102")]
+    pub fn v_Ukaea1102() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1102,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea142
+    #[staticmethod]
+    #[pyo3(name = "Ukaea142")]
+    pub fn v_Ukaea142() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea142,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl618
+    #[staticmethod]
+    #[pyo3(name = "Lanl618")]
+    pub fn v_Lanl618() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl618,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Apollo99
+    #[staticmethod]
+    #[pyo3(name = "Apollo99")]
+    pub fn v_Apollo99() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Apollo99,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco1962
+    #[staticmethod]
+    #[pyo3(name = "Ecco1962")]
+    pub fn v_Ecco1962() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco1962,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Arbitrary => "Arbitrary",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Csewg239 => "Csewg239",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl30 => "Lanl30",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Anl27 => "Anl27",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Rrd50 => "Rrd50",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::GamI68 => "GamI68",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::GamII100 => "GamII100",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::LaserThermos35 => {
+                "LaserThermos35"
+            }
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::EpriCpm69 => "EpriCpm69",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl187 => "Lanl187",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl70 => "Lanl70",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::SandII620 => "SandII620",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl80 => "Lanl80",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Eurlib100 => "Eurlib100",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::SandIIA640 => "SandIIA640",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::VitaminE174 => "VitaminE174",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::VitaminJ175 => "VitaminJ175",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Xmas172 => "Xmas172",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco33 => "Ecco33",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco1968 => "Ecco1968",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Tripoli315 => "Tripoli315",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::XmasLwpc172 => "XmasLwpc172",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::VitJLwpc175 => "VitJLwpc175",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemCea281 => "ShemCea281",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemEpm295 => "ShemEpm295",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemCeaEpm361 => {
+                "ShemCeaEpm361"
+            }
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::ShemEpm315 => "ShemEpm315",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::RahabAecl89 => "RahabAecl89",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ccfe660 => "Ccfe660",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1025 => "Ukaea1025",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1067 => "Ukaea1067",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea1102 => "Ukaea1102",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ukaea142 => "Ukaea142",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Lanl618 => "Lanl618",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Apollo99 => "Apollo99",
+            ::njoy_outram_park_fork::prelude::NeutronGroupStructure::Ecco1962 => "Ecco1962",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::prelude::ReconrConfig
+#[doc = "Configuration for one RECONR run on a single material."]
+#[pyclass(name = "ReconrConfig", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__prelude__ReconrConfig {
+    pub inner: ::njoy_outram_park_fork::prelude::ReconrConfig,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__prelude__ReconrConfig {
+    // @item field:njoy_outram_park_fork::prelude::ReconrConfig::mat
+    #[getter(mat)]
+    pub fn get_mat(&self) -> i32 {
+        let v = self.inner.mat.clone();
+        v
+    }
+    #[setter(mat)]
+    pub fn set_mat(&mut self, v: i32) {
+        self.inner.mat = v;
+    }
+    // @item field:njoy_outram_park_fork::prelude::ReconrConfig::tolerance
+    #[getter(tolerance)]
+    pub fn get_tolerance(&self) -> f64 {
+        let v = self.inner.tolerance.clone();
+        v
+    }
+    #[setter(tolerance)]
+    pub fn set_tolerance(&mut self, v: f64) {
+        self.inner.tolerance = v;
+    }
+    // @item field:njoy_outram_park_fork::prelude::ReconrConfig::temperature
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> f64 {
+        let v = self.inner.temperature.clone();
+        v
+    }
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: f64) {
+        self.inner.temperature = v;
+    }
+    // @item ctor:njoy_outram_park_fork::prelude::ReconrConfig
+    #[new]
+    pub fn __new__(mat: i32, tolerance: f64, temperature: f64) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::ReconrConfig {
+                mat: mat,
+                tolerance: tolerance,
+                temperature: temperature,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::prelude::ReconrResult
+#[doc = "Result of running RECONR on one material."]
+#[pyclass(name = "ReconrResult", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__prelude__ReconrResult {
+    pub inner: ::njoy_outram_park_fork::prelude::ReconrResult,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__prelude__ReconrResult {
+    // @item field:njoy_outram_park_fork::prelude::ReconrResult::material
+    #[getter(material)]
+    pub fn get_material(&self) -> Py_njoy_outram_park_fork__reconr__MaterialInfo {
+        let v = self.inner.material.clone();
+        Py_njoy_outram_park_fork__reconr__MaterialInfo { inner: v }
+    }
+    #[setter(material)]
+    pub fn set_material(&mut self, v: Py_njoy_outram_park_fork__reconr__MaterialInfo) {
+        self.inner.material = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::prelude::ReconrResult::sections
+    #[getter(sections)]
+    pub fn get_sections(&self) -> Vec<Py_njoy_outram_park_fork__reconr__ReconrSection> {
+        let v = self.inner.sections.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__reconr__ReconrSection { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(sections)]
+    pub fn set_sections(&mut self, v: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>) {
+        self.inner.sections = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::prelude::ReconrResult::eval_mt
+    #[doc = "Evaluate cross section \\[b\\] for a reaction at energy `e` \\[eV\\].\n\nUses linear interpolation on the lin-lin grid. Returns `0.0` if\n`mt` is not present or `e` is outside the tabulated range."]
+    pub fn eval_mt(&self, mt: Py_njoy_outram_park_fork__MtReaction, e: f64) -> f64 {
+        ::njoy_outram_park_fork::prelude::ReconrResult::eval_mt(&self.inner, mt.inner, e)
+    }
+    // @item ctor:njoy_outram_park_fork::prelude::ReconrResult
+    #[new]
+    pub fn __new__(
+        material: Py_njoy_outram_park_fork__reconr__MaterialInfo,
+        sections: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::prelude::ReconrResult {
+                material: material.inner,
+                sections: sections.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
     }
 }
 
@@ -18866,115 +18983,6 @@ impl Py_njoy_outram_park_fork__reconr__MaterialInfo {
                 elis: elis,
                 nfor: nfor,
                 emax: emax,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-}
-
-// @item type:njoy_outram_park_fork::reconr::ReconrConfig
-#[doc = "Configuration for one RECONR run on a single material."]
-#[pyclass(name = "ReconrConfig", module = "outram_park.njoy_outram_park_fork")]
-#[derive(Clone)]
-pub struct Py_njoy_outram_park_fork__reconr__ReconrConfig {
-    pub inner: ::njoy_outram_park_fork::reconr::ReconrConfig,
-}
-#[pymethods]
-impl Py_njoy_outram_park_fork__reconr__ReconrConfig {
-    // @item field:njoy_outram_park_fork::reconr::ReconrConfig::mat
-    #[getter(mat)]
-    pub fn get_mat(&self) -> i32 {
-        let v = self.inner.mat.clone();
-        v
-    }
-    #[setter(mat)]
-    pub fn set_mat(&mut self, v: i32) {
-        self.inner.mat = v;
-    }
-    // @item field:njoy_outram_park_fork::reconr::ReconrConfig::tolerance
-    #[getter(tolerance)]
-    pub fn get_tolerance(&self) -> f64 {
-        let v = self.inner.tolerance.clone();
-        v
-    }
-    #[setter(tolerance)]
-    pub fn set_tolerance(&mut self, v: f64) {
-        self.inner.tolerance = v;
-    }
-    // @item field:njoy_outram_park_fork::reconr::ReconrConfig::temperature
-    #[getter(temperature)]
-    pub fn get_temperature(&self) -> f64 {
-        let v = self.inner.temperature.clone();
-        v
-    }
-    #[setter(temperature)]
-    pub fn set_temperature(&mut self, v: f64) {
-        self.inner.temperature = v;
-    }
-    // @item ctor:njoy_outram_park_fork::reconr::ReconrConfig
-    #[new]
-    pub fn __new__(mat: i32, tolerance: f64, temperature: f64) -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::reconr::ReconrConfig {
-                mat: mat,
-                tolerance: tolerance,
-                temperature: temperature,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-}
-
-// @item type:njoy_outram_park_fork::reconr::ReconrResult
-#[doc = "Result of running RECONR on one material."]
-#[pyclass(name = "ReconrResult", module = "outram_park.njoy_outram_park_fork")]
-#[derive(Clone)]
-pub struct Py_njoy_outram_park_fork__reconr__ReconrResult {
-    pub inner: ::njoy_outram_park_fork::reconr::ReconrResult,
-}
-#[pymethods]
-impl Py_njoy_outram_park_fork__reconr__ReconrResult {
-    // @item field:njoy_outram_park_fork::reconr::ReconrResult::material
-    #[getter(material)]
-    pub fn get_material(&self) -> Py_njoy_outram_park_fork__reconr__MaterialInfo {
-        let v = self.inner.material.clone();
-        Py_njoy_outram_park_fork__reconr__MaterialInfo { inner: v }
-    }
-    #[setter(material)]
-    pub fn set_material(&mut self, v: Py_njoy_outram_park_fork__reconr__MaterialInfo) {
-        self.inner.material = v.inner;
-    }
-    // @item field:njoy_outram_park_fork::reconr::ReconrResult::sections
-    #[getter(sections)]
-    pub fn get_sections(&self) -> Vec<Py_njoy_outram_park_fork__reconr__ReconrSection> {
-        let v = self.inner.sections.clone();
-        v.into_iter()
-            .map(|e| Py_njoy_outram_park_fork__reconr__ReconrSection { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(sections)]
-    pub fn set_sections(&mut self, v: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>) {
-        self.inner.sections = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item method:njoy_outram_park_fork::reconr::ReconrResult::eval_mt
-    #[doc = "Evaluate cross section \\[b\\] for a reaction at energy `e` \\[eV\\].\n\nUses linear interpolation on the lin-lin grid. Returns `0.0` if\n`mt` is not present or `e` is outside the tabulated range."]
-    pub fn eval_mt(&self, mt: Py_njoy_outram_park_fork__MtReaction, e: f64) -> f64 {
-        ::njoy_outram_park_fork::reconr::ReconrResult::eval_mt(&self.inner, mt.inner, e)
-    }
-    // @item ctor:njoy_outram_park_fork::reconr::ReconrResult
-    #[new]
-    pub fn __new__(
-        material: Py_njoy_outram_park_fork__reconr__MaterialInfo,
-        sections: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>,
-    ) -> Self {
-        Self {
-            inner: ::njoy_outram_park_fork::reconr::ReconrResult {
-                material: material.inner,
-                sections: sections.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
             },
         }
     }
@@ -26309,25 +26317,6 @@ pub fn fn_njoy_outram_park_fork__groupr__group_average_vector(
     .collect::<Vec<_>>()
 }
 
-// @item fn:njoy_outram_park_fork::groupr::group_integral
-#[doc = "Integrate one group `[e_lo, e_hi)` — the 1-D reduction of `panel`/`gpanel`.\n\nMarches sub-panels bounded by the union of the [`PointwiseXs`] and\n[`GroupFlux`] break points (and the group edge `e_hi`), accumulating the\ntrapezoidal flux and reaction-rate integrals per panel exactly as `panel`\ndoes after its Lobatto rule collapses on the linear reaction rate (see the\nmodule docs). Returns the two [`GroupIntegral`] accumulators; call\n[`GroupIntegral::average`] for `sigma_g`.\n\n# Parameters\n- `sigma` — the pointwise cross section feeder \\[barn vs eV\\].\n- `flux` — the weighting flux feeder (shape-only).\n- `e_lo`, `e_hi` — group boundaries \\[eV\\], `e_lo < e_hi`.\n\n# Panics\nDebug-asserts `e_lo < e_hi` (a group needs positive width)."]
-#[pyfunction(name = "group_integral")]
-pub fn fn_njoy_outram_park_fork__groupr__group_integral(
-    sigma: PyRef<'_, Py_njoy_outram_park_fork__groupr__PointwiseXs>,
-    flux: PyRef<'_, Py_njoy_outram_park_fork__groupr__GroupFlux>,
-    e_lo: f64,
-    e_hi: f64,
-) -> Py_njoy_outram_park_fork__groupr__GroupIntegral {
-    Py_njoy_outram_park_fork__groupr__GroupIntegral {
-        inner: ::njoy_outram_park_fork::groupr::group_integral(
-            &sigma.inner,
-            &flux.inner,
-            e_lo,
-            e_hi,
-        ),
-    }
-}
-
 // @item fn:njoy_outram_park_fork::groupr::kinematics::bach
 #[doc = "Kalbach-Mann `a(E, E')` slope parameter (dimensionless).\n\nFaithful port of NJOY2016 `bach` (`groupr.f90:8812-8932`), the Kalbach-86\nsystematics. Given the projectile, emitted-particle, and target `ZA` codes\n(`ZA = 1000 Z + A`; `iza1i = 0` is treated as an incident neutron), the\nincident energy `e` \\[eV\\], and the CM secondary energy `ep` \\[eV\\], returns\nthe slope `a` of the Kalbach angular form\n`f(mu) ~ a (cosh(a mu) + r sinh(a mu))`.\n\nNatural-element target codes (`Z000`) are mapped to their dominant isotope,\nas NJOY does. Separation energies use the Kalbach mass formula (constants\n`c1..c6`, `s2..s5`). For an incident neutron (`iza1i = 0`) the extra\nlow-energy `d1 / sqrt(E')` enhancement factor is applied.\n\n# Errors\n[`NjoyError::EndfParse`] if the target's dominant isotope is unknown\n(mirrors NJOY's `error('bach', 'dominant isotope not known ...')`).\n\nValid for `e > 0`, `ep > 0`."]
 #[pyfunction(name = "bach")]
@@ -26446,19 +26435,9 @@ pub fn fn_njoy_outram_park_fork__groupr__matrix__scatter_matrix(
 #[pyfunction(name = "neutron_group_from_ign")]
 pub fn fn_njoy_outram_park_fork__groupr__neutron_group_from_ign(
     ign: i32,
-) -> PyResult<Py_njoy_outram_park_fork__groupr__NeutronGroupStructure> {
+) -> PyResult<Py_njoy_outram_park_fork__prelude__NeutronGroupStructure> {
     err(::njoy_outram_park_fork::groupr::neutron_group_from_ign(ign))
-        .map(|v| Py_njoy_outram_park_fork__groupr__NeutronGroupStructure { inner: v })
-}
-
-// @item fn:njoy_outram_park_fork::groupr::neutron_group_structure
-#[doc = "Return the neutron group-boundary structure selected by `ign`, in eV.\n\nThis is the faithful port of NJOY2016's `gengpn` boundary tables reached\nthrough ERRORR's `egngpn` (`errorr.f90:9716`). The returned vector has\nlength `ngn + 1` (one more than the group count) and is **ascending in\nenergy**. See the module-level documentation for the `ign` map, the energy\nunit, and ordering.\n\n# Errors\n\n- `abs(ign) == 1` selects the read-from-input arbitrary structure, which has\n  no built-in table; returns [`NjoyError::NotPorted`].\n- Any `ign` outside the built-in set returns an error (NJOY aborts here).\n\n# Source\n\n`groupr.f90:1599-4649` (`gengpn`); dispatch mirror of `groupr.f90:4156-4567`."]
-#[pyfunction(name = "neutron_group_structure")]
-pub fn fn_njoy_outram_park_fork__groupr__neutron_group_structure(ign: i32) -> PyResult<Vec<f64>> {
-    err(::njoy_outram_park_fork::groupr::neutron_group_structure(
-        ign,
-    ))
-    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+        .map(|v| Py_njoy_outram_park_fork__prelude__NeutronGroupStructure { inner: v })
 }
 
 // @item fn:njoy_outram_park_fork::groupr::photon_group_structure
@@ -27190,6 +27169,65 @@ pub fn fn_njoy_outram_park_fork__powr__run() -> PyResult<()> {
     err(::njoy_outram_park_fork::powr::run()).map(|v| v)
 }
 
+// @item fn:njoy_outram_park_fork::prelude::group_integral
+#[doc = "Integrate one group `[e_lo, e_hi)` — the 1-D reduction of `panel`/`gpanel`.\n\nMarches sub-panels bounded by the union of the [`PointwiseXs`] and\n[`GroupFlux`] break points (and the group edge `e_hi`), accumulating the\ntrapezoidal flux and reaction-rate integrals per panel exactly as `panel`\ndoes after its Lobatto rule collapses on the linear reaction rate (see the\nmodule docs). Returns the two [`GroupIntegral`] accumulators; call\n[`GroupIntegral::average`] for `sigma_g`.\n\n# Parameters\n- `sigma` — the pointwise cross section feeder \\[barn vs eV\\].\n- `flux` — the weighting flux feeder (shape-only).\n- `e_lo`, `e_hi` — group boundaries \\[eV\\], `e_lo < e_hi`.\n\n# Panics\nDebug-asserts `e_lo < e_hi` (a group needs positive width)."]
+#[pyfunction(name = "group_integral")]
+pub fn fn_njoy_outram_park_fork__prelude__group_integral(
+    sigma: PyRef<'_, Py_njoy_outram_park_fork__groupr__PointwiseXs>,
+    flux: PyRef<'_, Py_njoy_outram_park_fork__groupr__GroupFlux>,
+    e_lo: f64,
+    e_hi: f64,
+) -> Py_njoy_outram_park_fork__groupr__GroupIntegral {
+    Py_njoy_outram_park_fork__groupr__GroupIntegral {
+        inner: ::njoy_outram_park_fork::prelude::group_integral(
+            &sigma.inner,
+            &flux.inner,
+            e_lo,
+            e_hi,
+        ),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::prelude::neutron_group_structure
+#[doc = "Return the neutron group-boundary structure selected by `ign`, in eV.\n\nThis is the faithful port of NJOY2016's `gengpn` boundary tables reached\nthrough ERRORR's `egngpn` (`errorr.f90:9716`). The returned vector has\nlength `ngn + 1` (one more than the group count) and is **ascending in\nenergy**. See the module-level documentation for the `ign` map, the energy\nunit, and ordering.\n\n# Errors\n\n- `abs(ign) == 1` selects the read-from-input arbitrary structure, which has\n  no built-in table; returns [`NjoyError::NotPorted`].\n- Any `ign` outside the built-in set returns an error (NJOY aborts here).\n\n# Source\n\n`groupr.f90:1599-4649` (`gengpn`); dispatch mirror of `groupr.f90:4156-4567`."]
+#[pyfunction(name = "neutron_group_structure")]
+pub fn fn_njoy_outram_park_fork__prelude__neutron_group_structure(ign: i32) -> PyResult<Vec<f64>> {
+    err(::njoy_outram_park_fork::prelude::neutron_group_structure(
+        ign,
+    ))
+    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+}
+
+// @item fn:njoy_outram_park_fork::prelude::reconr
+#[doc = "Reconstruct pointwise cross sections for one material.\n\nReads the material identified by `config.mat` from `tape`, linearises every\nMF=3 section to lin-lin within `config.tolerance`, and adds resonance\ncontributions from MF=2 (SLBW/MLBW/Reich-Moore, Phases 2b/2c).\n\n# Errors\n\n- [`NjoyError::SectionNotFound`] — MF=1/MT=451 or MF=3 sections absent.\n- [`NjoyError::NotPorted`] — MF=2 contains LRF=4 (Adler-Adler)."]
+#[pyfunction(name = "reconr")]
+pub fn fn_njoy_outram_park_fork__prelude__reconr(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    config: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrConfig>,
+) -> PyResult<Py_njoy_outram_park_fork__prelude__ReconrResult> {
+    err(::njoy_outram_park_fork::prelude::reconr(
+        &tape.inner,
+        &config.inner,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__prelude__ReconrResult { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::prelude::reconr_background
+#[doc = "Reconstruct **only the MF=3 background** — no MF=2 resonance contributions.\n\nThis is the fast-range path used by the MGXS bake\n([`crate::nuclear_data::Mgxs::collapse_from_reconr`]). Above a nuclide's WMP\n`e_max` the incident energy is beyond the resolved-resonance region, so the\nsmooth linearised MF=3 grid *is* the cross section there. Skipping MF=2 avoids\nthe (potentially expensive, R-matrix-inversion-heavy for LRF=7) resonance\nreconstruction entirely in a region where it wouldn't change the result anyway.\n\nReturns the same [`ReconrResult`] shape as [`reconr`] — linearised MF=3\nsections sorted by MT — but with **no** resonance additions. Do **not** use it\nbelow the resonance ceiling; there it omits the resonance cross section."]
+#[pyfunction(name = "reconr_background")]
+pub fn fn_njoy_outram_park_fork__prelude__reconr_background(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+    tolerance: f64,
+) -> PyResult<Py_njoy_outram_park_fork__prelude__ReconrResult> {
+    err(::njoy_outram_park_fork::prelude::reconr_background(
+        &tape.inner,
+        mat,
+        tolerance,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__prelude__ReconrResult { inner: v })
+}
+
 // @item fn:njoy_outram_park_fork::purr::generate_ladder
 #[doc = "Generate one resonance ladder spanning `[elow, ehigh]` for one sequence —\nported from `ladr2` (`purr.f90:1687-1787`).\n\nResonance spacing is drawn from a **Wigner** distribution\n(`E_r ← E_{r-1} + D·√(4/π)·√(−ln U)`, the standard Wigner-surmise sampler);\nthe first resonance's position is uniform in `[elow, elow + D√(4/π))`.\nEach width is drawn as `(mean/dof)·χ²_dof`, with `χ²_dof` looked up from\n[`CHISQ`] at a uniformly-sampled quantile bin. Two distinct (numerically\nnear-identical, but genuinely different in the source) quantile-bin scales\nare used: `19.9999` for neutron and fission widths, `19.998` for the\ncompetitive width (`purr.f90:1756`/`1764`/`1772-1774`) — ported as the same\ntwo constants, not unified, since the difference is real (if immaterial)\nupstream.\n\nReturns every resonance up to and including the first one whose energy\nexceeds `ehigh`."]
 #[pyfunction(name = "generate_ladder")]
@@ -27363,36 +27401,6 @@ pub fn fn_njoy_outram_park_fork__reconr__mf2__parse_resonance_info(
         &sec.inner,
     ))
     .map(|v| Py_njoy_outram_park_fork__reconr__ResonanceInfo { inner: v })
-}
-
-// @item fn:njoy_outram_park_fork::reconr::reconr
-#[doc = "Reconstruct pointwise cross sections for one material.\n\nReads the material identified by `config.mat` from `tape`, linearises every\nMF=3 section to lin-lin within `config.tolerance`, and adds resonance\ncontributions from MF=2 (SLBW/MLBW/Reich-Moore, Phases 2b/2c).\n\n# Errors\n\n- [`NjoyError::SectionNotFound`] — MF=1/MT=451 or MF=3 sections absent.\n- [`NjoyError::NotPorted`] — MF=2 contains LRF=4 (Adler-Adler)."]
-#[pyfunction(name = "reconr")]
-pub fn fn_njoy_outram_park_fork__reconr__reconr(
-    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
-    config: PyRef<'_, Py_njoy_outram_park_fork__reconr__ReconrConfig>,
-) -> PyResult<Py_njoy_outram_park_fork__reconr__ReconrResult> {
-    err(::njoy_outram_park_fork::reconr::reconr(
-        &tape.inner,
-        &config.inner,
-    ))
-    .map(|v| Py_njoy_outram_park_fork__reconr__ReconrResult { inner: v })
-}
-
-// @item fn:njoy_outram_park_fork::reconr::reconr_background
-#[doc = "Reconstruct **only the MF=3 background** — no MF=2 resonance contributions.\n\nThis is the fast-range path used by the MGXS bake\n([`crate::nuclear_data::Mgxs::collapse_from_reconr`]). Above a nuclide's WMP\n`e_max` the incident energy is beyond the resolved-resonance region, so the\nsmooth linearised MF=3 grid *is* the cross section there. Skipping MF=2 avoids\nthe (potentially expensive, R-matrix-inversion-heavy for LRF=7) resonance\nreconstruction entirely in a region where it wouldn't change the result anyway.\n\nReturns the same [`ReconrResult`] shape as [`reconr`] — linearised MF=3\nsections sorted by MT — but with **no** resonance additions. Do **not** use it\nbelow the resonance ceiling; there it omits the resonance cross section."]
-#[pyfunction(name = "reconr_background")]
-pub fn fn_njoy_outram_park_fork__reconr__reconr_background(
-    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
-    mat: i32,
-    tolerance: f64,
-) -> PyResult<Py_njoy_outram_park_fork__reconr__ReconrResult> {
-    err(::njoy_outram_park_fork::reconr::reconr_background(
-        &tape.inner,
-        mat,
-        tolerance,
-    ))
-    .map(|v| Py_njoy_outram_park_fork__reconr__ReconrResult { inner: v })
 }
 
 // @item fn:njoy_outram_park_fork::reconr::rm::eval_rm_lstate
@@ -28615,7 +28623,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__groupr__GrouprInput>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__LssfFlag>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__MtdClass>()?;
-    m.add_class::<Py_njoy_outram_park_fork__groupr__NeutronGroupStructure>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__OverlapContext>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__OverlapState>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__PendfCrossSection>()?;
@@ -28704,6 +28711,9 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__perf_report__HardwareInfo>()?;
     m.add_class::<Py_njoy_outram_park_fork__perf_report__PerfRow>()?;
     m.add_class::<Py_njoy_outram_park_fork__photon__PhotonProduction>()?;
+    m.add_class::<Py_njoy_outram_park_fork__prelude__NeutronGroupStructure>()?;
+    m.add_class::<Py_njoy_outram_park_fork__prelude__ReconrConfig>()?;
+    m.add_class::<Py_njoy_outram_park_fork__prelude__ReconrResult>()?;
     m.add_class::<Py_njoy_outram_park_fork__purr__ConvergenceStats>()?;
     m.add_class::<Py_njoy_outram_park_fork__purr__InfiniteDilutionResult>()?;
     m.add_class::<Py_njoy_outram_park_fork__purr__LadderResonance>()?;
@@ -28715,8 +28725,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__reconr__EnergyRange>()?;
     m.add_class::<Py_njoy_outram_park_fork__reconr__LState>()?;
     m.add_class::<Py_njoy_outram_park_fork__reconr__MaterialInfo>()?;
-    m.add_class::<Py_njoy_outram_park_fork__reconr__ReconrConfig>()?;
-    m.add_class::<Py_njoy_outram_park_fork__reconr__ReconrResult>()?;
     m.add_class::<Py_njoy_outram_park_fork__reconr__ReconrSection>()?;
     m.add_class::<Py_njoy_outram_park_fork__reconr__ResonanceFormalism>()?;
     m.add_class::<Py_njoy_outram_park_fork__reconr__ResonanceInfo>()?;
@@ -29034,10 +29042,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_njoy_outram_park_fork__groupr__group_integral,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__groupr__kinematics__bach,
         m
     )?)?;
@@ -29079,10 +29083,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__groupr__neutron_group_from_ign,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_njoy_outram_park_fork__groupr__neutron_group_structure,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29280,6 +29280,22 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__plotr__run, m)?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__powr__run, m)?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__prelude__group_integral,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__prelude__neutron_group_structure,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__prelude__reconr,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__prelude__reconr_background,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__purr__generate_ladder,
         m
     )?)?;
@@ -29314,14 +29330,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__reconr__mf2__parse_resonance_info,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_njoy_outram_park_fork__reconr__reconr,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_njoy_outram_park_fork__reconr__reconr_background,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(

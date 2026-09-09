@@ -4095,6 +4095,79 @@ impl Py_outram_park_digital_twin_engine__components__HeatExchangerVisualState {
     }
 }
 
+// @item type:outram_park_digital_twin_engine::components::Htr10FlowAnchors
+#[doc = "Screen-space anchor points on the drawn HTR-10 vessel that an external\nschematic overlays primary-helium flow indicators onto.\n\nA schematic that draws the primary circuit *outside* the vessel still has to\nline those runs up with the internal features this cut-away shows — the\nside-reflector coolant risers the cold helium climbs, the upper-plenum space\nabove the bed, and the hot-gas plenum below it — or the picture reads as two\nunrelated drawings. Every field is derived from the *same* letterboxed\nrectangle and the *same* fractions [`Htr10ReactorVesselVisual::ui`] paints\nwith, via [`flow_anchors`], so moving or re-proportioning the vessel carries\nthe overlay with it. All values are in screen points.\n\nScreen `y` grows downward, matching egui: a smaller `y` is higher up."]
+#[pyclass(
+    name = "Htr10FlowAnchors",
+    module = "outram_park.outram_park_digital_twin_engine"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_digital_twin_engine__components__Htr10FlowAnchors {
+    pub inner: ::outram_park_digital_twin_engine::components::Htr10FlowAnchors,
+}
+#[pymethods]
+impl Py_outram_park_digital_twin_engine__components__Htr10FlowAnchors {
+    // @item field:outram_park_digital_twin_engine::components::Htr10FlowAnchors::reflector_riser_x
+    #[getter(reflector_riser_x)]
+    pub fn get_reflector_riser_x(&self) -> Vec<f32> {
+        let v = self.inner.reflector_riser_x.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    // @item field:outram_park_digital_twin_engine::components::Htr10FlowAnchors::reflector_channel_top_y
+    #[getter(reflector_channel_top_y)]
+    pub fn get_reflector_channel_top_y(&self) -> f32 {
+        let v = self.inner.reflector_channel_top_y.clone();
+        v
+    }
+    #[setter(reflector_channel_top_y)]
+    pub fn set_reflector_channel_top_y(&mut self, v: f32) {
+        self.inner.reflector_channel_top_y = v;
+    }
+    // @item field:outram_park_digital_twin_engine::components::Htr10FlowAnchors::reflector_channel_bottom_y
+    #[getter(reflector_channel_bottom_y)]
+    pub fn get_reflector_channel_bottom_y(&self) -> f32 {
+        let v = self.inner.reflector_channel_bottom_y.clone();
+        v
+    }
+    #[setter(reflector_channel_bottom_y)]
+    pub fn set_reflector_channel_bottom_y(&mut self, v: f32) {
+        self.inner.reflector_channel_bottom_y = v;
+    }
+    // @item field:outram_park_digital_twin_engine::components::Htr10FlowAnchors::bed_top_y
+    #[getter(bed_top_y)]
+    pub fn get_bed_top_y(&self) -> f32 {
+        let v = self.inner.bed_top_y.clone();
+        v
+    }
+    #[setter(bed_top_y)]
+    pub fn set_bed_top_y(&mut self, v: f32) {
+        self.inner.bed_top_y = v;
+    }
+    // @item field:outram_park_digital_twin_engine::components::Htr10FlowAnchors::bed_bottom_y
+    #[getter(bed_bottom_y)]
+    pub fn get_bed_bottom_y(&self) -> f32 {
+        let v = self.inner.bed_bottom_y.clone();
+        v
+    }
+    #[setter(bed_bottom_y)]
+    pub fn set_bed_bottom_y(&mut self, v: f32) {
+        self.inner.bed_bottom_y = v;
+    }
+    // @item field:outram_park_digital_twin_engine::components::Htr10FlowAnchors::axis_x
+    #[getter(axis_x)]
+    pub fn get_axis_x(&self) -> f32 {
+        let v = self.inner.axis_x.clone();
+        v
+    }
+    #[setter(axis_x)]
+    pub fn set_axis_x(&mut self, v: f32) {
+        self.inner.axis_x = v;
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:outram_park_digital_twin_engine::components::Htr10ReactorVesselVisual
 #[doc = "Visual representation of the HTR-10 reactor vessel.\n\nScalar-fed and owns no physics, for the same reason the FHR vessel is: a\nsimulator already holds these temperatures in its own plant model.\n\nAll temperatures are absolute thermodynamic temperatures (`uom`-typed).\nControl-rod insertion is dimensionless in `[0, 1]` — `0.0` fully withdrawn,\n`1.0` fully inserted — clamped at render time so a transient overshoot from\na controller draws fully in or out rather than panicking.\n\n# Control rods are drawn, not animated, here\n\nThe insertion fraction this widget holds is **where the rod is drawn**, not\nwhere it has been commanded to go. Rod travel takes real time, so the\napplication slews the drawn fraction toward the commanded one with\n[`crate::components::control_rod_drive::slewed_control_rod_insertion`] and\npasses the result in. It cannot be done inside the widget: widgets here are\nconsumed by value and rebuilt on every repaint, so animation state living in\none would reset every frame and the rod would never move. Same rule, same\nreason, as [`crate::animation::TracerTrain`]."]
 #[pyclass(
@@ -4984,8 +5057,11 @@ impl Py_outram_park_digital_twin_engine__components__ReactorArchetype {
     // @item method:outram_park_digital_twin_engine::components::ReactorArchetype::illustrative_kinetics
     #[cfg(feature = "teh-o-prke")]
     #[doc = "A Nordheim-Fuchs prompt-excursion model with kinetics parameters\n**illustrative of this reactor type**.\n\n# These are illustrative, not design data\n\n**Nothing here represents a specific licensed design, and no value is\nsourced from a plant.** They are order-of-magnitude constants chosen so\neach reactor type behaves *qualitatively* like its class. Do not quote\nthem, and do not use them in a V&V case without replacing them with\nsourced values — see the reactor's scoping document\n([`Self::scoping_doc`]) for what open data exists.\n\n# What the differences between them mean\n\nThe *relative ordering* is textbook physics, and is the point of having\none model per reactor rather than one shared model:\n\n- **Prompt neutron generation time** spans four orders of magnitude.\n  Graphite-moderated thermal reactors (HTR-10, MSRE, FHR) sit near a\n  millisecond because a neutron rattles around a large moderator before\n  being absorbed; light-water reactors (iPWR, BWR) are far shorter\n  because water moderates in a much smaller volume; and a sodium **fast**\n  reactor (EBR-II) is of order a tenth of a microsecond, since there is\n  no thermalisation stage at all. This is why EBR-II responds to a\n  reactivi"]
-    pub fn illustrative_kinetics(&self) -> crate::python::generated::teh_o_prke::Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper{
-        crate::python::generated::teh_o_prke::Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper { inner: ::outram_park_digital_twin_engine::components::ReactorArchetype::illustrative_kinetics(self.inner.clone()) }
+    pub fn illustrative_kinetics(
+        &self,
+    ) -> crate::python::generated::teh_o_prke::Py_teh_o_prke__prelude__NordheimFuchsExactTimestepper
+    {
+        crate::python::generated::teh_o_prke::Py_teh_o_prke__prelude__NordheimFuchsExactTimestepper { inner: ::outram_park_digital_twin_engine::components::ReactorArchetype::illustrative_kinetics(self.inner.clone()) }
     }
     // @item method:outram_park_digital_twin_engine::components::ReactorArchetype::scoping_doc
     #[doc = "The scoping document that covers this reactor."]
@@ -5178,15 +5254,18 @@ impl Py_outram_park_digital_twin_engine__components__ReactorVesselVisual {
     // @item field:outram_park_digital_twin_engine::components::ReactorVesselVisual::physics
     #[cfg(feature = "teh-o-prke")]
     #[getter(physics)]
-    pub fn get_physics(&self) -> crate::python::generated::teh_o_prke::Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper{
+    pub fn get_physics(
+        &self,
+    ) -> crate::python::generated::teh_o_prke::Py_teh_o_prke__prelude__NordheimFuchsExactTimestepper
+    {
         let v = self.inner.physics.clone();
-        crate::python::generated::teh_o_prke::Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper { inner: v }
+        crate::python::generated::teh_o_prke::Py_teh_o_prke__prelude__NordheimFuchsExactTimestepper { inner: v }
     }
     #[cfg(feature = "teh-o-prke")]
     #[setter(physics)]
     pub fn set_physics(
         &mut self,
-        v: crate::python::generated::teh_o_prke::Py_teh_o_prke__nordheim_fuchs__NordheimFuchsExactTimestepper,
+        v: crate::python::generated::teh_o_prke::Py_teh_o_prke__prelude__NordheimFuchsExactTimestepper,
     ) {
         self.inner.physics = v.inner;
     }
@@ -9144,6 +9223,166 @@ impl Py_outram_park_digital_twin_engine__opcua_core__OpcuaSimulatorProfile {
     }
 }
 
+// @item type:outram_park_digital_twin_engine::prelude::AsciiCanvas
+#[doc = "A fixed-size character grid with a world-to-cell mapping."]
+#[pyclass(
+    name = "AsciiCanvas",
+    module = "outram_park.outram_park_digital_twin_engine"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_digital_twin_engine__prelude__AsciiCanvas {
+    pub inner: ::outram_park_digital_twin_engine::prelude::AsciiCanvas,
+}
+#[pymethods]
+impl Py_outram_park_digital_twin_engine__prelude__AsciiCanvas {
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::new
+    #[doc = "A blank canvas `cols` x `rows`, mapping world rectangle `min`..`max`\nonto it.\n\n`min` is the top-left in screen coordinates (smallest x, smallest y).\nA degenerate world extent is widened to 1.0 so the mapping cannot divide\nby zero."]
+    #[new]
+    pub fn new(
+        cols: usize,
+        rows: usize,
+        min: (f32, f32),
+        max: (f32, f32),
+    ) -> Py_outram_park_digital_twin_engine__prelude__AsciiCanvas {
+        Py_outram_park_digital_twin_engine__prelude__AsciiCanvas {
+            inner: ::outram_park_digital_twin_engine::prelude::AsciiCanvas::new(
+                cols,
+                rows,
+                {
+                    let (e0, e1) = min;
+                    (e0, e1)
+                },
+                {
+                    let (e0, e1) = max;
+                    (e0, e1)
+                },
+            ),
+        }
+    }
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::size
+    #[doc = "Grid size as `(cols, rows)`."]
+    pub fn size(&self) -> (usize, usize) {
+        {
+            let (e0, e1) =
+                ::outram_park_digital_twin_engine::prelude::AsciiCanvas::size(&self.inner);
+            (e0, e1)
+        }
+    }
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::point
+    #[doc = "Write `ch` at a world point. Out-of-bounds points are dropped silently —\na schematic partly outside the view should still render what fits."]
+    pub fn point(&mut self, x: f32, y: f32, ch: char) -> () {
+        ::outram_park_digital_twin_engine::prelude::AsciiCanvas::point(&mut self.inner, x, y, ch)
+    }
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::line
+    #[doc = "A straight line in `ch`, sampled densely enough to leave no gaps."]
+    pub fn line(&mut self, x0: f32, y0: f32, x1: f32, y1: f32, ch: char) -> () {
+        ::outram_park_digital_twin_engine::prelude::AsciiCanvas::line(
+            &mut self.inner,
+            x0,
+            y0,
+            x1,
+            y1,
+            ch,
+        )
+    }
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::polyline
+    #[doc = "A connected polyline."]
+    pub fn polyline(&mut self, pts: Vec<(f32, f32)>, ch: char) -> () {
+        ::outram_park_digital_twin_engine::prelude::AsciiCanvas::polyline(
+            &mut self.inner,
+            &pts.into_iter()
+                .map(|e| {
+                    let (e0, e1) = e;
+                    (e0, e1)
+                })
+                .collect::<Vec<_>>(),
+            ch,
+        )
+    }
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::arrow
+    #[doc = "An arrow from one world point to another, with a head showing direction.\n\nThe head glyph is chosen from the dominant axis: `v` for **downward**\n(increasing y), `^` upward, `>` right, `<` left. Direction is the whole\npoint — this is what makes a flow-direction bug visible."]
+    pub fn arrow(&mut self, x0: f32, y0: f32, x1: f32, y1: f32) -> () {
+        ::outram_park_digital_twin_engine::prelude::AsciiCanvas::arrow(
+            &mut self.inner,
+            x0,
+            y0,
+            x1,
+            y1,
+        )
+    }
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::text
+    #[doc = "Left-aligned text starting at a world point, clipped at the right edge."]
+    pub fn text(&mut self, x: f32, y: f32, s: String) -> () {
+        ::outram_park_digital_twin_engine::prelude::AsciiCanvas::text(&mut self.inner, x, y, &s)
+    }
+    // @item method:outram_park_digital_twin_engine::prelude::AsciiCanvas::render
+    #[doc = "The grid as text, one line per row, trailing blanks trimmed so the\noutput diffs cleanly."]
+    pub fn render(&self) -> String {
+        ::outram_park_digital_twin_engine::prelude::AsciiCanvas::render(&self.inner)
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+}
+
+// @item type:outram_park_digital_twin_engine::prelude::HeadlessRun
+#[doc = "How long to run and how often to record."]
+#[pyclass(
+    name = "HeadlessRun",
+    module = "outram_park.outram_park_digital_twin_engine"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_digital_twin_engine__prelude__HeadlessRun {
+    pub inner: ::outram_park_digital_twin_engine::prelude::HeadlessRun,
+}
+#[pymethods]
+impl Py_outram_park_digital_twin_engine__prelude__HeadlessRun {
+    // @item field:outram_park_digital_twin_engine::prelude::HeadlessRun::steps
+    #[getter(steps)]
+    pub fn get_steps(&self) -> usize {
+        let v = self.inner.steps.clone();
+        v
+    }
+    #[setter(steps)]
+    pub fn set_steps(&mut self, v: usize) {
+        self.inner.steps = v;
+    }
+    // @item field:outram_park_digital_twin_engine::prelude::HeadlessRun::sample_every
+    #[getter(sample_every)]
+    pub fn get_sample_every(&self) -> usize {
+        let v = self.inner.sample_every.clone();
+        v
+    }
+    #[setter(sample_every)]
+    pub fn set_sample_every(&mut self, v: usize) {
+        self.inner.sample_every = v;
+    }
+    // @item ctor:outram_park_digital_twin_engine::prelude::HeadlessRun
+    #[new]
+    #[pyo3(signature = (steps=None, sample_every=None))]
+    pub fn __new__(steps: Option<usize>, sample_every: Option<usize>) -> Self {
+        let d = <::outram_park_digital_twin_engine::prelude::HeadlessRun as Default>::default();
+        Self {
+            inner: ::outram_park_digital_twin_engine::prelude::HeadlessRun {
+                steps: steps.map(|v| v).unwrap_or(d.steps),
+                sample_every: sample_every.map(|v| v).unwrap_or(d.sample_every),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
 // @item fn:outram_park_digital_twin_engine::animation::control_rod_drive::htr10_illustrative_rod_drive_speed
 #[doc = "Drive speed used for the HTR-10 rod animation.\n\n# ⚠️ ILLUSTRATIVE — NOT A PLANT FIGURE\n\n**No published HTR-10 control-rod drive speed was found** in this project's\nscoping notes (`docs/reactor-scoping/htr10-plant-data.md`,\n`docs/reactor-scoping/htr10-neutronics.md`) or in its literature archive\n(`crates/kovan-literature/open/`), searched 2026-08-12. The value returned\nhere is therefore **invented for legibility**: it is exactly\n[`HTR10_ROD_STROKE_METRES`] divided by\n[`HTR10_ILLUSTRATIVE_FULL_TRAVEL_SECONDS`], i.e. a full stroke in 20 s, which\nis about 0.0985 m/s.\n\nIt must **not** be cited as an HTR-10 design or operating figure, and nothing\nin this repository derives a physical result from it — it governs only how\nfast a drawing moves. If a sourced value is ever found, replace this and say\nwhere it came from."]
 #[pyfunction(name = "htr10_illustrative_rod_drive_speed")]
@@ -9945,6 +10184,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_digital_twin_engine__components__HeatExchangerScalars>()?;
     m.add_class::<Py_outram_park_digital_twin_engine__components__HeatExchangerVisual>()?;
     m.add_class::<Py_outram_park_digital_twin_engine__components__HeatExchangerVisualState>()?;
+    m.add_class::<Py_outram_park_digital_twin_engine__components__Htr10FlowAnchors>()?;
     m.add_class::<Py_outram_park_digital_twin_engine__components__Htr10ReactorVesselVisual>()?;
     m.add_class::<Py_outram_park_digital_twin_engine__components__InstrumentationVisual>()?;
     m.add_class::<Py_outram_park_digital_twin_engine__components__LegendUnit>()?;
@@ -10005,6 +10245,8 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_digital_twin_engine__opcua_core__OpcuaServerError>()?;
     m.add_class::<Py_outram_park_digital_twin_engine__opcua_core__OpcuaServerHandle>()?;
     m.add_class::<Py_outram_park_digital_twin_engine__opcua_core__OpcuaSimulatorProfile>()?;
+    m.add_class::<Py_outram_park_digital_twin_engine__prelude__AsciiCanvas>()?;
+    m.add_class::<Py_outram_park_digital_twin_engine__prelude__HeadlessRun>()?;
     m.add_function(wrap_pyfunction!(fn_outram_park_digital_twin_engine__animation__control_rod_drive__htr10_illustrative_rod_drive_speed, m)?)?;
     m.add_function(wrap_pyfunction!(
         fn_outram_park_digital_twin_engine__animation__infinite_residence_time,
