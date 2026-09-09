@@ -167,7 +167,13 @@ def rustdoc_str(docs, limit):
 # it whenever the shape changes, and it is nightly-only and explicitly
 # unstable, so a newer toolchain can and will emit something this code
 # misreads. Failing loudly beats generating quiet nonsense.
-FORMAT_VERSION = 60
+#
+# 60 -> 61 was reviewed and needs no change here: the only difference is
+# that `Stability.level` stopped being a `#[serde(flatten)]`/internally
+# tagged enum so the schema works with non-self-describing formats. This
+# generator never reads `stability`, so the shapes it does read are
+# byte-identical between the two versions.
+FORMAT_VERSION = 61
 
 
 class CrateModel:
@@ -395,7 +401,11 @@ class CrateModel:
             if v.get("crate_id") != 0 or "function" not in v["inner"]:
                 continue
             p = self.paths.get(str(k))
-            if p and p["kind"] == "function" and self._is_public(v):
+            # `paths` is definition sites, so a `pub fn` in a private module
+            # that is never re-exported has an entry here but no importable
+            # path -- same guard the constants above use, for the same reason.
+            if (p and p["kind"] == "function" and self._is_public(v)
+                    and self.rust_path(k)):
                 self.free_fns.append(k)
 
         self._scan_aliases()
