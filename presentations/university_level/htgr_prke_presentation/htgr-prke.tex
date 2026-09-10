@@ -1,0 +1,1112 @@
+% =============================================================================
+% htgr-prke.tex
+% Point Reactor Kinetics Equations with HTGR Sim v1
+%
+% Adapted from the original FHR PRKE teaching presentation.
+%
+% Compile:
+%   lualatex htgr-prke.tex
+%   biber htgr-prke
+%   lualatex htgr-prke.tex
+%   lualatex htgr-prke.tex
+% =============================================================================
+
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthememidcenturymodern}
+\usepackage[
+    backend=biber,
+    style=authoryear,
+    sorting=nyt
+]{biblatex}
+
+\addbibresource{demo.bib}
+
+% -----------------------------------------------------------------------------
+% Theme
+% -----------------------------------------------------------------------------
+
+\mcmTheme{Kraft}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+\AtBeginSection[]{%
+    \begin{frame}[plain]
+        \sectionpage
+    \end{frame}
+}
+
+\AtBeginSubsection[]{%
+    \begin{frame}[plain]
+        \subsectionpage
+    \end{frame}
+}
+
+\AtEveryCite{\color{mcmPrimary}}
+
+% -----------------------------------------------------------------------------
+% Metadata
+% -----------------------------------------------------------------------------
+
+\institute{Singapore Nuclear Research and Safety Institute}
+
+\title[PRKE with HTGR Simulator]
+      {Point Reactor Kinetics Equations (PRKE) with HTGR Simulator}
+
+\subtitle{An Interactive Introduction to Reactor Dynamics}
+
+\author{Dr Theodore Ong, SNRSI, NUS}
+
+\date{\today}
+
+% -----------------------------------------------------------------------------
+% Screenshot filenames
+%
+% Replace these with screenshots exported from HTGR Sim v1.
+% If the files do not exist, the deck will display placeholder boxes.
+% -----------------------------------------------------------------------------
+
+\newcommand{\htgrfull}{htgr_sim_full.png}
+\newcommand{\htgrcontrols}{htgr_sim_controls.png}
+\newcommand{\htgrshutdown}{htgr_sim_shutdown.png}
+
+
+\begin{document}
+
+
+% =============================================================================
+% TITLE
+% =============================================================================
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+% =============================================================================
+% PART I -- OPERATE FIRST
+% =============================================================================
+
+\section{Operate First}
+
+
+% -----------------------------------------------------------------------------
+% Mission
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Mission Briefing: Change Reactor Power}
+
+    \begin{columns}
+
+        \begin{column}{0.58\textwidth}
+
+            The HTGR demonstration plant is operating at a stable condition.
+
+            \vspace{1em}
+
+            \textbf{The Situation:}
+
+            The grid requests a change in power.
+
+            \vspace{1em}
+
+            \begin{alertblock}{Your Objective}
+                Increase reactor thermal power in a controlled manner and
+                stabilise the plant near the instructor's target power.
+            \end{alertblock}
+
+            \vspace{0.5em}
+
+            Watch not only reactor power, but also:
+
+            \begin{itemize}
+                \item reactivity,
+                \item fuel/core temperature,
+                \item helium temperatures and flow,
+                \item steam-generator response.
+            \end{itemize}
+
+        \end{column}
+
+        \begin{column}{0.42\textwidth}
+
+            \centering
+
+            \IfFileExists{\htgrfull}
+            {
+                \includegraphics[width=\textwidth]{\htgrfull}
+            }
+            {
+                \fbox{
+                    \parbox[c][0.48\textheight][c]{0.9\textwidth}{
+                        \centering
+                        Insert HTGR Sim v1 full-interface screenshot here.
+                    }
+                }
+            }
+
+        \end{column}
+
+    \end{columns}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Constraints
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Operational Constraints}
+
+    A reactor is not a volume knob.
+
+    A reactivity change alters the neutron population, while thermal feedback
+    and delayed neutrons determine how the response develops.
+
+    \vspace{1em}
+
+    \begin{block}{Rules}
+
+        \begin{itemize}
+
+            \item Use the simulator's reactivity/control input to change power.
+
+            \item Approach the target without a large overshoot.
+
+            \item Observe reactivity in dollars as well as thermal power.
+
+            \item Do not treat this demonstrator as an operational reactor model.
+
+        \end{itemize}
+
+    \end{block}
+
+    \begin{alertblock}{Demonstration Model}
+
+        HTGR Sim v1 is an educational/research demonstrator.
+
+        Plant coefficients, controller constants and some operating assumptions
+        are illustrative.
+
+    \end{alertblock}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Interface
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Your Interface: HTGR Sim v1}
+
+    \centering
+
+    \IfFileExists{\htgrcontrols}
+    {
+        \includegraphics[
+            width=0.92\textwidth,
+            height=0.72\textheight,
+            keepaspectratio
+        ]{\htgrcontrols}
+    }
+    {
+        \fbox{
+            \parbox[c][0.58\textheight][c]{0.82\textwidth}{
+                \centering
+                Insert HTGR Sim v1 control-panel screenshot here.
+            }
+        }
+    }
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Challenge
+% -----------------------------------------------------------------------------
+
+\begin{frame}{The Challenge Begins}
+
+    \centering
+
+    \Huge
+    \textbf{Volunteers Needed!}
+
+    \vspace{1.2em}
+
+    \normalsize
+
+    Bring the reactor to the requested power and stabilise it.
+
+    \vspace{1.2em}
+
+    \hrule
+
+    \vspace{0.8em}
+
+    \textbf{Observers:}
+
+    \begin{itemize}
+
+        \item What happens immediately after positive reactivity is inserted?
+
+        \item Does power stop changing immediately when the operator stops
+              moving the control?
+
+        \item How quickly does temperature respond compared with neutron power?
+
+        \item Does increasing temperature help or oppose the power rise?
+
+    \end{itemize}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Debrief
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Debrief: Intuition vs.\ Reactor Dynamics}
+
+    \begin{enumerate}
+
+        \item Why did the power respond much faster than the plant temperatures?
+
+        \item Why was it easy to overshoot?
+
+        \item Why does the response have memory even after the control input
+              changes?
+
+        \item Why does increasing temperature tend to oppose the excursion
+              in this model?
+
+    \end{enumerate}
+
+    \vspace{1em}
+
+    \begin{center}
+
+        \textbf{
+            To explain what we observed, we need to follow the neutron
+            population.
+        }
+
+    \end{center}
+
+\end{frame}
+
+
+% =============================================================================
+% PART II -- PRKE
+% =============================================================================
+
+\section{From Neutron Balance to PRKE}
+
+
+% -----------------------------------------------------------------------------
+% Neutron balance
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Step 1: The Neutron Balance}
+
+    At its simplest, reactor power follows the neutron population $n$
+    \cite{bell1970nuclear}:
+
+    \[
+        \text{Rate of change}
+        =
+        \text{Production}
+        -
+        \text{Loss}
+    \]
+
+    \[
+        \frac{dn}{dt}
+        =
+        \text{Production}
+        -
+        \text{Loss}
+    \]
+
+    \vspace{1em}
+
+    The detailed balance contains:
+
+    \begin{itemize}
+
+        \item fission,
+
+        \item absorption,
+
+        \item leakage,
+
+        \item moderation,
+
+        \item energy-dependent neutron interactions.
+
+    \end{itemize}
+
+    Point kinetics compresses the spatial reactor into one time-dependent
+    amplitude.
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% k-effective
+% -----------------------------------------------------------------------------
+
+\begin{frame}{What Does $k_{\mathrm{eff}}$ Tell Us?}
+
+    The effective multiplication factor describes the change in neutron
+    population from one generation to the next:
+
+    \[
+        k_{\mathrm{eff}}
+        =
+        \frac{
+            \text{neutrons in generation }(n+1)
+        }{
+            \text{neutrons in generation }n
+        }
+    \]
+
+    \vspace{1em}
+
+    \begin{itemize}
+
+        \item $k_{\mathrm{eff}} < 1$:
+              \textbf{subcritical}
+
+        \item $k_{\mathrm{eff}} = 1$:
+              \textbf{critical}
+
+        \item $k_{\mathrm{eff}} > 1$:
+              \textbf{supercritical}
+
+    \end{itemize}
+
+    \vspace{1em}
+
+    We normally express departure from criticality using \textbf{reactivity}:
+
+    \[
+        \rho
+        =
+        \frac{k_{\mathrm{eff}}-1}{k_{\mathrm{eff}}}
+    \]
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Prompt kinetics
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Step 2: Prompt-Neutron Kinetics}
+
+    If every fission neutron appeared promptly, the neutron population would
+    respond on the prompt-generation timescale.
+
+    \vspace{1em}
+
+    A useful schematic form is:
+
+    \[
+        \frac{dn}{dt}
+        \sim
+        \frac{\rho}{\Lambda} n
+    \]
+
+    where $\Lambda$ is the prompt neutron generation time.
+
+    \vspace{1em}
+
+    \begin{alertblock}{The Speed Problem}
+
+        $\Lambda$ is far shorter than human or ordinary plant-control
+        timescales.
+
+        Delayed neutrons are therefore essential to normal reactor
+        controllability.
+
+    \end{alertblock}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Delayed neutrons
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Step 3: Delayed Neutrons}
+
+    A small fraction $\beta$ of fission neutrons are emitted after radioactive
+    precursor decay \cite{bell1970nuclear}.
+
+    \vspace{1em}
+
+    \begin{itemize}
+
+        \item
+        \textbf{Prompt neutrons:}
+        born essentially with the fission event.
+
+        \item
+        \textbf{Delayed neutrons:}
+        emitted from precursor decay over much longer timescales.
+
+    \end{itemize}
+
+    \vspace{1em}
+
+    The precursor inventory gives the reactor kinetic
+    \textbf{memory} observed in the simulator.
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% PRKE
+% -----------------------------------------------------------------------------
+
+\begin{frame}{The Point Reactor Kinetics Equations}
+
+    For $G$ delayed-neutron groups:
+
+    \begin{align*}
+
+        \frac{dn}{dt}
+        &=
+        \frac{\rho-\beta}{\Lambda}n
+        +
+        \sum_{i=1}^{G}\lambda_i C_i
+        \\[1em]
+
+        \frac{dC_i}{dt}
+        &=
+        \frac{\beta_i}{\Lambda}n
+        -
+        \lambda_i C_i,
+        \qquad
+        i=1,\ldots,G
+        \\[1em]
+
+        \beta
+        &=
+        \sum_{i=1}^{G}\beta_i
+
+    \end{align*}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Five group implementation
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Delayed Neutrons in HTGR Sim v1}
+
+    The textbook PRKE is commonly introduced using six delayed-neutron groups.
+
+    \vspace{1em}
+
+    \begin{block}{HTGR Sim v1}
+
+        The current demonstrator uses a reduced
+        \textbf{five-group U-235 delayed-neutron bank},
+        coupled to its prompt excursion model.
+
+    \end{block}
+
+    \vspace{1em}
+
+    The group structure is a modelling choice.
+
+    The underlying physical idea remains the same:
+
+    \[
+        \text{fission}
+        \rightarrow
+        \text{precursors}
+        \rightarrow
+        \text{delayed neutrons}
+    \]
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Multiple groups
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Why Multiple Delayed Groups Matter}
+
+    Different precursor families decay on different timescales.
+
+    \vspace{1em}
+
+    \begin{itemize}
+
+        \item Fast precursor groups influence the early delayed response.
+
+        \item Slow groups preserve reactor-history information for much longer.
+
+        \item A single effective group can teach the basic concept.
+
+        \item Multiple groups provide a more faithful transient response.
+
+    \end{itemize}
+
+    \vspace{1em}
+
+    HTGR Sim v1 therefore retains a reduced multi-group precursor bank rather
+    than using prompt kinetics alone.
+
+\end{frame}
+
+
+% =============================================================================
+% PART III -- REACTIVITY
+% =============================================================================
+
+\section{Reactivity and Feedback}
+
+
+% -----------------------------------------------------------------------------
+% Prompt critical
+% -----------------------------------------------------------------------------
+
+\begin{frame}{The Edge of Control: Prompt Criticality}
+
+    The prompt contribution contains:
+
+    \[
+        \frac{\rho-\beta}{\Lambda} n
+    \]
+
+    \vspace{1em}
+
+    \begin{itemize}
+
+        \item For $\rho < \beta$,
+              delayed neutrons remain essential to the increasing solution.
+
+        \item At $\rho = \beta$,
+              the reactor is \textbf{prompt critical}.
+
+        \item For $\rho > \beta$,
+              prompt-neutron dynamics alone can sustain rapid growth.
+
+    \end{itemize}
+
+    \begin{alertblock}{Important}
+
+        Prompt criticality marks a qualitative change in the governing
+        kinetics.
+
+        It is not a normal control regime.
+
+    \end{alertblock}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Dollars
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Units of Reactivity: Dollars}
+
+    We scale reactivity by the effective delayed-neutron fraction:
+
+    \[
+        \$
+        =
+        \frac{\rho}{\beta}
+    \]
+
+    \vspace{1em}
+
+    \begin{itemize}
+
+        \item $\$0$:
+              critical reference condition
+
+        \item positive cents:
+              positive reactivity below prompt critical
+
+        \item $\$1$:
+              $\rho = \beta$, the prompt-critical boundary
+
+    \end{itemize}
+
+    \begin{block}{HTGR Sim v1}
+
+        The GUI drives reactivity in dollars.
+
+        The kinetics layer converts this to dimensionless external reactivity
+        before advancing the model.
+
+    \end{block}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Challenge 2
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Challenge Redux: Watch the Dollars}
+
+    Repeat the power manoeuvre.
+
+    This time, watch the reactivity display.
+
+    \vspace{1em}
+
+    \begin{itemize}
+
+        \item How much positive reactivity is actually needed?
+
+        \item How long must it remain positive?
+
+        \item What happens when external reactivity returns toward zero?
+
+        \item How does the temperature-feedback contribution change during the
+              transient?
+
+    \end{itemize}
+
+    \vspace{1em}
+
+    \centering
+
+    \textbf{
+        Can you now anticipate the reactor response before it happens?
+    }
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Feedback
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Why Doesn't Power Increase Forever?}
+
+    External control is only part of the total reactivity:
+
+    \[
+        \rho(t)
+        =
+        \rho_{\mathrm{external}}
+        +
+        \rho_{\mathrm{feedback}}(T,\ldots)
+    \]
+
+    \vspace{1em}
+
+    HTGR Sim v1 includes an illustrative
+    \textbf{negative fuel-temperature coefficient}.
+
+    As the lumped fuel/core temperature rises, this contribution becomes more
+    negative and opposes the excursion.
+
+    \vspace{1em}
+
+    \begin{block}{Physical Idea}
+
+        Reactor kinetics and thermal hydraulics are coupled:
+
+        \[
+            \text{Power}
+            \rightarrow
+            \text{Temperature}
+            \rightarrow
+            \text{Reactivity}
+            \rightarrow
+            \text{Power}
+        \]
+
+    \end{block}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Thermal inertia
+% -----------------------------------------------------------------------------
+
+\begin{frame}{HTGR Thermal Inertia}
+
+    An HTGR contains a large graphite inventory and operates with helium
+    coolant.
+
+    \vspace{1em}
+
+    \begin{itemize}
+
+        \item Neutron power can change rapidly.
+
+        \item The graphite/fuel thermal state changes much more slowly.
+
+        \item Helium transports heat from the pebble bed toward the
+              steam generator.
+
+        \item Thermal feedback therefore evolves on a different timescale from
+              the prompt neutron population.
+
+    \end{itemize}
+
+    \vspace{1em}
+
+    This separation of timescales is one reason an interactive coupled
+    simulator is useful for teaching reactor dynamics.
+
+\end{frame}
+
+
+% =============================================================================
+% PART IV -- DECAY HEAT
+% =============================================================================
+
+\section{Shutdown and Decay Heat}
+
+
+% -----------------------------------------------------------------------------
+% Shutdown
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Can We Switch a Reactor Off?}
+
+    Inserting sufficiently negative reactivity suppresses the fission chain
+    reaction.
+
+    But the reactor does \textbf{not} instantly become thermally cold.
+
+    \vspace{1em}
+
+    Fission products continue to decay and release heat.
+
+    \vspace{1em}
+
+    \begin{alertblock}{Key Distinction}
+
+        \textbf{Fission power}
+        can collapse rapidly after shutdown.
+
+        \vspace{0.5em}
+
+        \textbf{Decay heat}
+        persists and must still be removed.
+
+    \end{alertblock}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Decay heat model
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Decay Heat in HTGR Sim v1}
+
+    The demonstrator includes a multi-group fission-product decay-heat model.
+
+    \vspace{1em}
+
+    Its thermal source is conceptually:
+
+    \[
+        P_{\mathrm{thermal}}
+        =
+        P_{\mathrm{prompt/fission\ component}}
+        +
+        P_{\mathrm{decay}}
+    \]
+
+    \vspace{1em}
+
+    The decay-heat bank is initialised consistently with an operating reactor,
+    rather than assuming a fresh core with no accumulated fission products.
+
+    \begin{block}{Teaching Consequence}
+
+        A shutdown demonstration can show why
+
+        \begin{center}
+            ``reactor shut down''
+            $\neq$
+            ``heat generation equals zero''.
+        \end{center}
+
+    \end{block}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Shutdown challenge
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Shutdown Demonstration}
+
+    \begin{columns}
+
+        \begin{column}{0.52\textwidth}
+
+            \textbf{Try it:}
+
+            \begin{enumerate}
+
+                \item Establish a stable operating condition.
+
+                \item Insert strong negative reactivity or perform the
+                      simulator shutdown action.
+
+                \item Watch fission power fall.
+
+                \item Continue watching core temperature and thermal power.
+
+                \item Identify the slower decay-heat tail.
+
+            \end{enumerate}
+
+        \end{column}
+
+        \begin{column}{0.48\textwidth}
+
+            \centering
+
+            \IfFileExists{\htgrshutdown}
+            {
+                \includegraphics[width=\textwidth]{\htgrshutdown}
+            }
+            {
+                \fbox{
+                    \parbox[c][0.45\textheight][c]{0.9\textwidth}{
+                        \centering
+                        Insert HTGR shutdown screenshot or decay-heat plot here.
+                    }
+                }
+            }
+
+        \end{column}
+
+    \end{columns}
+
+\end{frame}
+
+
+% =============================================================================
+% PART V -- MODEL FIDELITY
+% =============================================================================
+
+\section{What the Demonstrator Represents}
+
+
+% -----------------------------------------------------------------------------
+% What it models
+% -----------------------------------------------------------------------------
+
+\begin{frame}{What HTGR Sim v1 Actually Models}
+
+    \begin{itemize}
+
+        \item Point-reactor power dynamics.
+
+        \item Prompt excursion / temperature-feedback layer.
+
+        \item Reduced five-group U-235 delayed-neutron precursor dynamics.
+
+        \item Fission-product decay heat.
+
+        \item Lumped pebble-bed/core thermal response.
+
+        \item Helium-loop and steam-generator demonstration physics.
+
+        \item Coupling between reactor kinetics and coolant heat removal.
+
+    \end{itemize}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Limitations
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Model Limitations}
+
+    \begin{alertblock}{Point Kinetics}
+
+        The core has one neutron-power amplitude.
+
+        There is no spatial flux shape, axial power distribution or local
+        power peak.
+
+    \end{alertblock}
+
+    \begin{itemize}
+
+        \item Control-rod worth does not depend on individual rod position.
+
+        \item Fuel-temperature feedback uses a lumped temperature, not resolved
+              TRISO fuel-kernel temperatures.
+
+        \item Plant-scale coefficients and controller parameters include
+              illustrative demonstration assumptions.
+
+        \item The model is not validated for reactor operation, licensing,
+              safety analysis or operator training.
+
+    \end{itemize}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Fidelity hierarchy
+% -----------------------------------------------------------------------------
+
+\begin{frame}{From Point Kinetics to Higher Fidelity}
+
+    The point model deliberately trades spatial fidelity for speed and clarity.
+
+    \vspace{1em}
+
+    \[
+        \boxed{\text{Point Kinetics}}
+        \quad\longrightarrow\quad
+        \boxed{\text{Coarse Nodal Neutronics}}
+        \quad\longrightarrow\quad
+        \boxed{\text{High-Fidelity Transport}}
+    \]
+
+    \vspace{1.5em}
+
+    In a digital-twin architecture, different fidelity levels can serve
+    different timescales and questions.
+
+    \vspace{1em}
+
+    A fast model is valuable precisely because it can run interactively
+    \textbf{provided its limitations are explicit}.
+
+\end{frame}
+
+
+% =============================================================================
+% PART VI -- TAKEAWAYS
+% =============================================================================
+
+\section{Takeaways}
+
+
+% -----------------------------------------------------------------------------
+% Summary
+% -----------------------------------------------------------------------------
+
+\begin{frame}{What You Should Take Away}
+
+    \begin{enumerate}
+
+        \item Reactor power follows neutron-population dynamics.
+
+        \item Delayed neutrons make normal reactor control possible on
+              engineering timescales.
+
+        \item Reactivity in dollars makes the prompt-critical boundary
+              intuitive.
+
+        \item Temperature feedback couples neutronics to thermal hydraulics.
+
+        \item HTGR thermal inertia is much slower than prompt neutron kinetics.
+
+        \item Shutdown ends the chain reaction, but
+              \textbf{decay heat remains}.
+
+        \item A simulator is only as trustworthy as the physics and validation
+              supporting each model.
+
+    \end{enumerate}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Final challenge
+% -----------------------------------------------------------------------------
+
+\begin{frame}{One More Run}
+
+    \centering
+
+    \Large
+
+    Now operate the simulator again.
+
+    \vspace{1.5em}
+
+    \textbf{
+        This time, explain the transient while it happens.
+    }
+
+    \vspace{1.5em}
+
+    \normalsize
+
+    What are the prompt neutrons doing?
+
+    \vspace{0.5em}
+
+    What are the precursors doing?
+
+    \vspace{0.5em}
+
+    What is temperature feedback doing?
+
+    \vspace{0.5em}
+
+    Where does the heat go after shutdown?
+
+\end{frame}
+
+
+% =============================================================================
+% REFERENCES
+% =============================================================================
+
+\begin{frame}[allowframebreaks]{References}
+
+    \printbibliography
+
+\end{frame}
+
+
+% =============================================================================
+% END
+% =============================================================================
+
+\begin{frame}
+
+    \centering
+
+    \Huge
+    \textbf{Questions?}
+
+    \vspace{1em}
+
+    \Large
+
+    Point Kinetics
+    $\longrightarrow$
+    Coupled Reactor Dynamics
+
+\end{frame}
+
+
+\end{document}
