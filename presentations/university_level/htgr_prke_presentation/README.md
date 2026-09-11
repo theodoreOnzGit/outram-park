@@ -20,19 +20,26 @@ shared, so the deck builds from this directory alone.
 
 ## Screenshots
 
-Three screenshots are referenced and are **not committed**:
+Four screenshots are referenced and **are committed** alongside the deck, so it
+builds fully from this directory with no extra files:
 
-| macro | filename |
-|---|---|
-| `\htgrfull` | `htgr_sim_full.png` |
-| `\htgrcontrols` | `htgr_sim_controls.png` |
-| `\htgrshutdown` | `htgr_sim_shutdown.png` |
+| macro | filename | slide |
+|---|---|---|
+| `\htgrfull` | `htgr_sim_full.png` | Mission Briefing |
+| `\htgrcontrols` | `htgr_sim_controls.png` | Your Interface |
+| `\htgrshutdown` | `htgr_sim_shutdown.png` | Shutdown Demonstration |
+| `\htgrshutdownplot` | `htgr_sim_shutdown_plot.png` | Shutdown: What the Time History Shows |
 
-Each is wrapped in `\IfFileExists`, so the deck compiles without them and
-renders a labelled placeholder box in their place. Drop the exported HTGR
-Sim v1 screenshots into this directory under those names to fill them in.
-`../htgrsim_presentation_short_5min/htgr_sim_v1.png` is an existing HTGR Sim
-screenshot that may suit one of the three.
+All four are captured from HTGR Sim v1, built from the
+`outram-park-digital-twin-engine` example of the same name.
+
+Each is still wrapped in `\IfFileExists`, so the deck also compiles if one is
+removed, rendering a labelled placeholder box in its place.
+
+**Known mismatch.** The Mission Briefing slide states the plant starts at its
+rated 10 MWth, but `htgr_sim_full.png` was captured at 6.7 MWth and
+`htgr_sim_controls.png` at 7.4 MWth. Either recapture both at 10 MWth or change
+the figure in the deck; as it stands the slide and its own screenshot disagree.
 
 ## Caveat carried by the deck itself
 

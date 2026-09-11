@@ -71,6 +71,7 @@
 \newcommand{\htgrfull}{htgr_sim_full.png}
 \newcommand{\htgrcontrols}{htgr_sim_controls.png}
 \newcommand{\htgrshutdown}{htgr_sim_shutdown.png}
+\newcommand{\htgrshutdownplot}{htgr_sim_shutdown_plot.png}
 
 
 \begin{document}
@@ -927,6 +928,42 @@
         \end{column}
 
     \end{columns}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Shutdown time history
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Shutdown: What the Time History Shows}
+
+    \centering
+
+    \IfFileExists{\htgrshutdownplot}
+    {
+        \includegraphics[
+            width=\textwidth,
+            height=0.70\textheight,
+            keepaspectratio
+        ]{\htgrshutdownplot}
+    }
+    {
+        \fbox{
+            \parbox[c][0.55\textheight][c]{0.82\textwidth}{
+                \centering
+                Insert HTGR Sim v1 time-history plot here.
+            }
+        }
+    }
+
+    \vspace{0.6em}
+
+    \raggedright
+    \footnotesize
+    Rod insertion drives fission power down sharply, but thermal power does not
+    follow it to zero. The tail is decay heat, and it is why a shut-down reactor
+    still needs cooling.
 
 \end{frame}
 
