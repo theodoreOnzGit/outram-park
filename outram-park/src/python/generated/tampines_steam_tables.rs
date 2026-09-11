@@ -366,138 +366,6 @@ impl Py_tampines_steam_tables__TampinesSteamArray {
             .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
             .collect::<Vec<_>>();
     }
-    // @item method:tampines_steam_tables::TampinesSteamArray::lateral_link_new_temperature_vector_avg_conductance
-    #[doc = "Register one lateral (radial) thermal link to another array/solid at a\nuniform conductance, for use in the next [`Self::step`].\n\n`temperature_vec` must have length `mesh.n_cells` — one neighbour\ntemperature per cell. `average_thermal_conductance` \\[W/K\\] is applied\nuniformly to every cell (the caller is responsible for any Nusselt /\ngeometry calculation that produced it — this array does not compute\none itself).\n\nMultiple calls accumulate independent links (e.g. coupling to several\nneighbouring arrays); all links are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
-    pub fn lateral_link_new_temperature_vector_avg_conductance(
-        &mut self,
-        average_thermal_conductance: f64,
-        temperature_vec: Vec<f64>,
-    ) -> PyResult<()> {
-        err(::tampines_steam_tables::TampinesSteamArray::lateral_link_new_temperature_vector_avg_conductance(&mut self.inner, from_si(average_thermal_conductance), temperature_vec.into_iter().map(|e| from_si(e)).collect::<Vec<_>>())).map(|v| v)
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::lateral_link_new_power_vector
-    #[doc = "Register a volumetric heat source for use in the next [`Self::step`].\n\n`power_source` \\[W\\] is the total power; `q_fraction_vec` (length\n`mesh.n_cells`) distributes it across cells (need not sum to 1 —\nmirrors TUAS's `q_fraction_vector`). Multiple calls accumulate\nindependent sources; all are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
-    pub fn lateral_link_new_power_vector(
-        &mut self,
-        power_source: f64,
-        q_fraction_vec: Vec<f64>,
-    ) -> PyResult<()> {
-        err(
-            ::tampines_steam_tables::TampinesSteamArray::lateral_link_new_power_vector(
-                &mut self.inner,
-                from_si(power_source),
-                q_fraction_vec.into_iter().map(|e| e).collect::<Vec<_>>(),
-            ),
-        )
-        .map(|v| v)
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::clear_vectors
-    #[doc = "Empty all registered lateral-coupling and heat-source vectors.\n\nCalled once at the end of [`Self::step`] — links/sources are\nper-timestep registrations, not persistent state."]
-    pub fn clear_vectors(&mut self) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::clear_vectors(&mut self.inner)
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::get_hydraulic_diameter
-    #[doc = "Hydraulic diameter `D_h = 4 * xs_area / wetted_perimeter` \\[m\\]."]
-    pub fn get_hydraulic_diameter(&self) -> f64 {
-        to_si(::tampines_steam_tables::TampinesSteamArray::get_hydraulic_diameter(&self.inner))
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::get_temperature_vector
-    #[doc = "Per-cell temperature \\[K\\], read from the `t` field (length `mesh.n_cells`)."]
-    pub fn get_temperature_vector(&self) -> Vec<f64> {
-        ::tampines_steam_tables::TampinesSteamArray::get_temperature_vector(&self.inner)
-            .into_iter()
-            .map(|e| to_si(e))
-            .collect::<Vec<_>>()
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::set_temperature_vector
-    #[doc = "Overwrite the per-cell temperature at the current pressure, via a real\nIAPWS-IF97 `(p, T)` single-phase flash\n([`crate::interfaces::functional_programming::pt_flash_eqm`]).\n\nWrites `he`/`rho`/`t`/`psi` together — **not** a plain `t` field write\n— since `he` (specific enthalpy) is the actual PIMPLE state variable;\nwriting `t` alone would be silently undone by the next\n[`super::TampinesSteamArray::correct_thermo`] call, which recomputes\n`t`/`rho`/`psi` from `(p, he)` via its own real `(p, h)` flash (see\nthat method's doc) -- so this setter's `(p, T)` flash and\n`correct_thermo`'s `(p, h)` flash are two independent real-EOS\nevaluations of the same state, not a placeholder vs. real split."]
-    pub fn set_temperature_vector(&mut self, temperature_vec: Vec<f64>) -> PyResult<()> {
-        err(
-            ::tampines_steam_tables::TampinesSteamArray::set_temperature_vector(
-                &mut self.inner,
-                temperature_vec
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-            ),
-        )
-        .map(|v| v)
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::set_uniform_velocity_field
-    #[doc = "Overwrites the whole **internal** velocity field to a uniform axial\nvalue \\[m/s\\] (+x). Distinct from [`Self::set_inlet_velocity`], which\nonly sets the inlet boundary condition: this pre-conditions every\ncell's velocity so a near-incompressible liquid does not water-hammer\nwhen an inlet velocity BC is first imposed (see the stability guide,\n`rho_pimple_foam/docs/stability_a_students_guide.md`). The internal\n`Vector3` element type is not part of this crate's public surface, so\nthis is the supported way to seed the velocity field from outside."]
-    pub fn set_uniform_velocity_field(&mut self, velocity: f64) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::set_uniform_velocity_field(
-            &mut self.inner,
-            from_si(velocity),
-        )
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::set_inlet_velocity
-    #[doc = "Prescribes a fixed inlet velocity boundary condition on the\n`\"left\"` patch (x = 0, see [`crate::openfoam_algorithms::openfoam_source::interface::one_dimensional_meshing::create_one_d_mesh`]).\n\nFor driving this array as a simple pipe/tube with a known inlet\nflow (e.g. from an upstream pump). `velocity` is the x-direction\nflow speed; positive means fluid entering the domain (flowing\nleft-to-right, +x) -- take effect on the next [`super::TampinesSteamArray::step`].\n**Clears any prescribed mass-flow inlet**\n([`Self::set_inlet_mass_flowrate`]): the two prescribe the same patch, so\nthe last one called wins rather than silently fighting each other."]
-    pub fn set_inlet_velocity(&mut self, velocity: f64) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::set_inlet_velocity(
-            &mut self.inner,
-            from_si(velocity),
-        )
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::clear_inlet_mass_flowrate
-    #[doc = "Remove any prescribed inlet mass flowrate, leaving whatever velocity\nboundary condition is currently on the inlet patch in force."]
-    pub fn clear_inlet_mass_flowrate(&mut self) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::clear_inlet_mass_flowrate(&mut self.inner)
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::set_inlet_enthalpy
-    #[doc = "Prescribe the **junction specific enthalpy** \\[J/kg\\] at the inlet\nterminal -- the `\"left\"` patch, x = 0. Pairs with\n[`Self::set_inlet_velocity`] or [`Self::set_inlet_mass_flowrate`] to\nfully specify the incoming stream.\n\n# This is an upwind terminal, not a Dirichlet patch\n\nThe value is used as the upstream enthalpy **only while flow is entering\nthrough this end**. If the flow reverses and fluid leaves through the\ninlet, the pipe's own first cell is upstream and this value is ignored\nuntil the flow turns around again -- see\n[`super::TampinesSteamArray::correct_advection_terminals`] and\n`docs/boundary-conditions-convention.md`.\n\nThat is deliberate, and it is why the convention exists: these arrays are\npipes in a network, so their ends are junctions. An unconditional\nDirichlet would clamp the face even on outflow, exporting the *junction's*\nenthalpy instead of the fluid's.\n\nAlso selects the inflowing density: while this terminal is inflowing, the\nentering mass flux uses `rho(p_cell, h)` rather than the first cell's own\ndensity (see\n[`super::TampinesSteamArray::apply_junction_densities`]).\n\nClear it with [`Self::clear_inlet_enthalpy`]."]
-    pub fn set_inlet_enthalpy(&mut self, h: f64) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::set_inlet_enthalpy(&mut self.inner, from_si(h))
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::clear_inlet_enthalpy
-    #[doc = "Remove the inlet junction enthalpy, returning that terminal to\n[`AdvectionTerminalState::ZeroGradientExtrapolated`] -- on inflow it will\nthen advect in the adjacent cell's own enthalpy, there being nothing else\nknown."]
-    pub fn clear_inlet_enthalpy(&mut self) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::clear_inlet_enthalpy(&mut self.inner)
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::set_outlet_enthalpy
-    #[doc = "Prescribe the **junction specific enthalpy** \\[J/kg\\] at the outlet\nterminal -- the `\"right\"` patch, x = length.\n\n# Why an outlet needs one\n\nWhile flow leaves through this end the value is ignored: the pipe is\nupstream, and zero-gradient is the right condition because the downstream\nstate is genuinely unknown. It matters **when the flow reverses**, which\nthis workspace does routinely -- natural circulation reverses at start-up\nand stagnation, a blowdown reverses as it flashes, and a counter-flow\nheat exchanger has its two outlets at opposite ends. Without a junction\nstate here, a reversal makes the array advect its own enthalpy back in\nthrough its outlet, which is the self-referential failure the whole\nconvention exists to rule out.\n\nSet it to whatever is on the other side of the junction -- the plenum,\ndownheader, or next component the outlet connects to. Clear it with\n[`Self::clear_outlet_enthalpy`]."]
-    pub fn set_outlet_enthalpy(&mut self, h: f64) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::set_outlet_enthalpy(
-            &mut self.inner,
-            from_si(h),
-        )
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::clear_outlet_enthalpy
-    #[doc = "Remove the outlet junction enthalpy, returning that terminal to\n[`AdvectionTerminalState::ZeroGradientExtrapolated`]."]
-    pub fn clear_outlet_enthalpy(&mut self) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::clear_outlet_enthalpy(&mut self.inner)
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::set_outlet_velocity
-    #[doc = "Prescribes a fixed outlet velocity boundary condition on the\n`\"right\"` patch (x = length, the outlet -- see\n[`crate::openfoam_algorithms::openfoam_source::interface::one_dimensional_meshing::create_one_d_mesh`]).\n\nThe outlet mirror of [`Self::set_inlet_velocity`] (same `\"right\"` patch\nindex the outlet-pressure/outlet-state accessors use). For driving this\narray with a known discharge velocity -- e.g. the Edwards blowdown feeds\nthe equivalent full-face velocity from the choked-break solution here each\nstep. `velocity` is the x-direction speed; positive means fluid leaving\nthe domain (flowing left-to-right, +x) -- takes effect on the next\n[`super::TampinesSteamArray::step`]."]
-    pub fn set_outlet_velocity(&mut self, velocity: f64) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::set_outlet_velocity(
-            &mut self.inner,
-            from_si(velocity),
-        )
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::set_outlet_pressure
-    #[doc = "Prescribes a fixed outlet pressure boundary condition on the\n`\"right\"` patch (x = length) -- e.g. the downstream pressure a\nturbine or condenser imposes."]
-    pub fn set_outlet_pressure(&mut self, p: f64) -> () {
-        ::tampines_steam_tables::TampinesSteamArray::set_outlet_pressure(
-            &mut self.inner,
-            from_si(p),
-        )
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::get_outlet_pressure
-    #[doc = "Outlet-cell (the last cell, owner of the `\"right\"` patch) pressure\n-- for a caller reading the downstream state after [`super::TampinesSteamArray::step`]."]
-    pub fn get_outlet_pressure(&self) -> f64 {
-        to_si(::tampines_steam_tables::TampinesSteamArray::get_outlet_pressure(&self.inner))
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::get_outlet_enthalpy
-    #[doc = "Outlet-cell specific enthalpy."]
-    pub fn get_outlet_enthalpy(&self) -> f64 {
-        to_si(::tampines_steam_tables::TampinesSteamArray::get_outlet_enthalpy(&self.inner))
-    }
-    // @item method:tampines_steam_tables::TampinesSteamArray::get_outlet_temperature
-    #[doc = "Outlet-cell temperature."]
-    pub fn get_outlet_temperature(&self) -> f64 {
-        to_si(::tampines_steam_tables::TampinesSteamArray::get_outlet_temperature(&self.inner))
-    }
     // @item method:tampines_steam_tables::TampinesSteamArray::new
     #[doc = "Build a 1-D pipe array with uniform initial conditions.\n\nThe mesh spans x ∈ \\[0, `length`\\] with `number_of_cells` equal cells and\nconstant cross-sectional area `xs_area`. Both end patches (`\"left\"`,\n`\"right\"`) are generic; set field boundary conditions afterwards to impose\ninlets/outlets.\n\nFields are initialised to an IAPWS-IF97-consistent liquid-water\nreference state (p = 1 bar, T = 300 K; ρ, `he`, ψ read from a real\n`(T, p)` flash, see [`Self::correct_thermo`]) -- overwrite them after\nconstruction (e.g. via [`Self::set_temperature_vector`]) for a\nspecific case.\n\n## Parameters\n- `length`          — total pipe length \\[m\\]\n- `xs_area`         — constant cross-sectional area \\[m²\\]\n- `number_of_cells` — number of cells; must be ≥ 1\n- `delta_t`         — fixed time step \\[s\\]\n\n## Errors\nReturns [`MeshError::NonPositiveCellCount`] if `number_of_cells < 1`\n(propagated from [`create_one_d_mesh`])."]
     #[new]
@@ -664,6 +532,138 @@ impl Py_tampines_steam_tables__TampinesSteamArray {
             from_si(lo),
             from_si(hi),
         )
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::lateral_link_new_temperature_vector_avg_conductance
+    #[doc = "Register one lateral (radial) thermal link to another array/solid at a\nuniform conductance, for use in the next [`Self::step`].\n\n`temperature_vec` must have length `mesh.n_cells` — one neighbour\ntemperature per cell. `average_thermal_conductance` \\[W/K\\] is applied\nuniformly to every cell (the caller is responsible for any Nusselt /\ngeometry calculation that produced it — this array does not compute\none itself).\n\nMultiple calls accumulate independent links (e.g. coupling to several\nneighbouring arrays); all links are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
+    pub fn lateral_link_new_temperature_vector_avg_conductance(
+        &mut self,
+        average_thermal_conductance: f64,
+        temperature_vec: Vec<f64>,
+    ) -> PyResult<()> {
+        err(::tampines_steam_tables::TampinesSteamArray::lateral_link_new_temperature_vector_avg_conductance(&mut self.inner, from_si(average_thermal_conductance), temperature_vec.into_iter().map(|e| from_si(e)).collect::<Vec<_>>())).map(|v| v)
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::lateral_link_new_power_vector
+    #[doc = "Register a volumetric heat source for use in the next [`Self::step`].\n\n`power_source` \\[W\\] is the total power; `q_fraction_vec` (length\n`mesh.n_cells`) distributes it across cells (need not sum to 1 —\nmirrors TUAS's `q_fraction_vector`). Multiple calls accumulate\nindependent sources; all are consumed and cleared by\n[`Self::clear_vectors`] once per [`Self::step`]."]
+    pub fn lateral_link_new_power_vector(
+        &mut self,
+        power_source: f64,
+        q_fraction_vec: Vec<f64>,
+    ) -> PyResult<()> {
+        err(
+            ::tampines_steam_tables::TampinesSteamArray::lateral_link_new_power_vector(
+                &mut self.inner,
+                from_si(power_source),
+                q_fraction_vec.into_iter().map(|e| e).collect::<Vec<_>>(),
+            ),
+        )
+        .map(|v| v)
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::clear_vectors
+    #[doc = "Empty all registered lateral-coupling and heat-source vectors.\n\nCalled once at the end of [`Self::step`] — links/sources are\nper-timestep registrations, not persistent state."]
+    pub fn clear_vectors(&mut self) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::clear_vectors(&mut self.inner)
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::get_hydraulic_diameter
+    #[doc = "Hydraulic diameter `D_h = 4 * xs_area / wetted_perimeter` \\[m\\]."]
+    pub fn get_hydraulic_diameter(&self) -> f64 {
+        to_si(::tampines_steam_tables::TampinesSteamArray::get_hydraulic_diameter(&self.inner))
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::get_temperature_vector
+    #[doc = "Per-cell temperature \\[K\\], read from the `t` field (length `mesh.n_cells`)."]
+    pub fn get_temperature_vector(&self) -> Vec<f64> {
+        ::tampines_steam_tables::TampinesSteamArray::get_temperature_vector(&self.inner)
+            .into_iter()
+            .map(|e| to_si(e))
+            .collect::<Vec<_>>()
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::set_temperature_vector
+    #[doc = "Overwrite the per-cell temperature at the current pressure, via a real\nIAPWS-IF97 `(p, T)` single-phase flash\n([`crate::interfaces::functional_programming::pt_flash_eqm`]).\n\nWrites `he`/`rho`/`t`/`psi` together — **not** a plain `t` field write\n— since `he` (specific enthalpy) is the actual PIMPLE state variable;\nwriting `t` alone would be silently undone by the next\n[`super::TampinesSteamArray::correct_thermo`] call, which recomputes\n`t`/`rho`/`psi` from `(p, he)` via its own real `(p, h)` flash (see\nthat method's doc) -- so this setter's `(p, T)` flash and\n`correct_thermo`'s `(p, h)` flash are two independent real-EOS\nevaluations of the same state, not a placeholder vs. real split."]
+    pub fn set_temperature_vector(&mut self, temperature_vec: Vec<f64>) -> PyResult<()> {
+        err(
+            ::tampines_steam_tables::TampinesSteamArray::set_temperature_vector(
+                &mut self.inner,
+                temperature_vec
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+            ),
+        )
+        .map(|v| v)
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::set_uniform_velocity_field
+    #[doc = "Overwrites the whole **internal** velocity field to a uniform axial\nvalue \\[m/s\\] (+x). Distinct from [`Self::set_inlet_velocity`], which\nonly sets the inlet boundary condition: this pre-conditions every\ncell's velocity so a near-incompressible liquid does not water-hammer\nwhen an inlet velocity BC is first imposed (see the stability guide,\n`rho_pimple_foam/docs/stability_a_students_guide.md`). The internal\n`Vector3` element type is not part of this crate's public surface, so\nthis is the supported way to seed the velocity field from outside."]
+    pub fn set_uniform_velocity_field(&mut self, velocity: f64) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::set_uniform_velocity_field(
+            &mut self.inner,
+            from_si(velocity),
+        )
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::set_inlet_velocity
+    #[doc = "Prescribes a fixed inlet velocity boundary condition on the\n`\"left\"` patch (x = 0, see [`crate::openfoam_algorithms::openfoam_source::interface::one_dimensional_meshing::create_one_d_mesh`]).\n\nFor driving this array as a simple pipe/tube with a known inlet\nflow (e.g. from an upstream pump). `velocity` is the x-direction\nflow speed; positive means fluid entering the domain (flowing\nleft-to-right, +x) -- take effect on the next [`super::TampinesSteamArray::step`].\n**Clears any prescribed mass-flow inlet**\n([`Self::set_inlet_mass_flowrate`]): the two prescribe the same patch, so\nthe last one called wins rather than silently fighting each other."]
+    pub fn set_inlet_velocity(&mut self, velocity: f64) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::set_inlet_velocity(
+            &mut self.inner,
+            from_si(velocity),
+        )
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::clear_inlet_mass_flowrate
+    #[doc = "Remove any prescribed inlet mass flowrate, leaving whatever velocity\nboundary condition is currently on the inlet patch in force."]
+    pub fn clear_inlet_mass_flowrate(&mut self) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::clear_inlet_mass_flowrate(&mut self.inner)
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::set_inlet_enthalpy
+    #[doc = "Prescribe the **junction specific enthalpy** \\[J/kg\\] at the inlet\nterminal -- the `\"left\"` patch, x = 0. Pairs with\n[`Self::set_inlet_velocity`] or [`Self::set_inlet_mass_flowrate`] to\nfully specify the incoming stream.\n\n# This is an upwind terminal, not a Dirichlet patch\n\nThe value is used as the upstream enthalpy **only while flow is entering\nthrough this end**. If the flow reverses and fluid leaves through the\ninlet, the pipe's own first cell is upstream and this value is ignored\nuntil the flow turns around again -- see\n[`super::TampinesSteamArray::correct_advection_terminals`] and\n`docs/boundary-conditions-convention.md`.\n\nThat is deliberate, and it is why the convention exists: these arrays are\npipes in a network, so their ends are junctions. An unconditional\nDirichlet would clamp the face even on outflow, exporting the *junction's*\nenthalpy instead of the fluid's.\n\nAlso selects the inflowing density: while this terminal is inflowing, the\nentering mass flux uses `rho(p_cell, h)` rather than the first cell's own\ndensity (see\n[`super::TampinesSteamArray::apply_junction_densities`]).\n\nClear it with [`Self::clear_inlet_enthalpy`]."]
+    pub fn set_inlet_enthalpy(&mut self, h: f64) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::set_inlet_enthalpy(&mut self.inner, from_si(h))
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::clear_inlet_enthalpy
+    #[doc = "Remove the inlet junction enthalpy, returning that terminal to\n[`AdvectionTerminalState::ZeroGradientExtrapolated`] -- on inflow it will\nthen advect in the adjacent cell's own enthalpy, there being nothing else\nknown."]
+    pub fn clear_inlet_enthalpy(&mut self) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::clear_inlet_enthalpy(&mut self.inner)
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::set_outlet_enthalpy
+    #[doc = "Prescribe the **junction specific enthalpy** \\[J/kg\\] at the outlet\nterminal -- the `\"right\"` patch, x = length.\n\n# Why an outlet needs one\n\nWhile flow leaves through this end the value is ignored: the pipe is\nupstream, and zero-gradient is the right condition because the downstream\nstate is genuinely unknown. It matters **when the flow reverses**, which\nthis workspace does routinely -- natural circulation reverses at start-up\nand stagnation, a blowdown reverses as it flashes, and a counter-flow\nheat exchanger has its two outlets at opposite ends. Without a junction\nstate here, a reversal makes the array advect its own enthalpy back in\nthrough its outlet, which is the self-referential failure the whole\nconvention exists to rule out.\n\nSet it to whatever is on the other side of the junction -- the plenum,\ndownheader, or next component the outlet connects to. Clear it with\n[`Self::clear_outlet_enthalpy`]."]
+    pub fn set_outlet_enthalpy(&mut self, h: f64) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::set_outlet_enthalpy(
+            &mut self.inner,
+            from_si(h),
+        )
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::clear_outlet_enthalpy
+    #[doc = "Remove the outlet junction enthalpy, returning that terminal to\n[`AdvectionTerminalState::ZeroGradientExtrapolated`]."]
+    pub fn clear_outlet_enthalpy(&mut self) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::clear_outlet_enthalpy(&mut self.inner)
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::set_outlet_velocity
+    #[doc = "Prescribes a fixed outlet velocity boundary condition on the\n`\"right\"` patch (x = length, the outlet -- see\n[`crate::openfoam_algorithms::openfoam_source::interface::one_dimensional_meshing::create_one_d_mesh`]).\n\nThe outlet mirror of [`Self::set_inlet_velocity`] (same `\"right\"` patch\nindex the outlet-pressure/outlet-state accessors use). For driving this\narray with a known discharge velocity -- e.g. the Edwards blowdown feeds\nthe equivalent full-face velocity from the choked-break solution here each\nstep. `velocity` is the x-direction speed; positive means fluid leaving\nthe domain (flowing left-to-right, +x) -- takes effect on the next\n[`super::TampinesSteamArray::step`]."]
+    pub fn set_outlet_velocity(&mut self, velocity: f64) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::set_outlet_velocity(
+            &mut self.inner,
+            from_si(velocity),
+        )
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::set_outlet_pressure
+    #[doc = "Prescribes a fixed outlet pressure boundary condition on the\n`\"right\"` patch (x = length) -- e.g. the downstream pressure a\nturbine or condenser imposes."]
+    pub fn set_outlet_pressure(&mut self, p: f64) -> () {
+        ::tampines_steam_tables::TampinesSteamArray::set_outlet_pressure(
+            &mut self.inner,
+            from_si(p),
+        )
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::get_outlet_pressure
+    #[doc = "Outlet-cell (the last cell, owner of the `\"right\"` patch) pressure\n-- for a caller reading the downstream state after [`super::TampinesSteamArray::step`]."]
+    pub fn get_outlet_pressure(&self) -> f64 {
+        to_si(::tampines_steam_tables::TampinesSteamArray::get_outlet_pressure(&self.inner))
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::get_outlet_enthalpy
+    #[doc = "Outlet-cell specific enthalpy."]
+    pub fn get_outlet_enthalpy(&self) -> f64 {
+        to_si(::tampines_steam_tables::TampinesSteamArray::get_outlet_enthalpy(&self.inner))
+    }
+    // @item method:tampines_steam_tables::TampinesSteamArray::get_outlet_temperature
+    #[doc = "Outlet-cell temperature."]
+    pub fn get_outlet_temperature(&self) -> f64 {
+        to_si(::tampines_steam_tables::TampinesSteamArray::get_outlet_temperature(&self.inner))
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -1294,6 +1294,142 @@ impl Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
             from_si(outlet_pressure),
         )
     }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality
+    #[doc = "Creates a new control volume from a `(T,p,x)` forward flash, where\ntemperature `T` is in K, pressure `p` is in Pa, `volume` (m^3) is the\nfixed control-volume size, and `x` is the steam quality (vapour mass\nfraction). Dispatches through `pt_flash_eqm::*_tp_eqm_two_phase`, so\n`x` only matters when `(T,p)` lies on the saturation line (Region 4);\nelsewhere it is ignored by the underlying single-phase equations."]
+    #[staticmethod]
+    pub fn new_from_tp_quality(
+        temperature: f64,
+        pressure: f64,
+        volume: f64,
+        x: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality(
+                from_si(temperature),
+                from_si(pressure),
+                from_si(volume),
+                x,
+            ),
+        }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_1
+    #[doc = "creates a new control volume assuming quality is 1\nat the steam table\n\nthis quality is only used at the saturation line of course"]
+    #[staticmethod]
+    pub fn new_from_tp_quality_1(
+        temperature: f64,
+        pressure: f64,
+        volume: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_1(
+                from_si(temperature),
+                from_si(pressure),
+                from_si(volume),
+            ),
+        }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_0
+    #[doc = "creates a new control volume assuming quality is 0\nat the steam table\n\nthis quality is only used at the saturation line of course"]
+    #[staticmethod]
+    pub fn new_from_tp_quality_0(
+        temperature: f64,
+        pressure: f64,
+        volume: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_0(
+                from_si(temperature),
+                from_si(pressure),
+                from_si(volume),
+            ),
+        }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ph
+    #[doc = "Creates a new control volume from a `(p,h)` flash, where pressure\n`p` is in Pa, specific enthalpy `h` is in J/kg, and `volume` (m^3) is\nthe fixed control-volume size. Region (1-4) is resolved internally by\n`ph_flash_eqm::ph_flash_region`; Region 5 `(p,h)` flashes are\nunsupported (IAPWS-IF97 has no backward `(p,h)` correlation there)."]
+    #[staticmethod]
+    pub fn new_from_ph(
+        p: f64,
+        h: f64,
+        volume: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ph(
+                from_si(p),
+                from_si(h),
+                from_si(volume),
+            ),
+        }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ps
+    #[doc = "Creates a new control volume from a `(p,s)` flash, where pressure\n`p` is in Pa, specific entropy `s` is in J/(kg*K), and `volume`\n(m^3) is the fixed control-volume size. Region (1-4) is resolved\ninternally by `ps_flash_eqm::ps_flash_region`; Region 5 is not yet\nimplemented for this flash path."]
+    #[staticmethod]
+    pub fn new_from_ps(
+        p: f64,
+        s: f64,
+        volume: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ps(
+                from_si(p),
+                from_si(s),
+                from_si(volume),
+            ),
+        }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_hs
+    #[doc = "Creates a new control volume from an `(h,s)` flash, where specific\nenthalpy `h` is in J/kg, specific entropy `s` is in J/(kg*K), and\n`volume` (m^3) is the fixed control-volume size. Resolves pressure\nvia `hs_flash_eqm::p_hs_eqm` and delegates to [`Self::new_from_ph`]."]
+    #[staticmethod]
+    pub fn new_from_hs(
+        h: f64,
+        s: f64,
+        volume: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_hs(
+                from_si(h),
+                from_si(s),
+                from_si(volume),
+            ),
+        }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_pressure_quality
+    #[doc = "Creates a new control volume on the saturation line (Region 4) given\nsaturation pressure `p` in Pa, steam quality `x` (vapour mass\nfraction), and `volume` (m^3). The saturation temperature is looked\nup from `p` via `sat_temp_4`, then delegates to\n[`Self::new_from_tp_quality`]."]
+    #[staticmethod]
+    pub fn new_from_sat_pressure_quality(
+        p: f64,
+        x: f64,
+        volume: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_pressure_quality(from_si(p), x, from_si(volume)) }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_temp_quality
+    #[doc = "Creates a new control volume on the saturation line (Region 4) given\nsaturation temperature `t` in K, steam quality `x` (vapour mass\nfraction), and `volume` (m^3). The saturation pressure is looked up\nfrom `t` via `sat_pressure_4`, then delegates to\n[`Self::new_from_tp_quality`]."]
+    #[staticmethod]
+    pub fn new_from_sat_temp_quality(
+        t: f64,
+        x: f64,
+        volume: f64,
+    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+            inner:
+                ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_temp_quality(
+                    from_si(t),
+                    x,
+                    from_si(volume),
+                ),
+        }
+    }
+    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep
+    #[doc = "Applies one timestep of mass-and-energy exchange recorded in `changes`,\nupdating the control volume in place to its new thermodynamic state.\n\nThe geometric volume is held fixed (control-volume definition). See the\n[module documentation](self) for the full derivation. In brief:\n\n1. `m_new = m_old + Σ dm_i`\n2. `h_new = (m_old · h_old + Σ dm_i · h_i) / m_new`\n3. `v_new = V / m_new`, then solve `v(p, h_new) = v_new` for `p` by\n   regula falsi and rebuild the state from `(p, h_new)`.\n\n# Panics\n\nPanics if the resulting mass is not strictly positive (the control volume\nwould be emptied or driven negative), or if no pressure in the IF97 range\nreproduces the target `(v_new, h_new)` state — both indicate\nnon-physical inputs rather than a recoverable condition."]
+    pub fn advance_timestep(
+        &mut self,
+        changes: PyRef<'_, Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges>,
+    ) -> () {
+        ::tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep(
+            &mut self.inner,
+            &changes.inner,
+        )
+    }
     // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::get_pressure
     #[doc = "Returns the pressure of the control volume."]
     pub fn get_pressure(&self) -> f64 {
@@ -1521,142 +1657,6 @@ impl Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
     pub fn get_stagnation_critical_mass_flux(&self) -> f64 {
         to_si(::tampines_steam_tables::prelude::TampinesSteamTableCV::get_stagnation_critical_mass_flux(&self.inner))
     }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality
-    #[doc = "Creates a new control volume from a `(T,p,x)` forward flash, where\ntemperature `T` is in K, pressure `p` is in Pa, `volume` (m^3) is the\nfixed control-volume size, and `x` is the steam quality (vapour mass\nfraction). Dispatches through `pt_flash_eqm::*_tp_eqm_two_phase`, so\n`x` only matters when `(T,p)` lies on the saturation line (Region 4);\nelsewhere it is ignored by the underlying single-phase equations."]
-    #[staticmethod]
-    pub fn new_from_tp_quality(
-        temperature: f64,
-        pressure: f64,
-        volume: f64,
-        x: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality(
-                from_si(temperature),
-                from_si(pressure),
-                from_si(volume),
-                x,
-            ),
-        }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_1
-    #[doc = "creates a new control volume assuming quality is 1\nat the steam table\n\nthis quality is only used at the saturation line of course"]
-    #[staticmethod]
-    pub fn new_from_tp_quality_1(
-        temperature: f64,
-        pressure: f64,
-        volume: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_1(
-                from_si(temperature),
-                from_si(pressure),
-                from_si(volume),
-            ),
-        }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_0
-    #[doc = "creates a new control volume assuming quality is 0\nat the steam table\n\nthis quality is only used at the saturation line of course"]
-    #[staticmethod]
-    pub fn new_from_tp_quality_0(
-        temperature: f64,
-        pressure: f64,
-        volume: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_tp_quality_0(
-                from_si(temperature),
-                from_si(pressure),
-                from_si(volume),
-            ),
-        }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ph
-    #[doc = "Creates a new control volume from a `(p,h)` flash, where pressure\n`p` is in Pa, specific enthalpy `h` is in J/kg, and `volume` (m^3) is\nthe fixed control-volume size. Region (1-4) is resolved internally by\n`ph_flash_eqm::ph_flash_region`; Region 5 `(p,h)` flashes are\nunsupported (IAPWS-IF97 has no backward `(p,h)` correlation there)."]
-    #[staticmethod]
-    pub fn new_from_ph(
-        p: f64,
-        h: f64,
-        volume: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ph(
-                from_si(p),
-                from_si(h),
-                from_si(volume),
-            ),
-        }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ps
-    #[doc = "Creates a new control volume from a `(p,s)` flash, where pressure\n`p` is in Pa, specific entropy `s` is in J/(kg*K), and `volume`\n(m^3) is the fixed control-volume size. Region (1-4) is resolved\ninternally by `ps_flash_eqm::ps_flash_region`; Region 5 is not yet\nimplemented for this flash path."]
-    #[staticmethod]
-    pub fn new_from_ps(
-        p: f64,
-        s: f64,
-        volume: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_ps(
-                from_si(p),
-                from_si(s),
-                from_si(volume),
-            ),
-        }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_hs
-    #[doc = "Creates a new control volume from an `(h,s)` flash, where specific\nenthalpy `h` is in J/kg, specific entropy `s` is in J/(kg*K), and\n`volume` (m^3) is the fixed control-volume size. Resolves pressure\nvia `hs_flash_eqm::p_hs_eqm` and delegates to [`Self::new_from_ph`]."]
-    #[staticmethod]
-    pub fn new_from_hs(
-        h: f64,
-        s: f64,
-        volume: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-            inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_hs(
-                from_si(h),
-                from_si(s),
-                from_si(volume),
-            ),
-        }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_pressure_quality
-    #[doc = "Creates a new control volume on the saturation line (Region 4) given\nsaturation pressure `p` in Pa, steam quality `x` (vapour mass\nfraction), and `volume` (m^3). The saturation temperature is looked\nup from `p` via `sat_temp_4`, then delegates to\n[`Self::new_from_tp_quality`]."]
-    #[staticmethod]
-    pub fn new_from_sat_pressure_quality(
-        p: f64,
-        x: f64,
-        volume: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_pressure_quality(from_si(p), x, from_si(volume)) }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_temp_quality
-    #[doc = "Creates a new control volume on the saturation line (Region 4) given\nsaturation temperature `t` in K, steam quality `x` (vapour mass\nfraction), and `volume` (m^3). The saturation pressure is looked up\nfrom `t` via `sat_pressure_4`, then delegates to\n[`Self::new_from_tp_quality`]."]
-    #[staticmethod]
-    pub fn new_from_sat_temp_quality(
-        t: f64,
-        x: f64,
-        volume: f64,
-    ) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-        Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
-            inner:
-                ::tampines_steam_tables::prelude::TampinesSteamTableCV::new_from_sat_temp_quality(
-                    from_si(t),
-                    x,
-                    from_si(volume),
-                ),
-        }
-    }
-    // @item method:tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep
-    #[doc = "Applies one timestep of mass-and-energy exchange recorded in `changes`,\nupdating the control volume in place to its new thermodynamic state.\n\nThe geometric volume is held fixed (control-volume definition). See the\n[module documentation](self) for the full derivation. In brief:\n\n1. `m_new = m_old + Σ dm_i`\n2. `h_new = (m_old · h_old + Σ dm_i · h_i) / m_new`\n3. `v_new = V / m_new`, then solve `v(p, h_new) = v_new` for `p` by\n   regula falsi and rebuild the state from `(p, h_new)`.\n\n# Panics\n\nPanics if the resulting mass is not strictly positive (the control volume\nwould be emptied or driven negative), or if no pressure in the IF97 range\nreproduces the target `(v_new, h_new)` state — both indicate\nnon-physical inputs rather than a recoverable condition."]
-    pub fn advance_timestep(
-        &mut self,
-        changes: PyRef<'_, Py_tampines_steam_tables__prelude__CvMassEnthalpyChanges>,
-    ) -> () {
-        ::tampines_steam_tables::prelude::TampinesSteamTableCV::advance_timestep(
-            &mut self.inner,
-            &changes.inner,
-        )
-    }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
     }
@@ -1810,6 +1810,843 @@ impl
     pub fn __eq__(&self, other: &Self) -> bool {
         self.inner == other.inner
     }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine
+#[doc = "A multistage axial steam turbine, solved along the mean streamline.\n\nThe stage list is ordered from admission to exhaust. Nothing here checks\nthat the stage pressures descend monotonically; a stage handed a rising\npressure produces no nozzle velocity and therefore no work, which shows up\nin the outcome rather than as a panic."]
+#[pyclass(name = "MeanFlowTurbine", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__MeanFlowTurbine {
+    pub inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__MeanFlowTurbine {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine::stages
+    #[getter(stages)]
+    pub fn get_stages(
+        &self,
+    ) -> Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__TurbineStage>
+    {
+        let v = self.inner.stages.clone();
+        v.into_iter().map(|e| Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__TurbineStage { inner: e }).collect::<Vec<_>>()
+    }
+    #[setter(stages)]
+    pub fn set_stages(
+        &mut self,
+        v: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__TurbineStage>,
+    ) {
+        self.inner.stages = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine::shaft_speed
+    #[getter(shaft_speed)]
+    pub fn get_shaft_speed(&self) -> f64 {
+        let v = self.inner.shaft_speed.clone();
+        to_si(v)
+    }
+    #[setter(shaft_speed)]
+    pub fn set_shaft_speed(&mut self, v: f64) {
+        self.inner.shaft_speed = from_si(v);
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine::new
+    #[doc = "Builds a turbine from stages in flow order and a shaft speed."]
+    #[new]
+    pub fn new(
+        stages: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__TurbineStage>,
+        shaft_speed: f64,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__MeanFlowTurbine {
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__MeanFlowTurbine { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine::new(stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(), from_si(shaft_speed)) }
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine::expand
+    #[doc = "Expands `inlet` through every stage in turn, each stage's outlet feeding\nthe next stage's inlet."]
+    pub fn expand(
+        &self,
+        inlet: Py_tampines_steam_tables__prelude__TampinesSteamTableCV,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__TurbineOutcome {
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__TurbineOutcome { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::MeanFlowTurbine::expand(&self.inner, inlet.inner) }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome
+#[doc = "What a whole machine did, stage by stage."]
+#[pyclass(name = "TurbineOutcome", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__TurbineOutcome {
+    pub inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__TurbineOutcome {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome::stage_outcomes
+    #[getter(stage_outcomes)]
+    pub fn get_stage_outcomes(
+        &self,
+    ) -> Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome>
+    {
+        let v = self.inner.stage_outcomes.clone();
+        v.into_iter().map(|e| Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome { inner: e }).collect::<Vec<_>>()
+    }
+    #[setter(stage_outcomes)]
+    pub fn set_stage_outcomes(
+        &mut self,
+        v: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome>,
+    ) {
+        self.inner.stage_outcomes = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome::outlet
+    #[getter(outlet)]
+    pub fn get_outlet(&self) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        let v = self.inner.outlet.clone();
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }
+    }
+    #[setter(outlet)]
+    pub fn set_outlet(&mut self, v: Py_tampines_steam_tables__prelude__TampinesSteamTableCV) {
+        self.inner.outlet = v.inner;
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome::total_specific_work
+    #[doc = "Total specific work of the machine, summed over stages."]
+    pub fn total_specific_work(&self) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome::total_specific_work(&self.inner))
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome::total_isentropic_specific_work
+    #[doc = "Total isentropic specific work, summed stage by stage.\n\nThis is the sum of per-stage isentropic drops, not the isentropic drop\nof the whole machine. The two differ by the reheat factor, which is\nexactly the quantity a stage-resolved model is able to expose and a\nlumped one is not."]
+    pub fn total_isentropic_specific_work(&self) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome::total_isentropic_specific_work(&self.inner))
+    }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome
+    #[new]
+    pub fn __new__(
+        stage_outcomes: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome>,
+        outlet: Py_tampines_steam_tables__prelude__TampinesSteamTableCV,
+    ) -> Self {
+        Self {
+            inner:
+                ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::TurbineOutcome {
+                    stage_outcomes: stage_outcomes
+                        .into_iter()
+                        .map(|e| e.inner)
+                        .collect::<Vec<_>>(),
+                    outlet: outlet.inner,
+                },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading
+#[doc = "Rotor blading, carrying both the impulse and the reaction parameters.\n\nThere is no \"impulse blade\" or \"reaction blade\" type here, deliberately. A\nreal rotor row is never purely one or the other: it always redirects the\nrelative flow *and* accelerates it, so every stage built from this struct\ngets both contributions. What varies along a machine is the balance, and\nthat balance is an outcome of the rotor pressure drop rather than a label."]
+#[pyclass(name = "RotorBlading", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading
+{
+    pub inner:
+        ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::blade_velocity_coefficient
+    #[getter(blade_velocity_coefficient)]
+    pub fn get_blade_velocity_coefficient(&self) -> f64 {
+        let v = self.inner.blade_velocity_coefficient.clone();
+        to_si(v)
+    }
+    #[setter(blade_velocity_coefficient)]
+    pub fn set_blade_velocity_coefficient(&mut self, v: f64) {
+        self.inner.blade_velocity_coefficient = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::lift_coefficient
+    #[getter(lift_coefficient)]
+    pub fn get_lift_coefficient(&self) -> f64 {
+        let v = self.inner.lift_coefficient.clone();
+        to_si(v)
+    }
+    #[setter(lift_coefficient)]
+    pub fn set_lift_coefficient(&mut self, v: f64) {
+        self.inner.lift_coefficient = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::drag_coefficient
+    #[getter(drag_coefficient)]
+    pub fn get_drag_coefficient(&self) -> f64 {
+        let v = self.inner.drag_coefficient.clone();
+        to_si(v)
+    }
+    #[setter(drag_coefficient)]
+    pub fn set_drag_coefficient(&mut self, v: f64) {
+        self.inner.drag_coefficient = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::solidity
+    #[getter(solidity)]
+    pub fn get_solidity(&self) -> f64 {
+        let v = self.inner.solidity.clone();
+        to_si(v)
+    }
+    #[setter(solidity)]
+    pub fn set_solidity(&mut self, v: f64) {
+        self.inner.solidity = from_si(v);
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::impulse_specific_work
+    #[doc = "Work from the **impulse** part: the rotor as a deflector.\n\n`w = U (c_theta1 - c_theta2)`, straight off\n[`VelocityTriangle::euler_specific_work`]. This counts only the\ntangential momentum removed by turning the flow, with the relative speed\nchanged by nothing but passage friction."]
+    pub fn impulse_specific_work(
+        &self,
+        triangle: PyRef<'_, Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle>,
+    ) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::impulse_specific_work(&self.inner, &triangle.inner))
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::reaction_specific_work
+    #[doc = "Work from the **reaction** part: the rotor as an aerofoil cascade.\n\nThe rotor passage also acts as a nozzle, because its exit pressure is\nbelow its inlet pressure. In the relative frame that pressure drop\naccelerates the flow from the redirected speed `|w2|` to\n\n```text\nw2_accelerated = sqrt(w2^2 + 2 dh_rotor)\n```\n\nand it is that acceleration the blade develops lift from. Per unit span\na blade at the mean relative angle `beta_m` sees lift\n`L = 0.5 rho w_m dw c C_L` and drag `D = 0.5 rho w_m dw c C_D` from the\nincrement `dw`, resolving onto the tangential direction as\n`F_theta = L cos(beta_m) + D sin(beta_m)`. With the passage mass flow\nper unit span `rho s c_x`, the specific work is\n\n```text\nw = U dw w_m (c/s) (C_L cos(beta_m) + C_D sin(beta_m)) / (2 c_x)\n```\n\nDensity cancels, as it does for the impulse part.\n\n# Why this does not double count\n\nThe lift here is driven by the velocity **increment** `dw`, not by the\nfull relative velocity. The momentum the rotor took out by turning the\nflow is already counted in\n[`Self::impulse_specific_work`], and this term adds only what the rotor\npressure drop contributed on top. A rotor with no pressure drop has\n`dh_rotor = 0`, hence `dw = 0`, hen"]
+    pub fn reaction_specific_work(
+        &self,
+        triangle: PyRef<'_, Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle>,
+        rotor_enthalpy_drop: f64,
+    ) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::reaction_specific_work(&self.inner, &triangle.inner, from_si(rotor_enthalpy_drop)))
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::reaction_tangential_velocity_change
+    #[doc = "The tangential velocity change the **reaction** part accounts for, which\nis the reaction work divided by the blade speed.\n\nKept separate for the same reason as\n[`VelocityTriangle::tangential_velocity_change`]: torque must stay\nfinite at standstill so a shaft-coupled machine can spin up. See that\nmethod for the argument."]
+    pub fn reaction_tangential_velocity_change(
+        &self,
+        triangle: PyRef<'_, Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle>,
+        rotor_enthalpy_drop: f64,
+    ) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::reaction_tangential_velocity_change(&self.inner, &triangle.inner, from_si(rotor_enthalpy_drop)))
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::tangential_velocity_change
+    #[doc = "The total tangential velocity change of the stage, both mechanisms\nsummed. Multiply by mass flow and mean radius to get shaft torque."]
+    pub fn tangential_velocity_change(
+        &self,
+        triangle: PyRef<'_, Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle>,
+        rotor_enthalpy_drop: f64,
+    ) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::tangential_velocity_change(&self.inner, &triangle.inner, from_si(rotor_enthalpy_drop)))
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::specific_work_split
+    #[doc = "Both parts of the stage work, in the order they physically happen:\nthe flow is turned first, then accelerated by the rotor pressure drop."]
+    pub fn specific_work_split(
+        &self,
+        triangle: PyRef<'_, Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle>,
+        rotor_enthalpy_drop: f64,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit
+    {
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading::specific_work_split(&self.inner, &triangle.inner, from_si(rotor_enthalpy_drop)) }
+    }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading
+    #[new]
+    pub fn __new__(
+        blade_velocity_coefficient: f64,
+        lift_coefficient: f64,
+        drag_coefficient: f64,
+        solidity: f64,
+    ) -> Self {
+        Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::RotorBlading { blade_velocity_coefficient: from_si(blade_velocity_coefficient), lift_coefficient: from_si(lift_coefficient), drag_coefficient: from_si(drag_coefficient), solidity: from_si(solidity) } }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry
+#[doc = "Mean-line geometry of one stage."]
+#[pyclass(name = "StageGeometry", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry
+{
+    pub inner:
+        ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry::mean_radius
+    #[getter(mean_radius)]
+    pub fn get_mean_radius(&self) -> f64 {
+        let v = self.inner.mean_radius.clone();
+        to_si(v)
+    }
+    #[setter(mean_radius)]
+    pub fn set_mean_radius(&mut self, v: f64) {
+        self.inner.mean_radius = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry::nozzle_angle
+    #[getter(nozzle_angle)]
+    pub fn get_nozzle_angle(&self) -> f64 {
+        let v = self.inner.nozzle_angle.clone();
+        to_si(v)
+    }
+    #[setter(nozzle_angle)]
+    pub fn set_nozzle_angle(&mut self, v: f64) {
+        self.inner.nozzle_angle = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry::relative_exit_angle
+    #[getter(relative_exit_angle)]
+    pub fn get_relative_exit_angle(&self) -> f64 {
+        let v = self.inner.relative_exit_angle.clone();
+        to_si(v)
+    }
+    #[setter(relative_exit_angle)]
+    pub fn set_relative_exit_angle(&mut self, v: f64) {
+        self.inner.relative_exit_angle = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry::nozzle_velocity_coefficient
+    #[getter(nozzle_velocity_coefficient)]
+    pub fn get_nozzle_velocity_coefficient(&self) -> f64 {
+        let v = self.inner.nozzle_velocity_coefficient.clone();
+        to_si(v)
+    }
+    #[setter(nozzle_velocity_coefficient)]
+    pub fn set_nozzle_velocity_coefficient(&mut self, v: f64) {
+        self.inner.nozzle_velocity_coefficient = from_si(v);
+    }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry
+    #[new]
+    pub fn __new__(
+        mean_radius: f64,
+        nozzle_angle: f64,
+        relative_exit_angle: f64,
+        nozzle_velocity_coefficient: f64,
+    ) -> Self {
+        Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageGeometry { mean_radius: from_si(mean_radius), nozzle_angle: from_si(nozzle_angle), relative_exit_angle: from_si(relative_exit_angle), nozzle_velocity_coefficient: from_si(nozzle_velocity_coefficient) } }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome
+#[doc = "What one stage did: the outlet state, the kinematics it ran at, and the\nwork it produced against the work it could ideally have produced."]
+#[pyclass(name = "StageOutcome", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome
+{
+    pub inner:
+        ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::outlet
+    #[getter(outlet)]
+    pub fn get_outlet(&self) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV {
+        let v = self.inner.outlet.clone();
+        Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: v }
+    }
+    #[setter(outlet)]
+    pub fn set_outlet(&mut self, v: Py_tampines_steam_tables__prelude__TampinesSteamTableCV) {
+        self.inner.outlet = v.inner;
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::triangle
+    #[getter(triangle)]
+    pub fn get_triangle(&self) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle{
+        let v = self.inner.triangle.clone();
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle { inner: v }
+    }
+    #[setter(triangle)]
+    pub fn set_triangle(
+        &mut self,
+        v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle,
+    ) {
+        self.inner.triangle = v.inner;
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::work_split
+    #[getter(work_split)]
+    pub fn get_work_split(
+        &self,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit
+    {
+        let v = self.inner.work_split.clone();
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit {
+            inner: v,
+        }
+    }
+    #[setter(work_split)]
+    pub fn set_work_split(
+        &mut self,
+        v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit,
+    ) {
+        self.inner.work_split = v.inner;
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::isentropic_specific_work
+    #[getter(isentropic_specific_work)]
+    pub fn get_isentropic_specific_work(&self) -> f64 {
+        let v = self.inner.isentropic_specific_work.clone();
+        to_si(v)
+    }
+    #[setter(isentropic_specific_work)]
+    pub fn set_isentropic_specific_work(&mut self, v: f64) {
+        self.inner.isentropic_specific_work = from_si(v);
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::specific_work
+    #[doc = "Total specific work of the stage, both mechanisms summed."]
+    pub fn specific_work(&self) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::specific_work(&self.inner))
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::stage_efficiency
+    #[doc = "Stage efficiency, actual work over isentropic work.\n\nReturns zero when the isentropic drop is not positive, which happens\nonly if the stage was handed a rising pressure."]
+    pub fn stage_efficiency(&self) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome::stage_efficiency(&self.inner))
+    }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome
+    #[new]
+    pub fn __new__(
+        outlet: Py_tampines_steam_tables__prelude__TampinesSteamTableCV,
+        triangle: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle,
+        work_split: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit,
+        isentropic_specific_work: f64,
+    ) -> Self {
+        Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageOutcome { outlet: outlet.inner, triangle: triangle.inner, work_split: work_split.inner, isentropic_specific_work: from_si(isentropic_specific_work) } }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit
+#[doc = "How one stage's work divides between its two mechanisms.\n\nReported rather than summed away, because the split is the thing a\nstage-resolved model can say and a lumped one cannot."]
+#[pyclass(name = "StageWorkSplit", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit
+{
+    pub inner:
+        ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit::impulse
+    #[getter(impulse)]
+    pub fn get_impulse(&self) -> f64 {
+        let v = self.inner.impulse.clone();
+        to_si(v)
+    }
+    #[setter(impulse)]
+    pub fn set_impulse(&mut self, v: f64) {
+        self.inner.impulse = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit::reaction
+    #[getter(reaction)]
+    pub fn get_reaction(&self) -> f64 {
+        let v = self.inner.reaction.clone();
+        to_si(v)
+    }
+    #[setter(reaction)]
+    pub fn set_reaction(&mut self, v: f64) {
+        self.inner.reaction = from_si(v);
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit::total
+    #[doc = "Total specific work of the stage."]
+    pub fn total(&self) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit::total(&self.inner))
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit::reaction_fraction
+    #[doc = "The fraction of stage work that came from the reaction part.\n\nZero when the rotor sees no pressure drop. Returns zero rather than a\nNaN when the stage did no work at all."]
+    pub fn reaction_fraction(&self) -> f64 {
+        to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit::reaction_fraction(&self.inner))
+    }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit
+    #[new]
+    pub fn __new__(impulse: f64, reaction: f64) -> Self {
+        Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::StageWorkSplit { impulse: from_si(impulse), reaction: from_si(reaction) } }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage
+#[doc = "One stage: geometry, blading, and the two pressures that bracket it.\n\nThe interstage and exit pressures are supplied rather than derived. That is\na deliberate choice: splitting an enthalpy drop by an assumed degree of\nreaction would need an `(h,s)` flash, whose known gaps at the triple point\nand at 1000 bar are documented in this crate's `CLAUDE.md`. Supplying\npressures keeps the stage on the `(p,s)` and `(p,h)` paths, which are the\nvalidated ones. The degree of reaction is then *reported* by\n[`VelocityTriangle::get_degree_of_reaction`] rather than prescribed."]
+#[pyclass(name = "TurbineStage", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__TurbineStage
+{
+    pub inner:
+        ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage,
+}
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__TurbineStage {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage::geometry
+    #[getter(geometry)]
+    pub fn get_geometry(
+        &self,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry
+    {
+        let v = self.inner.geometry.clone();
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry {
+            inner: v,
+        }
+    }
+    #[setter(geometry)]
+    pub fn set_geometry(
+        &mut self,
+        v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry,
+    ) {
+        self.inner.geometry = v.inner;
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage::blading
+    #[getter(blading)]
+    pub fn get_blading(
+        &self,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading
+    {
+        let v = self.inner.blading.clone();
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading {
+            inner: v,
+        }
+    }
+    #[setter(blading)]
+    pub fn set_blading(
+        &mut self,
+        v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading,
+    ) {
+        self.inner.blading = v.inner;
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage::stator_exit_pressure
+    #[getter(stator_exit_pressure)]
+    pub fn get_stator_exit_pressure(&self) -> f64 {
+        let v = self.inner.stator_exit_pressure.clone();
+        to_si(v)
+    }
+    #[setter(stator_exit_pressure)]
+    pub fn set_stator_exit_pressure(&mut self, v: f64) {
+        self.inner.stator_exit_pressure = from_si(v);
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage::rotor_exit_pressure
+    #[getter(rotor_exit_pressure)]
+    pub fn get_rotor_exit_pressure(&self) -> f64 {
+        let v = self.inner.rotor_exit_pressure.clone();
+        to_si(v)
+    }
+    #[setter(rotor_exit_pressure)]
+    pub fn set_rotor_exit_pressure(&mut self, v: f64) {
+        self.inner.rotor_exit_pressure = from_si(v);
+    }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage::expand
+    #[doc = "Expands `inlet` through this stage at the given shaft speed.\n\nThe sequence is:\n\n1. The stator expands isentropically from the inlet pressure to\n   [`Self::stator_exit_pressure`]. The enthalpy drop becomes nozzle exit\n   speed, `c1 = phi sqrt(2 dh)`, with `phi` the nozzle velocity\n   coefficient.\n2. The velocity triangle is built from `c1`, the blade speed and the\n   blade angles.\n3. [`RotorBlading::specific_work_split`] reads both contributions off\n   that triangle: the impulse part from turning the flow, then the\n   reaction part from the rotor pressure drop.\n4. The control volume is advanced to [`Self::rotor_exit_pressure`] with\n   that work removed, through the `(p,h)` flash."]
+    pub fn expand(
+        &self,
+        inlet: Py_tampines_steam_tables__prelude__TampinesSteamTableCV,
+        shaft_speed: f64,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome
+    {
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage::expand(&self.inner, inlet.inner, from_si(shaft_speed)) }
+    }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage
+    #[new]
+    pub fn __new__(
+        geometry: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry,
+        blading: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading,
+        stator_exit_pressure: f64,
+        rotor_exit_pressure: f64,
+    ) -> Self {
+        Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::stage::TurbineStage { geometry: geometry.inner, blading: blading.inner, stator_exit_pressure: from_si(stator_exit_pressure), rotor_exit_pressure: from_si(rotor_exit_pressure) } }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine
+#[doc = "A multistage axial steam turbine solved in time on the 1-D HEM array."]
+#[pyclass(
+    name = "TransientMeanFlowTurbine",
+    module = "outram_park.tampines_steam_tables"
+)]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientMeanFlowTurbine { pub inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine }
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientMeanFlowTurbine {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::array
+    #[getter(array)]
+    pub fn get_array(&self) -> Py_tampines_steam_tables__TampinesSteamArray { let v = self.inner.array.clone(); Py_tampines_steam_tables__TampinesSteamArray { inner: v } }
+    #[setter(array)]
+    pub fn set_array(&mut self, v: Py_tampines_steam_tables__TampinesSteamArray) { self.inner.array = v.inner; }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::stages
+    #[getter(stages)]
+    pub fn get_stages(&self) -> Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStage> { let v = self.inner.stages.clone(); v.into_iter().map(|e| Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStage { inner: e }).collect::<Vec<_>>() }
+    #[setter(stages)]
+    pub fn set_stages(&mut self, v: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStage>) { self.inner.stages = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::generator
+    #[getter(generator)]
+    pub fn get_generator(&self) -> Py_tampines_steam_tables__steam_turbine_equations__generator__ThreePhaseElectricGeneratorTurbine { let v = self.inner.generator.clone(); Py_tampines_steam_tables__steam_turbine_equations__generator__ThreePhaseElectricGeneratorTurbine { inner: v } }
+    #[setter(generator)]
+    pub fn set_generator(&mut self, v: Py_tampines_steam_tables__steam_turbine_equations__generator__ThreePhaseElectricGeneratorTurbine) { self.inner.generator = v.inner; }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::load_resistance
+    #[getter(load_resistance)]
+    pub fn get_load_resistance(&self) -> f64 { let v = self.inner.load_resistance.clone(); to_si(v) }
+    #[setter(load_resistance)]
+    pub fn set_load_resistance(&mut self, v: f64) { self.inner.load_resistance = from_si(v); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::current_time
+    #[getter(current_time)]
+    pub fn get_current_time(&self) -> f64 { let v = self.inner.current_time.clone(); to_si(v) }
+    #[setter(current_time)]
+    pub fn set_current_time(&mut self, v: f64) { self.inner.current_time = from_si(v); }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::new
+    #[doc = "Builds the machine, meshing one cell per stage and selecting the KNP\nhybrid solver mode.\n\n`length` is the axial extent of the whole blade path and `xs_area` its\nmean annulus area. Both are uniform, which is the mean-line assumption\nshowing up in the mesh: a real machine opens its annulus toward the\nexhaust, and this does not."]
+    #[new]
+    pub fn new(stages: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStage>, length: f64, xs_area: f64, delta_t: f64, generator: Py_tampines_steam_tables__steam_turbine_equations__generator__ThreePhaseElectricGeneratorTurbine, load_resistance: f64) -> PyResult<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientMeanFlowTurbine> { err(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::new(stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(), from_si(length), from_si(xs_area), from_si(delta_t), generator.inner, from_si(load_resistance))).map(|v| Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientMeanFlowTurbine { inner: v }) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::shaft_speed
+    #[doc = "Current shaft speed, read from the generator that owns it."]
+    pub fn shaft_speed(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::shaft_speed(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::initialise_uniform
+    #[doc = "Sets every cell to one uniform `(p, T)` state.\n\nThe array's own initial condition is liquid water at 1 bar and 300 K,\nwhich is not a useful starting point for a steam turbine, so this is\nalmost always the first call after construction."]
+    pub fn initialise_uniform(&mut self, pressure: f64, temperature: f64) -> () { ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::initialise_uniform(&mut self.inner, from_si(pressure), from_si(temperature)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::stage_control_volume
+    #[doc = "The steam state of one stage, as a control volume.\n\nThis is the \"one control volume per stage\" of the steady model, except\nthat here the state is read back out of the solver each timestep rather\nthan being marched by the control volume itself."]
+    pub fn stage_control_volume(&self, stage_index: usize) -> Py_tampines_steam_tables__prelude__TampinesSteamTableCV { Py_tampines_steam_tables__prelude__TampinesSteamTableCV { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::stage_control_volume(&self.inner, stage_index) } }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::step
+    #[doc = "Advances the machine one timestep.\n\nPer stage, in order: read the solved state, build the triangle on the\nsolved axial velocity, take both parts of the work, convert to a power\nwith the local mass flux, and register it as a negative power source.\nThen step the array once, so the energy equation sees the work leave."]
+    pub fn step(&mut self) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStepOutcome { Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStepOutcome { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::step(&mut self.inner) } }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::run
+    #[doc = "Advances `n_steps` timesteps, returning the last step's outcome."]
+    pub fn run(&mut self, n_steps: usize) -> Option<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStepOutcome> { ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientMeanFlowTurbine::run(&mut self.inner, n_steps).map(|e| Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStepOutcome { inner: e }) }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStage
+#[doc = "One stage of the transient machine.\n\nCarries no pressures: in the transient model those are solved by the array,\nnot supplied. What remains is the mean-line geometry, the blading, and how\nmuch of the locally solved pressure drop the rotor itself takes."]
+#[pyclass(name = "TransientStage", module = "outram_park.tampines_steam_tables")]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStage { pub inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStage }
+#[pymethods]
+impl
+    Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStage
+{
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStage::geometry
+    #[getter(geometry)]
+    pub fn get_geometry(
+        &self,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry
+    {
+        let v = self.inner.geometry.clone();
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry {
+            inner: v,
+        }
+    }
+    #[setter(geometry)]
+    pub fn set_geometry(
+        &mut self,
+        v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry,
+    ) {
+        self.inner.geometry = v.inner;
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStage::blading
+    #[getter(blading)]
+    pub fn get_blading(
+        &self,
+    ) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading
+    {
+        let v = self.inner.blading.clone();
+        Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading {
+            inner: v,
+        }
+    }
+    #[setter(blading)]
+    pub fn set_blading(
+        &mut self,
+        v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading,
+    ) {
+        self.inner.blading = v.inner;
+    }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStage::rotor_drop_fraction
+    #[getter(rotor_drop_fraction)]
+    pub fn get_rotor_drop_fraction(&self) -> f64 {
+        let v = self.inner.rotor_drop_fraction.clone();
+        to_si(v)
+    }
+    #[setter(rotor_drop_fraction)]
+    pub fn set_rotor_drop_fraction(&mut self, v: f64) {
+        self.inner.rotor_drop_fraction = from_si(v);
+    }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStage
+    #[new]
+    pub fn __new__(
+        geometry: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry,
+        blading: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading,
+        rotor_drop_fraction: f64,
+    ) -> Self {
+        Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStage { geometry: geometry.inner, blading: blading.inner, rotor_drop_fraction: from_si(rotor_drop_fraction) } }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome
+#[doc = "What one stage did during one timestep."]
+#[pyclass(
+    name = "TransientStageOutcome",
+    module = "outram_park.tampines_steam_tables"
+)]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStageOutcome { pub inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome }
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStageOutcome {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome::triangle
+    #[getter(triangle)]
+    pub fn get_triangle(&self) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle { let v = self.inner.triangle.clone(); Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle { inner: v } }
+    #[setter(triangle)]
+    pub fn set_triangle(&mut self, v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle) { self.inner.triangle = v.inner; }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome::work_split
+    #[getter(work_split)]
+    pub fn get_work_split(&self) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit { let v = self.inner.work_split.clone(); Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit { inner: v } }
+    #[setter(work_split)]
+    pub fn set_work_split(&mut self, v: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit) { self.inner.work_split = v.inner; }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome::mass_flow
+    #[getter(mass_flow)]
+    pub fn get_mass_flow(&self) -> f64 { let v = self.inner.mass_flow.clone(); to_si(v) }
+    #[setter(mass_flow)]
+    pub fn set_mass_flow(&mut self, v: f64) { self.inner.mass_flow = from_si(v); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome::torque
+    #[getter(torque)]
+    pub fn get_torque(&self) -> f64 { let v = self.inner.torque.clone(); to_si(v) }
+    #[setter(torque)]
+    pub fn set_torque(&mut self, v: f64) { self.inner.torque = from_si(v); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome::shaft_power
+    #[getter(shaft_power)]
+    pub fn get_shaft_power(&self) -> f64 { let v = self.inner.shaft_power.clone(); to_si(v) }
+    #[setter(shaft_power)]
+    pub fn set_shaft_power(&mut self, v: f64) { self.inner.shaft_power = from_si(v); }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome
+    #[new]
+    pub fn __new__(triangle: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle, work_split: Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit, mass_flow: f64, torque: f64, shaft_power: f64) -> Self { Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStageOutcome { triangle: triangle.inner, work_split: work_split.inner, mass_flow: from_si(mass_flow), torque: from_si(torque), shaft_power: from_si(shaft_power) } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
+    pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome
+#[doc = "What the machine did during one timestep."]
+#[pyclass(
+    name = "TransientStepOutcome",
+    module = "outram_park.tampines_steam_tables"
+)]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStepOutcome { pub inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome }
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStepOutcome {
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::stage_outcomes
+    #[getter(stage_outcomes)]
+    pub fn get_stage_outcomes(&self) -> Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStageOutcome> { let v = self.inner.stage_outcomes.clone(); v.into_iter().map(|e| Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStageOutcome { inner: e }).collect::<Vec<_>>() }
+    #[setter(stage_outcomes)]
+    pub fn set_stage_outcomes(&mut self, v: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStageOutcome>) { self.inner.stage_outcomes = v.into_iter().map(|e| e.inner).collect::<Vec<_>>(); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::shaft_speed_before
+    #[getter(shaft_speed_before)]
+    pub fn get_shaft_speed_before(&self) -> f64 { let v = self.inner.shaft_speed_before.clone(); to_si(v) }
+    #[setter(shaft_speed_before)]
+    pub fn set_shaft_speed_before(&mut self, v: f64) { self.inner.shaft_speed_before = from_si(v); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::shaft_speed_after
+    #[getter(shaft_speed_after)]
+    pub fn get_shaft_speed_after(&self) -> f64 { let v = self.inner.shaft_speed_after.clone(); to_si(v) }
+    #[setter(shaft_speed_after)]
+    pub fn set_shaft_speed_after(&mut self, v: f64) { self.inner.shaft_speed_after = from_si(v); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::electrical_power
+    #[getter(electrical_power)]
+    pub fn get_electrical_power(&self) -> f64 { let v = self.inner.electrical_power.clone(); to_si(v) }
+    #[setter(electrical_power)]
+    pub fn set_electrical_power(&mut self, v: f64) { self.inner.electrical_power = from_si(v); }
+    // @item field:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::time
+    #[getter(time)]
+    pub fn get_time(&self) -> f64 { let v = self.inner.time.clone(); to_si(v) }
+    #[setter(time)]
+    pub fn set_time(&mut self, v: f64) { self.inner.time = from_si(v); }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::total_shaft_power
+    #[doc = "Total shaft power over all stages."]
+    pub fn total_shaft_power(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::total_shaft_power(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::total_torque
+    #[doc = "Total shaft torque over all stages."]
+    pub fn total_torque(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome::total_torque(&self.inner)) }
+    // @item ctor:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome
+    #[new]
+    pub fn __new__(stage_outcomes: Vec<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStageOutcome>, shaft_speed_before: f64, shaft_speed_after: f64, electrical_power: f64, time: f64) -> Self { Self { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::transient::TransientStepOutcome { stage_outcomes: stage_outcomes.into_iter().map(|e| e.inner).collect::<Vec<_>>(), shaft_speed_before: from_si(shaft_speed_before), shaft_speed_after: from_si(shaft_speed_after), electrical_power: from_si(electrical_power), time: from_si(time) } } }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
+    pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
+}
+
+// @item type:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle
+#[doc = "The mean-radius velocity triangle of one stage, at rotor inlet (station 1)\nand rotor exit (station 2).\n\nEvery field is a resolved component rather than a magnitude-and-angle pair,\nbecause the work relations want components and re-deriving them at each use\ninvites sign mistakes."]
+#[pyclass(
+    name = "VelocityTriangle",
+    module = "outram_park.tampines_steam_tables"
+)]
+#[derive(Clone)]
+pub struct Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle { pub inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle }
+#[pymethods]
+impl Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle {
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::new_from_nozzle_and_blade_angles
+    #[doc = "Builds the triangle from the stator exit kinematics and the rotor blade\nexit angle.\n\n# Arguments\n\n* `blade_speed` — `U` at the mean radius.\n* `absolute_velocity_in` — `c1`, the speed leaving the stator.\n* `nozzle_angle` — `alpha1`, the stator exit angle from axial. Steam\n  turbine nozzles are strongly tangential, so this is typically 65 to 75\n  degrees.\n* `relative_exit_angle` — `beta2`, the rotor blade exit angle from\n  axial. Negative values turn the flow back against blade motion, which\n  is what extracts work; a symmetric impulse blade has\n  `beta2 = -beta1`.\n* `blade_velocity_coefficient` — the ratio `|w2| / |w1|`, capturing\n  friction in the rotor passage. Unity is the loss-free blade.\n\nAxial velocity is set by `c1` and `alpha1` and then held fixed, so the\nrotor exit relative velocity follows from `beta2` and that axial\ncomponent rather than from the coefficient alone. The coefficient\nscales the resulting relative speed."]
+    #[staticmethod]
+    pub fn new_from_nozzle_and_blade_angles(blade_speed: f64, absolute_velocity_in: f64, nozzle_angle: f64, relative_exit_angle: f64, blade_velocity_coefficient: f64) -> Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle { Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle { inner: ::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::new_from_nozzle_and_blade_angles(from_si(blade_speed), from_si(absolute_velocity_in), from_si(nozzle_angle), from_si(relative_exit_angle), from_si(blade_velocity_coefficient)) } }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::tangential_velocity_change
+    #[doc = "The tangential velocity the rotor removed from the steam,\n`c_theta1 - c_theta2`.\n\nThis is the quantity torque is built from, and it is deliberately kept\nseparate from the work. Specific work is this times the blade speed, so\nat standstill the work vanishes while this does not. That is the\nphysical statement that a turbine develops **starting torque at zero\nspeed**, and it is why a machine coupled to a shaft can spin up at all.\nRecovering torque by dividing a power by the shaft speed would instead\ngive `0/0` exactly where the spin-up starts."]
+    pub fn tangential_velocity_change(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::tangential_velocity_change(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::euler_specific_work
+    #[doc = "Specific work by the Euler turbomachinery equation,\n`w = U * (c_theta1 - c_theta2)`.\n\nThis is the momentum route to work: it counts only how much tangential\nmomentum the rotor removed from the steam. It is exact for any axial\nstage, and it is the route the **impulse** part of a stage uses."]
+    pub fn euler_specific_work(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::euler_specific_work(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_blade_speed
+    #[doc = "Blade speed at the mean radius."]
+    pub fn get_blade_speed(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_blade_speed(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_axial_velocity
+    #[doc = "Axial velocity, constant across the rotor by assumption."]
+    pub fn get_axial_velocity(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_axial_velocity(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_absolute_tangential_in
+    #[doc = "Tangential component of the absolute velocity at rotor inlet."]
+    pub fn get_absolute_tangential_in(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_absolute_tangential_in(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_absolute_tangential_out
+    #[doc = "Tangential component of the absolute velocity at rotor exit."]
+    pub fn get_absolute_tangential_out(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_absolute_tangential_out(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_tangential_in
+    #[doc = "Tangential component of the relative velocity at rotor inlet."]
+    pub fn get_relative_tangential_in(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_tangential_in(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_tangential_out
+    #[doc = "Tangential component of the relative velocity at rotor exit."]
+    pub fn get_relative_tangential_out(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_tangential_out(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_angle_in
+    #[doc = "Relative flow angle at rotor inlet, `beta1`, from axial."]
+    pub fn get_relative_angle_in(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_angle_in(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_angle_out
+    #[doc = "Relative flow angle at rotor exit, `beta2`, from axial."]
+    pub fn get_relative_angle_out(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_angle_out(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_speed_in
+    #[doc = "Relative speed at rotor inlet, `|w1|`."]
+    pub fn get_relative_speed_in(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_speed_in(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_speed_out
+    #[doc = "Relative speed at rotor exit, `|w2|`."]
+    pub fn get_relative_speed_out(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_relative_speed_out(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_absolute_speed_out
+    #[doc = "Absolute speed at rotor exit, `|c2|`. The kinetic energy in this is the\nstage leaving loss unless the next stage recovers it."]
+    pub fn get_absolute_speed_out(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_absolute_speed_out(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_mean_relative_angle
+    #[doc = "The **mean relative flow angle** of the rotor cascade, defined by\n`tan(beta_m) = (tan(beta1) + tan(beta2)) / 2`.\n\nThis is the angle a cascade lift coefficient is referred to, so it is\nwhat the reaction path in [`super::stage`] needs. It is a vector-mean\ndirection, not the arithmetic mean of the two angles."]
+    pub fn get_mean_relative_angle(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_mean_relative_angle(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_mean_relative_speed
+    #[doc = "The **mean relative speed**, `w_m = c_x / cos(beta_m)`, the velocity a\ncascade lift force is evaluated at."]
+    pub fn get_mean_relative_speed(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_mean_relative_speed(&self.inner)) }
+    // @item method:tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_degree_of_reaction
+    #[doc = "Degree of reaction inferred from the kinematics,\n`R = 1 - (c_theta1 + c_theta2) / (2 U)`.\n\nThis is the kinematic definition, valid when the axial velocity is\nconstant. It is reported rather than prescribed, so a stage built from\nblade angles can be checked against the impulse or reaction label it was\ngiven."]
+    pub fn get_degree_of_reaction(&self) -> f64 { to_si(::tampines_steam_tables::steam_turbine_equations::mean_flow_stages::velocity_triangle::VelocityTriangle::get_degree_of_reaction(&self.inner)) }
+    pub fn __repr__(&self) -> String { format!("{:?}", self.inner) }
+    pub fn __eq__(&self, other: &Self) -> bool { self.inner == other.inner }
 }
 
 // @item type:tampines_steam_tables::tabulated_data::TabulatedData
@@ -6177,6 +7014,18 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_tampines_steam_tables__prelude__TampinesSteamTableCV>()?;
     m.add_class::<Py_tampines_steam_tables__prelude__checked__SteamTablesError>()?;
     m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__generator__ThreePhaseElectricGeneratorTurbine>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__MeanFlowTurbine>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__TurbineOutcome>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__RotorBlading>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageGeometry>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageOutcome>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__StageWorkSplit>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__stage__TurbineStage>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientMeanFlowTurbine>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStage>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStageOutcome>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__transient__TransientStepOutcome>()?;
+    m.add_class::<Py_tampines_steam_tables__steam_turbine_equations__mean_flow_stages__velocity_triangle__VelocityTriangle>()?;
     m.add_class::<Py_tampines_steam_tables__tabulated_data__TabulatedData>()?;
     m.add_class::<Py_tampines_steam_tables__tabulated_data__TabulatedQuantity>()?;
     m.add_class::<Py_tampines_steam_tables__tabulated_data__TabulatedSaturationState>()?;

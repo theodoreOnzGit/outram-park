@@ -4059,26 +4059,30 @@ impl Py_outram_mc_libs__prelude__Cell {
         }
     }
     // @item method:outram_mc_libs::prelude::Cell::contains
-    #[doc = "Whether position `r` lies inside this cell's region.\n\nEvaluates the RPN token stream over a boolean stack (mirrors the semantics\nof `Region::contains` in `src/cell.cpp`, generalised to explicit RPN so\nintersection, union and complement are all handled by one evaluator). A\nhalf-space pushes `sense_matches`; `Intersection`/`Union` pop two and push\ntheir AND/OR; `Complement` negates the top.\n\n`surfaces` is the global surface array the tokens index into. A malformed\n(stack-underflowing) region conservatively returns `false`."]
+    #[doc = "Whether a particle at `r` heading along `u` lies inside this cell's region.\n\nEvaluates the RPN token stream over a boolean stack (mirrors the semantics\nof `Region::contains` in `src/cell.cpp:1035`, generalised to explicit RPN so\nintersection, union and complement are all handled by one evaluator). A\nhalf-space pushes `sense_matches`; `Intersection`/`Union` pop two and push\ntheir AND/OR; `Complement` negates the top.\n\n# The `on_surface` override (why `u` and `on_surface` are arguments)\n\nFor the one surface named by `on_surface` the recorded side is taken as\n**fact** and the surface equation is not evaluated at all: a half-space\nasking for that side is satisfied, one asking for the other side fails.\nPorted from `Region::contains_simple` (`src/cell.cpp:1046`), where\n`token == on_surface` and `-token == on_surface` short-circuit the sense\ntest. Without it, a particle sitting exactly on a surface it has just\ncrossed can be re-located in the cell it was leaving (see\n[`SurfaceToken`]).\n\nEvery *other* surface is judged by [`SurfaceKind::sense`], which falls\nback to the direction of travel relative to the outward normal when the\npoint is within `FP_COINCIDENT` of the surface — hence `u`.\n\n`"]
     pub fn contains(
         &self,
         r: Py_outram_mc_libs__prelude__Position,
+        u: Py_outram_mc_libs__prelude__Direction,
         surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>,
+        on_surface: Py_outram_mc_libs__prelude__SurfaceToken,
     ) -> bool {
         ::outram_mc_libs::prelude::Cell::contains(
             &self.inner,
             r.inner,
+            u.inner,
             &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            on_surface.inner,
         )
     }
     // @item method:outram_mc_libs::prelude::Cell::distance_to_boundary
-    #[doc = "Distance along ray `(r, u)` to the nearest surface bounding this cell.\n\nPorted from `Region::distance` (`src/cell.cpp:947`): take the minimum\n`distance` over every half-space surface in the region (operators are\nskipped). `on_surface` is the global surface index the particle currently\nsits on (`usize::MAX` if none) — that surface is queried with the\n`coincident` flag so round-off cannot re-report a zero crossing.\n\nReturns `(distance, surface_idx)`; `surface_idx == usize::MAX` when no\nbounding surface is crossed (distance `INFINITY`)."]
+    #[doc = "Distance along ray `(r, u)` to the nearest surface bounding this cell.\n\nPorted from `Region::distance` (`src/cell.cpp:950`): take the minimum\n`distance` over every half-space surface in the region (operators are\nskipped). `on_surface` names the surface the particle currently sits on\n(see [`SurfaceToken`]) — that surface is queried with the `coincident`\nflag so round-off cannot re-report a zero crossing.\n\nReturns `(distance, surface_idx)`; `surface_idx == usize::MAX` when no\nbounding surface is crossed (distance `INFINITY`)."]
     pub fn distance_to_boundary(
         &self,
         r: Py_outram_mc_libs__prelude__Position,
         u: Py_outram_mc_libs__prelude__Direction,
         surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>,
-        on_surface: usize,
+        on_surface: Py_outram_mc_libs__prelude__SurfaceToken,
     ) -> (f64, usize) {
         {
             let (e0, e1) = ::outram_mc_libs::prelude::Cell::distance_to_boundary(
@@ -4086,7 +4090,7 @@ impl Py_outram_mc_libs__prelude__Cell {
                 r.inner,
                 u.inner,
                 &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                on_surface,
+                on_surface.inner,
             );
             (e0, e1)
         }
@@ -5168,6 +5172,61 @@ impl Py_outram_mc_libs__prelude__EnergyFilter {
     }
 }
 
+// @item type:outram_mc_libs::prelude::Estimate
+#[doc = "A scalar Monte-Carlo estimate: a mean and its 1σ standard error, in the same\n(unstated) units as the quantity being estimated.\n\nSums, differences, ratios and products of `Estimate`s propagate by the delta\nmethod **assuming the operands are statistically independent**. For the six\nfactors that assumption is false — a numerator group is a subset of its\ndenominator — which makes the quoted `std` conservative (see the module docs)."]
+#[pyclass(name = "Estimate", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__Estimate {
+    pub inner: ::outram_mc_libs::prelude::Estimate,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__Estimate {
+    // @item field:outram_mc_libs::prelude::Estimate::mean
+    #[getter(mean)]
+    pub fn get_mean(&self) -> f64 {
+        let v = self.inner.mean.clone();
+        v
+    }
+    #[setter(mean)]
+    pub fn set_mean(&mut self, v: f64) {
+        self.inner.mean = v;
+    }
+    // @item field:outram_mc_libs::prelude::Estimate::std
+    #[getter(std)]
+    pub fn get_std(&self) -> f64 {
+        let v = self.inner.std.clone();
+        v
+    }
+    #[setter(std)]
+    pub fn set_std(&mut self, v: f64) {
+        self.inner.std = v;
+    }
+    // @item method:outram_mc_libs::prelude::Estimate::exact
+    #[doc = "A known-exact value (zero uncertainty)."]
+    #[staticmethod]
+    pub fn exact(v: f64) -> Py_outram_mc_libs__prelude__Estimate {
+        Py_outram_mc_libs__prelude__Estimate {
+            inner: ::outram_mc_libs::prelude::Estimate::exact(v),
+        }
+    }
+    // @item ctor:outram_mc_libs::prelude::Estimate
+    #[new]
+    pub fn __new__(mean: f64, std: f64) -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::Estimate {
+                mean: mean,
+                std: std,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:outram_mc_libs::prelude::EventBatch
 #[doc = "A batch of neutrons resident for the fused event kernel (Structure-of-Arrays).\n\nFor `N = energy.len()` neutrons, all fields are `f32`/`u32` acceleration state\n(the trusted transport loop is `f64`):\n- `pos` — length `3N`, interleaved `x,y,z` (cm). READ+WRITE (advanced to the\n  collision site each event).\n- `dir` — length `3N`, interleaved `u,v,w` unit direction. READ+WRITE (updated\n  by scatter).\n- `energy` — length `N`, eV. READ+WRITE (updated by scatter; for a fissioned\n  neutron it holds the *incident* energy at fission, for CPU χ sampling).\n- `seed_lo`/`seed_hi` — length `N`, the low/high 32 bits of each neutron's\n  64-bit LCG seed. READ+WRITE (advanced through flight + collision).\n- `alive` — length `N`, `1` live / `0` dead. READ+WRITE.\n- `fiss_nuc` — length `N`, the **component index** of the nuclide this neutron\n  fissioned on, or [`FISS_NONE`]. WRITE (set on fission).\n- `production` — length `N`, the ν̄ banked if this neutron fissioned (else 0).\n  WRITE."]
 #[pyclass(name = "EventBatch", module = "outram_park.outram_mc_libs")]
@@ -5942,14 +6001,14 @@ impl Py_outram_mc_libs__prelude__Geometry {
         self.inner.root_universe = v;
     }
     // @item method:outram_mc_libs::prelude::Geometry::locate
-    #[doc = "Locate the particle at global position `r` moving along `u`.\n\nDescends from the root universe: at each level it finds the containing\ncell; a `Material`/`Void` fill terminates the descent, a `Universe` fill\nrecurses into that universe (applying the cell translation), and a\n`Lattice` fill resolves the tile index and recurses into the tile's\nuniverse (recentring the position to the tile). Ported from\n`find_cell_inner` (`src/geometry.cpp:102`).\n\n`on_surface` is the global surface index the particle sits on\n(`usize::MAX` if none); it is carried through into the returned path for\ncoincident-distance handling. Returns `None` if the particle is in no cell\nat some level (a \"lost\" particle — outside the geometry)."]
+    #[doc = "Locate the particle at global position `r` moving along `u`.\n\nDescends from the root universe: at each level it finds the containing\ncell; a `Material`/`Void` fill terminates the descent, a `Universe` fill\nrecurses into that universe (applying the cell translation), and a\n`Lattice` fill resolves the tile index and recurses into the tile's\nuniverse (recentring the position to the tile). Ported from\n`find_cell_inner` (`src/geometry.cpp:102`).\n\n`on_surface` records which surface the particle sits on and on which side\n(see [`SurfaceToken`]); pass [`SurfaceToken::NONE`] for a standalone\npoint query. It is used to resolve cell membership on that surface\nexactly — without it a particle sitting on a boundary it has just crossed\ncan be re-located in the cell it was leaving — and is carried through into\nthe returned path for coincident-distance handling. Returns `None` if the\nparticle is in no cell at some level (a \"lost\" particle — outside the\ngeometry)."]
     pub fn locate(
         &self,
         r: Py_outram_mc_libs__prelude__Position,
         u: Py_outram_mc_libs__prelude__Direction,
-        on_surface: usize,
+        on_surface: Py_outram_mc_libs__prelude__SurfaceToken,
     ) -> Option<Py_outram_mc_libs__prelude__GeometryPath> {
-        ::outram_mc_libs::prelude::Geometry::locate(&self.inner, r.inner, u.inner, on_surface)
+        ::outram_mc_libs::prelude::Geometry::locate(&self.inner, r.inner, u.inner, on_surface.inner)
             .map(|e| Py_outram_mc_libs__prelude__GeometryPath { inner: e })
     }
     // @item method:outram_mc_libs::prelude::Geometry::distance_to_boundary
@@ -5986,29 +6045,20 @@ impl Py_outram_mc_libs__prelude__Geometry {
         .map(|e| e)
     }
     // @item method:outram_mc_libs::prelude::Geometry::cross_surface
-    #[doc = "Apply a surface crossing to a global position/direction and return the\npost-crossing state plus whether the particle survives.\n\nThe particle is assumed already streamed to the surface at global `r`.\nA **reflective** surface reflects `u` about its outward normal; a\n**vacuum** surface kills the particle (leak); transmissive/lattice\ncrossings pass through unchanged. The returned position is nudged a hair\npast the surface along the outgoing direction so the next `locate` lands\nunambiguously on the far side.\n\nMirrors the boundary-condition dispatch in `cross_surface`\n(`src/surface.cpp` / `src/geometry.cpp`), reduced to the vacuum/reflective/\ntransmissive cases this crate implements."]
+    #[doc = "Apply a surface crossing to a global position/direction and return the\npost-crossing state.\n\nThe particle is assumed already streamed to the surface at global `r`.\nA **reflective** surface reflects `u` about its outward normal; a\n**vacuum** surface kills the particle (leak); a transmissive crossing\npasses through unchanged. The returned position is nudged a hair\n**across the surface, along its normal**, and the returned\n[`SurfaceCrossing::on_surface`] records which side the particle ended up\non, so the next [`Geometry::locate`] is unambiguous.\n\n# Why the outgoing side must be recorded, not re-derived\n\nAfter the crossing the particle sits (to within round-off) *on* the\nsurface, where the sign of `Surface::evaluate` is decided by rounding\nrather than by geometry — worst at **grazing incidence on a curved\nsurface**, where the tangential step dominates. A membership test that\nre-evaluates that sign can put the particle back in the cell it was\nleaving; the next `distance_to_boundary` then finds no forward surface\n(the one it sits on is suppressed as coincident), so the particle streams\nto infinity and the history leaks. On a concentric-shell pebble that lost\n85 % of source neutrons (Git"]
     pub fn cross_surface(
         &self,
         i_surf: usize,
         r: Py_outram_mc_libs__prelude__Position,
         u: Py_outram_mc_libs__prelude__Direction,
-    ) -> (
-        Py_outram_mc_libs__prelude__Position,
-        Py_outram_mc_libs__prelude__Direction,
-        bool,
-    ) {
-        {
-            let (e0, e1, e2) = ::outram_mc_libs::prelude::Geometry::cross_surface(
+    ) -> Py_outram_mc_libs__prelude__SurfaceCrossing {
+        Py_outram_mc_libs__prelude__SurfaceCrossing {
+            inner: ::outram_mc_libs::prelude::Geometry::cross_surface(
                 &self.inner,
                 i_surf,
                 r.inner,
                 u.inner,
-            );
-            (
-                Py_outram_mc_libs__prelude__Position { inner: e0 },
-                Py_outram_mc_libs__prelude__Direction { inner: e1 },
-                e2,
-            )
+            ),
         }
     }
     // @item ctor:outram_mc_libs::prelude::Geometry
@@ -6064,13 +6114,13 @@ impl Py_outram_mc_libs__prelude__GeometryPath {
     }
     // @item field:outram_mc_libs::prelude::GeometryPath::on_surface
     #[getter(on_surface)]
-    pub fn get_on_surface(&self) -> usize {
+    pub fn get_on_surface(&self) -> Py_outram_mc_libs__prelude__SurfaceToken {
         let v = self.inner.on_surface.clone();
-        v
+        Py_outram_mc_libs__prelude__SurfaceToken { inner: v }
     }
     #[setter(on_surface)]
-    pub fn set_on_surface(&mut self, v: usize) {
-        self.inner.on_surface = v;
+    pub fn set_on_surface(&mut self, v: Py_outram_mc_libs__prelude__SurfaceToken) {
+        self.inner.on_surface = v.inner;
     }
     // @item method:outram_mc_libs::prelude::GeometryPath::leaf
     #[doc = "The leaf (lowest) coordinate level — where the material fill lives."]
@@ -6084,15 +6134,65 @@ impl Py_outram_mc_libs__prelude__GeometryPath {
     pub fn __new__(
         levels: Vec<Py_outram_mc_libs__prelude__Coord>,
         material: Option<usize>,
-        on_surface: usize,
+        on_surface: Py_outram_mc_libs__prelude__SurfaceToken,
     ) -> Self {
         Self {
             inner: ::outram_mc_libs::prelude::GeometryPath {
                 levels: levels.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
                 material: material.map(|e| e),
-                on_surface: on_surface,
+                on_surface: on_surface.inner,
             },
         }
+    }
+}
+
+// @item type:outram_mc_libs::prelude::Group
+#[doc = "Energy-group index for the three-group decomposition."]
+#[pyclass(name = "Group", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__Group {
+    pub inner: ::outram_mc_libs::prelude::Group,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__Group {
+    // @item variant:outram_mc_libs::prelude::Group::Thermal
+    #[staticmethod]
+    #[pyo3(name = "Thermal")]
+    pub fn v_Thermal() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::Group::Thermal,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::Group::Resonance
+    #[staticmethod]
+    #[pyo3(name = "Resonance")]
+    pub fn v_Resonance() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::Group::Resonance,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::Group::Fast
+    #[staticmethod]
+    #[pyo3(name = "Fast")]
+    pub fn v_Fast() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::Group::Fast,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_mc_libs::prelude::Group::Thermal => "Thermal",
+            ::outram_mc_libs::prelude::Group::Resonance => "Resonance",
+            ::outram_mc_libs::prelude::Group::Fast => "Fast",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
     }
 }
 
@@ -6821,6 +6921,103 @@ impl Py_outram_mc_libs__prelude__LegendreAxis {
     }
 }
 
+// @item type:outram_mc_libs::prelude::LethargySpectrum
+#[doc = "Lethargy-normalised neutron flux spectrum over the material domain."]
+#[pyclass(name = "LethargySpectrum", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__LethargySpectrum {
+    pub inner: ::outram_mc_libs::prelude::LethargySpectrum,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__LethargySpectrum {
+    // @item field:outram_mc_libs::prelude::LethargySpectrum::energy_edges_ev
+    #[getter(energy_edges_ev)]
+    pub fn get_energy_edges_ev(&self) -> Vec<f64> {
+        let v = self.inner.energy_edges_ev.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(energy_edges_ev)]
+    pub fn set_energy_edges_ev(&mut self, v: Vec<f64>) {
+        self.inner.energy_edges_ev = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_mc_libs::prelude::LethargySpectrum::flux_per_lethargy
+    #[getter(flux_per_lethargy)]
+    pub fn get_flux_per_lethargy(&self) -> Vec<Py_outram_mc_libs__prelude__Estimate> {
+        let v = self.inner.flux_per_lethargy.clone();
+        v.into_iter()
+            .map(|e| Py_outram_mc_libs__prelude__Estimate { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(flux_per_lethargy)]
+    pub fn set_flux_per_lethargy(&mut self, v: Vec<Py_outram_mc_libs__prelude__Estimate>) {
+        self.inner.flux_per_lethargy = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_mc_libs::prelude::LethargySpectrum::flux_raw
+    #[getter(flux_raw)]
+    pub fn get_flux_raw(&self) -> Vec<f64> {
+        let v = self.inner.flux_raw.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(flux_raw)]
+    pub fn set_flux_raw(&mut self, v: Vec<f64>) {
+        self.inner.flux_raw = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_mc_libs::prelude::LethargySpectrum::flux_total
+    #[getter(flux_total)]
+    pub fn get_flux_total(&self) -> f64 {
+        let v = self.inner.flux_total.clone();
+        v
+    }
+    #[setter(flux_total)]
+    pub fn set_flux_total(&mut self, v: f64) {
+        self.inner.flux_total = v;
+    }
+    // @item field:outram_mc_libs::prelude::LethargySpectrum::group_edge_indices
+    #[getter(group_edge_indices)]
+    pub fn get_group_edge_indices(&self) -> (usize, usize) {
+        let v = self.inner.group_edge_indices.clone();
+        {
+            let (e0, e1) = v;
+            (e0, e1)
+        }
+    }
+    #[setter(group_edge_indices)]
+    pub fn set_group_edge_indices(&mut self, v: (usize, usize)) {
+        self.inner.group_edge_indices = {
+            let (e0, e1) = v;
+            (e0, e1)
+        };
+    }
+    // @item ctor:outram_mc_libs::prelude::LethargySpectrum
+    #[new]
+    pub fn __new__(
+        energy_edges_ev: Vec<f64>,
+        flux_per_lethargy: Vec<Py_outram_mc_libs__prelude__Estimate>,
+        flux_raw: Vec<f64>,
+        flux_total: f64,
+        group_edge_indices: (usize, usize),
+    ) -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::LethargySpectrum {
+                energy_edges_ev: energy_edges_ev.into_iter().map(|e| e).collect::<Vec<_>>(),
+                flux_per_lethargy: flux_per_lethargy
+                    .into_iter()
+                    .map(|e| e.inner)
+                    .collect::<Vec<_>>(),
+                flux_raw: flux_raw.into_iter().map(|e| e).collect::<Vec<_>>(),
+                flux_total: flux_total,
+                group_edge_indices: {
+                    let (e0, e1) = group_edge_indices;
+                    (e0, e1)
+                },
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:outram_mc_libs::prelude::MacroXs
 #[doc = "Macroscopic cross sections of a material at one energy \\[cm⁻¹\\].\n\nEach channel is Σ_x(E) = Σ_i N_i · σ_x,i(E), with N_i the atom density\n\\[atoms/barn·cm\\] and σ in barn, so the product is in cm⁻¹."]
 #[pyclass(name = "MacroXs", module = "outram_park.outram_mc_libs")]
@@ -6870,14 +7067,25 @@ impl Py_outram_mc_libs__prelude__MacroXs {
     pub fn set_nu_fission(&mut self, v: f64) {
         self.inner.nu_fission = v;
     }
+    // @item field:outram_mc_libs::prelude::MacroXs::absorption
+    #[getter(absorption)]
+    pub fn get_absorption(&self) -> f64 {
+        let v = self.inner.absorption.clone();
+        v
+    }
+    #[setter(absorption)]
+    pub fn set_absorption(&mut self, v: f64) {
+        self.inner.absorption = v;
+    }
     // @item ctor:outram_mc_libs::prelude::MacroXs
     #[new]
-    #[pyo3(signature = (total=None, elastic=None, fission=None, nu_fission=None))]
+    #[pyo3(signature = (total=None, elastic=None, fission=None, nu_fission=None, absorption=None))]
     pub fn __new__(
         total: Option<f64>,
         elastic: Option<f64>,
         fission: Option<f64>,
         nu_fission: Option<f64>,
+        absorption: Option<f64>,
     ) -> Self {
         let d = <::outram_mc_libs::prelude::MacroXs as Default>::default();
         Self {
@@ -6886,6 +7094,7 @@ impl Py_outram_mc_libs__prelude__MacroXs {
                 elastic: elastic.map(|v| v).unwrap_or(d.elastic),
                 fission: fission.map(|v| v).unwrap_or(d.fission),
                 nu_fission: nu_fission.map(|v| v).unwrap_or(d.nu_fission),
+                absorption: absorption.map(|v| v).unwrap_or(d.absorption),
             },
         }
     }
@@ -7513,6 +7722,15 @@ impl Py_outram_mc_libs__prelude__PackedSpheres {
     pub fn is_inside_kernel(&self, p: Py_outram_mc_libs__prelude__Position) -> bool {
         ::outram_mc_libs::prelude::PackedSpheres::is_inside_kernel(&self.inner, p.inner)
     }
+    // @item method:outram_mc_libs::prelude::PackedSpheres::containing_center
+    #[doc = "Centre \\[cm\\] of the packed sphere that contains `p`, or `None` if `p` is\nin the matrix between spheres or outside the domain.\n\nSame O(1) grid lookup as [`is_inside_kernel`](Self::is_inside_kernel); the\npacked spheres do not overlap, so at most one contains `p`. Used to\nresolve *which* particle a point falls in when the packed body has\ninternal structure — e.g. the concentric layers of a TRISO particle\n(see [`crate::pebble_beds::fhr_pebble`])."]
+    pub fn containing_center(
+        &self,
+        p: Py_outram_mc_libs__prelude__Position,
+    ) -> Option<Py_outram_mc_libs__prelude__Position> {
+        ::outram_mc_libs::prelude::PackedSpheres::containing_center(&self.inner, p.inner)
+            .map(|e| Py_outram_mc_libs__prelude__Position { inner: e })
+    }
     // @item method:outram_mc_libs::prelude::PackedSpheres::spheres
     #[doc = "The packed kernels."]
     pub fn spheres(&self) -> Vec<Py_outram_mc_libs__pebble_beds__sphere_packing__Sphere> {
@@ -8054,6 +8272,279 @@ impl Py_outram_mc_libs__prelude__Position {
         Self {
             inner: Default::default(),
         }
+    }
+}
+
+// @item type:outram_mc_libs::prelude::ReactorPhysicsConfig
+#[doc = "Inputs to [`run_keff_reactor_physics`]."]
+#[pyclass(name = "ReactorPhysicsConfig", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__ReactorPhysicsConfig {
+    pub inner: ::outram_mc_libs::prelude::ReactorPhysicsConfig,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__ReactorPhysicsConfig {
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsConfig::keff
+    #[getter(keff)]
+    pub fn get_keff(&self) -> Py_outram_mc_libs__prelude__KeffSettings {
+        let v = self.inner.keff.clone();
+        Py_outram_mc_libs__prelude__KeffSettings { inner: v }
+    }
+    #[setter(keff)]
+    pub fn set_keff(&mut self, v: Py_outram_mc_libs__prelude__KeffSettings) {
+        self.inner.keff = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsConfig::source_box
+    #[getter(source_box)]
+    pub fn get_source_box(&self) -> Py_outram_mc_libs__prelude__SourceBox {
+        let v = self.inner.source_box.clone();
+        Py_outram_mc_libs__prelude__SourceBox { inner: v }
+    }
+    #[setter(source_box)]
+    pub fn set_source_box(&mut self, v: Py_outram_mc_libs__prelude__SourceBox) {
+        self.inner.source_box = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsConfig::thermal_cutoff_ev
+    #[getter(thermal_cutoff_ev)]
+    pub fn get_thermal_cutoff_ev(&self) -> f64 {
+        let v = self.inner.thermal_cutoff_ev.clone();
+        v
+    }
+    #[setter(thermal_cutoff_ev)]
+    pub fn set_thermal_cutoff_ev(&mut self, v: f64) {
+        self.inner.thermal_cutoff_ev = v;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsConfig::resonance_upper_ev
+    #[getter(resonance_upper_ev)]
+    pub fn get_resonance_upper_ev(&self) -> f64 {
+        let v = self.inner.resonance_upper_ev.clone();
+        v
+    }
+    #[setter(resonance_upper_ev)]
+    pub fn set_resonance_upper_ev(&mut self, v: f64) {
+        self.inner.resonance_upper_ev = v;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsConfig::n_fine_bins
+    #[getter(n_fine_bins)]
+    pub fn get_n_fine_bins(&self) -> usize {
+        let v = self.inner.n_fine_bins.clone();
+        v
+    }
+    #[setter(n_fine_bins)]
+    pub fn set_n_fine_bins(&mut self, v: usize) {
+        self.inner.n_fine_bins = v;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsConfig::energy_min_ev
+    #[getter(energy_min_ev)]
+    pub fn get_energy_min_ev(&self) -> f64 {
+        let v = self.inner.energy_min_ev.clone();
+        v
+    }
+    #[setter(energy_min_ev)]
+    pub fn set_energy_min_ev(&mut self, v: f64) {
+        self.inner.energy_min_ev = v;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsConfig::energy_max_ev
+    #[getter(energy_max_ev)]
+    pub fn get_energy_max_ev(&self) -> f64 {
+        let v = self.inner.energy_max_ev.clone();
+        v
+    }
+    #[setter(energy_max_ev)]
+    pub fn set_energy_max_ev(&mut self, v: f64) {
+        self.inner.energy_max_ev = v;
+    }
+    // @item ctor:outram_mc_libs::prelude::ReactorPhysicsConfig
+    #[new]
+    #[pyo3(signature = (keff=None, source_box=None, thermal_cutoff_ev=None, resonance_upper_ev=None, n_fine_bins=None, energy_min_ev=None, energy_max_ev=None))]
+    pub fn __new__(
+        keff: Option<Py_outram_mc_libs__prelude__KeffSettings>,
+        source_box: Option<Py_outram_mc_libs__prelude__SourceBox>,
+        thermal_cutoff_ev: Option<f64>,
+        resonance_upper_ev: Option<f64>,
+        n_fine_bins: Option<usize>,
+        energy_min_ev: Option<f64>,
+        energy_max_ev: Option<f64>,
+    ) -> Self {
+        let d = <::outram_mc_libs::prelude::ReactorPhysicsConfig as Default>::default();
+        Self {
+            inner: ::outram_mc_libs::prelude::ReactorPhysicsConfig {
+                keff: keff.map(|v| v.inner).unwrap_or(d.keff),
+                source_box: source_box.map(|v| v.inner).unwrap_or(d.source_box),
+                thermal_cutoff_ev: thermal_cutoff_ev.map(|v| v).unwrap_or(d.thermal_cutoff_ev),
+                resonance_upper_ev: resonance_upper_ev
+                    .map(|v| v)
+                    .unwrap_or(d.resonance_upper_ev),
+                n_fine_bins: n_fine_bins.map(|v| v).unwrap_or(d.n_fine_bins),
+                energy_min_ev: energy_min_ev.map(|v| v).unwrap_or(d.energy_min_ev),
+                energy_max_ev: energy_max_ev.map(|v| v).unwrap_or(d.energy_max_ev),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:outram_mc_libs::prelude::ReactorPhysicsError
+#[doc = "Why [`run_keff_reactor_physics`] could not produce a report."]
+#[pyclass(name = "ReactorPhysicsError", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__ReactorPhysicsError {
+    pub inner: ::outram_mc_libs::prelude::ReactorPhysicsError,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__ReactorPhysicsError {
+    // @item variant:outram_mc_libs::prelude::ReactorPhysicsError::NoFuelMaterial
+    #[staticmethod]
+    #[pyo3(name = "NoFuelMaterial")]
+    pub fn v_NoFuelMaterial() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::ReactorPhysicsError::NoFuelMaterial,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::ReactorPhysicsError::BadEnergyGrid
+    #[staticmethod]
+    #[pyo3(name = "BadEnergyGrid")]
+    pub fn v_BadEnergyGrid() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::ReactorPhysicsError::BadEnergyGrid,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_mc_libs::prelude::ReactorPhysicsError::NoFuelMaterial => "NoFuelMaterial",
+            ::outram_mc_libs::prelude::ReactorPhysicsError::BadEnergyGrid => "BadEnergyGrid",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_mc_libs::prelude::ReactorPhysicsReport
+#[doc = "Everything [`run_keff_reactor_physics`] captures alongside k_eff."]
+#[pyclass(name = "ReactorPhysicsReport", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__ReactorPhysicsReport {
+    pub inner: ::outram_mc_libs::prelude::ReactorPhysicsReport,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__ReactorPhysicsReport {
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsReport::keff
+    #[getter(keff)]
+    pub fn get_keff(&self) -> Py_outram_mc_libs__prelude__KeffResult {
+        let v = self.inner.keff.clone();
+        Py_outram_mc_libs__prelude__KeffResult { inner: v }
+    }
+    #[setter(keff)]
+    pub fn set_keff(&mut self, v: Py_outram_mc_libs__prelude__KeffResult) {
+        self.inner.keff = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsReport::six_factors
+    #[getter(six_factors)]
+    pub fn get_six_factors(&self) -> Py_outram_mc_libs__prelude__SixFactors {
+        let v = self.inner.six_factors.clone();
+        Py_outram_mc_libs__prelude__SixFactors { inner: v }
+    }
+    #[setter(six_factors)]
+    pub fn set_six_factors(&mut self, v: Py_outram_mc_libs__prelude__SixFactors) {
+        self.inner.six_factors = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsReport::spectrum
+    #[getter(spectrum)]
+    pub fn get_spectrum(&self) -> Py_outram_mc_libs__prelude__LethargySpectrum {
+        let v = self.inner.spectrum.clone();
+        Py_outram_mc_libs__prelude__LethargySpectrum { inner: v }
+    }
+    #[setter(spectrum)]
+    pub fn set_spectrum(&mut self, v: Py_outram_mc_libs__prelude__LethargySpectrum) {
+        self.inner.spectrum = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsReport::leakage_total
+    #[getter(leakage_total)]
+    pub fn get_leakage_total(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.leakage_total.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(leakage_total)]
+    pub fn set_leakage_total(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.leakage_total = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsReport::leakage_spectrum
+    #[getter(leakage_spectrum)]
+    pub fn get_leakage_spectrum(&self) -> Vec<Py_outram_mc_libs__prelude__Estimate> {
+        let v = self.inner.leakage_spectrum.clone();
+        v.into_iter()
+            .map(|e| Py_outram_mc_libs__prelude__Estimate { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(leakage_spectrum)]
+    pub fn set_leakage_spectrum(&mut self, v: Vec<Py_outram_mc_libs__prelude__Estimate>) {
+        self.inner.leakage_spectrum = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsReport::consistency_gap
+    #[getter(consistency_gap)]
+    pub fn get_consistency_gap(&self) -> f64 {
+        let v = self.inner.consistency_gap.clone();
+        v
+    }
+    #[setter(consistency_gap)]
+    pub fn set_consistency_gap(&mut self, v: f64) {
+        self.inner.consistency_gap = v;
+    }
+    // @item field:outram_mc_libs::prelude::ReactorPhysicsReport::consistent
+    #[getter(consistent)]
+    pub fn get_consistent(&self) -> bool {
+        let v = self.inner.consistent.clone();
+        v
+    }
+    #[setter(consistent)]
+    pub fn set_consistent(&mut self, v: bool) {
+        self.inner.consistent = v;
+    }
+    // @item ctor:outram_mc_libs::prelude::ReactorPhysicsReport
+    #[new]
+    pub fn __new__(
+        keff: Py_outram_mc_libs__prelude__KeffResult,
+        six_factors: Py_outram_mc_libs__prelude__SixFactors,
+        spectrum: Py_outram_mc_libs__prelude__LethargySpectrum,
+        leakage_total: Py_outram_mc_libs__prelude__Estimate,
+        leakage_spectrum: Vec<Py_outram_mc_libs__prelude__Estimate>,
+        consistency_gap: f64,
+        consistent: bool,
+    ) -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::ReactorPhysicsReport {
+                keff: keff.inner,
+                six_factors: six_factors.inner,
+                spectrum: spectrum.inner,
+                leakage_total: leakage_total.inner,
+                leakage_spectrum: leakage_spectrum
+                    .into_iter()
+                    .map(|e| e.inner)
+                    .collect::<Vec<_>>(),
+                consistency_gap: consistency_gap,
+                consistent: consistent,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
     }
 }
 
@@ -8875,6 +9366,140 @@ impl Py_outram_mc_libs__prelude__SearchSettings {
     }
 }
 
+// @item type:outram_mc_libs::prelude::SixFactors
+#[doc = "Three-group six-factor decomposition with the per-group leakages that make\nthe product telescope to k_eff. Group arrays are indexed\n`[thermal, resonance, fast]`."]
+#[pyclass(name = "SixFactors", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__SixFactors {
+    pub inner: ::outram_mc_libs::prelude::SixFactors,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__SixFactors {
+    // @item field:outram_mc_libs::prelude::SixFactors::eta
+    #[getter(eta)]
+    pub fn get_eta(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.eta.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(eta)]
+    pub fn set_eta(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.eta = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::f
+    #[getter(f)]
+    pub fn get_f(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.f.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(f)]
+    pub fn set_f(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.f = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::p
+    #[getter(p)]
+    pub fn get_p(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.p.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(p)]
+    pub fn set_p(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.p = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::epsilon
+    #[getter(epsilon)]
+    pub fn get_epsilon(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.epsilon.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(epsilon)]
+    pub fn set_epsilon(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.epsilon = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::p_fnl
+    #[getter(p_fnl)]
+    pub fn get_p_fnl(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.p_fnl.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(p_fnl)]
+    pub fn set_p_fnl(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.p_fnl = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::p_tnl
+    #[getter(p_tnl)]
+    pub fn get_p_tnl(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.p_tnl.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(p_tnl)]
+    pub fn set_p_tnl(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.p_tnl = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::k_from_factors
+    #[getter(k_from_factors)]
+    pub fn get_k_from_factors(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.k_from_factors.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(k_from_factors)]
+    pub fn set_k_from_factors(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.k_from_factors = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::absorption_by_group
+    #[getter(absorption_by_group)]
+    pub fn get_absorption_by_group(&self) -> Vec<Py_outram_mc_libs__prelude__Estimate> {
+        let v = self.inner.absorption_by_group.clone();
+        v.into_iter()
+            .map(|e| Py_outram_mc_libs__prelude__Estimate { inner: e })
+            .collect::<Vec<_>>()
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::production_by_group
+    #[getter(production_by_group)]
+    pub fn get_production_by_group(&self) -> Vec<Py_outram_mc_libs__prelude__Estimate> {
+        let v = self.inner.production_by_group.clone();
+        v.into_iter()
+            .map(|e| Py_outram_mc_libs__prelude__Estimate { inner: e })
+            .collect::<Vec<_>>()
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::leakage_by_group
+    #[getter(leakage_by_group)]
+    pub fn get_leakage_by_group(&self) -> Vec<Py_outram_mc_libs__prelude__Estimate> {
+        let v = self.inner.leakage_by_group.clone();
+        v.into_iter()
+            .map(|e| Py_outram_mc_libs__prelude__Estimate { inner: e })
+            .collect::<Vec<_>>()
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::thermal_absorption_fuel
+    #[getter(thermal_absorption_fuel)]
+    pub fn get_thermal_absorption_fuel(&self) -> Py_outram_mc_libs__prelude__Estimate {
+        let v = self.inner.thermal_absorption_fuel.clone();
+        Py_outram_mc_libs__prelude__Estimate { inner: v }
+    }
+    #[setter(thermal_absorption_fuel)]
+    pub fn set_thermal_absorption_fuel(&mut self, v: Py_outram_mc_libs__prelude__Estimate) {
+        self.inner.thermal_absorption_fuel = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SixFactors::group_bounds_ev
+    #[getter(group_bounds_ev)]
+    pub fn get_group_bounds_ev(&self) -> (f64, f64) {
+        let v = self.inner.group_bounds_ev.clone();
+        {
+            let (e0, e1) = v;
+            (e0, e1)
+        }
+    }
+    #[setter(group_bounds_ev)]
+    pub fn set_group_bounds_ev(&mut self, v: (f64, f64)) {
+        self.inner.group_bounds_ev = {
+            let (e0, e1) = v;
+            (e0, e1)
+        };
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:outram_mc_libs::prelude::SourceBox
 #[doc = "How the initial fission source is seeded spatially — a box the sampler\nrejects into the fissile region of the geometry.\n\nThe transport itself needs no source region (fission sites regenerate it);\nthis only bootstraps generation 0. Points are drawn uniformly in the box and\nkept only if they land in a cell whose material can fission."]
 #[pyclass(name = "SourceBox", module = "outram_park.outram_mc_libs")]
@@ -9253,6 +9878,77 @@ impl Py_outram_mc_libs__prelude__StochasticMedium {
     }
 }
 
+// @item type:outram_mc_libs::prelude::SurfaceCrossing
+#[doc = "Post-crossing state returned by [`Geometry::cross_surface`].\n\nFeed `r`, `u` and `on_surface` straight back into the transport loop's next\n[`Geometry::locate`] call; `alive` is `false` only for a vacuum (leak)\ncrossing, where the other fields are the escape state."]
+#[pyclass(name = "SurfaceCrossing", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__SurfaceCrossing {
+    pub inner: ::outram_mc_libs::prelude::SurfaceCrossing,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__SurfaceCrossing {
+    // @item field:outram_mc_libs::prelude::SurfaceCrossing::r
+    #[getter(r)]
+    pub fn get_r(&self) -> Py_outram_mc_libs__prelude__Position {
+        let v = self.inner.r.clone();
+        Py_outram_mc_libs__prelude__Position { inner: v }
+    }
+    #[setter(r)]
+    pub fn set_r(&mut self, v: Py_outram_mc_libs__prelude__Position) {
+        self.inner.r = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SurfaceCrossing::u
+    #[getter(u)]
+    pub fn get_u(&self) -> Py_outram_mc_libs__prelude__Direction {
+        let v = self.inner.u.clone();
+        Py_outram_mc_libs__prelude__Direction { inner: v }
+    }
+    #[setter(u)]
+    pub fn set_u(&mut self, v: Py_outram_mc_libs__prelude__Direction) {
+        self.inner.u = v.inner;
+    }
+    // @item field:outram_mc_libs::prelude::SurfaceCrossing::alive
+    #[getter(alive)]
+    pub fn get_alive(&self) -> bool {
+        let v = self.inner.alive.clone();
+        v
+    }
+    #[setter(alive)]
+    pub fn set_alive(&mut self, v: bool) {
+        self.inner.alive = v;
+    }
+    // @item field:outram_mc_libs::prelude::SurfaceCrossing::on_surface
+    #[getter(on_surface)]
+    pub fn get_on_surface(&self) -> Py_outram_mc_libs__prelude__SurfaceToken {
+        let v = self.inner.on_surface.clone();
+        Py_outram_mc_libs__prelude__SurfaceToken { inner: v }
+    }
+    #[setter(on_surface)]
+    pub fn set_on_surface(&mut self, v: Py_outram_mc_libs__prelude__SurfaceToken) {
+        self.inner.on_surface = v.inner;
+    }
+    // @item ctor:outram_mc_libs::prelude::SurfaceCrossing
+    #[new]
+    pub fn __new__(
+        r: Py_outram_mc_libs__prelude__Position,
+        u: Py_outram_mc_libs__prelude__Direction,
+        alive: bool,
+        on_surface: Py_outram_mc_libs__prelude__SurfaceToken,
+    ) -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::SurfaceCrossing {
+                r: r.inner,
+                u: u.inner,
+                alive: alive,
+                on_surface: on_surface.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:outram_mc_libs::prelude::SurfaceKind
 #[doc = "A CSG quadric surface — the closed set the geometry navigator dispatches over.\n\nWraps each concrete surface struct. Maps to the OpenMC `Surface` polymorphic\nhierarchy (`src/surface.cpp`), realised here as an enum so `match` gives\nexhaustiveness and rust-analyzer go-to-definition on every variant."]
 #[pyclass(name = "SurfaceKind", module = "outram_park.outram_mc_libs")]
@@ -9268,9 +9964,13 @@ impl Py_outram_mc_libs__prelude__SurfaceKind {
         ::outram_mc_libs::prelude::SurfaceKind::evaluate(&self.inner, r.inner)
     }
     // @item method:outram_mc_libs::prelude::SurfaceKind::sense
-    #[doc = "Boolean sense used by cell membership: `true` = positive (outside) half-space.\nMirrors OpenMC `Surface::sense` (`src/surface.cpp`), position-only form."]
-    pub fn sense(&self, r: Py_outram_mc_libs__prelude__Position) -> bool {
-        ::outram_mc_libs::prelude::SurfaceKind::sense(&self.inner, r.inner)
+    #[doc = "Boolean sense used by cell membership: `true` = positive (outside) half-space.\n\nPorted from `Surface::sense` (`src/surface.cpp:117`). Normally this is\njust the sign of [`SurfaceKind::evaluate`], but **within\n[`FP_COINCIDENT`] of the surface the sign is round-off, not geometry**,\nso the side is decided from the direction of travel relative to the\noutward normal instead: a particle moving along `+n` is leaving the\nnegative side, i.e. it is on the positive side.\n\nThis matters wherever a particle sits on a surface — the state\nimmediately after a boundary crossing, and at grazing incidence on a\ncurved surface, where the evaluated sign flips essentially at random.\nFor the surface a particle is *known* to be on, prefer the recorded\n[`crate::geometry::cell::SurfaceToken`], which is exact; this is the\nfallback for every other surface.\n\n- `r` — position \\[cm\\].\n- `u` — unit direction of travel."]
+    pub fn sense(
+        &self,
+        r: Py_outram_mc_libs__prelude__Position,
+        u: Py_outram_mc_libs__prelude__Direction,
+    ) -> bool {
+        ::outram_mc_libs::prelude::SurfaceKind::sense(&self.inner, r.inner, u.inner)
     }
     // @item method:outram_mc_libs::prelude::SurfaceKind::distance
     #[doc = "Smallest positive distance along ray `(r, u)` to this surface, or\n`INFINITY` if it is not crossed. `coincident` hints `r` sits on the surface."]
@@ -9532,6 +10232,66 @@ impl Py_outram_mc_libs__prelude__SurfaceQuery {
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
+    }
+}
+
+// @item type:outram_mc_libs::prelude::SurfaceToken
+#[doc = "**Which surface a particle is sitting on, and which side of it it is on.**\n\nThis is OpenMC's *signed surface token* (`Particle::surface_`,\n`include/openmc/particle_data.h:437`; `SURFACE_NONE == 0`), expressed as a\nnamed type instead of a signed integer with a magic zero.\n\n# Why a particle needs to carry this\n\nImmediately after a boundary crossing the particle sits **exactly on** a\nsurface, where `Surface::evaluate(r)` is ~0 and its sign is decided by\nround-off rather than by geometry. A membership test that re-evaluates that\nsign can therefore put the particle back in the cell it was *leaving*; the\nnext `distance_to_boundary` then finds no forward surface (the one it is on\nis suppressed as coincident), the particle streams to infinity and the\nhistory leaks. That is GitHub #168 — 85 % of source neutrons lost on a\nconcentric-shell pebble (measured 2026-09-10: leakage 0.846 per source\nneutron, k_eff 0.236 where ~1.30 was expected).\n\nCarrying the crossed surface **plus the side it ended up on** removes the\nambiguity entirely: [`Cell::contains`] takes the recorded sense as fact for\nthat one surface instead of re-deriving it. Mirrors `Region::contains_simple`\n/ `contains_complex` (`src/cell.cpp:1046`, `:1069`), where a region token\nequal to `on_surface` is satisfied outright and its negation fails outright.\n\n[`SurfaceToken::NONE`] means \"not on any surface\" — the state after a\ncollision, at birth, and for any standalone geometry query."]
+#[pyclass(name = "SurfaceToken", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__SurfaceToken {
+    pub inner: ::outram_mc_libs::prelude::SurfaceToken,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__SurfaceToken {
+    // @item method:outram_mc_libs::prelude::SurfaceToken::on
+    #[doc = "On surface `surface_idx`, on the `sense` side."]
+    #[staticmethod]
+    pub fn on(
+        surface_idx: usize,
+        sense: Py_outram_mc_libs__prelude__HalfSpaceSense,
+    ) -> Py_outram_mc_libs__prelude__SurfaceToken {
+        Py_outram_mc_libs__prelude__SurfaceToken {
+            inner: ::outram_mc_libs::prelude::SurfaceToken::on(surface_idx, sense.inner),
+        }
+    }
+    // @item method:outram_mc_libs::prelude::SurfaceToken::is_on
+    #[doc = "Whether this token names surface `surface_idx` (either sense) — the\n`coincident` test used when computing distances."]
+    pub fn is_on(&self, surface_idx: usize) -> bool {
+        ::outram_mc_libs::prelude::SurfaceToken::is_on(self.inner.clone(), surface_idx)
+    }
+    // @item variant:outram_mc_libs::prelude::SurfaceToken::None
+    #[staticmethod]
+    #[pyo3(name = "None_")]
+    pub fn v_None() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::SurfaceToken::None,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::SurfaceToken::On
+    #[staticmethod]
+    #[pyo3(name = "On")]
+    pub fn v_On(surface_idx: usize, sense: Py_outram_mc_libs__prelude__HalfSpaceSense) -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::SurfaceToken::On {
+                surface_idx: surface_idx,
+                sense: sense.inner,
+            },
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_mc_libs::prelude::SurfaceToken::None => "None",
+            ::outram_mc_libs::prelude::SurfaceToken::On { .. } => "On",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
     }
 }
 
@@ -9904,6 +10664,74 @@ impl Py_outram_mc_libs__prelude__ThreadCount {
     }
 }
 
+// @item type:outram_mc_libs::prelude::TrisoLayer
+#[doc = "A TRISO coating layer, returned by [`triso_layer_at`]."]
+#[pyclass(name = "TrisoLayer", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__TrisoLayer {
+    pub inner: ::outram_mc_libs::prelude::TrisoLayer,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__TrisoLayer {
+    // @item variant:outram_mc_libs::prelude::TrisoLayer::Kernel
+    #[staticmethod]
+    #[pyo3(name = "Kernel")]
+    pub fn v_Kernel() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::TrisoLayer::Kernel,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::TrisoLayer::Buffer
+    #[staticmethod]
+    #[pyo3(name = "Buffer")]
+    pub fn v_Buffer() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::TrisoLayer::Buffer,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::TrisoLayer::Ipyc
+    #[staticmethod]
+    #[pyo3(name = "Ipyc")]
+    pub fn v_Ipyc() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::TrisoLayer::Ipyc,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::TrisoLayer::Sic
+    #[staticmethod]
+    #[pyo3(name = "Sic")]
+    pub fn v_Sic() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::TrisoLayer::Sic,
+        }
+    }
+    // @item variant:outram_mc_libs::prelude::TrisoLayer::Opyc
+    #[staticmethod]
+    #[pyo3(name = "Opyc")]
+    pub fn v_Opyc() -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::TrisoLayer::Opyc,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_mc_libs::prelude::TrisoLayer::Kernel => "Kernel",
+            ::outram_mc_libs::prelude::TrisoLayer::Buffer => "Buffer",
+            ::outram_mc_libs::prelude::TrisoLayer::Ipyc => "Ipyc",
+            ::outram_mc_libs::prelude::TrisoLayer::Sic => "Sic",
+            ::outram_mc_libs::prelude::TrisoLayer::Opyc => "Opyc",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:outram_mc_libs::prelude::TrisoMaterials
 #[doc = "Material indices for the five shells plus the surrounding matrix.\n\nEach field is an opaque index into the caller's global material array (the\nsame convention as [`CellFill::Material`](super::cell::CellFill::Material)).\nThe shells are filled in nesting order; `matrix` fills the rest of the\nparticle's universe outside the OPyC."]
 #[pyclass(name = "TrisoMaterials", module = "outram_park.outram_mc_libs")]
@@ -10165,6 +10993,117 @@ impl Py_outram_mc_libs__prelude__TrisoRadii {
     }
 }
 
+// @item type:outram_mc_libs::prelude::TrisoSpec
+#[doc = "The five cumulative outer radii \\[cm\\] of a TRISO particle (kernel first,\nOPyC last) plus the volume packing fraction of whole particles in the fuel\nzone."]
+#[pyclass(name = "TrisoSpec", module = "outram_park.outram_mc_libs")]
+#[derive(Clone)]
+pub struct Py_outram_mc_libs__prelude__TrisoSpec {
+    pub inner: ::outram_mc_libs::prelude::TrisoSpec,
+}
+#[pymethods]
+impl Py_outram_mc_libs__prelude__TrisoSpec {
+    // @item field:outram_mc_libs::prelude::TrisoSpec::kernel
+    #[getter(kernel)]
+    pub fn get_kernel(&self) -> f64 {
+        let v = self.inner.kernel.clone();
+        v
+    }
+    #[setter(kernel)]
+    pub fn set_kernel(&mut self, v: f64) {
+        self.inner.kernel = v;
+    }
+    // @item field:outram_mc_libs::prelude::TrisoSpec::buffer
+    #[getter(buffer)]
+    pub fn get_buffer(&self) -> f64 {
+        let v = self.inner.buffer.clone();
+        v
+    }
+    #[setter(buffer)]
+    pub fn set_buffer(&mut self, v: f64) {
+        self.inner.buffer = v;
+    }
+    // @item field:outram_mc_libs::prelude::TrisoSpec::ipyc
+    #[getter(ipyc)]
+    pub fn get_ipyc(&self) -> f64 {
+        let v = self.inner.ipyc.clone();
+        v
+    }
+    #[setter(ipyc)]
+    pub fn set_ipyc(&mut self, v: f64) {
+        self.inner.ipyc = v;
+    }
+    // @item field:outram_mc_libs::prelude::TrisoSpec::sic
+    #[getter(sic)]
+    pub fn get_sic(&self) -> f64 {
+        let v = self.inner.sic.clone();
+        v
+    }
+    #[setter(sic)]
+    pub fn set_sic(&mut self, v: f64) {
+        self.inner.sic = v;
+    }
+    // @item field:outram_mc_libs::prelude::TrisoSpec::opyc
+    #[getter(opyc)]
+    pub fn get_opyc(&self) -> f64 {
+        let v = self.inner.opyc.clone();
+        v
+    }
+    #[setter(opyc)]
+    pub fn set_opyc(&mut self, v: f64) {
+        self.inner.opyc = v;
+    }
+    // @item field:outram_mc_libs::prelude::TrisoSpec::packing_fraction
+    #[getter(packing_fraction)]
+    pub fn get_packing_fraction(&self) -> f64 {
+        let v = self.inner.packing_fraction.clone();
+        v
+    }
+    #[setter(packing_fraction)]
+    pub fn set_packing_fraction(&mut self, v: f64) {
+        self.inner.packing_fraction = v;
+    }
+    // @item method:outram_mc_libs::prelude::TrisoSpec::is_valid
+    #[doc = "Whether the radii are strictly increasing and the packing fraction is in\n`(0, 0.64)` (below the random-close-pack ceiling)."]
+    pub fn is_valid(&self) -> bool {
+        ::outram_mc_libs::prelude::TrisoSpec::is_valid(&self.inner)
+    }
+    // @item method:outram_mc_libs::prelude::TrisoSpec::layer_volumes
+    #[doc = "The five shell volumes \\[cm³\\] of one particle, kernel first: the kernel\nball then the four coating shells."]
+    pub fn layer_volumes(&self) -> Vec<f64> {
+        ::outram_mc_libs::prelude::TrisoSpec::layer_volumes(&self.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item ctor:outram_mc_libs::prelude::TrisoSpec
+    #[new]
+    pub fn __new__(
+        kernel: f64,
+        buffer: f64,
+        ipyc: f64,
+        sic: f64,
+        opyc: f64,
+        packing_fraction: f64,
+    ) -> Self {
+        Self {
+            inner: ::outram_mc_libs::prelude::TrisoSpec {
+                kernel: kernel,
+                buffer: buffer,
+                ipyc: ipyc,
+                sic: sic,
+                opyc: opyc,
+                packing_fraction: packing_fraction,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:outram_mc_libs::prelude::Universe
 #[doc = "A universe — an ordered list of cells searched top-to-bottom.\nMaps to `openmc::Universe`."]
 #[pyclass(name = "Universe", module = "outram_park.outram_mc_libs")]
@@ -10195,18 +11134,22 @@ impl Py_outram_mc_libs__prelude__Universe {
         self.inner.cell_indices = v.into_iter().map(|e| e).collect::<Vec<_>>();
     }
     // @item method:outram_mc_libs::prelude::Universe::find_cell
-    #[doc = "Find the first cell in this universe that contains `r` (in this universe's\nlocal frame).\n\nPorted from `Universe::find_cell` (`src/universe.cpp:40`): iterate the\nuniverse's cells in order and return the first whose region contains the\npoint. Returns the **global cell index**, or `None` if the point is in no\ncell of this universe (a geometry \"lost particle\")."]
+    #[doc = "Find the first cell in this universe that contains a particle at `r`\nheading along `u` (both in this universe's local frame).\n\nPorted from `Universe::find_cell` (`src/universe.cpp:40`): iterate the\nuniverse's cells in order and return the first whose region contains the\npoint. Returns the **global cell index**, or `None` if the point is in no\ncell of this universe (a geometry \"lost particle\").\n\n`on_surface` is the surface the particle is sitting on, if any — it\ndisambiguates membership for a particle that has just crossed a boundary\nand would otherwise be re-selected into the cell it was leaving. See\n[`Cell::contains`] and [`SurfaceToken`]. Pass [`SurfaceToken::NONE`] for a\nstandalone point query. Because every nested frame in this crate is a\npure translation, the global token stays valid at every level."]
     pub fn find_cell(
         &self,
         r: Py_outram_mc_libs__prelude__Position,
+        u: Py_outram_mc_libs__prelude__Direction,
         surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>,
         cells: Vec<Py_outram_mc_libs__prelude__Cell>,
+        on_surface: Py_outram_mc_libs__prelude__SurfaceToken,
     ) -> Option<usize> {
         ::outram_mc_libs::prelude::Universe::find_cell(
             &self.inner,
             r.inner,
+            u.inner,
             &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
             &cells.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            on_surface.inner,
         )
         .map(|e| e)
     }
@@ -10281,43 +11224,8 @@ impl Py_outram_mc_libs__prelude__VirtualLattice {
         let v = self.inner.shape.clone();
         v.into_iter().map(|e| e).collect::<Vec<_>>()
     }
-    // @item method:outram_mc_libs::prelude::VirtualLattice::n_voxels
-    #[doc = "Total number of voxels."]
-    pub fn n_voxels(&self) -> usize {
-        ::outram_mc_libs::prelude::VirtualLattice::n_voxels(&self.inner)
-    }
-    // @item method:outram_mc_libs::prelude::VirtualLattice::indices_at
-    #[doc = "Voxel indices containing `r`, unclamped — components may be negative or\n>= `shape` when `r` lies outside the grid."]
-    pub fn indices_at(&self, r: Py_outram_mc_libs__prelude__Position) -> Vec<i64> {
-        ::outram_mc_libs::prelude::VirtualLattice::indices_at(&self.inner, r.inner)
-            .into_iter()
-            .map(|e| e)
-            .collect::<Vec<_>>()
-    }
-    // @item method:outram_mc_libs::prelude::VirtualLattice::clamped_indices_at
-    #[doc = "Voxel indices containing `r`, clamped into the grid.\n\nMirrors the `max(min(floor(...), shape-1), 0)` clamp at the top of\n`Universe::find_cell_in_virtual_lattice` (`src/universe.cpp:68`)."]
-    pub fn clamped_indices_at(&self, r: Py_outram_mc_libs__prelude__Position) -> Vec<usize> {
-        ::outram_mc_libs::prelude::VirtualLattice::clamped_indices_at(&self.inner, r.inner)
-            .into_iter()
-            .map(|e| e)
-            .collect::<Vec<_>>()
-    }
-    // @item method:outram_mc_libs::prelude::VirtualLattice::find_containing
-    #[doc = "Index of the sphere strictly containing `r`, searching only the voxel\n`r` falls in.\n\nMirrors the containment half of `Universe::find_cell_in_virtual_lattice`\n(`src/universe.cpp:68`): the point-location counterpart of\n[`VirtualLattice::distance`]. Returns `None` when `r` is in the matrix\nbetween particles — upstream's \"fall through to the base cell\" case.\n\nContainment is strict (`d^2 < r^2`), matching upstream. A point exactly\non a sphere surface is therefore *not* inside it; surface-crossing\nbookkeeping is the caller's job, as it is upstream."]
-    pub fn find_containing(
-        &self,
-        r: Py_outram_mc_libs__prelude__Position,
-        surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>,
-    ) -> Option<usize> {
-        ::outram_mc_libs::prelude::VirtualLattice::find_containing(
-            &self.inner,
-            r.inner,
-            &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-        )
-        .map(|e| e)
-    }
     // @item method:outram_mc_libs::prelude::VirtualLattice::distance
-    #[doc = "Distance to the nearest registered surface along the ray `(r, u)`,\nsearching only the voxels the ray actually crosses.\n\nThis is the accelerated counterpart of\n[`crate::geometry::cell::Cell::distance_to_boundary`]: same contract,\nbut O(spheres per voxel x voxels crossed) instead of O(all surfaces).\n\n# Arguments\n\n- `r` — ray origin, cm. Need not lie inside the grid; a ray starting\n  outside walks in along its first boundary index (see below).\n- `u` — ray direction. Normalised internally, mirroring upstream, which\n  carries the comment *\"don't know if u has been normalized\"*.\n- `on_surface` — global index of the surface the particle currently sits\n  on, or `usize::MAX` if none. That surface is queried with the\n  `coincident` flag so round-off cannot re-report a zero crossing.\n- `max_distance` — stop walking once the voxel exit distance exceeds\n  this. Upstream passes the sampled collision distance\n  (`p->collision_distance()`): there is no point tracking surfaces\n  beyond the next collision. Pass `f64::INFINITY` for no cutoff.\n\n# Returns\n\n`(distance, surface_idx)`, with `surface_idx == usize::MAX` and\n`distance == f64::INFINITY` when no registered surface is hit.\n\n# Early-exit conditi"]
+    #[doc = "Distance to the nearest registered surface along the ray `(r, u)`,\nsearching only the voxels the ray actually crosses.\n\nThis is the accelerated counterpart of\n[`crate::geometry::cell::Cell::distance_to_boundary`]: same contract,\nbut O(spheres per voxel x voxels crossed) instead of O(all surfaces).\n\n# Arguments\n\n- `r` — ray origin, cm. Need not lie inside the grid; a ray starting\n  outside walks in along its first boundary index (see below).\n- `u` — ray direction. Normalised internally, mirroring upstream, which\n  carries the comment *\"don't know if u has been normalized\"*.\n- `on_surface` — global **index** of the surface the particle currently\n  sits on, or `usize::MAX` if none. That surface is queried with the\n  `coincident` flag so round-off cannot re-report a zero crossing. Note\n  this is a bare index, not the sided\n  [`crate::geometry::cell::SurfaceToken`] the CSG path carries: this\n  accelerator answers a ray query and never decides cell membership, so\n  it has no use for the side. Pass `token`'s index if you have one.\n- `max_distance` — stop walking once the voxel exit distance exceeds\n  this. Upstream passes the sampled collision distance\n  (`p->collision_distance()`): there"]
     pub fn distance(
         &self,
         r: Py_outram_mc_libs__prelude__Position,
@@ -10358,6 +11266,41 @@ impl Py_outram_mc_libs__prelude__VirtualLattice {
             );
             (e0, e1)
         }
+    }
+    // @item method:outram_mc_libs::prelude::VirtualLattice::n_voxels
+    #[doc = "Total number of voxels."]
+    pub fn n_voxels(&self) -> usize {
+        ::outram_mc_libs::prelude::VirtualLattice::n_voxels(&self.inner)
+    }
+    // @item method:outram_mc_libs::prelude::VirtualLattice::indices_at
+    #[doc = "Voxel indices containing `r`, unclamped — components may be negative or\n>= `shape` when `r` lies outside the grid."]
+    pub fn indices_at(&self, r: Py_outram_mc_libs__prelude__Position) -> Vec<i64> {
+        ::outram_mc_libs::prelude::VirtualLattice::indices_at(&self.inner, r.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:outram_mc_libs::prelude::VirtualLattice::clamped_indices_at
+    #[doc = "Voxel indices containing `r`, clamped into the grid.\n\nMirrors the `max(min(floor(...), shape-1), 0)` clamp at the top of\n`Universe::find_cell_in_virtual_lattice` (`src/universe.cpp:68`)."]
+    pub fn clamped_indices_at(&self, r: Py_outram_mc_libs__prelude__Position) -> Vec<usize> {
+        ::outram_mc_libs::prelude::VirtualLattice::clamped_indices_at(&self.inner, r.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:outram_mc_libs::prelude::VirtualLattice::find_containing
+    #[doc = "Index of the sphere strictly containing `r`, searching only the voxel\n`r` falls in.\n\nMirrors the containment half of `Universe::find_cell_in_virtual_lattice`\n(`src/universe.cpp:68`): the point-location counterpart of\n[`VirtualLattice::distance`]. Returns `None` when `r` is in the matrix\nbetween particles — upstream's \"fall through to the base cell\" case.\n\nContainment is strict (`d^2 < r^2`), matching upstream. A point exactly\non a sphere surface is therefore *not* inside it; surface-crossing\nbookkeeping is the caller's job, as it is upstream."]
+    pub fn find_containing(
+        &self,
+        r: Py_outram_mc_libs__prelude__Position,
+        surfaces: Vec<Py_outram_mc_libs__prelude__SurfaceKind>,
+    ) -> Option<usize> {
+        ::outram_mc_libs::prelude::VirtualLattice::find_containing(
+            &self.inner,
+            r.inner,
+            &surfaces.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        )
+        .map(|e| e)
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -11402,54 +12345,6 @@ pub fn fn_outram_mc_libs__physics__physics_mg__run_keff_mg(
     }
 }
 
-// @item fn:outram_mc_libs::physics::transport_csg::run_keff_csg_par
-#[doc = "Rayon-parallel CSG power iteration ([`ComputeType::CpuMultiThread`]).\n\nSame physics and power-iteration structure as [`run_keff_csg_seq`], but the\nhistories **within each generation** are transported in parallel with\n[`rayon`] in a dedicated pool sized to `thread_count` (never the implicit\nglobal pool). The generation loop stays sequential — generation `g+1`'s source\nis `g`'s resampled fission bank, a hard data dependency.\n\n# Reproducibility (independent of thread count)\n\nEach history is given a **completely independent, deterministic** RNG stream\nderived only from `(settings.seed, generation, history index)` via the LCG\njump-ahead ([`crate::rng::lcg::future_seed`]) — never a shared mutable seed —\nso the result never races and is identical regardless of how rayon schedules\nthe work. This mirrors [`crate::physics::keff::run_keff_cpu_multi`]; see its\ndocs for the `HIST_STRIDE` / `GEN_STRIDE` non-overlap argument. The initial\nsource sampling and each resample run on a separate sequential `src_seed`\nstream, kept off the parallel path. Because the per-history stream structure\ndiffers from the single sequential stream, this backend does **not** bit-match\n[`run_keff_csg_seq`] — it is a st"]
-#[pyfunction(name = "run_keff_csg_par")]
-pub fn fn_outram_mc_libs__physics__transport_csg__run_keff_csg_par(
-    geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>,
-    materials: Vec<Py_outram_mc_libs__prelude__Material>,
-    nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>,
-    source_box: Py_outram_mc_libs__prelude__SourceBox,
-    settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>,
-    mut tally: Option<PyRefMut<'_, Py_outram_mc_libs__prelude__Tally>>,
-    thread_count: Py_outram_mc_libs__prelude__ThreadCount,
-) -> Py_outram_mc_libs__prelude__KeffResult {
-    Py_outram_mc_libs__prelude__KeffResult {
-        inner: ::outram_mc_libs::physics::transport_csg::run_keff_csg_par(
-            &geom.inner,
-            &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            source_box.inner,
-            &settings.inner,
-            tally.as_mut().map(|r| &mut r.inner),
-            thread_count.inner,
-        ),
-    }
-}
-
-// @item fn:outram_mc_libs::physics::transport_csg::run_keff_csg_seq
-#[doc = "Scalar, single-thread CSG power iteration — the **trusted, deterministic,\nbit-reproducible reference** backend ([`ComputeType::CpuSingleThread`]).\n\nOne `f64` RNG stream is threaded sequentially through the whole run (initial\nsource rejection-sampling, every history's transport, every resample), so a\nfixed [`KeffSettings::seed`] yields the same eigenvalue — and the same tally\nrealizations — bit-for-bit on every machine. [`run_keff_csg_par`] is\nacceleration only and is validated against this reference."]
-#[pyfunction(name = "run_keff_csg_seq")]
-pub fn fn_outram_mc_libs__physics__transport_csg__run_keff_csg_seq(
-    geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>,
-    materials: Vec<Py_outram_mc_libs__prelude__Material>,
-    nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>,
-    source_box: Py_outram_mc_libs__prelude__SourceBox,
-    settings: PyRef<'_, Py_outram_mc_libs__prelude__KeffSettings>,
-    mut tally: Option<PyRefMut<'_, Py_outram_mc_libs__prelude__Tally>>,
-) -> Py_outram_mc_libs__prelude__KeffResult {
-    Py_outram_mc_libs__prelude__KeffResult {
-        inner: ::outram_mc_libs::physics::transport_csg::run_keff_csg_seq(
-            &geom.inner,
-            &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            source_box.inner,
-            &settings.inner,
-            tally.as_mut().map(|r| &mut r.inner),
-        ),
-    }
-}
-
 // @item fn:outram_mc_libs::prelude::advance_event_cpu_mirror
 #[doc = "Advance **every currently-alive neutron** in `batch` through **one event**\n(flight + collision) on the CPU, using the **exact same f32 arithmetic path**\nas the GPU kernel `shaders/batched_event.wgsl`.\n\nThis is the bit-level logic reference for the GPU kernel (same LCG emulation,\nsame top-24 uniform, same grid search, same kinematics, same draw order). It is\n**unconditional** (builds and runs on Android too).\n\nPer alive neutron `i`: advance RNG → `xi`; look up Σ_t; leak/absorb ⇒\n`alive[i]=0`; else stream to the collision site, sample nuclide + reaction, and\neither mark fission (`fiss_nuc[i]`, `production[i]`, dead), capture (dead), or\nscatter (update `energy`/`dir`, stay alive). Returns the number of neutrons\nstill alive after the event."]
 #[pyfunction(name = "advance_event_cpu_mirror")]
@@ -11581,11 +12476,53 @@ pub fn fn_outram_mc_libs__prelude__encode_surfaces(
     }
 }
 
+// @item fn:outram_mc_libs::prelude::fhr_pebble_geometry
+#[doc = "Concentric-shell geometry of one FHR pebble, for the CSG drivers.\n\nRadii \\[cm\\], increasing:\n- `r_inner` — inner graphite ball (`0..r_inner`); pass `0.0` for none.\n- `r_fuel_outer` — fuel region (`r_inner..r_fuel_outer`), material\n  `fuel_mat`. For the ring-RPT pebble this is the homogenised shell; for a\n  simple homogeneous-fuel-zone pebble set `r_inner = 0`.\n- `r_shell_outer` — graphite shell (`r_fuel_outer..r_shell_outer`).\n- `r_root` — coolant / reflector region (`r_shell_outer..r_root`), material\n  `coolant_mat`, with `root_bc` on the outer sphere.\n\nMaterial indices are into the caller's global material array. `graphite_mat`\nfills both the inner ball and the outer shell.\n\n# Panics\nIf the radii are not strictly increasing (ignoring a zero `r_inner`)."]
+#[pyfunction(name = "fhr_pebble_geometry")]
+pub fn fn_outram_mc_libs__prelude__fhr_pebble_geometry(
+    r_inner: f64,
+    r_fuel_outer: f64,
+    r_shell_outer: f64,
+    r_root: f64,
+    fuel_mat: usize,
+    graphite_mat: usize,
+    coolant_mat: usize,
+    root_bc: Py_outram_mc_libs__prelude__BoundaryType,
+    temperature: f64,
+) -> Py_outram_mc_libs__prelude__Geometry {
+    Py_outram_mc_libs__prelude__Geometry {
+        inner: ::outram_mc_libs::prelude::fhr_pebble_geometry(
+            r_inner,
+            r_fuel_outer,
+            r_shell_outer,
+            r_root,
+            fuel_mat,
+            graphite_mat,
+            coolant_mat,
+            root_bc.inner,
+            temperature,
+        ),
+    }
+}
+
 // @item fn:outram_mc_libs::prelude::future_seed
 #[doc = "Advance the seed `n` steps in O(log n) using the LCG jump-ahead identity.\n\nMaps to `uint64_t future_seed(uint64_t n, uint64_t seed)`.\nAlgorithm: each iteration squares `a` and halves `n`, accumulating the\ncombined multiplier/increment for odd bits.  Identical to Knuth §3.2.1."]
 #[pyfunction(name = "future_seed")]
 pub fn fn_outram_mc_libs__prelude__future_seed(n: u64, seed: u64) -> u64 {
     ::outram_mc_libs::prelude::future_seed(n, seed)
+}
+
+// @item fn:outram_mc_libs::prelude::homogeneous_cube
+#[doc = "A homogeneous-medium cube geometry of half-width `h` \\[cm\\] filled with a\nsingle material, reflective on all six faces — the k∞ unit cell for\ncomparing an explicit packing against its homogenised equivalent."]
+#[pyfunction(name = "homogeneous_cube")]
+pub fn fn_outram_mc_libs__prelude__homogeneous_cube(
+    h: f64,
+    material_idx: usize,
+    temperature: f64,
+) -> Py_outram_mc_libs__prelude__Geometry {
+    Py_outram_mc_libs__prelude__Geometry {
+        inner: ::outram_mc_libs::prelude::homogeneous_cube(h, material_idx, temperature),
+    }
 }
 
 // @item fn:outram_mc_libs::prelude::init_seed
@@ -11694,6 +12631,21 @@ pub fn fn_outram_mc_libs__prelude__pack_spheres_crp(
     })
 }
 
+// @item fn:outram_mc_libs::prelude::rpt_fuel_outer_radius
+#[doc = "The outer radius \\[cm\\] of the ring-RPT homogenised-fuel shell.\n\nRPT places the dissolved TRISO material as a spherical **shell** from\n`inner_radius` outward, sized so the shell volume equals the *total volume of\nall TRISO particles* in the original fuel zone,\n`V_particles = packing_fraction · (4/3)π·fuel_zone_radius³`. Hence\n\n```text\nr_outer³ = inner_radius³ + packing_fraction · fuel_zone_radius³\n```\n\n(`rpt_pebble.py`, `build_rpt_equivalent_model_triso_kernel_homogenised`).\n`inner_radius` is the single knob RPT turns to match the explicit pebble's\nk-eff; the reference value is `1.493359375` cm for this fuel.\n\n# Panics\nIf the result would exceed `fuel_zone_radius` (the homogenised shell cannot\nphysically fit inside the original fuel zone)."]
+#[pyfunction(name = "rpt_fuel_outer_radius")]
+pub fn fn_outram_mc_libs__prelude__rpt_fuel_outer_radius(
+    inner_radius: f64,
+    fuel_zone_radius: f64,
+    packing_fraction: f64,
+) -> f64 {
+    ::outram_mc_libs::prelude::rpt_fuel_outer_radius(
+        inner_radius,
+        fuel_zone_radius,
+        packing_fraction,
+    )
+}
+
 // @item fn:outram_mc_libs::prelude::run_fixed_source
 #[doc = "Run a fixed-source transport calculation.\n\nSamples `settings.n_particles` neutrons from `source`, transports each (and\nits fission secondaries) through `geom` to death, and — if a `tally` is\nsupplied — accumulates its track-length scores in place (flushed once per\nbatch, so read it back with `settings.n_batches` realizations). Returns a\n[`FixedSourceResult`] balance.\n\nSingle-threaded reference path (deterministic for a fixed `seed`).\n\n# Example — void streaming (the analytic check)\n```\nuse outram_mc_libs::physics::fixed_source::{run_fixed_source, FixedSource, FixedSourceSettings};\nuse outram_mc_libs::geometry::position::Position;\nuse outram_mc_libs::geometry::surface::{Sphere, SurfaceKind, BoundaryType};\nuse outram_mc_libs::geometry::cell::{Cell, CellFill, HalfSpaceSense, RegionToken};\nuse outram_mc_libs::geometry::universe::Universe;\nuse outram_mc_libs::geometry::geometry::Geometry;\n\n// A vacuum sphere of radius R: a point source at the centre streams straight\n// out, so every neutron travels exactly R — the mean path length is R.\nlet r_cm = 5.0;\nlet geom = Geometry {\n    surfaces: vec![SurfaceKind::Sphere(Sphere { x0: 0.0, y0: 0.0, z0: 0.0, r: r_cm, bc: BoundaryType::Vacuum })],\n"]
 #[pyfunction(name = "run_fixed_source")]
@@ -11759,6 +12711,24 @@ pub fn fn_outram_mc_libs__prelude__run_keff_csg(
     }
 }
 
+// @item fn:outram_mc_libs::prelude::run_keff_reactor_physics
+#[doc = "Run a k-eigenvalue power iteration over `geom` and capture the six-factor\ndecomposition and the lethargy-normalised flux spectrum from one combined\ntrack-length tally plus explicit leakage accounting.\n\n`materials` is the global material array the geometry's cells index into;\n`nuclides` is the global nuclide array the materials index into.\n\n# Errors\n- [`ReactorPhysicsError::NoFuelMaterial`] — no `U23*` material is present.\n- [`ReactorPhysicsError::BadEnergyGrid`] — the energy grid is ill-posed.\n\n# Caveats\nSee the module docs: unscored void-gap flux, and conservative delta-method\nratio uncertainties."]
+#[pyfunction(name = "run_keff_reactor_physics")]
+pub fn fn_outram_mc_libs__prelude__run_keff_reactor_physics(
+    geom: PyRef<'_, Py_outram_mc_libs__prelude__Geometry>,
+    materials: Vec<Py_outram_mc_libs__prelude__Material>,
+    nuclides: Vec<Py_outram_mc_libs__prelude__Nuclide>,
+    config: PyRef<'_, Py_outram_mc_libs__prelude__ReactorPhysicsConfig>,
+) -> PyResult<Py_outram_mc_libs__prelude__ReactorPhysicsReport> {
+    err(::outram_mc_libs::prelude::run_keff_reactor_physics(
+        &geom.inner,
+        &materials.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        &nuclides.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        &config.inner,
+    ))
+    .map(|v| Py_outram_mc_libs__prelude__ReactorPhysicsReport { inner: v })
+}
+
 // @item fn:outram_mc_libs::prelude::surface_distance_cpu_f32
 #[doc = "CPU `f32` reference for a batch of ray–surface distance queries.\n\nEvaluates [`surface_distance_one_f32`] for each [`SurfaceQuery`], returning one\ndistance per query in order ([`MISS`] where the ray does not cross). This is\nboth the deterministic CPU path and the reference the GPU kernel is judged\nagainst; it is itself judged against the trusted `f64` [`SurfaceKind::distance`]\nby the tests in this module."]
 #[pyfunction(name = "surface_distance_cpu_f32")]
@@ -11791,6 +12761,17 @@ pub fn fn_outram_mc_libs__prelude__surface_distance_gpu(
     .into_iter()
     .map(|e| e)
     .collect::<Vec<_>>()
+}
+
+// @item fn:outram_mc_libs::prelude::triso_layer_at
+#[doc = "Which TRISO layer the radial offset `r` \\[cm\\] from a particle centre falls\nin, or `None` if `r` is outside the particle (`r >= spec.opyc`, i.e. the\npoint is in the surrounding matrix)."]
+#[pyfunction(name = "triso_layer_at")]
+pub fn fn_outram_mc_libs__prelude__triso_layer_at(
+    r: f64,
+    spec: PyRef<'_, Py_outram_mc_libs__prelude__TrisoSpec>,
+) -> Option<Py_outram_mc_libs__prelude__TrisoLayer> {
+    ::outram_mc_libs::prelude::triso_layer_at(r, &spec.inner)
+        .map(|e| Py_outram_mc_libs__prelude__TrisoLayer { inner: e })
 }
 
 // @item fn:outram_mc_libs::prelude::triso_particle
@@ -11838,6 +12819,7 @@ pub fn fn_outram_mc_libs__tally__scoring__score_collision(
 }
 
 // @item const:outram_mc_libs::geometry::lattice::HEX_NONE
+// @item const:outram_mc_libs::geometry::surface::FP_COINCIDENT
 // @item const:outram_mc_libs::gpu::surface_distance::QUERY_STRIDE_BYTES
 // @item const:outram_mc_libs::gpu::surface_distance::STORAGE_BUFFERS_NEEDED
 // @item const:outram_mc_libs::gpu::surface_distance::WORKGROUP_SIZE
@@ -11920,6 +12902,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_mc_libs__prelude__Direction>()?;
     m.add_class::<Py_outram_mc_libs__prelude__EncodedSurfaces>()?;
     m.add_class::<Py_outram_mc_libs__prelude__EnergyFilter>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__Estimate>()?;
     m.add_class::<Py_outram_mc_libs__prelude__EventBatch>()?;
     m.add_class::<Py_outram_mc_libs__prelude__EventSphere>()?;
     m.add_class::<Py_outram_mc_libs__prelude__EventTablesF32>()?;
@@ -11932,6 +12915,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_mc_libs__prelude__FlightSphere>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Geometry>()?;
     m.add_class::<Py_outram_mc_libs__prelude__GeometryPath>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__Group>()?;
     m.add_class::<Py_outram_mc_libs__prelude__HalfSpaceSense>()?;
     m.add_class::<Py_outram_mc_libs__prelude__HexLattice>()?;
     m.add_class::<Py_outram_mc_libs__prelude__HexOrientation>()?;
@@ -11943,6 +12927,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_mc_libs__prelude__KeffSettings>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Lattice>()?;
     m.add_class::<Py_outram_mc_libs__prelude__LegendreAxis>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__LethargySpectrum>()?;
     m.add_class::<Py_outram_mc_libs__prelude__MacroXs>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Majorant>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Material>()?;
@@ -11960,6 +12945,9 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_mc_libs__prelude__ParticleHistory>()?;
     m.add_class::<Py_outram_mc_libs__prelude__ParticleType>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Position>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__ReactorPhysicsConfig>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__ReactorPhysicsError>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__ReactorPhysicsReport>()?;
     m.add_class::<Py_outram_mc_libs__prelude__RectLattice>()?;
     m.add_class::<Py_outram_mc_libs__prelude__RegionToken>()?;
     m.add_class::<Py_outram_mc_libs__prelude__RegularMesh>()?;
@@ -11971,21 +12959,26 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_mc_libs__prelude__SearchMethod>()?;
     m.add_class::<Py_outram_mc_libs__prelude__SearchResult>()?;
     m.add_class::<Py_outram_mc_libs__prelude__SearchSettings>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__SixFactors>()?;
     m.add_class::<Py_outram_mc_libs__prelude__SourceBox>()?;
     m.add_class::<Py_outram_mc_libs__prelude__SpatialIndex>()?;
     m.add_class::<Py_outram_mc_libs__prelude__SpatialLegendreFilter>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Sphere>()?;
     m.add_class::<Py_outram_mc_libs__prelude__StochasticMedium>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__SurfaceCrossing>()?;
     m.add_class::<Py_outram_mc_libs__prelude__SurfaceKind>()?;
     m.add_class::<Py_outram_mc_libs__prelude__SurfaceQuery>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__SurfaceToken>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Tally>()?;
     m.add_class::<Py_outram_mc_libs__prelude__TallyBin>()?;
     m.add_class::<Py_outram_mc_libs__prelude__ThermalElastic>()?;
     m.add_class::<Py_outram_mc_libs__prelude__ThermalScattering>()?;
     m.add_class::<Py_outram_mc_libs__prelude__ThreadCount>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__TrisoLayer>()?;
     m.add_class::<Py_outram_mc_libs__prelude__TrisoMaterials>()?;
     m.add_class::<Py_outram_mc_libs__prelude__TrisoParticle>()?;
     m.add_class::<Py_outram_mc_libs__prelude__TrisoRadii>()?;
+    m.add_class::<Py_outram_mc_libs__prelude__TrisoSpec>()?;
     m.add_class::<Py_outram_mc_libs__prelude__Universe>()?;
     m.add_class::<Py_outram_mc_libs__prelude__UniverseFilter>()?;
     m.add_class::<Py_outram_mc_libs__prelude__VirtualLattice>()?;
@@ -12076,14 +13069,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_outram_mc_libs__physics__transport_csg__run_keff_csg_par,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_mc_libs__physics__transport_csg__run_keff_csg_seq,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
         fn_outram_mc_libs__prelude__advance_event_cpu_mirror,
         m
     )?)?;
@@ -12112,7 +13097,15 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_outram_mc_libs__prelude__fhr_pebble_geometry,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_outram_mc_libs__prelude__future_seed,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_mc_libs__prelude__homogeneous_cube,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__init_seed, m)?)?;
@@ -12141,12 +13134,20 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_outram_mc_libs__prelude__rpt_fuel_outer_radius,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_outram_mc_libs__prelude__run_fixed_source,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_outram_mc_libs__prelude__run_keff, m)?)?;
     m.add_function(wrap_pyfunction!(
         fn_outram_mc_libs__prelude__run_keff_csg,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_mc_libs__prelude__run_keff_reactor_physics,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -12158,6 +13159,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_outram_mc_libs__prelude__triso_layer_at,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_outram_mc_libs__prelude__triso_particle,
         m
     )?)?;
@@ -12166,6 +13171,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add("HEX_NONE", ::outram_mc_libs::geometry::lattice::HEX_NONE)?;
+    m.add(
+        "FP_COINCIDENT",
+        ::outram_mc_libs::geometry::surface::FP_COINCIDENT,
+    )?;
     m.add(
         "QUERY_STRIDE_BYTES",
         ::outram_mc_libs::gpu::surface_distance::QUERY_STRIDE_BYTES,

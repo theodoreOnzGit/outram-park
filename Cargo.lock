@@ -8938,7 +8938,7 @@ dependencies = [
 
 [[package]]
 name = "tampines-steam-tables"
-version = "0.2.8"
+version = "0.2.9"
 dependencies = [
  "approx",
  "ndarray",

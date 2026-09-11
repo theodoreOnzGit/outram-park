@@ -1678,6 +1678,83 @@ impl Py_njoy_outram_park_fork__acquire__TslMaterial {
     }
 }
 
+// @item type:njoy_outram_park_fork::broadr::BroadnTolerances
+#[doc = "BROADR's thinning tolerances (card 3: `errthn thnmax errmax errint`)."]
+#[pyclass(
+    name = "BroadnTolerances",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__broadr__BroadnTolerances {
+    pub inner: ::njoy_outram_park_fork::broadr::BroadnTolerances,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__broadr__BroadnTolerances {
+    // @item field:njoy_outram_park_fork::broadr::BroadnTolerances::errthn
+    #[getter(errthn)]
+    pub fn get_errthn(&self) -> f64 {
+        let v = self.inner.errthn.clone();
+        v
+    }
+    #[setter(errthn)]
+    pub fn set_errthn(&mut self, v: f64) {
+        self.inner.errthn = v;
+    }
+    // @item field:njoy_outram_park_fork::broadr::BroadnTolerances::errmax
+    #[getter(errmax)]
+    pub fn get_errmax(&self) -> f64 {
+        let v = self.inner.errmax.clone();
+        v
+    }
+    #[setter(errmax)]
+    pub fn set_errmax(&mut self, v: f64) {
+        self.inner.errmax = v;
+    }
+    // @item field:njoy_outram_park_fork::broadr::BroadnTolerances::errint
+    #[getter(errint)]
+    pub fn get_errint(&self) -> f64 {
+        let v = self.inner.errint.clone();
+        v
+    }
+    #[setter(errint)]
+    pub fn set_errint(&mut self, v: f64) {
+        self.inner.errint = v;
+    }
+    // @item method:njoy_outram_park_fork::broadr::BroadnTolerances::with_errthn
+    #[doc = "The upstream defaults for a given `errthn` (`broadr.f90:208-209`)."]
+    #[staticmethod]
+    pub fn with_errthn(errthn: f64) -> Py_njoy_outram_park_fork__broadr__BroadnTolerances {
+        Py_njoy_outram_park_fork__broadr__BroadnTolerances {
+            inner: ::njoy_outram_park_fork::broadr::BroadnTolerances::with_errthn(errthn),
+        }
+    }
+    // @item ctor:njoy_outram_park_fork::broadr::BroadnTolerances
+    #[new]
+    #[pyo3(signature = (errthn=None, errmax=None, errint=None))]
+    pub fn __new__(errthn: Option<f64>, errmax: Option<f64>, errint: Option<f64>) -> Self {
+        let d = <::njoy_outram_park_fork::broadr::BroadnTolerances as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::broadr::BroadnTolerances {
+                errthn: errthn.map(|v| v).unwrap_or(d.errthn),
+                errmax: errmax.map(|v| v).unwrap_or(d.errmax),
+                errint: errint.map(|v| v).unwrap_or(d.errint),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
 // @item type:njoy_outram_park_fork::covr::BoxerData
 #[doc = "The full BOXER encoding of a matrix — one or more [`BoxerPage`]s plus the\nshape needed to decode them."]
 #[pyclass(name = "BoxerData", module = "outram_park.njoy_outram_park_fork")]
@@ -2030,6 +2107,80 @@ impl Py_njoy_outram_park_fork__covr__BoxerPage {
                 last_row: last_row,
                 xval: xval.into_iter().map(|e| e).collect::<Vec<_>>(),
                 icon: icon.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::covr::BoxerRecord
+#[doc = "One matrix read back from BOXER text: its header and compressed pages."]
+#[pyclass(name = "BoxerRecord", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__covr__BoxerRecord {
+    pub inner: ::njoy_outram_park_fork::covr::BoxerRecord,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__covr__BoxerRecord {
+    // @item field:njoy_outram_park_fork::covr::BoxerRecord::header
+    #[getter(header)]
+    pub fn get_header(&self) -> Py_njoy_outram_park_fork__covr__BoxerHeader {
+        let v = self.inner.header.clone();
+        Py_njoy_outram_park_fork__covr__BoxerHeader { inner: v }
+    }
+    #[setter(header)]
+    pub fn set_header(&mut self, v: Py_njoy_outram_park_fork__covr__BoxerHeader) {
+        self.inner.header = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::covr::BoxerRecord::nvf
+    #[getter(nvf)]
+    pub fn get_nvf(&self) -> i32 {
+        let v = self.inner.nvf.clone();
+        v
+    }
+    #[setter(nvf)]
+    pub fn set_nvf(&mut self, v: i32) {
+        self.inner.nvf = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::BoxerRecord::ncf
+    #[getter(ncf)]
+    pub fn get_ncf(&self) -> i32 {
+        let v = self.inner.ncf.clone();
+        v
+    }
+    #[setter(ncf)]
+    pub fn set_ncf(&mut self, v: i32) {
+        self.inner.ncf = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::BoxerRecord::data
+    #[getter(data)]
+    pub fn get_data(&self) -> Py_njoy_outram_park_fork__covr__BoxerData {
+        let v = self.inner.data.clone();
+        Py_njoy_outram_park_fork__covr__BoxerData { inner: v }
+    }
+    #[setter(data)]
+    pub fn set_data(&mut self, v: Py_njoy_outram_park_fork__covr__BoxerData) {
+        self.inner.data = v.inner;
+    }
+    // @item ctor:njoy_outram_park_fork::covr::BoxerRecord
+    #[new]
+    pub fn __new__(
+        header: Py_njoy_outram_park_fork__covr__BoxerHeader,
+        nvf: i32,
+        ncf: i32,
+        data: Py_njoy_outram_park_fork__covr__BoxerData,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::covr::BoxerRecord {
+                header: header.inner,
+                nvf: nvf,
+                ncf: ncf,
+                data: data.inner,
             },
         }
     }
@@ -2566,6 +2717,73 @@ impl Py_njoy_outram_park_fork__covr__CovrInput {
     }
 }
 
+// @item type:njoy_outram_park_fork::covr::CovrLibraryOutput
+#[doc = "The library option's products."]
+#[pyclass(
+    name = "CovrLibraryOutput",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__covr__CovrLibraryOutput {
+    pub inner: ::njoy_outram_park_fork::covr::CovrLibraryOutput,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__covr__CovrLibraryOutput {
+    // @item field:njoy_outram_park_fork::covr::CovrLibraryOutput::text
+    #[getter(text)]
+    pub fn get_text(&self) -> String {
+        let v = self.inner.text.clone();
+        v
+    }
+    #[setter(text)]
+    pub fn set_text(&mut self, v: String) {
+        self.inner.text = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::CovrLibraryOutput::pairs
+    #[getter(pairs)]
+    pub fn get_pairs(&self) -> Vec<Py_njoy_outram_park_fork__covr__PairReport> {
+        let v = self.inner.pairs.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__covr__PairReport { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(pairs)]
+    pub fn set_pairs(&mut self, v: Vec<Py_njoy_outram_park_fork__covr__PairReport>) {
+        self.inner.pairs = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::covr::CovrLibraryOutput::messages
+    #[getter(messages)]
+    pub fn get_messages(&self) -> Vec<String> {
+        let v = self.inner.messages.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(messages)]
+    pub fn set_messages(&mut self, v: Vec<String>) {
+        self.inner.messages = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::covr::CovrLibraryOutput
+    #[new]
+    pub fn __new__(
+        text: String,
+        pairs: Vec<Py_njoy_outram_park_fork__covr__PairReport>,
+        messages: Vec<String>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::covr::CovrLibraryOutput {
+                text: text,
+                pairs: pairs.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                messages: messages.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:njoy_outram_park_fork::covr::CovrMode
 #[doc = "The two mutually exclusive COVR output modes (`covr.f90:63-65,186`).\n\nSelected by the sign of `nout` on card 1: `nout <= 0` is the plot option,\n`nout > 0` is the library option. Modelled as an enum for exhaustive\ndispatch (no trait objects)."]
 #[pyclass(name = "CovrMode", module = "outram_park.njoy_outram_park_fork")]
@@ -2608,7 +2826,7 @@ impl Py_njoy_outram_park_fork__covr__CovrMode {
 }
 
 // @item type:njoy_outram_park_fork::covr::ErrorrCovarianceSection
-#[doc = "An ERRORR-produced covariance subsection for one reaction pair, in the\nsparse row-block form `covard` reads (`covr.f90:819-886`).\n\nThis is the in-memory stand-in for the ENDF-like records on an ERRORR output\ntape (see the module docs): the group count `ixmax`, the two per-reaction\ncross-section vectors, and the sparse covariance row-blocks. `covard`\n([`Self::to_dense`]) turns it into a full dense matrix.\n\n- `ixmax` — number of energy groups (`ixmax`, `covr.f90:749`).\n- `xx` — cross section of the **row** reaction `(mat,mt)`, one per group,\n  barns (`covr.f90:800-802`).\n- `xy` — cross section of the **column** reaction `(mat1,mt1)`, one per\n  group, barns (`covr.f90:805-807`); equals `xx` for an auto-covariance.\n- `group_boundaries` — the `ixmax+1` group-boundary energies in eV\n  (`covr.f90:777-778`). Read by `covard` but used only by the (unported)\n  plot path; retained here for completeness / round-tripping.\n- `blocks` — the sparse covariance row-blocks."]
+#[doc = "An ERRORR-produced covariance subsection for one reaction pair, in the\nsparse row-block form `covard` reads (`covr.f90:819-886`).\n\nThis is the in-memory stand-in for the ENDF-like records on an ERRORR output\ntape (see the module docs): the group count `ixmax`, the two per-reaction\ncross-section vectors, and the sparse covariance row-blocks. `covard`\n([`Self::to_dense`]) turns it into a full dense matrix.\n\n- `ixmax` — number of energy groups (`ixmax`, `covr.f90:749`).\n- `xx` — cross section of the **row** reaction `(mat,mt)`, one per group,\n  barns (`covr.f90:800-802`).\n- `xy` — cross section of the **column** reaction `(mat1,mt1)`, one per\n  group, barns (`covr.f90:805-807`); equals `xx` for an auto-covariance.\n- `group_boundaries` — the `ixmax+1` group-boundary energies in eV\n  (`covr.f90:777-778`). Read by `covard`; used by the (out-of-scope)\n  plot path; retained here for completeness / round-tripping.\n- `blocks` — the sparse covariance row-blocks."]
 #[pyclass(
     name = "ErrorrCovarianceSection",
     module = "outram_park.njoy_outram_park_fork"
@@ -2701,6 +2919,138 @@ impl Py_njoy_outram_park_fork__covr__ErrorrCovarianceSection {
                 xy: xy.into_iter().map(|e| e).collect::<Vec<_>>(),
                 group_boundaries: group_boundaries.into_iter().map(|e| e).collect::<Vec<_>>(),
                 blocks: blocks.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::covr::ErrorrTapeKind
+#[doc = "What the first two records of an ERRORR tape say about its layout\n(`covr.f90:319-333`)."]
+#[pyclass(name = "ErrorrTapeKind", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__covr__ErrorrTapeKind {
+    pub inner: ::njoy_outram_park_fork::covr::ErrorrTapeKind,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__covr__ErrorrTapeKind {
+    // @item field:njoy_outram_park_fork::covr::ErrorrTapeKind::mfflg
+    #[getter(mfflg)]
+    pub fn get_mfflg(&self) -> i32 {
+        let v = self.inner.mfflg.clone();
+        v
+    }
+    #[setter(mfflg)]
+    pub fn set_mfflg(&mut self, v: i32) {
+        self.inner.mfflg = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::ErrorrTapeKind::mf35
+    #[getter(mf35)]
+    pub fn get_mf35(&self) -> i32 {
+        let v = self.inner.mf35.clone();
+        v
+    }
+    #[setter(mf35)]
+    pub fn set_mf35(&mut self, v: i32) {
+        self.inner.mf35 = v;
+    }
+    // @item method:njoy_outram_park_fork::covr::ErrorrTapeKind::from_tape
+    #[doc = "Read `mfflg` from the first section of `tape` and classify it\n(`covr.f90:319-333`).\n\n# Errors\n[`NjoyError::EndfParse`] when the first section is not `MF=1/MT=451`\n(\"illegal input tape\") or `mfflg` is not one of `-11/-12/-14`\n(\"illegal errorr output tape for covr\")."]
+    #[staticmethod]
+    pub fn from_tape(
+        tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    ) -> PyResult<Py_njoy_outram_park_fork__covr__ErrorrTapeKind> {
+        err(::njoy_outram_park_fork::covr::ErrorrTapeKind::from_tape(
+            &tape.inner,
+        ))
+        .map(|v| Py_njoy_outram_park_fork__covr__ErrorrTapeKind { inner: v })
+    }
+    // @item method:njoy_outram_park_fork::covr::ErrorrTapeKind::mf3x
+    #[doc = "The covariance file to search for `(mat,mt)` (`covr.f90:813-816`)."]
+    pub fn mf3x(&self, mt: i32) -> i32 {
+        ::njoy_outram_park_fork::covr::ErrorrTapeKind::mf3x(&self.inner, mt)
+    }
+    // @item ctor:njoy_outram_park_fork::covr::ErrorrTapeKind
+    #[new]
+    pub fn __new__(mfflg: i32, mf35: i32) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::covr::ErrorrTapeKind {
+                mfflg: mfflg,
+                mf35: mf35,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::covr::GroupStructure
+#[doc = "The group structure of one material on an ERRORR tape\n(`covr.f90:746-780`): `ixmax` groups, `ixmax+1` boundaries in eV."]
+#[pyclass(name = "GroupStructure", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__covr__GroupStructure {
+    pub inner: ::njoy_outram_park_fork::covr::GroupStructure,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__covr__GroupStructure {
+    // @item field:njoy_outram_park_fork::covr::GroupStructure::ixmax
+    #[getter(ixmax)]
+    pub fn get_ixmax(&self) -> usize {
+        let v = self.inner.ixmax.clone();
+        v
+    }
+    #[setter(ixmax)]
+    pub fn set_ixmax(&mut self, v: usize) {
+        self.inner.ixmax = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::GroupStructure::boundaries
+    #[getter(boundaries)]
+    pub fn get_boundaries(&self) -> Vec<f64> {
+        let v = self.inner.boundaries.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(boundaries)]
+    pub fn set_boundaries(&mut self, v: Vec<f64>) {
+        self.inner.boundaries = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::covr::GroupStructure::iverf
+    #[getter(iverf)]
+    pub fn get_iverf(&self) -> i32 {
+        let v = self.inner.iverf.clone();
+        v
+    }
+    #[setter(iverf)]
+    pub fn set_iverf(&mut self, v: i32) {
+        self.inner.iverf = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::GroupStructure::iza
+    #[getter(iza)]
+    pub fn get_iza(&self) -> i32 {
+        let v = self.inner.iza.clone();
+        v
+    }
+    #[setter(iza)]
+    pub fn set_iza(&mut self, v: i32) {
+        self.inner.iza = v;
+    }
+    // @item ctor:njoy_outram_park_fork::covr::GroupStructure
+    #[new]
+    pub fn __new__(ixmax: usize, boundaries: Vec<f64>, iverf: i32, iza: i32) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::covr::GroupStructure {
+                ixmax: ixmax,
+                boundaries: boundaries.into_iter().map(|e| e).collect::<Vec<_>>(),
+                iverf: iverf,
+                iza: iza,
             },
         }
     }
@@ -2891,6 +3241,86 @@ impl Py_njoy_outram_park_fork__covr__MatrixOutputType {
             ::njoy_outram_park_fork::covr::MatrixOutputType::Covariances => "Covariances",
             ::njoy_outram_park_fork::covr::MatrixOutputType::Correlations => "Correlations",
             _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::covr::PairReport
+#[doc = "What happened to one `(mat,mt,mat1,mt1)` pair."]
+#[pyclass(name = "PairReport", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__covr__PairReport {
+    pub inner: ::njoy_outram_park_fork::covr::PairReport,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__covr__PairReport {
+    // @item field:njoy_outram_park_fork::covr::PairReport::mat
+    #[getter(mat)]
+    pub fn get_mat(&self) -> i32 {
+        let v = self.inner.mat.clone();
+        v
+    }
+    #[setter(mat)]
+    pub fn set_mat(&mut self, v: i32) {
+        self.inner.mat = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::PairReport::mt
+    #[getter(mt)]
+    pub fn get_mt(&self) -> i32 {
+        let v = self.inner.mt.clone();
+        v
+    }
+    #[setter(mt)]
+    pub fn set_mt(&mut self, v: i32) {
+        self.inner.mt = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::PairReport::mat1
+    #[getter(mat1)]
+    pub fn get_mat1(&self) -> i32 {
+        let v = self.inner.mat1.clone();
+        v
+    }
+    #[setter(mat1)]
+    pub fn set_mat1(&mut self, v: i32) {
+        self.inner.mat1 = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::PairReport::mt1
+    #[getter(mt1)]
+    pub fn get_mt1(&self) -> i32 {
+        let v = self.inner.mt1.clone();
+        v
+    }
+    #[setter(mt1)]
+    pub fn set_mt1(&mut self, v: i32) {
+        self.inner.mt1 = v;
+    }
+    // @item field:njoy_outram_park_fork::covr::PairReport::written
+    #[getter(written)]
+    pub fn get_written(&self) -> bool {
+        let v = self.inner.written.clone();
+        v
+    }
+    #[setter(written)]
+    pub fn set_written(&mut self, v: bool) {
+        self.inner.written = v;
+    }
+    // @item ctor:njoy_outram_park_fork::covr::PairReport
+    #[new]
+    pub fn __new__(mat: i32, mt: i32, mat1: i32, mt1: i32, written: bool) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::covr::PairReport {
+                mat: mat,
+                mt: mt,
+                mat1: mat1,
+                mt1: mt1,
+                written: written,
+            },
         }
     }
     pub fn __repr__(&self) -> String {
@@ -3410,6 +3840,96 @@ impl Py_njoy_outram_park_fork__dtfr__DtfrInput {
         Self {
             inner: Default::default(),
         }
+    }
+}
+
+// @item type:njoy_outram_park_fork::dtfr::DtfrTables
+#[doc = "Every table DTFR writes for one material card."]
+#[pyclass(name = "DtfrTables", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__dtfr__DtfrTables {
+    pub inner: ::njoy_outram_park_fork::dtfr::DtfrTables,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__dtfr__DtfrTables {
+    // @item field:njoy_outram_park_fork::dtfr::DtfrTables::neutron
+    #[getter(neutron)]
+    pub fn get_neutron(&self) -> Vec<Py_njoy_outram_park_fork__dtfr__DtfTable> {
+        let v = self.inner.neutron.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__dtfr__DtfTable { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(neutron)]
+    pub fn set_neutron(&mut self, v: Vec<Py_njoy_outram_park_fork__dtfr__DtfTable>) {
+        self.inner.neutron = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::dtfr::DtfrTables::ilmax
+    #[getter(ilmax)]
+    pub fn get_ilmax(&self) -> i32 {
+        let v = self.inner.ilmax.clone();
+        v
+    }
+    #[setter(ilmax)]
+    pub fn set_ilmax(&mut self, v: i32) {
+        self.inner.ilmax = v;
+    }
+    // @item field:njoy_outram_park_fork::dtfr::DtfrTables::photon
+    #[getter(photon)]
+    pub fn get_photon(&self) -> Vec<Py_njoy_outram_park_fork__dtfr__PhotonTable> {
+        let v = self.inner.photon.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__dtfr__PhotonTable { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(photon)]
+    pub fn set_photon(&mut self, v: Vec<Py_njoy_outram_park_fork__dtfr__PhotonTable>) {
+        self.inner.photon = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::dtfr::DtfrTables::ipmax
+    #[getter(ipmax)]
+    pub fn get_ipmax(&self) -> i32 {
+        let v = self.inner.ipmax.clone();
+        v
+    }
+    #[setter(ipmax)]
+    pub fn set_ipmax(&mut self, v: i32) {
+        self.inner.ipmax = v;
+    }
+    // @item field:njoy_outram_park_fork::dtfr::DtfrTables::has_fission
+    #[getter(has_fission)]
+    pub fn get_has_fission(&self) -> bool {
+        let v = self.inner.has_fission.clone();
+        v
+    }
+    #[setter(has_fission)]
+    pub fn set_has_fission(&mut self, v: bool) {
+        self.inner.has_fission = v;
+    }
+    // @item ctor:njoy_outram_park_fork::dtfr::DtfrTables
+    #[new]
+    pub fn __new__(
+        neutron: Vec<Py_njoy_outram_park_fork__dtfr__DtfTable>,
+        ilmax: i32,
+        photon: Vec<Py_njoy_outram_park_fork__dtfr__PhotonTable>,
+        ipmax: i32,
+        has_fission: bool,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::dtfr::DtfrTables {
+                neutron: neutron.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                ilmax: ilmax,
+                photon: photon.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                ipmax: ipmax,
+                has_fission: has_fission,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
     }
 }
 
@@ -3980,6 +4500,69 @@ impl Py_njoy_outram_park_fork__dtfr__NeutronTables {
                 itabl: itabl,
                 ned: ned,
                 ntherm: ntherm,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::dtfr::PhotonTable
+#[doc = "A photon-production table: `sig(igp + ngp*(jg-1))`, DTF photon group\n`igp` (1 = highest energy) by DTF neutron group `jg` (`:538-551`)."]
+#[pyclass(name = "PhotonTable", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__dtfr__PhotonTable {
+    pub inner: ::njoy_outram_park_fork::dtfr::PhotonTable,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__dtfr__PhotonTable {
+    // @item field:njoy_outram_park_fork::dtfr::PhotonTable::ng
+    #[getter(ng)]
+    pub fn get_ng(&self) -> i32 {
+        let v = self.inner.ng.clone();
+        v
+    }
+    #[setter(ng)]
+    pub fn set_ng(&mut self, v: i32) {
+        self.inner.ng = v;
+    }
+    // @item field:njoy_outram_park_fork::dtfr::PhotonTable::ngp
+    #[getter(ngp)]
+    pub fn get_ngp(&self) -> i32 {
+        let v = self.inner.ngp.clone();
+        v
+    }
+    #[setter(ngp)]
+    pub fn set_ngp(&mut self, v: i32) {
+        self.inner.ngp = v;
+    }
+    // @item field:njoy_outram_park_fork::dtfr::PhotonTable::sig
+    #[getter(sig)]
+    pub fn get_sig(&self) -> Vec<f64> {
+        let v = self.inner.sig.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(sig)]
+    pub fn set_sig(&mut self, v: Vec<f64>) {
+        self.inner.sig = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::dtfr::PhotonTable::get
+    #[doc = ""]
+    pub fn get(&self, igp: i32, jg: i32) -> f64 {
+        ::njoy_outram_park_fork::dtfr::PhotonTable::get(&self.inner, igp, jg)
+    }
+    // @item ctor:njoy_outram_park_fork::dtfr::PhotonTable
+    #[new]
+    pub fn __new__(ng: i32, ngp: i32, sig: Vec<f64>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::dtfr::PhotonTable {
+                ng: ng,
+                ngp: ngp,
+                sig: sig.into_iter().map(|e| e).collect::<Vec<_>>(),
             },
         }
     }
@@ -4651,6 +5234,20 @@ impl Py_njoy_outram_park_fork__endf__Tape {
             ),
         }
     }
+    // @item method:njoy_outram_park_fork::endf::Tape::copy_raw_mf32_from
+    #[doc = "Carry another tape's raw MF=32 text over (a tape rebuilt with\n[`Tape::from_sections`] from `other`'s sections — `errorr::covadd`)."]
+    pub fn copy_raw_mf32_from(
+        &mut self,
+        other: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    ) -> () {
+        ::njoy_outram_park_fork::endf::Tape::copy_raw_mf32_from(&mut self.inner, &other.inner)
+    }
+    // @item method:njoy_outram_park_fork::endf::Tape::raw_mf32_lines
+    #[doc = "The raw text (columns 1-66) of an MF=32 section's data rows, one\nstring per row of [`Section::rows`] — `None` for a tape not read\nfrom text, or a section that is not MF=32."]
+    pub fn raw_mf32_lines(&self, mat: i32, mt: i32) -> Option<Vec<String>> {
+        ::njoy_outram_park_fork::endf::Tape::raw_mf32_lines(&self.inner, mat, mt)
+            .map(|e| e.clone().iter().cloned().map(|e| e).collect::<Vec<_>>())
+    }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
     }
@@ -4776,6 +5373,161 @@ impl Py_njoy_outram_park_fork__endf__parse__RawLine {
     #[setter(mt)]
     pub fn set_mt(&mut self, v: i32) {
         self.inner.mt = v;
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::CoarseCovariance
+#[doc = "One output covariance matrix `(MT, MAT1/MT1)` in the user group\nstructure (`covout`, `errorr.f90:7413-7526`)."]
+#[pyclass(
+    name = "CoarseCovariance",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__CoarseCovariance {
+    pub inner: ::njoy_outram_park_fork::errorr::CoarseCovariance,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__CoarseCovariance {
+    // @item field:njoy_outram_park_fork::errorr::CoarseCovariance::mt
+    #[getter(mt)]
+    pub fn get_mt(&self) -> i32 {
+        let v = self.inner.mt.clone();
+        v
+    }
+    #[setter(mt)]
+    pub fn set_mt(&mut self, v: i32) {
+        self.inner.mt = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::CoarseCovariance::mat1
+    #[getter(mat1)]
+    pub fn get_mat1(&self) -> i32 {
+        let v = self.inner.mat1.clone();
+        v
+    }
+    #[setter(mat1)]
+    pub fn set_mat1(&mut self, v: i32) {
+        self.inner.mat1 = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::CoarseCovariance::mt1
+    #[getter(mt1)]
+    pub fn get_mt1(&self) -> i32 {
+        let v = self.inner.mt1.clone();
+        v
+    }
+    #[setter(mt1)]
+    pub fn set_mt1(&mut self, v: i32) {
+        self.inner.mt1 = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::CoarseCovariance::ngn
+    #[getter(ngn)]
+    pub fn get_ngn(&self) -> usize {
+        let v = self.inner.ngn.clone();
+        v
+    }
+    #[setter(ngn)]
+    pub fn set_ngn(&mut self, v: usize) {
+        self.inner.ngn = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::CoarseCovariance::values
+    #[getter(values)]
+    pub fn get_values(&self) -> Vec<f64> {
+        let v = self.inner.values.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(values)]
+    pub fn set_values(&mut self, v: Vec<f64>) {
+        self.inner.values = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::CoarseCovariance::nonzero
+    #[getter(nonzero)]
+    pub fn get_nonzero(&self) -> bool {
+        let v = self.inner.nonzero.clone();
+        v
+    }
+    #[setter(nonzero)]
+    pub fn set_nonzero(&mut self, v: bool) {
+        self.inner.nonzero = v;
+    }
+    // @item method:njoy_outram_park_fork::errorr::CoarseCovariance::get
+    #[doc = "Element `(ig, igp)`, 0-based."]
+    pub fn get(&self, ig: usize, igp: usize) -> f64 {
+        ::njoy_outram_park_fork::errorr::CoarseCovariance::get(&self.inner, ig, igp)
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::CoarseCovariance
+    #[new]
+    pub fn __new__(
+        mt: i32,
+        mat1: i32,
+        mt1: i32,
+        ngn: usize,
+        values: Vec<f64>,
+        nonzero: bool,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::CoarseCovariance {
+                mt: mt,
+                mat1: mat1,
+                mt1: mt1,
+                ngn: ngn,
+                values: values.into_iter().map(|e| e).collect::<Vec<_>>(),
+                nonzero: nonzero,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::CoarseGroupXs
+#[doc = "Coarse-group cross sections and fluxes (`sigc`, `errorr.f90:7789-7898`)."]
+#[pyclass(name = "CoarseGroupXs", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__CoarseGroupXs {
+    pub inner: ::njoy_outram_park_fork::errorr::CoarseGroupXs,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__CoarseGroupXs {
+    // @item field:njoy_outram_park_fork::errorr::CoarseGroupXs::cflx
+    #[getter(cflx)]
+    pub fn get_cflx(&self) -> Vec<f64> {
+        let v = self.inner.cflx.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(cflx)]
+    pub fn set_cflx(&mut self, v: Vec<f64>) {
+        self.inner.cflx = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::CoarseGroupXs::csig
+    #[getter(csig)]
+    pub fn get_csig(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.csig.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(csig)]
+    pub fn set_csig(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.csig = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::CoarseGroupXs
+    #[new]
+    pub fn __new__(cflx: Vec<f64>, csig: Vec<Vec<f64>>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::CoarseGroupXs {
+                cflx: cflx.into_iter().map(|e| e).collect::<Vec<_>>(),
+                csig: csig
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+            },
+        }
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -5224,6 +5976,457 @@ impl Py_njoy_outram_park_fork__errorr__ErrorrInput {
     }
 }
 
+// @item type:njoy_outram_park_fork::errorr::ErrorrResult
+#[doc = "The complete ERRORR output for one material (what `nout` carries plus\nthe coarse-group bookkeeping the listing prints)."]
+#[pyclass(name = "ErrorrResult", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__ErrorrResult {
+    pub inner: ::njoy_outram_park_fork::errorr::ErrorrResult,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__ErrorrResult {
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::matd
+    #[getter(matd)]
+    pub fn get_matd(&self) -> i32 {
+        let v = self.inner.matd.clone();
+        v
+    }
+    #[setter(matd)]
+    pub fn set_matd(&mut self, v: i32) {
+        self.inner.matd = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::za
+    #[getter(za)]
+    pub fn get_za(&self) -> f64 {
+        let v = self.inner.za.clone();
+        v
+    }
+    #[setter(za)]
+    pub fn set_za(&mut self, v: f64) {
+        self.inner.za = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::awr
+    #[getter(awr)]
+    pub fn get_awr(&self) -> f64 {
+        let v = self.inner.awr.clone();
+        v
+    }
+    #[setter(awr)]
+    pub fn set_awr(&mut self, v: f64) {
+        self.inner.awr = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::iverf
+    #[getter(iverf)]
+    pub fn get_iverf(&self) -> i32 {
+        let v = self.inner.iverf.clone();
+        v
+    }
+    #[setter(iverf)]
+    pub fn set_iverf(&mut self, v: i32) {
+        self.inner.iverf = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::tempin
+    #[getter(tempin)]
+    pub fn get_tempin(&self) -> f64 {
+        let v = self.inner.tempin.clone();
+        v
+    }
+    #[setter(tempin)]
+    pub fn set_tempin(&mut self, v: f64) {
+        self.inner.tempin = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::irelco
+    #[getter(irelco)]
+    pub fn get_irelco(&self) -> i32 {
+        let v = self.inner.irelco.clone();
+        v
+    }
+    #[setter(irelco)]
+    pub fn set_irelco(&mut self, v: i32) {
+        self.inner.irelco = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::egn
+    #[getter(egn)]
+    pub fn get_egn(&self) -> Vec<f64> {
+        let v = self.inner.egn.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(egn)]
+    pub fn set_egn(&mut self, v: Vec<f64>) {
+        self.inner.egn = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::un
+    #[getter(un)]
+    pub fn get_un(&self) -> Vec<f64> {
+        let v = self.inner.un.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(un)]
+    pub fn set_un(&mut self, v: Vec<f64>) {
+        self.inner.un = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::reactions
+    #[getter(reactions)]
+    pub fn get_reactions(&self) -> Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions {
+        let v = self.inner.reactions.clone();
+        Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions { inner: v }
+    }
+    #[setter(reactions)]
+    pub fn set_reactions(
+        &mut self,
+        v: Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions,
+    ) {
+        self.inner.reactions = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::derived
+    #[getter(derived)]
+    pub fn get_derived(&self) -> Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients {
+        let v = self.inner.derived.clone();
+        Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients { inner: v }
+    }
+    #[setter(derived)]
+    pub fn set_derived(&mut self, v: Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients) {
+        self.inner.derived = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::coarse
+    #[getter(coarse)]
+    pub fn get_coarse(&self) -> Py_njoy_outram_park_fork__errorr__CoarseGroupXs {
+        let v = self.inner.coarse.clone();
+        Py_njoy_outram_park_fork__errorr__CoarseGroupXs { inner: v }
+    }
+    #[setter(coarse)]
+    pub fn set_coarse(&mut self, v: Py_njoy_outram_park_fork__errorr__CoarseGroupXs) {
+        self.inner.coarse = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::blocks
+    #[getter(blocks)]
+    pub fn get_blocks(&self) -> Vec<Py_njoy_outram_park_fork__errorr__CoarseCovariance> {
+        let v = self.inner.blocks.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__errorr__CoarseCovariance { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(blocks)]
+    pub fn set_blocks(&mut self, v: Vec<Py_njoy_outram_park_fork__errorr__CoarseCovariance>) {
+        self.inner.blocks = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::messages
+    #[getter(messages)]
+    pub fn get_messages(&self) -> Vec<String> {
+        let v = self.inner.messages.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(messages)]
+    pub fn set_messages(&mut self, v: Vec<String>) {
+        self.inner.messages = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ErrorrResult::resonance
+    #[getter(resonance)]
+    pub fn get_resonance(&self) -> Option<Py_njoy_outram_park_fork__errorr__ResonanceCovariance> {
+        let v = self.inner.resonance.clone();
+        v.map(|e| Py_njoy_outram_park_fork__errorr__ResonanceCovariance { inner: e })
+    }
+    #[setter(resonance)]
+    pub fn set_resonance(
+        &mut self,
+        v: Option<Py_njoy_outram_park_fork__errorr__ResonanceCovariance>,
+    ) {
+        self.inner.resonance = v.map(|e| e.inner);
+    }
+    // @item method:njoy_outram_park_fork::errorr::ErrorrResult::ngn
+    #[doc = "`ngn`."]
+    pub fn ngn(&self) -> usize {
+        ::njoy_outram_park_fork::errorr::ErrorrResult::ngn(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::errorr::ErrorrResult::covariance
+    #[doc = "The matrix for `(mt, mt1)` of this material (either ordering)."]
+    pub fn covariance(
+        &self,
+        mt: i32,
+        mt1: i32,
+    ) -> Option<Py_njoy_outram_park_fork__errorr__CoarseCovariance> {
+        ::njoy_outram_park_fork::errorr::ErrorrResult::covariance(&self.inner, mt, mt1)
+            .map(|e| Py_njoy_outram_park_fork__errorr__CoarseCovariance { inner: e.clone() })
+    }
+    // @item method:njoy_outram_park_fork::errorr::ErrorrResult::to_tape
+    #[doc = "Lay the result out as an ENDF-format covariance tape exactly as\n`sigc`/`covout` write `nout` (`errorr.f90:7812-7838, 7891-7898,\n7280-7317, 7413-7431, 7488-7526`)."]
+    pub fn to_tape(&self) -> Py_njoy_outram_park_fork__endf__Tape {
+        Py_njoy_outram_park_fork__endf__Tape {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrResult::to_tape(&self.inner),
+        }
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::ErrorrResult
+    #[new]
+    pub fn __new__(
+        matd: i32,
+        za: f64,
+        awr: f64,
+        iverf: i32,
+        tempin: f64,
+        irelco: i32,
+        egn: Vec<f64>,
+        un: Vec<f64>,
+        reactions: Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions,
+        derived: Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients,
+        coarse: Py_njoy_outram_park_fork__errorr__CoarseGroupXs,
+        blocks: Vec<Py_njoy_outram_park_fork__errorr__CoarseCovariance>,
+        messages: Vec<String>,
+        resonance: Option<Py_njoy_outram_park_fork__errorr__ResonanceCovariance>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrResult {
+                matd: matd,
+                za: za,
+                awr: awr,
+                iverf: iverf,
+                tempin: tempin,
+                irelco: irelco,
+                egn: egn.into_iter().map(|e| e).collect::<Vec<_>>(),
+                un: un.into_iter().map(|e| e).collect::<Vec<_>>(),
+                reactions: reactions.inner,
+                derived: derived.inner,
+                coarse: coarse.inner,
+                blocks: blocks.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                messages: messages.into_iter().map(|e| e).collect::<Vec<_>>(),
+                resonance: resonance.map(|e| e.inner),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::ErrorrWeight
+#[doc = "A weight-function selection (`egnwtf`, `errorr.f90:9809-10021`)."]
+#[pyclass(name = "ErrorrWeight", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__ErrorrWeight {
+    pub inner: ::njoy_outram_park_fork::errorr::ErrorrWeight,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__ErrorrWeight {
+    // @item method:njoy_outram_park_fork::errorr::ErrorrWeight::from_iwt
+    #[doc = "Build the weight for `iwt` (`egnwtf`).\n\n`tab1` supplies the read-in TAB1 for `iwt = 1` (card 13); `analytic`\nsupplies `(eb, tb, ec, tc)` for `iwt = 4` (card 13b). Both are\nignored for the other options.\n\n# Errors\n[`NjoyError::EndfParse`] for an illegal `iwt`, or a missing `tab1` /\n`analytic` when the option needs one."]
+    #[staticmethod]
+    pub fn from_iwt(
+        iwt: i32,
+        tab1: Option<Vec<f64>>,
+        analytic: Option<(f64, f64, f64, f64)>,
+    ) -> PyResult<Py_njoy_outram_park_fork__errorr__ErrorrWeight> {
+        err(::njoy_outram_park_fork::errorr::ErrorrWeight::from_iwt(
+            iwt,
+            tab1.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()),
+            analytic.map(|e| {
+                let (e0, e1, e2, e3) = e;
+                (e0, e1, e2, e3)
+            }),
+        ))
+        .map(|v| Py_njoy_outram_park_fork__errorr__ErrorrWeight { inner: v })
+    }
+    // @item variant:njoy_outram_park_fork::errorr::ErrorrWeight::Tabulated
+    #[staticmethod]
+    #[pyo3(name = "Tabulated")]
+    pub fn v_Tabulated(a0: Vec<f64>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrWeight::Tabulated(
+                a0.into_iter().map(|e| e).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item variant:njoy_outram_park_fork::errorr::ErrorrWeight::Constant
+    #[staticmethod]
+    #[pyo3(name = "Constant")]
+    pub fn v_Constant() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrWeight::Constant,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::errorr::ErrorrWeight::OneOverE
+    #[staticmethod]
+    #[pyo3(name = "OneOverE")]
+    pub fn v_OneOverE() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrWeight::OneOverE,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::errorr::ErrorrWeight::ThermalOneOverEFission
+    #[staticmethod]
+    #[pyo3(name = "ThermalOneOverEFission")]
+    pub fn v_ThermalOneOverEFission(eb: f64, tb: f64, ab: f64, ec: f64, tc: f64, ac: f64) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrWeight::ThermalOneOverEFission {
+                eb: eb,
+                tb: tb,
+                ab: ab,
+                ec: ec,
+                tc: tc,
+                ac: ac,
+            },
+        }
+    }
+    // @item variant:njoy_outram_park_fork::errorr::ErrorrWeight::ThermalFissionFusion
+    #[staticmethod]
+    #[pyo3(name = "ThermalFissionFusion")]
+    pub fn v_ThermalFissionFusion(t_dependent: bool) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrWeight::ThermalFissionFusion {
+                t_dependent: t_dependent,
+            },
+        }
+    }
+    // @item variant:njoy_outram_park_fork::errorr::ErrorrWeight::ClawTDependent
+    #[staticmethod]
+    #[pyo3(name = "ClawTDependent")]
+    pub fn v_ClawTDependent(a0: Vec<f64>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrWeight::ClawTDependent(
+                a0.into_iter().map(|e| e).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item variant:njoy_outram_park_fork::errorr::ErrorrWeight::VitaminE
+    #[staticmethod]
+    #[pyo3(name = "VitaminE")]
+    pub fn v_VitaminE(t_dependent: bool) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::ErrorrWeight::VitaminE {
+                t_dependent: t_dependent,
+            },
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::njoy_outram_park_fork::errorr::ErrorrWeight::Tabulated(..) => "Tabulated",
+            ::njoy_outram_park_fork::errorr::ErrorrWeight::Constant => "Constant",
+            ::njoy_outram_park_fork::errorr::ErrorrWeight::OneOverE => "OneOverE",
+            ::njoy_outram_park_fork::errorr::ErrorrWeight::ThermalOneOverEFission { .. } => {
+                "ThermalOneOverEFission"
+            }
+            ::njoy_outram_park_fork::errorr::ErrorrWeight::ThermalFissionFusion { .. } => {
+                "ThermalFissionFusion"
+            }
+            ::njoy_outram_park_fork::errorr::ErrorrWeight::ClawTDependent(..) => "ClawTDependent",
+            ::njoy_outram_park_fork::errorr::ErrorrWeight::VitaminE { .. } => "VitaminE",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::Mf33Config
+#[doc = "Input for [`run_mf33`] — the subset of the ERRORR deck this path uses."]
+#[pyclass(name = "Mf33Config", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__Mf33Config {
+    pub inner: ::njoy_outram_park_fork::errorr::Mf33Config,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__Mf33Config {
+    // @item field:njoy_outram_park_fork::errorr::Mf33Config::matd
+    #[getter(matd)]
+    pub fn get_matd(&self) -> i32 {
+        let v = self.inner.matd.clone();
+        v
+    }
+    #[setter(matd)]
+    pub fn set_matd(&mut self, v: i32) {
+        self.inner.matd = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::Mf33Config::ign
+    #[getter(ign)]
+    pub fn get_ign(&self) -> i32 {
+        let v = self.inner.ign.clone();
+        v
+    }
+    #[setter(ign)]
+    pub fn set_ign(&mut self, v: i32) {
+        self.inner.ign = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::Mf33Config::user_egn
+    #[getter(user_egn)]
+    pub fn get_user_egn(&self) -> Option<Vec<f64>> {
+        let v = self.inner.user_egn.clone();
+        v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+    }
+    #[setter(user_egn)]
+    pub fn set_user_egn(&mut self, v: Option<Vec<f64>>) {
+        self.inner.user_egn = v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>());
+    }
+    // @item field:njoy_outram_park_fork::errorr::Mf33Config::weight
+    #[getter(weight)]
+    pub fn get_weight(&self) -> Py_njoy_outram_park_fork__errorr__ErrorrWeight {
+        let v = self.inner.weight.clone();
+        Py_njoy_outram_park_fork__errorr__ErrorrWeight { inner: v }
+    }
+    #[setter(weight)]
+    pub fn set_weight(&mut self, v: Py_njoy_outram_park_fork__errorr__ErrorrWeight) {
+        self.inner.weight = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::errorr::Mf33Config::tempin
+    #[getter(tempin)]
+    pub fn get_tempin(&self) -> f64 {
+        let v = self.inner.tempin.clone();
+        v
+    }
+    #[setter(tempin)]
+    pub fn set_tempin(&mut self, v: f64) {
+        self.inner.tempin = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::Mf33Config::irelco
+    #[getter(irelco)]
+    pub fn get_irelco(&self) -> i32 {
+        let v = self.inner.irelco.clone();
+        v
+    }
+    #[setter(irelco)]
+    pub fn set_irelco(&mut self, v: i32) {
+        self.inner.irelco = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::Mf33Config::dap
+    #[getter(dap)]
+    pub fn get_dap(&self) -> f64 {
+        let v = self.inner.dap.clone();
+        v
+    }
+    #[setter(dap)]
+    pub fn set_dap(&mut self, v: f64) {
+        self.inner.dap = v;
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::Mf33Config
+    #[new]
+    pub fn __new__(
+        matd: i32,
+        ign: i32,
+        user_egn: Option<Vec<f64>>,
+        weight: Py_njoy_outram_park_fork__errorr__ErrorrWeight,
+        tempin: f64,
+        irelco: i32,
+        dap: f64,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::Mf33Config {
+                matd: matd,
+                ign: ign,
+                user_egn: user_egn.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()),
+                weight: weight.inner,
+                tempin: tempin,
+                irelco: irelco,
+                dap: dap,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:njoy_outram_park_fork::errorr::NcSubsection
 #[doc = "An `NC`-type sub-subsection (`errorr.f90:2014-2030`): expresses this\nsubsection's covariance via a combination involving other reactions,\nselected by `LTY`.\n\n`LTY` values (ENDF-6 Formats Manual §File 33; `covcal`'s own dispatch is at\n`errorr.f90:2106-2124`, routed through `subroutine stand`,\n`errorr.f90:2939-3009`, for `LTY` 1..=3):\n- `0`: the reaction is the explicit sum of other reactions, each with a\n  coefficient — the common \"this MT is the sum of its components\" case\n  (confirmed against the real U-235 tape's MF=33/MT=1 section: `LTY=0`,\n  9 `(coefficient=1.0, MT)` pairs summing MT=1 from its partials).\n- `1`: derived via a linear combination with a third reaction.\n- `2`: derived as the ratio to a standard reaction.\n- `3`: derived by removing the average value of a standard reaction.\n\n**This reader does not interpret `lty` or decode `list.data`'s pair\nlayout** — that is `covcal`'s group-average stage\n(`errorr.f90:2106-2124`), which needs the union energy grid and is not yet\nported. `list.data` is the raw flat array exactly as `listio`/`moreio`\nread it (`errorr.f90:2019-2022`); `list.head.c1`/`c2` are the `E1`/`E2`\nenergy-window bounds in **eV**."]
 #[pyclass(name = "NcSubsection", module = "outram_park.njoy_outram_park_fork")]
@@ -5323,6 +6526,269 @@ impl Py_njoy_outram_park_fork__errorr__NiSubsection {
     }
 }
 
+// @item type:njoy_outram_park_fork::errorr::ResonanceCovariance
+#[doc = "The MF=32 contribution accumulators (`errorr.f90:7084-7099`), plus the\nflags `rescon` keys on."]
+#[pyclass(
+    name = "ResonanceCovariance",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__ResonanceCovariance {
+    pub inner: ::njoy_outram_park_fork::errorr::ResonanceCovariance,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__ResonanceCovariance {
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ngn
+    #[getter(ngn)]
+    pub fn get_ngn(&self) -> usize {
+        let v = self.inner.ngn.clone();
+        v
+    }
+    #[setter(ngn)]
+    pub fn set_ngn(&mut self, v: usize) {
+        self.inner.ngn = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::cff
+    #[getter(cff)]
+    pub fn get_cff(&self) -> Vec<f64> {
+        let v = self.inner.cff.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(cff)]
+    pub fn set_cff(&mut self, v: Vec<f64>) {
+        self.inner.cff = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::cgg
+    #[getter(cgg)]
+    pub fn get_cgg(&self) -> Vec<f64> {
+        let v = self.inner.cgg.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(cgg)]
+    pub fn set_cgg(&mut self, v: Vec<f64>) {
+        self.inner.cgg = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::cee
+    #[getter(cee)]
+    pub fn get_cee(&self) -> Vec<f64> {
+        let v = self.inner.cee.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(cee)]
+    pub fn set_cee(&mut self, v: Vec<f64>) {
+        self.inner.cee = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ctt
+    #[getter(ctt)]
+    pub fn get_ctt(&self) -> Vec<f64> {
+        let v = self.inner.ctt.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(ctt)]
+    pub fn set_ctt(&mut self, v: Vec<f64>) {
+        self.inner.ctt = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::cfg
+    #[getter(cfg)]
+    pub fn get_cfg(&self) -> Vec<f64> {
+        let v = self.inner.cfg.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(cfg)]
+    pub fn set_cfg(&mut self, v: Vec<f64>) {
+        self.inner.cfg = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::cef
+    #[getter(cef)]
+    pub fn get_cef(&self) -> Vec<f64> {
+        let v = self.inner.cef.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(cef)]
+    pub fn set_cef(&mut self, v: Vec<f64>) {
+        self.inner.cef = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ceg
+    #[getter(ceg)]
+    pub fn get_ceg(&self) -> Vec<f64> {
+        let v = self.inner.ceg.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(ceg)]
+    pub fn set_ceg(&mut self, v: Vec<f64>) {
+        self.inner.ceg = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::uff
+    #[getter(uff)]
+    pub fn get_uff(&self) -> Vec<f64> {
+        let v = self.inner.uff.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(uff)]
+    pub fn set_uff(&mut self, v: Vec<f64>) {
+        self.inner.uff = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ugg
+    #[getter(ugg)]
+    pub fn get_ugg(&self) -> Vec<f64> {
+        let v = self.inner.ugg.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(ugg)]
+    pub fn set_ugg(&mut self, v: Vec<f64>) {
+        self.inner.ugg = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::uee
+    #[getter(uee)]
+    pub fn get_uee(&self) -> Vec<f64> {
+        let v = self.inner.uee.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(uee)]
+    pub fn set_uee(&mut self, v: Vec<f64>) {
+        self.inner.uee = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::utt
+    #[getter(utt)]
+    pub fn get_utt(&self) -> Vec<f64> {
+        let v = self.inner.utt.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(utt)]
+    pub fn set_utt(&mut self, v: Vec<f64>) {
+        self.inner.utt = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ufg
+    #[getter(ufg)]
+    pub fn get_ufg(&self) -> Vec<f64> {
+        let v = self.inner.ufg.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(ufg)]
+    pub fn set_ufg(&mut self, v: Vec<f64>) {
+        self.inner.ufg = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::uef
+    #[getter(uef)]
+    pub fn get_uef(&self) -> Vec<f64> {
+        let v = self.inner.uef.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(uef)]
+    pub fn set_uef(&mut self, v: Vec<f64>) {
+        self.inner.uef = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ueg
+    #[getter(ueg)]
+    pub fn get_ueg(&self) -> Vec<f64> {
+        let v = self.inner.ueg.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(ueg)]
+    pub fn set_ueg(&mut self, v: Vec<f64>) {
+        self.inner.ueg = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::nresg
+    #[getter(nresg)]
+    pub fn get_nresg(&self) -> usize {
+        let v = self.inner.nresg.clone();
+        v
+    }
+    #[setter(nresg)]
+    pub fn set_nresg(&mut self, v: usize) {
+        self.inner.nresg = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ifresr
+    #[getter(ifresr)]
+    pub fn get_ifresr(&self) -> bool {
+        let v = self.inner.ifresr.clone();
+        v
+    }
+    #[setter(ifresr)]
+    pub fn set_ifresr(&mut self, v: bool) {
+        self.inner.ifresr = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::ifunrs
+    #[getter(ifunrs)]
+    pub fn get_ifunrs(&self) -> bool {
+        let v = self.inner.ifunrs.clone();
+        v
+    }
+    #[setter(ifunrs)]
+    pub fn set_ifunrs(&mut self, v: bool) {
+        self.inner.ifunrs = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::sammy
+    #[getter(sammy)]
+    pub fn get_sammy(&self) -> bool {
+        let v = self.inner.sammy.clone();
+        v
+    }
+    #[setter(sammy)]
+    pub fn set_sammy(&mut self, v: bool) {
+        self.inner.sammy = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::crr
+    #[getter(crr)]
+    pub fn get_crr(&self) -> Vec<f64> {
+        let v = self.inner.crr.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(crr)]
+    pub fn set_crr(&mut self, v: Vec<f64>) {
+        self.inner.crr = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::nmt
+    #[getter(nmt)]
+    pub fn get_nmt(&self) -> usize {
+        let v = self.inner.nmt.clone();
+        v
+    }
+    #[setter(nmt)]
+    pub fn set_nmt(&mut self, v: usize) {
+        self.inner.nmt = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::ResonanceCovariance::messages
+    #[getter(messages)]
+    pub fn get_messages(&self) -> Vec<String> {
+        let v = self.inner.messages.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(messages)]
+    pub fn set_messages(&mut self, v: Vec<String>) {
+        self.inner.messages = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::errorr::ResonanceCovariance::new
+    #[doc = "All-zero accumulators for `ngn` groups (`resprx`, `errorr.f90:3042-3061`)."]
+    #[new]
+    pub fn new(ngn: usize) -> Py_njoy_outram_park_fork__errorr__ResonanceCovariance {
+        Py_njoy_outram_park_fork__errorr__ResonanceCovariance {
+            inner: ::njoy_outram_park_fork::errorr::ResonanceCovariance::new(ngn),
+        }
+    }
+    // @item method:njoy_outram_park_fork::errorr::ResonanceCovariance::packed
+    #[doc = "Packed index of `(ig, ig2)`, both 1-based with `ig <= ig2`\n(`ngn*(ig-1) - (ig-1)*(ig-2)/2 + (ig2-ig)`)."]
+    pub fn packed(&self, ig: usize, ig2: usize) -> usize {
+        ::njoy_outram_park_fork::errorr::ResonanceCovariance::packed(&self.inner, ig, ig2)
+    }
+    // @item method:njoy_outram_park_fork::errorr::ResonanceCovariance::diagonal
+    #[doc = "The \"resolved\"/\"unresolve\" column the listing prints for group\n`ig`, divided by `cflx(ig)²` (`covout`, `errorr.f90:7660-7710`; for\n`irelco = 1` the listing then divides by `csig(ig,ix) csig(ig,ixp)`,\nl.7712-7721). **Upstream quirk kept:** the listing addresses every\naccumulator with the packed-triangle index\n`ngn(ig-1) - (ig-1)(ig-2)/2 + 1` (l.7673), which is the diagonal of\nthe packed `c**` arrays but an off-diagonal element of the *square*\ncross-term arrays `cef`/`ceg`/`cfg` — so the printed \"ef\"/\"eg\"/\"fg\"\nrows are not the true diagonals. The NJOY listing is the oracle for\nthis function (`tests/errorr_mf32_j33u238_lrf3_golden.rs` pins the\ncross-term rows), so it reproduces the quirk.\n`which` is `\"tt\"`, `\"ee\"`, `\"eg\"`, `\"ef\"`, `\"ff\"`, `\"fg\"` or\n`\"gg\"`; `unresolved` selects the `u**` set."]
+    pub fn diagonal(&self, which: String, unresolved: bool, cflx: Vec<f64>) -> Vec<f64> {
+        ::njoy_outram_park_fork::errorr::ResonanceCovariance::diagonal(
+            &self.inner,
+            &which,
+            unresolved,
+            &cflx.into_iter().map(|e| e).collect::<Vec<_>>(),
+        )
+        .into_iter()
+        .map(|e| e)
+        .collect::<Vec<_>>()
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:njoy_outram_park_fork::errorr::SubsectionFormat
 #[doc = "Which ENDF format era a tape's covariance sections were written in.\n\nNJOY's `covcal` only reads the extra CONT record that carries `LTY` ahead\nof each NC-type sub-subsection when `iverf > 4` (`errorr.f90:2017-2018`);\nENDF/B-IV tapes (`iverf == 4`) never carry that record and use a different\ntop-level `NL` field position. `iverf` is determined once per material from\nits MF=1/MT=451 header (`errorr.f90:456-466`), not from the MF=31/33\nsection itself — see [`detect_endf_version`]."]
 #[pyclass(
@@ -5364,6 +6830,218 @@ impl Py_njoy_outram_park_fork__errorr__SubsectionFormat {
     }
     pub fn __eq__(&self, other: &Self) -> bool {
         self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::covcal::FineBlock
+#[doc = "One `(MT, MAT1, MT1)` covariance matrix on the union grid, as the rows\n`covcal` writes to `nscr1` (`errorr.f90:2277-2311`)."]
+#[pyclass(name = "FineBlock", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__covcal__FineBlock {
+    pub inner: ::njoy_outram_park_fork::errorr::covcal::FineBlock,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__covcal__FineBlock {
+    // @item field:njoy_outram_park_fork::errorr::covcal::FineBlock::mt
+    #[getter(mt)]
+    pub fn get_mt(&self) -> i32 {
+        let v = self.inner.mt.clone();
+        v
+    }
+    #[setter(mt)]
+    pub fn set_mt(&mut self, v: i32) {
+        self.inner.mt = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::FineBlock::mat1
+    #[getter(mat1)]
+    pub fn get_mat1(&self) -> i32 {
+        let v = self.inner.mat1.clone();
+        v
+    }
+    #[setter(mat1)]
+    pub fn set_mat1(&mut self, v: i32) {
+        self.inner.mat1 = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::FineBlock::mt1
+    #[getter(mt1)]
+    pub fn get_mt1(&self) -> i32 {
+        let v = self.inner.mt1.clone();
+        v
+    }
+    #[setter(mt1)]
+    pub fn set_mt1(&mut self, v: i32) {
+        self.inner.mt1 = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::FineBlock::rows
+    #[getter(rows)]
+    pub fn get_rows(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.rows.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(rows)]
+    pub fn set_rows(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.rows = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::covcal::FineBlock
+    #[new]
+    pub fn __new__(mt: i32, mat1: i32, mt1: i32, rows: Vec<Vec<f64>>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::covcal::FineBlock {
+                mt: mt,
+                mat1: mat1,
+                mt1: mt1,
+                rows: rows
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::covcal::FineCovariance
+#[doc = "Every fine-group covariance block, in tape order."]
+#[pyclass(name = "FineCovariance", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__covcal__FineCovariance {
+    pub inner: ::njoy_outram_park_fork::errorr::covcal::FineCovariance,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__covcal__FineCovariance {
+    // @item field:njoy_outram_park_fork::errorr::covcal::FineCovariance::nunion
+    #[getter(nunion)]
+    pub fn get_nunion(&self) -> usize {
+        let v = self.inner.nunion.clone();
+        v
+    }
+    #[setter(nunion)]
+    pub fn set_nunion(&mut self, v: usize) {
+        self.inner.nunion = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::FineCovariance::nmts
+    #[getter(nmts)]
+    pub fn get_nmts(&self) -> usize {
+        let v = self.inner.nmts.clone();
+        v
+    }
+    #[setter(nmts)]
+    pub fn set_nmts(&mut self, v: usize) {
+        self.inner.nmts = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::FineCovariance::blocks
+    #[getter(blocks)]
+    pub fn get_blocks(&self) -> Vec<Py_njoy_outram_park_fork__errorr__covcal__FineBlock> {
+        let v = self.inner.blocks.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__errorr__covcal__FineBlock { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(blocks)]
+    pub fn set_blocks(&mut self, v: Vec<Py_njoy_outram_park_fork__errorr__covcal__FineBlock>) {
+        self.inner.blocks = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::errorr::covcal::FineCovariance::block
+    #[doc = "Find the block for `(mt, mat1, mt1)`."]
+    pub fn block(
+        &self,
+        mt: i32,
+        mat1: i32,
+        mt1: i32,
+    ) -> Option<Py_njoy_outram_park_fork__errorr__covcal__FineBlock> {
+        ::njoy_outram_park_fork::errorr::covcal::FineCovariance::block(&self.inner, mt, mat1, mt1)
+            .map(|e| Py_njoy_outram_park_fork__errorr__covcal__FineBlock { inner: e.clone() })
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::covcal::FineCovariance
+    #[new]
+    pub fn __new__(
+        nunion: usize,
+        nmts: usize,
+        blocks: Vec<Py_njoy_outram_park_fork__errorr__covcal__FineBlock>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::covcal::FineCovariance {
+                nunion: nunion,
+                nmts: nmts,
+                blocks: blocks.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::covcal::NiRecord
+#[doc = "One NI-type sub-subsection as `covcal` stages it (`scr(loc(i)..)`,\n`errorr.f90:2062-2077`)."]
+#[pyclass(name = "NiRecord", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__covcal__NiRecord {
+    pub inner: ::njoy_outram_park_fork::errorr::covcal::NiRecord,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__covcal__NiRecord {
+    // @item field:njoy_outram_park_fork::errorr::covcal::NiRecord::lt
+    #[getter(lt)]
+    pub fn get_lt(&self) -> usize {
+        let v = self.inner.lt.clone();
+        v
+    }
+    #[setter(lt)]
+    pub fn set_lt(&mut self, v: usize) {
+        self.inner.lt = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::NiRecord::lb
+    #[getter(lb)]
+    pub fn get_lb(&self) -> i32 {
+        let v = self.inner.lb.clone();
+        v
+    }
+    #[setter(lb)]
+    pub fn set_lb(&mut self, v: i32) {
+        self.inner.lb = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::NiRecord::np
+    #[getter(np)]
+    pub fn get_np(&self) -> usize {
+        let v = self.inner.np.clone();
+        v
+    }
+    #[setter(np)]
+    pub fn set_np(&mut self, v: usize) {
+        self.inner.np = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::covcal::NiRecord::data
+    #[getter(data)]
+    pub fn get_data(&self) -> Vec<f64> {
+        let v = self.inner.data.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(data)]
+    pub fn set_data(&mut self, v: Vec<f64>) {
+        self.inner.data = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::covcal::NiRecord
+    #[new]
+    pub fn __new__(lt: usize, lb: i32, np: usize, data: Vec<f64>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::covcal::NiRecord {
+                lt: lt,
+                lb: lb,
+                np: np,
+                data: data.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
     }
 }
 
@@ -5954,7 +7632,10 @@ impl Py_njoy_outram_park_fork__errorr__driver__GroupGrid {
 
 // @item type:njoy_outram_park_fork::errorr::driver::GroupStructure
 #[doc = "Neutron group-structure option (`ign`), card 2 (`errorr.f90:191-196`,\n`:306-344`).\n\nSame meaning as GROUPR's `ign`, with the ERRORR-specific addition of `-1`.\nSelects a predefined multigroup boundary set, or a read-in one. Default\n[`GroupStructure::ArbitraryRead`] (`ign==1`).\n\nFor `ign==1` and `ign==-1` the boundaries are read from card 12\n([`GroupGrid`]); all other variants name a built-in structure."]
-#[pyclass(name = "GroupStructure", module = "outram_park.njoy_outram_park_fork")]
+#[pyclass(
+    name = "driver_GroupStructure",
+    module = "outram_park.njoy_outram_park_fork"
+)]
 #[derive(Clone)]
 pub struct Py_njoy_outram_park_fork__errorr__driver__GroupStructure {
     pub inner: ::njoy_outram_park_fork::errorr::driver::GroupStructure,
@@ -6927,6 +8608,1222 @@ impl Py_njoy_outram_park_fork__errorr__driver__WeightOption {
     }
 }
 
+// @item type:njoy_outram_park_fork::errorr::gridd::CovarianceReactions
+#[doc = "The covariance reaction bookkeeping ERRORR builds from the ENDF\ndictionary and MF=33 (`errorr.f90:713-792` + `gridd`)."]
+#[pyclass(
+    name = "CovarianceReactions",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions {
+    pub inner: ::njoy_outram_park_fork::errorr::gridd::CovarianceReactions,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions {
+    // @item field:njoy_outram_park_fork::errorr::gridd::CovarianceReactions::mts
+    #[getter(mts)]
+    pub fn get_mts(&self) -> Vec<i32> {
+        let v = self.inner.mts.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(mts)]
+    pub fn set_mts(&mut self, v: Vec<i32>) {
+        self.inner.mts = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::CovarianceReactions::mats
+    #[getter(mats)]
+    pub fn get_mats(&self) -> Vec<i32> {
+        let v = self.inner.mats.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(mats)]
+    pub fn set_mats(&mut self, v: Vec<i32>) {
+        self.inner.mats = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::CovarianceReactions::mzap
+    #[getter(mzap)]
+    pub fn get_mzap(&self) -> Vec<i32> {
+        let v = self.inner.mzap.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(mzap)]
+    pub fn set_mzap(&mut self, v: Vec<i32>) {
+        self.inner.mzap = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::CovarianceReactions::iga
+    #[getter(iga)]
+    pub fn get_iga(&self) -> Vec<i32> {
+        let v = self.inner.iga.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(iga)]
+    pub fn set_iga(&mut self, v: Vec<i32>) {
+        self.inner.iga = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::CovarianceReactions::lumps
+    #[getter(lumps)]
+    pub fn get_lumps(&self) -> Vec<Py_njoy_outram_park_fork__errorr__gridd__LumpedReaction> {
+        let v = self.inner.lumps.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__errorr__gridd__LumpedReaction { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(lumps)]
+    pub fn set_lumps(&mut self, v: Vec<Py_njoy_outram_park_fork__errorr__gridd__LumpedReaction>) {
+        self.inner.lumps = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::CovarianceReactions::mf32_present
+    #[getter(mf32_present)]
+    pub fn get_mf32_present(&self) -> bool {
+        let v = self.inner.mf32_present.clone();
+        v
+    }
+    #[setter(mf32_present)]
+    pub fn set_mf32_present(&mut self, v: bool) {
+        self.inner.mf32_present = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::CovarianceReactions::mf33_present
+    #[getter(mf33_present)]
+    pub fn get_mf33_present(&self) -> bool {
+        let v = self.inner.mf33_present.clone();
+        v
+    }
+    #[setter(mf33_present)]
+    pub fn set_mf33_present(&mut self, v: bool) {
+        self.inner.mf33_present = v;
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::gridd::CovarianceReactions
+    #[new]
+    #[pyo3(signature = (mts=None, mats=None, mzap=None, iga=None, lumps=None, mf32_present=None, mf33_present=None))]
+    pub fn __new__(
+        mts: Option<Vec<i32>>,
+        mats: Option<Vec<i32>>,
+        mzap: Option<Vec<i32>>,
+        iga: Option<Vec<i32>>,
+        lumps: Option<Vec<Py_njoy_outram_park_fork__errorr__gridd__LumpedReaction>>,
+        mf32_present: Option<bool>,
+        mf33_present: Option<bool>,
+    ) -> Self {
+        let d = <::njoy_outram_park_fork::errorr::gridd::CovarianceReactions as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::gridd::CovarianceReactions {
+                mts: mts
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.mts),
+                mats: mats
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.mats),
+                mzap: mzap
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.mzap),
+                iga: iga
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.iga),
+                lumps: lumps
+                    .map(|v| v.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                    .unwrap_or(d.lumps),
+                mf32_present: mf32_present.map(|v| v).unwrap_or(d.mf32_present),
+                mf33_present: mf33_present.map(|v| v).unwrap_or(d.mf33_present),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::gridd::DerivedCoefficients
+#[doc = "Derived-cross-section coefficients `akxy(iy, ix, k)` over the derivation\nenergy ranges `ek(1:nek+1)` (`gridd`, `errorr.f90:1404-1480`).\n\n`akxy(iy, ix, k)` is the coefficient of *evaluated* reaction `iy` in\n*derived* reaction `ix` within range `k`; a reaction that is directly\nevaluated in range `k` has `akxy(ix, ix, k) = 1` and zeros elsewhere in\nits column. Indices are 0-based here (upstream's are 1-based)."]
+#[pyclass(
+    name = "DerivedCoefficients",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients {
+    pub inner: ::njoy_outram_park_fork::errorr::gridd::DerivedCoefficients,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients {
+    // @item field:njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::ek
+    #[getter(ek)]
+    pub fn get_ek(&self) -> Vec<f64> {
+        let v = self.inner.ek.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(ek)]
+    pub fn set_ek(&mut self, v: Vec<f64>) {
+        self.inner.ek = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::nmt1
+    #[getter(nmt1)]
+    pub fn get_nmt1(&self) -> usize {
+        let v = self.inner.nmt1.clone();
+        v
+    }
+    #[setter(nmt1)]
+    pub fn set_nmt1(&mut self, v: usize) {
+        self.inner.nmt1 = v;
+    }
+    // @item method:njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::nek
+    #[doc = "Number of derivation ranges `nek`."]
+    pub fn nek(&self) -> usize {
+        ::njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::nek(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::get
+    #[doc = "`akxy(iy, ix, k)` (0-based)."]
+    pub fn get(&self, iy: usize, ix: usize, k: usize) -> f64 {
+        ::njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::get(&self.inner, iy, ix, k)
+    }
+    // @item method:njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::is_directly_evaluated
+    #[doc = "Is reaction `ix` directly evaluated in every range (`akxy(ix,ix,k)\n!= 0` for all `k`, the `isd` test of `covout`, `errorr.f90:7237-7243`)?"]
+    pub fn is_directly_evaluated(&self, ix: usize) -> bool {
+        ::njoy_outram_park_fork::errorr::gridd::DerivedCoefficients::is_directly_evaluated(
+            &self.inner,
+            ix,
+        )
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::gridd::GriddResult
+#[doc = "Output of [`gridd`]."]
+#[pyclass(name = "GriddResult", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__gridd__GriddResult {
+    pub inner: ::njoy_outram_park_fork::errorr::gridd::GriddResult,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__gridd__GriddResult {
+    // @item field:njoy_outram_park_fork::errorr::gridd::GriddResult::eni
+    #[getter(eni)]
+    pub fn get_eni(&self) -> Vec<f64> {
+        let v = self.inner.eni.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(eni)]
+    pub fn set_eni(&mut self, v: Vec<f64>) {
+        self.inner.eni = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::GriddResult::derived
+    #[getter(derived)]
+    pub fn get_derived(&self) -> Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients {
+        let v = self.inner.derived.clone();
+        Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients { inner: v }
+    }
+    #[setter(derived)]
+    pub fn set_derived(&mut self, v: Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients) {
+        self.inner.derived = v.inner;
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::gridd::GriddResult
+    #[new]
+    pub fn __new__(
+        eni: Vec<f64>,
+        derived: Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::gridd::GriddResult {
+                eni: eni.into_iter().map(|e| e).collect::<Vec<_>>(),
+                derived: derived.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::gridd::LumpedReaction
+#[doc = "A lumped reaction (`MT` 851–870) and the component `MT`s that make it up\n(`lump`/`lmt` in upstream, `errorr.f90:1681-1768`)."]
+#[pyclass(name = "LumpedReaction", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__gridd__LumpedReaction {
+    pub inner: ::njoy_outram_park_fork::errorr::gridd::LumpedReaction,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__gridd__LumpedReaction {
+    // @item field:njoy_outram_park_fork::errorr::gridd::LumpedReaction::mtl
+    #[getter(mtl)]
+    pub fn get_mtl(&self) -> i32 {
+        let v = self.inner.mtl.clone();
+        v
+    }
+    #[setter(mtl)]
+    pub fn set_mtl(&mut self, v: i32) {
+        self.inner.mtl = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::gridd::LumpedReaction::components
+    #[getter(components)]
+    pub fn get_components(&self) -> Vec<i32> {
+        let v = self.inner.components.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(components)]
+    pub fn set_components(&mut self, v: Vec<i32>) {
+        self.inner.components = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::gridd::LumpedReaction
+    #[new]
+    pub fn __new__(mtl: i32, components: Vec<i32>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::gridd::LumpedReaction {
+                mtl: mtl,
+                components: components.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::grpav::PanelState
+#[doc = "The `save`d state of `epanel` (`errorr.f90:9655-9663`): last panel top,\nthe integrand factors there, and the pending discontinuity flags."]
+#[pyclass(name = "PanelState", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__grpav__PanelState {
+    pub inner: ::njoy_outram_park_fork::errorr::grpav::PanelState,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__grpav__PanelState {
+    // @item method:njoy_outram_park_fork::errorr::grpav::PanelState::new
+    #[doc = "Fresh state (Fortran initial values `elast = 0`, `idisc = 0`)."]
+    #[new]
+    pub fn new() -> Py_njoy_outram_park_fork__errorr__grpav__PanelState {
+        Py_njoy_outram_park_fork__errorr__grpav__PanelState {
+            inner: ::njoy_outram_park_fork::errorr::grpav::PanelState::new(),
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::grpav::UnionGroupRecords
+#[doc = "One reaction's union-group records (`grpav`'s `ngout` scratch records,\n`errorr.f90:9048-9058`): a record exists for group `ig` only when\n`sigma_g != 0` or `ig` is the last group."]
+#[pyclass(
+    name = "UnionGroupRecords",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__grpav__UnionGroupRecords {
+    pub inner: ::njoy_outram_park_fork::errorr::grpav::UnionGroupRecords,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__grpav__UnionGroupRecords {
+    // @item field:njoy_outram_park_fork::errorr::grpav::UnionGroupRecords::flux
+    #[getter(flux)]
+    pub fn get_flux(&self) -> Vec<f64> {
+        let v = self.inner.flux.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(flux)]
+    pub fn set_flux(&mut self, v: Vec<f64>) {
+        self.inner.flux = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::grpav::UnionGroupRecords::sigma
+    #[getter(sigma)]
+    pub fn get_sigma(&self) -> Vec<f64> {
+        let v = self.inner.sigma.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(sigma)]
+    pub fn set_sigma(&mut self, v: Vec<f64>) {
+        self.inner.sigma = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::grpav::UnionGroupRecords
+    #[new]
+    #[pyo3(signature = (flux=None, sigma=None))]
+    pub fn __new__(flux: Option<Vec<f64>>, sigma: Option<Vec<f64>>) -> Self {
+        let d = <::njoy_outram_park_fork::errorr::grpav::UnionGroupRecords as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::grpav::UnionGroupRecords {
+                flux: flux
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.flux),
+                sigma: sigma
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.sigma),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::grpav::UnionGroupXs
+#[doc = "Every group-averaged reaction on the union grid (the in-memory `ngout`)."]
+#[pyclass(name = "UnionGroupXs", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs {
+    pub inner: ::njoy_outram_park_fork::errorr::grpav::UnionGroupXs,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs {
+    // @item field:njoy_outram_park_fork::errorr::grpav::UnionGroupXs::un
+    #[getter(un)]
+    pub fn get_un(&self) -> Vec<f64> {
+        let v = self.inner.un.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(un)]
+    pub fn set_un(&mut self, v: Vec<f64>) {
+        self.inner.un = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::grpav::UnionGroupXs::messages
+    #[getter(messages)]
+    pub fn get_messages(&self) -> Vec<String> {
+        let v = self.inner.messages.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(messages)]
+    pub fn set_messages(&mut self, v: Vec<String>) {
+        self.inner.messages = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::errorr::grpav::UnionGroupXs::nunion
+    #[doc = "`nunion`."]
+    pub fn nunion(&self) -> usize {
+        ::njoy_outram_park_fork::errorr::grpav::UnionGroupXs::nunion(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::errorr::grpav::UnionGroupXs::flux_vector
+    #[doc = "The fine-group flux vector `flx(1:nunion)` as `covcal` stores it\n(`rdgout` with `mfd = 3, mti = -1`, `errorr.f90:2861-2870`, then the\nsub-threshold fill of `errorr.f90:1855-1866`).\n\nTaken from the `MT = 1` records when present; otherwise the union of\nevery reaction's flux records (later sections overwrite), with any\nstill-empty groups filled downward assuming constant `dn/dE`."]
+    pub fn flux_vector(&self) -> Vec<f64> {
+        ::njoy_outram_park_fork::errorr::grpav::UnionGroupXs::flux_vector(&self.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:njoy_outram_park_fork::errorr::grpav::UnionGroupXs::sigma_for
+    #[doc = "`sig(1:nunion)` for one reaction (`rdsig`/`rdgout`, `mfd = 3`,\n`errorr.f90:2755-2786, 2876-2937`): `MT = 3` is constructed as\ntotal minus elastic; a missing reaction yields zeros (upstream's\n\"calculation continued with sigma=0\" message)."]
+    pub fn sigma_for(&self, mt: i32) -> Vec<f64> {
+        ::njoy_outram_park_fork::errorr::grpav::UnionGroupXs::sigma_for(&self.inner, mt)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::grpav::XsSampler
+#[doc = "A pointwise TAB1 cross section sampled in ascending energy order — a port\nof `gety1` (`endf.f90:1940-2051`) over an in-memory table."]
+#[pyclass(name = "XsSampler", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__grpav__XsSampler {
+    pub inner: ::njoy_outram_park_fork::errorr::grpav::XsSampler,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__grpav__XsSampler {
+    // @item method:njoy_outram_park_fork::errorr::grpav::XsSampler::new
+    #[doc = "Initialise on a TAB1 (`gety1(x = 0)`, `endf.f90:1962-1993`).\nReturns the sampler and `xnext` — the threshold `egtsig` reports.\n\n# Errors\n[`NjoyError::EndfParse`] on an empty table."]
+    #[staticmethod]
+    pub fn new(
+        pairs: Vec<(f64, f64)>,
+        interp: Vec<(u32, u32)>,
+    ) -> PyResult<(Py_njoy_outram_park_fork__errorr__grpav__XsSampler, f64)> {
+        err(::njoy_outram_park_fork::errorr::grpav::XsSampler::new(
+            &pairs
+                .into_iter()
+                .map(|e| {
+                    let (e0, e1) = e;
+                    (e0, e1)
+                })
+                .collect::<Vec<_>>(),
+            &interp
+                .into_iter()
+                .map(|e| {
+                    let (e0, e1) = e;
+                    (e0, e1)
+                })
+                .collect::<Vec<_>>(),
+        ))
+        .map(|v| {
+            let (e0, e1) = v;
+            (
+                Py_njoy_outram_park_fork__errorr__grpav__XsSampler { inner: e0 },
+                e1,
+            )
+        })
+    }
+    // @item method:njoy_outram_park_fork::errorr::grpav::XsSampler::locate
+    #[doc = "Locate a reaction on a PENDF tape and initialise (`egtsig(e = 0)`,\n`errorr.f90:10303-10322`). Returns `(sampler, thresh)`.\n\n# Errors\n[`NjoyError::SectionNotFound`] if the PENDF lacks the section;\n[`NjoyError::EndfParse`] from [`classify_mt`] or a malformed TAB1."]
+    #[staticmethod]
+    pub fn locate(
+        pendf: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+        mat: i32,
+        mtd: i32,
+    ) -> PyResult<(Py_njoy_outram_park_fork__errorr__grpav__XsSampler, f64)> {
+        err(::njoy_outram_park_fork::errorr::grpav::XsSampler::locate(
+            &pendf.inner,
+            mat,
+            mtd,
+        ))
+        .map(|v| {
+            let (e0, e1) = v;
+            (
+                Py_njoy_outram_park_fork__errorr__grpav__XsSampler { inner: e0 },
+                e1,
+            )
+        })
+    }
+    // @item method:njoy_outram_park_fork::errorr::grpav::XsSampler::get
+    #[doc = "`y1(x)` and the next grid point (`gety1(x > 0)`,\n`endf.f90:1996-2050`): `(y1, xnext, idis)`. Calls must ascend."]
+    pub fn get(&mut self, x: f64) -> PyResult<(f64, f64, i32)> {
+        err(::njoy_outram_park_fork::errorr::grpav::XsSampler::get(
+            &mut self.inner,
+            x,
+        ))
+        .map(|v| {
+            let (e0, e1, e2) = v;
+            (e0, e1, e2)
+        })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::resprx::Eskip
+#[doc = "`eskip1..4` — the ERRORJ pointwise-grid step ratios (`errorr.f90:663-667`\nwith the `mfcov = -33/333` speed-ups not offered; `eskip4` is refined by\n[`Eskip::from_groups`])."]
+#[pyclass(name = "Eskip", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__resprx__Eskip {
+    pub inner: ::njoy_outram_park_fork::errorr::resprx::Eskip,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__resprx__Eskip {
+    // @item field:njoy_outram_park_fork::errorr::resprx::Eskip::e1
+    #[getter(e1)]
+    pub fn get_e1(&self) -> f64 {
+        let v = self.inner.e1.clone();
+        v
+    }
+    #[setter(e1)]
+    pub fn set_e1(&mut self, v: f64) {
+        self.inner.e1 = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::Eskip::e2
+    #[getter(e2)]
+    pub fn get_e2(&self) -> f64 {
+        let v = self.inner.e2.clone();
+        v
+    }
+    #[setter(e2)]
+    pub fn set_e2(&mut self, v: f64) {
+        self.inner.e2 = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::Eskip::e3
+    #[getter(e3)]
+    pub fn get_e3(&self) -> f64 {
+        let v = self.inner.e3.clone();
+        v
+    }
+    #[setter(e3)]
+    pub fn set_e3(&mut self, v: f64) {
+        self.inner.e3 = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::Eskip::e4
+    #[getter(e4)]
+    pub fn get_e4(&self) -> f64 {
+        let v = self.inner.e4.clone();
+        v
+    }
+    #[setter(e4)]
+    pub fn set_e4(&mut self, v: f64) {
+        self.inner.e4 = v;
+    }
+    // @item method:njoy_outram_park_fork::errorr::resprx::Eskip::from_groups
+    #[doc = "Defaults, with `eskip4` halved towards the finest group ratio below\n0.1 eV (`egngpn`, `errorr.f90:9770-9779`)."]
+    #[staticmethod]
+    pub fn from_groups(egn: Vec<f64>) -> Py_njoy_outram_park_fork__errorr__resprx__Eskip {
+        Py_njoy_outram_park_fork__errorr__resprx__Eskip {
+            inner: ::njoy_outram_park_fork::errorr::resprx::Eskip::from_groups(
+                &egn.into_iter().map(|e| e).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::resprx::Eskip
+    #[new]
+    pub fn __new__(e1: f64, e2: f64, e3: f64, e4: f64) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::resprx::Eskip {
+                e1: e1,
+                e2: e2,
+                e3: e3,
+                e4: e4,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::resprx::RangeParams
+#[doc = "Per-range state `resprx` hands to the branch routines (the upstream\nmodule globals set in `errorr.f90:3079-3225`)."]
+#[pyclass(name = "RangeParams", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__resprx__RangeParams {
+    pub inner: ::njoy_outram_park_fork::errorr::resprx::RangeParams,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__resprx__RangeParams {
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::lru
+    #[getter(lru)]
+    pub fn get_lru(&self) -> i32 {
+        let v = self.inner.lru.clone();
+        v
+    }
+    #[setter(lru)]
+    pub fn set_lru(&mut self, v: i32) {
+        self.inner.lru = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::lrf
+    #[getter(lrf)]
+    pub fn get_lrf(&self) -> i32 {
+        let v = self.inner.lrf.clone();
+        v
+    }
+    #[setter(lrf)]
+    pub fn set_lrf(&mut self, v: i32) {
+        self.inner.lrf = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::lcomp
+    #[getter(lcomp)]
+    pub fn get_lcomp(&self) -> i32 {
+        let v = self.inner.lcomp.clone();
+        v
+    }
+    #[setter(lcomp)]
+    pub fn set_lcomp(&mut self, v: i32) {
+        self.inner.lcomp = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::naps
+    #[getter(naps)]
+    pub fn get_naps(&self) -> i32 {
+        let v = self.inner.naps.clone();
+        v
+    }
+    #[setter(naps)]
+    pub fn set_naps(&mut self, v: i32) {
+        self.inner.naps = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::nls
+    #[getter(nls)]
+    pub fn get_nls(&self) -> usize {
+        let v = self.inner.nls.clone();
+        v
+    }
+    #[setter(nls)]
+    pub fn set_nls(&mut self, v: usize) {
+        self.inner.nls = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::isr
+    #[getter(isr)]
+    pub fn get_isr(&self) -> i32 {
+        let v = self.inner.isr.clone();
+        v
+    }
+    #[setter(isr)]
+    pub fn set_isr(&mut self, v: i32) {
+        self.inner.isr = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::dap
+    #[getter(dap)]
+    pub fn get_dap(&self) -> f64 {
+        let v = self.inner.dap.clone();
+        v
+    }
+    #[setter(dap)]
+    pub fn set_dap(&mut self, v: f64) {
+        self.inner.dap = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::dap3
+    #[getter(dap3)]
+    pub fn get_dap3(&self) -> Vec<f64> {
+        let v = self.inner.dap3.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(dap3)]
+    pub fn set_dap3(&mut self, v: Vec<f64>) {
+        self.inner.dap3 = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::spi
+    #[getter(spi)]
+    pub fn get_spi(&self) -> f64 {
+        let v = self.inner.spi.clone();
+        v
+    }
+    #[setter(spi)]
+    pub fn set_spi(&mut self, v: f64) {
+        self.inner.spi = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::ap
+    #[getter(ap)]
+    pub fn get_ap(&self) -> f64 {
+        let v = self.inner.ap.clone();
+        v
+    }
+    #[setter(ap)]
+    pub fn set_ap(&mut self, v: f64) {
+        self.inner.ap = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::abn
+    #[getter(abn)]
+    pub fn get_abn(&self) -> f64 {
+        let v = self.inner.abn.clone();
+        v
+    }
+    #[setter(abn)]
+    pub fn set_abn(&mut self, v: f64) {
+        self.inner.abn = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::lfw
+    #[getter(lfw)]
+    pub fn get_lfw(&self) -> i32 {
+        let v = self.inner.lfw.clone();
+        v
+    }
+    #[setter(lfw)]
+    pub fn set_lfw(&mut self, v: i32) {
+        self.inner.lfw = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::elr
+    #[getter(elr)]
+    pub fn get_elr(&self) -> f64 {
+        let v = self.inner.elr.clone();
+        v
+    }
+    #[setter(elr)]
+    pub fn set_elr(&mut self, v: f64) {
+        self.inner.elr = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::ehr
+    #[getter(ehr)]
+    pub fn get_ehr(&self) -> f64 {
+        let v = self.inner.ehr.clone();
+        v
+    }
+    #[setter(ehr)]
+    pub fn set_ehr(&mut self, v: f64) {
+        self.inner.ehr = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::elg
+    #[getter(elg)]
+    pub fn get_elg(&self) -> f64 {
+        let v = self.inner.elg.clone();
+        v
+    }
+    #[setter(elg)]
+    pub fn set_elg(&mut self, v: f64) {
+        self.inner.elg = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::ehg
+    #[getter(ehg)]
+    pub fn get_ehg(&self) -> f64 {
+        let v = self.inner.ehg.clone();
+        v
+    }
+    #[setter(ehg)]
+    pub fn set_ehg(&mut self, v: f64) {
+        self.inner.ehg = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::iest
+    #[getter(iest)]
+    pub fn get_iest(&self) -> usize {
+        let v = self.inner.iest.clone();
+        v
+    }
+    #[setter(iest)]
+    pub fn set_iest(&mut self, v: usize) {
+        self.inner.iest = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::RangeParams::ieed
+    #[getter(ieed)]
+    pub fn get_ieed(&self) -> usize {
+        let v = self.inner.ieed.clone();
+        v
+    }
+    #[setter(ieed)]
+    pub fn set_ieed(&mut self, v: usize) {
+        self.inner.ieed = v;
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::resprx::RangeParams
+    #[new]
+    pub fn __new__(
+        lru: i32,
+        lrf: i32,
+        lcomp: i32,
+        naps: i32,
+        nls: usize,
+        isr: i32,
+        dap: f64,
+        dap3: Vec<f64>,
+        spi: f64,
+        ap: f64,
+        abn: f64,
+        lfw: i32,
+        elr: f64,
+        ehr: f64,
+        elg: f64,
+        ehg: f64,
+        iest: usize,
+        ieed: usize,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::resprx::RangeParams {
+                lru: lru,
+                lrf: lrf,
+                lcomp: lcomp,
+                naps: naps,
+                nls: nls,
+                isr: isr,
+                dap: dap,
+                dap3: dap3.into_iter().map(|e| e).collect::<Vec<_>>(),
+                spi: spi,
+                ap: ap,
+                abn: abn,
+                lfw: lfw,
+                elr: elr,
+                ehr: ehr,
+                elg: elg,
+                ehg: ehg,
+                iest: iest,
+                ieed: ieed,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range
+#[doc = "One `(isotope, energy range)` of MF=2 as `rdumrd2` walks it."]
+#[pyclass(name = "Mf2Range", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Range {
+    pub inner: ::njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Range {
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range::range
+    #[getter(range)]
+    pub fn get_range(&self) -> Py_njoy_outram_park_fork__endf__Cont {
+        let v = self.inner.range.clone();
+        Py_njoy_outram_park_fork__endf__Cont { inner: v }
+    }
+    #[setter(range)]
+    pub fn set_range(&mut self, v: Py_njoy_outram_park_fork__endf__Cont) {
+        self.inner.range = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range::lfw
+    #[getter(lfw)]
+    pub fn get_lfw(&self) -> i32 {
+        let v = self.inner.lfw.clone();
+        v
+    }
+    #[setter(lfw)]
+    pub fn set_lfw(&mut self, v: i32) {
+        self.inner.lfw = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range::nls
+    #[getter(nls)]
+    pub fn get_nls(&self) -> i32 {
+        let v = self.inner.nls.clone();
+        v
+    }
+    #[setter(nls)]
+    pub fn set_nls(&mut self, v: i32) {
+        self.inner.nls = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range::spi_cont
+    #[getter(spi_cont)]
+    pub fn get_spi_cont(&self) -> Option<Py_njoy_outram_park_fork__endf__Cont> {
+        let v = self.inner.spi_cont.clone();
+        v.map(|e| Py_njoy_outram_park_fork__endf__Cont { inner: e })
+    }
+    #[setter(spi_cont)]
+    pub fn set_spi_cont(&mut self, v: Option<Py_njoy_outram_park_fork__endf__Cont>) {
+        self.inner.spi_cont = v.map(|e| e.inner);
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range::lists
+    #[getter(lists)]
+    pub fn get_lists(&self) -> Vec<Py_njoy_outram_park_fork__endf__List> {
+        let v = self.inner.lists.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__endf__List { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(lists)]
+    pub fn set_lists(&mut self, v: Vec<Py_njoy_outram_park_fork__endf__List>) {
+        self.inner.lists = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range::rml
+    #[getter(rml)]
+    pub fn get_rml(&self) -> Option<Py_njoy_outram_park_fork__samm__mf2__RmlSection> {
+        let v = self.inner.rml.clone();
+        v.map(|e| Py_njoy_outram_park_fork__samm__mf2__RmlSection { inner: e })
+    }
+    #[setter(rml)]
+    pub fn set_rml(&mut self, v: Option<Py_njoy_outram_park_fork__samm__mf2__RmlSection>) {
+        self.inner.rml = v.map(|e| e.inner);
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range
+    #[new]
+    pub fn __new__(
+        range: Py_njoy_outram_park_fork__endf__Cont,
+        lfw: i32,
+        nls: i32,
+        spi_cont: Option<Py_njoy_outram_park_fork__endf__Cont>,
+        lists: Vec<Py_njoy_outram_park_fork__endf__List>,
+        rml: Option<Py_njoy_outram_park_fork__samm__mf2__RmlSection>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::resprx::mf2::Mf2Range {
+                range: range.inner,
+                lfw: lfw,
+                nls: nls,
+                spi_cont: spi_cont.map(|e| e.inner),
+                lists: lists.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                rml: rml.map(|e| e.inner),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances
+#[doc = "`rdumrd2`'s output: every range plus the URR `amur` triples."]
+#[pyclass(name = "Mf2Resonances", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Resonances {
+    pub inner: ::njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Resonances {
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances::awr
+    #[getter(awr)]
+    pub fn get_awr(&self) -> f64 {
+        let v = self.inner.awr.clone();
+        v
+    }
+    #[setter(awr)]
+    pub fn set_awr(&mut self, v: f64) {
+        self.inner.awr = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances::nis
+    #[getter(nis)]
+    pub fn get_nis(&self) -> i32 {
+        let v = self.inner.nis.clone();
+        v
+    }
+    #[setter(nis)]
+    pub fn set_nis(&mut self, v: i32) {
+        self.inner.nis = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances::ranges
+    #[getter(ranges)]
+    pub fn get_ranges(&self) -> Vec<Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Range> {
+        let v = self.inner.ranges.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Range { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(ranges)]
+    pub fn set_ranges(&mut self, v: Vec<Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Range>) {
+        self.inner.ranges = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances::amur
+    #[getter(amur)]
+    pub fn get_amur(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.amur.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    // @item method:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances::read
+    #[doc = "Walk MF=2/MT=151 of `matd` (`rdumrd2`, `errorr.f90:5091-5225`).\n\n# Errors\n[`NjoyError::SectionNotFound`] without MF=2, [`NjoyError::EndfParse`]\nfor an `(LRU, LRF)` upstream has \"no coding\" for."]
+    #[staticmethod]
+    pub fn read(
+        endf: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+        matd: i32,
+    ) -> PyResult<Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Resonances> {
+        err(::njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances::read(&endf.inner, matd))
+            .map(|v| Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Resonances { inner: v })
+    }
+    // @item defaultctor:njoy_outram_park_fork::errorr::resprx::mf2::Mf2Resonances
+    #[new]
+    pub fn __new__() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::resprx::mf2::WorkArray
+#[doc = "The resolved-range work array `b` (`rskiprp` + `rpxlc12`,\n`errorr.f90:4171-4222`): range CONT, SPI CONT, then per L-state the\nLIST head, its `6*NRS` parameters and `3*NRS` appended words\n`(S_l, P_l, 0)` evaluated at `rho = cwaven*arat*sqrt(|ER|)*ral`.\n\n`ral`/`apl`/`ra` follow the upstream globals: entering with\n`ral = ra_computed`, `apl = ap`; for `LRF=3` each L may carry its own\n`APL` (zero means `AP`); with `NAPS = 1` the radius used for the\npenetrabilities becomes `apl` (and `ra` becomes `ap`)."]
+#[pyclass(name = "WorkArray", module = "outram_park.njoy_outram_park_fork")]
+pub struct Py_njoy_outram_park_fork__errorr__resprx__mf2__WorkArray {
+    pub inner: ::njoy_outram_park_fork::errorr::resprx::mf2::WorkArray,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__resprx__mf2__WorkArray {
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::WorkArray::b
+    #[getter(b)]
+    pub fn get_b(&self) -> Vec<f64> {
+        let v = self.inner.b.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(b)]
+    pub fn set_b(&mut self, v: Vec<f64>) {
+        self.inner.b = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::WorkArray::llmat
+    #[getter(llmat)]
+    pub fn get_llmat(&self) -> Vec<i32> {
+        let v = self.inner.llmat.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(llmat)]
+    pub fn set_llmat(&mut self, v: Vec<i32>) {
+        self.inner.llmat = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::WorkArray::ral
+    #[getter(ral)]
+    pub fn get_ral(&self) -> f64 {
+        let v = self.inner.ral.clone();
+        v
+    }
+    #[setter(ral)]
+    pub fn set_ral(&mut self, v: f64) {
+        self.inner.ral = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::mf2::WorkArray::apl
+    #[getter(apl)]
+    pub fn get_apl(&self) -> f64 {
+        let v = self.inner.apl.clone();
+        v
+    }
+    #[setter(apl)]
+    pub fn set_apl(&mut self, v: f64) {
+        self.inner.apl = v;
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::resprx::mf2::WorkArray
+    #[new]
+    pub fn __new__(b: Vec<f64>, llmat: Vec<i32>, ral: f64, apl: f64) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::resprx::mf2::WorkArray {
+                b: b.into_iter().map(|e| e).collect::<Vec<_>>(),
+                llmat: llmat.into_iter().map(|e| e).collect::<Vec<_>>(),
+                ral: ral,
+                apl: apl,
+            },
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params
+#[doc = "What `rpxlc2` leaves in the module globals and work arrays."]
+#[pyclass(name = "Lcomp2Params", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__resprx__resolved__Lcomp2Params {
+    pub inner: ::njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__resprx__resolved__Lcomp2Params {
+    // @item field:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params::awri
+    #[getter(awri)]
+    pub fn get_awri(&self) -> f64 {
+        let v = self.inner.awri.clone();
+        v
+    }
+    #[setter(awri)]
+    pub fn set_awri(&mut self, v: f64) {
+        self.inner.awri = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params::nrb
+    #[getter(nrb)]
+    pub fn get_nrb(&self) -> usize {
+        let v = self.inner.nrb.clone();
+        v
+    }
+    #[setter(nrb)]
+    pub fn set_nrb(&mut self, v: usize) {
+        self.inner.nrb = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params::mpar
+    #[getter(mpar)]
+    pub fn get_mpar(&self) -> usize {
+        let v = self.inner.mpar.clone();
+        v
+    }
+    #[setter(mpar)]
+    pub fn set_mpar(&mut self, v: usize) {
+        self.inner.mpar = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params::npar
+    #[getter(npar)]
+    pub fn get_npar(&self) -> usize {
+        let v = self.inner.npar.clone();
+        v
+    }
+    #[setter(npar)]
+    pub fn set_npar(&mut self, v: usize) {
+        self.inner.npar = v;
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params::params
+    #[getter(params)]
+    pub fn get_params(&self) -> Vec<f64> {
+        let v = self.inner.params.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(params)]
+    pub fn set_params(&mut self, v: Vec<f64>) {
+        self.inner.params = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params::cov
+    #[getter(cov)]
+    pub fn get_cov(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.cov.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(cov)]
+    pub fn set_cov(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.cov = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params
+    #[new]
+    pub fn __new__(
+        awri: f64,
+        nrb: usize,
+        mpar: usize,
+        npar: usize,
+        params: Vec<f64>,
+        cov: Vec<Vec<f64>>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::errorr::resprx::resolved::Lcomp2Params {
+                awri: awri,
+                nrb: nrb,
+                mpar: mpar,
+                npar: npar,
+                params: params.into_iter().map(|e| e).collect::<Vec<_>>(),
+                cov: cov
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::errorr::weight::WeightSampler
+#[doc = "Stateful `egtwtf` evaluator — one per group-averaging pass.\n\nHolds the `save`d `ip`/`ir`/`ipl`/`step` of the Fortran routine\n(`errorr.f90:10087`), reset by [`WeightSampler::new`] exactly as the\n`e == 0` initialisation call does (`errorr.f90:10091-10098`)."]
+#[pyclass(name = "WeightSampler", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__errorr__weight__WeightSampler {
+    pub inner: ::njoy_outram_park_fork::errorr::weight::WeightSampler,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__errorr__weight__WeightSampler {
+    // @item field:njoy_outram_park_fork::errorr::weight::WeightSampler::warned_zero
+    #[getter(warned_zero)]
+    pub fn get_warned_zero(&self) -> bool {
+        let v = self.inner.warned_zero.clone();
+        v
+    }
+    #[setter(warned_zero)]
+    pub fn set_warned_zero(&mut self, v: bool) {
+        self.inner.warned_zero = v;
+    }
+    // @item method:njoy_outram_park_fork::errorr::weight::WeightSampler::new
+    #[doc = "Initialise (`egtwtf(e = 0)`): `ip = 2, ir = 1, ipl = 0, step = 1.10`."]
+    #[new]
+    pub fn new(
+        weight: Py_njoy_outram_park_fork__errorr__ErrorrWeight,
+        tempin: f64,
+    ) -> Py_njoy_outram_park_fork__errorr__weight__WeightSampler {
+        Py_njoy_outram_park_fork__errorr__weight__WeightSampler {
+            inner: ::njoy_outram_park_fork::errorr::weight::WeightSampler::new(
+                weight.inner,
+                tempin,
+            ),
+        }
+    }
+    // @item method:njoy_outram_park_fork::errorr::weight::WeightSampler::get
+    #[doc = "The weight at `e` \\[eV\\] and the next stop: `(wtf, enext, idis)`\n(`egtwtf`, `errorr.f90:10100-10223`). `e` must be positive."]
+    pub fn get(&mut self, e: f64) -> PyResult<(f64, f64, i32)> {
+        err(::njoy_outram_park_fork::errorr::weight::WeightSampler::get(
+            &mut self.inner,
+            e,
+        ))
+        .map(|v| {
+            let (e0, e1, e2) = v;
+            (e0, e1, e2)
+        })
+    }
+    // @item method:njoy_outram_park_fork::errorr::weight::WeightSampler::flux
+    #[doc = "`egtflx` at infinite dilution (`errorr.f90:10265-10285`, `nscr2 = 0`):\nthe flux is the bare weight and the stop is `egtwtf`'s."]
+    pub fn flux(&mut self, e: f64) -> PyResult<(f64, f64, i32)> {
+        err(::njoy_outram_park_fork::errorr::weight::WeightSampler::flux(&mut self.inner, e)).map(
+            |v| {
+                let (e0, e1, e2) = v;
+                (e0, e1, e2)
+            },
+        )
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:njoy_outram_park_fork::gaminr::EndfFormat
 #[doc = "ENDF format version of the evaluation, determined by GAMINR from the tape\nheader (`gaminr.f90:158-164`). It selects the ENDF-VI reaction MT numbers\n(`mtlst6`) over the ENDF-IV/V ones (`mtlst`) for the \"process all\" set."]
 #[pyclass(name = "EndfFormat", module = "outram_park.njoy_outram_park_fork")]
@@ -7237,6 +10134,158 @@ impl Py_njoy_outram_park_fork__gaminr__GroupGrid {
     }
 }
 
+// @item type:njoy_outram_park_fork::gaminr::PhotonFeed
+#[doc = "`gtff`'s answer at one incident energy: `ff(il, ig)` as `ff[il][ig]`."]
+#[pyclass(name = "PhotonFeed", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+    pub inner: ::njoy_outram_park_fork::gaminr::PhotonFeed,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+    // @item field:njoy_outram_park_fork::gaminr::PhotonFeed::ff
+    #[getter(ff)]
+    pub fn get_ff(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.ff.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(ff)]
+    pub fn set_ff(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.ff = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::gaminr::PhotonFeed::ng
+    #[getter(ng)]
+    pub fn get_ng(&self) -> usize {
+        let v = self.inner.ng.clone();
+        v
+    }
+    #[setter(ng)]
+    pub fn set_ng(&mut self, v: usize) {
+        self.inner.ng = v;
+    }
+    // @item field:njoy_outram_park_fork::gaminr::PhotonFeed::iglo
+    #[getter(iglo)]
+    pub fn get_iglo(&self) -> usize {
+        let v = self.inner.iglo.clone();
+        v
+    }
+    #[setter(iglo)]
+    pub fn set_iglo(&mut self, v: usize) {
+        self.inner.iglo = v;
+    }
+    // @item field:njoy_outram_park_fork::gaminr::PhotonFeed::nq
+    #[getter(nq)]
+    pub fn get_nq(&self) -> usize {
+        let v = self.inner.nq.clone();
+        v
+    }
+    #[setter(nq)]
+    pub fn set_nq(&mut self, v: usize) {
+        self.inner.nq = v;
+    }
+    // @item field:njoy_outram_park_fork::gaminr::PhotonFeed::enext
+    #[getter(enext)]
+    pub fn get_enext(&self) -> f64 {
+        let v = self.inner.enext.clone();
+        v
+    }
+    #[setter(enext)]
+    pub fn set_enext(&mut self, v: f64) {
+        self.inner.enext = v;
+    }
+    // @item field:njoy_outram_park_fork::gaminr::PhotonFeed::idisc
+    #[getter(idisc)]
+    pub fn get_idisc(&self) -> bool {
+        let v = self.inner.idisc.clone();
+        v
+    }
+    #[setter(idisc)]
+    pub fn set_idisc(&mut self, v: bool) {
+        self.inner.idisc = v;
+    }
+    // @item ctor:njoy_outram_park_fork::gaminr::PhotonFeed
+    #[new]
+    pub fn __new__(
+        ff: Vec<Vec<f64>>,
+        ng: usize,
+        iglo: usize,
+        nq: usize,
+        enext: f64,
+        idisc: bool,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonFeed {
+                ff: ff
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+                ng: ng,
+                iglo: iglo,
+                nq: nq,
+                enext: enext,
+                idisc: idisc,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::gaminr::PhotonFlux
+#[doc = "The weight `gtflx` serves (`:825-872`)."]
+#[pyclass(name = "PhotonFlux", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__gaminr__PhotonFlux {
+    pub inner: ::njoy_outram_park_fork::gaminr::PhotonFlux,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__gaminr__PhotonFlux {
+    // @item method:njoy_outram_park_fork::gaminr::PhotonFlux::one_over_e_rolloffs
+    #[doc = "The built-in `iwt = 3` \"1/E with roll-offs\" table (`wt1`, `:795-798`)."]
+    #[staticmethod]
+    pub fn one_over_e_rolloffs() -> Py_njoy_outram_park_fork__gaminr__PhotonFlux {
+        Py_njoy_outram_park_fork__gaminr__PhotonFlux {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonFlux::one_over_e_rolloffs(),
+        }
+    }
+    // @item variant:njoy_outram_park_fork::gaminr::PhotonFlux::Constant
+    #[staticmethod]
+    #[pyo3(name = "Constant")]
+    pub fn v_Constant() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonFlux::Constant,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::gaminr::PhotonFlux::Tabulated
+    #[staticmethod]
+    #[pyo3(name = "Tabulated")]
+    pub fn v_Tabulated(a0: Py_njoy_outram_park_fork__gaminr__PhotonTab1) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonFlux::Tabulated(a0.inner),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::njoy_outram_park_fork::gaminr::PhotonFlux::Constant => "Constant",
+            ::njoy_outram_park_fork::gaminr::PhotonFlux::Tabulated(..) => "Tabulated",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:njoy_outram_park_fork::gaminr::PhotonGroupStructure
 #[doc = "Built-in photon group-structure selector — the `igg` option of GAMINR\n(`gaminr.f90:73-86, 585-602`).\n\nEach variant names a predefined multigroup photon energy-boundary set, or\n(for [`PhotonGroupStructure::None`] / [`PhotonGroupStructure::ArbitraryRead`])\na non-tabulated case. Use [`PhotonGroupStructure::from_igg`] to build one\nfrom the raw card-2 integer and [`PhotonGroupStructure::boundaries`] to get\nthe eV boundary vector."]
 #[pyclass(
@@ -7376,6 +10425,166 @@ impl Py_njoy_outram_park_fork__gaminr__PhotonGroupStructure {
             ::njoy_outram_park_fork::gaminr::PhotonGroupStructure::VitaminE38 => "VitaminE38",
             ::njoy_outram_park_fork::gaminr::PhotonGroupStructure::VitaminJ42 => "VitaminJ42",
             _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::gaminr::PhotonReaction
+#[doc = "One GAMINR reaction request (card 6 `mfd mtd`)."]
+#[pyclass(name = "PhotonReaction", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__gaminr__PhotonReaction {
+    pub inner: ::njoy_outram_park_fork::gaminr::PhotonReaction,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__gaminr__PhotonReaction {
+    // @item variant:njoy_outram_park_fork::gaminr::PhotonReaction::Vector
+    #[staticmethod]
+    #[pyo3(name = "Vector")]
+    pub fn v_Vector(mt: i32) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonReaction::Vector { mt: mt },
+        }
+    }
+    // @item variant:njoy_outram_park_fork::gaminr::PhotonReaction::Coherent
+    #[staticmethod]
+    #[pyo3(name = "Coherent")]
+    pub fn v_Coherent(form_factor: Py_njoy_outram_park_fork__gaminr__PhotonTab1) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonReaction::Coherent {
+                form_factor: form_factor.inner,
+            },
+        }
+    }
+    // @item variant:njoy_outram_park_fork::gaminr::PhotonReaction::Incoherent
+    #[staticmethod]
+    #[pyo3(name = "Incoherent")]
+    pub fn v_Incoherent(scattering_function: Py_njoy_outram_park_fork__gaminr__PhotonTab1) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonReaction::Incoherent {
+                scattering_function: scattering_function.inner,
+            },
+        }
+    }
+    // @item variant:njoy_outram_park_fork::gaminr::PhotonReaction::Pair
+    #[staticmethod]
+    #[pyo3(name = "Pair")]
+    pub fn v_Pair() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonReaction::Pair,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::njoy_outram_park_fork::gaminr::PhotonReaction::Vector { .. } => "Vector",
+            ::njoy_outram_park_fork::gaminr::PhotonReaction::Coherent { .. } => "Coherent",
+            ::njoy_outram_park_fork::gaminr::PhotonReaction::Incoherent { .. } => "Incoherent",
+            ::njoy_outram_park_fork::gaminr::PhotonReaction::Pair => "Pair",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::gaminr::PhotonTab1
+#[doc = "One MF=27 TAB1 (form factor `F(x, Z)` for MT=502, scattering function\n`S(x, Z)` for MT=504): `x` in inverse Angstroms ascending, the value, and\nthe ENDF interpolation regions `(NBT, INT)`."]
+#[pyclass(name = "PhotonTab1", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__gaminr__PhotonTab1 {
+    pub inner: ::njoy_outram_park_fork::gaminr::PhotonTab1,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__gaminr__PhotonTab1 {
+    // @item field:njoy_outram_park_fork::gaminr::PhotonTab1::z
+    #[getter(z)]
+    pub fn get_z(&self) -> f64 {
+        let v = self.inner.z.clone();
+        v
+    }
+    #[setter(z)]
+    pub fn set_z(&mut self, v: f64) {
+        self.inner.z = v;
+    }
+    // @item field:njoy_outram_park_fork::gaminr::PhotonTab1::interp
+    #[getter(interp)]
+    pub fn get_interp(&self) -> Vec<(u32, u32)> {
+        let v = self.inner.interp.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(interp)]
+    pub fn set_interp(&mut self, v: Vec<(u32, u32)>) {
+        self.inner.interp = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::gaminr::PhotonTab1::pairs
+    #[getter(pairs)]
+    pub fn get_pairs(&self) -> Vec<(f64, f64)> {
+        let v = self.inner.pairs.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(pairs)]
+    pub fn set_pairs(&mut self, v: Vec<(f64, f64)>) {
+        self.inner.pairs = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::gaminr::PhotonTab1::terpa
+    #[doc = "`terpa(y, x, xnext, idis, a, ip, ir)`: the value at `x`, the next\ntabulated `x` above it, and the discontinuity flag. Below the first\npoint `y = 0`, `xnext = x_1`, `idis = 1`; from the last point up to\n`shade` times it `y = y_np` with `xnext = shade^2 x_np` (`xbig` if\n`y_np = 0`); beyond that `y = 0`, `xnext = xbig`. `idis = 1` for a\nhistogram region or a duplicated `xnext`."]
+    pub fn terpa(&self, x: f64) -> (f64, f64, bool) {
+        {
+            let (e0, e1, e2) = ::njoy_outram_park_fork::gaminr::PhotonTab1::terpa(&self.inner, x);
+            (e0, e1, e2)
+        }
+    }
+    // @item ctor:njoy_outram_park_fork::gaminr::PhotonTab1
+    #[new]
+    pub fn __new__(z: f64, interp: Vec<(u32, u32)>, pairs: Vec<(f64, f64)>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::gaminr::PhotonTab1 {
+                z: z,
+                interp: interp
+                    .into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+                pairs: pairs
+                    .into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+            },
         }
     }
     pub fn __repr__(&self) -> String {
@@ -7538,6 +10747,63 @@ impl Py_njoy_outram_park_fork__gaminr__ReactionSelection {
             ::njoy_outram_park_fork::gaminr::ReactionSelection::ProcessAll => "ProcessAll",
             ::njoy_outram_park_fork::gaminr::ReactionSelection::Explicit(..) => "Explicit",
             _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::gaminr::TotalHeating
+#[doc = "The running total heating `toth` (`:147-149`, `:353-359`): per group,\nthe last group flux seen and the accumulated `sum ans(1,1,ng2)*flux`."]
+#[pyclass(name = "TotalHeating", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__gaminr__TotalHeating {
+    pub inner: ::njoy_outram_park_fork::gaminr::TotalHeating,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__gaminr__TotalHeating {
+    // @item field:njoy_outram_park_fork::gaminr::TotalHeating::flux
+    #[getter(flux)]
+    pub fn get_flux(&self) -> Vec<f64> {
+        let v = self.inner.flux.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(flux)]
+    pub fn set_flux(&mut self, v: Vec<f64>) {
+        self.inner.flux = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::gaminr::TotalHeating::heat
+    #[getter(heat)]
+    pub fn get_heat(&self) -> Vec<f64> {
+        let v = self.inner.heat.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(heat)]
+    pub fn set_heat(&mut self, v: Vec<f64>) {
+        self.inner.heat = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::gaminr::TotalHeating::new
+    #[doc = ""]
+    #[new]
+    pub fn new(ngg: usize) -> Py_njoy_outram_park_fork__gaminr__TotalHeating {
+        Py_njoy_outram_park_fork__gaminr__TotalHeating {
+            inner: ::njoy_outram_park_fork::gaminr::TotalHeating::new(ngg),
+        }
+    }
+    // @item method:njoy_outram_park_fork::gaminr::TotalHeating::section
+    #[doc = "The `MT=525`/`621` edit (`:400-419`): every group, `(flux, heat/flux)`\nafter `dspla`'s normalisation, written when non-zero or last."]
+    pub fn section(
+        &self,
+        mt: i32,
+        za: f64,
+        awr: f64,
+    ) -> Py_njoy_outram_park_fork__groupr__GendfSection {
+        Py_njoy_outram_park_fork__groupr__GendfSection {
+            inner: ::njoy_outram_park_fork::gaminr::TotalHeating::section(&self.inner, mt, za, awr),
         }
     }
     pub fn __repr__(&self) -> String {
@@ -7995,6 +11261,18 @@ pub struct Py_njoy_outram_park_fork__gpu__GpuContext {
 }
 #[pymethods]
 impl Py_njoy_outram_park_fork__gpu__GpuContext {
+    // @item method:njoy_outram_park_fork::gpu::GpuContext::curvefit_background_batch
+    #[doc = "Evaluate the WMP curve-fit background across `energies_ev` on the GPU, in\n`f32`.\n\nThis uploads `energies_ev` and `coeffs` to storage buffers, dispatches\nthe [`WGSL`] compute shader (one invocation per energy, `@workgroup_size(64)`),\nand reads the results back. It computes the same polynomial as\n[`curvefit_background_batch_cpu`] but in single precision.\n\n# Precision — GPU is acceleration only\nWGSL has no `f64` by default, so this runs in `f32`. The reduction order\nand rounding therefore will **not** bit-match the `f64` CPU reference;\nexpect agreement only to a relative tolerance (~1e-3 in the crate tests).\nThe CPU path remains the trusted/deterministic reference for V&V.\n\n# Units\nSame as [`curvefit_background_batch_cpu`]: `energies_ev` in eV, `coeffs`\nthe curve-fit coefficients, output in barn. Returns a `Vec<f32>` the same\nlength and order as `energies_ev`.\n\n# Scope — not the full WMP sum\nOnly the curve-fit **background** polynomial is evaluated here. The full\nwindowed-multipole sum (complex Faddeeva pole contributions over each\nwindow's pole range) is evaluated by the sibling full-fidelity kernel\n[`crate::gpu_wmp::GpuContext::wmp_evaluate_batch`] (bead `op-0m5`); this\nmethod remai"]
+    pub fn curvefit_background_batch(&self, energies_ev: Vec<f32>, coeffs: Vec<f32>) -> Vec<f32> {
+        ::njoy_outram_park_fork::gpu::GpuContext::curvefit_background_batch(
+            &self.inner,
+            &energies_ev.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &coeffs.into_iter().map(|e| e).collect::<Vec<_>>(),
+        )
+        .into_iter()
+        .map(|e| e)
+        .collect::<Vec<_>>()
+    }
     // @item method:njoy_outram_park_fork::gpu::GpuContext::adapter_label
     #[doc = "A short human label for the GPU this context runs on, e.g.\n`\"NVIDIA GeForce RTX 3050 / Vulkan\"` — the adapter name and backend from\n`wgpu::Adapter::get_info()`.\n\nUsed to head a per-machine performance report so a reader knows which\nhardware produced the numbers (GPU/CPU timings differ per machine). See\n[`crate::perf_report`]."]
     pub fn adapter_label(&self) -> String {
@@ -8016,18 +11294,6 @@ impl Py_njoy_outram_park_fork__gpu__GpuContext {
         )
         .into_iter()
         .map(|e| Py_njoy_outram_park_fork__gpu_wmp__WmpXsGpu { inner: e })
-        .collect::<Vec<_>>()
-    }
-    // @item method:njoy_outram_park_fork::gpu::GpuContext::curvefit_background_batch
-    #[doc = "Evaluate the WMP curve-fit background across `energies_ev` on the GPU, in\n`f32`.\n\nThis uploads `energies_ev` and `coeffs` to storage buffers, dispatches\nthe [`WGSL`] compute shader (one invocation per energy, `@workgroup_size(64)`),\nand reads the results back. It computes the same polynomial as\n[`curvefit_background_batch_cpu`] but in single precision.\n\n# Precision — GPU is acceleration only\nWGSL has no `f64` by default, so this runs in `f32`. The reduction order\nand rounding therefore will **not** bit-match the `f64` CPU reference;\nexpect agreement only to a relative tolerance (~1e-3 in the crate tests).\nThe CPU path remains the trusted/deterministic reference for V&V.\n\n# Units\nSame as [`curvefit_background_batch_cpu`]: `energies_ev` in eV, `coeffs`\nthe curve-fit coefficients, output in barn. Returns a `Vec<f32>` the same\nlength and order as `energies_ev`.\n\n# Scope — not the full WMP sum\nOnly the curve-fit **background** polynomial is evaluated here. The full\nwindowed-multipole sum (complex Faddeeva pole contributions over each\nwindow's pole range) is evaluated by the sibling full-fidelity kernel\n[`crate::gpu_wmp::GpuContext::wmp_evaluate_batch`] (bead `op-0m5`); this\nmethod remai"]
-    pub fn curvefit_background_batch(&self, energies_ev: Vec<f32>, coeffs: Vec<f32>) -> Vec<f32> {
-        ::njoy_outram_park_fork::gpu::GpuContext::curvefit_background_batch(
-            &self.inner,
-            &energies_ev.into_iter().map(|e| e).collect::<Vec<_>>(),
-            &coeffs.into_iter().map(|e| e).collect::<Vec<_>>(),
-        )
-        .into_iter()
-        .map(|e| e)
         .collect::<Vec<_>>()
     }
     pub fn __repr__(&self) -> String {
@@ -8184,6 +11450,75 @@ impl Py_njoy_outram_park_fork__groupr__AnalyticWeight {
             }
             ::njoy_outram_park_fork::groupr::AnalyticWeight::VitaminE { .. } => "VitaminE",
             _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::groupr::ExtendedMfd
+#[doc = "The residual-production request forms of GROUPR's card 9 `mfd`\n(`groupr.f90:684-699`): `mfd = f*10000000 + izar*10 + lfs` with\n`f = 1` (MF=3 by residual), `2` (MF=3*MF=6), `3` (MF=3*MF=9), `4`\n(MF=10); `40000000` alone is the MF=10 fission special case."]
+#[pyclass(name = "ExtendedMfd", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__ExtendedMfd {
+    pub inner: ::njoy_outram_park_fork::groupr::ExtendedMfd,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__ExtendedMfd {
+    // @item field:njoy_outram_park_fork::groupr::ExtendedMfd::file_class
+    #[getter(file_class)]
+    pub fn get_file_class(&self) -> i32 {
+        let v = self.inner.file_class.clone();
+        v
+    }
+    #[setter(file_class)]
+    pub fn set_file_class(&mut self, v: i32) {
+        self.inner.file_class = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::ExtendedMfd::izar
+    #[getter(izar)]
+    pub fn get_izar(&self) -> i32 {
+        let v = self.inner.izar.clone();
+        v
+    }
+    #[setter(izar)]
+    pub fn set_izar(&mut self, v: i32) {
+        self.inner.izar = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::ExtendedMfd::lfs
+    #[getter(lfs)]
+    pub fn get_lfs(&self) -> i32 {
+        let v = self.inner.lfs.clone();
+        v
+    }
+    #[setter(lfs)]
+    pub fn set_lfs(&mut self, v: i32) {
+        self.inner.lfs = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::ExtendedMfd::izam
+    #[getter(izam)]
+    pub fn get_izam(&self) -> i32 {
+        let v = self.inner.izam.clone();
+        v
+    }
+    #[setter(izam)]
+    pub fn set_izam(&mut self, v: i32) {
+        self.inner.izam = v;
+    }
+    // @item ctor:njoy_outram_park_fork::groupr::ExtendedMfd
+    #[new]
+    pub fn __new__(file_class: i32, izar: i32, lfs: i32, izam: i32) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::ExtendedMfd {
+                file_class: file_class,
+                izar: izar,
+                lfs: lfs,
+                izam: izam,
+            },
         }
     }
     pub fn __repr__(&self) -> String {
@@ -8858,7 +12193,7 @@ pub struct Py_njoy_outram_park_fork__groupr__GroupFlux {
 #[pymethods]
 impl Py_njoy_outram_park_fork__groupr__GroupFlux {
     // @item method:njoy_outram_park_fork::groupr::GroupFlux::analytic
-    #[doc = "Build an [`GroupFlux::Analytic`] with the default refinement step."]
+    #[doc = "Build an [`GroupFlux::Analytic`] with `getwtf`'s own refinement step\n([`GETWTF_STEP`], `s101 = 1.01`)."]
     #[staticmethod]
     pub fn analytic(
         weight: Py_njoy_outram_park_fork__groupr__AnalyticWeight,
@@ -9489,6 +12824,26 @@ impl Py_njoy_outram_park_fork__groupr__PendfCrossSection {
     pub fn set_awr(&mut self, v: f64) {
         self.inner.awr = v;
     }
+    // @item field:njoy_outram_park_fork::groupr::PendfCrossSection::qi
+    #[getter(qi)]
+    pub fn get_qi(&self) -> f64 {
+        let v = self.inner.qi.clone();
+        v
+    }
+    #[setter(qi)]
+    pub fn set_qi(&mut self, v: f64) {
+        self.inner.qi = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::PendfCrossSection::lr
+    #[getter(lr)]
+    pub fn get_lr(&self) -> i32 {
+        let v = self.inner.lr.clone();
+        v
+    }
+    #[setter(lr)]
+    pub fn set_lr(&mut self, v: i32) {
+        self.inner.lr = v;
+    }
     // @item field:njoy_outram_park_fork::groupr::PendfCrossSection::xs
     #[getter(xs)]
     pub fn get_xs(&self) -> Py_njoy_outram_park_fork__groupr__PointwiseXs {
@@ -9501,10 +12856,17 @@ impl Py_njoy_outram_park_fork__groupr__PendfCrossSection {
     }
     // @item ctor:njoy_outram_park_fork::groupr::PendfCrossSection
     #[new]
-    pub fn __new__(awr: f64, xs: Py_njoy_outram_park_fork__groupr__PointwiseXs) -> Self {
+    pub fn __new__(
+        awr: f64,
+        qi: f64,
+        lr: i32,
+        xs: Py_njoy_outram_park_fork__groupr__PointwiseXs,
+    ) -> Self {
         Self {
             inner: ::njoy_outram_park_fork::groupr::PendfCrossSection {
                 awr: awr,
+                qi: qi,
+                lr: lr,
                 xs: xs.inner,
             },
         }
@@ -9710,11 +13072,20 @@ impl Py_njoy_outram_park_fork__groupr__PointwiseXs {
             )),
         }
     }
+    // @item variant:njoy_outram_park_fork::groupr::PointwiseXs::Derived
+    #[staticmethod]
+    #[pyo3(name = "Derived")]
+    pub fn v_Derived(a0: Py_njoy_outram_park_fork__groupr__panel__DerivedQuantity) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::PointwiseXs::Derived(a0.inner),
+        }
+    }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner {
             ::njoy_outram_park_fork::groupr::PointwiseXs::Constant(..) => "Constant",
             ::njoy_outram_park_fork::groupr::PointwiseXs::LinLin(..) => "LinLin",
+            ::njoy_outram_park_fork::groupr::PointwiseXs::Derived(..) => "Derived",
             _ => "unknown",
         }
     }
@@ -9975,7 +13346,7 @@ impl Py_njoy_outram_park_fork__groupr__SelfShieldedMgxs {
 }
 
 // @item type:njoy_outram_park_fork::groupr::SlowingDownParams
-#[doc = "Heterogeneity / multi-moderator parameters for the [`genflx_slowing_down`]\nsolve — the `ir`-selected features of `genflx` (`groupr.f90:5330-5336`).\n\nAll barn quantities are per absorber atom. The default is the homogeneous,\nsingle-moderator case (`beta = 0`, `sam = 0`, no second/third moderator),\nwhich is the case this module ports; the heterogeneity / multi-moderator\nfields are carried so the interface is complete, but a non-zero value there\nmakes [`genflx_slowing_down`] return [`NjoyError::NotPorted`] (see the module\nscope note)."]
+#[doc = "Heterogeneity / multi-moderator parameters for the [`genflx_slowing_down`]\nsolve — the `ir`-selected features of `genflx` (`groupr.f90:5330-5336`).\n\nAll barn quantities are per absorber atom. The default is the homogeneous,\nsingle-moderator case (`beta = 0`, `sam = 0`, no second/third moderator);\nthe heterogeneity / multi-moderator fields switch on the `k = 2, 3` terms\n(see the module scope note)."]
 #[pyclass(
     name = "SlowingDownParams",
     module = "outram_park.njoy_outram_park_fork"
@@ -10896,9 +14267,176 @@ impl Py_njoy_outram_park_fork__groupr__WeightSelection {
     }
 }
 
+// @item type:njoy_outram_park_fork::groupr::file4::File4Angular
+#[doc = "A File-4 angular distribution ready to answer `getfle` queries."]
+#[pyclass(name = "File4Angular", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__file4__File4Angular {
+    pub inner: ::njoy_outram_park_fork::groupr::file4::File4Angular,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__file4__File4Angular {
+    // @item field:njoy_outram_park_fork::groupr::file4::File4Angular::lct
+    #[getter(lct)]
+    pub fn get_lct(&self) -> i32 {
+        let v = self.inner.lct.clone();
+        v
+    }
+    #[setter(lct)]
+    pub fn set_lct(&mut self, v: i32) {
+        self.inner.lct = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::file4::File4Angular::isotropic
+    #[getter(isotropic)]
+    pub fn get_isotropic(&self) -> bool {
+        let v = self.inner.isotropic.clone();
+        v
+    }
+    #[setter(isotropic)]
+    pub fn set_isotropic(&mut self, v: bool) {
+        self.inner.isotropic = v;
+    }
+    // @item method:njoy_outram_park_fork::groupr::file4::File4Angular::from_tape
+    #[doc = "Read `MF=4/MT=mt` of `mat` and convert every record with `getco`\n(`getfle` initialisation, `groupr.f90:9705-9760`, for all energies\nrather than the first two). `nl_max` is the coefficient count asked\nfor (`nld = 21` in `getdis`).\n\n# Errors\n[`NjoyError::SectionNotFound`] when the section is absent;\n[`NjoyError::EndfParse`] for `LTT` outside `0..=3`, or a lab-frame\ndistribution (`LCT = 1`), which upstream cannot convert to CM either."]
+    #[staticmethod]
+    pub fn from_tape(
+        tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+        mat: i32,
+        mt: i32,
+        nl_max: usize,
+    ) -> PyResult<Py_njoy_outram_park_fork__groupr__file4__File4Angular> {
+        err(
+            ::njoy_outram_park_fork::groupr::file4::File4Angular::from_tape(
+                &tape.inner,
+                mat,
+                mt,
+                nl_max,
+            ),
+        )
+        .map(|v| Py_njoy_outram_park_fork__groupr__file4__File4Angular { inner: v })
+    }
+    // @item method:njoy_outram_park_fork::groupr::file4::File4Angular::len
+    #[doc = "Number of tabulated incident energies."]
+    pub fn len(&self) -> usize {
+        ::njoy_outram_park_fork::groupr::file4::File4Angular::len(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::groupr::file4::File4Angular::is_empty
+    #[doc = "True when no records were read."]
+    pub fn is_empty(&self) -> bool {
+        ::njoy_outram_park_fork::groupr::file4::File4Angular::is_empty(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::groupr::file4::File4Angular::energies
+    #[doc = "The tabulated incident energies \\[eV\\]."]
+    pub fn energies(&self) -> Vec<f64> {
+        ::njoy_outram_park_fork::groupr::file4::File4Angular::energies(&self.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:njoy_outram_park_fork::groupr::file4::File4Angular::first_energy
+    #[doc = "The first tabulated energy — `getfle`'s initial `enext`\n(`groupr.f90:9762`); `1e10` when isotropic."]
+    pub fn first_energy(&self) -> f64 {
+        ::njoy_outram_park_fork::groupr::file4::File4Angular::first_energy(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::groupr::file4::File4Angular::coefficients_at
+    #[doc = "`getfle` at `e > 0` (`groupr.f90:9767-9873`): `nle` coefficients.\n\n# Errors\n[`NjoyError::EndfParse`] above `1.01 x` the last tabulated energy\n(\"desired energy above highest given\")."]
+    pub fn coefficients_at(
+        &self,
+        e: f64,
+        nle: usize,
+    ) -> PyResult<Py_njoy_outram_park_fork__groupr__file4__LegendreAt> {
+        err(
+            ::njoy_outram_park_fork::groupr::file4::File4Angular::coefficients_at(
+                &self.inner,
+                e,
+                nle,
+            ),
+        )
+        .map(|v| Py_njoy_outram_park_fork__groupr__file4__LegendreAt { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::groupr::file4::LegendreAt
+#[doc = "`getfle`'s answer at one energy."]
+#[pyclass(name = "LegendreAt", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__file4__LegendreAt {
+    pub inner: ::njoy_outram_park_fork::groupr::file4::LegendreAt,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__file4__LegendreAt {
+    // @item field:njoy_outram_park_fork::groupr::file4::LegendreAt::fle
+    #[getter(fle)]
+    pub fn get_fle(&self) -> Vec<f64> {
+        let v = self.inner.fle.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(fle)]
+    pub fn set_fle(&mut self, v: Vec<f64>) {
+        self.inner.fle = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::groupr::file4::LegendreAt::nle
+    #[getter(nle)]
+    pub fn get_nle(&self) -> usize {
+        let v = self.inner.nle.clone();
+        v
+    }
+    #[setter(nle)]
+    pub fn set_nle(&mut self, v: usize) {
+        self.inner.nle = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::file4::LegendreAt::enext
+    #[getter(enext)]
+    pub fn get_enext(&self) -> f64 {
+        let v = self.inner.enext.clone();
+        v
+    }
+    #[setter(enext)]
+    pub fn set_enext(&mut self, v: f64) {
+        self.inner.enext = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::file4::LegendreAt::idis
+    #[getter(idis)]
+    pub fn get_idis(&self) -> bool {
+        let v = self.inner.idis.clone();
+        v
+    }
+    #[setter(idis)]
+    pub fn set_idis(&mut self, v: bool) {
+        self.inner.idis = v;
+    }
+    // @item ctor:njoy_outram_park_fork::groupr::file4::LegendreAt
+    #[new]
+    pub fn __new__(fle: Vec<f64>, nle: usize, enext: f64, idis: bool) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::file4::LegendreAt {
+                fle: fle.into_iter().map(|e| e).collect::<Vec<_>>(),
+                nle: nle,
+                enext: enext,
+                idis: idis,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
 // @item type:njoy_outram_park_fork::groupr::gaminr_matrix::PhotonFeed
 #[doc = "A photon-production **feed function**: how one reaction distributes its\nproduced photons across the photon sink groups, per unit incident energy.\n\nThe enum (no trait objects, per the crate design rules) closes over the\nfeed variants this port covers. Each variant supplies two things to the\nmatrix reduction:\n\n- a **yield** `Y(E)` \\[photons/reaction\\] versus incident neutron energy\n  ([`PhotonFeed::yield_xs`]), and\n- a fixed **photon-group distribution** `g_j` (summing to 1) that splits each\n  produced photon across the photon groups\n  ([`PhotonFeed::photon_group_fractions`]).\n\nThe product `Y(E) * g_j`, integrated with `sigma(E) phi(E)` over an incident\ngroup, is the group-to-group production matrix element."]
-#[pyclass(name = "PhotonFeed", module = "outram_park.njoy_outram_park_fork")]
+#[pyclass(
+    name = "gaminr_matrix_PhotonFeed",
+    module = "outram_park.njoy_outram_park_fork"
+)]
 #[derive(Clone)]
 pub struct Py_njoy_outram_park_fork__groupr__gaminr_matrix__PhotonFeed {
     pub inner: ::njoy_outram_park_fork::groupr::gaminr_matrix::PhotonFeed,
@@ -11766,6 +15304,425 @@ impl Py_njoy_outram_park_fork__groupr__matrix__ScatterMatrix {
     }
 }
 
+// @item type:njoy_outram_park_fork::groupr::matrix_panel::FluxComponents
+#[doc = "The weighting flux per dilution and Legendre order — what `getflx`\nreturns as `flux(iz, il)`.\n\n`per_dilution[iz]` holds either a single flux, used for every `il`\n(the `nsigz = 1` rule, `:6510-6513`), or one component per Legendre\norder (`nsigz > 1`, `:6498-6503`)."]
+#[pyclass(name = "FluxComponents", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__matrix_panel__FluxComponents {
+    pub inner: ::njoy_outram_park_fork::groupr::matrix_panel::FluxComponents,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__matrix_panel__FluxComponents {
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::FluxComponents::per_dilution
+    #[getter(per_dilution)]
+    pub fn get_per_dilution(&self) -> Vec<Vec<Py_njoy_outram_park_fork__groupr__GroupFlux>> {
+        let v = self.inner.per_dilution.clone();
+        v.into_iter()
+            .map(|e| {
+                e.into_iter()
+                    .map(|e| Py_njoy_outram_park_fork__groupr__GroupFlux { inner: e })
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(per_dilution)]
+    pub fn set_per_dilution(&mut self, v: Vec<Vec<Py_njoy_outram_park_fork__groupr__GroupFlux>>) {
+        self.inner.per_dilution = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::groupr::matrix_panel::FluxComponents::p0
+    #[doc = "One flux per dilution, broadcast over Legendre order."]
+    #[staticmethod]
+    pub fn p0(
+        fluxes: Vec<Py_njoy_outram_park_fork__groupr__GroupFlux>,
+    ) -> Py_njoy_outram_park_fork__groupr__matrix_panel__FluxComponents {
+        Py_njoy_outram_park_fork__groupr__matrix_panel__FluxComponents {
+            inner: ::njoy_outram_park_fork::groupr::matrix_panel::FluxComponents::p0(
+                fluxes.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item method:njoy_outram_park_fork::groupr::matrix_panel::FluxComponents::nz
+    #[doc = "`nz`."]
+    pub fn nz(&self) -> usize {
+        ::njoy_outram_park_fork::groupr::matrix_panel::FluxComponents::nz(&self.inner)
+    }
+    // @item ctor:njoy_outram_park_fork::groupr::matrix_panel::FluxComponents
+    #[new]
+    pub fn __new__(per_dilution: Vec<Vec<Py_njoy_outram_park_fork__groupr__GroupFlux>>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::matrix_panel::FluxComponents {
+                per_dilution: per_dilution
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader
+#[doc = "Identity of the GENDF section a matrix run writes."]
+#[pyclass(name = "MatrixHeader", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__matrix_panel__MatrixHeader {
+    pub inner: ::njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__matrix_panel__MatrixHeader {
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader::mf
+    #[getter(mf)]
+    pub fn get_mf(&self) -> i32 {
+        let v = self.inner.mf.clone();
+        v
+    }
+    #[setter(mf)]
+    pub fn set_mf(&mut self, v: i32) {
+        self.inner.mf = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader::mt
+    #[getter(mt)]
+    pub fn get_mt(&self) -> i32 {
+        let v = self.inner.mt.clone();
+        v
+    }
+    #[setter(mt)]
+    pub fn set_mt(&mut self, v: i32) {
+        self.inner.mt = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader::za
+    #[getter(za)]
+    pub fn get_za(&self) -> f64 {
+        let v = self.inner.za.clone();
+        v
+    }
+    #[setter(za)]
+    pub fn set_za(&mut self, v: f64) {
+        self.inner.za = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader::zam
+    #[getter(zam)]
+    pub fn get_zam(&self) -> f64 {
+        let v = self.inner.zam.clone();
+        v
+    }
+    #[setter(zam)]
+    pub fn set_zam(&mut self, v: f64) {
+        self.inner.zam = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader::lrflag
+    #[getter(lrflag)]
+    pub fn get_lrflag(&self) -> i32 {
+        let v = self.inner.lrflag.clone();
+        v
+    }
+    #[setter(lrflag)]
+    pub fn set_lrflag(&mut self, v: i32) {
+        self.inner.lrflag = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader::temperature_k
+    #[getter(temperature_k)]
+    pub fn get_temperature_k(&self) -> f64 {
+        let v = self.inner.temperature_k.clone();
+        v
+    }
+    #[setter(temperature_k)]
+    pub fn set_temperature_k(&mut self, v: f64) {
+        self.inner.temperature_k = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader::emaxx
+    #[getter(emaxx)]
+    pub fn get_emaxx(&self) -> f64 {
+        let v = self.inner.emaxx.clone();
+        v
+    }
+    #[setter(emaxx)]
+    pub fn set_emaxx(&mut self, v: f64) {
+        self.inner.emaxx = v;
+    }
+    // @item ctor:njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader
+    #[new]
+    pub fn __new__(
+        mf: i32,
+        mt: i32,
+        za: f64,
+        zam: f64,
+        lrflag: i32,
+        temperature_k: f64,
+        emaxx: f64,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::matrix_panel::MatrixHeader {
+                mf: mf,
+                mt: mt,
+                za: za,
+                zam: zam,
+                lrflag: lrflag,
+                temperature_k: temperature_k,
+                emaxx: emaxx,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::groupr::panel::DerivedQuantity
+#[doc = "The three analytic quantities `getsig` serves for `MT = 257/258/259`\n(`groupr.f90:6758-6772`); their group averages are flux-weighted mean\nenergy, lethargy and reciprocal velocity."]
+#[pyclass(name = "DerivedQuantity", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__panel__DerivedQuantity {
+    pub inner: ::njoy_outram_park_fork::groupr::panel::DerivedQuantity,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__panel__DerivedQuantity {
+    // @item method:njoy_outram_park_fork::groupr::panel::DerivedQuantity::mt
+    #[doc = "The `MT` number of the quantity."]
+    pub fn mt(&self) -> i32 {
+        ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::mt(self.inner.clone())
+    }
+    // @item method:njoy_outram_park_fork::groupr::panel::DerivedQuantity::from_mt
+    #[doc = "The quantity for `mt` (257/258/259), or `None`."]
+    #[staticmethod]
+    pub fn from_mt(mt: i32) -> Option<Py_njoy_outram_park_fork__groupr__panel__DerivedQuantity> {
+        ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::from_mt(mt)
+            .map(|e| Py_njoy_outram_park_fork__groupr__panel__DerivedQuantity { inner: e })
+    }
+    // @item method:njoy_outram_park_fork::groupr::panel::DerivedQuantity::value
+    #[doc = "`sig(1,1)` at `e` \\[eV\\] (`:6758-6772`)."]
+    pub fn value(&self, e: f64) -> f64 {
+        ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::value(self.inner.clone(), e)
+    }
+    // @item variant:njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageEnergy
+    #[staticmethod]
+    #[pyo3(name = "AverageEnergy")]
+    pub fn v_AverageEnergy() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageEnergy,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageLethargy
+    #[staticmethod]
+    #[pyo3(name = "AverageLethargy")]
+    pub fn v_AverageLethargy() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageLethargy,
+        }
+    }
+    // @item variant:njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageInverseVelocity
+    #[staticmethod]
+    #[pyo3(name = "AverageInverseVelocity")]
+    pub fn v_AverageInverseVelocity() -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageInverseVelocity,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageEnergy => {
+                "AverageEnergy"
+            }
+            ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageLethargy => {
+                "AverageLethargy"
+            }
+            ::njoy_outram_park_fork::groupr::panel::DerivedQuantity::AverageInverseVelocity => {
+                "AverageInverseVelocity"
+            }
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::groupr::two_body::FeedAt
+#[doc = "`getdis`'s answer at one incident energy."]
+#[pyclass(name = "FeedAt", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__two_body__FeedAt {
+    pub inner: ::njoy_outram_park_fork::groupr::two_body::FeedAt,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__two_body__FeedAt {
+    // @item field:njoy_outram_park_fork::groupr::two_body::FeedAt::ff
+    #[getter(ff)]
+    pub fn get_ff(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.ff.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(ff)]
+    pub fn set_ff(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.ff = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::groupr::two_body::FeedAt::ng
+    #[getter(ng)]
+    pub fn get_ng(&self) -> usize {
+        let v = self.inner.ng.clone();
+        v
+    }
+    #[setter(ng)]
+    pub fn set_ng(&mut self, v: usize) {
+        self.inner.ng = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::two_body::FeedAt::iglo
+    #[getter(iglo)]
+    pub fn get_iglo(&self) -> usize {
+        let v = self.inner.iglo.clone();
+        v
+    }
+    #[setter(iglo)]
+    pub fn set_iglo(&mut self, v: usize) {
+        self.inner.iglo = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::two_body::FeedAt::nq
+    #[getter(nq)]
+    pub fn get_nq(&self) -> usize {
+        let v = self.inner.nq.clone();
+        v
+    }
+    #[setter(nq)]
+    pub fn set_nq(&mut self, v: usize) {
+        self.inner.nq = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::two_body::FeedAt::enext
+    #[getter(enext)]
+    pub fn get_enext(&self) -> f64 {
+        let v = self.inner.enext.clone();
+        v
+    }
+    #[setter(enext)]
+    pub fn set_enext(&mut self, v: f64) {
+        self.inner.enext = v;
+    }
+    // @item field:njoy_outram_park_fork::groupr::two_body::FeedAt::idisc
+    #[getter(idisc)]
+    pub fn get_idisc(&self) -> bool {
+        let v = self.inner.idisc.clone();
+        v
+    }
+    #[setter(idisc)]
+    pub fn set_idisc(&mut self, v: bool) {
+        self.inner.idisc = v;
+    }
+    // @item ctor:njoy_outram_park_fork::groupr::two_body::FeedAt
+    #[new]
+    pub fn __new__(
+        ff: Vec<Vec<f64>>,
+        ng: usize,
+        iglo: usize,
+        nq: usize,
+        enext: f64,
+        idisc: bool,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::groupr::two_body::FeedAt {
+                ff: ff
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+                ng: ng,
+                iglo: iglo,
+                nq: nq,
+                enext: enext,
+                idisc: idisc,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::groupr::two_body::TwoBodyFeed
+#[doc = "The `getdis` state for one reaction: the File-4 data, the kinematics\nconstants `getsig`/`getflx` set up (`awr`, `q`, `thresh`, `alpha`), the\ngroup structure, and the saved critical-energy trackers."]
+#[pyclass(name = "TwoBodyFeed", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__groupr__two_body__TwoBodyFeed {
+    pub inner: ::njoy_outram_park_fork::groupr::two_body::TwoBodyFeed,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__groupr__two_body__TwoBodyFeed {
+    // @item method:njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::new
+    #[doc = "Set up the feed for a neutron two-body reaction.\n\n- `angular` — the File-4 section (CM frame) for the reaction;\n- `egn` — the `ngn + 1` ascending group boundaries \\[eV\\];\n- `awr` — atomic-weight ratio from the MF=3 HEAD (`getsig:6717`);\n- `q` — the MF=3 `QI` (`c2h`, `:6748`), 0 for elastic;\n- `lrflag` — MF=3 `LR` (`:6749`), sets the multiplicity `yld`\n  (`:9418-9421`).\n\nThe state starts as after `getdis(e = 0)` (`:9603-9609`): the\ncritical-energy trackers reset, ready for ascending calls.\n\n# Errors\n[`NjoyError::EndfParse`] for fewer than two boundaries, a non-CM\ndistribution, or `awr <= 0`."]
+    #[new]
+    pub fn new(
+        angular: Py_njoy_outram_park_fork__groupr__file4__File4Angular,
+        egn: Vec<f64>,
+        awr: f64,
+        q: f64,
+        lrflag: i32,
+    ) -> PyResult<Py_njoy_outram_park_fork__groupr__two_body__TwoBodyFeed> {
+        err(::njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::new(
+            angular.inner,
+            &egn.into_iter().map(|e| e).collect::<Vec<_>>(),
+            awr,
+            q,
+            lrflag,
+        ))
+        .map(|v| Py_njoy_outram_park_fork__groupr__two_body__TwoBodyFeed { inner: v })
+    }
+    // @item method:njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::ngn
+    #[doc = "Number of groups `ngn`."]
+    pub fn ngn(&self) -> usize {
+        ::njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::ngn(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::egn
+    #[doc = "Group boundaries."]
+    pub fn egn(&self) -> Vec<f64> {
+        ::njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::egn(&self.inner)
+            .clone()
+            .iter()
+            .cloned()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::alpha
+    #[doc = "`alpha = ((awr-1)/(awr+1))^2`."]
+    pub fn alpha(&self) -> f64 {
+        ::njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::alpha(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::reset
+    #[doc = "`getdis(e = 0)` (`:9603-9609` then `:610-680` at `e = 0`): reset the\ncritical-energy trackers so the next call may be at any energy."]
+    pub fn reset(&mut self) -> () {
+        ::njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::reset(&mut self.inner)
+    }
+    // @item method:njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::feed
+    #[doc = "`getdis` at `e > 0` for `nl` Legendre orders (`:9412-9601`, then the\ncritical-point update `:9610-9677`). Calls must be in ascending `e`\n(the trackers only move up), as `panel` guarantees.\n\n# Errors\nPropagates [`File4Angular::coefficients_at`] failures; `nl == 0` or\n`e <= 0` is an [`NjoyError::EndfParse`]."]
+    pub fn feed(
+        &mut self,
+        e: f64,
+        nl: usize,
+    ) -> PyResult<Py_njoy_outram_park_fork__groupr__two_body__FeedAt> {
+        err(::njoy_outram_park_fork::groupr::two_body::TwoBodyFeed::feed(&mut self.inner, e, nl))
+            .map(|v| Py_njoy_outram_park_fork__groupr__two_body__FeedAt { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:njoy_outram_park_fork::heatr::DamageEnergy
 #[doc = "Damage-energy production cross section, ENDF **MT=444**, vs incident energy\n\\[eV\\], in \\[eV·barn\\] (damage energy × cross section — same convention as the\nMT=301 [`Kerma`]).\n\nBuilt from a [`ReconrResult`] via [`DamageEnergy::from_reconr`]; evaluated\nwith [`DamageEnergy::eval`]. Covers the **two-body neutron-scattering**\nrecoil channels — **elastic** (MT=2) and **discrete inelastic levels**\n(MT=51–90), the residual nucleus recoiling against the single emitted\nneutron. Per incident energy `E`, summed over these reactions,\n\n```text\n  σ_444(E) = Σ σ_r(E) · ⟨df(E_R)⟩_r,\n```\n\neach reaction's cross section times its recoil-averaged Lindhard damage\nenergy. For **isotropic** centre-of-mass scattering the recoil energy is\n*uniform* on `[E_min, E_max]` (it is linear in the CM cosine), with\n\n```text\n  E_min = C·(1−g)²,   E_max = C·(1+g)²,   C = A/(A+1)²·E,\n  g = √(1 − E_thr/E),   E_thr = (A+1)/A·|Q|\n```\n\nso `⟨df⟩ = (1/(E_max−E_min))·∫ df(E_R) dE_R` (with `df = 0` below `E_d`).\nElastic is the `Q = 0` case: `g = 1`, `E_min = 0`, `E_max = 4A/(A+1)²·E`\n(backscatter maximum). MF=4 angular anisotropy (which reweights the recoil\ndistribution — `heatr.f90`'s 64-point Gauss-Legendre `disbar`) and the\ncontinuum / (n,xn) / capture-recoil channels are the remaining H7 sub-steps."]
 #[pyclass(name = "DamageEnergy", module = "outram_park.njoy_outram_park_fork")]
@@ -12339,7 +16296,7 @@ impl Py_njoy_outram_park_fork__leapr__CardCursor {
         .map(|v| v)
     }
     // @item method:njoy_outram_park_fork::leapr::CardCursor::read_comment
-    #[doc = "Read one card-20 comment record.\n\nReturns `Ok(None)` at the terminator — a record that supplies no text, in\npractice a bare `/` or a blank line, which leaves NJOY's sentinel `'$'`\nin place and ends the comment loop. Also returns `Ok(None)` at end of\ndeck, so a deck that simply stops is not an error."]
+    #[doc = "Read one card-20 comment record.\n\nReturns `Ok(None)` at the terminator — a record that supplies no text,\nwhich leaves NJOY's sentinel `'$'` in place and ends the comment loop\n(`leapr.f90:3096-3110`). In Fortran list-directed input that is any\nrecord whose first item is the slash — a bare `/` or `/ end leapr`\nalike (the D-in-D2O deck ends its comments that way; until 2026-09-10\nthe trailing words were taken as a 67th comment card, which the NJOY\noracle's 66-card header exposed). A blank record also ends the loop\nhere (Fortran would skip it and read on; every deck in the tree\nfollows a blank with a slash, so the two agree). Also returns\n`Ok(None)` at end of deck, so a deck that simply stops is not an error."]
     pub fn read_comment(&mut self) -> PyResult<Option<String>> {
         err(::njoy_outram_park_fork::leapr::CardCursor::read_comment(
             &mut self.inner,
@@ -13213,6 +17170,38 @@ impl Py_njoy_outram_park_fork__leapr__LeaprDeck {
     pub fn set_temperatures(&mut self, v: Vec<Py_njoy_outram_park_fork__leapr__LeaprTemperature>) {
         self.inner.temperatures = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
     }
+    // @item field:njoy_outram_park_fork::leapr::LeaprDeck::secondary_temperatures
+    #[getter(secondary_temperatures)]
+    pub fn get_secondary_temperatures(
+        &self,
+    ) -> Vec<Py_njoy_outram_park_fork__leapr__LeaprTemperature> {
+        let v = self.inner.secondary_temperatures.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__leapr__LeaprTemperature { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(secondary_temperatures)]
+    pub fn set_secondary_temperatures(
+        &mut self,
+        v: Vec<Py_njoy_outram_park_fork__leapr__LeaprTemperature>,
+    ) {
+        self.inner.secondary_temperatures = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::leapr::LeaprDeck::constants_override
+    #[getter(constants_override)]
+    pub fn get_constants_override(
+        &self,
+    ) -> Option<Py_njoy_outram_park_fork__leapr__PhysicalConstants> {
+        let v = self.inner.constants_override.clone();
+        v.map(|e| Py_njoy_outram_park_fork__leapr__PhysicalConstants { inner: e })
+    }
+    #[setter(constants_override)]
+    pub fn set_constants_override(
+        &mut self,
+        v: Option<Py_njoy_outram_park_fork__leapr__PhysicalConstants>,
+    ) {
+        self.inner.constants_override = v.map(|e| e.inner);
+    }
     // @item field:njoy_outram_park_fork::leapr::LeaprDeck::comments
     #[getter(comments)]
     pub fn get_comments(&self) -> Vec<String> {
@@ -13256,8 +17245,21 @@ impl Py_njoy_outram_park_fork__leapr__LeaprDeck {
             inner: ::njoy_outram_park_fork::leapr::LeaprDeck::constants(&self.inner),
         }
     }
+    // @item method:njoy_outram_park_fork::leapr::LeaprDeck::with_constants
+    #[doc = "Regenerate with an explicit constant set instead of the one inferred\nfrom the deck's `EVAL` date — e.g. [`PhysicalConstants::Codata2018`]\nto reproduce what a current NJOY2016 build writes for a deck whose\nevaluation predates the CODATA change (the inferred vintage\nreproduces the *published* tape, not the *rerun*; the two differ by\n`bk`, ~6e-6, which is a ~4e-6 shift in `T_eff` and ~1e-5 in the\nDebye-Waller lambda — measured on `tsl-SiO2-alpha`, 2026-09-10)."]
+    pub fn with_constants(
+        &self,
+        constants: Py_njoy_outram_park_fork__leapr__PhysicalConstants,
+    ) -> Py_njoy_outram_park_fork__leapr__LeaprDeck {
+        Py_njoy_outram_park_fork__leapr__LeaprDeck {
+            inner: ::njoy_outram_park_fork::leapr::LeaprDeck::with_constants(
+                self.inner.clone(),
+                constants.inner,
+            ),
+        }
+    }
     // @item method:njoy_outram_park_fork::leapr::LeaprDeck::input_at
-    #[doc = "Build the [`LeaprInput`] for temperature block `index`, ready to hand to\n[`crate::leapr::continuous::phonon_expansion`].\n\n`arat` is set to 1 (the principal scatterer). LEAPR's secondary-scatterer\npass re-runs the same grids with `arat = aws/awr`; that pass is not\ndriven from here.\n\nThe job's [`LeaprInput::constants`] is taken from [`Self::constants`], so\na deck that declares its vintage is regenerated with the constants its\nevaluation was produced with, with no action from the caller.\n\n# Errors\n[`NjoyError::EndfParse`] if `index` is past the end of\n[`temperatures`](Self::temperatures)."]
+    #[doc = "Build the [`LeaprInput`] for temperature block `index`, ready to hand to\n[`crate::leapr::continuous::phonon_expansion`].\n\n`arat` is set to 1 (the principal scatterer). LEAPR's secondary-scatterer\npass re-runs the same grids with `arat = aws/awr`; see\n[`Self::input_at_secondary`].\n\nThe job's [`LeaprInput::constants`] is taken from [`Self::constants`], so\na deck that declares its vintage is regenerated with the constants its\nevaluation was produced with, with no action from the caller.\n\n# Errors\n[`NjoyError::EndfParse`] if `index` is past the end of\n[`temperatures`](Self::temperatures)."]
     pub fn input_at(&self, index: usize) -> PyResult<Py_njoy_outram_park_fork__leapr__LeaprInput> {
         err(::njoy_outram_park_fork::leapr::LeaprDeck::input_at(
             &self.inner,
@@ -13274,6 +17276,27 @@ impl Py_njoy_outram_park_fork__leapr__LeaprDeck {
     ) -> PyResult<Py_njoy_outram_park_fork__leapr__LeaprInput> {
         err(
             ::njoy_outram_park_fork::leapr::LeaprDeck::input_at_temperature(
+                &self.inner,
+                index,
+                temperature_k,
+            ),
+        )
+        .map(|v| Py_njoy_outram_park_fork__leapr__LeaprInput { inner: v })
+    }
+    // @item method:njoy_outram_park_fork::leapr::LeaprDeck::is_mixed_moderator
+    #[doc = "True for a mixed moderator: a secondary scatterer whose law is merged\ninto S(alpha, beta) by a second LEAPR pass (`nss != 0`, `b7 <= 0`,\n`leapr.f90:399`)."]
+    pub fn is_mixed_moderator(&self) -> bool {
+        ::njoy_outram_park_fork::leapr::LeaprDeck::is_mixed_moderator(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::leapr::LeaprDeck::input_at_secondary
+    #[doc = "Build the [`LeaprInput`] of the **secondary** scatterer's pass for\ntemperature block `index` at `temperature_k`: the secondary's own\ncards 10-19 with `arat = aws/awr` (`leapr.f90:328`), which every\nkernel applies as `alpha / arat` (`:500, :891, :1409`).\n\n# Errors\n[`NjoyError::EndfParse`] if the deck is not a mixed moderator, `index`\nis out of range, or the temperature is not positive and finite."]
+    pub fn input_at_secondary(
+        &self,
+        index: usize,
+        temperature_k: f64,
+    ) -> PyResult<Py_njoy_outram_park_fork__leapr__LeaprInput> {
+        err(
+            ::njoy_outram_park_fork::leapr::LeaprDeck::input_at_secondary(
                 &self.inner,
                 index,
                 temperature_k,
@@ -13324,6 +17347,8 @@ impl Py_njoy_outram_park_fork__leapr__LeaprDeck {
         alpha: Vec<f64>,
         beta: Vec<f64>,
         temperatures: Vec<Py_njoy_outram_park_fork__leapr__LeaprTemperature>,
+        secondary_temperatures: Vec<Py_njoy_outram_park_fork__leapr__LeaprTemperature>,
+        constants_override: Option<Py_njoy_outram_park_fork__leapr__PhysicalConstants>,
         comments: Vec<String>,
     ) -> Self {
         Self {
@@ -13355,6 +17380,11 @@ impl Py_njoy_outram_park_fork__leapr__LeaprDeck {
                     .into_iter()
                     .map(|e| e.inner)
                     .collect::<Vec<_>>(),
+                secondary_temperatures: secondary_temperatures
+                    .into_iter()
+                    .map(|e| e.inner)
+                    .collect::<Vec<_>>(),
+                constants_override: constants_override.map(|e| e.inner),
                 comments: comments.into_iter().map(|e| e).collect::<Vec<_>>(),
             },
         }
@@ -13642,6 +17672,26 @@ impl Py_njoy_outram_park_fork__leapr__LeaprOutput {
     pub fn set_tempf(&mut self, v: Vec<f64>) {
         self.inner.tempf = v.into_iter().map(|e| e).collect::<Vec<_>>();
     }
+    // @item field:njoy_outram_park_fork::leapr::LeaprOutput::tempf_secondary
+    #[getter(tempf_secondary)]
+    pub fn get_tempf_secondary(&self) -> Option<Vec<f64>> {
+        let v = self.inner.tempf_secondary.clone();
+        v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+    }
+    #[setter(tempf_secondary)]
+    pub fn set_tempf_secondary(&mut self, v: Option<Vec<f64>>) {
+        self.inner.tempf_secondary = v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>());
+    }
+    // @item field:njoy_outram_park_fork::leapr::LeaprOutput::dwpix_secondary
+    #[getter(dwpix_secondary)]
+    pub fn get_dwpix_secondary(&self) -> Option<Vec<f64>> {
+        let v = self.inner.dwpix_secondary.clone();
+        v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+    }
+    #[setter(dwpix_secondary)]
+    pub fn set_dwpix_secondary(&mut self, v: Option<Vec<f64>>) {
+        self.inner.dwpix_secondary = v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>());
+    }
     // @item field:njoy_outram_park_fork::leapr::LeaprOutput::ssm
     #[getter(ssm)]
     pub fn get_ssm(&self) -> Vec<Py_njoy_outram_park_fork__leapr__SabMatrix> {
@@ -13736,6 +17786,8 @@ impl Py_njoy_outram_park_fork__leapr__LeaprOutput {
         temperatures_k: Vec<f64>,
         dwpix: Vec<f64>,
         tempf: Vec<f64>,
+        tempf_secondary: Option<Vec<f64>>,
+        dwpix_secondary: Option<Vec<f64>>,
         ssm: Vec<Py_njoy_outram_park_fork__leapr__SabMatrix>,
         ssp: Option<Vec<Py_njoy_outram_park_fork__leapr__SabMatrix>>,
         npr: i32,
@@ -13758,6 +17810,10 @@ impl Py_njoy_outram_park_fork__leapr__LeaprOutput {
                 temperatures_k: temperatures_k.into_iter().map(|e| e).collect::<Vec<_>>(),
                 dwpix: dwpix.into_iter().map(|e| e).collect::<Vec<_>>(),
                 tempf: tempf.into_iter().map(|e| e).collect::<Vec<_>>(),
+                tempf_secondary: tempf_secondary
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()),
+                dwpix_secondary: dwpix_secondary
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()),
                 ssm: ssm.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
                 ssp: ssp.map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>()),
                 npr: npr,
@@ -13767,6 +17823,63 @@ impl Py_njoy_outram_park_fork__leapr__LeaprOutput {
                 constants: constants.inner,
             },
         }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::leapr::LeaprRun
+#[doc = "A completed LEAPR run: every temperature of the deck, the MF=7 tape and\nthe MF=1 header."]
+#[pyclass(name = "LeaprRun", module = "outram_park.njoy_outram_park_fork")]
+pub struct Py_njoy_outram_park_fork__leapr__LeaprRun {
+    pub inner: ::njoy_outram_park_fork::leapr::LeaprRun,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__leapr__LeaprRun {
+    // @item field:njoy_outram_park_fork::leapr::LeaprRun::title
+    #[getter(title)]
+    pub fn get_title(&self) -> String {
+        let v = self.inner.title.clone();
+        v
+    }
+    #[setter(title)]
+    pub fn set_title(&mut self, v: String) {
+        self.inner.title = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::LeaprRun::output
+    #[getter(output)]
+    pub fn get_output(&self) -> Py_njoy_outram_park_fork__leapr__LeaprOutput {
+        let v = self.inner.output.clone();
+        Py_njoy_outram_park_fork__leapr__LeaprOutput { inner: v }
+    }
+    #[setter(output)]
+    pub fn set_output(&mut self, v: Py_njoy_outram_park_fork__leapr__LeaprOutput) {
+        self.inner.output = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::leapr::LeaprRun::header
+    #[getter(header)]
+    pub fn get_header(&self) -> Py_njoy_outram_park_fork__leapr__Mf1Header {
+        let v = self.inner.header.clone();
+        Py_njoy_outram_park_fork__leapr__Mf1Header { inner: v }
+    }
+    #[setter(header)]
+    pub fn set_header(&mut self, v: Py_njoy_outram_park_fork__leapr__Mf1Header) {
+        self.inner.header = v.inner;
+    }
+    // @item method:njoy_outram_park_fork::leapr::LeaprRun::tpid_line
+    #[doc = "The TPID record `endout` writes: a blank text record with `MAT = 1`\n(`leapr.f90:3049-3057`)."]
+    #[staticmethod]
+    pub fn tpid_line() -> String {
+        ::njoy_outram_park_fork::leapr::LeaprRun::tpid_line()
+    }
+    // @item method:njoy_outram_park_fork::leapr::LeaprRun::write_text
+    #[doc = "The whole tape as text: TPID, MF=1/MT=451, then the MF=7 sections\n(with this crate's MF=7 line formatting; see [`Tape::write`] for how\nits CONT integer columns and sequence numbers differ cosmetically\nfrom NJOY's).\n\n# Errors\nOnly the [`Tape::write`] I/O error, which a `String` sink never raises."]
+    pub fn write_text(&self) -> PyResult<String> {
+        err(::njoy_outram_park_fork::leapr::LeaprRun::write_text(
+            &self.inner,
+        ))
+        .map(|v| v)
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -13856,6 +17969,176 @@ impl Py_njoy_outram_park_fork__leapr__LeaprTemperature {
                 continuous: continuous.inner,
                 oscillators: oscillators.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
                 pair_correlation: pair_correlation.map(|e| e.inner),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:njoy_outram_park_fork::leapr::Mf1Header
+#[doc = "What the MF=1/MT=451 header of a LEAPR tape carries\n(`endout`, `leapr.f90:3049-3156`)."]
+#[pyclass(name = "Mf1Header", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__leapr__Mf1Header {
+    pub inner: ::njoy_outram_park_fork::leapr::Mf1Header,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__leapr__Mf1Header {
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::mat
+    #[getter(mat)]
+    pub fn get_mat(&self) -> i32 {
+        let v = self.inner.mat.clone();
+        v
+    }
+    #[setter(mat)]
+    pub fn set_mat(&mut self, v: i32) {
+        self.inner.mat = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::za
+    #[getter(za)]
+    pub fn get_za(&self) -> f64 {
+        let v = self.inner.za.clone();
+        v
+    }
+    #[setter(za)]
+    pub fn set_za(&mut self, v: f64) {
+        self.inner.za = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::awr
+    #[getter(awr)]
+    pub fn get_awr(&self) -> f64 {
+        let v = self.inner.awr.clone();
+        v
+    }
+    #[setter(awr)]
+    pub fn set_awr(&mut self, v: f64) {
+        self.inner.awr = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::emax
+    #[getter(emax)]
+    pub fn get_emax(&self) -> f64 {
+        let v = self.inner.emax.clone();
+        v
+    }
+    #[setter(emax)]
+    pub fn set_emax(&mut self, v: f64) {
+        self.inner.emax = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::comments
+    #[getter(comments)]
+    pub fn get_comments(&self) -> Vec<String> {
+        let v = self.inner.comments.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(comments)]
+    pub fn set_comments(&mut self, v: Vec<String>) {
+        self.inner.comments = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::iel
+    #[getter(iel)]
+    pub fn get_iel(&self) -> i32 {
+        let v = self.inner.iel.clone();
+        v
+    }
+    #[setter(iel)]
+    pub fn set_iel(&mut self, v: i32) {
+        self.inner.iel = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::ntempr
+    #[getter(ntempr)]
+    pub fn get_ntempr(&self) -> usize {
+        let v = self.inner.ntempr.clone();
+        v
+    }
+    #[setter(ntempr)]
+    pub fn set_ntempr(&mut self, v: usize) {
+        self.inner.ntempr = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::nedge
+    #[getter(nedge)]
+    pub fn get_nedge(&self) -> usize {
+        let v = self.inner.nedge.clone();
+        v
+    }
+    #[setter(nedge)]
+    pub fn set_nedge(&mut self, v: usize) {
+        self.inner.nedge = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::nalpha
+    #[getter(nalpha)]
+    pub fn get_nalpha(&self) -> usize {
+        let v = self.inner.nalpha.clone();
+        v
+    }
+    #[setter(nalpha)]
+    pub fn set_nalpha(&mut self, v: usize) {
+        self.inner.nalpha = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::Mf1Header::nbeta
+    #[getter(nbeta)]
+    pub fn get_nbeta(&self) -> usize {
+        let v = self.inner.nbeta.clone();
+        v
+    }
+    #[setter(nbeta)]
+    pub fn set_nbeta(&mut self, v: usize) {
+        self.inner.nbeta = v;
+    }
+    // @item method:njoy_outram_park_fork::leapr::Mf1Header::nxc
+    #[doc = "`NXC` — the number of dictionary entries (`leapr.f90:3092-3093`)."]
+    pub fn nxc(&self) -> i32 {
+        ::njoy_outram_park_fork::leapr::Mf1Header::nxc(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::leapr::Mf1Header::dictionary
+    #[doc = "The dictionary `(MF, MT, NC, MOD)` rows (`leapr.f90:3118-3150`).\n`NC` for MF=7 is the Fortran's card-count *estimate*, reproduced\nverbatim (it does not always equal the number of lines written)."]
+    pub fn dictionary(&self) -> Vec<(i32, i32, i32, i32)> {
+        ::njoy_outram_park_fork::leapr::Mf1Header::dictionary(&self.inner)
+            .into_iter()
+            .map(|e| {
+                let (e0, e1, e2, e3) = e;
+                (e0, e1, e2, e3)
+            })
+            .collect::<Vec<_>>()
+    }
+    // @item method:njoy_outram_park_fork::leapr::Mf1Header::lines
+    #[doc = "The MF=1/MT=451 records exactly as `endout` writes them — 80-column\nlines from the HEAD through the dictionary, then the SEND\n(`seq = 99999`) and the FEND. The TPID record is not included."]
+    pub fn lines(&self) -> Vec<String> {
+        ::njoy_outram_park_fork::leapr::Mf1Header::lines(&self.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item ctor:njoy_outram_park_fork::leapr::Mf1Header
+    #[new]
+    pub fn __new__(
+        mat: i32,
+        za: f64,
+        awr: f64,
+        emax: f64,
+        comments: Vec<String>,
+        iel: i32,
+        ntempr: usize,
+        nedge: usize,
+        nalpha: usize,
+        nbeta: usize,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::leapr::Mf1Header {
+                mat: mat,
+                za: za,
+                awr: awr,
+                emax: emax,
+                comments: comments.into_iter().map(|e| e).collect::<Vec<_>>(),
+                iel: iel,
+                ntempr: ntempr,
+                nedge: nedge,
+                nalpha: nalpha,
+                nbeta: nbeta,
             },
         }
     }
@@ -15445,6 +19728,101 @@ impl Py_njoy_outram_park_fork__leapr__generate__SabSource {
         Self {
             inner: Default::default(),
         }
+    }
+}
+
+// @item type:njoy_outram_park_fork::leapr::generate::TemperatureLaw
+#[doc = "One temperature's completed scattering law — the `ssm` slab plus the\nper-temperature globals the Fortran temperature loop leaves behind\n(`leapr.f90:332-397`), with the `dwpix` conversions `endout` expects\nalready applied (`:3035-3038`)."]
+#[pyclass(name = "TemperatureLaw", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__leapr__generate__TemperatureLaw {
+    pub inner: ::njoy_outram_park_fork::leapr::generate::TemperatureLaw,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__leapr__generate__TemperatureLaw {
+    // @item field:njoy_outram_park_fork::leapr::generate::TemperatureLaw::ssm
+    #[getter(ssm)]
+    pub fn get_ssm(&self) -> Py_njoy_outram_park_fork__leapr__SabMatrix {
+        let v = self.inner.ssm.clone();
+        Py_njoy_outram_park_fork__leapr__SabMatrix { inner: v }
+    }
+    #[setter(ssm)]
+    pub fn set_ssm(&mut self, v: Py_njoy_outram_park_fork__leapr__SabMatrix) {
+        self.inner.ssm = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::leapr::generate::TemperatureLaw::dwpix
+    #[getter(dwpix)]
+    pub fn get_dwpix(&self) -> f64 {
+        let v = self.inner.dwpix.clone();
+        v
+    }
+    #[setter(dwpix)]
+    pub fn set_dwpix(&mut self, v: f64) {
+        self.inner.dwpix = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::generate::TemperatureLaw::tempf
+    #[getter(tempf)]
+    pub fn get_tempf(&self) -> f64 {
+        let v = self.inner.tempf.clone();
+        v
+    }
+    #[setter(tempf)]
+    pub fn set_tempf(&mut self, v: f64) {
+        self.inner.tempf = v;
+    }
+    // @item field:njoy_outram_park_fork::leapr::generate::TemperatureLaw::tempf_secondary
+    #[getter(tempf_secondary)]
+    pub fn get_tempf_secondary(&self) -> Option<f64> {
+        let v = self.inner.tempf_secondary.clone();
+        v.map(|e| e)
+    }
+    #[setter(tempf_secondary)]
+    pub fn set_tempf_secondary(&mut self, v: Option<f64>) {
+        self.inner.tempf_secondary = v.map(|e| e);
+    }
+    // @item field:njoy_outram_park_fork::leapr::generate::TemperatureLaw::dwpix_secondary
+    #[getter(dwpix_secondary)]
+    pub fn get_dwpix_secondary(&self) -> Option<f64> {
+        let v = self.inner.dwpix_secondary.clone();
+        v.map(|e| e)
+    }
+    #[setter(dwpix_secondary)]
+    pub fn set_dwpix_secondary(&mut self, v: Option<f64>) {
+        self.inner.dwpix_secondary = v.map(|e| e);
+    }
+    // @item field:njoy_outram_park_fork::leapr::generate::TemperatureLaw::constants
+    #[getter(constants)]
+    pub fn get_constants(&self) -> Py_njoy_outram_park_fork__leapr__PhysicalConstants {
+        let v = self.inner.constants.clone();
+        Py_njoy_outram_park_fork__leapr__PhysicalConstants { inner: v }
+    }
+    #[setter(constants)]
+    pub fn set_constants(&mut self, v: Py_njoy_outram_park_fork__leapr__PhysicalConstants) {
+        self.inner.constants = v.inner;
+    }
+    // @item ctor:njoy_outram_park_fork::leapr::generate::TemperatureLaw
+    #[new]
+    pub fn __new__(
+        ssm: Py_njoy_outram_park_fork__leapr__SabMatrix,
+        dwpix: f64,
+        tempf: f64,
+        tempf_secondary: Option<f64>,
+        dwpix_secondary: Option<f64>,
+        constants: Py_njoy_outram_park_fork__leapr__PhysicalConstants,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::leapr::generate::TemperatureLaw {
+                ssm: ssm.inner,
+                dwpix: dwpix,
+                tempf: tempf,
+                tempf_secondary: tempf_secondary.map(|e| e),
+                dwpix_secondary: dwpix_secondary.map(|e| e),
+                constants: constants.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
     }
 }
 
@@ -17953,6 +22331,16 @@ impl Py_njoy_outram_park_fork__prelude__ReconrResult {
     pub fn set_sections(&mut self, v: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>) {
         self.inner.sections = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
     }
+    // @item field:njoy_outram_park_fork::prelude::ReconrResult::resonance_upper_limit
+    #[getter(resonance_upper_limit)]
+    pub fn get_resonance_upper_limit(&self) -> Option<f64> {
+        let v = self.inner.resonance_upper_limit.clone();
+        v.map(|e| e)
+    }
+    #[setter(resonance_upper_limit)]
+    pub fn set_resonance_upper_limit(&mut self, v: Option<f64>) {
+        self.inner.resonance_upper_limit = v.map(|e| e);
+    }
     // @item method:njoy_outram_park_fork::prelude::ReconrResult::eval_mt
     #[doc = "Evaluate cross section \\[b\\] for a reaction at energy `e` \\[eV\\].\n\nUses linear interpolation on the lin-lin grid. Returns `0.0` if\n`mt` is not present or `e` is outside the tabulated range."]
     pub fn eval_mt(&self, mt: Py_njoy_outram_park_fork__MtReaction, e: f64) -> f64 {
@@ -17963,11 +22351,13 @@ impl Py_njoy_outram_park_fork__prelude__ReconrResult {
     pub fn __new__(
         material: Py_njoy_outram_park_fork__reconr__MaterialInfo,
         sections: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>,
+        resonance_upper_limit: Option<f64>,
     ) -> Self {
         Self {
             inner: ::njoy_outram_park_fork::prelude::ReconrResult {
                 material: material.inner,
                 sections: sections.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                resonance_upper_limit: resonance_upper_limit.map(|e| e),
             },
         }
     }
@@ -18608,7 +22998,7 @@ impl Py_njoy_outram_park_fork__purr__SequenceLadderParams {
 }
 
 // @item type:njoy_outram_park_fork::purr::wfun::DopplerTable
-#[doc = "The two precomputed 41×27 `w(z)` grids `unrest` looks up for its\nsmall-`|x|`, small-`y` regime (`|x| ≤ 3.9`, `y ≤ 3.0`) — ported from\n`uwtab2` (`purr.f90:2545-2604`).\n\nTwo grids, not one, because the *y*-resolution needed differs by an order\nof magnitude depending on the Doppler width regime: **coarse**\n(`y ∈ [0.4, 3.0]`, step `0.1`) for `y ≥ 0.5`, and **fine**\n(`y ∈ [-0.02, 0.5]`, step `0.02`) for `y < 0.5`, where `w(z)` varies much\nfaster with `y`. Both share the same *x*-grid (`x ∈ [-0.1, 3.9]`, step\n`0.1`, 41 points — sized exactly to the `|x| ≤ 3.9` classification range\nthis table is used for, see [`crate::purr::line_shape`])."]
+#[doc = "The two precomputed 41×27 `w(z)` grids `unrest` looks up for its\nsmall-`|x|`, small-`y` regime (`|x| ≤ 3.9`, `y ≤ 3.0`) — ported from\n`uwtab2` (`purr.f90:2545-2604`).\n\nTwo grids, not one, because the *y*-resolution needed differs by an order\nof magnitude depending on the Doppler width regime: **coarse**\n(`y ∈ [0.4, 3.0]`, step `0.1`) for `y ≥ 0.5`, and **fine**\n(`y ∈ [-0.02, 0.5]`, step `0.02`) for `y < 0.5`, where `w(z)` varies much\nfaster with `y`. Both share the same *x*-grid (`x ∈ [-0.1, 3.9]`, step\n`0.1`, 41 points — sized exactly to the `|x| ≤ 3.9` classification range\nthis table is used for, see [`crate::purr::unrest::line_shape`])."]
 #[pyclass(name = "DopplerTable", module = "outram_park.njoy_outram_park_fork")]
 pub struct Py_njoy_outram_park_fork__purr__wfun__DopplerTable {
     pub inner: ::njoy_outram_park_fork::purr::wfun::DopplerTable,
@@ -19184,6 +23574,12 @@ impl Py_njoy_outram_park_fork__reconr__ResonanceInfo {
     #[setter(ranges)]
     pub fn set_ranges(&mut self, v: Vec<Py_njoy_outram_park_fork__reconr__EnergyRange>) {
         self.inner.ranges = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::reconr::ResonanceInfo::pendf_resonance_upper_limit
+    #[doc = "Upper energy limit \\[eV\\] that upstream RECONR writes into the PENDF\nMF=2/MT=151 range record, and that BROADR then reads back as its\ndefault `thnmax` (the top energy for Doppler broadening).\n\nPorted from `rdfil2` in `reconr.f90` (the `eresl`/`eresh`/`eresr`\nbookkeeping at lines ~697-846) and the PENDF MF=2 writer at\n`reconr.f90:5193-5197`:\n\n- `eresh` = highest upper bound over *all* ranges;\n- `eresr` = highest upper bound over the `LRU <= 1` ranges, clamped to\n  `[eresl, eresh]` where `eresl` is the lowest lower bound of any range\n  (`if (eresr.lt.eresl) eresr=eresl; if (eresr.gt.eresh) eresr=eresh`);\n- the record's `EH` is `eresh`, replaced by `eresr` when that is lower\n  (`scr(2)=eresh; if (eresr.lt.eresh) scr(2)=eresr`).\n\nSo for a material with a resolved range below an unresolved one\n(U-238: 1e-5..2e4 eV resolved, 2e4..1.49e5 eV unresolved) this is the\n**top of the resolved range**, 2e4 eV; for an unresolved-only material\nit is the *bottom* of the unresolved range (`eresr` clamps up to\n`eresl`); for an `LRU=0` material it is that range's own upper bound.\nReturns `None` when there are no ranges at all (no MF=2), in which case\nBROADR falls back to its 6.5 MeV default."]
+    pub fn pendf_resonance_upper_limit(&self) -> Option<f64> {
+        ::njoy_outram_park_fork::reconr::ResonanceInfo::pendf_resonance_upper_limit(&self.inner)
+            .map(|e| e)
     }
     // @item method:njoy_outram_park_fork::reconr::ResonanceInfo::has_no_resonances
     #[doc = "Returns `true` if every range has LRU=0 (potential scattering only).\n\nMaterials like H-2 have no resonance parameters; RECONR skips the\nresonance reconstruction step and uses only the MF=3 background."]
@@ -20897,6 +25293,58 @@ impl Py_njoy_outram_park_fork__resxsr__UnionRow {
     }
 }
 
+// @item type:njoy_outram_park_fork::samm::betset::BetsetCarry
+#[doc = "The two `betset` locals `dp` and `drho` that upstream declares once per\ncall and only *assigns* inside the `if (ex.ne.zero)` /\npenetrability-enabled branch (`samm.f90:1950-1980`): a channel that\nskips that branch (zero `ex`, or `LPENT <= 0`) computes its `dum`\nfrom whatever the previous channel or resonance left there. One\ncarry per section reproduces that across spin groups; it starts at\nzero, which is what an uninitialised `real(kr)` local is in practice\nwith the gfortran build the oracle used (only the derivative-side\n`dum` sees it; the amplitude `beta_c` never does)."]
+#[pyclass(name = "BetsetCarry", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__samm__betset__BetsetCarry {
+    pub inner: ::njoy_outram_park_fork::samm::betset::BetsetCarry,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__samm__betset__BetsetCarry {
+    // @item field:njoy_outram_park_fork::samm::betset::BetsetCarry::dp
+    #[getter(dp)]
+    pub fn get_dp(&self) -> f64 {
+        let v = self.inner.dp.clone();
+        v
+    }
+    #[setter(dp)]
+    pub fn set_dp(&mut self, v: f64) {
+        self.inner.dp = v;
+    }
+    // @item field:njoy_outram_park_fork::samm::betset::BetsetCarry::drho
+    #[getter(drho)]
+    pub fn get_drho(&self) -> f64 {
+        let v = self.inner.drho.clone();
+        v
+    }
+    #[setter(drho)]
+    pub fn set_drho(&mut self, v: f64) {
+        self.inner.drho = v;
+    }
+    // @item ctor:njoy_outram_park_fork::samm::betset::BetsetCarry
+    #[new]
+    #[pyo3(signature = (dp=None, drho=None))]
+    pub fn __new__(dp: Option<f64>, drho: Option<f64>) -> Self {
+        let d = <::njoy_outram_park_fork::samm::betset::BetsetCarry as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::samm::betset::BetsetCarry {
+                dp: dp.map(|v| v).unwrap_or(d.dp),
+                drho: drho.map(|v| v).unwrap_or(d.drho),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
 // @item type:njoy_outram_park_fork::samm::betset::ResonanceAmplitudes
 #[doc = "One resonance's channel-amplitude data — ported from `betset`'s\n`betapr`/`beta`/`gbetpr` arrays (`samm.f90:1926-2006`), restricted to\none resonance and one spin group (matching [`super::mf2::SpinGroup`]'s\nown per-group nesting)."]
 #[pyclass(
@@ -20934,6 +25382,16 @@ impl Py_njoy_outram_park_fork__samm__betset__ResonanceAmplitudes {
     pub fn get_gbetpr(&self) -> Vec<f64> {
         let v = self.inner.gbetpr.clone();
         v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    // @item field:njoy_outram_park_fork::samm::betset::ResonanceAmplitudes::dum
+    #[getter(dum)]
+    pub fn get_dum(&self) -> Vec<f64> {
+        let v = self.inner.dum.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(dum)]
+    pub fn set_dum(&mut self, v: Vec<f64>) {
+        self.inner.dum = v.into_iter().map(|e| e).collect::<Vec<_>>();
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -21539,6 +25997,376 @@ impl Py_njoy_outram_park_fork__samm__coulomb__Pghcou {
                 sinphi: sinphi,
                 cosphi: cosphi,
                 dphi: dphi,
+            },
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::samm::derivs::DerivSetup
+#[doc = "The energy-independent derivative setup for one section — `babb`'s\n`br`/`bi`/`par` and `betset`'s `uuuu`/`duuu`/`iduu` (`Want_Partial_U =\n.false.`)."]
+#[pyclass(name = "DerivSetup", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__samm__derivs__DerivSetup {
+    pub inner: ::njoy_outram_park_fork::samm::derivs::DerivSetup,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__samm__derivs__DerivSetup {
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::npar
+    #[getter(npar)]
+    pub fn get_npar(&self) -> usize {
+        let v = self.inner.npar.clone();
+        v
+    }
+    #[setter(npar)]
+    pub fn set_npar(&mut self, v: usize) {
+        self.inner.npar = v;
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::mchan
+    #[getter(mchan)]
+    pub fn get_mchan(&self) -> usize {
+        let v = self.inner.mchan.clone();
+        v
+    }
+    #[setter(mchan)]
+    pub fn set_mchan(&mut self, v: usize) {
+        self.inner.mchan = v;
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::kstart
+    #[getter(kstart)]
+    pub fn get_kstart(&self) -> Vec<usize> {
+        let v = self.inner.kstart.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(kstart)]
+    pub fn set_kstart(&mut self, v: Vec<usize>) {
+        self.inner.kstart = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::npr
+    #[getter(npr)]
+    pub fn get_npr(&self) -> Vec<usize> {
+        let v = self.inner.npr.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(npr)]
+    pub fn set_npr(&mut self, v: Vec<usize>) {
+        self.inner.npr = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::par
+    #[getter(par)]
+    pub fn get_par(&self) -> Vec<f64> {
+        let v = self.inner.par.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(par)]
+    pub fn set_par(&mut self, v: Vec<f64>) {
+        self.inner.par = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::uuuu
+    #[getter(uuuu)]
+    pub fn get_uuuu(&self) -> Vec<f64> {
+        let v = self.inner.uuuu.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(uuuu)]
+    pub fn set_uuuu(&mut self, v: Vec<f64>) {
+        self.inner.uuuu = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::duuu
+    #[getter(duuu)]
+    pub fn get_duuu(&self) -> Vec<f64> {
+        let v = self.inner.duuu.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(duuu)]
+    pub fn set_duuu(&mut self, v: Vec<f64>) {
+        self.inner.duuu = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::iduu
+    #[getter(iduu)]
+    pub fn get_iduu(&self) -> Vec<i32> {
+        let v = self.inner.iduu.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(iduu)]
+    pub fn set_iduu(&mut self, v: Vec<i32>) {
+        self.inner.iduu = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::br
+    #[getter(br)]
+    pub fn get_br(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.br.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(br)]
+    pub fn set_br(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.br = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::DerivSetup::bi
+    #[getter(bi)]
+    pub fn get_bi(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.bi.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(bi)]
+    pub fn set_bi(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.bi = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::samm::derivs::DerivSetup::group_of
+    #[doc = "Spin group (0-based) parameter `ipar` belongs to."]
+    pub fn group_of(&self, ipar: usize) -> usize {
+        ::njoy_outram_park_fork::samm::derivs::DerivSetup::group_of(&self.inner, ipar)
+    }
+    // @item ctor:njoy_outram_park_fork::samm::derivs::DerivSetup
+    #[new]
+    pub fn __new__(
+        npar: usize,
+        mchan: usize,
+        kstart: Vec<usize>,
+        npr: Vec<usize>,
+        par: Vec<f64>,
+        uuuu: Vec<f64>,
+        duuu: Vec<f64>,
+        iduu: Vec<i32>,
+        br: Vec<Vec<f64>>,
+        bi: Vec<Vec<f64>>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::samm::derivs::DerivSetup {
+                npar: npar,
+                mchan: mchan,
+                kstart: kstart.into_iter().map(|e| e).collect::<Vec<_>>(),
+                npr: npr.into_iter().map(|e| e).collect::<Vec<_>>(),
+                par: par.into_iter().map(|e| e).collect::<Vec<_>>(),
+                uuuu: uuuu.into_iter().map(|e| e).collect::<Vec<_>>(),
+                duuu: duuu.into_iter().map(|e| e).collect::<Vec<_>>(),
+                iduu: iduu.into_iter().map(|e| e).collect::<Vec<_>>(),
+                br: br
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+                bi: bi
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms
+#[doc = "`pr(ij, ipar)` / `pii(ij, ipar)` — `dR/du` at the current energy, per\nparameter over its own group's packed triangle, stored flat with a\nfixed `stride` (the largest group triangle) so one evaluation makes\ntwo allocations, not `2·npar`."]
+#[pyclass(
+    name = "ParamEnergyTerms",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__samm__derivs__energy__ParamEnergyTerms {
+    pub inner: ::njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__samm__derivs__energy__ParamEnergyTerms {
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms::stride
+    #[getter(stride)]
+    pub fn get_stride(&self) -> usize {
+        let v = self.inner.stride.clone();
+        v
+    }
+    #[setter(stride)]
+    pub fn set_stride(&mut self, v: usize) {
+        self.inner.stride = v;
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms::pr
+    #[getter(pr)]
+    pub fn get_pr(&self) -> Vec<f64> {
+        let v = self.inner.pr.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(pr)]
+    pub fn set_pr(&mut self, v: Vec<f64>) {
+        self.inner.pr = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms::pi
+    #[getter(pi)]
+    pub fn get_pi(&self) -> Vec<f64> {
+        let v = self.inner.pi.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(pi)]
+    pub fn set_pi(&mut self, v: Vec<f64>) {
+        self.inner.pi = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms::pr_row
+    #[doc = ""]
+    pub fn pr_row(&self, ipar: usize) -> Vec<f64> {
+        ::njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms::pr_row(&self.inner, ipar)
+            .clone()
+            .iter()
+            .cloned()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms::pi_row
+    #[doc = ""]
+    pub fn pi_row(&self, ipar: usize) -> Vec<f64> {
+        ::njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms::pi_row(&self.inner, ipar)
+            .clone()
+            .iter()
+            .cloned()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item ctor:njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms
+    #[new]
+    pub fn __new__(stride: usize, pr: Vec<f64>, pi: Vec<f64>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::samm::derivs::energy::ParamEnergyTerms {
+                stride: stride,
+                pr: pr.into_iter().map(|e| e).collect::<Vec<_>>(),
+                pi: pi.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::samm::derivs::energy::QMatrix
+#[doc = "`qr(kl, ij)` / `qi(kl, ij)` — the real and imaginary parts of\n`dXXXX(kl)/dR(ij)` (`setqri`, `samm.f90:6499-6556`), `nn × nn` with\n`nn = nchan(nchan+1)/2`, flattened `[kl][ij]` 0-based."]
+#[pyclass(name = "QMatrix", module = "outram_park.njoy_outram_park_fork")]
+pub struct Py_njoy_outram_park_fork__samm__derivs__energy__QMatrix {
+    pub inner: ::njoy_outram_park_fork::samm::derivs::energy::QMatrix,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__samm__derivs__energy__QMatrix {
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::QMatrix::nn
+    #[getter(nn)]
+    pub fn get_nn(&self) -> usize {
+        let v = self.inner.nn.clone();
+        v
+    }
+    #[setter(nn)]
+    pub fn set_nn(&mut self, v: usize) {
+        self.inner.nn = v;
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::QMatrix::qr
+    #[getter(qr)]
+    pub fn get_qr(&self) -> Vec<f64> {
+        let v = self.inner.qr.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(qr)]
+    pub fn set_qr(&mut self, v: Vec<f64>) {
+        self.inner.qr = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::QMatrix::qi
+    #[getter(qi)]
+    pub fn get_qi(&self) -> Vec<f64> {
+        let v = self.inner.qi.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(qi)]
+    pub fn set_qi(&mut self, v: Vec<f64>) {
+        self.inner.qi = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::samm::derivs::energy::QMatrix::r
+    #[doc = ""]
+    pub fn r(&self, kl: usize, ij: usize) -> f64 {
+        ::njoy_outram_park_fork::samm::derivs::energy::QMatrix::r(&self.inner, kl, ij)
+    }
+    // @item method:njoy_outram_park_fork::samm::derivs::energy::QMatrix::i
+    #[doc = ""]
+    pub fn i(&self, kl: usize, ij: usize) -> f64 {
+        ::njoy_outram_park_fork::samm::derivs::energy::QMatrix::i(&self.inner, kl, ij)
+    }
+    // @item ctor:njoy_outram_park_fork::samm::derivs::energy::QMatrix
+    #[new]
+    pub fn __new__(nn: usize, qr: Vec<f64>, qi: Vec<f64>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::samm::derivs::energy::QMatrix {
+                nn: nn,
+                qr: qr.into_iter().map(|e| e).collect::<Vec<_>>(),
+                qi: qi.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::samm::derivs::energy::TMatrix
+#[doc = "`tr(m, ij)` / `ti(m, ij)` — ½ the real/imaginary parts of `dσ_m/dR(ij)`\nwithout the `4π/E` factor (`settri`, angle-integrated part,\n`samm.f90:6558-6674`). Rows `m = 1, 2` are elastic and absorption, rows\n`m >= 3` are reaction channels by particle-pair number (as `sectio`)."]
+#[pyclass(name = "TMatrix", module = "outram_park.njoy_outram_park_fork")]
+pub struct Py_njoy_outram_park_fork__samm__derivs__energy__TMatrix {
+    pub inner: ::njoy_outram_park_fork::samm::derivs::energy::TMatrix,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__samm__derivs__energy__TMatrix {
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::TMatrix::nn
+    #[getter(nn)]
+    pub fn get_nn(&self) -> usize {
+        let v = self.inner.nn.clone();
+        v
+    }
+    #[setter(nn)]
+    pub fn set_nn(&mut self, v: usize) {
+        self.inner.nn = v;
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::TMatrix::tr
+    #[getter(tr)]
+    pub fn get_tr(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.tr.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(tr)]
+    pub fn set_tr(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.tr = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::samm::derivs::energy::TMatrix::ti
+    #[getter(ti)]
+    pub fn get_ti(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.ti.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(ti)]
+    pub fn set_ti(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.ti = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::samm::derivs::energy::TMatrix
+    #[new]
+    pub fn __new__(nn: usize, tr: Vec<Vec<f64>>, ti: Vec<Vec<f64>>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::samm::derivs::energy::TMatrix {
+                nn: nn,
+                tr: tr
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+                ti: ti
+                    .into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
             },
         }
     }
@@ -22700,6 +27528,16 @@ impl Py_njoy_outram_park_fork__samm__xsformula__setr__SetrOutput {
     pub fn set_sin2ph(&mut self, v: Vec<f64>) {
         self.inner.sin2ph = v.into_iter().map(|e| e).collect::<Vec<_>>();
     }
+    // @item field:njoy_outram_park_fork::samm::xsformula::setr::SetrOutput::psmall
+    #[getter(psmall)]
+    pub fn get_psmall(&self) -> Vec<f64> {
+        let v = self.inner.psmall.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(psmall)]
+    pub fn set_psmall(&mut self, v: Vec<f64>) {
+        self.inner.psmall = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
     // @item field:njoy_outram_park_fork::samm::xsformula::setr::SetrOutput::nchan
     #[getter(nchan)]
     pub fn get_nchan(&self) -> usize {
@@ -23566,6 +28404,21 @@ impl Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic {
             })
             .collect::<Vec<_>>();
     }
+    // @item field:njoy_outram_park_fork::thermr::mf7::IncoherentInelastic::temperature_bracket
+    #[getter(temperature_bracket)]
+    pub fn get_temperature_bracket(
+        &self,
+    ) -> Option<Py_njoy_outram_park_fork__thermr__mf7__TemperatureBracket> {
+        let v = self.inner.temperature_bracket.clone();
+        v.map(|e| Py_njoy_outram_park_fork__thermr__mf7__TemperatureBracket { inner: e })
+    }
+    #[setter(temperature_bracket)]
+    pub fn set_temperature_bracket(
+        &mut self,
+        v: Option<Py_njoy_outram_park_fork__thermr__mf7__TemperatureBracket>,
+    ) {
+        self.inner.temperature_bracket = v.map(|e| e.inner);
+    }
     // @item method:njoy_outram_park_fork::thermr::mf7::IncoherentInelastic::mass_ratio
     #[doc = "Mass ratio `A` of the principal scatterer (`B(3)`)."]
     pub fn mass_ratio(&self) -> f64 {
@@ -23582,7 +28435,7 @@ impl Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic {
         ::njoy_outram_park_fork::thermr::mf7::IncoherentInelastic::teff_ev(&self.inner, temp_k)
     }
     // @item method:njoy_outram_park_fork::thermr::mf7::IncoherentInelastic::double_differential
-    #[doc = "The double-differential cross section `d²σ/dE'dμ` \\[barn\\] for scattering\nfrom incident energy `e` \\[eV\\] to outgoing `ep` \\[eV\\] through cosine `mu`,\nat temperature `temp_k` \\[K\\].\n\nInside the tabulated `(α,β)` grid the kernel comes from the interpolated\nscattering law `S̃(α,β)`; **beyond** the grid (large momentum/energy\ntransfer, reached at higher incident energy) it comes from the\nshort-collision-time (SCT) analytic kernel — this is what carries `σ(E)`\nback to the free-gas limit at high `E` instead of falling to zero at the\nedge of the table (thermr.f90 `sig`, tabulated branch + label 170)."]
+    #[doc = "The double-differential cross section `d²σ/dE'dμ` \\[barn\\] for scattering\nfrom incident energy `e` \\[eV\\] to outgoing `ep` \\[eV\\] through cosine `mu`,\nat temperature `temp_k` \\[K\\].\n\nInside the tabulated `(α,β)` grid the kernel comes from the interpolated\nscattering law `S̃(α,β)`; **beyond** the grid (large momentum/energy\ntransfer, reached at higher incident energy) it comes from the\nshort-collision-time (SCT) analytic kernel — this is what carries `σ(E)`\nback to the free-gas limit at high `E` instead of falling to zero at the\nedge of the table (thermr.f90 `sig`, tabulated branch + label 170).\n\nAt an interpolated temperature ([`temperature_bracket`] present) the\nkernel is evaluated at each bracketing tabulated temperature — that\ntemperature's own `S(α,β)`, kinematics and `T_eff` — and the two\nresults are interpolated in `T` with the evaluation's `LI` law (see\nthe `mf7` module docs, policy step 2). `temp_k` is then the\ninterpolation abscissa; passing the struct's own\n[`temperature_k`](super::mf7::IncoherentInelastic::temperature_k) is\nthe intended use.\n\n[`temperature_bracket`]: super::mf7::IncoherentInelastic::temperature_bracket"]
     pub fn double_differential(&self, e: f64, ep: f64, mu: f64, temp_k: f64, natom: f64) -> f64 {
         ::njoy_outram_park_fork::thermr::mf7::IncoherentInelastic::double_differential(
             &self.inner,
@@ -23605,7 +28458,7 @@ impl Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic {
         )
     }
     // @item method:njoy_outram_park_fork::thermr::mf7::IncoherentInelastic::cross_section
-    #[doc = "The incoherent-inelastic cross section `σ_inel(E)` \\[barn\\] at incident\nenergy `e` \\[eV\\] and temperature `temp_k` \\[K\\]: `σ(E→E')` integrated over\nthe kinematically-allowed outgoing energies `E'`."]
+    #[doc = "The incoherent-inelastic cross section `σ_inel(E)` \\[barn\\] at incident\nenergy `e` \\[eV\\] and temperature `temp_k` \\[K\\]: `σ(E→E')` integrated over\nthe kinematically-allowed outgoing energies `E'`.\n\nAt an interpolated temperature ([`temperature_bracket`] present) the\nintegral is formed at each bracketing tabulated temperature — its own\n`S(α,β)`, kinematics and `T_eff` — and the two values are interpolated\nin `T` with the evaluation's `LI` law, so the result lies between\n`σ_inel(E,T_lo)` and `σ_inel(E,T_hi)` by construction (`op-55lj`: the\nfixed-`(α,β)` interpolant integrated with the target temperature's\nkinematics fell 4 % below its bracket at 3.9 eV on graphite).\n\n[`temperature_bracket`]: super::mf7::IncoherentInelastic::temperature_bracket"]
     pub fn cross_section(&self, e: f64, temp_k: f64, natom: f64) -> f64 {
         ::njoy_outram_park_fork::thermr::mf7::IncoherentInelastic::cross_section(
             &self.inner,
@@ -23648,6 +28501,7 @@ impl Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic {
         tabulated_temperatures_k: Vec<f64>,
         temp_interp: Vec<u32>,
         teff_table: Vec<(f64, f64)>,
+        temperature_bracket: Option<Py_njoy_outram_park_fork__thermr__mf7__TemperatureBracket>,
     ) -> Self {
         Self {
             inner: ::njoy_outram_park_fork::thermr::mf7::IncoherentInelastic {
@@ -23669,6 +28523,7 @@ impl Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic {
                         (e0, e1)
                     })
                     .collect::<Vec<_>>(),
+                temperature_bracket: temperature_bracket.map(|e| e.inner),
             },
         }
     }
@@ -23767,6 +28622,96 @@ impl Py_njoy_outram_park_fork__thermr__mf7__Mf7 {
                 coherent_elastic: coherent_elastic.map(|e| e.inner),
                 incoherent_elastic: incoherent_elastic.map(|e| e.inner),
                 incoherent_inelastic: incoherent_inelastic.map(|e| e.inner),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::thermr::mf7::TemperatureBracket
+#[doc = "The two tabulated `S(α,β)` tables bracketing an interpolated temperature\nrequest (see [`IncoherentInelastic::temperature_bracket`])."]
+#[pyclass(
+    name = "TemperatureBracket",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__thermr__mf7__TemperatureBracket {
+    pub inner: ::njoy_outram_park_fork::thermr::mf7::TemperatureBracket,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__thermr__mf7__TemperatureBracket {
+    // @item field:njoy_outram_park_fork::thermr::mf7::TemperatureBracket::t_lo_k
+    #[getter(t_lo_k)]
+    pub fn get_t_lo_k(&self) -> f64 {
+        let v = self.inner.t_lo_k.clone();
+        v
+    }
+    #[setter(t_lo_k)]
+    pub fn set_t_lo_k(&mut self, v: f64) {
+        self.inner.t_lo_k = v;
+    }
+    // @item field:njoy_outram_park_fork::thermr::mf7::TemperatureBracket::t_hi_k
+    #[getter(t_hi_k)]
+    pub fn get_t_hi_k(&self) -> f64 {
+        let v = self.inner.t_hi_k.clone();
+        v
+    }
+    #[setter(t_hi_k)]
+    pub fn set_t_hi_k(&mut self, v: f64) {
+        self.inner.t_hi_k = v;
+    }
+    // @item field:njoy_outram_park_fork::thermr::mf7::TemperatureBracket::li
+    #[getter(li)]
+    pub fn get_li(&self) -> u32 {
+        let v = self.inner.li.clone();
+        v
+    }
+    #[setter(li)]
+    pub fn set_li(&mut self, v: u32) {
+        self.inner.li = v;
+    }
+    // @item field:njoy_outram_park_fork::thermr::mf7::TemperatureBracket::s_lo
+    #[getter(s_lo)]
+    pub fn get_s_lo(&self) -> Vec<Py_njoy_outram_park_fork__thermr__mf7__AlphaTable> {
+        let v = self.inner.s_lo.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__thermr__mf7__AlphaTable { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(s_lo)]
+    pub fn set_s_lo(&mut self, v: Vec<Py_njoy_outram_park_fork__thermr__mf7__AlphaTable>) {
+        self.inner.s_lo = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::thermr::mf7::TemperatureBracket::s_hi
+    #[getter(s_hi)]
+    pub fn get_s_hi(&self) -> Vec<Py_njoy_outram_park_fork__thermr__mf7__AlphaTable> {
+        let v = self.inner.s_hi.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__thermr__mf7__AlphaTable { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(s_hi)]
+    pub fn set_s_hi(&mut self, v: Vec<Py_njoy_outram_park_fork__thermr__mf7__AlphaTable>) {
+        self.inner.s_hi = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::thermr::mf7::TemperatureBracket
+    #[new]
+    pub fn __new__(
+        t_lo_k: f64,
+        t_hi_k: f64,
+        li: u32,
+        s_lo: Vec<Py_njoy_outram_park_fork__thermr__mf7__AlphaTable>,
+        s_hi: Vec<Py_njoy_outram_park_fork__thermr__mf7__AlphaTable>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::thermr::mf7::TemperatureBracket {
+                t_lo_k: t_lo_k,
+                t_hi_k: t_hi_k,
+                li: li,
+                s_lo: s_lo.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                s_hi: s_hi.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
             },
         }
     }
@@ -24659,6 +29604,93 @@ impl Py_njoy_outram_park_fork__unresr__mf2__JStateC {
     }
 }
 
+// @item type:njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable
+#[doc = "The energy-dependent scattering radius `AP(E)` \\[10⁻¹² cm\\] of an `NRO=1`\nrange — the ENDF `TAB1` record that immediately follows the range's\n`[EL, EH, LRU, LRF, NRO, NAPS]` CONT (`rdunf2`, `unresr.f90:515-528`;\n`rdf2un`, `purr.f90:804-817`). Upstream stores it verbatim in the scratch\narray and interpolates it at every working energy with `terpa`\n(`unresl`, `unresr.f90:966-971`; `unresx`, `purr.f90:1342-1347`)."]
+#[pyclass(
+    name = "ScatteringRadiusTable",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__unresr__mf2__ScatteringRadiusTable {
+    pub inner: ::njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__unresr__mf2__ScatteringRadiusTable {
+    // @item field:njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable::interp
+    #[getter(interp)]
+    pub fn get_interp(&self) -> Vec<(u32, u32)> {
+        let v = self.inner.interp.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(interp)]
+    pub fn set_interp(&mut self, v: Vec<(u32, u32)>) {
+        self.inner.interp = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable::xy
+    #[getter(xy)]
+    pub fn get_xy(&self) -> Vec<(f64, f64)> {
+        let v = self.inner.xy.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(xy)]
+    pub fn set_xy(&mut self, v: Vec<(f64, f64)>) {
+        self.inner.xy = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable::at
+    #[doc = "`AP(E)` at energy `e` — the port of `terpa` (`endf.f90:1729-1818`) as\n`unresl`/`unresx` call it (`ip=2, ir=1` reset every call, so the\nsearch-position memory is irrelevant here). `terpa`'s conventions:\nzero **below** the first tabulated energy; the last tabulated value\nfor `x` within a `1.00001` shade **above** the last energy; zero\nfurther above. Inside the table the range's own `INT` law applies\n(U-238's table is `INT=5`, log-log). Both modules only reach this for\n`EL ≤ e ≤ EH`, and every evaluation seen tabulates `AP` on exactly\n`[EL, EH]`, so the out-of-table arms are reproduced for fidelity, not\nbecause they are expected to fire."]
+    pub fn at(&self, e: f64) -> PyResult<f64> {
+        err(::njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable::at(&self.inner, e))
+            .map(|v| v)
+    }
+    // @item ctor:njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable
+    #[new]
+    pub fn __new__(interp: Vec<(u32, u32)>, xy: Vec<(f64, f64)>) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::unresr::mf2::ScatteringRadiusTable {
+                interp: interp
+                    .into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+                xy: xy
+                    .into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
 // @item type:njoy_outram_park_fork::unresr::mf2::UnresolvedCase
 #[doc = "The three ENDF-102 LRU=2 parameter representations (see the module docs)."]
 #[pyclass(name = "UnresolvedCase", module = "outram_park.njoy_outram_park_fork")]
@@ -24668,6 +29700,11 @@ pub struct Py_njoy_outram_park_fork__unresr__mf2__UnresolvedCase {
 }
 #[pymethods]
 impl Py_njoy_outram_park_fork__unresr__mf2__UnresolvedCase {
+    // @item method:njoy_outram_park_fork::unresr::mf2::UnresolvedCase::ap
+    #[doc = "The scalar scattering radius `AP` \\[10⁻¹² cm\\] from the range's\n`SPI/AP/LSSF` CONT (or LIST, Case B) header — `arry(inow+1)` after the\noptional `TAB1` in `unresl:967-977`. Zero on evaluations that put the\nwhole radius into the `NRO=1` table (U-238 ENDF/B-VIII.0 writes\n`AP=0.0` here)."]
+    pub fn ap(&self) -> f64 {
+        ::njoy_outram_park_fork::unresr::mf2::UnresolvedCase::ap(&self.inner)
+    }
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner {
@@ -24832,6 +29869,21 @@ impl Py_njoy_outram_park_fork__unresr__mf2__UnresolvedRange {
     pub fn set_nro(&mut self, v: i32) {
         self.inner.nro = v;
     }
+    // @item field:njoy_outram_park_fork::unresr::mf2::UnresolvedRange::ap_table
+    #[getter(ap_table)]
+    pub fn get_ap_table(
+        &self,
+    ) -> Option<Py_njoy_outram_park_fork__unresr__mf2__ScatteringRadiusTable> {
+        let v = self.inner.ap_table.clone();
+        v.map(|e| Py_njoy_outram_park_fork__unresr__mf2__ScatteringRadiusTable { inner: e })
+    }
+    #[setter(ap_table)]
+    pub fn set_ap_table(
+        &mut self,
+        v: Option<Py_njoy_outram_park_fork__unresr__mf2__ScatteringRadiusTable>,
+    ) {
+        self.inner.ap_table = v.map(|e| e.inner);
+    }
     // @item field:njoy_outram_park_fork::unresr::mf2::UnresolvedRange::lssf
     #[getter(lssf)]
     pub fn get_lssf(&self) -> i32 {
@@ -24852,6 +29904,17 @@ impl Py_njoy_outram_park_fork__unresr__mf2__UnresolvedRange {
     pub fn set_case_(&mut self, v: Py_njoy_outram_park_fork__unresr__mf2__UnresolvedCase) {
         self.inner.case_ = v.inner;
     }
+    // @item method:njoy_outram_park_fork::unresr::mf2::UnresolvedRange::scattering_radius
+    #[doc = "The scattering radius `ay` \\[10⁻¹² cm\\] upstream uses at energy `e` for\nthe phase shift (`rhoc = k·ay`) and, when `NAPS=1`, the channel\nradius — `unresl:966-975` / `unresx:1342-1351`: the interpolated\n[`Self::ap_table`] value when `NRO=1`, otherwise the header scalar."]
+    pub fn scattering_radius(&self, e: f64) -> PyResult<f64> {
+        err(
+            ::njoy_outram_park_fork::unresr::mf2::UnresolvedRange::scattering_radius(
+                &self.inner,
+                e,
+            ),
+        )
+        .map(|v| v)
+    }
     // @item ctor:njoy_outram_park_fork::unresr::mf2::UnresolvedRange
     #[new]
     pub fn __new__(
@@ -24860,6 +29923,7 @@ impl Py_njoy_outram_park_fork__unresr__mf2__UnresolvedRange {
         abn: f64,
         naps: i32,
         nro: i32,
+        ap_table: Option<Py_njoy_outram_park_fork__unresr__mf2__ScatteringRadiusTable>,
         lssf: i32,
         case_: Py_njoy_outram_park_fork__unresr__mf2__UnresolvedCase,
     ) -> Self {
@@ -24870,6 +29934,7 @@ impl Py_njoy_outram_park_fork__unresr__mf2__UnresolvedRange {
                 abn: abn,
                 naps: naps,
                 nro: nro,
+                ap_table: ap_table.map(|e| e.inner),
                 lssf: lssf,
                 case_: case_.inner,
             },
@@ -24904,6 +29969,1493 @@ impl Py_njoy_outram_park_fork__unresr__wfun__WTable {
                 ::njoy_outram_park_fork::unresr::wfun::WTable::lookup(&self.inner, x, y, ki);
             (e0, e1)
         }
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::WimsrInput
+#[doc = "Cards 2–8 of the WIMSR deck."]
+#[pyclass(name = "WimsrInput", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__WimsrInput {
+    pub inner: ::njoy_outram_park_fork::wimsr::WimsrInput,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__WimsrInput {
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::iprint
+    #[getter(iprint)]
+    pub fn get_iprint(&self) -> i32 {
+        let v = self.inner.iprint.clone();
+        v
+    }
+    #[setter(iprint)]
+    pub fn set_iprint(&mut self, v: i32) {
+        self.inner.iprint = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::iverw
+    #[getter(iverw)]
+    pub fn get_iverw(&self) -> i32 {
+        let v = self.inner.iverw.clone();
+        v
+    }
+    #[setter(iverw)]
+    pub fn set_iverw(&mut self, v: i32) {
+        self.inner.iverw = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::ngnd
+    #[getter(ngnd)]
+    pub fn get_ngnd(&self) -> usize {
+        let v = self.inner.ngnd.clone();
+        v
+    }
+    #[setter(ngnd)]
+    pub fn set_ngnd(&mut self, v: usize) {
+        self.inner.ngnd = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::nfg
+    #[getter(nfg)]
+    pub fn get_nfg(&self) -> usize {
+        let v = self.inner.nfg.clone();
+        v
+    }
+    #[setter(nfg)]
+    pub fn set_nfg(&mut self, v: usize) {
+        self.inner.nfg = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::nrg
+    #[getter(nrg)]
+    pub fn get_nrg(&self) -> usize {
+        let v = self.inner.nrg.clone();
+        v
+    }
+    #[setter(nrg)]
+    pub fn set_nrg(&mut self, v: usize) {
+        self.inner.nrg = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::igref
+    #[getter(igref)]
+    pub fn get_igref(&self) -> usize {
+        let v = self.inner.igref.clone();
+        v
+    }
+    #[setter(igref)]
+    pub fn set_igref(&mut self, v: usize) {
+        self.inner.igref = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::mat
+    #[getter(mat)]
+    pub fn get_mat(&self) -> i32 {
+        let v = self.inner.mat.clone();
+        v
+    }
+    #[setter(mat)]
+    pub fn set_mat(&mut self, v: i32) {
+        self.inner.mat = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::rdfid
+    #[getter(rdfid)]
+    pub fn get_rdfid(&self) -> f64 {
+        let v = self.inner.rdfid.clone();
+        v
+    }
+    #[setter(rdfid)]
+    pub fn set_rdfid(&mut self, v: f64) {
+        self.inner.rdfid = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::iburn
+    #[getter(iburn)]
+    pub fn get_iburn(&self) -> i32 {
+        let v = self.inner.iburn.clone();
+        v
+    }
+    #[setter(iburn)]
+    pub fn set_iburn(&mut self, v: i32) {
+        self.inner.iburn = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::ntemp
+    #[getter(ntemp)]
+    pub fn get_ntemp(&self) -> usize {
+        let v = self.inner.ntemp.clone();
+        v
+    }
+    #[setter(ntemp)]
+    pub fn set_ntemp(&mut self, v: usize) {
+        self.inner.ntemp = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::nsigz
+    #[getter(nsigz)]
+    pub fn get_nsigz(&self) -> usize {
+        let v = self.inner.nsigz.clone();
+        v
+    }
+    #[setter(nsigz)]
+    pub fn set_nsigz(&mut self, v: usize) {
+        self.inner.nsigz = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::sgref
+    #[getter(sgref)]
+    pub fn get_sgref(&self) -> f64 {
+        let v = self.inner.sgref.clone();
+        v
+    }
+    #[setter(sgref)]
+    pub fn set_sgref(&mut self, v: f64) {
+        self.inner.sgref = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::ires
+    #[getter(ires)]
+    pub fn get_ires(&self) -> usize {
+        let v = self.inner.ires.clone();
+        v
+    }
+    #[setter(ires)]
+    pub fn set_ires(&mut self, v: usize) {
+        self.inner.ires = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::sigp
+    #[getter(sigp)]
+    pub fn get_sigp(&self) -> f64 {
+        let v = self.inner.sigp.clone();
+        v
+    }
+    #[setter(sigp)]
+    pub fn set_sigp(&mut self, v: f64) {
+        self.inner.sigp = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::mti
+    #[getter(mti)]
+    pub fn get_mti(&self) -> i32 {
+        let v = self.inner.mti.clone();
+        v
+    }
+    #[setter(mti)]
+    pub fn set_mti(&mut self, v: i32) {
+        self.inner.mti = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::mtc
+    #[getter(mtc)]
+    pub fn get_mtc(&self) -> i32 {
+        let v = self.inner.mtc.clone();
+        v
+    }
+    #[setter(mtc)]
+    pub fn set_mtc(&mut self, v: i32) {
+        self.inner.mtc = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::ip1opt
+    #[getter(ip1opt)]
+    pub fn get_ip1opt(&self) -> i32 {
+        let v = self.inner.ip1opt.clone();
+        v
+    }
+    #[setter(ip1opt)]
+    pub fn set_ip1opt(&mut self, v: i32) {
+        self.inner.ip1opt = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::inorf
+    #[getter(inorf)]
+    pub fn get_inorf(&self) -> i32 {
+        let v = self.inner.inorf.clone();
+        v
+    }
+    #[setter(inorf)]
+    pub fn set_inorf(&mut self, v: i32) {
+        self.inner.inorf = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::isof
+    #[getter(isof)]
+    pub fn get_isof(&self) -> i32 {
+        let v = self.inner.isof.clone();
+        v
+    }
+    #[setter(isof)]
+    pub fn set_isof(&mut self, v: i32) {
+        self.inner.isof = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::ifprod
+    #[getter(ifprod)]
+    pub fn get_ifprod(&self) -> i32 {
+        let v = self.inner.ifprod.clone();
+        v
+    }
+    #[setter(ifprod)]
+    pub fn set_ifprod(&mut self, v: i32) {
+        self.inner.ifprod = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::p1flx_user
+    #[getter(p1flx_user)]
+    pub fn get_p1flx_user(&self) -> Vec<f64> {
+        let v = self.inner.p1flx_user.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(p1flx_user)]
+    pub fn set_p1flx_user(&mut self, v: Vec<f64>) {
+        self.inner.p1flx_user = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::efiss
+    #[getter(efiss)]
+    pub fn get_efiss(&self) -> f64 {
+        let v = self.inner.efiss.clone();
+        v
+    }
+    #[setter(efiss)]
+    pub fn set_efiss(&mut self, v: f64) {
+        self.inner.efiss = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::burn
+    #[getter(burn)]
+    pub fn get_burn(&self) -> Vec<(i32, f64)> {
+        let v = self.inner.burn.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(burn)]
+    pub fn set_burn(&mut self, v: Vec<(i32, f64)>) {
+        self.inner.burn = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrInput::glam
+    #[getter(glam)]
+    pub fn get_glam(&self) -> Vec<f64> {
+        let v = self.inner.glam.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(glam)]
+    pub fn set_glam(&mut self, v: Vec<f64>) {
+        self.inner.glam = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::wimsr::WimsrInput::nfid
+    #[doc = "`nfid = nint(rdfid)` (`wimsr.f90:191`)."]
+    pub fn nfid(&self) -> i32 {
+        ::njoy_outram_park_fork::wimsr::WimsrInput::nfid(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::wimsr::WimsrInput::ifprod_eff
+    #[doc = "`ifprod` after the card-4 normalisation (`wimsr.f90:198-201`):\n`1` for a fission product without, `2` with resonance tables."]
+    pub fn ifprod_eff(&self) -> i32 {
+        ::njoy_outram_park_fork::wimsr::WimsrInput::ifprod_eff(&self.inner)
+    }
+    // @item method:njoy_outram_park_fork::wimsr::WimsrInput::burn_table
+    #[doc = "`yield(1:jcc/2)` / `ifisp(1:jcc/2)` and `jcc` (`wimsr.f90:223-241`,\n`2072`): `yield(1) = 0`, `ifisp(1) = nfid`; with burnup data\n`yield(4) = efiss`, `ifisp(4) = 0` and the card-6 pairs at\npositions 2, 3, 5, 6, …"]
+    pub fn burn_table(&self) -> (Vec<(f64, i32)>, usize) {
+        {
+            let (e0, e1) = ::njoy_outram_park_fork::wimsr::WimsrInput::burn_table(&self.inner);
+            (
+                e0.into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+                e1,
+            )
+        }
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::WimsrInput
+    #[new]
+    pub fn __new__(
+        iprint: i32,
+        iverw: i32,
+        ngnd: usize,
+        nfg: usize,
+        nrg: usize,
+        igref: usize,
+        mat: i32,
+        rdfid: f64,
+        iburn: i32,
+        ntemp: usize,
+        nsigz: usize,
+        sgref: f64,
+        ires: usize,
+        sigp: f64,
+        mti: i32,
+        mtc: i32,
+        ip1opt: i32,
+        inorf: i32,
+        isof: i32,
+        ifprod: i32,
+        p1flx_user: Vec<f64>,
+        efiss: f64,
+        burn: Vec<(i32, f64)>,
+        glam: Vec<f64>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::WimsrInput {
+                iprint: iprint,
+                iverw: iverw,
+                ngnd: ngnd,
+                nfg: nfg,
+                nrg: nrg,
+                igref: igref,
+                mat: mat,
+                rdfid: rdfid,
+                iburn: iburn,
+                ntemp: ntemp,
+                nsigz: nsigz,
+                sgref: sgref,
+                ires: ires,
+                sigp: sigp,
+                mti: mti,
+                mtc: mtc,
+                ip1opt: ip1opt,
+                inorf: inorf,
+                isof: isof,
+                ifprod: ifprod,
+                p1flx_user: p1flx_user.into_iter().map(|e| e).collect::<Vec<_>>(),
+                efiss: efiss,
+                burn: burn
+                    .into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+                glam: glam.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::WimsrOutput
+#[doc = "A WIMSR run: the library lines and the stage results the listing\nprints (`iprint = 2`)."]
+#[pyclass(name = "WimsrOutput", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__WimsrOutput {
+    pub inner: ::njoy_outram_park_fork::wimsr::WimsrOutput,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__WimsrOutput {
+    // @item field:njoy_outram_park_fork::wimsr::WimsrOutput::lines
+    #[getter(lines)]
+    pub fn get_lines(&self) -> Vec<String> {
+        let v = self.inner.lines.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(lines)]
+    pub fn set_lines(&mut self, v: Vec<String>) {
+        self.inner.lines = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrOutput::xsecs
+    #[getter(xsecs)]
+    pub fn get_xsecs(&self) -> Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult {
+        let v = self.inner.xsecs.clone();
+        Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult { inner: v }
+    }
+    #[setter(xsecs)]
+    pub fn set_xsecs(&mut self, v: Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult) {
+        self.inner.xsecs = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrOutput::resint
+    #[getter(resint)]
+    pub fn get_resint(&self) -> Option<Py_njoy_outram_park_fork__wimsr__resint__ResintResult> {
+        let v = self.inner.resint.clone();
+        v.map(|e| Py_njoy_outram_park_fork__wimsr__resint__ResintResult { inner: e })
+    }
+    #[setter(resint)]
+    pub fn set_resint(&mut self, v: Option<Py_njoy_outram_park_fork__wimsr__resint__ResintResult>) {
+        self.inner.resint = v.map(|e| e.inner);
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrOutput::p1
+    #[getter(p1)]
+    pub fn get_p1(&self) -> Option<Vec<Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp>> {
+        let v = self.inner.p1.clone();
+        v.map(|e| {
+            e.into_iter()
+                .map(|e| Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp { inner: e })
+                .collect::<Vec<_>>()
+        })
+    }
+    #[setter(p1)]
+    pub fn set_p1(&mut self, v: Option<Vec<Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp>>) {
+        self.inner.p1 = v.map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>());
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrOutput::awr
+    #[getter(awr)]
+    pub fn get_awr(&self) -> f64 {
+        let v = self.inner.awr.clone();
+        v
+    }
+    #[setter(awr)]
+    pub fn set_awr(&mut self, v: f64) {
+        self.inner.awr = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrOutput::iznum
+    #[getter(iznum)]
+    pub fn get_iznum(&self) -> i32 {
+        let v = self.inner.iznum.clone();
+        v
+    }
+    #[setter(iznum)]
+    pub fn set_iznum(&mut self, v: i32) {
+        self.inner.iznum = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::WimsrOutput::egb
+    #[getter(egb)]
+    pub fn get_egb(&self) -> Vec<f64> {
+        let v = self.inner.egb.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(egb)]
+    pub fn set_egb(&mut self, v: Vec<f64>) {
+        self.inner.egb = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item method:njoy_outram_park_fork::wimsr::WimsrOutput::text
+    #[doc = "The library as text (`\\n`-terminated lines)."]
+    pub fn text(&self) -> String {
+        ::njoy_outram_park_fork::wimsr::WimsrOutput::text(&self.inner)
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::WimsrOutput
+    #[new]
+    pub fn __new__(
+        lines: Vec<String>,
+        xsecs: Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult,
+        resint: Option<Py_njoy_outram_park_fork__wimsr__resint__ResintResult>,
+        p1: Option<Vec<Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp>>,
+        awr: f64,
+        iznum: i32,
+        egb: Vec<f64>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::WimsrOutput {
+                lines: lines.into_iter().map(|e| e).collect::<Vec<_>>(),
+                xsecs: xsecs.inner,
+                resint: resint.map(|e| e.inner),
+                p1: p1.map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>()),
+                awr: awr,
+                iznum: iznum,
+                egb: egb.into_iter().map(|e| e).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::gendf::GendfMaterial
+#[doc = "The material's header quantities `wminit` keeps (`wimsr.f90:262-275`)."]
+#[pyclass(name = "GendfMaterial", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial {
+    pub inner: ::njoy_outram_park_fork::wimsr::gendf::GendfMaterial,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial {
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfMaterial::iza
+    #[getter(iza)]
+    pub fn get_iza(&self) -> i32 {
+        let v = self.inner.iza.clone();
+        v
+    }
+    #[setter(iza)]
+    pub fn set_iza(&mut self, v: i32) {
+        self.inner.iza = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfMaterial::iznum
+    #[getter(iznum)]
+    pub fn get_iznum(&self) -> i32 {
+        let v = self.inner.iznum.clone();
+        v
+    }
+    #[setter(iznum)]
+    pub fn set_iznum(&mut self, v: i32) {
+        self.inner.iznum = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfMaterial::awr
+    #[getter(awr)]
+    pub fn get_awr(&self) -> f64 {
+        let v = self.inner.awr.clone();
+        v
+    }
+    #[setter(awr)]
+    pub fn set_awr(&mut self, v: f64) {
+        self.inner.awr = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfMaterial::egb
+    #[getter(egb)]
+    pub fn get_egb(&self) -> Vec<f64> {
+        let v = self.inner.egb.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(egb)]
+    pub fn set_egb(&mut self, v: Vec<f64>) {
+        self.inner.egb = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfMaterial::blocks
+    #[getter(blocks)]
+    pub fn get_blocks(&self) -> Vec<Py_njoy_outram_park_fork__wimsr__gendf__TempBlock> {
+        let v = self.inner.blocks.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__wimsr__gendf__TempBlock { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(blocks)]
+    pub fn set_blocks(&mut self, v: Vec<Py_njoy_outram_park_fork__wimsr__gendf__TempBlock>) {
+        self.inner.blocks = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::gendf::GendfMaterial
+    #[new]
+    pub fn __new__(
+        iza: i32,
+        iznum: i32,
+        awr: f64,
+        egb: Vec<f64>,
+        blocks: Vec<Py_njoy_outram_park_fork__wimsr__gendf__TempBlock>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::gendf::GendfMaterial {
+                iza: iza,
+                iznum: iznum,
+                awr: awr,
+                egb: egb.into_iter().map(|e| e).collect::<Vec<_>>(),
+                blocks: blocks.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::gendf::GendfSection
+#[doc = "One reaction section of a temperature block."]
+#[pyclass(
+    name = "gendf_GendfSection",
+    module = "outram_park.njoy_outram_park_fork"
+)]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__gendf__GendfSection {
+    pub inner: ::njoy_outram_park_fork::wimsr::gendf::GendfSection,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__gendf__GendfSection {
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfSection::mf
+    #[getter(mf)]
+    pub fn get_mf(&self) -> i32 {
+        let v = self.inner.mf.clone();
+        v
+    }
+    #[setter(mf)]
+    pub fn set_mf(&mut self, v: i32) {
+        self.inner.mf = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfSection::mt
+    #[getter(mt)]
+    pub fn get_mt(&self) -> i32 {
+        let v = self.inner.mt.clone();
+        v
+    }
+    #[setter(mt)]
+    pub fn set_mt(&mut self, v: i32) {
+        self.inner.mt = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfSection::nl
+    #[getter(nl)]
+    pub fn get_nl(&self) -> i32 {
+        let v = self.inner.nl.clone();
+        v
+    }
+    #[setter(nl)]
+    pub fn set_nl(&mut self, v: i32) {
+        self.inner.nl = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfSection::nz
+    #[getter(nz)]
+    pub fn get_nz(&self) -> i32 {
+        let v = self.inner.nz.clone();
+        v
+    }
+    #[setter(nz)]
+    pub fn set_nz(&mut self, v: i32) {
+        self.inner.nz = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::GendfSection::records
+    #[getter(records)]
+    pub fn get_records(&self) -> Vec<Py_njoy_outram_park_fork__dtfr__GendfGroupRecord> {
+        let v = self.inner.records.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__dtfr__GendfGroupRecord { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(records)]
+    pub fn set_records(&mut self, v: Vec<Py_njoy_outram_park_fork__dtfr__GendfGroupRecord>) {
+        self.inner.records = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::gendf::GendfSection
+    #[new]
+    pub fn __new__(
+        mf: i32,
+        mt: i32,
+        nl: i32,
+        nz: i32,
+        records: Vec<Py_njoy_outram_park_fork__dtfr__GendfGroupRecord>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::gendf::GendfSection {
+                mf: mf,
+                mt: mt,
+                nl: nl,
+                nz: nz,
+                records: records.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::gendf::TempBlock
+#[doc = "One temperature's material block."]
+#[pyclass(name = "TempBlock", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__gendf__TempBlock {
+    pub inner: ::njoy_outram_park_fork::wimsr::gendf::TempBlock,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__gendf__TempBlock {
+    // @item field:njoy_outram_park_fork::wimsr::gendf::TempBlock::temp
+    #[getter(temp)]
+    pub fn get_temp(&self) -> f64 {
+        let v = self.inner.temp.clone();
+        v
+    }
+    #[setter(temp)]
+    pub fn set_temp(&mut self, v: f64) {
+        self.inner.temp = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::TempBlock::nz
+    #[getter(nz)]
+    pub fn get_nz(&self) -> i32 {
+        let v = self.inner.nz.clone();
+        v
+    }
+    #[setter(nz)]
+    pub fn set_nz(&mut self, v: i32) {
+        self.inner.nz = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::TempBlock::ntw
+    #[getter(ntw)]
+    pub fn get_ntw(&self) -> i32 {
+        let v = self.inner.ntw.clone();
+        v
+    }
+    #[setter(ntw)]
+    pub fn set_ntw(&mut self, v: i32) {
+        self.inner.ntw = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::TempBlock::sigz
+    #[getter(sigz)]
+    pub fn get_sigz(&self) -> Vec<f64> {
+        let v = self.inner.sigz.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(sigz)]
+    pub fn set_sigz(&mut self, v: Vec<f64>) {
+        self.inner.sigz = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::TempBlock::ngn
+    #[getter(ngn)]
+    pub fn get_ngn(&self) -> i32 {
+        let v = self.inner.ngn.clone();
+        v
+    }
+    #[setter(ngn)]
+    pub fn set_ngn(&mut self, v: i32) {
+        self.inner.ngn = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::TempBlock::egn
+    #[getter(egn)]
+    pub fn get_egn(&self) -> Vec<f64> {
+        let v = self.inner.egn.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(egn)]
+    pub fn set_egn(&mut self, v: Vec<f64>) {
+        self.inner.egn = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::gendf::TempBlock::sections
+    #[getter(sections)]
+    pub fn get_sections(&self) -> Vec<Py_njoy_outram_park_fork__wimsr__gendf__GendfSection> {
+        let v = self.inner.sections.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__wimsr__gendf__GendfSection { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(sections)]
+    pub fn set_sections(&mut self, v: Vec<Py_njoy_outram_park_fork__wimsr__gendf__GendfSection>) {
+        self.inner.sections = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::gendf::TempBlock
+    #[new]
+    pub fn __new__(
+        temp: f64,
+        nz: i32,
+        ntw: i32,
+        sigz: Vec<f64>,
+        ngn: i32,
+        egn: Vec<f64>,
+        sections: Vec<Py_njoy_outram_park_fork__wimsr__gendf__GendfSection>,
+    ) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::gendf::TempBlock {
+                temp: temp,
+                nz: nz,
+                ntw: ntw,
+                sigz: sigz.into_iter().map(|e| e).collect::<Vec<_>>(),
+                ngn: ngn,
+                egn: egn.into_iter().map(|e| e).collect::<Vec<_>>(),
+                sections: sections.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::p1scat::P1Temp
+#[doc = "One temperature's P1 matrix as `p1sout` packs it: per WIMS group\n`(ig, l1, l2, sloc(ig, l1..=l2))`."]
+#[pyclass(name = "P1Temp", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp {
+    pub inner: ::njoy_outram_park_fork::wimsr::p1scat::P1Temp,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp {
+    // @item field:njoy_outram_park_fork::wimsr::p1scat::P1Temp::temp
+    #[getter(temp)]
+    pub fn get_temp(&self) -> f64 {
+        let v = self.inner.temp.clone();
+        v
+    }
+    #[setter(temp)]
+    pub fn set_temp(&mut self, v: f64) {
+        self.inner.temp = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::p1scat::P1Temp::rows
+    #[getter(rows)]
+    pub fn get_rows(&self) -> Vec<(usize, usize, usize, Vec<f64>)> {
+        let v = self.inner.rows.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1, e2, e3) = e;
+                (e0, e1, e2, e3.into_iter().map(|e| e).collect::<Vec<_>>())
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(rows)]
+    pub fn set_rows(&mut self, v: Vec<(usize, usize, usize, Vec<f64>)>) {
+        self.inner.rows = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1, e2, e3) = e;
+                (e0, e1, e2, e3.into_iter().map(|e| e).collect::<Vec<_>>())
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::p1scat::P1Temp
+    #[new]
+    #[pyo3(signature = (temp=None, rows=None))]
+    pub fn __new__(temp: Option<f64>, rows: Option<Vec<(usize, usize, usize, Vec<f64>)>>) -> Self {
+        let d = <::njoy_outram_park_fork::wimsr::p1scat::P1Temp as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::p1scat::P1Temp {
+                temp: temp.map(|v| v).unwrap_or(d.temp),
+                rows: rows
+                    .map(|v| {
+                        v.into_iter()
+                            .map(|e| {
+                                let (e0, e1, e2, e3) = e;
+                                (e0, e1, e2, e3.into_iter().map(|e| e).collect::<Vec<_>>())
+                            })
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or(d.rows),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::resint::ResintResult
+#[doc = "`resint`'s output."]
+#[pyclass(name = "ResintResult", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__resint__ResintResult {
+    pub inner: ::njoy_outram_park_fork::wimsr::resint::ResintResult,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__resint__ResintResult {
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResintResult::temps
+    #[getter(temps)]
+    pub fn get_temps(&self) -> Vec<f64> {
+        let v = self.inner.temps.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(temps)]
+    pub fn set_temps(&mut self, v: Vec<f64>) {
+        self.inner.temps = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResintResult::sigz
+    #[getter(sigz)]
+    pub fn get_sigz(&self) -> Vec<f64> {
+        let v = self.inner.sigz.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(sigz)]
+    pub fn set_sigz(&mut self, v: Vec<f64>) {
+        self.inner.sigz = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResintResult::jfiss
+    #[getter(jfiss)]
+    pub fn get_jfiss(&self) -> i32 {
+        let v = self.inner.jfiss.clone();
+        v
+    }
+    #[setter(jfiss)]
+    pub fn set_jfiss(&mut self, v: i32) {
+        self.inner.jfiss = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResintResult::groups
+    #[getter(groups)]
+    pub fn get_groups(&self) -> Vec<Py_njoy_outram_park_fork__wimsr__resint__ResonanceGroup> {
+        let v = self.inner.groups.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__wimsr__resint__ResonanceGroup { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(groups)]
+    pub fn set_groups(&mut self, v: Vec<Py_njoy_outram_park_fork__wimsr__resint__ResonanceGroup>) {
+        self.inner.groups = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::resint::ResintResult
+    #[new]
+    #[pyo3(signature = (temps=None, sigz=None, jfiss=None, groups=None))]
+    pub fn __new__(
+        temps: Option<Vec<f64>>,
+        sigz: Option<Vec<f64>>,
+        jfiss: Option<i32>,
+        groups: Option<Vec<Py_njoy_outram_park_fork__wimsr__resint__ResonanceGroup>>,
+    ) -> Self {
+        let d = <::njoy_outram_park_fork::wimsr::resint::ResintResult as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::resint::ResintResult {
+                temps: temps
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.temps),
+                sigz: sigz
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.sigz),
+                jfiss: jfiss.map(|v| v).unwrap_or(d.jfiss),
+                groups: groups
+                    .map(|v| v.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                    .unwrap_or(d.groups),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::resint::ResonanceGroup
+#[doc = "One resonance group's tables (`rsiout`, `wimsr.f90:703-722`): the\n`(temperatures, σ_0 + λ σ_pot, RI[it][iz])` records."]
+#[pyclass(name = "ResonanceGroup", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__resint__ResonanceGroup {
+    pub inner: ::njoy_outram_park_fork::wimsr::resint::ResonanceGroup,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__resint__ResonanceGroup {
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResonanceGroup::sigb
+    #[getter(sigb)]
+    pub fn get_sigb(&self) -> Vec<f64> {
+        let v = self.inner.sigb.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(sigb)]
+    pub fn set_sigb(&mut self, v: Vec<f64>) {
+        self.inner.sigb = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResonanceGroup::absorption
+    #[getter(absorption)]
+    pub fn get_absorption(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.absorption.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(absorption)]
+    pub fn set_absorption(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.absorption = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResonanceGroup::nu_fission
+    #[getter(nu_fission)]
+    pub fn get_nu_fission(&self) -> Option<Vec<Vec<f64>>> {
+        let v = self.inner.nu_fission.clone();
+        v.map(|e| {
+            e.into_iter()
+                .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                .collect::<Vec<_>>()
+        })
+    }
+    #[setter(nu_fission)]
+    pub fn set_nu_fission(&mut self, v: Option<Vec<Vec<f64>>>) {
+        self.inner.nu_fission = v.map(|e| {
+            e.into_iter()
+                .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                .collect::<Vec<_>>()
+        });
+    }
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResonanceGroup::elastic
+    #[getter(elastic)]
+    pub fn get_elastic(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.elastic.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(elastic)]
+    pub fn set_elastic(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.elastic = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::resint::ResonanceGroup::flux_per_lethargy
+    #[getter(flux_per_lethargy)]
+    pub fn get_flux_per_lethargy(&self) -> Vec<Vec<f64>> {
+        let v = self.inner.flux_per_lethargy.clone();
+        v.into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>()
+    }
+    #[setter(flux_per_lethargy)]
+    pub fn set_flux_per_lethargy(&mut self, v: Vec<Vec<f64>>) {
+        self.inner.flux_per_lethargy = v
+            .into_iter()
+            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::resint::ResonanceGroup
+    #[new]
+    #[pyo3(signature = (sigb=None, absorption=None, nu_fission=None, elastic=None, flux_per_lethargy=None))]
+    pub fn __new__(
+        sigb: Option<Vec<f64>>,
+        absorption: Option<Vec<Vec<f64>>>,
+        nu_fission: Option<Vec<Vec<f64>>>,
+        elastic: Option<Vec<Vec<f64>>>,
+        flux_per_lethargy: Option<Vec<Vec<f64>>>,
+    ) -> Self {
+        let d = <::njoy_outram_park_fork::wimsr::resint::ResonanceGroup as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::resint::ResonanceGroup {
+                sigb: sigb
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.sigb),
+                absorption: absorption
+                    .map(|v| {
+                        v.into_iter()
+                            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or(d.absorption),
+                nu_fission: {
+                    let v = nu_fission.map(|e| {
+                        e.into_iter()
+                            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                            .collect::<Vec<_>>()
+                    });
+                    if v.is_some() { v } else { d.nu_fission }
+                },
+                elastic: elastic
+                    .map(|v| {
+                        v.into_iter()
+                            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or(d.elastic),
+                flux_per_lethargy: flux_per_lethargy
+                    .map(|v| {
+                        v.into_iter()
+                            .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or(d.flux_per_lethargy),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::xsecs::Counts
+#[doc = "`ntemp`/`nsigz`/`ires` after `wminit`'s clamps against the tape\n(`wimsr.f90:328-345`)."]
+#[pyclass(name = "Counts", module = "outram_park.njoy_outram_park_fork")]
+pub struct Py_njoy_outram_park_fork__wimsr__xsecs__Counts {
+    pub inner: ::njoy_outram_park_fork::wimsr::xsecs::Counts,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__xsecs__Counts {
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::Counts::ntemp
+    #[getter(ntemp)]
+    pub fn get_ntemp(&self) -> usize {
+        let v = self.inner.ntemp.clone();
+        v
+    }
+    #[setter(ntemp)]
+    pub fn set_ntemp(&mut self, v: usize) {
+        self.inner.ntemp = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::Counts::nsigz
+    #[getter(nsigz)]
+    pub fn get_nsigz(&self) -> usize {
+        let v = self.inner.nsigz.clone();
+        v
+    }
+    #[setter(nsigz)]
+    pub fn set_nsigz(&mut self, v: usize) {
+        self.inner.nsigz = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::Counts::ires
+    #[getter(ires)]
+    pub fn get_ires(&self) -> usize {
+        let v = self.inner.ires.clone();
+        v
+    }
+    #[setter(ires)]
+    pub fn set_ires(&mut self, v: usize) {
+        self.inner.ires = v;
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::xsecs::Counts
+    #[new]
+    pub fn __new__(ntemp: usize, nsigz: usize, ires: usize) -> Self {
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::xsecs::Counts {
+                ntemp: ntemp,
+                nsigz: nsigz,
+                ires: ires,
+            },
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::xsecs::TempDependent
+#[doc = "The `nscr3` records per temperature (`wimsr.f90:1601-1602`, `1617-1618`,\n`1675-1676`)."]
+#[pyclass(name = "TempDependent", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__xsecs__TempDependent {
+    pub inner: ::njoy_outram_park_fork::wimsr::xsecs::TempDependent,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__xsecs__TempDependent {
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempDependent::temp
+    #[getter(temp)]
+    pub fn get_temp(&self) -> f64 {
+        let v = self.inner.temp.clone();
+        v
+    }
+    #[setter(temp)]
+    pub fn set_temp(&mut self, v: f64) {
+        self.inner.temp = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempDependent::record
+    #[getter(record)]
+    pub fn get_record(&self) -> Vec<f64> {
+        let v = self.inner.record.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(record)]
+    pub fn set_record(&mut self, v: Vec<f64>) {
+        self.inner.record = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempDependent::fission
+    #[getter(fission)]
+    pub fn get_fission(&self) -> Option<Vec<f64>> {
+        let v = self.inner.fission.clone();
+        v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+    }
+    #[setter(fission)]
+    pub fn set_fission(&mut self, v: Option<Vec<f64>>) {
+        self.inner.fission = v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>());
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempDependent::scatter
+    #[getter(scatter)]
+    pub fn get_scatter(&self) -> Vec<f64> {
+        let v = self.inner.scatter.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(scatter)]
+    pub fn set_scatter(&mut self, v: Vec<f64>) {
+        self.inner.scatter = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::xsecs::TempDependent
+    #[new]
+    #[pyo3(signature = (temp=None, record=None, fission=None, scatter=None))]
+    pub fn __new__(
+        temp: Option<f64>,
+        record: Option<Vec<f64>>,
+        fission: Option<Vec<f64>>,
+        scatter: Option<Vec<f64>>,
+    ) -> Self {
+        let d = <::njoy_outram_park_fork::wimsr::xsecs::TempDependent as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::xsecs::TempDependent {
+                temp: temp.map(|v| v).unwrap_or(d.temp),
+                record: record
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.record),
+                fission: {
+                    let v = fission.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>());
+                    if v.is_some() { v } else { d.fission }
+                },
+                scatter: scatter
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.scatter),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::xsecs::TempIndependent
+#[doc = "The `nscr2` record `xseco` writes once (`wimsr.f90:1478-1487`,\n`1531-1533`, `1596-1597`), plus what the `iprint` listing shows."]
+#[pyclass(name = "TempIndependent", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__xsecs__TempIndependent {
+    pub inner: ::njoy_outram_park_fork::wimsr::xsecs::TempIndependent,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__xsecs__TempIndependent {
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempIndependent::record
+    #[getter(record)]
+    pub fn get_record(&self) -> Vec<f64> {
+        let v = self.inner.record.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(record)]
+    pub fn set_record(&mut self, v: Vec<f64>) {
+        self.inner.record = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempIndependent::fission
+    #[getter(fission)]
+    pub fn get_fission(&self) -> Option<Vec<f64>> {
+        let v = self.inner.fission.clone();
+        v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+    }
+    #[setter(fission)]
+    pub fn set_fission(&mut self, v: Option<Vec<f64>>) {
+        self.inner.fission = v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>());
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempIndependent::scatter
+    #[getter(scatter)]
+    pub fn get_scatter(&self) -> Vec<f64> {
+        let v = self.inner.scatter.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(scatter)]
+    pub fn set_scatter(&mut self, v: Vec<f64>) {
+        self.inner.scatter = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::TempIndependent::current_spectrum
+    #[getter(current_spectrum)]
+    pub fn get_current_spectrum(&self) -> Vec<f64> {
+        let v = self.inner.current_spectrum.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(current_spectrum)]
+    pub fn set_current_spectrum(&mut self, v: Vec<f64>) {
+        self.inner.current_spectrum = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::xsecs::TempIndependent
+    #[new]
+    #[pyo3(signature = (record=None, fission=None, scatter=None, current_spectrum=None))]
+    pub fn __new__(
+        record: Option<Vec<f64>>,
+        fission: Option<Vec<f64>>,
+        scatter: Option<Vec<f64>>,
+        current_spectrum: Option<Vec<f64>>,
+    ) -> Self {
+        let d = <::njoy_outram_park_fork::wimsr::xsecs::TempIndependent as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::xsecs::TempIndependent {
+                record: record
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.record),
+                fission: {
+                    let v = fission.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>());
+                    if v.is_some() { v } else { d.fission }
+                },
+                scatter: scatter
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.scatter),
+                current_spectrum: current_spectrum
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.current_spectrum),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:njoy_outram_park_fork::wimsr::xsecs::XsecsResult
+#[doc = "Everything `xsecs` leaves in the module globals for `resint`,\n`p1scat` and `wimout`, plus the `xseco` records."]
+#[pyclass(name = "XsecsResult", module = "outram_park.njoy_outram_park_fork")]
+#[derive(Clone)]
+pub struct Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult {
+    pub inner: ::njoy_outram_park_fork::wimsr::xsecs::XsecsResult,
+}
+#[pymethods]
+impl Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult {
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::temp_independent
+    #[getter(temp_independent)]
+    pub fn get_temp_independent(&self) -> Py_njoy_outram_park_fork__wimsr__xsecs__TempIndependent {
+        let v = self.inner.temp_independent.clone();
+        Py_njoy_outram_park_fork__wimsr__xsecs__TempIndependent { inner: v }
+    }
+    #[setter(temp_independent)]
+    pub fn set_temp_independent(
+        &mut self,
+        v: Py_njoy_outram_park_fork__wimsr__xsecs__TempIndependent,
+    ) {
+        self.inner.temp_independent = v.inner;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::per_temp
+    #[getter(per_temp)]
+    pub fn get_per_temp(&self) -> Vec<Py_njoy_outram_park_fork__wimsr__xsecs__TempDependent> {
+        let v = self.inner.per_temp.clone();
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__wimsr__xsecs__TempDependent { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(per_temp)]
+    pub fn set_per_temp(&mut self, v: Vec<Py_njoy_outram_park_fork__wimsr__xsecs__TempDependent>) {
+        self.inner.per_temp = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::ifiss
+    #[getter(ifiss)]
+    pub fn get_ifiss(&self) -> i32 {
+        let v = self.inner.ifiss.clone();
+        v
+    }
+    #[setter(ifiss)]
+    pub fn set_ifiss(&mut self, v: i32) {
+        self.inner.ifiss = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::snu
+    #[getter(snu)]
+    pub fn get_snu(&self) -> Vec<f64> {
+        let v = self.inner.snu.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(snu)]
+    pub fn set_snu(&mut self, v: Vec<f64>) {
+        self.inner.snu = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::spot
+    #[getter(spot)]
+    pub fn get_spot(&self) -> Vec<f64> {
+        let v = self.inner.spot.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(spot)]
+    pub fn set_spot(&mut self, v: Vec<f64>) {
+        self.inner.spot = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::abs2
+    #[getter(abs2)]
+    pub fn get_abs2(&self) -> Vec<f64> {
+        let v = self.inner.abs2.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(abs2)]
+    pub fn set_abs2(&mut self, v: Vec<f64>) {
+        self.inner.abs2 = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::p1flx
+    #[getter(p1flx)]
+    pub fn get_p1flx(&self) -> Vec<f64> {
+        let v = self.inner.p1flx.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(p1flx)]
+    pub fn set_p1flx(&mut self, v: Vec<f64>) {
+        self.inner.p1flx = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::uff
+    #[getter(uff)]
+    pub fn get_uff(&self) -> Vec<f64> {
+        let v = self.inner.uff.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(uff)]
+    pub fn set_uff(&mut self, v: Vec<f64>) {
+        self.inner.uff = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::nfiss
+    #[getter(nfiss)]
+    pub fn get_nfiss(&self) -> usize {
+        let v = self.inner.nfiss.clone();
+        v
+    }
+    #[setter(nfiss)]
+    pub fn set_nfiss(&mut self, v: usize) {
+        self.inner.nfiss = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::isg
+    #[getter(isg)]
+    pub fn get_isg(&self) -> usize {
+        let v = self.inner.isg.clone();
+        v
+    }
+    #[setter(isg)]
+    pub fn set_isg(&mut self, v: usize) {
+        self.inner.isg = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::tempr
+    #[getter(tempr)]
+    pub fn get_tempr(&self) -> Vec<f64> {
+        let v = self.inner.tempr.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(tempr)]
+    pub fn set_tempr(&mut self, v: Vec<f64>) {
+        self.inner.tempr = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::ntemp
+    #[getter(ntemp)]
+    pub fn get_ntemp(&self) -> usize {
+        let v = self.inner.ntemp.clone();
+        v
+    }
+    #[setter(ntemp)]
+    pub fn set_ntemp(&mut self, v: usize) {
+        self.inner.ntemp = v;
+    }
+    // @item field:njoy_outram_park_fork::wimsr::xsecs::XsecsResult::messages
+    #[getter(messages)]
+    pub fn get_messages(&self) -> Vec<String> {
+        let v = self.inner.messages.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(messages)]
+    pub fn set_messages(&mut self, v: Vec<String>) {
+        self.inner.messages = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item ctor:njoy_outram_park_fork::wimsr::xsecs::XsecsResult
+    #[new]
+    #[pyo3(signature = (temp_independent=None, per_temp=None, ifiss=None, snu=None, spot=None, abs2=None, p1flx=None, uff=None, nfiss=None, isg=None, tempr=None, ntemp=None, messages=None))]
+    pub fn __new__(
+        temp_independent: Option<Py_njoy_outram_park_fork__wimsr__xsecs__TempIndependent>,
+        per_temp: Option<Vec<Py_njoy_outram_park_fork__wimsr__xsecs__TempDependent>>,
+        ifiss: Option<i32>,
+        snu: Option<Vec<f64>>,
+        spot: Option<Vec<f64>>,
+        abs2: Option<Vec<f64>>,
+        p1flx: Option<Vec<f64>>,
+        uff: Option<Vec<f64>>,
+        nfiss: Option<usize>,
+        isg: Option<usize>,
+        tempr: Option<Vec<f64>>,
+        ntemp: Option<usize>,
+        messages: Option<Vec<String>>,
+    ) -> Self {
+        let d = <::njoy_outram_park_fork::wimsr::xsecs::XsecsResult as Default>::default();
+        Self {
+            inner: ::njoy_outram_park_fork::wimsr::xsecs::XsecsResult {
+                temp_independent: temp_independent
+                    .map(|v| v.inner)
+                    .unwrap_or(d.temp_independent),
+                per_temp: per_temp
+                    .map(|v| v.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                    .unwrap_or(d.per_temp),
+                ifiss: ifiss.map(|v| v).unwrap_or(d.ifiss),
+                snu: snu
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.snu),
+                spot: spot
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.spot),
+                abs2: abs2
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.abs2),
+                p1flx: p1flx
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.p1flx),
+                uff: uff
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.uff),
+                nfiss: nfiss.map(|v| v).unwrap_or(d.nfiss),
+                isg: isg.map(|v| v).unwrap_or(d.isg),
+                tempr: tempr
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.tempr),
+                ntemp: ntemp.map(|v| v).unwrap_or(d.ntemp),
+                messages: messages
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.messages),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
     }
     #[staticmethod]
     pub fn default() -> Self {
@@ -25595,8 +32147,56 @@ pub fn fn_njoy_outram_park_fork__acquire__zip_filename(
     ::njoy_outram_park_fork::acquire::zip_filename(mat, z, a, &symbol)
 }
 
+// @item fn:njoy_outram_park_fork::broadr::broaden_result
+#[doc = "Broaden a whole [`ReconrResult`] to `temp_k` \\[K\\] with the upstream default\nupper limit ([`broadening_limit`]). The result carries the same material\nheader and limit, so it can be broadened again (bootstrap style) if wanted."]
+#[pyfunction(name = "broaden_result")]
+pub fn fn_njoy_outram_park_fork__broadr__broaden_result(
+    result: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
+    temp_k: f64,
+) -> Py_njoy_outram_park_fork__prelude__ReconrResult {
+    Py_njoy_outram_park_fork__prelude__ReconrResult {
+        inner: ::njoy_outram_park_fork::broadr::broaden_result(&result.inner, temp_k),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::broadr::broadening_limit
+#[doc = "The default upper energy for Doppler broadening, `thnmax` in `broadr.f90`.\n\nPorted from the `thnmax` determination in `broadr` (`broadr.f90:354-441`\nand `:522-524`, `:562`), for the default card input `thnmax = 0`. The\nmanual's own summary (`broadr.f90:107-124`):\n\n- (i) a resolved resonance region exists: broaden to the top of it;\n- (ii) no resolved region but an unresolved one: broaden to the *start* of\n  the unresolved region;\n- (iii) no resonance parameters at all: broaden to the lesser of 6.5 MeV\n  and the first reaction threshold.\n\nConcretely: start from the PENDF MF=2 upper limit\n([`ReconrResult::resonance_upper_limit`], which is `eresr`/`eresh` as\nRECONR wrote it), cap it at 6.5 MeV (`if (eresh.gt.e6pt5) eresh=e6pt5`),\nnever exceed the evaluation's own `EMAX` (`if (c2h.lt.thnmax) thnmax=c2h`),\nand for a non-resonance material (`LRP = 0`) lower it to\n`0.99999 × ` the lowest threshold among the reactions that are not\nbroadened (`if (fact*enext.lt.thnmax) thnmax=fact*enext`). If nothing set\nit, fall back to 6.5 MeV (`if (thnmax.eq.zero.and.thnmx.eq.0) thnmax=e6pt5`).\n\n**Why an upper limit at all.** Above the resolved region the evaluation\ntabulates energy-*averaged* cross secti"]
+#[pyfunction(name = "broadening_limit")]
+pub fn fn_njoy_outram_park_fork__broadr__broadening_limit(
+    result: PyRef<'_, Py_njoy_outram_park_fork__prelude__ReconrResult>,
+) -> f64 {
+    ::njoy_outram_park_fork::broadr::broadening_limit(&result.inner)
+}
+
+// @item fn:njoy_outram_park_fork::broadr::broadn_section
+#[doc = "Doppler-broaden one reaction onto BROADR's adaptive grid\n(`subroutine broadn`, `broadr.f90:1256-1508`, `nreac = 1`, one page).\n\n- `e`/`s` — the input lin-lin grid (ascending energies \\[eV\\], barn).\n- `alpha` — `awr / (bk * tempef)` \\[1/eV\\].\n- `thnmax` — upper energy for broadening; points above are copied through\n  unbroadened, exactly as label 190 does (the last table point always is).\n- `emtr` — lab threshold; an output point at or below it gets `0`, as\n  `broadr.f90:1441-1445` writes it.\n\nReturns the new `(energy, sigma)` grid. Energies of nodes are rounded to\n7 figures and midpoints to 8–9 (`sigfig`), as upstream."]
+#[pyfunction(name = "broadn_section")]
+pub fn fn_njoy_outram_park_fork__broadr__broadn_section(
+    e: Vec<f64>,
+    s: Vec<f64>,
+    alpha: f64,
+    tol: PyRef<'_, Py_njoy_outram_park_fork__broadr__BroadnTolerances>,
+    thnmax: f64,
+    emtr: f64,
+) -> Vec<(f64, f64)> {
+    ::njoy_outram_park_fork::broadr::broadn_section(
+        &e.into_iter().map(|e| e).collect::<Vec<_>>(),
+        &s.into_iter().map(|e| e).collect::<Vec<_>>(),
+        alpha,
+        &tol.inner,
+        thnmax,
+        emtr,
+    )
+    .into_iter()
+    .map(|e| {
+        let (e0, e1) = e;
+        (e0, e1)
+    })
+    .collect::<Vec<_>>()
+}
+
 // @item fn:njoy_outram_park_fork::broadr::doppler_broaden
-#[doc = "Doppler-broaden a set of RECONR cross-section sections using the SIGMA1 method.\n\nAll sections must share the same energy grid (as produced by RECONR). The\noutput has the same energy grid and the same MT numbers as the input, with\ncross sections broadened to the free-gas thermal spectrum at `temp_k` \\[K\\].\n\n# Parameters\n- `sections` — pointwise (energy \\[eV\\], σ \\[b\\]) sections from RECONR.\n- `awr`      — atomic weight ratio: target mass / neutron mass.\n- `temp_k`   — effective temperature \\[K\\] for broadening.\n\n# Physics\n\nThe velocity-space scaling factor `α = AWR / (k_B · T)` maps energies to\nthe dimensionless velocity `u = √(α·E)`. The free-gas kernel becomes a\nGaussian in `u`, enabling analytic panel-by-panel integration."]
+#[doc = "Doppler-broaden a set of RECONR cross-section sections using the SIGMA1 method,\n**with no upper energy bound**.\n\nThis is the bare kernel: every point of every section is broadened. That is\n*not* what upstream BROADR does — it stops at `thnmax` (the top of the\nresolved region by default) and copies everything above through unchanged,\nbecause the evaluation above that energy holds energy-averaged values that\nthe SIGMA1 kernel must not be run over. Pipelines must use\n[`doppler_broaden_below`] / [`broaden_result`]; this unbounded form is kept\nfor kernel-level tests and for callers that have already restricted the\ngrid themselves.\n\nAll sections must share the same energy grid (as produced by RECONR). The\noutput has the same energy grid and the same MT numbers as the input, with\ncross sections broadened to the free-gas thermal spectrum at `temp_k` \\[K\\].\n\n# Parameters\n- `sections` — pointwise (energy \\[eV\\], σ \\[b\\]) sections from RECONR.\n- `awr`      — atomic weight ratio: target mass / neutron mass.\n- `temp_k`   — effective temperature \\[K\\] for broadening.\n\n# Physics\n\nThe velocity-space scaling factor `α = AWR / (k_B · T)` maps energies to\nthe dimensionless velocity `u = √(α·E)`. The "]
 #[pyfunction(name = "doppler_broaden")]
 pub fn fn_njoy_outram_park_fork__broadr__doppler_broaden(
     sections: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>,
@@ -25611,6 +32211,55 @@ pub fn fn_njoy_outram_park_fork__broadr__doppler_broaden(
     .into_iter()
     .map(|e| Py_njoy_outram_park_fork__reconr__ReconrSection { inner: e })
     .collect::<Vec<_>>()
+}
+
+// @item fn:njoy_outram_park_fork::broadr::doppler_broaden_below
+#[doc = "Doppler-broaden RECONR output up to `thnmax` \\[eV\\], copying everything\nabove it through untouched — upstream BROADR's actual behaviour.\n\nThis is the entry point the RECONR → BROADR pipeline should use; see\n[`broaden_result`] for the one-call form that also derives `thnmax` with\n[`broadening_limit`]. [`doppler_broaden`] is the same kernel with no bound\nand exists for kernel-level tests.\n\nPer section, the output grid is **BROADR's own adaptive grid**\n([`broadn_section`], `broadr.f90` `broadn`): nodes chosen from the input\ngrid with midpoints inserted until lin-lin interpolation of the\nbroadened function meets `errthn` (points the walk skips are dropped).\nUpstream broadens the node *at* `thnmax` too — `if (et.ge.thnmax) go to\n130` makes it a node, and only `es(1).gt.thnmax` sends the walk to the\ncopy-through at label 190, `broadr.f90:1348-1353` and `:1467` — and\nevery point with `E > thnmax` keeps its input value exactly. The SIGMA1\nintegral for a broadened point still runs over the *whole* input grid —\nas upstream's does over all three loaded pages — so a point just below\n`thnmax` does see the structure above it, exactly as in `broadr.f90`.\n\nTwo consecutive points at one energy (a d"]
+#[pyfunction(name = "doppler_broaden_below")]
+pub fn fn_njoy_outram_park_fork__broadr__doppler_broaden_below(
+    sections: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>,
+    awr: f64,
+    temp_k: f64,
+    thnmax: f64,
+) -> Vec<Py_njoy_outram_park_fork__reconr__ReconrSection> {
+    ::njoy_outram_park_fork::broadr::doppler_broaden_below(
+        &sections.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        awr,
+        temp_k,
+        thnmax,
+    )
+    .into_iter()
+    .map(|e| Py_njoy_outram_park_fork__reconr__ReconrSection { inner: e })
+    .collect::<Vec<_>>()
+}
+
+// @item fn:njoy_outram_park_fork::broadr::doppler_broaden_below_with
+#[doc = "[`doppler_broaden_below`] with explicit BROADR tolerances (card 3\n`errthn errmax errint`); the plain form uses `errthn = 0.001` and the\nupstream defaults for the other two."]
+#[pyfunction(name = "doppler_broaden_below_with")]
+pub fn fn_njoy_outram_park_fork__broadr__doppler_broaden_below_with(
+    sections: Vec<Py_njoy_outram_park_fork__reconr__ReconrSection>,
+    awr: f64,
+    temp_k: f64,
+    thnmax: f64,
+    tol: PyRef<'_, Py_njoy_outram_park_fork__broadr__BroadnTolerances>,
+) -> Vec<Py_njoy_outram_park_fork__reconr__ReconrSection> {
+    ::njoy_outram_park_fork::broadr::doppler_broaden_below_with(
+        &sections.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        awr,
+        temp_k,
+        thnmax,
+        &tol.inner,
+    )
+    .into_iter()
+    .map(|e| Py_njoy_outram_park_fork__reconr__ReconrSection { inner: e })
+    .collect::<Vec<_>>()
+}
+
+// @item fn:njoy_outram_park_fork::broadr::lab_threshold
+#[doc = "Lab-system threshold energy `emtr` for a reaction with Q-value `q`\n\\[eV\\] (`broadr.f90:596-600`): `0` for `q = 0`, else `-q (awr+1)/awr`."]
+#[pyfunction(name = "lab_threshold")]
+pub fn fn_njoy_outram_park_fork__broadr__lab_threshold(q: f64, awr: f64) -> f64 {
+    ::njoy_outram_park_fork::broadr::lab_threshold(q, awr)
 }
 
 // @item fn:njoy_outram_park_fork::broadr::run
@@ -25703,8 +32352,35 @@ pub fn fn_njoy_outram_park_fork__covr__default_tlev() -> Vec<f64> {
         .collect::<Vec<_>>()
 }
 
+// @item fn:njoy_outram_park_fork::covr::parse_boxer_text
+#[doc = "Read every matrix of a BOXER text (the inverse of [`press_text`]).\n\n# Errors\n[`NjoyError::EndfParse`] on a malformed header, a truncated block, an\nunparsable field, or an `itype` outside `0..=4`."]
+#[pyfunction(name = "parse_boxer_text")]
+pub fn fn_njoy_outram_park_fork__covr__parse_boxer_text(
+    text: String,
+) -> PyResult<Vec<Py_njoy_outram_park_fork__covr__BoxerRecord>> {
+    err(::njoy_outram_park_fork::covr::parse_boxer_text(&text)).map(|v| {
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__covr__BoxerRecord { inner: e })
+            .collect::<Vec<_>>()
+    })
+}
+
+// @item fn:njoy_outram_park_fork::covr::present_mts
+#[doc = "The MTs present in `MF=mf35` for `mat`, in tape order — the scan half of\n`expndo` (`covr.f90:526-556`) before stripping.\n\nUpstream positions at `(mat,mf35,0)` and reads LIST records until the file\nnumber changes, so every section of that file counts; lumped-component\nplaceholders never appear here because ERRORR writes no `MF=3` LIST for\nthem."]
+#[pyfunction(name = "present_mts")]
+pub fn fn_njoy_outram_park_fork__covr__present_mts(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+    mf35: i32,
+) -> Vec<i32> {
+    ::njoy_outram_park_fork::covr::present_mts(&tape.inner, mat, mf35)
+        .into_iter()
+        .map(|e| e)
+        .collect::<Vec<_>>()
+}
+
 // @item fn:njoy_outram_park_fork::covr::press_text
-#[doc = "Write the BOXER text layout for a compressed matrix (`covr.f90:2199-2207`).\n\nEmits, per page: a header record (data type, library id + description on the\nfirst page, `mat/mt/mat1/mt1`, the array counts `nval/nvf/ncon/ncf`, and the\nrow counts `nrowm/nrow/ncol`), then the `xval` block and the `icon` block,\neach wrapped to the per-line counts from [`setfor`].\n\nSee the module \"Fidelity note\": the number *formatting* is Rust's, not a\nbyte-exact Fortran `1P` emulation; the record structure and counts are\nfaithful.\n\n# Errors\nPropagates [`setfor`]'s range check."]
+#[doc = "Write the BOXER text of one compressed matrix (`covr.f90:2199-2207`).\n\nPer page: the header record (the first page carries `hlibid`/`hdescr`,\nlater ones 34 dashes), then `nval` values and `ncon` control codes, each\nwrapped to the per-line count of [`setfor`]. Byte-exact with NJOY2016's\n`press` (`tests/covr_boxer_golden.rs`).\n\n# Errors\nPropagates [`setfor`]'s range check."]
 #[pyfunction(name = "press_text")]
 pub fn fn_njoy_outram_park_fork__covr__press_text(
     header: PyRef<'_, Py_njoy_outram_park_fork__covr__BoxerHeader>,
@@ -25721,15 +32397,118 @@ pub fn fn_njoy_outram_park_fork__covr__press_text(
     .map(|v| v)
 }
 
+// @item fn:njoy_outram_park_fork::covr::read_covariance_rows
+#[doc = "The sparse covariance rows of the `(mat1,mt1)` subsection of\n`MF=mf3x/MT=mt` for `mat` (`covr.f90:813-886`), or `None` when the section\nis a lumped-component placeholder (`nmt = N2 = 0`, `covr.f90:820`).\n\n# Errors\n[`NjoyError::SectionNotFound`] when `(mat,mf3x,mt)` is absent;\n[`NjoyError::EndfParse`] when no subsection carries `(mat1,mt1)`\n(`covr.f90:827-831`: \"did not find file 33 subsection\") or a record is\nmalformed."]
+#[pyfunction(name = "read_covariance_rows")]
+pub fn fn_njoy_outram_park_fork__covr__read_covariance_rows(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    kind: Py_njoy_outram_park_fork__covr__ErrorrTapeKind,
+    mat: i32,
+    mt: i32,
+    mat1: i32,
+    mt1: i32,
+) -> PyResult<Option<Vec<Py_njoy_outram_park_fork__covr__CovarianceRowBlock>>> {
+    err(::njoy_outram_park_fork::covr::read_covariance_rows(
+        &tape.inner,
+        kind.inner,
+        mat,
+        mt,
+        mat1,
+        mt1,
+    ))
+    .map(|v| {
+        v.map(|e| {
+            e.into_iter()
+                .map(|e| Py_njoy_outram_park_fork__covr__CovarianceRowBlock { inner: e })
+                .collect::<Vec<_>>()
+        })
+    })
+}
+
+// @item fn:njoy_outram_park_fork::covr::read_covariance_section
+#[doc = "Assemble the full [`ErrorrCovarianceSection`] for one reaction pair — the\ntape half of `covard` (`covr.f90:740-886`) — ready for\n[`ErrorrCovarianceSection::to_dense`].\n\nThe group structure is read from `mat`'s `MF=1/MT=451` (the material of\nthe *first* argument, as upstream's `finds(mat,1,451,nin)` does — for the\ncolumn-auto call inside `corr` that is `mat1`). The row vector `xx` is\n`MF=mf35/MT=mt` of `mat`, the column vector `xy` is `MF=mf35/MT=mt1` of\n`mat1` (`xy = xx` for an auto pair, `covr.f90:797-807`).\n\nReturns `None` for a placeholder section (`nmt=0`), where upstream leaves\n`cf` zero and skips the zero-test (`covr.f90:820`); callers treat that as a\nnull matrix.\n\n# Errors\nAny of [`read_group_structure`], [`read_vector`], [`read_covariance_rows`]."]
+#[pyfunction(name = "read_covariance_section")]
+pub fn fn_njoy_outram_park_fork__covr__read_covariance_section(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    kind: Py_njoy_outram_park_fork__covr__ErrorrTapeKind,
+    mat: i32,
+    mt: i32,
+    mat1: i32,
+    mt1: i32,
+) -> PyResult<Option<Py_njoy_outram_park_fork__covr__ErrorrCovarianceSection>> {
+    err(::njoy_outram_park_fork::covr::read_covariance_section(
+        &tape.inner,
+        kind.inner,
+        mat,
+        mt,
+        mat1,
+        mt1,
+    ))
+    .map(|v| v.map(|e| Py_njoy_outram_park_fork__covr__ErrorrCovarianceSection { inner: e }))
+}
+
+// @item fn:njoy_outram_park_fork::covr::read_group_structure
+#[doc = "Read the group structure of `mat` (`covr.f90:746-780`).\n\n# Errors\n[`NjoyError::SectionNotFound`] when `mat` has no `MF=1/MT=451`\n(`finds` would abort); [`NjoyError::EndfParse`] on a malformed LIST."]
+#[pyfunction(name = "read_group_structure")]
+pub fn fn_njoy_outram_park_fork__covr__read_group_structure(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+) -> PyResult<Py_njoy_outram_park_fork__covr__GroupStructure> {
+    err(::njoy_outram_park_fork::covr::read_group_structure(
+        &tape.inner,
+        mat,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__covr__GroupStructure { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::covr::read_vector
+#[doc = "Read the `ixmax` coarse-group values of `MF=mf35/MT=mt` for `mat`\n(`covr.f90:783-808`). For `mf35=5` the LIST's `C2` is the incident energy\n`einc`, returned alongside (0 otherwise).\n\n# Errors\n[`NjoyError::SectionNotFound`] when the section is absent (upstream\n`finds` aborts); [`NjoyError::EndfParse`] when it holds fewer than `ixmax`\nvalues."]
+#[pyfunction(name = "read_vector")]
+pub fn fn_njoy_outram_park_fork__covr__read_vector(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+    mf35: i32,
+    mt: i32,
+    ixmax: usize,
+) -> PyResult<(Vec<f64>, f64)> {
+    err(::njoy_outram_park_fork::covr::read_vector(
+        &tape.inner,
+        mat,
+        mf35,
+        mt,
+        ixmax,
+    ))
+    .map(|v| {
+        let (e0, e1) = v;
+        (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1)
+    })
+}
+
 // @item fn:njoy_outram_park_fork::covr::run
-#[doc = "Module-dispatch entry point used by the [`crate::NjoyModule`] registry.\n\nCOVR needs a full input deck ([`CovrInput`]) to run, so this no-argument\nform exists only so the module registry can name COVR; it reports that the\nend-to-end pipeline is not yet ported (the tape reader, BOXER writer, and\nplotting are unported). For the real entry point use [`run_with_deck`] with\na [`CovrInput`].\n\n# Errors\nAlways returns [`NjoyError::NotPorted`] with `\"covr\"`."]
+#[doc = "Module-dispatch entry point used by the [`crate::NjoyModule`] registry.\n\nCOVR needs a full input deck ([`CovrInput`]) to run, so this no-argument\nform exists only so the module registry can name COVR; use\n[`run_with_deck`] (NJOY's `tape<n>` convention) or [`run_library`] (a\nparsed tape in, BOXER text out) for the real entry points.\n\n# Errors\nAlways returns [`NjoyError::NotPorted`] with `\"covr\"`."]
 #[pyfunction(name = "run")]
 pub fn fn_njoy_outram_park_fork__covr__run() -> PyResult<()> {
     err(::njoy_outram_park_fork::covr::run()).map(|v| v)
 }
 
+// @item fn:njoy_outram_park_fork::covr::run_library
+#[doc = "Run COVR's library option on a parsed ERRORR tape (`covr.f90:338-474`,\n`nout > 0`).\n\n`cases` are the card-4 selectors; `mt <= 0` expands to every pair of the\nMTs present for `mat` minus the strip list `(-mt, -mat1, -mt1)`\n(`expndo`), `mat1 = 0` means `mat`, `mt1 = 0` means `mt`. The result's\n`text` is byte-identical to NJOY2016's `nout` for the same deck\n(`tests/covr_boxer_golden.rs`).\n\n# Errors\nTape-shape errors from [`crate::covr::tape`], \"group structures do not\nagree\" when `mat1` has a different group count, and the `setfor`/`press`\nrange checks."]
+#[pyfunction(name = "run_library")]
+pub fn fn_njoy_outram_park_fork__covr__run_library(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    opts: PyRef<'_, Py_njoy_outram_park_fork__covr__LibraryOptions>,
+    cases: Vec<Py_njoy_outram_park_fork__covr__ReactionSelector>,
+) -> PyResult<Py_njoy_outram_park_fork__covr__CovrLibraryOutput> {
+    err(::njoy_outram_park_fork::covr::run_library(
+        &tape.inner,
+        &opts.inner,
+        &cases.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+    ))
+    .map(|v| Py_njoy_outram_park_fork__covr__CovrLibraryOutput { inner: v })
+}
+
 // @item fn:njoy_outram_park_fork::covr::run_with_deck
-#[doc = "Run the COVR module from a parsed input deck (`subroutine covr`,\n`covr.f90:49-506`).\n\nThis is the **orchestration skeleton only**. The card deck is fully modelled\nby [`CovrInput`], and the covariance -> correlation math is provided by\n[`correlation`]; but the ERRORR tape reader (`covard`), the BOXER library\nwriter (`press`), and all VIEWR PostScript plotting are **not ported** (see\nthe module docs). This function therefore documents the pipeline and returns\n[`NjoyError::NotPorted`] rather than fabricating a result.\n\nTo exercise the ported math directly, build a [`CovarianceMatrix`] and call\n[`CovarianceMatrix::to_correlation`] / [`CovarianceMatrix::relative_std_dev`].\n\n# Errors\nReturns [`NjoyError::EndfParse`] if the input deck fails validation\n([`CovrInput::validate`]); otherwise always [`NjoyError::NotPorted`] with\n`\"covr::run\"`."]
+#[doc = "Run the COVR module from a parsed input deck (`subroutine covr`,\n`covr.f90:49-506`), with NJOY's unit convention: the ERRORR tape is read\nfrom `tape<nin>` and the BOXER library written to `tape<nout>` in the\ncurrent directory.\n\nOnly the **library option** (`nout > 0`) is ported — see [`run_library`]\nfor the tape-in / text-out form that needs no files. The **plot option**\n(`nout <= 0`, VIEWR PostScript) is out of scope and returns\n[`NjoyError::NotPorted`] rather than fabricating a result.\n\n# Errors\n[`NjoyError::EndfParse`] if the deck fails [`CovrInput::validate`];\n[`NjoyError::NotPorted`] (`\"covr::plot\"`) for the plot option; otherwise\nwhatever [`run_library`], the tape reader, or the file I/O reports."]
 #[pyfunction(name = "run_with_deck")]
 pub fn fn_njoy_outram_park_fork__covr__run_with_deck(
     input: PyRef<'_, Py_njoy_outram_park_fork__covr__CovrInput>,
@@ -25763,6 +32542,24 @@ pub fn fn_njoy_outram_park_fork__covr__shade_level(c: f64, xlev: Vec<f64>) -> i3
     ::njoy_outram_park_fork::covr::shade_level(c, &xlev.into_iter().map(|e| e).collect::<Vec<_>>())
 }
 
+// @item fn:njoy_outram_park_fork::dtfr::assemble_tables
+#[doc = "Assemble every DTFR table for `(mat, jz)` from a GENDF tape — the\n`:275-575` loop for one material card. `jz` is the 1-based sigma-zero\nindex (`jsigz`); a section with fewer dilutions uses `jz = 1` (`:302`).\n\n# Errors\n[`NjoyError::EndfParse`] when the GENDF group counts disagree with the\ndeck (`:216-221`), or on a truncated record."]
+#[pyfunction(name = "assemble_tables")]
+pub fn fn_njoy_outram_park_fork__dtfr__assemble_tables(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+    deck: PyRef<'_, Py_njoy_outram_park_fork__dtfr__DtfrInput>,
+    jz: i32,
+) -> PyResult<Py_njoy_outram_park_fork__dtfr__DtfrTables> {
+    err(::njoy_outram_park_fork::dtfr::assemble_tables(
+        &tape.inner,
+        mat,
+        &deck.inner,
+        jz,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__dtfr__DtfrTables { inner: v })
+}
+
 // @item fn:njoy_outram_park_fork::dtfr::build_neutron_table
 #[doc = "Assemble a neutron DTF table (P0/total) from a GENDF tape — the minimal subset\nof the DTFR accumulation loop (`dtfr.f90:200-427`) needed to exercise the\nported table assembly.\n\nThis handles two reaction channels at Legendre order `il = 1`, sigma-zero\n`jz`:\n\n* **MF=3 MT=1 total** → stored at position `iptotl` for each DTF group, and\n  accumulated (as `+total`) into the absorption position `iptotl-2`\n  (`dtfr.f90:340-349`).\n* **MF=6 MT=2 elastic transfer** → packed into the reduced scatter band via\n  [`DtfTable::add_scatter_record`], which also subtracts each transfer from the\n  absorption position, so `absorption = total − scatter` builds up\n  (`dtfr.f90:409-427`).\n\nThe GENDF neutron-group count must equal `neutron.ng` (`dtfr.f90:216-218`).\nOther channels (fission ν·σ_f/χ, edits, thermal, photons, higher Legendre\norders) are **not** assembled here — see [`crate::dtfr::run`].\n\n# Errors\nReturns [`NjoyError::EndfParse`] on a group-count mismatch or a truncated\nrecord."]
 #[pyfunction(name = "build_neutron_table")]
@@ -25770,12 +32567,14 @@ pub fn fn_njoy_outram_park_fork__dtfr__build_neutron_table(
     tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
     mat: i32,
     neutron: PyRef<'_, Py_njoy_outram_park_fork__dtfr__NeutronTables>,
+    edits: Vec<Py_njoy_outram_park_fork__dtfr__EditSpec>,
     jz: i32,
 ) -> PyResult<Py_njoy_outram_park_fork__dtfr__DtfTable> {
     err(::njoy_outram_park_fork::dtfr::build_neutron_table(
         &tape.inner,
         mat,
         &neutron.inner,
+        &edits.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
         jz,
     ))
     .map(|v| Py_njoy_outram_park_fork__dtfr__DtfTable { inner: v })
@@ -25993,6 +32792,103 @@ pub fn fn_njoy_outram_park_fork__endf__parse_endf_float(s: String) -> PyResult<f
     err(::njoy_outram_park_fork::endf::parse_endf_float(&s)).map(|v| v)
 }
 
+// @item fn:njoy_outram_park_fork::errorr::covadd::covadd
+#[doc = "Insert dummy MF=33 sections for `mts` (at most five, as upstream's\n`iaddmt(5)`) into material `mat` of `tape`.\n\n# Errors\n`EndfParse` when the material has no MF=1/451 or no MF=32 section, or\nmore than five reactions are asked for."]
+#[pyfunction(name = "covadd")]
+pub fn fn_njoy_outram_park_fork__errorr__covadd__covadd(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+    mts: Vec<i32>,
+) -> PyResult<Py_njoy_outram_park_fork__endf__Tape> {
+    err(::njoy_outram_park_fork::errorr::covadd::covadd(
+        &tape.inner,
+        mat,
+        &mts.into_iter().map(|e| e).collect::<Vec<_>>(),
+    ))
+    .map(|v| Py_njoy_outram_park_fork__endf__Tape { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::errorr::covcal::covcal
+#[doc = "Calculate absolute covariances in the union-group structure\n(`subroutine covcal`, `errorr.f90:1770-2417`, `mfcov = 33`).\n\n`flx` is the union-group flux (`UnionGroupXs::flux_vector`). Sections are\nvisited in MF=33 file order and must match `reactions.mts` (upstream's\n\"mfcov mt found not equal to input mt\" check).\n\n# Errors\n- [`NjoyError::NotPorted`] for `LTY` 1–3 NC-type records or the MF=35\n  `LB = 7` law.\n- [`NjoyError::EndfParse`] for `MT1 = 0`, an `mts` mismatch, or a\n  malformed record."]
+#[pyfunction(name = "covcal")]
+pub fn fn_njoy_outram_park_fork__errorr__covcal__covcal(
+    endf: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    matd: i32,
+    reactions: PyRef<'_, Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions>,
+    groups: PyRef<'_, Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs>,
+    flx: Vec<f64>,
+) -> PyResult<Py_njoy_outram_park_fork__errorr__covcal__FineCovariance> {
+    err(::njoy_outram_park_fork::errorr::covcal::covcal(
+        &endf.inner,
+        matd,
+        &reactions.inner,
+        &groups.inner,
+        &flx.into_iter().map(|e| e).collect::<Vec<_>>(),
+    ))
+    .map(|v| Py_njoy_outram_park_fork__errorr__covcal__FineCovariance { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::errorr::covcal::lumped_sigma
+#[doc = "Sum of the component cross sections of lumped reaction `mtl`\n(`subroutine lumpxs`, `errorr.f90:6969-7016`)."]
+#[pyfunction(name = "lumped_sigma")]
+pub fn fn_njoy_outram_park_fork__errorr__covcal__lumped_sigma(
+    groups: PyRef<'_, Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs>,
+    reactions: PyRef<'_, Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions>,
+    mtl: i32,
+) -> Vec<f64> {
+    ::njoy_outram_park_fork::errorr::covcal::lumped_sigma(&groups.inner, &reactions.inner, mtl)
+        .into_iter()
+        .map(|e| e)
+        .collect::<Vec<_>>()
+}
+
+// @item fn:njoy_outram_park_fork::errorr::covout::covout
+#[doc = "Compute the output covariances for every reaction pair in the user\ngroup structure (`subroutine covout`, `errorr.f90:7018-7787`,\n`mfcov = 33`; `resonance` is the `resprx` result `rescon` adds at\n`errorr.f90:7464-7466`, `None` when the material has no MF=32).\n\nReturns the matrices in output order (`ix` outer, `ixp >= ix` inner)."]
+#[pyfunction(name = "covout")]
+pub fn fn_njoy_outram_park_fork__errorr__covout__covout(
+    fine: PyRef<'_, Py_njoy_outram_park_fork__errorr__covcal__FineCovariance>,
+    un: Vec<f64>,
+    egn: Vec<f64>,
+    reactions: PyRef<'_, Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions>,
+    derived: PyRef<'_, Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients>,
+    coarse: PyRef<'_, Py_njoy_outram_park_fork__errorr__CoarseGroupXs>,
+    irelco: i32,
+    resonance: Option<PyRef<'_, Py_njoy_outram_park_fork__errorr__ResonanceCovariance>>,
+) -> Vec<Py_njoy_outram_park_fork__errorr__CoarseCovariance> {
+    ::njoy_outram_park_fork::errorr::covout::covout(
+        &fine.inner,
+        &un.into_iter().map(|e| e).collect::<Vec<_>>(),
+        &egn.into_iter().map(|e| e).collect::<Vec<_>>(),
+        &reactions.inner,
+        &derived.inner,
+        &coarse.inner,
+        irelco,
+        resonance.as_ref().map(|r| &r.inner),
+    )
+    .into_iter()
+    .map(|e| Py_njoy_outram_park_fork__errorr__CoarseCovariance { inner: e })
+    .collect::<Vec<_>>()
+}
+
+// @item fn:njoy_outram_park_fork::errorr::covout::sigc
+#[doc = "Calculate the coarse-group cross sections (`subroutine sigc`,\n`errorr.f90:7789-7898`, the numeric part; the tape output lives in\n[`ErrorrResult::to_tape`]).\n\n`egn` are the user bounds, `flux` the union-group flux vector, `groups`\nthe union-group cross sections. Both grids are `sigfig`'d to [`NDIG`]\nbefore comparison, as upstream does (`errorr.f90:7845-7851`)."]
+#[pyfunction(name = "sigc")]
+pub fn fn_njoy_outram_park_fork__errorr__covout__sigc(
+    egn: Vec<f64>,
+    groups: PyRef<'_, Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs>,
+    flux: Vec<f64>,
+    reactions: PyRef<'_, Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions>,
+) -> Py_njoy_outram_park_fork__errorr__CoarseGroupXs {
+    Py_njoy_outram_park_fork__errorr__CoarseGroupXs {
+        inner: ::njoy_outram_park_fork::errorr::covout::sigc(
+            &egn.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &groups.inner,
+            &flux.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &reactions.inner,
+        ),
+    }
+}
+
 // @item fn:njoy_outram_park_fork::errorr::detect_endf_version
 #[doc = "Detect the ENDF format era of a material from its MF=1/MT=451 header\n(`subroutine errorr`, `errorr.f90:456-466`).\n\nFortran: after `tpidio` (the tape-ID line, already stripped by\n[`Tape::read`](crate::endf::tape::Tape::read)), ERRORR reads the MT=451\nsection's first two CONT records — the section HEAD\n`(ZA,AWR,LRP,LFI,NLIB,NMOD)` (`errorr.f90:456`, this crate's `rows[0]`) and\nthe descriptive-data CONT `(ELIS,STA,LIS,LISO,0,NFOR)` (`errorr.f90:457`,\n`rows[1]`) — and inspects that second record's `N1`/`N2` fields\n(`errorr.f90:459-466`):\n- `N1 != 0 && N2 == 0` -> ENDF/B-IV.\n- `N2 == 0` (and `N1 == 0`) -> ENDF-5.\n- otherwise (`N2 != 0`, i.e. `NFOR` present) -> ENDF-6 (a third CONT record\n  follows on real tapes, `errorr.f90:465`, not needed for this format\n  determination and not read here).\n\nReturns [`SubsectionFormat::EndfFormatIv`] for ENDF/B-IV and\n[`SubsectionFormat::EndfFormatVOrVi`] for ENDF-5/ENDF-6, matching what\n[`read_covariance_section`] needs to know.\n\n# Errors\n[`NjoyError::SectionNotFound`] if `(mat, 1, 451)` is absent, or\n[`NjoyError::EndfParse`] if the section has fewer than two header rows."]
 #[pyfunction(name = "detect_endf_version")]
@@ -26014,6 +32910,96 @@ pub fn fn_njoy_outram_park_fork__errorr__driver__run(
     input: PyRef<'_, Py_njoy_outram_park_fork__errorr__ErrorrInput>,
 ) -> PyResult<()> {
     err(::njoy_outram_park_fork::errorr::driver::run(&input.inner)).map(|v| v)
+}
+
+// @item fn:njoy_outram_park_fork::errorr::gridd::gridd
+#[doc = "Read through MF=33 and extract the covariance energy grid and the\nderivation-coefficient table (`subroutine gridd`, `errorr.f90:1091-1483`,\n`mfcov = 33`, `iread = 0`, `nstan = 0`).\n\nFills `reactions.mts`/`mats`/`mzap` in MF=33 file order (one entry per\nsection with `NL > 0`; lumped components with `NL = 0` are skipped,\n`errorr.f90:1149`). Cross-material subsections (`MAT1 > 0`) are present\non file but \"not wanted\" under `iread = 0` (`iok = 0`), so their energies\ndo not enter the union grid (`errorr.f90:1200-1218`).\n\n# Errors\n- [`NjoyError::NotPorted`] for an NC-type sub-subsection with `LTY > 0`\n  (needs the `nstan` standards tape, `errorr.f90:1274-1297`).\n- [`NjoyError::EndfParse`] for `MT1 = 0`, `LTY > 3`, a formula that\n  references an `MT` absent from MF=33, or a malformed record."]
+#[pyfunction(name = "gridd")]
+pub fn fn_njoy_outram_park_fork__errorr__gridd__gridd(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    matd: i32,
+    mut reactions: PyRefMut<'_, Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions>,
+) -> PyResult<Py_njoy_outram_park_fork__errorr__gridd__GriddResult> {
+    err(::njoy_outram_park_fork::errorr::gridd::gridd(
+        &tape.inner,
+        matd,
+        &mut reactions.inner,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__errorr__gridd__GriddResult { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::errorr::gridd::lumpmt
+#[doc = "Fill in the component list of every lumped reaction and mark lumped\ncomponents in `mts` (`subroutine lumpmt`, `errorr.f90:1681-1768`).\n\nA section whose HEAD `MTL` is in 851..=870 is a component of that lump;\nits own entry in `mts` (if it has one) is negated and its `mats` set to\n`-1`, exactly as upstream flags it."]
+#[pyfunction(name = "lumpmt")]
+pub fn fn_njoy_outram_park_fork__errorr__gridd__lumpmt(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    matd: i32,
+    mut reactions: PyRefMut<'_, Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions>,
+) -> PyResult<()> {
+    err(::njoy_outram_park_fork::errorr::gridd::lumpmt(
+        &tape.inner,
+        matd,
+        &mut reactions.inner,
+    ))
+    .map(|v| v)
+}
+
+// @item fn:njoy_outram_park_fork::errorr::gridd::scan_reactions
+#[doc = "Scan the material's dictionary for the covariance reactions\n(`subroutine errorr`, `errorr.f90:713-792`, `mfcov = 33`).\n\nUpstream reads the MF=1/MT=451 dictionary; a parsed [`Tape`] lists its\nsections in the same file order, so the section keys are used directly.\nReturns the reactions found; `mts`/`mats` stay empty here (they are filled\nby [`gridd`] for ENDF-5/6 tapes, `errorr.f90:1154-1165`).\n\n# Errors\n[`NjoyError::EndfParse`] if the dictionary lists no MF=32/33 file\n(`icov == 0`, upstream's \"no data on file for mfcov\" termination)."]
+#[pyfunction(name = "scan_reactions")]
+pub fn fn_njoy_outram_park_fork__errorr__gridd__scan_reactions(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    matd: i32,
+) -> PyResult<Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions> {
+    err(::njoy_outram_park_fork::errorr::gridd::scan_reactions(
+        &tape.inner,
+        matd,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::errorr::gridd::uniong
+#[doc = "Form the union of the user's group boundaries with the MF=33 energy grid\n(`subroutine uniong`, `errorr.f90:9534-9643`, `iverf > 4` path).\n\n`egn` must already be `sigfig`'d to [`NDIG`] (as `egngpn` does before\ncalling `uniong`, `errorr.f90:9787-9790`); `eni` is the grid from\n[`gridd`]. Covariance energies outside `[egn(1), egn(ngn+1)]` are\ndropped. Returns `un(1:nunion+1)`.\n\n# Errors\n[`NjoyError::EndfParse`] if the union is not strictly ascending."]
+#[pyfunction(name = "uniong")]
+pub fn fn_njoy_outram_park_fork__errorr__gridd__uniong(
+    egn: Vec<f64>,
+    eni: Vec<f64>,
+) -> PyResult<Vec<f64>> {
+    err(::njoy_outram_park_fork::errorr::gridd::uniong(
+        &egn.into_iter().map(|e| e).collect::<Vec<_>>(),
+        &eni.into_iter().map(|e| e).collect::<Vec<_>>(),
+    ))
+    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+}
+
+// @item fn:njoy_outram_park_fork::errorr::grpav::classify_mt
+#[doc = "Map a covariance `MT` to the PENDF `(MF, MT)` `egtsig` reads\n(`errorr.f90:10306-10318`, `mfd = 3`).\n\n# Errors\n[`NjoyError::EndfParse`] for an `MT` upstream maps to `mt = 0` (e.g.\n201–206, 208–250 other than 207, 254–260, 262–599) — a fatal `mt=0.`\nin `egtsig`."]
+#[pyfunction(name = "classify_mt")]
+pub fn fn_njoy_outram_park_fork__errorr__grpav__classify_mt(mtd: i32) -> PyResult<(i32, i32)> {
+    err(::njoy_outram_park_fork::errorr::grpav::classify_mt(mtd)).map(|v| {
+        let (e0, e1) = v;
+        (e0, e1)
+    })
+}
+
+// @item fn:njoy_outram_park_fork::errorr::grpav::grpav
+#[doc = "Compute multigroup cross sections on the union grid for every reaction\nin `iga` (`subroutine grpav`, `errorr.f90:8821-9095`, `ngout = 0`,\ninfinite dilution).\n\n`weight` is the initialised weight sampler (`egnwtf` has run); it is\nre-initialised per reaction as `egtflx(e = 0)` does. `un` is the union\ngrid; `etop = un(nunion+1)`.\n\n# Errors\n- [`NjoyError::EndfParse`] for nubar (`MT` 452/455/456, upstream's\n  \"cannot group average\" fatal) or an unmappable `MT`.\n- [`NjoyError::SectionNotFound`] if the PENDF lacks a reaction's MF=3."]
+#[pyfunction(name = "grpav")]
+pub fn fn_njoy_outram_park_fork__errorr__grpav__grpav(
+    pendf: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    matd: i32,
+    iga: Vec<i32>,
+    un: Vec<f64>,
+    weight: PyRef<'_, Py_njoy_outram_park_fork__errorr__weight__WeightSampler>,
+) -> PyResult<Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs> {
+    err(::njoy_outram_park_fork::errorr::grpav::grpav(
+        &pendf.inner,
+        matd,
+        &iga.into_iter().map(|e| e).collect::<Vec<_>>(),
+        &un.into_iter().map(|e| e).collect::<Vec<_>>(),
+        &weight.inner,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs { inner: v })
 }
 
 // @item fn:njoy_outram_park_fork::errorr::math::cleb
@@ -26091,18 +33077,198 @@ pub fn fn_njoy_outram_park_fork__errorr__read_covariance_section(
     .map(|v| Py_njoy_outram_park_fork__errorr__CovarianceSection { inner: v })
 }
 
+// @item fn:njoy_outram_park_fork::errorr::resprx::mf2::build_work_array
+#[doc = "Build the work array for one resolved range (see [`WorkArray`]).\n\n# Errors\n[`NjoyError::EndfParse`] when the MF=32 `(LRU, LRF)` disagree with\nMF=2 (upstream: \"different type of resonance for lcomp=1\")."]
+#[pyfunction(name = "build_work_array")]
+pub fn fn_njoy_outram_park_fork__errorr__resprx__mf2__build_work_array(
+    range: PyRef<'_, Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Range>,
+    lru: i32,
+    lrf: i32,
+    naps: i32,
+    ap: f64,
+    arat: f64,
+    ral0: f64,
+    apl0: f64,
+) -> PyResult<Py_njoy_outram_park_fork__errorr__resprx__mf2__WorkArray> {
+    err(
+        ::njoy_outram_park_fork::errorr::resprx::mf2::build_work_array(
+            &range.inner,
+            lru,
+            lrf,
+            naps,
+            ap,
+            arat,
+            ral0,
+            apl0,
+        ),
+    )
+    .map(|v| Py_njoy_outram_park_fork__errorr__resprx__mf2__WorkArray { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::errorr::resprx::mlbw::ggmlbw
+#[doc = "`(σ_t, σ_el, σ_f, σ_γ)` \\[b\\] at `e` \\[eV\\] for the work array `b`\n(`ggmlbw`, `errorr.f90:6527-6650`).\n\nAlso returns `arat = AWRI/(AWRI+1)` from the MF=2 `AWRI`, because\nupstream stores it in a module global that the caller's later\n`rho` evaluations read (see `resolved.rs`)."]
+#[pyfunction(name = "ggmlbw")]
+pub fn fn_njoy_outram_park_fork__errorr__resprx__mlbw__ggmlbw(
+    e: f64,
+    b: Vec<f64>,
+) -> (Vec<f64>, f64) {
+    {
+        let (e0, e1) = ::njoy_outram_park_fork::errorr::resprx::mlbw::ggmlbw(
+            e,
+            &b.into_iter().map(|e| e).collect::<Vec<_>>(),
+        );
+        (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1)
+    }
+}
+
+// @item fn:njoy_outram_park_fork::errorr::resprx::rmatrix::ggrmat
+#[doc = "`(σ_t, σ_el, σ_f, σ_γ)` \\[b\\] at `e` \\[eV\\] for the `(L = npnls, J =\nvalspi)` group of the work array `b` (`ggrmat`, `errorr.f90:6227-6525`),\nor every group when `npnls == 99`. Also returns `arat = AWRI/(AWRI+1)`\n(the upstream global side effect, as `ggmlbw`).\n\n# Errors\n`NotConvergent` from `efrobns` if the complex 3×3 R-matrix is singular\n(upstream copies `A` through and continues)."]
+#[pyfunction(name = "ggrmat")]
+pub fn fn_njoy_outram_park_fork__errorr__resprx__rmatrix__ggrmat(
+    e: f64,
+    b: Vec<f64>,
+    npnls: usize,
+    valspi: f64,
+) -> PyResult<(Vec<f64>, f64)> {
+    err(::njoy_outram_park_fork::errorr::resprx::rmatrix::ggrmat(
+        e,
+        &b.into_iter().map(|e| e).collect::<Vec<_>>(),
+        npnls,
+        valspi,
+    ))
+    .map(|v| {
+        let (e0, e1) = v;
+        (e0.into_iter().map(|e| e).collect::<Vec<_>>(), e1)
+    })
+}
+
+// @item fn:njoy_outram_park_fork::errorr::resprx::sammy::mmtres_of
+#[doc = "`mmtres(1:nmtres)` for a material whose MF=2 carries an `LRF=7` range\n(`s2sammy`, `samm.f90:504-512`, then `errorr.f90:801-806`): `2`,\n`102`, then every further particle pair's `MT` with `103..107` mapped\nto `600/650/700/750/800`. `None` when no range is `LRF=7` (`nmtres = 0`).\n\n# Errors\n`NotPorted` for `NIS > 1` with an `LRF=7` range (upstream: \"multiple\nisotopes do not work with sammy method\")."]
+#[pyfunction(name = "mmtres_of")]
+pub fn fn_njoy_outram_park_fork__errorr__resprx__sammy__mmtres_of(
+    mf2: PyRef<'_, Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Resonances>,
+) -> PyResult<Option<Vec<i32>>> {
+    err(::njoy_outram_park_fork::errorr::resprx::sammy::mmtres_of(
+        &mf2.inner,
+    ))
+    .map(|v| v.map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>()))
+}
+
 // @item fn:njoy_outram_park_fork::errorr::run
-#[doc = "Module-dispatch entry point used by the [`crate::NjoyModule`] registry.\n\nERRORR needs a full input deck ([`ErrorrInput`]) to run, so this\nno-argument form exists only so the module registry can name ERRORR; it\nreports that the end-to-end pipeline is not yet ported. For the real entry\npoint (once the numeric kernels land) use [`driver::run`] with an\n[`ErrorrInput`]."]
+#[doc = "Module-dispatch entry point used by the [`crate::NjoyModule`] registry.\n\nERRORR needs tapes and a deck to run, so this no-argument form exists\nonly so the module registry can name ERRORR. The real entry point is\n[`run_mf33`] with an ENDF [`crate::endf::tape::Tape`], its PENDF and an\n[`Mf33Config`]."]
 #[pyfunction(name = "run")]
 pub fn fn_njoy_outram_park_fork__errorr__run() -> PyResult<()> {
     err(::njoy_outram_park_fork::errorr::run()).map(|v| v)
 }
 
-// @item fn:njoy_outram_park_fork::gaminr::gtff_matrix
-#[doc = "The photon scatter/production group-to-group **matrix** feed function —\n**not ported**.\n\nPlaceholder for `gtff`'s matrix branches (`gaminr.f90:1162-1514`): the\ncoherent form-factor (`mtd = 502`), incoherent Klein–Nishina × S(q,Z)\n(`mtd = 504`), and pair-production (`mtd = 516`) feed functions. Ported, this\nwould return the lab-frame secondary-group feed function `ff(il, ig)` at\nincident photon energy `e_in` \\[eV\\] for reaction `mt`.\n\nReturns [`NjoyError::NotPorted`] tagged `\"gaminr::gtff\"`."]
-#[pyfunction(name = "gtff_matrix")]
-pub fn fn_njoy_outram_park_fork__gaminr__gtff_matrix(_e_in: f64, _mt: i32) -> PyResult<()> {
-    err(::njoy_outram_park_fork::gaminr::gtff_matrix(_e_in, _mt)).map(|v| v)
+// @item fn:njoy_outram_park_fork::errorr::run_mf33
+#[doc = "Run ERRORR for MF=33 on an ENDF tape and its PENDF.\n\nSee the module docs for the exact deck this reproduces and its scope.\n\n# Errors\n- [`NjoyError::NotPorted`] for ENDF/B-IV, `LTY` 1–3, and the MF=32\n  branches [`super::resprx`] does not cover.\n- [`NjoyError::EndfParse`] for no MF=33 on file, a PENDF temperature\n  that does not match `tempin` (`grpav`'s \"unable to find temp\"), nubar\n  in the reaction list, or malformed records.\n- [`NjoyError::SectionNotFound`] for a missing PENDF cross section."]
+#[pyfunction(name = "run_mf33")]
+pub fn fn_njoy_outram_park_fork__errorr__run_mf33(
+    endf: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    pendf: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    cfg: PyRef<'_, Py_njoy_outram_park_fork__errorr__Mf33Config>,
+) -> PyResult<Py_njoy_outram_park_fork__errorr__ErrorrResult> {
+    err(::njoy_outram_park_fork::errorr::run_mf33(
+        &endf.inner,
+        &pendf.inner,
+        &cfg.inner,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__errorr__ErrorrResult { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::gaminr::gaminr_reaction
+#[doc = "Group-average one reaction for one material (`gaminr.f90:294-395`).\n\n- `sigma` — the reaction's MF=23 section from the PENDF, lin-lin pairs\n  (`gtsig`); its first energy is the threshold below which groups are\n  skipped (`if (ehi.le.thresh) go to 380`).\n- `flux` — the weight (`gtflx`).\n- `egg` — the `ngg + 1` photon group bounds \\[eV\\].\n- `lord` — Legendre order; `nl = lord + 1` for MF=26 except MT=516.\n- `heating` — the running total heating this reaction adds to.\n\nReturns the GENDF section (`za`/`awr` in the HEAD, `nl`, `nz = 1`) with\nthe heating slot (and the incoherent cross-section slot) already\ndropped from every record, exactly as written to the GAM-out tape."]
+#[pyfunction(name = "gaminr_reaction")]
+pub fn fn_njoy_outram_park_fork__gaminr__gaminr_reaction(
+    reaction: PyRef<'_, Py_njoy_outram_park_fork__gaminr__PhotonReaction>,
+    sigma: PyRef<'_, Py_njoy_outram_park_fork__groupr__PointwiseXs>,
+    flux: PyRef<'_, Py_njoy_outram_park_fork__gaminr__PhotonFlux>,
+    egg: Vec<f64>,
+    lord: usize,
+    za: f64,
+    awr: f64,
+    mut heating: PyRefMut<'_, Py_njoy_outram_park_fork__gaminr__TotalHeating>,
+) -> PyResult<Py_njoy_outram_park_fork__groupr__GendfSection> {
+    err(::njoy_outram_park_fork::gaminr::gaminr_reaction(
+        &reaction.inner,
+        &sigma.inner,
+        &flux.inner,
+        &egg.into_iter().map(|e| e).collect::<Vec<_>>(),
+        lord,
+        za,
+        awr,
+        &mut heating.inner,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__groupr__GendfSection { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::gaminr::gtff::gtff_vector
+#[doc = "Photon-interaction cross section / heating response for `mfd = 23`\n(`:1213-1229`): `ff(1,1) = 1`, plus `ff(1,2) = e` (the heating response)\nfor MT=522 and MT=602. `ng = 0` is upstream's \"illegal reaction\" error."]
+#[pyfunction(name = "gtff_vector")]
+pub fn fn_njoy_outram_park_fork__gaminr__gtff__gtff_vector(
+    e: f64,
+    mtd: i32,
+) -> PyResult<Py_njoy_outram_park_fork__gaminr__PhotonFeed> {
+    err(::njoy_outram_park_fork::gaminr::gtff::gtff_vector(e, mtd))
+        .map(|v| Py_njoy_outram_park_fork__gaminr__PhotonFeed { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::gaminr::gtff::ig2pp
+#[doc = "`ig2pp` (`:238-241`): the last group index whose lower bound is below\n`epair`."]
+#[pyfunction(name = "ig2pp")]
+pub fn fn_njoy_outram_park_fork__gaminr__gtff__ig2pp(egg: Vec<f64>) -> usize {
+    ::njoy_outram_park_fork::gaminr::gtff::ig2pp(&egg.into_iter().map(|e| e).collect::<Vec<_>>())
+}
+
+// @item fn:njoy_outram_park_fork::gaminr::gtff_coherent
+#[doc = "Coherent-scattering feed (`mtd = 502`, `:1232-1298`) at `e > 0` for `nl`\nLegendre orders over the photon groups `egg` (`ngg + 1` bounds) with the\nMF=27/MT=502 form factor."]
+#[pyfunction(name = "gtff_coherent")]
+pub fn fn_njoy_outram_park_fork__gaminr__gtff_coherent(
+    e: f64,
+    egg: Vec<f64>,
+    nl: usize,
+    ff_table: PyRef<'_, Py_njoy_outram_park_fork__gaminr__PhotonTab1>,
+) -> Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+    Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+        inner: ::njoy_outram_park_fork::gaminr::gtff_coherent(
+            e,
+            &egg.into_iter().map(|e| e).collect::<Vec<_>>(),
+            nl,
+            &ff_table.inner,
+        ),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::gaminr::gtff_incoherent
+#[doc = "Incoherent-scattering feed (`mtd = 504`, `:1300-1467`) at `e > 0`: `nl`\norders, sink groups `iglo..=ig` followed by the cross-section and heating\nslots, all divided by `siginc`."]
+#[pyfunction(name = "gtff_incoherent")]
+pub fn fn_njoy_outram_park_fork__gaminr__gtff_incoherent(
+    e: f64,
+    egg: Vec<f64>,
+    nl: usize,
+    sf_table: PyRef<'_, Py_njoy_outram_park_fork__gaminr__PhotonTab1>,
+) -> Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+    Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+        inner: ::njoy_outram_park_fork::gaminr::gtff_incoherent(
+            e,
+            &egg.into_iter().map(|e| e).collect::<Vec<_>>(),
+            nl,
+            &sf_table.inner,
+        ),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::gaminr::gtff_pair
+#[doc = "Pair-production feed (`mtd = 516`, `:1470-1509`) at `e > 0`: two\nannihilation photons into `ig2pp` and the heating slot `e - 2 epair`."]
+#[pyfunction(name = "gtff_pair")]
+pub fn fn_njoy_outram_park_fork__gaminr__gtff_pair(
+    e: f64,
+    ig2pp: usize,
+) -> Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+    Py_njoy_outram_park_fork__gaminr__PhotonFeed {
+        inner: ::njoy_outram_park_fork::gaminr::gtff_pair(e, ig2pp),
+    }
 }
 
 // @item fn:njoy_outram_park_fork::gaminr::photon_group_structure
@@ -26200,6 +33366,16 @@ pub fn fn_njoy_outram_park_fork__groupr__classify_mtd(
         .map(|v| Py_njoy_outram_park_fork__groupr__MtdClass { inner: v })
 }
 
+// @item fn:njoy_outram_park_fork::groupr::decode_extended_mfd
+#[doc = "Decode a card-9 `mfd >= 10000000` (`groupr.f90:684-699`); `None` for an\nordinary `mfd`."]
+#[pyfunction(name = "decode_extended_mfd")]
+pub fn fn_njoy_outram_park_fork__groupr__decode_extended_mfd(
+    mfd: i32,
+) -> Option<Py_njoy_outram_park_fork__groupr__ExtendedMfd> {
+    ::njoy_outram_park_fork::groupr::decode_extended_mfd(mfd)
+        .map(|e| Py_njoy_outram_park_fork__groupr__ExtendedMfd { inner: e })
+}
+
 // @item fn:njoy_outram_park_fork::groupr::fission_group_chi
 #[doc = "Collapse a fission spectrum `chi(E')` to the multigroup emission spectrum\n`chi_g'`, normalized to sum 1.\n\n# Parameters\n- `spectrum` — the (shape-only) fission emission spectrum `chi(E')`\n  ([`FissionSpectrum`]); `spectrum.weight(E')` supplies the density.\n- `group_bounds` — group boundaries \\[eV\\], **ascending**, `>= 2` entries.\n\n# Method\nSample the (shape-only) emission density `spectrum.weight(E')` on a fine\nlog-spaced grid spanning the group structure (with the group edges spliced\nin), wrap it as a [`PointwiseXs::LinLin`] \"cross section\", and integrate each\ngroup with a **flat** weight via [`group_integral`]: the `rate` accumulator is\nthen `integral_{g} chi(E') dE'` (the numerator `integral sigma * phi` with\n`phi == 1` reduces to `integral chi`). Summing the group integrals gives the\nspectrum's total mass over the group structure; dividing each group by that\ntotal yields `chi_g'` with `sum_g chi_g' == 1` by construction. All physical\nfission spectra are non-negative, so every `chi_g'` is non-negative.\n\n# Errors\n[`NjoyError::EndfParse`] if `group_bounds` is not `>= 2` strictly-ascending\nfinite entries, or if the spectrum integrates to a non-positive total over the\ngroup structure"]
 #[pyfunction(name = "fission_group_chi")]
@@ -26280,7 +33456,7 @@ pub fn fn_njoy_outram_park_fork__groupr__genflx_bondarenko(
 }
 
 // @item fn:njoy_outram_park_fork::groupr::genflx_slowing_down
-#[doc = "Solve the integral slowing-down equation for the self-shielded weighting flux\n`phi(E; sigma_0)` — the homogeneous single-moderator case of the `iwt < 0` /\n`nflmax > 0` branch of `genflx` (`groupr.f90:5396-5620`).\n\n# Physics\nFor an infinite homogeneous mixture of one heavy absorber (whose total cross\nsection `sigma_t(E)` carries the resonance structure and whose elastic cross\nsection `sigma_el(E)` is the self-scattering source) and a smooth background\nscatterer of strength `sigma_0` \\[barn\\], the P0 flux satisfies\n\n```text\nsigma_t(E) phi(E) = sigma_0 C(E) + (elastic scattering-in integral)\n```\n\nsolved iteratively from high to low energy (`groupr.f90:5477-5550`). The\nbackground scattering is taken to relax to the asymptotic weight `C(E)`.\n\n# Parameters\n- `sigma_t` — pointwise total cross section \\[barn vs eV\\] (the resonance\n  structure the flux dips inside). Its break points set the flux energy grid.\n- `sigma_el` — pointwise elastic cross section \\[barn vs eV\\] (the absorber's\n  own scattering source, `getdis`/MF=3 MT=2).\n- `weight` — the smooth asymptotic weight `C(E)` (any [`GroupFlux`]; the\n  background-scattering source relaxes to this shape).\n- `dilutions` — background `sigma_0"]
+#[doc = "Solve the integral slowing-down equation for the self-shielded weighting flux\n`phi(E; sigma_0)` — the `iwt < 0` / `nflmax > 0` branch of `genflx`\n(`groupr.f90:5396-5620`), heterogeneity and multi-moderator terms included.\n\n# Physics\nFor an infinite homogeneous mixture of one heavy absorber (whose total cross\nsection `sigma_t(E)` carries the resonance structure and whose elastic cross\nsection `sigma_el(E)` is the self-scattering source) and a smooth background\nscatterer of strength `sigma_0` \\[barn\\], the P0 flux satisfies\n\n```text\nsigma_t(E) phi(E) = sigma_0 C(E) + (elastic scattering-in integral)\n```\n\nsolved iteratively from high to low energy (`groupr.f90:5477-5550`). The\nbackground scattering is taken to relax to the asymptotic weight `C(E)`.\n\n# Parameters\n- `sigma_t` — pointwise total cross section \\[barn vs eV\\] (the resonance\n  structure the flux dips inside). Its break points set the flux energy grid.\n- `sigma_el` — pointwise elastic cross section \\[barn vs eV\\] (the absorber's\n  own scattering source, `getdis`/MF=3 MT=2).\n- `weight` — the smooth asymptotic weight `C(E)` (any [`GroupFlux`]; the\n  background-scattering source relaxes to this shape).\n- `dilutions` — background"]
 #[pyfunction(name = "genflx_slowing_down")]
 pub fn fn_njoy_outram_park_fork__groupr__genflx_slowing_down(
     sigma_t: PyRef<'_, Py_njoy_outram_park_fork__groupr__PointwiseXs>,
@@ -26297,6 +33473,21 @@ pub fn fn_njoy_outram_park_fork__groupr__genflx_slowing_down(
         &params.inner,
     ))
     .map(|v| Py_njoy_outram_park_fork__groupr__SelfShieldedFluxSet { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::groupr::gety1_first_energy
+#[doc = "`gety1`'s initialisation scan (`endf.f90`, label 100): the \"first\"\nenergy GROUPR's group loop compares group tops against\n(`if (ehi.le.first) go to 580`, `groupr.f90:520`). Leading zero points\nare skipped: `first` is the energy of the last zero point before the\nfirst non-zero one, times `down = 0.999999` when that is not the first\npoint; a table starting with a non-zero value, or with a single leading\nzero, gives `x(1)`."]
+#[pyfunction(name = "gety1_first_energy")]
+pub fn fn_njoy_outram_park_fork__groupr__gety1_first_energy(pairs: Vec<(f64, f64)>) -> f64 {
+    ::njoy_outram_park_fork::groupr::gety1_first_energy(
+        &pairs
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>(),
+    )
 }
 
 // @item fn:njoy_outram_park_fork::groupr::group_average_vector
@@ -26430,6 +33621,28 @@ pub fn fn_njoy_outram_park_fork__groupr__matrix__scatter_matrix(
     .map(|v| Py_njoy_outram_park_fork__groupr__matrix__ScatterMatrix { inner: v })
 }
 
+// @item fn:njoy_outram_park_fork::groupr::matrix_panel::two_body_matrix
+#[doc = "The initial-group loop (`:490-580`) for a two-body transfer matrix:\n`panel` sub-panels per group, `displa`, and the GENDF record layout\n(`:891-929`, `it` outermost, then `iz`, then `il`).\n\n- `sigma` — the PENDF cross section (must be [`PointwiseXs::LinLin`]);\n- `fluxes` — the weighting flux per dilution and Legendre order\n  (`nz = fluxes.nz()`; a single flux per dilution is broadcast over `il`\n  only when `nz = 1`, as upstream);\n- `feed` — the reaction's [`TwoBodyFeed`] (its `egn` is the group\n  structure); it is reset before the walk;\n- `nl` — Legendre orders (`lord + 1`).\n\n# Errors\n[`NjoyError::NotPorted`] for `nz > 1 && nl > 1`; [`NjoyError::EndfParse`]\nfor an empty flux list or a non-tabulated cross section; feed errors."]
+#[pyfunction(name = "two_body_matrix")]
+pub fn fn_njoy_outram_park_fork__groupr__matrix_panel__two_body_matrix(
+    sigma: PyRef<'_, Py_njoy_outram_park_fork__groupr__PointwiseXs>,
+    fluxes: PyRef<'_, Py_njoy_outram_park_fork__groupr__matrix_panel__FluxComponents>,
+    mut feed: PyRefMut<'_, Py_njoy_outram_park_fork__groupr__two_body__TwoBodyFeed>,
+    nl: usize,
+    header: PyRef<'_, Py_njoy_outram_park_fork__groupr__matrix_panel__MatrixHeader>,
+) -> PyResult<Py_njoy_outram_park_fork__groupr__GendfSection> {
+    err(
+        ::njoy_outram_park_fork::groupr::matrix_panel::two_body_matrix(
+            &sigma.inner,
+            &fluxes.inner,
+            &mut feed.inner,
+            nl,
+            &header.inner,
+        ),
+    )
+    .map(|v| Py_njoy_outram_park_fork__groupr__GendfSection { inner: v })
+}
+
 // @item fn:njoy_outram_park_fork::groupr::neutron_group_from_ign
 #[doc = "Map a GROUPR `ign` index to the shared [`NeutronGroupStructure`].\n\nGROUPR shares the neutron group-structure tables with ERRORR (`gengpn`), so\nthis adapts `ign` (`1..=36`) to the enum defined in [`crate::errorr::groups`]\nrather than re-listing the 36 boundary tables. GROUPR explicitly forbids\n`ign == -1` (that value is ERRORR-only, `groupr.f90:1123-1125`), so `-1` and\nany other out-of-range index return [`NjoyError::EndfParse`].\n\n`ign == 1` maps to [`NeutronGroupStructure::Arbitrary`] (boundaries read from\ncard 6). All larger indices name a built-in structure."]
 #[pyfunction(name = "neutron_group_from_ign")]
@@ -26461,6 +33674,28 @@ pub fn fn_njoy_outram_park_fork__groupr__read_pendf_cross_section(
         mat,
         mtd,
     ))
+    .map(|v| Py_njoy_outram_park_fork__groupr__PendfCrossSection { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::groupr::read_pendf_mf10_cross_section
+#[doc = "`getsig`'s MF=10 branch (`groupr.f90:6719-6746`, `mfd >= 40000000`): read\nthe MF=10 section `mt` of `mat` and select the subsection whose TAB1\ncarries `L1 = izar`, `L2 = lfs`; its `C2` is the level's `QI` and\n`lrflag` is forced to `0` (`:6749-6750`, `mf /= 3`).\n\n# Errors\n[`NjoyError::SectionNotFound`] when MF=10/`mt` is absent;\n[`NjoyError::EndfParse`] when no subsection matches (`can't find\nmf,mt,izar,lfs`, `:6730-6733`); [`NjoyError::NotPorted`] for a non-lin-lin\nor multi-region TAB1, as for MF=3."]
+#[pyfunction(name = "read_pendf_mf10_cross_section")]
+pub fn fn_njoy_outram_park_fork__groupr__read_pendf_mf10_cross_section(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+    mt: i32,
+    izar: i32,
+    lfs: i32,
+) -> PyResult<Py_njoy_outram_park_fork__groupr__PendfCrossSection> {
+    err(
+        ::njoy_outram_park_fork::groupr::read_pendf_mf10_cross_section(
+            &tape.inner,
+            mat,
+            mt,
+            izar,
+            lfs,
+        ),
+    )
     .map(|v| Py_njoy_outram_park_fork__groupr__PendfCrossSection { inner: v })
 }
 
@@ -26571,6 +33806,64 @@ pub fn fn_njoy_outram_park_fork__groupr__unresolved__bondarenko_flux_value(
     ::njoy_outram_park_fork::groupr::unresolved::bondarenko_flux_value(
         sigma_t, weight_c, sigma_pot, sigma_0,
     )
+}
+
+// @item fn:njoy_outram_park_fork::groupr::unresolved::genflx_bondarenko_components
+#[doc = "The full `genflx` Bondarenko flux table with its **Legendre components**\n— `fout(l) = wtf*fac` for `il = 1` and `fout(l) = fout(l-1)*fac` above\n(`groupr.f90:5651-5657`, `fac = (sigpot+sigz)/(tot+sigz)`), i.e. the\n`il`-th component is `wtf * fac^il`, which `getflx` hands to `panel` as\n`flux(iz, il)` (`:6498-6503`) for a `lord > 0` matrix with `nsigz > 1`.\n\nReturns `components[iz][il]` for `il = 0..nl` (0-based Legendre order);\n`components[iz][0]` is exactly [`genflx_bondarenko_urr`]'s flux for\ndilution `iz`.\n\n# Errors\nAs [`genflx_bondarenko_urr`]; `nl == 0` is an [`NjoyError::EndfParse`]."]
+#[pyfunction(name = "genflx_bondarenko_components")]
+pub fn fn_njoy_outram_park_fork__groupr__unresolved__genflx_bondarenko_components(
+    sigma_t: PyRef<'_, Py_njoy_outram_park_fork__groupr__PointwiseXs>,
+    urr: Option<PyRef<'_, Py_njoy_outram_park_fork__groupr__UnresolvedTable>>,
+    weight: PyRef<'_, Py_njoy_outram_park_fork__groupr__GroupFlux>,
+    sigma_pot: f64,
+    dilutions: Vec<f64>,
+    energy_grid: Vec<f64>,
+    nl: usize,
+) -> PyResult<Vec<Vec<Py_njoy_outram_park_fork__groupr__GroupFlux>>> {
+    err(
+        ::njoy_outram_park_fork::groupr::unresolved::genflx_bondarenko_components(
+            &sigma_t.inner,
+            urr.as_ref().map(|r| &r.inner),
+            &weight.inner,
+            sigma_pot,
+            &dilutions.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &energy_grid.into_iter().map(|e| e).collect::<Vec<_>>(),
+            nl,
+        ),
+    )
+    .map(|v| {
+        v.into_iter()
+            .map(|e| {
+                e.into_iter()
+                    .map(|e| Py_njoy_outram_park_fork__groupr__GroupFlux { inner: e })
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>()
+    })
+}
+
+// @item fn:njoy_outram_park_fork::groupr::unresolved::genflx_bondarenko_urr
+#[doc = "[`genflx_bondarenko`] with the **URR-shielded total** in the denominator —\nthe full narrow-resonance branch of `genflx` (`groupr.f90:5636-5650`).\n\nUpstream does not form `fac` from the smooth total: at every flux point it\nsets `tot(iz) = sigt(e)` for each dilution, calls `getunr(1, e, en, tot)` so\nthat inside the unresolved range `tot(iz)` becomes the MT=152 self-shielded\ntotal for that `sigz(iz)`, and only then takes\n`fac = (sigpot + sigz)/(tot(iz) + sigz)`. Passing `urr = None` reproduces\n[`genflx_bondarenko`] exactly (the `stounr` \"no unresolved sigma zero data\"\ncase, where `getunr` returns its input unchanged).\n\n# Why this exists (measured 2026-09-10)\nAgainst an NJOY2016 GENDF written after UNRESR (U-238, 293.6 K, `iwt = 3`),\nthe flux built from the smooth total was **6.8 % low** in the 20–50 keV\ngroup at `sigma_0 = 1` b (0.062356 vs NJOY 0.066892) while `sigma_g` was\nstill within 1.5e-3 — the signature of a too-large denominator in `fac`\nrather than a wrong `sigma_rx`. Shielding the total restores the\n`tests/groupr_u238_gendf_golden.rs` agreement to the 7-figure floor.\n\n# Errors\nAs [`genflx_bondarenko`], plus any [`UnresolvedTable::shield`] failure."]
+#[pyfunction(name = "genflx_bondarenko_urr")]
+pub fn fn_njoy_outram_park_fork__groupr__unresolved__genflx_bondarenko_urr(
+    sigma_t: PyRef<'_, Py_njoy_outram_park_fork__groupr__PointwiseXs>,
+    urr: Option<PyRef<'_, Py_njoy_outram_park_fork__groupr__UnresolvedTable>>,
+    weight: PyRef<'_, Py_njoy_outram_park_fork__groupr__GroupFlux>,
+    sigma_pot: f64,
+    dilutions: Vec<f64>,
+    energy_grid: Vec<f64>,
+) -> PyResult<Py_njoy_outram_park_fork__groupr__SelfShieldedFluxSet> {
+    err(
+        ::njoy_outram_park_fork::groupr::unresolved::genflx_bondarenko_urr(
+            &sigma_t.inner,
+            urr.as_ref().map(|r| &r.inner),
+            &weight.inner,
+            sigma_pot,
+            &dilutions.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &energy_grid.into_iter().map(|e| e).collect::<Vec<_>>(),
+        ),
+    )
+    .map(|v| Py_njoy_outram_park_fork__groupr__SelfShieldedFluxSet { inner: v })
 }
 
 // @item fn:njoy_outram_park_fork::groupr::unresolved::terpu
@@ -26954,6 +34247,24 @@ pub fn fn_njoy_outram_park_fork__leapr__endout(
     }
 }
 
+// @item fn:njoy_outram_park_fork::leapr::generate::build_law_at_temperature
+#[doc = "Run the Fortran temperature loop for one temperature block —\n`contin` -> `trans` -> `discre` -> `skold`, then the second pass and the\n`S` merge for a mixed moderator — and return what `endout` needs for that\ntemperature. `block` indexes `deck.temperatures`; `temperature_k` is the\ntemperature to evaluate at (normally that block's own).\n\nThis is the per-temperature body shared by [`generate_tape`] (one\ntemperature) and [`crate::leapr::run::run_deck`] (every temperature of\nthe deck, as `subroutine leapr` does).\n\n# Errors\nThose of [`LeaprDeck::input_at_temperature`] / `input_at_secondary`."]
+#[pyfunction(name = "build_law_at_temperature")]
+pub fn fn_njoy_outram_park_fork__leapr__generate__build_law_at_temperature(
+    deck: PyRef<'_, Py_njoy_outram_park_fork__leapr__LeaprDeck>,
+    block: usize,
+    temperature_k: f64,
+) -> PyResult<Py_njoy_outram_park_fork__leapr__generate__TemperatureLaw> {
+    err(
+        ::njoy_outram_park_fork::leapr::generate::build_law_at_temperature(
+            &deck.inner,
+            block,
+            temperature_k,
+        ),
+    )
+    .map(|v| Py_njoy_outram_park_fork__leapr__generate__TemperatureLaw { inner: v })
+}
+
 // @item fn:njoy_outram_park_fork::leapr::generate::debye_waller_coefficient
 #[doc = "The LEAPR Debye-Waller coefficient `W'(T)` \\[1/eV\\] for one deck at one\ntemperature — `dwpix` in `leapr.f90`, already divided by `awr * T * k_B`\n(`leapr.f90:3035`) so it is in the form [`endout`] wants.\n\nThis is the same quantity [`generate_tape`] computes on its way to a tape;\nit is factored out here because the **compound** coefficient a generalized\ncoherent-elastic section needs is a weighted average over several decks\n(see [`compound_debye_waller`]), and computing it must not require\ngenerating each of their tapes.\n\n# Errors\n[`NjoyError::NotPorted`] if the deck uses an unimplemented LEAPR feature, or\n[`NjoyError::EndfParse`] for a bad temperature — the same conditions\n[`generate_tape`] refuses on."]
 #[pyfunction(name = "debye_waller_coefficient")]
@@ -27010,10 +34321,30 @@ pub fn fn_njoy_outram_park_fork__leapr__generate__thermal_scattering_tape(
 }
 
 // @item fn:njoy_outram_park_fork::leapr::run
-#[doc = "Run the LEAPR driver (NJOY module entry point).\n\n**Status: still `NotPorted`, but for a narrower reason than before.** The\nphysics kernels are ported (see the module map above), the MF=7 tape writer\nis ported ([`endout::endout`]), and the free-format card deck can now be read\nwith [`deck::LeaprDeck::parse`]. What this function would still need is\nNJOY's Fortran unit plumbing (`nsysi`/`nout`, `openz`/`closz`) plus the\norchestration that composes [`frequency::FrequencyModel::start`],\n[`continuous::phonon_expansion`], [`coher::coher`] and\n[`endout::endout`] into a [`endout::LeaprOutput`] — including the `dwpix`\nand `tempf` conversions `endout` expects (`leapr.f90:717, 3035`), which no\ncode path performs yet.\n\nUntil then, drive it explicitly: [`deck::LeaprDeck::parse`] the deck,\n[`deck::LeaprDeck::input_at`] a temperature, then call the kernels."]
+#[doc = "The no-argument module-registry entry point.\n\nLEAPR needs a card deck to run, so this form exists only so\n[`crate::NjoyModule`] can name the module. The driver itself is\n[`run::run_deck`] / [`run::run_deck_text`]: every temperature of a deck\nthrough the Fortran temperature loop, the elastic channel as `endout`\ndecides it, the multi-temperature MF=7 and the MF=1/MT=451 header with\nthe card-20 Hollerith comments (`subroutine leapr`, `leapr.f90:218-453`;\nvalidated against three NJOY2016 runs in\n`tests/leapr_run_driver_njoy_oracle.rs`). What this crate does not\nreproduce is the Fortran unit plumbing (`nsysi`/`nout`) and the listing."]
 #[pyfunction(name = "run")]
 pub fn fn_njoy_outram_park_fork__leapr__run() -> PyResult<()> {
     err(::njoy_outram_park_fork::leapr::run()).map(|v| v)
+}
+
+// @item fn:njoy_outram_park_fork::leapr::run_deck
+#[doc = "Run a whole LEAPR deck (`subroutine leapr`, `leapr.f90:218-453`).\n\nEvery temperature block is built in deck order (a second pass for the\nsecondary scatterer of a mixed moderator is folded in per block by\n[`build_law_at_temperature`]), the elastic channel follows the deck's\n`iel` as `endout` interprets it, and the result is one multi-temperature\nMF=7 tape plus the MF=1 header.\n\nThe physical constants are the deck's ([`LeaprDeck::constants`]), so a\ndeck whose `EVAL` date predates NJOY's CODATA change regenerates with the\nlegacy `k_B` unless overridden with [`LeaprDeck::with_constants`].\n\n# Errors\n- [`NjoyError::NotPorted`] for a deck feature the port lacks\n  ([`LeaprDeck::unsupported_features`]) or a built-in lattice code\n  without a lattice.\n- Whatever [`build_law_at_temperature`] reports for a block."]
+#[pyfunction(name = "run_deck")]
+pub fn fn_njoy_outram_park_fork__leapr__run_deck(
+    deck: PyRef<'_, Py_njoy_outram_park_fork__leapr__LeaprDeck>,
+) -> PyResult<Py_njoy_outram_park_fork__leapr__LeaprRun> {
+    err(::njoy_outram_park_fork::leapr::run_deck(&deck.inner))
+        .map(|v| Py_njoy_outram_park_fork__leapr__LeaprRun { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::leapr::run_deck_text
+#[doc = "[`run_deck`] on deck text (`LeaprDeck::parse`), the closest thing to\n`njoy < deck`.\n\n# Errors\nThose of [`LeaprDeck::parse`] and [`run_deck`]."]
+#[pyfunction(name = "run_deck_text")]
+pub fn fn_njoy_outram_park_fork__leapr__run_deck_text(
+    text: String,
+) -> PyResult<Py_njoy_outram_park_fork__leapr__LeaprRun> {
+    err(::njoy_outram_park_fork::leapr::run_deck_text(&text))
+        .map(|v| Py_njoy_outram_park_fork__leapr__LeaprRun { inner: v })
 }
 
 // @item fn:njoy_outram_park_fork::leapr::sct::sct_free_gas
@@ -27021,6 +34352,18 @@ pub fn fn_njoy_outram_park_fork__leapr__run() -> PyResult<()> {
 #[pyfunction(name = "sct_free_gas")]
 pub fn fn_njoy_outram_park_fork__leapr__sct__sct_free_gas(a: f64, beta: f64, tbar: f64) -> f64 {
     ::njoy_outram_park_fork::leapr::sct::sct_free_gas(a, beta, tbar)
+}
+
+// @item fn:njoy_outram_park_fork::leapr::skold::apply_skold
+#[doc = "Apply the Sköld correction to `ssm` in place (`leapr.f90:2830-2863`).\n\n* `input` — the pass's job: alpha grid, `lat`, `arat`, `tev`, constants.\n* `pc` — the temperature block's cards 17-19 (`dka`, `S(kappa)`, `cfrac`).\n* `awr` — the principal scatterer's mass ratio (upstream uses `awr` in\n  both passes; only `arat` distinguishes the secondary)."]
+#[pyfunction(name = "apply_skold")]
+pub fn fn_njoy_outram_park_fork__leapr__skold__apply_skold(
+    mut ssm: PyRefMut<'_, Py_njoy_outram_park_fork__leapr__SabMatrix>,
+    input: PyRef<'_, Py_njoy_outram_park_fork__leapr__LeaprInput>,
+    pc: PyRef<'_, Py_njoy_outram_park_fork__leapr__PairCorrelation>,
+    awr: f64,
+) -> () {
+    ::njoy_outram_park_fork::leapr::skold::apply_skold(&mut ssm.inner, &input.inner, &pc.inner, awr)
 }
 
 // @item fn:njoy_outram_park_fork::leapr::translation::besk1
@@ -27474,6 +34817,15 @@ pub fn fn_njoy_outram_park_fork__reference_data__is_endf_tape(path: String) -> b
     ::njoy_outram_park_fork::reference_data::is_endf_tape(std::path::Path::new(&path))
 }
 
+// @item fn:njoy_outram_park_fork::reference_data::reference_data_dir
+#[doc = "The directory `reference-data/<subdir>` is read from, whether or not it\nexists: `$OUTRAM_PARK_REFERENCE_DATA_DIR/<subdir>` when set, else the\nin-repo `<crate>/../../reference-data/<subdir>`.\n\n`subdir` is a bare directory name such as `\"gendf\"`; the raw ENDF tapes keep\ntheir own accessor ([`reference_endf_dir`]) because they have a separate\noverride variable and the library-suffix tolerance."]
+#[pyfunction(name = "reference_data_dir")]
+pub fn fn_njoy_outram_park_fork__reference_data__reference_data_dir(subdir: String) -> String {
+    ::njoy_outram_park_fork::reference_data::reference_data_dir(&subdir)
+        .to_string_lossy()
+        .into_owned()
+}
+
 // @item fn:njoy_outram_park_fork::reference_data::reference_endf
 #[doc = "Absolute path of reference tape `file` (e.g. `\"tsl-CinSiC.endf\"`), or `None`\nwhen it is not present on this machine.\n\n`file` is a bare file name, not a path — the directory comes from\n[`reference_endf_dir`].\n\n# Library-suffix tolerance\n\nTapes in this repository are named inconsistently: some carry the library in\nthe file name (`tsl-HinZrH-ENDF8.0.endf`, `tsl-013_Al_027-ENDF8.0.endf`) and\nsome do not (`tsl-CinSiC.endf`, `n-092_U_238.endf`), because they were\ndownloaded from NNDC at different times. Rather than make every caller guess,\na lookup for `<stem>.endf` that misses also tries `<stem>-ENDF8.0.endf`, and\nvice versa. Renaming the committed tapes would be the tidier fix but would\nbreak the provenance table's link to the names NNDC actually serves.\n\n# Examples\n\n```\nuse njoy_outram_park_fork::reference_data::reference_endf;\n\n// Present in a git clone of the workspace; absent when this crate is built\n// from crates.io, in which case the caller skips the V&V test.\nmatch reference_endf(\"a-002_He_004-ENDF8.0.endf\") {\n    Some(path) => assert!(path.exists()),\n    None => { /* tape not available here — skip */ }\n}\n```"]
 #[pyfunction(name = "reference_endf")]
@@ -27499,6 +34851,29 @@ pub fn fn_njoy_outram_park_fork__reference_data__reference_endf_or_skip(
     label: String,
 ) -> Option<String> {
     ::njoy_outram_park_fork::reference_data::reference_endf_or_skip(&file, &label)
+        .map(|e| e.to_string_lossy().into_owned())
+}
+
+// @item fn:njoy_outram_park_fork::reference_data::reference_file
+#[doc = "Absolute path of `reference-data/<subdir>/<file>` (e.g. a golden GENDF tape\nunder `\"gendf\"`), or `None` when it is not present on this machine.\n\nSame contract as [`reference_endf`]: a data-gated test must **skip** when\nthis returns `None` — a crates.io consumer has no repository around the crate."]
+#[pyfunction(name = "reference_file")]
+pub fn fn_njoy_outram_park_fork__reference_data__reference_file(
+    subdir: String,
+    file: String,
+) -> Option<String> {
+    ::njoy_outram_park_fork::reference_data::reference_file(&subdir, &file)
+        .map(|e| e.to_string_lossy().into_owned())
+}
+
+// @item fn:njoy_outram_park_fork::reference_data::reference_file_or_skip
+#[doc = "[`reference_file`], but prints a skip note naming `label` and the directory\ntried when the file is absent — the idiom for a data-gated V&V test."]
+#[pyfunction(name = "reference_file_or_skip")]
+pub fn fn_njoy_outram_park_fork__reference_data__reference_file_or_skip(
+    subdir: String,
+    file: String,
+    label: String,
+) -> Option<String> {
+    ::njoy_outram_park_fork::reference_data::reference_file_or_skip(&subdir, &file, &label)
         .map(|e| e.to_string_lossy().into_owned())
 }
 
@@ -27642,6 +35017,30 @@ pub fn fn_njoy_outram_park_fork__samm__betset__compute_resonance_amplitudes(
             &group.inner,
             &kinematics.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
             &pairs.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        ),
+    )
+    .map(|v| {
+        v.into_iter()
+            .map(|e| Py_njoy_outram_park_fork__samm__betset__ResonanceAmplitudes { inner: e })
+            .collect::<Vec<_>>()
+    })
+}
+
+// @item fn:njoy_outram_park_fork::samm::betset::compute_resonance_amplitudes_carry
+#[doc = "[`compute_resonance_amplitudes`] with the `dp`/`drho` locals threaded\nthrough `carry` so that a whole section's spin groups share them as\none upstream `betset(ier)` call does (only the derivative-side `dum`\ndepends on this)."]
+#[pyfunction(name = "compute_resonance_amplitudes_carry")]
+pub fn fn_njoy_outram_park_fork__samm__betset__compute_resonance_amplitudes_carry(
+    group: PyRef<'_, Py_njoy_outram_park_fork__samm__mf2__SpinGroup>,
+    kinematics: Vec<Py_njoy_outram_park_fork__samm__context__ChannelKinematics>,
+    pairs: Vec<Py_njoy_outram_park_fork__samm__mf2__ParticlePair>,
+    mut carry: PyRefMut<'_, Py_njoy_outram_park_fork__samm__betset__BetsetCarry>,
+) -> PyResult<Vec<Py_njoy_outram_park_fork__samm__betset__ResonanceAmplitudes>> {
+    err(
+        ::njoy_outram_park_fork::samm::betset::compute_resonance_amplitudes_carry(
+            &group.inner,
+            &kinematics.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            &pairs.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            &mut carry.inner,
         ),
     )
     .map(|v| {
@@ -27842,6 +35241,98 @@ pub fn fn_njoy_outram_park_fork__samm__coulomb__xsigll(eta: f64, lmax: i32) -> V
         .collect::<Vec<_>>()
 }
 
+// @item fn:njoy_outram_park_fork::samm::derivs::deriv_setup
+#[doc = "Build the derivative setup — `betset`'s u-parameter block\n(`samm.f90:2009-2041`) followed by `babb` (`samm.f90:2817-2921`).\n\n`amplitudes` must be [`crate::samm::betset::compute_resonance_amplitudes`]'s\noutput for every spin group of `section`, in order (it carries the\n`dum` term the `duuu` factors need)."]
+#[pyfunction(name = "deriv_setup")]
+pub fn fn_njoy_outram_park_fork__samm__derivs__deriv_setup(
+    section: PyRef<'_, Py_njoy_outram_park_fork__samm__mf2__RmlSection>,
+    amplitudes: Vec<Vec<Py_njoy_outram_park_fork__samm__betset__ResonanceAmplitudes>>,
+) -> Py_njoy_outram_park_fork__samm__derivs__DerivSetup {
+    Py_njoy_outram_park_fork__samm__derivs__DerivSetup {
+        inner: ::njoy_outram_park_fork::samm::derivs::deriv_setup(
+            &section.inner,
+            &amplitudes
+                .into_iter()
+                .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                .collect::<Vec<_>>(),
+        ),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::samm::derivs::energy::abpart_derivs
+#[doc = "`abpart`'s derivative half (`samm.f90:2950-3006`): `upr`/`upi` from the\nBreit-Wigner terms of each parameter's resonance, then `pr = br·upr`,\n`pii = bi·upi`. `alpha[g][ires]` is [`crate::samm::xsformula::abpart::abpart`]'s\noutput for every group at this energy."]
+#[pyfunction(name = "abpart_derivs")]
+pub fn fn_njoy_outram_park_fork__samm__derivs__energy__abpart_derivs(
+    ds: PyRef<'_, Py_njoy_outram_park_fork__samm__derivs__DerivSetup>,
+    nchan: Vec<usize>,
+    alpha: Vec<Vec<Py_njoy_outram_park_fork__samm__xsformula__abpart__AlphaTerms>>,
+) -> Py_njoy_outram_park_fork__samm__derivs__energy__ParamEnergyTerms {
+    Py_njoy_outram_park_fork__samm__derivs__energy__ParamEnergyTerms {
+        inner: ::njoy_outram_park_fork::samm::derivs::energy::abpart_derivs(
+            &ds.inner,
+            &nchan.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &alpha
+                .into_iter()
+                .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                .collect::<Vec<_>>(),
+        ),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::samm::derivs::energy::setqri
+#[doc = "`setqri` (`samm.f90:6499-6556`): redefine `XQ = sqrt(P)/L · Y⁻¹ ·\npsmall`, then `Q(kl, ij) = XQ(i,k) XQ(j,l) (+ XQ(j,k) XQ(i,l) for i≠j)`.\n`rootp`/`elinvr`/`elinvi`/`psmall` are [`crate::samm::xsformula::setr::setr`]'s\noutputs; `yinv` is the inverted level matrix."]
+#[pyfunction(name = "setqri")]
+pub fn fn_njoy_outram_park_fork__samm__derivs__energy__setqri(
+    nchan: usize,
+    rootp: Vec<f64>,
+    elinvr: Vec<f64>,
+    elinvi: Vec<f64>,
+    psmall: Vec<f64>,
+    yinv: PyRef<'_, Py_njoy_outram_park_fork__samm__linpack__PackedComplexMatrix>,
+) -> Py_njoy_outram_park_fork__samm__derivs__energy__QMatrix {
+    Py_njoy_outram_park_fork__samm__derivs__energy__QMatrix {
+        inner: ::njoy_outram_park_fork::samm::derivs::energy::setqri(
+            nchan,
+            &rootp.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &elinvr.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &elinvi.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &psmall.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &yinv.inner,
+        ),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::samm::derivs::energy::settri
+#[doc = "`settri` (`samm.f90:6558-6674`). `zke`/`particle_pair`/`sinsqr`/`sin2ph`\nare per channel (trimmed `nchan`); `xxxxr`/`xxxxi` the packed `XXXX` of\nthis group at this energy; `q` from [`setqri`]."]
+#[pyfunction(name = "settri")]
+pub fn fn_njoy_outram_park_fork__samm__derivs__energy__settri(
+    npp: usize,
+    nent: usize,
+    nchan: usize,
+    zke: Vec<f64>,
+    particle_pair: Vec<usize>,
+    sinsqr: Vec<f64>,
+    sin2ph: Vec<f64>,
+    xxxxr: Vec<f64>,
+    xxxxi: Vec<f64>,
+    q: PyRef<'_, Py_njoy_outram_park_fork__samm__derivs__energy__QMatrix>,
+) -> Py_njoy_outram_park_fork__samm__derivs__energy__TMatrix {
+    Py_njoy_outram_park_fork__samm__derivs__energy__TMatrix {
+        inner: ::njoy_outram_park_fork::samm::derivs::energy::settri(
+            npp,
+            nent,
+            nchan,
+            &zke.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &particle_pair.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &sinsqr.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &sin2ph.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &xxxxr.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &xxxxi.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &q.inner,
+        ),
+    }
+}
+
 // @item fn:njoy_outram_park_fork::samm::linpack::xspfa
 #[doc = "Bunch-Kaufman factorization `A = U*D*U^T` of a packed complex-symmetric\nmatrix (`U` a product of permutation and unit upper-triangular\nmatrices, `D` block-diagonal with 1x1/2x2 blocks) — ported from\n`xspfa` (`samm.f90:5492-5775`, itself LINPACK's `CSPFA` adapted from\nHermitian to symmetric). `a` is factored **in place**.\n\nReturns `(kpvt, info)`: `kpvt[k-1]` is the pivot index for step `k`\n(negative encodes \"this is part of a 2x2 block with the adjacent\nindex\", matching upstream exactly); `info=0` normally, or `info=k` if\nthe `k`-th pivot block turned out to be (numerically) singular — not\nfatal here, but [`xspsl`] may divide by zero if called with such a\nfactorization, matching upstream's own documented behavior."]
 #[pyfunction(name = "xspfa")]
@@ -27992,6 +35483,29 @@ pub fn fn_njoy_outram_park_fork__samm__setup__setup(
     .map(|v| Py_njoy_outram_park_fork__samm__setup__SammSetup { inner: v })
 }
 
+// @item fn:njoy_outram_park_fork::samm::setup::setup_with_derivs
+#[doc = "[`setup`] followed by `babb` — `ppsammy` with `Want_Partial_Derivs`\n(`samm.f90:1558`): the cross-section setup plus the energy-independent\nresonance-parameter derivative setup of [`crate::samm::derivs`]."]
+#[pyfunction(name = "setup_with_derivs")]
+pub fn fn_njoy_outram_park_fork__samm__setup__setup_with_derivs(
+    mut section: PyRefMut<'_, Py_njoy_outram_park_fork__samm__mf2__RmlSection>,
+    awr: f64,
+) -> PyResult<(
+    Py_njoy_outram_park_fork__samm__setup__SammSetup,
+    Py_njoy_outram_park_fork__samm__derivs__DerivSetup,
+)> {
+    err(::njoy_outram_park_fork::samm::setup::setup_with_derivs(
+        &mut section.inner,
+        awr,
+    ))
+    .map(|v| {
+        let (e0, e1) = v;
+        (
+            Py_njoy_outram_park_fork__samm__setup__SammSetup { inner: e0 },
+            Py_njoy_outram_park_fork__samm__derivs__DerivSetup { inner: e1 },
+        )
+    })
+}
+
 // @item fn:njoy_outram_park_fork::samm::xsformula::abpart::abpart
 #[doc = "Compute [`AlphaTerms`] for every resonance in a spin group at incident\nenergy `energy` (eV) — ported from `abpart` (`samm.f90:2923-2948`).\n`amplitudes` must be [`crate::samm::betset::compute_resonance_amplitudes`]'s\noutput for this same group (one entry per `resonances` entry, same\norder) — only its `gbetpr` field (the eliminated-channel amplitude) is\nused here."]
 #[pyfunction(name = "abpart")]
@@ -28064,6 +35578,44 @@ pub fn fn_njoy_outram_park_fork__samm__xsformula__cross_sections(
     .collect::<Vec<_>>()
 }
 
+// @item fn:njoy_outram_park_fork::samm::xsformula::crosss::cross_sections_with_derivs
+#[doc = "`crosss` with `Want_Partial_Derivs` (`samm.f90:3011-3229`): every\nparticle pair's cross section (as [`cross_sections`]) **and**\n`dsigma[ip][ipar]`, the partial derivative of pair `ip`'s cross section\nwith respect to resonance parameter `ipar` of `ds` (barns per eV for\n`E_λ`/`Γ` parameters), normalised by `4π/E` and converted from\nu-parameters (`samm.f90:3193-3222`).\n\nA spin group whose R-matrix is trivially zero at this energy (`lrmat`)\ncontributes no derivative, as upstream (`needxq`, `samm.f90:3125-3127`)."]
+#[pyfunction(name = "cross_sections_with_derivs")]
+pub fn fn_njoy_outram_park_fork__samm__xsformula__crosss__cross_sections_with_derivs(
+    section: PyRef<'_, Py_njoy_outram_park_fork__samm__mf2__RmlSection>,
+    kinematics: Vec<Vec<Py_njoy_outram_park_fork__samm__context__ChannelKinematics>>,
+    amplitudes: Vec<Vec<Py_njoy_outram_park_fork__samm__betset__ResonanceAmplitudes>>,
+    quantum_info: Vec<Py_njoy_outram_park_fork__samm__context__GroupQuantumInfo>,
+    ds: PyRef<'_, Py_njoy_outram_park_fork__samm__derivs__DerivSetup>,
+    energy: f64,
+) -> (Vec<f64>, Vec<Vec<f64>>) {
+    {
+        let (e0, e1) = ::njoy_outram_park_fork::samm::xsformula::crosss::cross_sections_with_derivs(
+            &section.inner,
+            &kinematics
+                .into_iter()
+                .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                .collect::<Vec<_>>(),
+            &amplitudes
+                .into_iter()
+                .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                .collect::<Vec<_>>(),
+            &quantum_info
+                .into_iter()
+                .map(|e| e.inner)
+                .collect::<Vec<_>>(),
+            &ds.inner,
+            energy,
+        );
+        (
+            e0.into_iter().map(|e| e).collect::<Vec<_>>(),
+            e1.into_iter()
+                .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                .collect::<Vec<_>>(),
+        )
+    }
+}
+
 // @item fn:njoy_outram_park_fork::samm::xsformula::cssammy
 #[doc = "Evaluate all cross sections for one section at incident (CM) energy\n`energy` (eV) — ported from `cssammy` (`samm.f90:79-166`, its\n`Want_Angular_Dist`/`Want_Partial_Derivs` branches excluded, see this\nmodule's doc comment and `README.md`'s scope-history note).\n\n`kinematics`/`amplitudes`/`quantum_info` must be\n[`crate::samm::setup::setup`]'s output for this same `section`."]
 #[pyfunction(name = "cssammy")]
@@ -28091,6 +35643,45 @@ pub fn fn_njoy_outram_park_fork__samm__xsformula__cssammy(
                 .collect::<Vec<_>>(),
             energy,
         ),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::samm::xsformula::cssammy::cssammy_with_derivs
+#[doc = "`cssammy` with `Want_Partial_Derivs` (`samm.f90:79-166` incl.\nl.152-164): the cross sections as [`cssammy`] plus `sigd`, the\nsensitivity of reaction slot `l` to resonance parameter `ipar`, flat\nat `sigd[ipar * npp + l]` — slot 0 elastic, slot 1 capture (the\nnon-elastic bucket **minus** every explicit reaction pair), slots\n`2..` the explicit pairs 3.. in particle-pair order (`mmtres(3..)`),\n`nmtres = npp` slots in all."]
+#[pyfunction(name = "cssammy_with_derivs")]
+pub fn fn_njoy_outram_park_fork__samm__xsformula__cssammy__cssammy_with_derivs(
+    section: PyRef<'_, Py_njoy_outram_park_fork__samm__mf2__RmlSection>,
+    kinematics: Vec<Vec<Py_njoy_outram_park_fork__samm__context__ChannelKinematics>>,
+    amplitudes: Vec<Vec<Py_njoy_outram_park_fork__samm__betset__ResonanceAmplitudes>>,
+    quantum_info: Vec<Py_njoy_outram_park_fork__samm__context__GroupQuantumInfo>,
+    ds: PyRef<'_, Py_njoy_outram_park_fork__samm__derivs__DerivSetup>,
+    energy: f64,
+) -> (
+    Py_njoy_outram_park_fork__samm__xsformula__CssammyResult,
+    Vec<f64>,
+) {
+    {
+        let (e0, e1) = ::njoy_outram_park_fork::samm::xsformula::cssammy::cssammy_with_derivs(
+            &section.inner,
+            &kinematics
+                .into_iter()
+                .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                .collect::<Vec<_>>(),
+            &amplitudes
+                .into_iter()
+                .map(|e| e.into_iter().map(|e| e.inner).collect::<Vec<_>>())
+                .collect::<Vec<_>>(),
+            &quantum_info
+                .into_iter()
+                .map(|e| e.inner)
+                .collect::<Vec<_>>(),
+            &ds.inner,
+            energy,
+        );
+        (
+            Py_njoy_outram_park_fork__samm__xsformula__CssammyResult { inner: e0 },
+            e1.into_iter().map(|e| e).collect::<Vec<_>>(),
+        )
     }
 }
 
@@ -28349,7 +35940,7 @@ pub fn fn_njoy_outram_park_fork__unresr__mf2__background_cross_sections(
 }
 
 // @item fn:njoy_outram_park_fork::unresr::penetrability_factor
-#[doc = "Penetrability factor `V_l(ρ)` and phase shift `φ_l(ρ_c)` for the\nunresolved region — ported from `uunfac` (`unresr.f90:1213-1237`).\n\n**Not the same formula as [`crate::reconr::slbw::shift_and_penetrability`]**:\nthe unresolved-region convention normalises out one extra factor of `ρ`\n(`V_l = P_l(ρ)/ρ`, so that `Γn(E) = GNO·√E·V_l(E)` matches the reduced\naverage neutron width convention `unresx.tex` uses), whereas RECONR's\nresolved-region `P_l` is the raw penetrability. The phase-shift formula\n*is* identical between the two regions for `l=0,1,2` — reused directly\nvia [`phase_shift`] rather than re-derived.\n\n`l` — orbital angular momentum (0, 1, or 2; NJOY's unresolved region never\nneeds `l≥3`). `rho` — `k·a` (channel radius). `rho_c` — `k·AP` (scattering\nradius). Returns `(V_l, φ_l)` (`unresl` always calls `uunfac` with its\n`amun` argument fixed at `1.0` — `unresl:1021` — and applies the real\n`AMUN`-derived scaling separately when it forms `Γn(E)`; this port keeps\nthat same separation, so `penetrability_factor` takes no `amun` argument)."]
+#[doc = "Penetrability factor `V_l(ρ)` and phase shift `φ_l(ρ_c)` for the\nunresolved region — ported from `uunfac` (`unresr.f90:1213-1237`).\n\n**Not the same formula as [`crate::reconr::slbw::shift_and_penetrability`]**:\nthe unresolved-region convention normalises out one extra factor of `ρ`\n(`V_l = P_l(ρ)/ρ`, so that `Γn(E) = GNO·√E·V_l(E)` matches the reduced\naverage neutron width convention `unresx.tex` uses), whereas RECONR's\nresolved-region `P_l` is the raw penetrability. The phase-shift formula\n*is* identical between the two regions for `l=0,1,2` — reused directly\nvia [`phase_shift`] rather than re-derived.\n\n`l` — orbital angular momentum (0, 1, or 2; NJOY's unresolved region never\nneeds `l≥3`). `rho` — `k·a` (channel radius). `rho_c` — `k·AP` (scattering\nradius). Returns `(V_l, φ_l)` (`unresl` always calls `uunfac` with its\n`amun` argument fixed at `1.0` — `unresl:1021` — and applies the real\n`AMUN`-derived scaling separately when it forms `Γn(E)`; this port keeps\nthat same separation, so `penetrability_factor` takes no `amun` argument.\n**PURR's `unresx` does NOT do this**: it passes the real `amun` to\n`unfac2`, which folds it into `vl` — see\n[`crate::purr::infinite_dilution_reference"]
 #[pyfunction(name = "penetrability_factor")]
 pub fn fn_njoy_outram_park_fork__unresr__penetrability_factor(
     l: i32,
@@ -28414,11 +36005,108 @@ pub fn fn_njoy_outram_park_fork__viewr__run() -> PyResult<()> {
     err(::njoy_outram_park_fork::viewr::run()).map(|v| v)
 }
 
+// @item fn:njoy_outram_park_fork::wimsr::gendf::read_material
+#[doc = "Read every temperature block of `mat` from a GENDF `tape`\n(`wminit`, `wimsr.f90:246-421`, minus the prints).\n\n# Errors\n`EndfParse` if the material is absent (\"desired material is not on\ngendf tape\") or its group count is not `ngnd` (\"incorrect group\nstructure\")."]
+#[pyfunction(name = "read_material")]
+pub fn fn_njoy_outram_park_fork__wimsr__gendf__read_material(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    mat: i32,
+    ngnd: usize,
+) -> PyResult<Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial> {
+    err(::njoy_outram_park_fork::wimsr::gendf::read_material(
+        &tape.inner,
+        mat,
+        ngnd,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::wimsr::p1scat::p1scat
+#[doc = "`p1scat` (`wimsr.f90:1680-1917`). Returns `None` when `ip1opt == 1`.\n\n# Errors\n\"no p1 matrices found\" / \"no temperature-dependent reactions\"."]
+#[pyfunction(name = "p1scat")]
+pub fn fn_njoy_outram_park_fork__wimsr__p1scat__p1scat(
+    inp: PyRef<'_, Py_njoy_outram_park_fork__wimsr__WimsrInput>,
+    mat: PyRef<'_, Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial>,
+    cnt: PyRef<'_, Py_njoy_outram_park_fork__wimsr__xsecs__Counts>,
+    xs: PyRef<'_, Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult>,
+) -> PyResult<Option<Vec<Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp>>> {
+    err(::njoy_outram_park_fork::wimsr::p1scat::p1scat(
+        &inp.inner, &mat.inner, &cnt.inner, &xs.inner,
+    ))
+    .map(|v| {
+        v.map(|e| {
+            e.into_iter()
+                .map(|e| Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp { inner: e })
+                .collect::<Vec<_>>()
+        })
+    })
+}
+
+// @item fn:njoy_outram_park_fork::wimsr::resint::resint
+#[doc = "`resint` (`wimsr.f90:423-676`). Returns `None` when `ires == 0`."]
+#[pyfunction(name = "resint")]
+pub fn fn_njoy_outram_park_fork__wimsr__resint__resint(
+    inp: PyRef<'_, Py_njoy_outram_park_fork__wimsr__WimsrInput>,
+    mat: PyRef<'_, Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial>,
+    cnt: PyRef<'_, Py_njoy_outram_park_fork__wimsr__xsecs__Counts>,
+    xs: PyRef<'_, Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult>,
+) -> Option<Py_njoy_outram_park_fork__wimsr__resint__ResintResult> {
+    ::njoy_outram_park_fork::wimsr::resint::resint(&inp.inner, &mat.inner, &cnt.inner, &xs.inner)
+        .map(|e| Py_njoy_outram_park_fork__wimsr__resint__ResintResult { inner: e })
+}
+
 // @item fn:njoy_outram_park_fork::wimsr::run
-#[doc = "Run WIMSR. Placeholder until ported (Phase 6; see `docs/porting-plan.md`)."]
+#[doc = "The module-table entry point: WIMSR's card deck reader is not written,\nso this stays `NotPorted`; use [`run_gendf`] with a [`WimsrInput`]."]
 #[pyfunction(name = "run")]
 pub fn fn_njoy_outram_park_fork__wimsr__run() -> PyResult<()> {
     err(::njoy_outram_park_fork::wimsr::run()).map(|v| v)
+}
+
+// @item fn:njoy_outram_park_fork::wimsr::run_gendf
+#[doc = "Run WIMSR on a GENDF `tape` (`subroutine wimsr`, `wimsr.f90:51-244`).\n\n# Errors\n`EndfParse` for a material or group structure not on the tape, for a\nGENDF without the thermal `mti` matrix at the first temperature\n(upstream: \"use only 0 temps for mat ... mti missing from higher\ntemps\" and an empty library), and for `p1scat`'s \"no p1 matrices\"."]
+#[pyfunction(name = "run_gendf")]
+pub fn fn_njoy_outram_park_fork__wimsr__run_gendf(
+    tape: PyRef<'_, Py_njoy_outram_park_fork__endf__Tape>,
+    inp: PyRef<'_, Py_njoy_outram_park_fork__wimsr__WimsrInput>,
+) -> PyResult<Py_njoy_outram_park_fork__wimsr__WimsrOutput> {
+    err(::njoy_outram_park_fork::wimsr::run_gendf(
+        &tape.inner,
+        &inp.inner,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__wimsr__WimsrOutput { inner: v })
+}
+
+// @item fn:njoy_outram_park_fork::wimsr::wimout::e15_8
+#[doc = "Fortran `1PE15.8`: one digit before the point, eight after, a signed\ntwo-digit exponent, right-aligned in 15 columns."]
+#[pyfunction(name = "e15_8")]
+pub fn fn_njoy_outram_park_fork__wimsr__wimout__e15_8(x: f64) -> String {
+    ::njoy_outram_park_fork::wimsr::wimout::e15_8(x)
+}
+
+// @item fn:njoy_outram_park_fork::wimsr::xsecs::counts
+#[doc = "`wminit`'s counts: `ntemp = 0` means every temperature on the tape,\n`nsigz = 0` every sigma-zero; `ires` is raised to the tape's\ntemperature count when it exceeds `ntemp`."]
+#[pyfunction(name = "counts")]
+pub fn fn_njoy_outram_park_fork__wimsr__xsecs__counts(
+    inp: PyRef<'_, Py_njoy_outram_park_fork__wimsr__WimsrInput>,
+    mat: PyRef<'_, Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial>,
+) -> Py_njoy_outram_park_fork__wimsr__xsecs__Counts {
+    Py_njoy_outram_park_fork__wimsr__xsecs__Counts {
+        inner: ::njoy_outram_park_fork::wimsr::xsecs::counts(&inp.inner, &mat.inner),
+    }
+}
+
+// @item fn:njoy_outram_park_fork::wimsr::xsecs::xsecs
+#[doc = "`xsecs` (`wimsr.f90:1069-1447`) + `xseco` over every temperature\nblock.\n\n# Errors\n`EndfParse` when the reference sigma-zero is not on the tape is *not*\nan error upstream (the first entry is used, with a message); an empty\ntape is."]
+#[pyfunction(name = "xsecs")]
+pub fn fn_njoy_outram_park_fork__wimsr__xsecs__xsecs(
+    inp: PyRef<'_, Py_njoy_outram_park_fork__wimsr__WimsrInput>,
+    mat: PyRef<'_, Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial>,
+    cnt: PyRef<'_, Py_njoy_outram_park_fork__wimsr__xsecs__Counts>,
+) -> PyResult<Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult> {
+    err(::njoy_outram_park_fork::wimsr::xsecs::xsecs(
+        &inp.inner, &mat.inner, &cnt.inner,
+    ))
+    .map(|v| Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult { inner: v })
 }
 
 // @item fn:njoy_outram_park_fork::wmp::faddeeva
@@ -28495,9 +36183,17 @@ pub fn fn_njoy_outram_park_fork__wmp__faddeeva(
 // @item const:njoy_outram_park_fork::common::phys::TNRATIO
 // @item const:njoy_outram_park_fork::covr::EPMIN_READ_FACTOR
 // @item const:njoy_outram_park_fork::covr::NCASE_MAX
+// @item const:njoy_outram_park_fork::errorr::gridd::NDIG
+// @item const:njoy_outram_park_fork::errorr::resprx::mlbw::RC1
+// @item const:njoy_outram_park_fork::errorr::resprx::mlbw::RC2
+// @item const:njoy_outram_park_fork::errorr::resprx::mlbw::THIRD
+// @item const:njoy_outram_park_fork::gaminr::EPAIR
+// @item const:njoy_outram_park_fork::gaminr::gtff::EMAX
 // @item const:njoy_outram_park_fork::groupr::BOLTZMANN_EV_PER_K
 // @item const:njoy_outram_park_fork::groupr::DEFAULT_FLUX_STEP
+// @item const:njoy_outram_park_fork::groupr::GETWTF_STEP
 // @item const:njoy_outram_park_fork::groupr::NO_NEXT_BREAK_EV
+// @item const:njoy_outram_park_fork::groupr::file4::NLD
 // @item const:njoy_outram_park_fork::groupr::gaminr_matrix::EPAIR_EV
 // @item const:njoy_outram_park_fork::leapr::THERM_EV
 // @item const:njoy_outram_park_fork::leapr::coher::crystals::B_COH_CARBON_FM
@@ -28511,6 +36207,7 @@ pub fn fn_njoy_outram_park_fork__wmp__faddeeva(
 // @item const:njoy_outram_park_fork::nuclear_data::FAST_GROUP_COUNT
 // @item const:njoy_outram_park_fork::reconr::slbw::WAVE_K
 // @item const:njoy_outram_park_fork::reference_data::ENDF_DIR_ENV
+// @item const:njoy_outram_park_fork::reference_data::REFERENCE_DATA_ROOT_ENV
 // @item const:njoy_outram_park_fork::resxsr::FILE_NAME
 // @item const:njoy_outram_park_fork::resxsr::MULT
 // @item const:njoy_outram_park_fork::resxsr::NBLOK
@@ -28532,11 +36229,13 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__acquire__EndfCache>()?;
     m.add_class::<Py_njoy_outram_park_fork__acquire__EndfLibrary>()?;
     m.add_class::<Py_njoy_outram_park_fork__acquire__TslMaterial>()?;
+    m.add_class::<Py_njoy_outram_park_fork__broadr__BroadnTolerances>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__BoxerData>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__BoxerDataType>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__BoxerFormat>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__BoxerHeader>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__BoxerPage>()?;
+    m.add_class::<Py_njoy_outram_park_fork__covr__BoxerRecord>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__BoxerShape>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__ColorStyle>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__CorrelationMatrix>()?;
@@ -28545,15 +36244,20 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__covr__CovarianceMatrix>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__CovarianceRowBlock>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__CovrInput>()?;
+    m.add_class::<Py_njoy_outram_park_fork__covr__CovrLibraryOutput>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__CovrMode>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__ErrorrCovarianceSection>()?;
+    m.add_class::<Py_njoy_outram_park_fork__covr__ErrorrTapeKind>()?;
+    m.add_class::<Py_njoy_outram_park_fork__covr__GroupStructure>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__LegendOption>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__LibraryOptions>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__MatrixOutputType>()?;
+    m.add_class::<Py_njoy_outram_park_fork__covr__PairReport>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__PlotOptions>()?;
     m.add_class::<Py_njoy_outram_park_fork__covr__ReactionSelector>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__DtfTable>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__DtfrInput>()?;
+    m.add_class::<Py_njoy_outram_park_fork__dtfr__DtfrTables>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__EditOption>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__EditSpec>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__FilmOption>()?;
@@ -28561,6 +36265,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__dtfr__GendfHeader>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__MaterialDesc>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__NeutronTables>()?;
+    m.add_class::<Py_njoy_outram_park_fork__dtfr__PhotonTable>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__PrintOption>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__ThermalSpec>()?;
     m.add_class::<Py_njoy_outram_park_fork__dtfr__UnitAssignments>()?;
@@ -28573,12 +36278,21 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__endf__Tape>()?;
     m.add_class::<Py_njoy_outram_park_fork__endf__interp__IntLaw>()?;
     m.add_class::<Py_njoy_outram_park_fork__endf__parse__RawLine>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__CoarseCovariance>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__CoarseGroupXs>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__CovarianceSection>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__CovarianceSubsection>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__ErrorrInput>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__ErrorrResult>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__ErrorrWeight>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__Mf33Config>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__NcSubsection>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__NiSubsection>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__ResonanceCovariance>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__SubsectionFormat>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__covcal__FineBlock>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__covcal__FineCovariance>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__covcal__NiRecord>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__driver__CovAddOption>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__driver__CovarianceControl>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__driver__CovarianceFile>()?;
@@ -28596,14 +36310,34 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__errorr__driver__UnitAssignments>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__driver__WeightData>()?;
     m.add_class::<Py_njoy_outram_park_fork__errorr__driver__WeightOption>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__gridd__CovarianceReactions>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__gridd__DerivedCoefficients>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__gridd__GriddResult>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__gridd__LumpedReaction>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__grpav__PanelState>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__grpav__UnionGroupRecords>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__grpav__UnionGroupXs>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__grpav__XsSampler>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__resprx__Eskip>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__resprx__RangeParams>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Range>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__resprx__mf2__Mf2Resonances>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__resprx__mf2__WorkArray>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__resprx__resolved__Lcomp2Params>()?;
+    m.add_class::<Py_njoy_outram_park_fork__errorr__weight__WeightSampler>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__EndfFormat>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__GaminrInput>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__GaminrReaction>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__GroupGrid>()?;
+    m.add_class::<Py_njoy_outram_park_fork__gaminr__PhotonFeed>()?;
+    m.add_class::<Py_njoy_outram_park_fork__gaminr__PhotonFlux>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__PhotonGroupStructure>()?;
+    m.add_class::<Py_njoy_outram_park_fork__gaminr__PhotonReaction>()?;
+    m.add_class::<Py_njoy_outram_park_fork__gaminr__PhotonTab1>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__PhotonWeight>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__PrintOption>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__ReactionSelection>()?;
+    m.add_class::<Py_njoy_outram_park_fork__gaminr__TotalHeating>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__UnitAssignments>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__WeightOption>()?;
     m.add_class::<Py_njoy_outram_park_fork__gaminr__WeightTab1>()?;
@@ -28612,6 +36346,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__gpu__GpuContext>()?;
     m.add_class::<Py_njoy_outram_park_fork__gpu_wmp__WmpXsGpu>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__AnalyticWeight>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__ExtendedMfd>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__FissionMatrix>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__FluxCalcParams>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__GendfGroupRecord>()?;
@@ -28642,6 +36377,8 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__groupr__UrrReaction>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__WeightOption>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__WeightSelection>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__file4__File4Angular>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__file4__LegendreAt>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__gaminr_matrix__PhotonFeed>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__gaminr_matrix__PhotonMatrix>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__gaminr_matrix__PhotonMatrixRow>()?;
@@ -28653,6 +36390,11 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__groupr__matrix__FeedDeposit>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__matrix__FeedFunction>()?;
     m.add_class::<Py_njoy_outram_park_fork__groupr__matrix__ScatterMatrix>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__matrix_panel__FluxComponents>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__matrix_panel__MatrixHeader>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__panel__DerivedQuantity>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__two_body__FeedAt>()?;
+    m.add_class::<Py_njoy_outram_park_fork__groupr__two_body__TwoBodyFeed>()?;
     m.add_class::<Py_njoy_outram_park_fork__heatr__DamageEnergy>()?;
     m.add_class::<Py_njoy_outram_park_fork__heatr__EmissionSpectrum>()?;
     m.add_class::<Py_njoy_outram_park_fork__heatr__Kerma>()?;
@@ -28672,7 +36414,9 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__leapr__LeaprDeck>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__LeaprInput>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__LeaprOutput>()?;
+    m.add_class::<Py_njoy_outram_park_fork__leapr__LeaprRun>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__LeaprTemperature>()?;
+    m.add_class::<Py_njoy_outram_park_fork__leapr__Mf1Header>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__PairCorrelation>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__PhysicalConstants>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__SabMatrix>()?;
@@ -28691,6 +36435,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__leapr__generate__GenerationRecipe>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__generate__SabRequest>()?;
     m.add_class::<Py_njoy_outram_park_fork__leapr__generate__SabSource>()?;
+    m.add_class::<Py_njoy_outram_park_fork__leapr__generate__TemperatureLaw>()?;
     m.add_class::<Py_njoy_outram_park_fork__mixr__MixComponent>()?;
     m.add_class::<Py_njoy_outram_park_fork__mixr__MixrInput>()?;
     m.add_class::<Py_njoy_outram_park_fork__moder__MaterialSelection>()?;
@@ -28750,6 +36495,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__resxsr__ResxsPoint>()?;
     m.add_class::<Py_njoy_outram_park_fork__resxsr__ResxsrInput>()?;
     m.add_class::<Py_njoy_outram_park_fork__resxsr__UnionRow>()?;
+    m.add_class::<Py_njoy_outram_park_fork__samm__betset__BetsetCarry>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__betset__ResonanceAmplitudes>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__context__ChannelKinematics>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__context__GroupQuantumInfo>()?;
@@ -28757,6 +36503,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__samm__coulomb__CoulombPsp>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__coulomb__Jwkb>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__coulomb__Pghcou>()?;
+    m.add_class::<Py_njoy_outram_park_fork__samm__derivs__DerivSetup>()?;
+    m.add_class::<Py_njoy_outram_park_fork__samm__derivs__energy__ParamEnergyTerms>()?;
+    m.add_class::<Py_njoy_outram_park_fork__samm__derivs__energy__QMatrix>()?;
+    m.add_class::<Py_njoy_outram_park_fork__samm__derivs__energy__TMatrix>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__linpack__PackedComplexMatrix>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__mf2__ParticlePair>()?;
     m.add_class::<Py_njoy_outram_park_fork__samm__mf2__RmlChannel>()?;
@@ -28781,6 +36531,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__thermr__mf7__IncoherentElastic>()?;
     m.add_class::<Py_njoy_outram_park_fork__thermr__mf7__IncoherentInelastic>()?;
     m.add_class::<Py_njoy_outram_park_fork__thermr__mf7__Mf7>()?;
+    m.add_class::<Py_njoy_outram_park_fork__thermr__mf7__TemperatureBracket>()?;
     m.add_class::<Py_njoy_outram_park_fork__thermr__mf7__TemperatureSelection>()?;
     m.add_class::<Py_njoy_outram_park_fork__thermr__temperature_thinning__ErrorAccumulator>()?;
     m.add_class::<Py_njoy_outram_park_fork__thermr__temperature_thinning__RelativeErrorStats>()?;
@@ -28792,10 +36543,23 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_njoy_outram_park_fork__unresr__mf2__JStateA>()?;
     m.add_class::<Py_njoy_outram_park_fork__unresr__mf2__JStateB>()?;
     m.add_class::<Py_njoy_outram_park_fork__unresr__mf2__JStateC>()?;
+    m.add_class::<Py_njoy_outram_park_fork__unresr__mf2__ScatteringRadiusTable>()?;
     m.add_class::<Py_njoy_outram_park_fork__unresr__mf2__UnresolvedCase>()?;
     m.add_class::<Py_njoy_outram_park_fork__unresr__mf2__UnresolvedPointC>()?;
     m.add_class::<Py_njoy_outram_park_fork__unresr__mf2__UnresolvedRange>()?;
     m.add_class::<Py_njoy_outram_park_fork__unresr__wfun__WTable>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__WimsrInput>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__WimsrOutput>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__gendf__GendfMaterial>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__gendf__GendfSection>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__gendf__TempBlock>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__p1scat__P1Temp>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__resint__ResintResult>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__resint__ResonanceGroup>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__xsecs__Counts>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__xsecs__TempDependent>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__xsecs__TempIndependent>()?;
+    m.add_class::<Py_njoy_outram_park_fork__wimsr__xsecs__XsecsResult>()?;
     m.add_class::<Py_njoy_outram_park_fork__wmp__Cf64>()?;
     m.add_class::<Py_njoy_outram_park_fork__wmp__WindowedMultipole>()?;
     m.add_class::<Py_njoy_outram_park_fork__wmp__WmpLibrary>()?;
@@ -28852,7 +36616,31 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__broadr__broaden_result,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__broadr__broadening_limit,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__broadr__broadn_section,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__broadr__doppler_broaden,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__broadr__doppler_broaden_below,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__broadr__doppler_broaden_below_with,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__broadr__lab_threshold,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__broadr__run, m)?)?;
@@ -28878,10 +36666,38 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__covr__parse_boxer_text,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__covr__present_mts,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__covr__press_text,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__covr__read_covariance_rows,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__covr__read_covariance_section,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__covr__read_group_structure,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__covr__read_vector,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__run, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__covr__run_library,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__covr__run_with_deck,
         m
@@ -28889,6 +36705,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__covr__setfor, m)?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__covr__shade_level,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__dtfr__assemble_tables,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -28954,11 +36774,55 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__covadd__covadd,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__covcal__covcal,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__covcal__lumped_sigma,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__covout__covout,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__covout__sigc,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__errorr__detect_endf_version,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__errorr__driver__run,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__gridd__gridd,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__gridd__lumpmt,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__gridd__scan_reactions,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__gridd__uniong,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__grpav__classify_mt,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__grpav__grpav,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -28985,9 +36849,49 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         fn_njoy_outram_park_fork__errorr__read_covariance_section,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__resprx__mf2__build_work_array,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__resprx__mlbw__ggmlbw,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__resprx__rmatrix__ggrmat,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__errorr__resprx__sammy__mmtres_of,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__errorr__run, m)?)?;
     m.add_function(wrap_pyfunction!(
-        fn_njoy_outram_park_fork__gaminr__gtff_matrix,
+        fn_njoy_outram_park_fork__errorr__run_mf33,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__gaminr__gaminr_reaction,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__gaminr__gtff__gtff_vector,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__gaminr__gtff__ig2pp,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__gaminr__gtff_coherent,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__gaminr__gtff_incoherent,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__gaminr__gtff_pair,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29018,6 +36922,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__groupr__decode_extended_mfd,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__groupr__fission_group_chi,
         m
     )?)?;
@@ -29035,6 +36943,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__groupr__genflx_slowing_down,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__groupr__gety1_first_energy,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29082,6 +36994,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__groupr__matrix_panel__two_body_matrix,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__groupr__neutron_group_from_ign,
         m
     )?)?;
@@ -29091,6 +37007,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__groupr__read_pendf_cross_section,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__groupr__read_pendf_mf10_cross_section,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29112,6 +37032,14 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__groupr__unresolved__bondarenko_flux_value,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__groupr__unresolved__genflx_bondarenko_components,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__groupr__unresolved__genflx_bondarenko_urr,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29225,6 +37153,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__leapr__generate__build_law_at_temperature,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__leapr__generate__debye_waller_coefficient,
         m
     )?)?;
@@ -29242,7 +37174,19 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__leapr__run, m)?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__leapr__run_deck,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__leapr__run_deck_text,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__leapr__sct__sct_free_gas,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__leapr__skold__apply_skold,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29358,6 +37302,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__reference_data__reference_data_dir,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__reference_data__reference_endf,
         m
     )?)?;
@@ -29367,6 +37315,14 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__reference_data__reference_endf_or_skip,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__reference_data__reference_file,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__reference_data__reference_file_or_skip,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29419,6 +37375,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__betset__compute_resonance_amplitudes_carry,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__samm__context__check_quantum_numbers,
         m
     )?)?;
@@ -29464,6 +37424,22 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__samm__coulomb__xsigll,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__derivs__deriv_setup,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__derivs__energy__abpart_derivs,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__derivs__energy__setqri,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__derivs__energy__settri,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29516,6 +37492,10 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__setup__setup_with_derivs,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__samm__xsformula__abpart__abpart,
         m
     )?)?;
@@ -29528,7 +37508,15 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__xsformula__crosss__cross_sections_with_derivs,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__samm__xsformula__cssammy,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__samm__xsformula__cssammy__cssammy_with_derivs,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -29596,7 +37584,35 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__viewr__run, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__wimsr__gendf__read_material,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__wimsr__p1scat__p1scat,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__wimsr__resint__resint,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(fn_njoy_outram_park_fork__wimsr__run, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__wimsr__run_gendf,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__wimsr__wimout__e15_8,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__wimsr__xsecs__counts,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_njoy_outram_park_fork__wimsr__xsecs__xsecs,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(
         fn_njoy_outram_park_fork__wmp__faddeeva,
         m
@@ -29713,6 +37729,15 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         ::njoy_outram_park_fork::covr::EPMIN_READ_FACTOR,
     )?;
     m.add("NCASE_MAX", ::njoy_outram_park_fork::covr::NCASE_MAX)?;
+    m.add("NDIG", ::njoy_outram_park_fork::errorr::gridd::NDIG)?;
+    m.add("RC1", ::njoy_outram_park_fork::errorr::resprx::mlbw::RC1)?;
+    m.add("RC2", ::njoy_outram_park_fork::errorr::resprx::mlbw::RC2)?;
+    m.add(
+        "THIRD",
+        ::njoy_outram_park_fork::errorr::resprx::mlbw::THIRD,
+    )?;
+    m.add("EPAIR", ::njoy_outram_park_fork::gaminr::EPAIR)?;
+    m.add("EMAX", ::njoy_outram_park_fork::gaminr::gtff::EMAX)?;
     m.add(
         "BOLTZMANN_EV_PER_K",
         ::njoy_outram_park_fork::groupr::BOLTZMANN_EV_PER_K,
@@ -29721,10 +37746,12 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         "DEFAULT_FLUX_STEP",
         ::njoy_outram_park_fork::groupr::DEFAULT_FLUX_STEP,
     )?;
+    m.add("GETWTF_STEP", ::njoy_outram_park_fork::groupr::GETWTF_STEP)?;
     m.add(
         "NO_NEXT_BREAK_EV",
         ::njoy_outram_park_fork::groupr::NO_NEXT_BREAK_EV,
     )?;
+    m.add("NLD", ::njoy_outram_park_fork::groupr::file4::NLD)?;
     m.add(
         "EPAIR_EV",
         ::njoy_outram_park_fork::groupr::gaminr_matrix::EPAIR_EV,
@@ -29774,6 +37801,12 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add(
         "ENDF_DIR_ENV",
         ::njoy_outram_park_fork::reference_data::ENDF_DIR_ENV
+            .clone()
+            .to_string(),
+    )?;
+    m.add(
+        "REFERENCE_DATA_ROOT_ENV",
+        ::njoy_outram_park_fork::reference_data::REFERENCE_DATA_ROOT_ENV
             .clone()
             .to_string(),
     )?;
