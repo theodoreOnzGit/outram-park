@@ -102,7 +102,8 @@
 
         \begin{column}{0.58\textwidth}
 
-            The HTGR demonstration plant is operating at a stable condition.
+            The HTR-10 demonstration plant is operating stably at its rated
+            thermal power of \textbf{10\,MWth}.
 
             \vspace{1em}
 
@@ -113,8 +114,9 @@
             \vspace{1em}
 
             \begin{alertblock}{Your Objective}
-                Increase reactor thermal power in a controlled manner and
-                stabilise the plant near the instructor's target power.
+                Raise reactor thermal power from \textbf{10\,MWth} to
+                \textbf{20\,MWth} in a controlled manner, and stabilise the
+                plant there.
             \end{alertblock}
 
             \vspace{0.5em}
@@ -173,7 +175,8 @@
 
             \item Use the simulator's reactivity/control input to change power.
 
-            \item Approach the target without a large overshoot.
+            \item Aim for \textbf{20\,MWth}, approaching it without a
+                  large overshoot.
 
             \item Observe reactivity in dollars as well as thermal power.
 
@@ -191,6 +194,35 @@
         are illustrative.
 
     \end{alertblock}
+
+\end{frame}
+
+
+% -----------------------------------------------------------------------------
+% Safety limit
+% -----------------------------------------------------------------------------
+
+\begin{frame}{Safety Limit}
+
+    \begin{alertblock}{Failure Condition}
+
+        If core thermal power exceeds \textbf{500\,MWth} at any point during
+        the manoeuvre, you have lost control of the reactor and the exercise
+        counts as failed.
+
+    \end{alertblock}
+
+    \vspace{1em}
+
+    That is fifty times rated power, so it is not a near miss. Reaching it
+    means the excursion got away from you entirely.
+
+    \vspace{1em}
+
+    A real HTR-10 would never get there. Its protection system trips on high
+    neutron flux and on high core outlet temperature, and the fuel temperature
+    limit of 1230\,\textdegree C governs long before power does. This limit is a
+    teaching marker for the exercise, not a plant safety limit.
 
 \end{frame}
 
@@ -238,7 +270,9 @@
 
     \normalsize
 
-    Bring the reactor to the requested power and stabilise it.
+    Who has the steady hand to take the reactor from 10\,MWth to
+    \textbf{20\,MWth} and hold it there, without ever passing
+    \textbf{500\,MWth}?
 
     \vspace{1.2em}
 
@@ -477,14 +511,12 @@
     For $G$ delayed-neutron groups:
 
     \begin{align*}
-
         \frac{dn}{dt}
         &=
         \frac{\rho-\beta}{\Lambda}n
         +
         \sum_{i=1}^{G}\lambda_i C_i
         \\[1em]
-
         \frac{dC_i}{dt}
         &=
         \frac{\beta_i}{\Lambda}n
@@ -493,11 +525,9 @@
         \qquad
         i=1,\ldots,G
         \\[1em]
-
         \beta
         &=
         \sum_{i=1}^{G}\beta_i
-
     \end{align*}
 
 \end{frame}
@@ -1080,7 +1110,9 @@
 % REFERENCES
 % =============================================================================
 
-\begin{frame}[allowframebreaks]{References}
+% `allowframebreaks` segfaults LuaTeX with this theme's frametitle template,
+% which corrupts the .bcf and so breaks biber. Do not reintroduce it here.
+\begin{frame}{References}
 
     \printbibliography
 
