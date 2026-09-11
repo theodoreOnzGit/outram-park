@@ -36,10 +36,12 @@ All four are captured from HTGR Sim v1, built from the
 Each is still wrapped in `\IfFileExists`, so the deck also compiles if one is
 removed, rendering a labelled placeholder box in its place.
 
-**Known mismatch.** The Mission Briefing slide states the plant starts at its
-rated 10 MWth, but `htgr_sim_full.png` was captured at 6.7 MWth and
-`htgr_sim_controls.png` at 7.4 MWth. Either recapture both at 10 MWth or change
-the figure in the deck; as it stands the slide and its own screenshot disagree.
+**Why the deck says "about 10 MWth".** HTR-10's rated thermal power is 10 MWth,
+but the screenshots were captured while the simulator was still being explored,
+and show 6.7 MWth (`htgr_sim_full.png`) and 7.4 MWth (`htgr_sim_controls.png`).
+The deck therefore says *about* 10 MWth rather than naming an exact figure its
+own screenshots contradict. If the shots are ever recaptured with the plant
+settled at rated power, the wording can be tightened again.
 
 ## Caveat carried by the deck itself
 
