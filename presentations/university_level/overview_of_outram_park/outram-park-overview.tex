@@ -1,0 +1,569 @@
+% =============================================================================
+% outram-park-overview.tex
+% Where OUTRAM PARK stands, by physics module.
+%
+% Status date: 2026-09-15. Figures are measured from the workspace at
+% outram-park-backend develop @ 2e7368612; maturity roster as declared
+% 2026-09-13 in outram-park-backend/CLAUDE.md.
+%
+% Compile:
+%   lualatex outram-park-overview.tex
+%   biber    outram-park-overview
+%   lualatex outram-park-overview.tex
+%   lualatex outram-park-overview.tex
+% =============================================================================
+
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthememidcenturymodern}
+\usepackage[
+    backend=biber,
+    style=authoryear,
+    sorting=nyt
+]{biblatex}
+
+\addbibresource{references.bib}
+
+\mcmTheme{Kraft}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+\AtBeginSection[]{%
+    \begin{frame}[plain]
+        \sectionpage
+    \end{frame}
+}
+
+\AtEveryCite{\color{mcmPrimary}}
+
+% Compact table helper
+\newcommand{\statustab}[1]{{\footnotesize\setlength{\tabcolsep}{4pt}#1}}
+
+\institute{Singapore Nuclear Research and Safety Institute}
+
+\title[Where OUTRAM PARK Stands]
+      {Where OUTRAM PARK Stands}
+
+\subtitle{A status review by physics module}
+
+\author{Dr Theodore Ong, SNRSI, NUS}
+
+\date{15 September 2026}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+% =============================================================================
+\section{The Shape of the Thing}
+% =============================================================================
+
+\begin{frame}{What OUTRAM PARK is}
+    A multi-physics simulation workspace written in Rust, assembled mostly by
+    porting established open-source engineering codes rather than inventing new
+    ones.
+
+    \medskip
+    \begin{itemize}
+        \item \textbf{38 crates}, \textbf{1.27 million lines} of Rust.
+        \item \textbf{1{,}676 commits}, first commit 25 November 2024.
+        \item \textbf{8{,}453} declared test functions across the workspace.
+        \item \textbf{11 of 38} crates are declared \emph{mature}; the other 27
+              explicitly are not.
+    \end{itemize}
+
+    \medskip
+    The prior throughout is \textbf{``this probably exists already''}. Most
+    modules are ports of OpenFOAM \parencite{weller1998tensorial},
+    OpenMC \parencite{romano2015openmc}, NJOY2016
+    \parencite{macfarlane2017njoy}, CoolProp \parencite{bell2014coolprop} and
+    similar --- with the upstream kept as the thing to be measured against.
+\end{frame}
+
+\begin{frame}{What ``mature'' is allowed to mean}
+    Maturity here is a \emph{declared} status with a written bar, not a feeling
+    about code quality. Each mature crate states its own acceptance bar and the
+    class of evidence behind it:
+
+    \medskip
+    \statustab{
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Evidence class} & \textbf{What it means} \\
+        \midrule
+        Reference standard & Reproduces a published standard to stated tolerance \\
+        Cross-code         & Agrees with the upstream code it was ported from \\
+        Experimental       & Reproduces a measured experiment \\
+        Analytical / MMS   & Matches closed-form solutions; convergence order verified \\
+        Unit + consistency & Limiting cases exact; published constants reproduced \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    A crate with no such written statement is \textbf{by definition not mature}.
+    Only the maintainer may declare maturity.
+\end{frame}
+
+\begin{frame}{Reading the tables that follow}
+    \begin{itemize}
+        \item \textbf{kLOC} --- thousands of lines of Rust in the crate,
+              measured 2026-09-15.
+        \item \textbf{Tests} --- \emph{declared} test functions counted
+              statically (\texttt{\#[test]} attributes). This is an inventory
+              count, not a record of a passing run.
+        \item \textbf{M} --- \checkmark{} if declared mature on 2026-09-13.
+    \end{itemize}
+
+    \medskip
+    \textbf{Measured on 2026-09-15:} \texttt{cargo check --workspace --lib
+    --tests} completes clean. The three most recently merged crates were run in
+    full: \textbf{1{,}111 tests passed, 0 failed}.
+
+    \medskip
+    Everything else below is inventory and declared status --- stated as such,
+    because the difference matters.
+\end{frame}
+
+
+% =============================================================================
+\section{Nuclear Data}
+% =============================================================================
+
+\begin{frame}{Nuclear data: \texttt{njoy-outram-park-fork}}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{njoy-outram-park-fork} & 119.9 & 824 & \checkmark \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    A pure-Rust port, in progress, of the NJOY2016 nuclear data processing
+    system \parencite{macfarlane2017njoy}.
+
+    \medskip
+    \textbf{Bar:} agreement with NJOY2016 to \textbf{7 significant figures}
+    --- a cross-code bar, the strongest class available for a port.
+
+    \medskip
+    \textbf{Recently:} the GROUPR and LEAPR modules were finished; THERMR's
+    \texttt{calcem}/\texttt{sigl} paths were ported and its $E'$ grid is now
+    adaptively linearised; the LEAPR \texttt{isym} defect was fixed.
+
+    \medskip
+    This is the deepest single module in the workspace and the one whose
+    validation story is cleanest.
+\end{frame}
+
+
+% =============================================================================
+\section{Neutron Transport and Criticality}
+% =============================================================================
+
+\begin{frame}{Neutron transport: 97.8 kLOC, 603 declared tests}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{outram-mc-libs}         & 74.7 & 392 & \checkmark \\
+        \texttt{boon-lay}               & 21.4 & 187 & \\
+        \texttt{outram-park-fork-onix}  &  1.7 &  24 & \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \texttt{outram-mc-libs} ports the OpenMC Monte Carlo transport kernels
+    \parencite{romano2015openmc}. \texttt{boon-lay} carries Lagrangian
+    transport and transmutation; \texttt{outram-park-fork-onix} is an early
+    port of the ONIX depletion code \parencite{lanversin2021onix} and is barely
+    started.
+
+    \medskip
+    \textbf{Bar (\texttt{outram-mc-libs}):} $k_{\text{eff}}$ within
+    \textbf{500 pcm} of the ICSBEP Godiva benchmark
+    \parencite{icsbep2021}.
+
+    \medskip
+    A separate gate covers the \textbf{HTR-10 double-heterogeneity difference}
+    \parencite{iaea2003htr10} --- that difference alone, deliberately, and
+    nothing else.
+\end{frame}
+
+\begin{frame}{Neutron transport: what the last month actually did}
+    The interesting work here was \emph{finding errors}, not adding features:
+
+    \medskip
+    \begin{itemize}
+        \item Surface tracking computed nested-universe surface normals about
+              the \textbf{wrong centre}. Fixing it moved LEU-COMP-THERM-008
+              from $+2341$ pcm to $\mathbf{+37}$ \textbf{pcm} against a
+              measured critical, and moved the hex lattice by 1769 pcm.
+        \item The delta-tracking majorant \textbf{under-bounded} $\Sigma_t$
+              below its grid floor by up to $9\times$ --- an outright
+              correctness bug in the sampling.
+        \item The ring-RPT pebble case now reproduces exact tracking to
+              $+37$ pcm at $9\times$ statistics.
+        \item A previously claimed throughput speed-up was \textbf{measured and
+              refuted} (GH \#205); reproducibility was confirmed instead.
+    \end{itemize}
+
+    \medskip
+    The 500 pcm bar is set at \emph{what the code achieves today}, not at what
+    criticality safety work should eventually demand.
+\end{frame}
+
+
+% =============================================================================
+\section{Reactor Kinetics and Coupled Systems}
+% =============================================================================
+
+\begin{frame}{Kinetics and coupling: 30.6 kLOC, 208 declared tests}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{teh-o-prke}              & 12.5 &  28 & \checkmark \\
+        \texttt{bedok}                   & 14.1 & 155 & \\
+        \texttt{outram-park-fork-moltres}&  3.0 &  20 & \\
+        \texttt{nee\_soon}               &  1.0 &   5 & \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \texttt{teh-o-prke} solves the point reactor kinetics equations and drives
+    the teaching simulators. \texttt{bedok} is systems-level coupling: 3-D
+    nodal diffusion against thermal hydraulics.
+    \texttt{outram-park-fork-moltres} follows Moltres
+    \parencite{lindsay2018moltres} for molten-salt neutronics on the
+    outram-foam finite-volume layer.
+
+    \medskip
+    \textbf{Bar (\texttt{teh-o-prke}):} published $\beta$ reproduced; PRKE
+    limiting cases exact.
+
+    \medskip
+    \textbf{Honest note:} this is the \emph{thinnest} of the eleven mature
+    crates. It has \textbf{no analytical transient validation} --- its own
+    file says so, and says what would fix it.
+\end{frame}
+
+
+% =============================================================================
+\section{Thermal Hydraulics and CFD}
+% =============================================================================
+
+\begin{frame}{Thermal hydraulics and CFD: 344.9 kLOC, 1{,}630 declared tests}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{tuas\_boussinesq\_solver}      & 167.9 & 381 & \checkmark \\
+        \texttt{outram-foam-basic-lib}         &  63.1 & 586 & \checkmark \\
+        \texttt{outram-foam-appbuilder-lib}    &  46.9 & 323 & \checkmark \\
+        \texttt{tampines}                      &  32.8 & 113 & \\
+        \texttt{outram-foam-mesh}              &  13.1 &  72 & \\
+        \texttt{outram-park-fork-cfmesh}       &   9.6 &  67 & \\
+        \texttt{outram-foam-multiphase}        &   7.1 &  67 & \\
+        \texttt{outram-foam-turbulence-lib}    &   3.1 &  16 & \\
+        \texttt{outram-foam-cli}               &   1.3 &   5 & \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    The largest module by volume, and the only one with three independently
+    mature crates.
+\end{frame}
+
+\begin{frame}{Thermal hydraulics: the three bars}
+    \begin{itemize}
+        \item \texttt{tuas\_boussinesq\_solver} --- CIET facility outlet
+              temperature within \textbf{0.2\,\textdegree C}; Gnielinski
+              correlation within \textbf{2\%}
+              \parencite{gnielinski1976new,zweibaum2015experimental}. This is
+              the workspace's only \emph{experimental} validation leg.
+        \item \texttt{outram-foam-basic-lib} --- conservation to
+              $10^{-12}$; convergence order matches theory.
+        \item \texttt{outram-foam-appbuilder-lib} --- Sod shock tube
+              \parencite{sod1978survey} against the exact Riemann solution,
+              $L_2$ within 5\% of peak; a timed series was added recently.
+    \end{itemize}
+
+    \medskip
+    Meshing (\texttt{outram-foam-mesh}, and the cfMesh port
+    \parencite{juretic2015cfmesh}), turbulence and multiphase are ported but
+    \textbf{not declared} --- turbulence in particular is 3.1 kLOC against
+    OpenFOAM's full RAS/LES/DES catalogue.
+\end{frame}
+
+
+% =============================================================================
+\section{Thermophysical Properties and Chemistry}
+% =============================================================================
+
+\begin{frame}{Properties and chemistry: 330.6 kLOC, 2{,}187 declared tests}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{tampines-steam-tables}          & 166.8 & 1097 & \checkmark \\
+        \texttt{outram-park-fork-dwsim-libs}    &  92.7 &  721 & \checkmark \\
+        \texttt{outram-park-fork-coolprop}      &  69.4 &  363 & \\
+        \texttt{outram-park-fork-thermochimica} &   1.7 &    6 & \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    The most heavily tested module in the workspace --- appropriately, since
+    everything else calls into it.
+
+    \medskip
+    \textbf{Bar (steam tables):} IF97 region equations to $10^{-8}$ against
+    published IAPWS values \parencite{wagner2000iapws}; flash tables held to a
+    looser bar (0.5\% volume, 8\% thermal conductivity).
+\end{frame}
+
+\begin{frame}{Properties: recent work, and one caveat that matters}
+    \textbf{Steam tables.} The $(\rho,h)$ flash now works by inverting the IF97
+    backward equations; $(p,h)$, $(p,s)$ and $(h,s)$ cover Region 5. Two
+    \emph{negative} results were recorded on where $(\rho,h)$ does not belong,
+    with conditioning measured on the answer rather than on a local slope.
+
+    \medskip
+    \textbf{DWSIM port --- read this before citing it.} The bar is agreement
+    with upstream DWSIM \parencite{dwsim} to 4 significant figures. Upstream
+    has since been built and run headless, and the Peng--Robinson $Z$ agrees to
+    \textbf{6 significant figures}.
+
+    \medskip
+    But that is \textbf{the EOS layer only}. The flash-layer comparison the bar
+    also names is still open, and \textbf{0 of the 107 rows} in its
+    port-coverage matrix are marked \textsc{ported + validated}.
+
+    \medskip
+    \texttt{outram-park-fork-thermochimica} \parencite{piro2013thermochimica}
+    is a stub: 1.7 kLOC, 6 tests.
+\end{frame}
+
+
+% =============================================================================
+\section{Fuel Performance and Solid Mechanics}
+% =============================================================================
+
+\begin{frame}{Fuel and structures: 77.4 kLOC, 649 declared tests}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{outram-park-fork-offbeat} & 61.3 & 550 & \\
+        \texttt{farrer-park}              & 16.1 &  99 & \checkmark \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \texttt{outram-park-fork-offbeat} ports the OFFBEAT fuel behaviour solver
+    \parencite{scolaro2020offbeat} --- substantial at 61 kLOC, but
+    \textbf{not declared mature}. \texttt{farrer-park} is the finite-element
+    layer underneath it.
+
+    \medskip
+    \textbf{Bar (\texttt{farrer-park}):} MMS $L_2$ convergence order within
+    0.15 of theory per element; patch test to $10^{-12}$; Lam\'e
+    \emph{displacement} within 1\%, \emph{stress} on observed order.
+\end{frame}
+
+\begin{frame}{\texttt{farrer-park}: mature, with a known uncured defect}
+    This crate is the clearest illustration of what the maturity label does and
+    does not promise.
+
+    \medskip
+    \begin{itemize}
+        \item It carries a \textbf{known uncured defect}: shear locking,
+              measured at \textbf{66.7\% too stiff} on Quad4 elements at
+              element aspect ratio 4.
+        \item Its maturity therefore says \emph{the numerics it implements
+              converge at the theoretical rate} --- \textbf{not} that every
+              element is fit for bending.
+        \item It is the only roster entry declared \textbf{within days of the
+              crate first existing}, on an analytical/MMS bar with
+              \textbf{no cross-code and no benchmark leg at all}.
+    \end{itemize}
+
+    \medskip
+    Declared mature 2026-09-13 by maintainer decision, with all of the above
+    written into the declaration rather than omitted from it.
+\end{frame}
+
+
+% =============================================================================
+\section{Granular, Subsurface and Process}
+% =============================================================================
+
+\begin{frame}{Granular mechanics and subsurface}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{outram-park-fork-pflotran} & 27.6 & 278 & \\
+        \texttt{outram-park-fork-liggghts} &  9.6 &  72 & \checkmark \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \textbf{Granular DEM} \parencite{kloss2012models} --- pebble-bed contact
+    mechanics and thermal DEM. Its bar covers the \textbf{integrator and
+    contact laws against closed-form solutions}. The declaration states
+    plainly that \textbf{granular physics is NOT validated}: the time
+    integration is right, the emergent bed behaviour is unproven.
+
+    \medskip
+    \textbf{Subsurface} \parencite{hammond2014pflotran} --- flow and reactive
+    transport, 27.6 kLOC and 278 tests, not declared. Sound in size, untested
+    against the upstream.
+\end{frame}
+
+\begin{frame}{Process control and digital twin: 155.8 kLOC}
+    \statustab{
+    \begin{tabular}{lrrc}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} & \textbf{M} \\
+        \midrule
+        \texttt{outram-park-digital-twin-engine} & 101.7 & 577 & \\
+        \texttt{outram-blender}                  &  40.1 & 474 & \\
+        \texttt{chem-eng-real-time-\dots-simulator} & 14.0 & 32 & \checkmark \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    The twin engine drives the visual process objects behind the HTGR and iPWR
+    simulators; \texttt{outram-blender} \parencite{blender} is the headless
+    mesh-authoring frontend. Both are large and well-tested but
+    \textbf{not declared}.
+
+    \medskip
+    \textbf{Bar (process control):} discretisations exact at sample points
+    against closed-form transfer functions.
+
+    \medskip
+    \textbf{Honest note:} the Scilab half of that crate's evidence lives in the
+    maintainer's dissertation, \emph{not} in this repository. Its recorded bar
+    is written against the analytical tests that \emph{are} reproducible here.
+\end{frame}
+
+
+% =============================================================================
+\section{Supporting Numerics}
+% =============================================================================
+
+\begin{frame}{Supporting numerics and tooling: 71.0 kLOC, 919 tests}
+    \statustab{
+    \begin{tabular}{lrr}
+        \toprule
+        \textbf{Crate} & \textbf{kLOC} & \textbf{Tests} \\
+        \midrule
+        \texttt{kovan} family (7 crates) & 57.0 & 810 \\
+        \texttt{petir}                   &  6.0 &  42 \\
+        \texttt{raffles}                 &  5.7 &  34 \\
+        \texttt{outram-park-mpi}         &  2.3 &  33 \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \begin{itemize}
+        \item \texttt{petir} --- \texttt{no\_std} polynomials, transforms,
+              integration and roots. Its fast \texttt{exp}/\texttt{ln}/
+              \texttt{powf} are now the default route for the steam tables.
+        \item \texttt{raffles} --- risk analysis and ensemble simulation.
+        \item \texttt{outram-park-mpi} --- a pure-Rust MPI-3 API subset
+              \parencite{mpiforum2015}.
+        \item \texttt{kovan} --- the knowledge layer: discovery, literature,
+              semantics, codegen, metrics.
+    \end{itemize}
+
+    None of these are physics modules, and none are declared mature.
+\end{frame}
+
+
+% =============================================================================
+\section{Where It Stands}
+% =============================================================================
+
+\begin{frame}{The honest summary}
+    \statustab{
+    \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Module} & \textbf{kLOC} & \textbf{Tests} & \textbf{Mature} \\
+        \midrule
+        Thermal hydraulics \& CFD      & 344.9 & 1630 & 3 of 9 \\
+        Properties \& chemistry        & 330.6 & 2187 & 2 of 4 \\
+        Process control \& twin        & 155.8 & 1083 & 1 of 3 \\
+        Nuclear data                   & 119.9 &  824 & 1 of 1 \\
+        Neutron transport              &  97.8 &  603 & 1 of 3 \\
+        Fuel \& solid mechanics        &  77.4 &  649 & 1 of 2 \\
+        Supporting numerics            &  71.0 &  919 & 0 of 10 \\
+        Kinetics \& coupling           &  30.6 &  208 & 1 of 4 \\
+        Subsurface                     &  27.6 &  278 & 0 of 1 \\
+        Granular DEM                   &   9.6 &   72 & 1 of 1 \\
+        \midrule
+        \textbf{Total}                 & \textbf{1265.2} & \textbf{8453} & \textbf{11 of 38} \\
+        \bottomrule
+    \end{tabular}}
+\end{frame}
+
+\begin{frame}{What is explicitly not validated}
+    Stated plainly, because the roster states it plainly:
+
+    \medskip
+    \begin{itemize}
+        \item \textbf{DWSIM port} --- EOS layer only. 0 of 107 port-coverage
+              rows are \textsc{ported + validated}. Flash layer open.
+        \item \textbf{Granular DEM} --- integrator and contact laws validated;
+              \textbf{granular physics is not}.
+        \item \textbf{\texttt{farrer-park}} --- shear locking uncured, 66.7\%
+              too stiff on Quad4 at aspect ratio 4; no benchmark leg.
+        \item \textbf{\texttt{teh-o-prke}} --- no analytical transient
+              validation.
+        \item \textbf{\texttt{outram-mc-libs}} --- 500 pcm is today's
+              achievement, not a criticality-safety standard.
+        \item \textbf{27 of 38 crates} carry no maturity declaration at all,
+              including 61 kLOC of fuel performance and 69 kLOC of CoolProp.
+        \end{itemize}
+\end{frame}
+
+\begin{frame}{Where the work is going}
+    \begin{itemize}
+        \item \textbf{Close the DWSIM flash layer.} The EOS leg is done to 6
+              significant figures; the 107-row matrix is the remaining work,
+              and it is the clearest single gap on the roster.
+        \item \textbf{Give \texttt{teh-o-prke} an analytical transient leg},
+              and \texttt{farrer-park} a cross-code or benchmark leg.
+        \item \textbf{Cure shear locking} --- or document the element as
+              unfit for bending and select around it.
+        \item \textbf{Tighten the Monte Carlo bar} below 500 pcm now that the
+              nested-universe and majorant defects are fixed.
+        \item \textbf{Declare or retire} the large undeclared ports:
+              OFFBEAT, CoolProp, PFLOTRAN, the twin engine.
+    \end{itemize}
+
+    \medskip
+    The discipline that produced the last month's results --- measuring claims
+    and \emph{retracting} the ones that fail --- is the part worth keeping.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+    \printbibliography
+\end{frame}
+
+\end{document}
