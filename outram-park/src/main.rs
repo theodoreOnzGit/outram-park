@@ -3,7 +3,7 @@ use clap::{Parser, Subcommand};
 #[derive(Parser)]
 #[command(
     name = "outram-park",
-    about = "Open-source TRAnsient Multi-Phase Advanced Reactor simulator Kit"
+    about = "Open-source Unified TRAnsient Multi-Physics Advanced Reactor simulation Kit"
 )]
 struct Args {
     #[command(subcommand)]

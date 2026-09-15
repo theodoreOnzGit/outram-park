@@ -1,5 +1,5 @@
 # outram-park
-Open-source TRAnsient Multi-Phase Advanced Reactor simulator Kit (OUTRAM PARK)
+Open-source Unified TRAnsient Multi-Physics Advanced Reactor simulation Kit (OUTRAM PARK)
 
 # Purpose 
 

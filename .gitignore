@@ -339,3 +339,9 @@ outram-park/codegen/__pycache__/
 # (`maturin build -o .`). The wheel is a build artefact -- rebuild it with
 # `python3 outram-park/codegen/refresh.py --wheel`, do not commit it.
 *.whl
+
+# Claude Code agent worktrees. The Agent tool's `isolation: "worktree"` mode
+# creates a full git worktree per agent under `.claude/worktrees/<agent-id>/`,
+# i.e. a complete second checkout of this repository nested inside itself.
+# It is ephemeral scaffolding for one session and must never be committed.
+.claude/worktrees/
