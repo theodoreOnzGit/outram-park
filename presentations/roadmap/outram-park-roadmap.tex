@@ -1,0 +1,621 @@
+% =============================================================================
+% outram-park-roadmap.tex
+% OUTRAM PARK: a roadmap for collaborators, contributors, funders and
+% researchers (adaptable for SNRSI management).
+%
+% DRAFT, 2026-09-25. Vision, priorities, V&V ladder and timeline are the
+% maintainer's, as discussed; status figures come from the status deck
+% (../university_level/overview_of_outram_park/, measured 2026-09-15) and the
+% outram-park-backend at develop @ a26756930 (crate list, per-crate READMEs
+% and the maturity roster in docs/claude-md-rationale/).
+%
+% Compile (the theme uses fontspec, so LuaLaTeX):
+%   latexmk -pdflua outram-park-roadmap.tex
+% =============================================================================
+
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthememidcenturymodern}
+
+\mcmTheme{Kraft}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+
+\graphicspath{{../../docs/images/}}
+
+\AtBeginSection[]{%
+    \begin{frame}[plain]
+        \sectionpage
+    \end{frame}
+}
+
+% Compact table helper
+\newcommand{\roadtab}[1]{{\footnotesize\setlength{\tabcolsep}{4pt}#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\institute{Singapore Nuclear Research and Safety Institute}
+
+\title[OUTRAM PARK Roadmap]
+      {OUTRAM PARK: A Roadmap}
+
+\subtitle{An open, unified, human-verified multiphysics toolkit for
+          anything nuclear}
+
+\author{Dr Theodore Ong, SNRSI, NUS}
+
+\date{25 September 2026 \quad (draft)}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+% =============================================================================
+\section{The Vision}
+% =============================================================================
+
+\begin{frame}{OUTRAM PARK in one sentence}
+    \begin{center}
+        \large
+        A \textbf{one-stop, open-source multiphysics toolkit} where researchers
+        collaborate on \textbf{anything nuclear}, on one common, unified
+        codebase that is \textbf{drafted with AI and verified by humans}.
+    \end{center}
+
+    \medskip
+    \begin{itemize}
+        \item \textbf{O}pen-source \textbf{U}nified \textbf{TRA}nsient
+              \textbf{M}ulti-Physics \textbf{A}dvanced \textbf{R}eactor
+              simulation \textbf{K}it.
+        \item Neutronics, thermal hydraulics and CFD, fuel and structures,
+              materials, chemistry and source term in \textbf{one Rust
+              workspace}, with one API style and one V\&V discipline.
+        \item \textbf{Long-run claim:} OUTRAM PARK can model \emph{any}
+              Gen IV reactor.
+        \item \textbf{Endgame:} a self-sustaining community, as OpenFOAM
+              has.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The problem it addresses}
+    Nuclear multiphysics today is \textbf{fragmented}:
+
+    \medskip
+    \begin{itemize}
+        \item Each phenomenon lives in a different code, with its own
+              language, input format, licence and access regime.
+        \item Coupling them is a research project in itself, and is often
+              redone by every group.
+        \item Many reference codes are export-controlled or closed, which is
+              hard on students, small groups and new nuclear countries.
+        \item Building input decks for system codes such as MELCOR or ASTEC is slow, so few
+              scenarios are ever explored.
+    \end{itemize}
+
+    \medskip
+    \textbf{OUTRAM PARK's answer:} port the established open codes into one
+    workspace, measure each port against its upstream, and put everything
+    behind a common API that humans (and AI agents) can actually use.
+\end{frame}
+
+\begin{frame}{Why now: AI drafts, humans verify}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{AI makes the breadth possible}
+            \begin{itemize}
+                \footnotesize
+                \item Translating OpenFOAM, OpenMC, NJOY2016, CoolProp,
+                      OFFBEAT, \dots\ into one language was never
+                      affordable for one group.
+                \item AI drafting has produced $\sim$1.27M lines across the
+                      workspace in under two years.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Humans make it trustworthy}
+            \begin{itemize}
+                \footnotesize
+                \item Everything is \textbf{unverified until validated}.
+                \item AI-generated V\&V is a \emph{screening gate}, not a
+                      verdict.
+                \item A code is \textbf{ready} only after humans have studied
+                      it and reproduced its cases themselves.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+
+    \medskip
+    \footnotesize
+    The two halves need each other. AI without human V\&V is untrustworthy;
+    human effort without AI drafting is too slow to cover a whole reactor.
+\end{frame}
+
+
+% =============================================================================
+\section{Who It Serves}
+% =============================================================================
+
+\begin{frame}{Four groups, one codebase}
+    \roadtab{
+    \begin{tabular}{L{0.2\textwidth}L{0.46\textwidth}L{0.24\textwidth}}
+        \toprule
+        \textbf{Group} & \textbf{What they do with it} & \textbf{Priority} \\
+        \midrule
+        \textbf{Researchers} & High-fidelity study of phenomena: neutronics,
+            boiling, precursor drift, double heterogeneity, Kinchin--Pease
+            damage, stress corrosion cracking
+            & \textbf{Now} \\[2pt]
+        \textbf{Digital twins} & Real-time simulators on cheap physics models
+            and ML/ROM surrogates; optionally coupled to integral effects tests
+            & \textbf{Now} \\[2pt]
+        \textbf{Students \& public} & Outreach simulators with accident
+            scenarios; undergrad and postgrad projects and theses in the
+            source code
+            & \textbf{Now} \\[2pt]
+        \textbf{Safety analysts} & Cheap accident-scenario exploration ahead of
+            MELCOR / ASTEC
+            & \textbf{When SEMBAWANG is reviewed} \\
+        \bottomrule
+    \end{tabular}}
+\end{frame}
+
+\begin{frame}{How the four groups feed each other}
+    \begin{center}
+        \footnotesize
+        \setlength{\tabcolsep}{6pt}
+        \begin{tabular}{ccccc}
+            \textbf{High-fidelity codes} & $\longrightarrow$ &
+            \textbf{Surrogates} & $\longrightarrow$ &
+            \textbf{Twins \& simulators} \\
+            {\scriptsize neutronics, CFD, fuel} & &
+            {\scriptsize cheap physics + ML/ROM} & &
+            {\scriptsize real time, MQTT / OPC-UA} \\[6pt]
+            $\big\uparrow$ & & & & $\big\downarrow$ \\[2pt]
+            \textbf{Students \& researchers} & & $\longleftarrow$ & &
+            \textbf{Outreach \& teaching} \\
+            {\scriptsize projects, theses, human V\&V} & & & &
+            {\scriptsize accident scenarios}
+        \end{tabular}
+    \end{center}
+
+    \medskip
+    \begin{itemize}
+        \item High-fidelity runs produce the \textbf{training data} for
+              ML/ROM surrogates.
+        \item Surrogates and cheap models power the \textbf{twins} and the
+              \textbf{outreach simulators}.
+        \item Outreach draws in \textbf{students}, whose projects on the
+              source code become \textbf{human V\&V}, which makes the
+              high-fidelity codes ready.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Researchers and students: into the source}
+    \begin{itemize}
+        \item \textbf{Researchers} study phenomena at high fidelity, on the
+              same codebase as their collaborators, rather than coupling five
+              codes by hand.
+        \item \textbf{Undergraduates and postgraduates} work directly in the
+              source code through final-year projects, course projects and
+              theses.
+        \item Their hand-written cases \emph{are} human V\&V: every student
+              project that reproduces a benchmark through the API moves a
+              crate toward ready.
+        \item API friction they hit is recorded and fixed. The API is
+              designed to be usable by a newcomer (and by a small AI model)
+              without reading the source.
+    \end{itemize}
+
+    \medskip
+    \footnotesize
+    For \textbf{public outreach}, prepared simulators with scripted accident
+    scenarios fit better than source code. These build on the teaching decks
+    already in \texttt{presentations/}.
+\end{frame}
+
+\begin{frame}{Digital twins: two kinds of surrogate}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Cheap physics models}
+            \begin{itemize}
+                \footnotesize
+                \item Point kinetics (\texttt{teh-o-prke}), 1-D thermal
+                      hydraulics (\texttt{tuas}), steam cycles
+                      (\texttt{tampines}).
+                \item Run in real time today: the FHR, HTGR and CIET
+                      simulators.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{ML / ROM surrogates}
+            \begin{itemize}
+                \footnotesize
+                \item Trained on OUTRAM PARK's own high-fidelity codes.
+                \item Bring higher-fidelity physics to real time.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+
+    \medskip
+    \textbf{Deployment path:}
+    \begin{enumerate}
+        \item The twin is a \textbf{real-time simulator} first.
+        \item If desired, it \textbf{connects to an integral effects test}
+              facility over MQTT and OPC-UA. CIET v2 already ships an
+              OPC-UA server.
+    \end{enumerate}
+
+    \medskip
+    \footnotesize
+    Offline research and education only. Never connected to operating plant
+    or safety systems.
+\end{frame}
+
+\begin{frame}{Safety analysis: SEMBAWANG ahead of MELCOR / ASTEC}
+    \textbf{SEMBAWANG} (\textbf{S}evere-accident \textbf{E}volution and
+    \textbf{M}elt \textbf{B}ehaviour \textbf{A}nalysis \textbf{W}orkbench for
+    \textbf{A}dvanced \textbf{N}uclear \textbf{G}eometries) is the
+    \emph{cheap} model.
+
+    \medskip
+    \roadtab{
+    \begin{tabular}{cL{0.78\textwidth}}
+        \toprule
+        1 & AI + SEMBAWANG \textbf{explore many accident scenarios} quickly. \\
+        2 & \textbf{Narrow down} to the scenarios that actually need a
+            full assessment. \\
+        3 & \textbf{Verify the parameters} in SEMBAWANG models, which are
+            quick to build. \\
+        4 & \textbf{Compile the information} the MELCOR / ASTEC input decks
+            need. \\
+        5 & Engineers build the decks; \textbf{real assessment begins} in
+            MELCOR / ASTEC. \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \footnotesize
+    \textbf{Status:} TRISO source term implemented (via \texttt{boon-lay});
+    accident progression not yet. It orchestrates the offsite chain:
+    \texttt{changi} (dispersion) and \texttt{redhill} (ground transport). No
+    dose is computed. Under AI drafting, needs review; this group waits until
+    it is ready.
+\end{frame}
+
+
+% =============================================================================
+\section{What Exists Today}
+% =============================================================================
+
+\begin{frame}{The workspace today}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \textbf{\texttt{outram-park-backend}}
+            \begin{itemize}
+                \footnotesize
+                \item \textbf{44 crates}; $\sim$1.27M lines of Rust
+                      (measured at 38 crates, 15 Sep 2026).
+                \item Ports of OpenFOAM, OpenMC, NJOY2016, CoolProp,
+                      OFFBEAT, LIGGGHTS, Moltres, PFLOTRAN, DWSIM, \dots
+                \item \textbf{12 crates declared mature} (15 Sep 2026),
+                      each with a written bar and evidence class.
+                \item Every crate README carries a \textbf{maintainer
+                      sign-off tracker}. None is signed off yet.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{\texttt{outram-park}} (this repo)
+            \begin{itemize}
+                \footnotesize
+                \item The front end: desktop GUI, a CLI/TUI that runs on
+                      Termux, and a Python wheel over the whole backend.
+                \item Teaching and status presentations.
+                \item The six outreach simulator binaries (placeholders
+                      today).
+            \end{itemize}
+        \end{column}
+    \end{columns}
+
+    \medskip
+    \footnotesize
+    Per-module detail: \emph{Where OUTRAM PARK Stands}, the status deck of
+    15 Sep 2026.
+\end{frame}
+
+\begin{frame}{Physics coverage, by discipline}
+    \roadtab{
+    \begin{tabular}{L{0.26\textwidth}L{0.66\textwidth}}
+        \toprule
+        \textbf{Discipline} & \textbf{Crates (examples)} \\
+        \midrule
+        Nuclear data \& transport & \texttt{njoy-outram-park-fork},
+            \texttt{outram-mc-libs}, ONIX fork \\
+        Kinetics \& coupling & \texttt{teh-o-prke}, \texttt{bedok},
+            \texttt{nee\_soon}, Moltres fork (precursor drift) \\
+        Thermal hydraulics \& CFD & \texttt{tuas\_boussinesq\_solver},
+            \texttt{tampines}, \texttt{outram-foam-*} (incl.\ multiphase) \\
+        Properties \& chemistry & \texttt{tampines-steam-tables}, CoolProp,
+            DWSIM and Thermochimica forks \\
+        Fuel, structures, materials & OFFBEAT fork, \texttt{farrer-park},
+            \texttt{boon-lay} (TRISO) \\
+        Granular \& subsurface & LIGGGHTS fork (pebble beds), PFLOTRAN fork \\
+        Severe accident \& offsite & \texttt{sembawang}; \texttt{changi}
+            (FLEXPART port, dispersion); \texttt{redhill} (groundwater,
+            placeholder) \\
+        Fuel cycle & \texttt{kaki-bukit} (CYCLUS/CYCAMORE port, scaffold) \\
+        Twins, GUIs, tooling & digital-twin engine, \texttt{dhoby-ghaut},
+            \texttt{dover}, \texttt{raffles}, \texttt{kovan}, \texttt{petir} \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \footnotesize
+    Nuclear, chemical, mechanical and materials engineering all have a home.
+\end{frame}
+
+\begin{frame}{Front ends: DOVER and DHOBY GHAUT}
+    \roadtab{
+    \begin{tabular}{lL{0.38\textwidth}L{0.38\textwidth}}
+        \toprule
+        & \textbf{DOVER} & \textbf{DHOBY GHAUT} \\
+        \midrule
+        Stands for & \textbf{D}eck-based \textbf{O}pen-source
+                     \textbf{V}isualisation \textbf{E}ngine for
+                     \textbf{R}eactors
+                   & \textbf{D}igital \textbf{H}igh-fidelity
+                     \textbf{O}rchestration \textbf{by} \textbf{G}UI for a
+                     \textbf{H}uman-friendly \textbf{A}utomated
+                     \textbf{U}nified \textbf{T}oolkit \\
+        Fidelity   & Low: visualisation driven by input decks
+                   & High: drives meshing and Monte Carlo \\
+        For        & \emph{To be decided}; the 3D-engine plan pointed at a
+                     lightweight walkable plant for outreach and twins
+                   & Researchers (MC Studio, Mesh Studio) \\
+        Status     & \textbf{Empty skeleton crate} (25 Sep 2026);
+                     scope to be decided
+                   & Studios moved in, with headless modes \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \footnotesize
+    Neither adds physics. Both present and orchestrate what the solver crates
+    compute.
+\end{frame}
+
+
+% =============================================================================
+\section{The V\&V Ladder}
+% =============================================================================
+
+\begin{frame}{When is a code ``ready''?}
+    \roadtab{
+    \begin{tabular}{cL{0.3\textwidth}L{0.52\textwidth}}
+        \toprule
+        \textbf{Step} & \textbf{Gate} & \textbf{What happens} \\
+        \midrule
+        1 & AI: code-to-code & Verified against its upstream \emph{during}
+            translation (e.g.\ NJOY2016 to 7 significant figures). \\[2pt]
+        2 & AI: test reactor & One class of test reactor per category,
+            reproduced by an AI-generated V\&V case. \\[2pt]
+        3 & Human V\&V & Humans study the code and API, then
+            \textbf{hand-code the same cases} through the user-friendly Rust
+            API. Friction leads to API upgrades. \\[2pt]
+        4 & \textbf{Ready} & The maintainer signs off \textbf{both axes}
+            in the crate's README: V\&V, and human / user interface. \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \footnotesize
+    Passing steps 1--2 is \textbf{proof of concept}: the code is functional
+    to a large extent and ready for human eyes. It is not a verdict.
+\end{frame}
+
+\begin{frame}{What each step produces}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{AI drafts (steps 1--2)}
+            \begin{itemize}
+                \footnotesize
+                \item Proof that the code runs the reactor class.
+                \item \textbf{Publishable:} initial V\&V papers, and
+                      software-engineering methodology papers on AI-drafted,
+                      human-verified scientific code.
+                \item The signal to start human review.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Human V\&V (step 3)}
+            \begin{itemize}
+                \footnotesize
+                \item Independent reproduction of the cases.
+                \item \textbf{An API tested by use:} every friction point is
+                      a recorded fix.
+                \item \textbf{Publishable:} the definitive V\&V papers.
+                \item Natural student projects and theses.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+% =============================================================================
+\section{Reactors and Test Cases}
+% =============================================================================
+
+\begin{frame}{First wave: four families, neutronics + TH/CFD}
+    \roadtab{
+    \begin{tabular}{lL{0.28\textwidth}L{0.36\textwidth}}
+        \toprule
+        \textbf{Family} & \textbf{Test reactor / facility} & \textbf{Notes} \\
+        \midrule
+        Pebble bed      & \textbf{HTR-10}, \textbf{HTTR} & Double heterogeneity;
+                          HTR-10 gate exists in \texttt{outram-mc-libs} \\
+        Molten salt     & \textbf{MSRE}   & Precursor drift (Moltres fork) \\
+        PWR (integral)  & \textbf{MASLWR} (Oregon State) & TH only: electrically
+                          heated; IAEA natural-circulation benchmark \\
+        PWR neutronics  & \emph{open} & e.g.\ BEAVRS \\
+        BWR             & \emph{open} & e.g.\ Peach Bottom turbine trip; needs
+                          boiling / two-phase \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \footnotesize
+    Each family is taken up the full V\&V ladder, for \textbf{both}
+    neutronics and thermal hydraulics/CFD.
+\end{frame}
+
+\begin{frame}{Later waves: toward any Gen IV reactor}
+    \begin{itemize}
+        \item \textbf{Next: fast / liquid-metal.} EBR-I as the test reactor,
+              pursued mainly through \textbf{research collaborations}.
+        \item \textbf{Then the rest of Gen IV:} gas-cooled fast,
+              lead-cooled, supercritical water, as collaborators and
+              funding allow.
+        \item Each wave reuses the ladder: code-to-code, one test reactor,
+              human V\&V, ready.
+    \end{itemize}
+
+    \medskip
+    \textbf{The claim to earn:} \emph{OUTRAM PARK can model any Gen IV
+    reactor}, with a human-verified test case behind each family.
+\end{frame}
+
+
+% =============================================================================
+\section{Timeline}
+% =============================================================================
+
+\begin{frame}{Timeline}
+    \roadtab{
+    \begin{tabular}{lL{0.3\textwidth}L{0.46\textwidth}}
+        \toprule
+        \textbf{When} & \textbf{Track} & \textbf{Outcome} \\
+        \midrule
+        0--12 months   & \textbf{AI drafting} & First-wave families through
+            AI gates 1--2; SEMBAWANG drafted \\[2pt]
+        Year 1 onward  & \textbf{Human V\&V}, in parallel with more AI
+                         drafting & First-wave codes reach \emph{ready};
+            later waves drafted \\[2pt]
+        Years 2--5     & \textbf{V\&V papers} & A steady flow: AI-draft
+            papers first, then human V\&V papers \\[2pt]
+        Throughout     & \textbf{People \& community} & More contributors;
+            eventually, others take over \\
+        \bottomrule
+    \end{tabular}}
+
+    \medskip
+    \footnotesize
+    Human V\&V is the rate-limiting step. AI drafting scales; human review
+    does not. That is why people are on this roadmap.
+\end{frame}
+
+
+% =============================================================================
+\section{Community}
+% =============================================================================
+
+\begin{frame}{A community to sustain it}
+    \textbf{Goal:} OUTRAM PARK outlives any one maintainer, as OpenFOAM
+    does, sustained by an open community across:
+
+    \medskip
+    \begin{center}
+        \textbf{Nuclear} \quad$\cdot$\quad \textbf{Chemical} \quad$\cdot$\quad
+        \textbf{Mechanical} \quad$\cdot$\quad \textbf{Materials}
+        \\ science and engineering
+    \end{center}
+
+    \medskip
+    \begin{itemize}
+        \item \textbf{Needed in the next year or two:} more people, above
+              all human V\&V reviewers.
+        \item \textbf{Already in place:} GPL-3.0, \texttt{GOVERNANCE.md},
+              \texttt{CONTRIBUTING.md}, responsible-use and provenance
+              policies.
+        \item \textbf{To build:} contributor onboarding, multi-institution
+              maintainership, a user base beyond SNRSI.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{How to get involved}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Collaborators \& researchers}
+            \begin{itemize}
+                \footnotesize
+                \item Take a test reactor through human V\&V and co-author
+                      the paper.
+                \item Bring a phenomenon or a Gen IV family (e.g.\ EBR-I).
+                \item Supervise student projects on the codebase.
+            \end{itemize}
+
+            \medskip
+            \textbf{Contributors}
+            \begin{itemize}
+                \footnotesize
+                \item Review AI drafts; report API friction; write cases.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Funders}
+            \begin{itemize}
+                \footnotesize
+                \item Human V\&V effort: people, not compute, are the
+                      bottleneck.
+                \item Students and postdocs on first-wave families.
+                \item Collaboration on the next reactor wave.
+            \end{itemize}
+
+            \medskip
+            \textbf{Start here}
+            \begin{itemize}
+                \footnotesize
+                \item \texttt{github.com/theodoreOnzGit/outram-park}
+                \item \texttt{github.com/theodoreOnzGit/outram-park-backend}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+% =============================================================================
+\section{Open Decisions}
+% =============================================================================
+
+\begin{frame}{Open decisions}
+    \begin{itemize}
+        \item \textbf{PWR neutronics test case:} BEAVRS, VERA, or other?
+        \item \textbf{BWR test case:} Peach Bottom turbine trip, Ringhals-1
+              stability, or other?
+        \item \textbf{HTR-10 and HTTR:} both, or one as the gate and one
+              as follow-up?
+        \item \textbf{SEMBAWANG review:} who reviews it, and what is its
+              ``ready'' bar?
+        \item \textbf{DOVER scope:} what does ``deck-based visualisation''
+              cover, and is it the outreach 3D plant?
+        \item \textbf{Governance for handover:} what does multi-institution
+              maintainership look like?
+        \item \textbf{Funding targets:} which items on this roadmap are
+              pitched to which funders?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Large One open codebase for anything nuclear.\\[4pt]
+        \normalsize Drafted with AI. Verified by people. Sustained by a
+        community.
+
+        \bigskip
+        \texttt{github.com/theodoreOnzGit/outram-park}
+    \end{center}
+\end{frame}
+
+\end{document}
