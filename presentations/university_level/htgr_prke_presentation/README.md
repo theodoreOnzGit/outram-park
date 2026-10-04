@@ -20,19 +20,28 @@ shared, so the deck builds from this directory alone.
 
 ## Screenshots
 
-Three screenshots are referenced and are **not committed**:
+Four screenshots are referenced and **are committed** alongside the deck, so it
+builds fully from this directory with no extra files:
 
-| macro | filename |
-|---|---|
-| `\htgrfull` | `htgr_sim_full.png` |
-| `\htgrcontrols` | `htgr_sim_controls.png` |
-| `\htgrshutdown` | `htgr_sim_shutdown.png` |
+| macro | filename | slide |
+|---|---|---|
+| `\htgrfull` | `htgr_sim_full.png` | Mission Briefing |
+| `\htgrcontrols` | `htgr_sim_controls.png` | Your Interface |
+| `\htgrshutdown` | `htgr_sim_shutdown.png` | Shutdown Demonstration |
+| `\htgrshutdownplot` | `htgr_sim_shutdown_plot.png` | Shutdown: What the Time History Shows |
 
-Each is wrapped in `\IfFileExists`, so the deck compiles without them and
-renders a labelled placeholder box in their place. Drop the exported HTGR
-Sim v1 screenshots into this directory under those names to fill them in.
-`../htgrsim_presentation_short_5min/htgr_sim_v1.png` is an existing HTGR Sim
-screenshot that may suit one of the three.
+All four are captured from HTGR Sim v1, built from the
+`outram-park-digital-twin-engine` example of the same name.
+
+Each is still wrapped in `\IfFileExists`, so the deck also compiles if one is
+removed, rendering a labelled placeholder box in its place.
+
+**Why the deck says "about 10 MWth".** HTR-10's rated thermal power is 10 MWth,
+but the screenshots were captured while the simulator was still being explored,
+and show 6.7 MWth (`htgr_sim_full.png`) and 7.4 MWth (`htgr_sim_controls.png`).
+The deck therefore says *about* 10 MWth rather than naming an exact figure its
+own screenshots contradict. If the shots are ever recaptured with the plant
+settled at rated power, the wording can be tightened again.
 
 ## Caveat carried by the deck itself
 

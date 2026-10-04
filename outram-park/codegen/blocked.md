@@ -12,17 +12,17 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | items | type | crates | examples |
 |---:|---|---:|---|
 | 38 | `&mut u64` | 2 | boon_lay::sample_dimensioned_gaussian_vector (seed); boon_lay::does_transmit (seed); boon_lay::sample_dimensionless_exit_time (seed); boon_lay::sample_first_passage_time (seed) |
-| 29 | `impl Trait` | 10 | kovan::from_rgb_fn (f); kovan::all_nodes (-> return); kovan_semantics::add_user_concept (aliases); kovan_semantics::add_literature_concept (aliases) |
+| 30 | `impl Trait` | 10 | kovan::from_rgb_fn (f); kovan::all_nodes (-> return); kovan_semantics::add_user_concept (aliases); kovan_semantics::add_literature_concept (aliases) |
+| 24 | `&mut [f64]` | 7 | njoy_outram_park_fork::rescon (cova); njoy_outram_park_fork::xspsl (b_re); outram_foam_basic_lib::harmonise_cpu_half (cpu_values); outram_foam_basic_lib::apply_on (z) |
 | 24 | `&mut VolScalarField` | 1 | outram_foam_appbuilder_lib::alpha_mut (-> return); outram_foam_appbuilder_lib::alpha_mut (-> return); outram_foam_appbuilder_lib::mag_velocity_mut (-> return); outram_foam_appbuilder_lib::alpha_rho_mag_u_mut (-> return) |
 | 23 | `Nuclide` | 1 | boon_lay::new (nuclide); boon_lay::new_at_center (nuclide); boon_lay::scatter_within_triso_particle_gaussian (nuclide); boon_lay::scatter_within_triso_particle_gaussian_simple (nuclide) |
-| 23 | `&mut [f64]` | 7 | njoy_outram_park_fork::xspsl (b_re); outram_foam_basic_lib::harmonise_cpu_half (cpu_values); outram_foam_basic_lib::apply_on (z); outram_foam_basic_lib::apply_on (z) |
 | 21 | `Pos2` | 1 | outram_park_digital_twin_engine::new (screen_position); outram_park_digital_twin_engine::from_scalars (screen_position); outram_park_digital_twin_engine::new (screen_position); outram_park_digital_twin_engine::from_scalars (screen_position) |
 | 21 | `fn pointer` | 2 | teh_o_prke::new (ode_system); teh_o_prke::fuel_temp_feedback (resonance_esc_feedback); teh_o_prke::moderator_density_feedback (mod_void_feedback); teh_o_prke::reflector_density_feedback (mod_void_feedback) |
 | 21 | `JoinHandle<Self>` | 1 | tuas_boussinesq_solver::advance_timestep_thread_spawn (-> return); tuas_boussinesq_solver::lateral_connection_thread_spawn (-> return); tuas_boussinesq_solver::lateral_connection_thread_spawn (-> return); tuas_boussinesq_solver::advance_timestep_thread_spawn (-> return) |
 | 13 | `[Length; N]` | 1 | boon_lay::new (position); boon_lay::move_particle_using_array (length_array); boon_lay::new_sphere (center); boon_lay::is_within_region (point) |
 | 13 | `[i32; N]` | 2 | njoy_outram_park_fork::expand_mt_pairs (mstrip); njoy_outram_park_fork::is_mt_stripped (mstrip); outram_mc_libs::flat_index (i); outram_mc_libs::are_valid_indices (i) |
+| 12 | `&mut Vec<f64>` | 5 | njoy_outram_park_fork::merge (y); njoy_outram_park_fork::ilist (list); outram_foam_basic_lib::lu_back_substitute (b); outram_foam_basic_lib::integrate (y) |
 | 11 | `[f64; N]` | 4 | njoy_outram_park_fork::probability_table (bkg); njoy_outram_park_fork::unresolved_cross_sections (sigbkg); outram_mc_libs::overlaps_voxel (centre); outram_mc_libs::build (lower_left) |
-| 11 | `&mut Vec<f64>` | 5 | njoy_outram_park_fork::ilist (list); outram_foam_basic_lib::lu_back_substitute (b); outram_foam_basic_lib::integrate (y); outram_foam_basic_lib::gauss_seidel (x) |
 | 10 | `[usize; N]` | 5 | kovan::read_section (range); kovan::write_section (expected_range); outram_blender::from_bounds (dims); outram_foam_mesh::external_flow (background_divisions) |
 | 10 | `Option<&[f64]>` | 2 | outram_foam_basic_lib::bicgstab (x0); outram_foam_basic_lib::bicgstab_prepared (x0); outram_foam_basic_lib::gmres (x0); outram_foam_basic_lib::gmres_prepared (x0) |
 | 10 | `Duration` | 2 | outram_park_digital_twin_engine::create (interval); outram_park_digital_twin_engine::interval (-> return); outram_park_digital_twin_engine::new (budget); outram_park_digital_twin_engine::budget (-> return) |
@@ -30,9 +30,9 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | 10 | `InversePressure` | 1 | tampines_steam_tables::kappa_t_ph_eqm (-> return); tampines_steam_tables::kappa_t_ps_eqm (-> return); tampines_steam_tables::kappa_t_tp_eqm (-> return); tampines_steam_tables::kappa_t_tp_eqm (-> return) |
 | 9 | `Vec2` | 1 | outram_park_digital_twin_engine::size (-> return); outram_park_digital_twin_engine::size (-> return); outram_park_digital_twin_engine::size (-> return); outram_park_digital_twin_engine::new (size) |
 | 9 | `&[[usize; N]]` | 1 | outram_park_fork_cfmesh::carve_box (tris); outram_park_fork_cfmesh::carve_region (outer_tris); outram_park_fork_cfmesh::refine_near_boundary (tris); outram_park_fork_cfmesh::refine_near_boundary_banded (tris) |
+| 8 | `&[[f64; N]]` | 3 | boon_lay::l2_norms_sq_3d_f64 (vs); boon_lay::l2_norms_sqrt_3d_f64 (vs); njoy_outram_park_fork::from_rows (rows); njoy_outram_park_fork::from_image (image) |
 | 8 | `Option<&str>` | 4 | kovan::ensure_paper_header (bitex_source); kovan::save_digitised_csv (replace_id); kovan::run (crate_dir); kovan::edit_connection (target) |
 | 8 | `Rect` | 1 | outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available); outram_park_digital_twin_engine::fit_native_aspect (available) |
-| 7 | `&[[f64; N]]` | 3 | boon_lay::l2_norms_sq_3d_f64 (vs); boon_lay::l2_norms_sqrt_3d_f64 (vs); njoy_outram_park_fork::from_rows (rows); njoy_outram_park_fork::from_image (image) |
 | 6 | `&Array3<usize>` | 1 | bedok::convert_grid3d (whichsigma); bedok::diffusion_solverxyz (whichsigma); bedok::geometry_ends3d (whichsigma); bedok::makesigmadfxyz (whichsigma) |
 | 6 | `Result<()>` | 2 | kovan::run (-> return); kovan::run (-> return); kovan::run (-> return); outram_blender::write_polymesh (-> return) |
 | 6 | `VolumetricRelaxationCoefficient` | 1 | outram_foam_appbuilder_lib::drag_coefficient (kd); outram_foam_appbuilder_lib::drag_coefficient (kd); outram_foam_appbuilder_lib::dispersion_coefficient (kd); outram_foam_appbuilder_lib::relaxation_coefficient (-> return) |
@@ -41,6 +41,8 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | 6 | `MpiResult<Vec<f64>>` | 1 | outram_park_fork_pflotran::matvec (-> return); outram_park_fork_pflotran::matvec (-> return); outram_park_fork_pflotran::step (-> return); outram_park_fork_pflotran::poisson_matvec_2d (-> return) |
 | 6 | `MpiResult<(Vec<f64>, usize)>` | 1 | outram_park_fork_pflotran::solve (-> return); outram_park_fork_pflotran::solve_bicgstab (-> return); outram_park_fork_pflotran::solve (-> return); outram_park_fork_pflotran::solve_jacobi_pcg (-> return) |
 | 5 | `Option<&Path>` | 2 | kovan::resolve_out_dir (explicit); kovan::output_dir (explicit); kovan::resolve (explicit); kovan_metrics::measure_repo (path) |
+| 5 | `&mut f64` | 2 | njoy_outram_park_fork::epanel (ehi); njoy_outram_park_fork::rpendf (arat); njoy_outram_park_fork::add_discrete_oscillators (dwpix); njoy_outram_park_fork::add_translation (tempf) |
+| 5 | `&mut SectionCursor` | 1 | njoy_outram_park_fork::rpxlc12 (cur); njoy_outram_park_fork::rpxlc2 (cur); njoy_outram_park_fork::rpxsamm (cur); njoy_outram_park_fork::rpxunr (cur) |
 | 5 | `&[BoundaryCondition<f64>]` | 2 | outram_foam_appbuilder_lib::with_cross_sections (flux_boundary); outram_foam_appbuilder_lib::with_cross_sections (flux_boundary); outram_foam_appbuilder_lib::new (flux_boundary); outram_park_fork_moltres::new (flux_boundary) |
 | 5 | `MassFlux` | 2 | outram_park_digital_twin_engine::kta_pressure_gradient (mass_flux); outram_park_digital_twin_engine::packed_bed_reynolds (mass_flux); outram_park_digital_twin_engine::superficial_mass_flux (-> return); tampines::packed_bed_reynolds (mass_flux) |
 | 5 | `Result<f64, TuasLibError>` | 1 | tuas_boussinesq_solver::darcy (-> return); tuas_boussinesq_solver::f_ldk (-> return); tuas_boussinesq_solver::get_bejan_number_d (-> return); tuas_boussinesq_solver::get_reynolds_from_bejan (-> return) |
@@ -63,13 +65,11 @@ A shape is fixed in one of two places, and the report cannot tell you which:
 | 3 | `Vec<Nuclide>` | 1 | boon_lay::chain_nuclides_unique_sorted (-> return); boon_lay::all_chain_nuclides_unique_sorted (-> return); boon_lay::get_decay_chain_vec (-> return) |
 | 3 | `&mut Ui` | 2 | kovan::ui (ui); outram_park_digital_twin_engine::draw (ui); outram_park_digital_twin_engine::draw_csv_panel (ui) |
 | 3 | `Result<PathBuf>` | 3 | kovan::generate (-> return); njoy_outram_park_fork::write_local_perf_report (-> return); outram_mc_libs::write_local_report (-> return) |
-| 3 | `&mut f64` | 2 | njoy_outram_park_fork::add_discrete_oscillators (dwpix); njoy_outram_park_fork::add_translation (tempf); outram_foam_basic_lib::solve_step (x) |
 | 3 | `PhaseChangeRate` | 1 | outram_foam_appbuilder_lib::mass_transfer_rate (-> return); outram_foam_appbuilder_lib::phase_change_rate (-> return); outram_foam_appbuilder_lib::phase_change_rate_value (rate) |
 | 3 | `&mut SurfaceScalarField` | 1 | outram_foam_appbuilder_lib::phi_mut (-> return); outram_foam_appbuilder_lib::alpha_phi_mut (-> return); outram_foam_appbuilder_lib::alpha_rho_phi_mut (-> return) |
 | 3 | `Roots` | 1 | outram_foam_basic_lib::roots (-> return); outram_foam_basic_lib::roots (-> return); outram_foam_basic_lib::roots (-> return) |
 | 3 | `Vec<Roots>` | 1 | outram_foam_basic_lib::cubic_roots_batch (-> return); outram_foam_basic_lib::linear_roots_batch (-> return); outram_foam_basic_lib::quadratic_roots_batch (-> return) |
 | 3 | `FlowField` | 1 | outram_park_fork_pflotran::new (flow); outram_park_fork_pflotran::new (flow); outram_park_fork_pflotran::new (flow) |
 | 2 | `Option<(Nuclide, DecayType)>` | 1 | boon_lay::get_next_target_nuclide_with_rng (-> return); boon_lay::get_next_target_nuclide_with_float (-> return) |
-| 2 | `(Nuclide, HalfLifeAndDecayEnergyInfo)` | 1 | boon_lay::advance_timestep (-> return); boon_lay::force_decay_to_next_nuclide (-> return) |
 
-Total blocked signatures: 631, over 174 distinct type shapes.
+Total blocked signatures: 652, over 183 distinct type shapes.

@@ -78,15 +78,15 @@
   "types_no_clone": 1
  },
  "njoy-outram-park-fork": {
-  "consts": 85,
-  "fns": 223,
-  "fns_skipped": 26,
-  "methods": 422,
-  "methods_skipped": 26,
-  "types": 283,
+  "consts": 94,
+  "fns": 286,
+  "fns_skipped": 40,
+  "methods": 494,
+  "methods_skipped": 29,
+  "types": 350,
   "types_generic_skipped": 1,
-  "types_lifetime_skipped": 1,
-  "types_no_clone": 22
+  "types_lifetime_skipped": 2,
+  "types_no_clone": 27
  },
  "outram-blender": {
   "consts": 1,
@@ -149,12 +149,12 @@
   "types_no_clone": 7
  },
  "outram-mc-libs": {
-  "consts": 15,
-  "fns": 42,
-  "fns_skipped": 26,
-  "methods": 240,
+  "consts": 16,
+  "fns": 45,
+  "fns_skipped": 30,
+  "methods": 246,
   "methods_skipped": 32,
-  "types": 153,
+  "types": 164,
   "types_no_clone": 29
  },
  "outram-park-digital-twin-engine": {
@@ -186,7 +186,7 @@
   "consts": 74,
   "fns": 386,
   "fns_skipped": 42,
-  "methods": 586,
+  "methods": 589,
   "methods_skipped": 21,
   "types": 360,
   "types_no_clone": 2
@@ -263,8 +263,8 @@
   "consts": 24,
   "fns": 335,
   "fns_skipped": 16,
-  "methods": 121,
-  "types": 16,
+  "methods": 160,
+  "types": 28,
   "types_generic_skipped": 5
  },
  "teh-o-prke": {

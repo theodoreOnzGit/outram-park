@@ -178,7 +178,7 @@ kovan-semantics = { path = "../outram-park-backend/crates/kovan-semantics", vers
 bedok = { path = "../outram-park-backend/crates/bedok", version = "0.0.0", optional = true }
 nee_soon = { path = "../outram-park-backend/crates/nee_soon", version = "0.0.2", optional = true }
 tampines = { path = "../outram-park-backend/crates/tampines", version = "0.0.2", optional = true }
-tampines-steam-tables = { path = "../outram-park-backend/crates/tampines-steam-tables", version = "0.2.8", optional = true }
+tampines-steam-tables = { path = "../outram-park-backend/crates/tampines-steam-tables", version = "0.2.9", optional = true }
 teh-o-prke = { path = "../outram-park-backend/crates/teh-o-prke", version = "0.1.5", optional = true }
 tuas_boussinesq_solver = { path = "../outram-park-backend/crates/tuas_boussinesq_solver", version = "0.1.6", optional = true }
 boon-lay = { path = "../outram-park-backend/crates/boon-lay", version = "0.1.3", optional = true }

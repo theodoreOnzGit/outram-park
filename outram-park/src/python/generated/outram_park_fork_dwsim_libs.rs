@@ -2275,28 +2275,26 @@ pub struct Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput {
 impl Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput {
     // @item field:outram_park_fork_dwsim_libs::columns::ColumnSolverInput::components
     #[getter(components)]
-    pub fn get_components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__thermo__Component> {
+    pub fn get_components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Component> {
         let v = self.inner.components.clone();
         v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__thermo__Component { inner: e })
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Component { inner: e })
             .collect::<Vec<_>>()
     }
     #[setter(components)]
-    pub fn set_components(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>) {
+    pub fn set_components(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>) {
         self.inner.components = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
     }
     // @item field:outram_park_fork_dwsim_libs::columns::ColumnSolverInput::package
     #[getter(package)]
-    pub fn get_package(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
+    pub fn get_package(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
         let v = self.inner.package.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel { inner: v }
+        Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel { inner: v }
     }
     #[setter(package)]
     pub fn set_package(
         &mut self,
-        v: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+        v: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
     ) {
         self.inner.package = v.inner;
     }
@@ -2597,8 +2595,8 @@ impl Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput {
     // @item ctor:outram_park_fork_dwsim_libs::columns::ColumnSolverInput
     #[new]
     pub fn __new__(
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
         number_of_stages: usize,
         max_iterations: usize,
         tolerances: Vec<f64>,
@@ -2727,9 +2725,7 @@ impl Py_outram_park_fork_dwsim_libs__columns__ColumnSolverMethod {
     // @item variant:outram_park_fork_dwsim_libs::columns::ColumnSolverMethod::WangHenke
     #[staticmethod]
     #[pyo3(name = "WangHenke")]
-    pub fn v_WangHenke(
-        a0: Py_outram_park_fork_dwsim_libs__columns__bubble_point__WangHenkeSolver,
-    ) -> Self {
+    pub fn v_WangHenke(a0: Py_outram_park_fork_dwsim_libs__prelude__WangHenkeSolver) -> Self {
         Self {
             inner: ::outram_park_fork_dwsim_libs::columns::ColumnSolverMethod::WangHenke(a0.inner),
         }
@@ -2738,7 +2734,7 @@ impl Py_outram_park_fork_dwsim_libs__columns__ColumnSolverMethod {
     #[staticmethod]
     #[pyo3(name = "ModifiedWangHenke")]
     pub fn v_ModifiedWangHenke(
-        a0: Py_outram_park_fork_dwsim_libs__columns__bubble_point2__ModifiedWangHenkeSolver,
+        a0: Py_outram_park_fork_dwsim_libs__prelude__ModifiedWangHenkeSolver,
     ) -> Self {
         Self {
             inner: ::outram_park_fork_dwsim_libs::columns::ColumnSolverMethod::ModifiedWangHenke(
@@ -2749,9 +2745,7 @@ impl Py_outram_park_fork_dwsim_libs__columns__ColumnSolverMethod {
     // @item variant:outram_park_fork_dwsim_libs::columns::ColumnSolverMethod::SumRates
     #[staticmethod]
     #[pyo3(name = "SumRates")]
-    pub fn v_SumRates(
-        a0: Py_outram_park_fork_dwsim_libs__columns__sum_rates__SumRatesSolver,
-    ) -> Self {
+    pub fn v_SumRates(a0: Py_outram_park_fork_dwsim_libs__prelude__SumRatesSolver) -> Self {
         Self {
             inner: ::outram_park_fork_dwsim_libs::columns::ColumnSolverMethod::SumRates(a0.inner),
         }
@@ -2760,7 +2754,7 @@ impl Py_outram_park_fork_dwsim_libs__columns__ColumnSolverMethod {
     #[staticmethod]
     #[pyo3(name = "NaphtaliSandholm")]
     pub fn v_NaphtaliSandholm(
-        a0: Py_outram_park_fork_dwsim_libs__columns__newton_raphson__NaphtaliSandholmSolver,
+        a0: Py_outram_park_fork_dwsim_libs__prelude__NaphtaliSandholmSolver,
     ) -> Self {
         Self {
             inner: ::outram_park_fork_dwsim_libs::columns::ColumnSolverMethod::NaphtaliSandholm(
@@ -3631,28 +3625,26 @@ pub struct Py_outram_park_fork_dwsim_libs__columns__ShortcutColumn {
 impl Py_outram_park_fork_dwsim_libs__columns__ShortcutColumn {
     // @item field:outram_park_fork_dwsim_libs::columns::ShortcutColumn::components
     #[getter(components)]
-    pub fn get_components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__thermo__Component> {
+    pub fn get_components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Component> {
         let v = self.inner.components.clone();
         v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__thermo__Component { inner: e })
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Component { inner: e })
             .collect::<Vec<_>>()
     }
     #[setter(components)]
-    pub fn set_components(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>) {
+    pub fn set_components(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>) {
         self.inner.components = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
     }
     // @item field:outram_park_fork_dwsim_libs::columns::ShortcutColumn::package
     #[getter(package)]
-    pub fn get_package(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
+    pub fn get_package(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
         let v = self.inner.package.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel { inner: v }
+        Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel { inner: v }
     }
     #[setter(package)]
     pub fn set_package(
         &mut self,
-        v: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+        v: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
     ) {
         self.inner.package = v.inner;
     }
@@ -3755,8 +3747,8 @@ impl Py_outram_park_fork_dwsim_libs__columns__ShortcutColumn {
     #[doc = "Build a shortcut column over `components` with the given key pair,\nusing upstream's defaults for everything else (specs 0.01/0.01, reflux\nratio 1.5, both pressures 101 325 Pa, total condenser, 0.5 m stage\nheight — `ShortcutColumn.vb:51-63`).\n\n# Errors\n\n[`ShortcutColumnError::InvalidConfiguration`] if fewer than two\ncomponents are given, a key index is out of range, or the keys\ncoincide."]
     #[new]
     pub fn new(
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
         light_key: usize,
         heavy_key: usize,
     ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ShortcutColumn> {
@@ -5035,108 +5027,6 @@ impl Py_outram_park_fork_dwsim_libs__columns__UnderwoodMode {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver
-#[doc = "The modified Wang-Henke bubble-point solver — upstream's\n`WangHenkeMethod2`."]
-#[pyclass(
-    name = "ModifiedWangHenkeSolver",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__columns__bubble_point2__ModifiedWangHenkeSolver {
-    pub inner: ::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__columns__bubble_point2__ModifiedWangHenkeSolver {
-    // @item field:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::subcooling_delta_t
-    #[getter(subcooling_delta_t)]
-    pub fn get_subcooling_delta_t(&self) -> f64 {
-        let v = self.inner.subcooling_delta_t.clone();
-        v
-    }
-    #[setter(subcooling_delta_t)]
-    pub fn set_subcooling_delta_t(&mut self, v: f64) {
-        self.inner.subcooling_delta_t = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::name
-    #[doc = "The solver's display name — upstream's `Name` property\n(`BubblePoint2.vb:39-43`)."]
-    #[staticmethod]
-    pub fn name() -> String {
-        ::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::name()
-            .clone()
-            .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::description
-    #[doc = "The solver's description — upstream's `Description` property\n(`BubblePoint2.vb:45-49`)."]
-    #[staticmethod]
-    pub fn description() -> String {
-        ::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::description(
-        )
-        .clone()
-        .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::solve_column
-    #[doc = "Solve the column — equivalent to upstream's `SolveColumn(input)`\n(`BubblePoint2.vb:2162-2325`).\n\n# Errors\n\nAny [`ColumnError`] from validation, the inner loop, or the outer\nroot-find."]
-    pub fn solve_column(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
-        err(::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::solve_column(&self.inner, &input.inner)).map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::solve
-    #[doc = "The outer specification loop — upstream's `Solve`\n(`BubblePoint2.vb:51-714`).\n\nStructurally identical to [`crate::columns::bubble_point::WangHenkeSolver::solve`]\nminus the alt-mode retries: four paths chosen by whether each user\nspecification can be imposed directly on the inner loop's mass balance.\n\n# Errors\n\n[`ColumnError::NotConverged`] if the outer root-find cannot meet the\ntolerance, or any inner-loop error."]
-    pub fn solve(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::solve(
-                &self.inner,
-                &input.inner,
-                &thermo.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::solve_internal
-    #[doc = "The modified inner loop — upstream's `Solve_Internal`\n(`BubblePoint2.vb:1174-2160`).\n\nIdentical to\n[`crate::columns::bubble_point::WangHenkeSolver::solve_internal`] except\nfor differences 1-3 listed in the module header: no Broyden temperature\nmode, the `maxDT < 10` damping test, and the untightened `< tolerance`\nconvergence gate.\n\n# Parameters / Errors\n\nAs\n[`crate::columns::bubble_point::WangHenkeSolver::solve_internal`], minus\nthe `mode` argument."]
-    pub fn solve_internal(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
-        cspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
-        rspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
-        stop_at: Option<usize>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
-        err(::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver::solve_internal(&self.inner, &input.inner, &thermo.inner, &cspec.inner, &rspec.inner, stop_at.map(|e| e))).map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver
-    #[new]
-    #[pyo3(signature = (subcooling_delta_t=None))]
-    pub fn __new__(subcooling_delta_t: Option<f64>) -> Self {
-        let d = <::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver as Default>::default();
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::columns::bubble_point2::ModifiedWangHenkeSolver {
-                subcooling_delta_t: subcooling_delta_t
-                    .map(|v| v)
-                    .unwrap_or(d.subcooling_delta_t),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-    #[staticmethod]
-    pub fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
-    }
-}
-
 // @item type:outram_park_fork_dwsim_libs::columns::bubble_point::TemperatureUpdate
 #[doc = "How the inner loop updates the stage temperatures.\n\nPorts upstream's integer `Mode` argument to `Solve_Internal`\n(`BubblePoint.vb:776`). Enum, not an integer, per the workspace design\nrules."]
 #[pyclass(
@@ -5164,148 +5054,6 @@ impl Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate {
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_park_fork_dwsim_libs::columns::bubble_point::TemperatureUpdate::BubblePointFlash => "BubblePointFlash", ::outram_park_fork_dwsim_libs::columns::bubble_point::TemperatureUpdate::BroydenOnSummation => "BroydenOnSummation", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-    #[staticmethod]
-    pub fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver
-#[doc = "The Wang-Henke bubble-point solver — upstream's `WangHenkeMethod`.\n\nStateless apart from the sub-cooling offset, which upstream also keeps as a\nsolver field (`_subcoolingdeltat`, `BubblePoint.vb:37`)."]
-#[pyclass(
-    name = "WangHenkeSolver",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__columns__bubble_point__WangHenkeSolver {
-    pub inner: ::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__columns__bubble_point__WangHenkeSolver {
-    // @item field:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::subcooling_delta_t
-    #[getter(subcooling_delta_t)]
-    pub fn get_subcooling_delta_t(&self) -> f64 {
-        let v = self.inner.subcooling_delta_t.clone();
-        v
-    }
-    #[setter(subcooling_delta_t)]
-    pub fn set_subcooling_delta_t(&mut self, v: f64) {
-        self.inner.subcooling_delta_t = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::temperature_update
-    #[getter(temperature_update)]
-    pub fn get_temperature_update(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate {
-        let v = self.inner.temperature_update.clone();
-        Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate { inner: v }
-    }
-    #[setter(temperature_update)]
-    pub fn set_temperature_update(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate,
-    ) {
-        self.inner.temperature_update = v.inner;
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::name
-    #[doc = "The solver's display name — upstream's `Name` property\n(`BubblePoint.vb:39-43`)."]
-    #[staticmethod]
-    pub fn name() -> String {
-        ::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::name()
-            .clone()
-            .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::description
-    #[doc = "The solver's description — upstream's `Description` property\n(`BubblePoint.vb:45-49`)."]
-    #[staticmethod]
-    pub fn description() -> String {
-        ::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::description()
-            .clone()
-            .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::solve_column
-    #[doc = "Solve the column — the entry point equivalent to upstream's\n`SolveColumn(input)` (`BubblePoint.vb:1859-2020`).\n\nValidates the input shape, builds the thermo bridge, runs\n[`Self::solve`], and packages the profile into a\n[`ColumnSolverOutput`] with both specifications' achieved values filled\nin.\n\n# Errors\n\nAny [`ColumnError`] from validation, the inner loop, or the outer\nroot-find."]
-    pub fn solve_column(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::solve_column(
-                &self.inner,
-                &input.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::solve
-    #[doc = "The outer specification loop — upstream's `Solve`\n(`BubblePoint.vb:51-761`).\n\nClassifies the two user specifications\n([`ColumnSpec::directly_imposable_at_condenser`] /\n[`ColumnSpec::directly_imposable_at_reboiler`], ports lines 103-127) and\ntakes one of four paths:\n\n1. **Both directly imposable** — one call to [`Self::solve_internal`]\n   (lines 744-757).\n2. **Condenser spec needs the outer loop** — root-find on the reflux\n   ratio, substituting a [`SpecType::StreamRatio`] spec into the inner\n   loop (lines 334-517).\n3. **Reboiler spec needs the outer loop** — root-find on the bottoms\n   molar rate, substituting a [`SpecType::ProductMolarFlowRate`] spec\n   (lines 519-742).\n4. **Both need the outer loop** — a 2-D root-find on\n   `(reflux ratio, bottoms rate)` (lines 134-332).\n\nA reboiled absorber has no condenser spec and a refluxed absorber no\nreboiler spec, so those are forced \"directly imposable\" (lines 126-127).\n\n# Errors\n\n[`ColumnError::NotConverged`] if the outer root-find cannot meet the\ntolerance, or any error the inner loop raises at the best point found."]
-    pub fn solve(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::solve(
-                &self.inner,
-                &input.inner,
-                &thermo.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::solve_internal
-    #[doc = "The Wang-Henke inner loop — upstream's `Solve_Internal`\n(`BubblePoint.vb:763-1857`).\n\n`cspec` and `rspec` must both be directly imposable (see\n[`Self::solve`]); the outer loop substitutes surrogate reflux-ratio /\nbottoms-rate specs when the user's are not.\n\n# Parameters\n\n- `input` — the column definition and starting profile.\n- `thermo` — the property-package bridge.\n- `cspec` / `rspec` — the condenser-end and reboiler-end specs actually\n  imposed on this pass.\n- `mode` — starting temperature-update mode; may switch itself to\n  [`TemperatureUpdate::BroydenOnSummation`] on a wide-boiling mixture.\n- `stop_at` — if `Some(n)`, exit after `n - 1` inner iterations\n  regardless of convergence (upstream's `stopatitnumber`, used to run a\n  short warm-up for the Newton solver).\n\n# Errors\n\n- [`ColumnError::NotConverged`] on exhausting `max_iterations`\n  (upstream `DCMaxIterationsReached`, line 1701).\n- [`ColumnError::InvalidProfile`] if a temperature/flow profile goes\n  non-finite or a composition fails to normalise (lines 1705, 1791-1820).\n- [`ColumnError::BubblePointFailed`] from a stage bubble-point\n  calculation (line 1283).\n- [`ColumnError::SingularMatrix`] from the tridiagonal solve."]
-    pub fn solve_internal(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
-        cspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
-        rspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
-        mode: Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate,
-        stop_at: Option<usize>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver::solve_internal(
-                &self.inner,
-                &input.inner,
-                &thermo.inner,
-                &cspec.inner,
-                &rspec.inner,
-                mode.inner,
-                stop_at.map(|e| e),
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver
-    #[new]
-    #[pyo3(signature = (subcooling_delta_t=None, temperature_update=None))]
-    pub fn __new__(
-        subcooling_delta_t: Option<f64>,
-        temperature_update: Option<
-            Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate,
-        >,
-    ) -> Self {
-        let d = <::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver as Default>::default();
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::columns::bubble_point::WangHenkeSolver {
-                subcooling_delta_t: subcooling_delta_t
-                    .map(|v| v)
-                    .unwrap_or(d.subcooling_delta_t),
-                temperature_update: temperature_update
-                    .map(|v| v.inner)
-                    .unwrap_or(d.temperature_update),
-            },
-        }
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -5801,343 +5549,6 @@ impl Py_outram_park_fork_dwsim_libs__columns__dynamic__TrayHydraulics {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn
-#[doc = "A rigorous MESH distillation / absorption column, ready to solve.\n\nThe human-facing assembly type: build the stage stack, attach feeds and side\ndraws, choose the two specifications, and call [`Self::solver_input`] to get\nthe [`ColumnSolverInput`] a solver consumes.\n\n# Stage numbering\n\nTop to bottom. Stage `0` is the condenser (when the column has one) and the\nlast stage is the reboiler (when it has one) — upstream's convention,\npreserved (`RigorousColumn.vb:1919-1921`)."]
-#[pyclass(
-    name = "RigorousColumn",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn {
-    pub inner: ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn {
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::components
-    #[getter(components)]
-    pub fn get_components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__thermo__Component> {
-        let v = self.inner.components.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__thermo__Component { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(components)]
-    pub fn set_components(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>) {
-        self.inner.components = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::package
-    #[getter(package)]
-    pub fn get_package(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-        let v = self.inner.package.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel { inner: v }
-    }
-    #[setter(package)]
-    pub fn set_package(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-    ) {
-        self.inner.package = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::stages
-    #[getter(stages)]
-    pub fn get_stages(&self) -> Vec<Py_outram_park_fork_dwsim_libs__columns__Stage> {
-        let v = self.inner.stages.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__columns__Stage { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(stages)]
-    pub fn set_stages(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>) {
-        self.inner.stages = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::column_type
-    #[getter(column_type)]
-    pub fn get_column_type(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnType {
-        let v = self.inner.column_type.clone();
-        Py_outram_park_fork_dwsim_libs__columns__ColumnType { inner: v }
-    }
-    #[setter(column_type)]
-    pub fn set_column_type(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnType) {
-        self.inner.column_type = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::condenser_type
-    #[getter(condenser_type)]
-    pub fn get_condenser_type(&self) -> Py_outram_park_fork_dwsim_libs__columns__CondenserType {
-        let v = self.inner.condenser_type.clone();
-        Py_outram_park_fork_dwsim_libs__columns__CondenserType { inner: v }
-    }
-    #[setter(condenser_type)]
-    pub fn set_condenser_type(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__columns__CondenserType,
-    ) {
-        self.inner.condenser_type = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::condenser_spec
-    #[getter(condenser_spec)]
-    pub fn get_condenser_spec(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnSpec {
-        let v = self.inner.condenser_spec.clone();
-        Py_outram_park_fork_dwsim_libs__columns__ColumnSpec { inner: v }
-    }
-    #[setter(condenser_spec)]
-    pub fn set_condenser_spec(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec) {
-        self.inner.condenser_spec = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::reboiler_spec
-    #[getter(reboiler_spec)]
-    pub fn get_reboiler_spec(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnSpec {
-        let v = self.inner.reboiler_spec.clone();
-        Py_outram_park_fork_dwsim_libs__columns__ColumnSpec { inner: v }
-    }
-    #[setter(reboiler_spec)]
-    pub fn set_reboiler_spec(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec) {
-        self.inner.reboiler_spec = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::max_iterations
-    #[getter(max_iterations)]
-    pub fn get_max_iterations(&self) -> usize {
-        let v = self.inner.max_iterations.clone();
-        v
-    }
-    #[setter(max_iterations)]
-    pub fn set_max_iterations(&mut self, v: usize) {
-        self.inner.max_iterations = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::tolerances
-    #[getter(tolerances)]
-    pub fn get_tolerances(&self) -> Vec<f64> {
-        let v = self.inner.tolerances.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(tolerances)]
-    pub fn set_tolerances(&mut self, v: Vec<f64>) {
-        self.inner.tolerances = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::subcooling_delta_t
-    #[getter(subcooling_delta_t)]
-    pub fn get_subcooling_delta_t(&self) -> f64 {
-        let v = self.inner.subcooling_delta_t.clone();
-        v
-    }
-    #[setter(subcooling_delta_t)]
-    pub fn set_subcooling_delta_t(&mut self, v: f64) {
-        self.inner.subcooling_delta_t = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::solving_scheme
-    #[getter(solving_scheme)]
-    pub fn get_solving_scheme(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme {
-        let v = self.inner.solving_scheme.clone();
-        Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme { inner: v }
-    }
-    #[setter(solving_scheme)]
-    pub fn set_solving_scheme(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme,
-    ) {
-        self.inner.solving_scheme = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::initial_estimates
-    #[getter(initial_estimates)]
-    pub fn get_initial_estimates(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__InitialEstimates {
-        let v = self.inner.initial_estimates.clone();
-        Py_outram_park_fork_dwsim_libs__columns__InitialEstimates { inner: v }
-    }
-    #[setter(initial_estimates)]
-    pub fn set_initial_estimates(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__columns__InitialEstimates,
-    ) {
-        self.inner.initial_estimates = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::reflux_ratio_estimate
-    #[getter(reflux_ratio_estimate)]
-    pub fn get_reflux_ratio_estimate(&self) -> f64 {
-        let v = self.inner.reflux_ratio_estimate.clone();
-        v
-    }
-    #[setter(reflux_ratio_estimate)]
-    pub fn set_reflux_ratio_estimate(&mut self, v: f64) {
-        self.inner.reflux_ratio_estimate = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::distillate_rate_estimate
-    #[getter(distillate_rate_estimate)]
-    pub fn get_distillate_rate_estimate(&self) -> f64 {
-        let v = self.inner.distillate_rate_estimate.clone();
-        v
-    }
-    #[setter(distillate_rate_estimate)]
-    pub fn set_distillate_rate_estimate(&mut self, v: f64) {
-        self.inner.distillate_rate_estimate = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::vapor_rate_estimate
-    #[getter(vapor_rate_estimate)]
-    pub fn get_vapor_rate_estimate(&self) -> f64 {
-        let v = self.inner.vapor_rate_estimate.clone();
-        v
-    }
-    #[setter(vapor_rate_estimate)]
-    pub fn set_vapor_rate_estimate(&mut self, v: f64) {
-        self.inner.vapor_rate_estimate = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::distillation
-    #[doc = "A distillation column with `stages` stages, a total condenser, and the\ntwo given specifications.\n\nIteration budget and tolerances take upstream's defaults (100 iterations,\n`1e-5`); the reflux-ratio seed is upstream's 5.0. The distillate-rate\nseed defaults to half the total feed, which is a neutral starting split."]
-    #[staticmethod]
-    pub fn distillation(
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-        stages: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>,
-        condenser_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
-        reboiler_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn {
-        Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn { inner: ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::distillation(components.into_iter().map(|e| e.inner).collect::<Vec<_>>(), package.inner, stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(), condenser_spec.inner, reboiler_spec.inner) }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::with_distillate_estimate
-    #[doc = "Set the distillate molar-rate estimate \\[mol/s\\]."]
-    pub fn with_distillate_estimate(
-        &self,
-        rate: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn {
-        Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn { inner: ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::with_distillate_estimate(self.inner.clone(), from_si(rate)) }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::with_reflux_ratio_estimate
-    #[doc = "Set the reflux-ratio estimate `L_0 / D` \\[-\\]."]
-    pub fn with_reflux_ratio_estimate(
-        &self,
-        rr: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn {
-        Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn { inner: ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::with_reflux_ratio_estimate(self.inner.clone(), rr) }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::n_components
-    #[doc = "Number of components."]
-    pub fn n_components(&self) -> usize {
-        ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::n_components(
-            &self.inner,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::n_stages
-    #[doc = "Number of stages."]
-    pub fn n_stages(&self) -> usize {
-        ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::n_stages(
-            &self.inner,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::total_feed
-    #[doc = "Total molar feed rate \\[mol/s\\]."]
-    pub fn total_feed(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::total_feed(
-            &self.inner,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::mixed_feed_composition
-    #[doc = "Mixed overall feed composition `z_m` \\[-\\] — upstream's `zm`, the\nflow-weighted average of every stage feed (`RigorousColumn.vb:3234` area).\n\nReturns a uniform composition if there is no feed at all, so downstream\nflashes stay well-posed."]
-    pub fn mixed_feed_composition(&self) -> Vec<f64> {
-        ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::mixed_feed_composition(&self.inner).into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::solver_input
-    #[doc = "Build the [`ColumnSolverInput`] a solver consumes.\n\nGenerates whatever the caller did not supply in\n[`Self::initial_estimates`]: the temperature ramp\n([`estimate_temperature_profile`]), the internal flows\n([`Self::estimate_flows`]), and the compositions and K-values\n([`Self::estimate_compositions`]).\n\n# Errors\n\n- [`ColumnError::TooFewStages`] for fewer than 2 stages.\n- [`ColumnError::LengthMismatch`] if a stage's feed composition does not\n  have `n_components` entries.\n- [`ColumnError::InvalidSpec`] if a spec's component index is out of\n  range.\n- [`ColumnError::BubblePointFailed`] if neither a bubble point at the top\n  pressure nor a dew point at the bottom pressure can be found and no\n  user temperature estimate was supplied."]
-    pub fn solver_input(
-        &self,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::solver_input(
-                &self.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::estimate_flows
-    #[doc = "Constant-molar-overflow flow estimates — upstream's `V(i)` / `L(i)`\nblocks (`RigorousColumn.vb:3337-3421`).\n\nReturns `(vapor_flows, liquid_flows, liquid_side_draws)`, all \\[mol/s\\].\n\nFor a distillation column with a total condenser: `V_0 = 1e-10` (nothing\nleaves the top as vapour), `V_i = (R + 1) D − F_0` for `i > 0`,\n`L_0 = R D`, and `L_i` from the running total mass balance\n`L_i = V_{i+1} + Σ_{m<=i}(F − U − W) − V_0`. Partial condensers add the\noverhead vapour rate to `D`; full reflux drives everything off `V_0`.\nAn absorber simply propagates the end feeds."]
-    pub fn estimate_flows(
-        &self,
-        feed_flows: Vec<f64>,
-        vapor_side_draws: Vec<f64>,
-    ) -> (Vec<f64>, Vec<f64>, Vec<f64>) {
-        {
-            let (e0, e1, e2) = ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::estimate_flows(&self.inner, &feed_flows.into_iter().map(|e| e).collect::<Vec<_>>(), &vapor_side_draws.into_iter().map(|e| e).collect::<Vec<_>>());
-            (
-                e0.into_iter().map(|e| e).collect::<Vec<_>>(),
-                e1.into_iter().map(|e| e).collect::<Vec<_>>(),
-                e2.into_iter().map(|e| e).collect::<Vec<_>>(),
-            )
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::estimate_compositions
-    #[doc = "Per-stage composition and K-value estimates — upstream's\n`needsXYestimates` block (`RigorousColumn.vb:3500-3524`).\n\nRuns an isothermal-isobaric flash of the **mixed feed** `z_m` at every\nstage's `(P_j, T_j)` and takes the resulting `(x, y, K)`. Where the flash\nfails or returns a single phase, falls back to the ideal K-relation\n`x_i = z_i (L + V) / (L + V K_i)`, `y_i = K_i x_i` — which is upstream's\nabsorption-column branch (lines 3562-3568).\n\nReturns `(liquid_compositions, vapor_compositions, k_values)`, all \\[-\\]\nand shaped `[stage][component]`."]
-    pub fn estimate_compositions(
-        &self,
-        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
-        zm: Vec<f64>,
-        stage_temperatures: Vec<f64>,
-        stage_pressures: Vec<f64>,
-    ) -> (Vec<Vec<f64>>, Vec<Vec<f64>>, Vec<Vec<f64>>) {
-        {
-            let (e0, e1, e2) = ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn::estimate_compositions(&self.inner, &thermo.inner, &zm.into_iter().map(|e| e).collect::<Vec<_>>(), &stage_temperatures.into_iter().map(|e| e).collect::<Vec<_>>(), &stage_pressures.into_iter().map(|e| e).collect::<Vec<_>>());
-            (
-                e0.into_iter()
-                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .collect::<Vec<_>>(),
-                e1.into_iter()
-                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .collect::<Vec<_>>(),
-                e2.into_iter()
-                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .collect::<Vec<_>>(),
-            )
-        }
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn
-    #[new]
-    pub fn __new__(
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-        stages: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>,
-        column_type: Py_outram_park_fork_dwsim_libs__columns__ColumnType,
-        condenser_type: Py_outram_park_fork_dwsim_libs__columns__CondenserType,
-        condenser_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
-        reboiler_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
-        max_iterations: usize,
-        tolerances: Vec<f64>,
-        subcooling_delta_t: f64,
-        solving_scheme: Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme,
-        initial_estimates: Py_outram_park_fork_dwsim_libs__columns__InitialEstimates,
-        reflux_ratio_estimate: f64,
-        distillate_rate_estimate: f64,
-        vapor_rate_estimate: f64,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::columns::initial_estimates::RigorousColumn {
-                components: components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                package: package.inner,
-                stages: stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                column_type: column_type.inner,
-                condenser_type: condenser_type.inner,
-                condenser_spec: condenser_spec.inner,
-                reboiler_spec: reboiler_spec.inner,
-                max_iterations: max_iterations,
-                tolerances: tolerances.into_iter().map(|e| e).collect::<Vec<_>>(),
-                subcooling_delta_t: subcooling_delta_t,
-                solving_scheme: solving_scheme.inner,
-                initial_estimates: initial_estimates.inner,
-                reflux_ratio_estimate: reflux_ratio_estimate,
-                distillate_rate_estimate: distillate_rate_estimate,
-                vapor_rate_estimate: vapor_rate_estimate,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
 // @item type:outram_park_fork_dwsim_libs::columns::linalg::RootFindOptions
 #[doc = "Tuning for [`broyden_root`] and [`newton_root`]."]
 #[pyclass(
@@ -6618,114 +6029,6 @@ impl Py_outram_park_fork_dwsim_libs__columns__model__StreamPhase {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver
-#[doc = "The Naphtali-Sandholm simultaneous-correction solver."]
-#[pyclass(
-    name = "NaphtaliSandholmSolver",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__columns__newton_raphson__NaphtaliSandholmSolver {
-    pub inner: ::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__columns__newton_raphson__NaphtaliSandholmSolver {
-    // @item field:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::subcooling_delta_t
-    #[getter(subcooling_delta_t)]
-    pub fn get_subcooling_delta_t(&self) -> f64 {
-        let v = self.inner.subcooling_delta_t.clone();
-        v
-    }
-    #[setter(subcooling_delta_t)]
-    pub fn set_subcooling_delta_t(&mut self, v: f64) {
-        self.inner.subcooling_delta_t = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::warm_start
-    #[getter(warm_start)]
-    pub fn get_warm_start(&self) -> bool {
-        let v = self.inner.warm_start.clone();
-        v
-    }
-    #[setter(warm_start)]
-    pub fn set_warm_start(&mut self, v: bool) {
-        self.inner.warm_start = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::with_warm_start
-    #[doc = "A solver with the upstream defaults: no sub-cooling, warm start enabled."]
-    #[staticmethod]
-    pub fn with_warm_start()
-    -> Py_outram_park_fork_dwsim_libs__columns__newton_raphson__NaphtaliSandholmSolver {
-        Py_outram_park_fork_dwsim_libs__columns__newton_raphson__NaphtaliSandholmSolver { inner: ::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::with_warm_start() }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::name
-    #[doc = "The solver's display name — upstream's `Name` property\n(`NewtonRaphson.vb:69-73`)."]
-    #[staticmethod]
-    pub fn name() -> String {
-        ::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::name()
-            .clone()
-            .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::description
-    #[doc = "The solver's description — upstream's `Description` property\n(`NewtonRaphson.vb:75-79`)."]
-    #[staticmethod]
-    pub fn description() -> String {
-        ::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::description(
-        )
-        .clone()
-        .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::solve_column
-    #[doc = "Solve the column — equivalent to upstream's `SolveColumn(input)`.\n\n# Errors\n\nAny [`ColumnError`] from validation or [`Self::solve`]."]
-    pub fn solve_column(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
-        err(::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::solve_column(&self.inner, &input.inner)).map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::solve
-    #[doc = "The simultaneous-correction solve — upstream's `Solve`\n(`NewtonRaphson.vb:707-1290`).\n\nBuilds the scaled variable vector from the (optionally warm-started)\nestimates and drives [`Self::residuals`] to zero with upstream's\nthree-attempt cascade: Broyden first, then a damped Newton with a\nBroyden-approximated Jacobian, then a full finite-difference Newton\n(lines 1083-1158).\n\n# Errors\n\n- [`ColumnError::NotConverged`] if `Σ f² > tolerance` after all three\n  attempts (upstream `DCErrorStillHigh`, line 1171).\n- [`ColumnError::InvalidProfile`] if the residual cannot be evaluated at\n  the starting point (line 662).\n- [`ColumnError::TrivialSolution`] if the converged K-values collapse to\n  unity (line 1267)."]
-    pub fn solve(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver::solve(
-                &self.inner,
-                &input.inner,
-                &thermo.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver
-    #[new]
-    #[pyo3(signature = (subcooling_delta_t=None, warm_start=None))]
-    pub fn __new__(subcooling_delta_t: Option<f64>, warm_start: Option<bool>) -> Self {
-        let d = <::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver as Default>::default();
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::columns::newton_raphson::NaphtaliSandholmSolver {
-                subcooling_delta_t: subcooling_delta_t
-                    .map(|v| v)
-                    .unwrap_or(d.subcooling_delta_t),
-                warm_start: warm_start.map(|v| v).unwrap_or(d.warm_start),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-    #[staticmethod]
-    pub fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
-    }
-}
-
 // @item type:outram_park_fork_dwsim_libs::columns::specs::SpecEvaluation
 #[doc = "The result of evaluating one specification against a profile."]
 #[pyclass(
@@ -6776,119 +6079,6 @@ impl Py_outram_park_fork_dwsim_libs__columns__specs__SpecEvaluation {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver
-#[doc = "The Burningham-Otto sum-rates solver."]
-#[pyclass(
-    name = "SumRatesSolver",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__columns__sum_rates__SumRatesSolver {
-    pub inner: ::outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__columns__sum_rates__SumRatesSolver {
-    // @item field:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::relax_temperature_updates
-    #[getter(relax_temperature_updates)]
-    pub fn get_relax_temperature_updates(&self) -> bool {
-        let v = self.inner.relax_temperature_updates.clone();
-        v
-    }
-    #[setter(relax_temperature_updates)]
-    pub fn set_relax_temperature_updates(&mut self, v: bool) {
-        self.inner.relax_temperature_updates = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::relax_composition_updates
-    #[getter(relax_composition_updates)]
-    pub fn get_relax_composition_updates(&self) -> bool {
-        let v = self.inner.relax_composition_updates.clone();
-        v
-    }
-    #[setter(relax_composition_updates)]
-    pub fn set_relax_composition_updates(&mut self, v: bool) {
-        self.inner.relax_composition_updates = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::name
-    #[doc = "The solver's display name.\n\nUpstream's `Name` property throws `NotImplementedException`\n(`SumRates.vb:37-41`) — the class was never given one. This port supplies\nthe conventional name rather than reproducing a throw."]
-    #[staticmethod]
-    pub fn name() -> String {
-        ::outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::name()
-            .clone()
-            .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::description
-    #[doc = "The solver's description. See [`Self::name`] on upstream's missing\nimplementation."]
-    #[staticmethod]
-    pub fn description() -> String {
-        ::outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::description()
-            .clone()
-            .to_string()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::solve_column
-    #[doc = "Solve the column — equivalent to upstream's `SolveColumn(input)`\n(`SumRates.vb:810-895`).\n\n# Errors\n\nAny [`ColumnError`] from validation or [`Self::solve`]."]
-    pub fn solve_column(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::solve_column(
-                &self.inner,
-                &input.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::solve
-    #[doc = "The sum-rates iteration — upstream's `Solve` (`SumRates.vb:49-808`).\n\nUnlike the bubble-point solvers this method has **no outer\nspecification loop**: an absorber's degrees of freedom are fixed by its\nfeeds and duties, so upstream never root-finds on top of it. The\nspecifications in `input` are evaluated and reported, not imposed.\n\n# Parameters\n\n- `input` — the column definition and starting profile. The temperature\n  and vapour-flow estimates matter: upstream recommends constant-molar-\n  overflow vapour flows worked up from the bottom, and a linear\n  temperature profile between assumed top and bottom values\n  (`SumRates.vb:83-88`).\n- `thermo` — the property-package bridge.\n\n# Errors\n\n- [`ColumnError::NotConverged`] on exhausting `max_iterations`\n  (upstream `DCMaxIterationsReached`, line 696).\n- [`ColumnError::InvalidProfile`] on a non-finite error function or a\n  liquid composition that fails to sum (lines 370-372, 700-705), or a\n  temperature that goes non-positive (line 616).\n- [`ColumnError::TrivialSolution`] if the converged K-values collapse to\n  unity (line 792).\n- [`ColumnError::SingularMatrix`] from either tridiagonal solve."]
-    pub fn solve(
-        &self,
-        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver::solve(
-                &self.inner,
-                &input.inner,
-                &thermo.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver
-    #[new]
-    #[pyo3(signature = (relax_temperature_updates=None, relax_composition_updates=None))]
-    pub fn __new__(
-        relax_temperature_updates: Option<bool>,
-        relax_composition_updates: Option<bool>,
-    ) -> Self {
-        let d =
-            <::outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver as Default>::default(
-            );
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::columns::sum_rates::SumRatesSolver {
-                relax_temperature_updates: relax_temperature_updates
-                    .map(|v| v)
-                    .unwrap_or(d.relax_temperature_updates),
-                relax_composition_updates: relax_composition_updates
-                    .map(|v| v)
-                    .unwrap_or(d.relax_composition_updates),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-    #[staticmethod]
-    pub fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
-    }
-}
-
 // @item type:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnEnthalpyModel
 #[doc = "How a phase's molar enthalpy is built from the ideal-gas value.\n\nEnum dispatch, no `dyn`, per the workspace design rules."]
 #[pyclass(
@@ -6916,227 +6106,6 @@ impl Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnEnthalpyModel
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner { ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnEnthalpyModel::EosDeparture => "EosDeparture", ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnEnthalpyModel::IdealWithLatentHeat => "IdealWithLatentHeat", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo
-#[doc = "The property-package façade the column solvers call.\n\nOwns its component list by value (no lifetimes, per the workspace design\nrules) and is cheap to clone.\n\n# Valid ranges\n\nAll methods assume `T > 0` \\[K\\], `P > 0` \\[Pa\\], and mole-fraction slices\nof length `components.len()`. Compositions need not be normalised on entry —\nevery method that is composition-sensitive normalises internally, matching\nDWSIM's own behaviour of feeding un-normalised trial compositions into the\nproperty package."]
-#[pyclass(
-    name = "ColumnThermo",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo {
-    pub inner: ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo {
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::new
-    #[doc = "Build a bridge over `components` using `package`.\n\nThe enthalpy model is chosen automatically:\n[`ColumnEnthalpyModel::IdealWithLatentHeat`] for\n[`PropertyPackageModel::Ideal`] (whose departure is identically zero),\n[`ColumnEnthalpyModel::EosDeparture`] for the cubic packages. The\nreference temperature is 298.15 K.\n\n# Panics\n\nNever. Component validity was already enforced by\n[`Component::new`](crate::thermo::Component::new)."]
-    #[new]
-    pub fn new(
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo {
-        Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo {
-            inner: ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::new(
-                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                package.inner,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::with_enthalpy_model
-    #[doc = "Override the enthalpy model (e.g. to force the latent-heat route on a\ncubic package for a low-pressure column where the liquid `Z`-root is\npoorly conditioned)."]
-    pub fn with_enthalpy_model(
-        &self,
-        model: Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnEnthalpyModel,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo {
-        Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo { inner: ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::with_enthalpy_model(self.inner.clone(), model.inner) }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::with_reference_temperature
-    #[doc = "Override the ideal-gas enthalpy reference temperature \\[K\\], > 0."]
-    pub fn with_reference_temperature(
-        &self,
-        t_ref: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo {
-        Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo { inner: ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::with_reference_temperature(self.inner.clone(), t_ref) }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::components
-    #[doc = "The component list this bridge was built over."]
-    pub fn components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__thermo__Component> {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::components(&self.inner)
-            .clone()
-            .iter()
-            .cloned()
-            .map(|e| Py_outram_park_fork_dwsim_libs__thermo__Component { inner: e })
-            .collect::<Vec<_>>()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::n_components
-    #[doc = "Number of components."]
-    pub fn n_components(&self) -> usize {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::n_components(
-            &self.inner,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::package
-    #[doc = "The underlying property-package model."]
-    pub fn package(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-        Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-            inner: ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::package(
-                &self.inner,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::reference_temperature
-    #[doc = "The ideal-gas enthalpy reference temperature \\[K\\]."]
-    pub fn reference_temperature(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::reference_temperature(
-            &self.inner,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::k_values
-    #[doc = "Equilibrium K-values `K_i = y_i / x_i` \\[-\\] for a trial split.\n\nPorts `PP.DW_CalcKvalue(x, y, T, P)` (`BubblePoint.vb:1404`). `x`, `y`\nare mole fractions \\[-\\] (normalised internally), `t` \\[K\\], `p` \\[Pa\\].\n\nAny non-finite or non-positive K that the package returns is replaced by\nthe ideal estimate `P_sat,i(T)/P` — this is upstream's own guard, applied\nat `BubblePoint.vb:1133`, `:1426`, and `SumRates.vb:648-655`."]
-    pub fn k_values(&self, x: Vec<f64>, y: Vec<f64>, t: f64, p: f64) -> Vec<f64> {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::k_values(
-            &self.inner,
-            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
-            &y.into_iter().map(|e| e).collect::<Vec<_>>(),
-            t,
-            p,
-        )
-        .into_iter()
-        .map(|e| e)
-        .collect::<Vec<_>>()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::ideal_k_value
-    #[doc = "Ideal (Raoult/Wilson) K-value for one component, `K_i = P_sat,i(T) / P`.\n\nPorts `PP.AUX_PVAPi(j, T) / P(i)` (`BubblePoint.vb:1133`). The saturation\npressure is the Wilson estimate\n`P_sat,i = Pc_i · exp[5.373 (1 + ω_i)(1 − Tc_i/T)]`, i.e. exactly the\ncorrelation behind [`crate::thermo::flash::wilson_k_values`], so this\nfallback and the `Ideal` package agree by construction.\n\n`component_index` must be `< n_components()`; `t` \\[K\\] > 0, `p` \\[Pa\\] > 0."]
-    pub fn ideal_k_value(&self, component_index: usize, t: f64, p: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::ideal_k_value(
-            &self.inner,
-            component_index,
-            t,
-            p,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::vapor_pressure
-    #[doc = "Wilson-correlation vapour pressure \\[Pa\\] of one component at `t` \\[K\\].\n\nPorts `AUX_PVAPi`'s role as the column solvers' K-value fallback (they\nonly ever use it as `P_sat/P`). Note this is the *Wilson* estimate, not a\nfitted Antoine/Wagner curve: the crate's [`Component`] carries no\nvapour-pressure coefficients, so a corresponding-states estimate is the\nhonest best available. This is only ever a fallback — the converged\nK-values come from the property package."]
-    pub fn vapor_pressure(&self, component_index: usize, t: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::vapor_pressure(
-            &self.inner,
-            component_index,
-            t,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::mixture_molar_mass
-    #[doc = "Mixture molar mass \\[kg/mol\\] — `Σ x_i M_i`.\n\nPorts `PP.AUX_MMM(x)` (`BubblePoint.vb:980`), which returns g/mol; this\nreturns **kg/mol**, so it composes directly with molar flows \\[mol/s\\] to\ngive kg/s (upstream's `/1000` scalings are folded in here).\n`x` are mole fractions \\[-\\], normalised internally."]
-    pub fn mixture_molar_mass(&self, x: Vec<f64>) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::mixture_molar_mass(
-            &self.inner,
-            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::mole_to_mass_fractions
-    #[doc = "Convert mole fractions to mass fractions \\[-\\].\n\nPorts `PP.AUX_CONVERT_MOL_TO_MASS(x)` (`BubblePoint.vb:222`), used by the\nmass-basis [`crate::columns::model::SpecType::ComponentFraction`] specs."]
-    pub fn mole_to_mass_fractions(&self, x: Vec<f64>) -> Vec<f64> {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::mole_to_mass_fractions(
-            &self.inner,
-            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
-        )
-        .into_iter()
-        .map(|e| e)
-        .collect::<Vec<_>>()
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::is_trivial_solution
-    #[doc = "`true` if the K-value vector has collapsed to the trivial solution\n`K_i ≈ 1` for every component.\n\nPorts `PP.AUX_CheckTrivial(Ki)` (`SumRates.vb:791`). Upstream's threshold\nis not exposed in the file; this port uses `|K_i − 1| < 1e-4` for all\n`i`, which is tight enough that a genuinely converged near-azeotropic\nstage is not flagged."]
-    #[staticmethod]
-    pub fn is_trivial_solution(k: Vec<f64>) -> bool {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::is_trivial_solution(
-            &k.into_iter().map(|e| e).collect::<Vec<_>>(),
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::vapor_molar_enthalpy
-    #[doc = "Molar enthalpy of a **vapour** phase \\[J/mol\\] at `t` \\[K\\], `p` \\[Pa\\].\n\nPorts `PP.DW_CalcEnthalpy(y, T, P, State.Vapor) * AUX_MMM(y) / 1000`\n(`BubblePoint.vb:1482`). `y` are mole fractions \\[-\\], normalised\ninternally."]
-    pub fn vapor_molar_enthalpy(&self, y: Vec<f64>, t: f64, p: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::vapor_molar_enthalpy(
-            &self.inner,
-            &y.into_iter().map(|e| e).collect::<Vec<_>>(),
-            t,
-            p,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::liquid_molar_enthalpy
-    #[doc = "Molar enthalpy of a **liquid** phase \\[J/mol\\] at `t` \\[K\\], `p` \\[Pa\\].\n\nPorts `PP.DW_CalcEnthalpy(x, T, P, State.Liquid) * AUX_MMM(x) / 1000`\n(`BubblePoint.vb:1480`). `x` are mole fractions \\[-\\], normalised\ninternally.\n\nUnder [`ColumnEnthalpyModel::EosDeparture`] the liquid residual comes\nfrom the cubic EOS's liquid `Z`-root; if that root does not exist the\nmethod falls back to `H_ig − Σ x_i ΔH_vap,i(T)` rather than returning a\nnon-finite value."]
-    pub fn liquid_molar_enthalpy(&self, x: Vec<f64>, t: f64, p: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::liquid_molar_enthalpy(
-            &self.inner,
-            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
-            t,
-            p,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::feed_molar_enthalpy
-    #[doc = "Molar enthalpy \\[J/mol\\] of a stream of overall composition `z` at `t`\n\\[K\\], `p` \\[Pa\\] and vapour molar fraction `beta` \\[-\\] in `[0, 1]`.\n\nA convenience for building [`crate::columns::model::ColumnSolverInput::feed_enthalpies`]\non the **same reference state** the solver's internal enthalpies use.\n`beta = 0` gives a saturated/subcooled liquid feed, `beta = 1` a\nsuperheated/saturated vapour feed; intermediate values interpolate the\ntwo phase enthalpies at the same composition, which is the two-phase\nfeed enthalpy when the split is not resolved."]
-    pub fn feed_molar_enthalpy(&self, z: Vec<f64>, t: f64, p: f64, beta: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::feed_molar_enthalpy(
-            &self.inner,
-            &z.into_iter().map(|e| e).collect::<Vec<_>>(),
-            t,
-            p,
-            beta,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::enthalpy_of_vaporization
-    #[doc = "Enthalpy of vaporization \\[J/mol\\] of one component at `t` \\[K\\].\n\nVetere's correlation for `ΔH_vb` at the normal boiling point (DWSIM\n`Hypotheticals.vb:906-916`, `DHvb_Vetere`),\n\n`ΔH_vb = R Tc Tbr (0.4343 ln Pc − 0.69431 + 0.8954 Tbr) / (0.37691 − 0.37306 Tbr + 0.15075 Pc^{-1} Tbr^{-2})`\n\nwith `Pc` in **bar** and `Tbr = Tb/Tc`, extrapolated to `T` by the Watson\nrelation with DWSIM's exponent 0.375 (`PropertyPackage.vb:6820`,\n`HVap_A · ((1 − Tr)/(1 − Tbr))^0.375`).\n\nReturns `0.0` for `Tr >= 1` (supercritical — upstream's own early return,\n`PropertyPackage.vb:6812`) and for a component whose normal boiling point\nis missing or >= `Tc`.\n\n# Valid range\n\nThe Watson extrapolation is reliable for `0.4 < Tr < 0.95`; near the\ncritical point it under-predicts, and it is exactly zero at `Tr = 1`."]
-    pub fn enthalpy_of_vaporization(&self, component_index: usize, t: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::enthalpy_of_vaporization(&self.inner, component_index, t)
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::mixture_enthalpy_of_vaporization
-    #[doc = "Mole-fraction-weighted enthalpy of vaporization \\[J/mol\\] of a mixture."]
-    pub fn mixture_enthalpy_of_vaporization(&self, x: Vec<f64>, t: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::mixture_enthalpy_of_vaporization(&self.inner, &x.into_iter().map(|e| e).collect::<Vec<_>>(), t)
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::bubble_temperature
-    #[doc = "Bubble-point temperature \\[K\\] of liquid `x` at `p` \\[Pa\\], plus the\nK-values there.\n\nPorts the `Flash_PV(x, P, VaporFraction = 0.0, T_guess, ...)` call the\nbubble-point solvers make once per stage per iteration\n(`BubblePoint.vb:1281`, `BubblePoint2.vb:1616`) — a PV flash at zero\nvapour fraction *is* a bubble-point calculation. Implemented on\n[`crate::thermo::saturation::bubble_temperature_with`], seeded from\n`t_guess`.\n\n# Parameters\n\n- `x` — liquid mole fractions \\[-\\], normalised internally.\n- `p` — stage pressure \\[Pa\\] > 0.\n- `t_guess` — starting temperature \\[K\\]; used to bracket the search\n  around the current profile so a stage does not jump to an unrelated\n  root.\n- `stage` — stage index, for error reporting only.\n\n# Returns\n\n`(T_bubble [K], K [-])`.\n\n# Errors\n\n[`ColumnError::BubblePointFailed`] carrying the underlying saturation\nerror, mirroring upstream's \"Error calculating bubble point temperature\nfor stage {0} with P = {1} Pa\" exception (`BubblePoint.vb:1283`)."]
-    pub fn bubble_temperature(
-        &self,
-        x: Vec<f64>,
-        p: f64,
-        t_guess: f64,
-        stage: usize,
-    ) -> PyResult<(f64, Vec<f64>)> {
-        err(
-            ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::bubble_temperature(
-                &self.inner,
-                &x.into_iter().map(|e| e).collect::<Vec<_>>(),
-                p,
-                t_guess,
-                stage,
-            ),
-        )
-        .map(|v| {
-            let (e0, e1) = v;
-            (e0, e1.into_iter().map(|e| e).collect::<Vec<_>>())
-        })
-    }
-    // @item method:outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::wilson_k
-    #[doc = "Wilson K-value estimates \\[-\\] for the whole component set — the seed\nevery solver's `k_values` profile starts from when the caller supplies\nnone."]
-    pub fn wilson_k(&self, t: f64, p: f64) -> Vec<f64> {
-        ::outram_park_fork_dwsim_libs::columns::thermo_bridge::ColumnThermo::wilson_k(
-            &self.inner,
-            t,
-            p,
-        )
-        .into_iter()
-        .map(|e| e)
-        .collect::<Vec<_>>()
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
@@ -17026,19 +15995,14 @@ impl Py_outram_park_fork_dwsim_libs__flowsheet__import__ImportedPropertyPackage 
     #[getter(model)]
     pub fn get_model(
         &self,
-    ) -> Option<Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel>
-    {
+    ) -> Option<Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel> {
         let v = self.inner.model.clone();
-        v.map(
-            |e| Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-                inner: e,
-            },
-        )
+        v.map(|e| Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel { inner: e })
     }
     #[setter(model)]
     pub fn set_model(
         &mut self,
-        v: Option<Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel>,
+        v: Option<Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel>,
     ) {
         self.inner.model = v.map(|e| e.inner);
     }
@@ -17048,9 +16012,7 @@ impl Py_outram_park_fork_dwsim_libs__flowsheet__import__ImportedPropertyPackage 
         id: String,
         tag: String,
         dwsim_type: String,
-        model: Option<
-            Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-        >,
+        model: Option<Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel>,
     ) -> Self {
         Self {
             inner: ::outram_park_fork_dwsim_libs::flowsheet::import::ImportedPropertyPackage {
@@ -23149,12 +22111,12 @@ pub struct Py_outram_park_fork_dwsim_libs__petroleum__PseudoComponent {
 impl Py_outram_park_fork_dwsim_libs__petroleum__PseudoComponent {
     // @item field:outram_park_fork_dwsim_libs::petroleum::PseudoComponent::component
     #[getter(component)]
-    pub fn get_component(&self) -> Py_outram_park_fork_dwsim_libs__thermo__Component {
+    pub fn get_component(&self) -> Py_outram_park_fork_dwsim_libs__prelude__Component {
         let v = self.inner.component.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__Component { inner: v }
+        Py_outram_park_fork_dwsim_libs__prelude__Component { inner: v }
     }
     #[setter(component)]
-    pub fn set_component(&mut self, v: Py_outram_park_fork_dwsim_libs__thermo__Component) {
+    pub fn set_component(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__Component) {
         self.inner.component = v.inner;
     }
     // @item field:outram_park_fork_dwsim_libs::petroleum::PseudoComponent::mole_fraction
@@ -23363,7 +22325,7 @@ impl Py_outram_park_fork_dwsim_libs__petroleum__PseudoComponent {
     // @item ctor:outram_park_fork_dwsim_libs::petroleum::PseudoComponent
     #[new]
     pub fn __new__(
-        component: Py_outram_park_fork_dwsim_libs__thermo__Component,
+        component: Py_outram_park_fork_dwsim_libs__prelude__Component,
         mole_fraction: f64,
         specific_gravity: f64,
         watson_k: f64,
@@ -23867,1137 +22829,6 @@ impl Py_outram_park_fork_dwsim_libs__petroleum__TbpCurveFit {
     }
     pub fn __eq__(&self, other: &Self) -> bool {
         self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude
-#[doc = "A crude oil described the black-oil way: gravities and a gas-oil ratio.\n\nThese are the numbers on a crude certificate of analysis, and the inputs a\nproduction engineer already has. [`Self::pseudo_components`] turns them into\nsomething a distillation column can run on."]
-#[pyclass(
-    name = "BlackOilCrude",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::api_gravity
-    #[getter(api_gravity)]
-    pub fn get_api_gravity(&self) -> f64 {
-        let v = self.inner.api_gravity.clone();
-        v
-    }
-    #[setter(api_gravity)]
-    pub fn set_api_gravity(&mut self, v: f64) {
-        self.inner.api_gravity = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::gas_specific_gravity
-    #[getter(gas_specific_gravity)]
-    pub fn get_gas_specific_gravity(&self) -> f64 {
-        let v = self.inner.gas_specific_gravity.clone();
-        v
-    }
-    #[setter(gas_specific_gravity)]
-    pub fn set_gas_specific_gravity(&mut self, v: f64) {
-        self.inner.gas_specific_gravity = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::bsw_percent
-    #[getter(bsw_percent)]
-    pub fn get_bsw_percent(&self) -> f64 {
-        let v = self.inner.bsw_percent.clone();
-        v
-    }
-    #[setter(bsw_percent)]
-    pub fn set_bsw_percent(&mut self, v: f64) {
-        self.inner.bsw_percent = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::light_sweet
-    #[doc = "A light sweet crude, 38 °API — in the band Brent and WTI occupy.\n\nChosen as the module's worked example because it sits comfortably inside\nevery black-oil correlation's stated validity range, so the\ncharacterisation is not being extrapolated. Gas gravity 0.75 is a\nmid-range associated-gas value."]
-    #[staticmethod]
-    pub fn light_sweet()
-    -> Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude {
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::light_sweet() }
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::heavy
-    #[doc = "A heavy crude, 22 °API — near the lower edge of the correlations'\ncomfortable range, kept as a contrast case for the tests."]
-    #[staticmethod]
-    pub fn heavy() -> Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude {
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude {
-            inner:
-                ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::heavy(),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::oil_specific_gravity
-    #[doc = "Stock-tank oil specific gravity (water = 1) from the API gravity."]
-    pub fn oil_specific_gravity(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::oil_specific_gravity(&self.inner)
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::liquid_molar_mass_g_per_mol
-    #[doc = "Apparent liquid molecular weight, g/mol, from the black-oil correlation."]
-    pub fn liquid_molar_mass_g_per_mol(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::liquid_molar_mass_g_per_mol(&self.inner)
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::mean_normal_boiling_point_k
-    #[doc = "Mean normal boiling point, K, from the black-oil correlation."]
-    pub fn mean_normal_boiling_point_k(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::mean_normal_boiling_point_k(&self.inner)
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::bulk_assay
-    #[doc = "The bulk assay this crude implies — the bridge from black-oil\ncorrelations into the petroleum characterisation machinery.\n\nExactly the three fields [`BulkAssay`] carries are filled; the viscosity\nfields are deliberately left `None` so `generate_compounds` falls back to\nAbbott's correlation rather than being fed a fabricated measurement."]
-    pub fn bulk_assay(&self) -> Py_outram_park_fork_dwsim_libs__petroleum__BulkAssay {
-        Py_outram_park_fork_dwsim_libs__petroleum__BulkAssay { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::bulk_assay(&self.inner) }
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::pseudo_components
-    #[doc = "Cut this crude into `cut_count` pseudo-components.\n\n# Arguments\n\n- `cut_count` — number of pseudo-components. Must be at least 2;\n  `generate_compounds` rejects fewer. Eight to twelve is the usual range\n  for an atmospheric column — enough to resolve the cuts, few enough\n  that the MESH solve stays quick.\n\n# Returns\n\nThe slate in ascending boiling-point order, mole fractions summing to\none, or a [`CharacterizationError`] if the bulk properties are not\nself-consistent enough to characterise.\n\n# Units\n\nEach [`PseudoComponent`] carries `uom`-typed constants; the wrapped\n[`crate::thermo::component::Component`] is what the column consumes."]
-    pub fn pseudo_components(
-        &self,
-        cut_count: usize,
-    ) -> PyResult<Vec<Py_outram_park_fork_dwsim_libs__petroleum__PseudoComponent>> {
-        err(::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::pseudo_components(&self.inner, cut_count)).map(|v| v.into_iter().map(|e| Py_outram_park_fork_dwsim_libs__petroleum__PseudoComponent { inner: e }).collect::<Vec<_>>())
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::round_trip_api
-    #[doc = "Round-trip check: the API gravity implied by this crude's own specific\ngravity. Should return [`Self::api_gravity`] to within floating-point\nnoise, and is used by the tests to pin the correlation pair as mutual\ninverses."]
-    pub fn round_trip_api(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude::round_trip_api(
-            &self.inner,
-        )
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude
-    #[new]
-    pub fn __new__(api_gravity: f64, gas_specific_gravity: f64, bsw_percent: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::BlackOilCrude {
-                api_gravity: api_gravity,
-                gas_specific_gravity: gas_specific_gravity,
-                bsw_percent: bsw_percent,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig
-#[doc = "Configuration for an atmospheric crude column.\n\n# What is modelled, and what is not\n\nThis is a **reboiled** column with liquid side draws: a condenser at the\ntop, a reboiler at the bottom, and product draws at the cut stages. Side\ndraws are what make it a crude unit rather than a binary column — without\nthem there is only an overhead and a bottoms, and no cut slate at all.\n\n**A real CDU is not reboiled.** It is a refluxed absorber stripped with\nopen steam at the bottom, with pump-around circuits removing heat down the\ncolumn. [`crate::columns::ColumnType::RefluxedAbsorber`] exists in the\nsolver's enum, but [`RigorousColumn::distillation`] is the only constructor\nand fixes the type to a reboiled distillation column; reaching the other\nvariant would mean extending that builder. That is deliberately **not** done\nhere, and the consequence is stated rather than hidden: this model has no\nstripping steam, no pump-arounds and no crude furnace, so its energy balance\nis not a refinery's. It resolves *where the cuts land*, which is what a\nteaching or scoping model is for.\n\n# Units\n\nPressures Pa, flows mol/s, temperatures K — the crate's documented base\nunits."]
-#[pyclass(
-    name = "CrudeColumnConfig",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::n_stages
-    #[getter(n_stages)]
-    pub fn get_n_stages(&self) -> usize {
-        let v = self.inner.n_stages.clone();
-        v
-    }
-    #[setter(n_stages)]
-    pub fn set_n_stages(&mut self, v: usize) {
-        self.inner.n_stages = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::feed_stage
-    #[getter(feed_stage)]
-    pub fn get_feed_stage(&self) -> usize {
-        let v = self.inner.feed_stage.clone();
-        v
-    }
-    #[setter(feed_stage)]
-    pub fn set_feed_stage(&mut self, v: usize) {
-        self.inner.feed_stage = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::pressure_pa
-    #[getter(pressure_pa)]
-    pub fn get_pressure_pa(&self) -> f64 {
-        let v = self.inner.pressure_pa.clone();
-        v
-    }
-    #[setter(pressure_pa)]
-    pub fn set_pressure_pa(&mut self, v: f64) {
-        self.inner.pressure_pa = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::feed_flow_mol_s
-    #[getter(feed_flow_mol_s)]
-    pub fn get_feed_flow_mol_s(&self) -> f64 {
-        let v = self.inner.feed_flow_mol_s.clone();
-        v
-    }
-    #[setter(feed_flow_mol_s)]
-    pub fn set_feed_flow_mol_s(&mut self, v: f64) {
-        self.inner.feed_flow_mol_s = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::reflux_ratio
-    #[getter(reflux_ratio)]
-    pub fn get_reflux_ratio(&self) -> f64 {
-        let v = self.inner.reflux_ratio.clone();
-        v
-    }
-    #[setter(reflux_ratio)]
-    pub fn set_reflux_ratio(&mut self, v: f64) {
-        self.inner.reflux_ratio = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::bottoms_fraction
-    #[getter(bottoms_fraction)]
-    pub fn get_bottoms_fraction(&self) -> f64 {
-        let v = self.inner.bottoms_fraction.clone();
-        v
-    }
-    #[setter(bottoms_fraction)]
-    pub fn set_bottoms_fraction(&mut self, v: f64) {
-        self.inner.bottoms_fraction = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::side_draws
-    #[getter(side_draws)]
-    pub fn get_side_draws(&self) -> Vec<(usize, f64)> {
-        let v = self.inner.side_draws.clone();
-        v.into_iter()
-            .map(|e| {
-                let (e0, e1) = e;
-                (e0, e1)
-            })
-            .collect::<Vec<_>>()
-    }
-    #[setter(side_draws)]
-    pub fn set_side_draws(&mut self, v: Vec<(usize, f64)>) {
-        self.inner.side_draws = v
-            .into_iter()
-            .map(|e| {
-                let (e0, e1) = e;
-                (e0, e1)
-            })
-            .collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::residue_cut_point_k
-    #[getter(residue_cut_point_k)]
-    pub fn get_residue_cut_point_k(&self) -> f64 {
-        let v = self.inner.residue_cut_point_k.clone();
-        v
-    }
-    #[setter(residue_cut_point_k)]
-    pub fn set_residue_cut_point_k(&mut self, v: f64) {
-        self.inner.residue_cut_point_k = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::package
-    #[getter(package)]
-    pub fn get_package(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-        let v = self.inner.package.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel { inner: v }
-    }
-    #[setter(package)]
-    pub fn set_package(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-    ) {
-        self.inner.package = v.inner;
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::atmospheric_default
-    #[doc = "A 12-stage atmospheric column with three side draws, sized for the\n[`BlackOilCrude::light_sweet`] reference crude.\n\nDraw placement follows the usual arrangement — the lightest side product\nnearest the top — and the rates are a **plausible split, not a\nspecification**: they sum with the bottoms to less than the feed, leaving\nthe balance as overhead distillate. Nothing here is fitted to a real\nyield."]
-    #[staticmethod]
-    pub fn atmospheric_default()
-    -> Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig {
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::atmospheric_default() }
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::total_side_draw_fraction
-    #[doc = "Total side-draw fraction of the column feed \\[-\\]."]
-    pub fn total_side_draw_fraction(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::total_side_draw_fraction(&self.inner)
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::distillate_fraction
-    #[doc = "Fraction of the column feed leaving as overhead distillate \\[-\\]:\n`1 − bottoms − Σ side draws`."]
-    pub fn distillate_fraction(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::distillate_fraction(&self.inner)
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::validate
-    #[doc = "Whether the configuration is self-consistent enough to solve: at least\nthree stages, a feed stage inside the column, every draw on an interior\nstage, and a positive implied distillate.\n\n# Errors\n\n[`CrudeColumnError`] naming the first problem found."]
-    pub fn validate(&self) -> PyResult<()> {
-        err(::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig::validate(&self.inner)).map(|v| v)
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig
-    #[new]
-    pub fn __new__(
-        n_stages: usize,
-        feed_stage: usize,
-        pressure_pa: f64,
-        feed_flow_mol_s: f64,
-        reflux_ratio: f64,
-        bottoms_fraction: f64,
-        side_draws: Vec<(usize, f64)>,
-        residue_cut_point_k: f64,
-        package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-    ) -> Self {
-        Self {
-            inner:
-                ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnConfig {
-                    n_stages: n_stages,
-                    feed_stage: feed_stage,
-                    pressure_pa: pressure_pa,
-                    feed_flow_mol_s: feed_flow_mol_s,
-                    reflux_ratio: reflux_ratio,
-                    bottoms_fraction: bottoms_fraction,
-                    side_draws: side_draws
-                        .into_iter()
-                        .map(|e| {
-                            let (e0, e1) = e;
-                            (e0, e1)
-                        })
-                        .collect::<Vec<_>>(),
-                    residue_cut_point_k: residue_cut_point_k,
-                    package: package.inner,
-                },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError
-#[doc = "Why a crude-column configuration could not be built or solved."]
-#[pyclass(
-    name = "CrudeColumnError",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnError {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnError {
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::TooFewStages
-    #[staticmethod]
-    #[pyo3(name = "TooFewStages")]
-    pub fn v_TooFewStages(a0: usize) -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::TooFewStages(a0) }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::FeedStageOutOfRange
-    #[staticmethod]
-    #[pyo3(name = "FeedStageOutOfRange")]
-    pub fn v_FeedStageOutOfRange(stage: usize, n_stages: usize) -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::FeedStageOutOfRange { stage: stage, n_stages: n_stages } }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::DrawStageOutOfRange
-    #[staticmethod]
-    #[pyo3(name = "DrawStageOutOfRange")]
-    pub fn v_DrawStageOutOfRange(stage: usize, n_stages: usize) -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::DrawStageOutOfRange { stage: stage, n_stages: n_stages } }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::NonPhysicalDrawRate
-    #[staticmethod]
-    #[pyo3(name = "NonPhysicalDrawRate")]
-    pub fn v_NonPhysicalDrawRate(stage: usize, rate: f64) -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::NonPhysicalDrawRate { stage: stage, rate: rate } }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::OverdrawnFeed
-    #[staticmethod]
-    #[pyo3(name = "OverdrawnFeed")]
-    pub fn v_OverdrawnFeed(feed: f64, withdrawn: f64) -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::OverdrawnFeed { feed: feed, withdrawn: withdrawn } }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::Characterisation
-    #[staticmethod]
-    #[pyo3(name = "Characterisation")]
-    pub fn v_Characterisation(a0: String) -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::Characterisation(a0) }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::Solve
-    #[staticmethod]
-    #[pyo3(name = "Solve")]
-    pub fn v_Solve(a0: String) -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::Solve(a0) }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner { ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::TooFewStages(..) => "TooFewStages", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::FeedStageOutOfRange { .. } => "FeedStageOutOfRange", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::DrawStageOutOfRange { .. } => "DrawStageOutOfRange", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::NonPhysicalDrawRate { .. } => "NonPhysicalDrawRate", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::OverdrawnFeed { .. } => "OverdrawnFeed", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::Characterisation(..) => "Characterisation", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnError::Solve(..) => "Solve", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __str__(&self) -> String {
-        format!("{}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult
-#[doc = "A converged atmospheric crude column."]
-#[pyclass(
-    name = "CrudeColumnResult",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnResult {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnResult {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult::cuts
-    #[getter(cuts)]
-    pub fn get_cuts(
-        &self,
-    ) -> Vec<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CutResult> {
-        let v = self.inner.cuts.clone();
-        v.into_iter()
-            .map(
-                |e| Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CutResult {
-                    inner: e,
-                },
-            )
-            .collect::<Vec<_>>()
-    }
-    #[setter(cuts)]
-    pub fn set_cuts(
-        &mut self,
-        v: Vec<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CutResult>,
-    ) {
-        self.inner.cuts = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult::stage_temperatures_k
-    #[getter(stage_temperatures_k)]
-    pub fn get_stage_temperatures_k(&self) -> Vec<f64> {
-        let v = self.inner.stage_temperatures_k.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(stage_temperatures_k)]
-    pub fn set_stage_temperatures_k(&mut self, v: Vec<f64>) {
-        self.inner.stage_temperatures_k = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult::iterations
-    #[getter(iterations)]
-    pub fn get_iterations(&self) -> usize {
-        let v = self.inner.iterations.clone();
-        v
-    }
-    #[setter(iterations)]
-    pub fn set_iterations(&mut self, v: usize) {
-        self.inner.iterations = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult::final_error
-    #[getter(final_error)]
-    pub fn get_final_error(&self) -> f64 {
-        let v = self.inner.final_error.clone();
-        v
-    }
-    #[setter(final_error)]
-    pub fn set_final_error(&mut self, v: f64) {
-        self.inner.final_error = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult::total_product_mol_s
-    #[doc = "Total product rate \\[mol/s\\] — should equal the feed."]
-    pub fn total_product_mol_s(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult::total_product_mol_s(&self.inner)
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult
-    #[new]
-    pub fn __new__(
-        cuts: Vec<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CutResult>,
-        stage_temperatures_k: Vec<f64>,
-        iterations: usize,
-        final_error: f64,
-    ) -> Self {
-        Self {
-            inner:
-                ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnResult {
-                    cuts: cuts.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                    stage_temperatures_k: stage_temperatures_k
-                        .into_iter()
-                        .map(|e| e)
-                        .collect::<Vec<_>>(),
-                    iterations: iterations,
-                    final_error: final_error,
-                },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup
-#[doc = "Everything a crude column run needs, assembled from a black-oil\ncharacterisation: the solver input plus the flows the caller has to add\nback to close the balance on the whole crude.\n\nShared by [`solve_crude_column`] (a steady solve) and\n[`CrudePlant`](crate::petroleum::crude_plant::CrudePlant) (a transient\none), so the two cannot drift apart in how they set a column up."]
-#[pyclass(
-    name = "CrudeColumnSetup",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnSetup {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnSetup {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup::input
-    #[getter(input)]
-    pub fn get_input(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput {
-        let v = self.inner.input.clone();
-        Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput { inner: v }
-    }
-    #[setter(input)]
-    pub fn set_input(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput) {
-        self.inner.input = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup::draw_rates
-    #[getter(draw_rates)]
-    pub fn get_draw_rates(&self) -> Vec<(usize, f64)> {
-        let v = self.inner.draw_rates.clone();
-        v.into_iter()
-            .map(|e| {
-                let (e0, e1) = e;
-                (e0, e1)
-            })
-            .collect::<Vec<_>>()
-    }
-    #[setter(draw_rates)]
-    pub fn set_draw_rates(&mut self, v: Vec<(usize, f64)>) {
-        self.inner.draw_rates = v
-            .into_iter()
-            .map(|e| {
-                let (e0, e1) = e;
-                (e0, e1)
-            })
-            .collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup::column_distillate_mol_s
-    #[getter(column_distillate_mol_s)]
-    pub fn get_column_distillate_mol_s(&self) -> f64 {
-        let v = self.inner.column_distillate_mol_s.clone();
-        v
-    }
-    #[setter(column_distillate_mol_s)]
-    pub fn set_column_distillate_mol_s(&mut self, v: f64) {
-        self.inner.column_distillate_mol_s = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup::bottoms_mol_s
-    #[getter(bottoms_mol_s)]
-    pub fn get_bottoms_mol_s(&self) -> f64 {
-        let v = self.inner.bottoms_mol_s.clone();
-        v
-    }
-    #[setter(bottoms_mol_s)]
-    pub fn set_bottoms_mol_s(&mut self, v: f64) {
-        self.inner.bottoms_mol_s = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup::bypass_mol_s
-    #[getter(bypass_mol_s)]
-    pub fn get_bypass_mol_s(&self) -> f64 {
-        let v = self.inner.bypass_mol_s.clone();
-        v
-    }
-    #[setter(bypass_mol_s)]
-    pub fn set_bypass_mol_s(&mut self, v: f64) {
-        self.inner.bypass_mol_s = v;
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup
-    #[new]
-    pub fn __new__(
-        input: Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput,
-        draw_rates: Vec<(usize, f64)>,
-        column_distillate_mol_s: f64,
-        bottoms_mol_s: f64,
-        bypass_mol_s: f64,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeColumnSetup {
-                input: input.inner,
-                draw_rates: draw_rates
-                    .into_iter()
-                    .map(|e| {
-                        let (e0, e1) = e;
-                        (e0, e1)
-                    })
-                    .collect::<Vec<_>>(),
-                column_distillate_mol_s: column_distillate_mol_s,
-                bottoms_mol_s: bottoms_mol_s,
-                bypass_mol_s: bypass_mol_s,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut
-#[doc = "The conventional atmospheric-crude cut slate, by normal boiling range.\n\nBoundaries are the customary refinery bands rather than anything this\nmodule derives — they exist so a caller can *label* a pseudo-component or a\nside draw, and so the tests can assert that a draw came out somewhere\nsensible. They are not specifications and no yield is fitted to them."]
-#[pyclass(name = "CrudeCut", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut {
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::from_normal_boiling_point_k
-    #[doc = "Which cut a normal boiling point falls in."]
-    #[staticmethod]
-    pub fn from_normal_boiling_point_k(
-        tb_k: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut {
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::from_normal_boiling_point_k(tb_k) }
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::boiling_band_k
-    #[doc = "The cut's conventional boiling band, K, as `(lower, upper)`.\n`Gas` is open below and `Residue` open above; those bounds are given as\n`0.0` and `f64::INFINITY`."]
-    pub fn boiling_band_k(&self) -> (f64, f64) {
-        {
-            let (e0, e1) = ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::boiling_band_k(self.inner.clone());
-            (e0, e1)
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::label
-    #[doc = "Short label for a schematic or a table."]
-    pub fn label(&self) -> String {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::label(
-            self.inner.clone(),
-        )
-        .clone()
-        .to_string()
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Gas
-    #[staticmethod]
-    #[pyo3(name = "Gas")]
-    pub fn v_Gas() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Gas,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Naphtha
-    #[staticmethod]
-    #[pyo3(name = "Naphtha")]
-    pub fn v_Naphtha() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Naphtha,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Kerosene
-    #[staticmethod]
-    #[pyo3(name = "Kerosene")]
-    pub fn v_Kerosene() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Kerosene,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Diesel
-    #[staticmethod]
-    #[pyo3(name = "Diesel")]
-    pub fn v_Diesel() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Diesel,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::AtmosphericGasOil
-    #[staticmethod]
-    #[pyo3(name = "AtmosphericGasOil")]
-    pub fn v_AtmosphericGasOil() -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::AtmosphericGasOil }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Residue
-    #[staticmethod]
-    #[pyo3(name = "Residue")]
-    pub fn v_Residue() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Residue,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner { ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Gas => "Gas", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Naphtha => "Naphtha", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Kerosene => "Kerosene", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Diesel => "Diesel", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::AtmosphericGasOil => "AtmosphericGasOil", ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CrudeCut::Residue => "Residue", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult
-#[doc = "One converged product cut."]
-#[pyclass(name = "CutResult", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CutResult {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CutResult {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult::stage
-    #[getter(stage)]
-    pub fn get_stage(&self) -> usize {
-        let v = self.inner.stage.clone();
-        v
-    }
-    #[setter(stage)]
-    pub fn set_stage(&mut self, v: usize) {
-        self.inner.stage = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult::flow_mol_s
-    #[getter(flow_mol_s)]
-    pub fn get_flow_mol_s(&self) -> f64 {
-        let v = self.inner.flow_mol_s.clone();
-        v
-    }
-    #[setter(flow_mol_s)]
-    pub fn set_flow_mol_s(&mut self, v: f64) {
-        self.inner.flow_mol_s = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult::temperature_k
-    #[getter(temperature_k)]
-    pub fn get_temperature_k(&self) -> f64 {
-        let v = self.inner.temperature_k.clone();
-        v
-    }
-    #[setter(temperature_k)]
-    pub fn set_temperature_k(&mut self, v: f64) {
-        self.inner.temperature_k = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult::cut
-    #[getter(cut)]
-    pub fn get_cut(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut {
-        let v = self.inner.cut.clone();
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut { inner: v }
-    }
-    #[setter(cut)]
-    pub fn set_cut(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut,
-    ) {
-        self.inner.cut = v.inner;
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult
-    #[new]
-    pub fn __new__(
-        stage: usize,
-        flow_mol_s: f64,
-        temperature_k: f64,
-        cut: Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::CutResult {
-                stage: stage,
-                flow_mol_s: flow_mol_s,
-                temperature_k: temperature_k,
-                cut: cut.inner,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands
-#[doc = "Operator-manipulated inputs to the crude column."]
-#[pyclass(
-    name = "CrudeCommands",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeCommands {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeCommands {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands::reflux_ratio
-    #[getter(reflux_ratio)]
-    pub fn get_reflux_ratio(&self) -> f64 {
-        let v = self.inner.reflux_ratio.clone();
-        v
-    }
-    #[setter(reflux_ratio)]
-    pub fn set_reflux_ratio(&mut self, v: f64) {
-        self.inner.reflux_ratio = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands::reboiler_duty_watts
-    #[getter(reboiler_duty_watts)]
-    pub fn get_reboiler_duty_watts(&self) -> f64 {
-        let v = self.inner.reboiler_duty_watts.clone();
-        v
-    }
-    #[setter(reboiler_duty_watts)]
-    pub fn set_reboiler_duty_watts(&mut self, v: f64) {
-        self.inner.reboiler_duty_watts = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands::from_plant
-    #[doc = "The operating point the plant was built at — the configured reflux\nratio and the duty its own steady solve requires."]
-    #[staticmethod]
-    pub fn from_plant(
-        plant: PyRef<'_, Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant>,
-    ) -> Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeCommands {
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeCommands {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands::from_plant(
-                &plant.inner,
-            ),
-        }
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands
-    #[new]
-    pub fn __new__(reflux_ratio: f64, reboiler_duty_watts: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeCommands {
-                reflux_ratio: reflux_ratio,
-                reboiler_duty_watts: reboiler_duty_watts,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant
-#[doc = "The crude-distillation plant: a dynamic column, its differential state, and\nthe operating point it was last built with."]
-#[pyclass(
-    name = "CrudePlant",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::sim_time_s
-    #[getter(sim_time_s)]
-    pub fn get_sim_time_s(&self) -> f64 {
-        let v = self.inner.sim_time_s.clone();
-        v
-    }
-    #[setter(sim_time_s)]
-    pub fn set_sim_time_s(&mut self, v: f64) {
-        self.inner.sim_time_s = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::new
-    #[doc = "Build the plant from a black-oil crude and a column configuration,\nstarting from a uniform-fill startup state — deliberately far from\nsteady, so the approach is visible from the first step.\n\n# Errors\n\n[`CrudeColumnError`] if the column cannot be assembled from the crude,\nor if the dynamic model rejects it."]
-    #[new]
-    pub fn new(
-        crude: PyRef<
-            '_,
-            Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude,
-        >,
-        config: PyRef<
-            '_,
-            Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig,
-        >,
-        cut_count: usize,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant> {
-        err(
-            ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::new(
-                &crude.inner,
-                &config.inner,
-                cut_count,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::with_inventory
-    #[doc = "As [`Self::new`], with the tray residence time \\[s\\] and end-vessel\nholdup \\[mol\\] given explicitly.\n\nThese set the column's inventory and therefore its dynamics; the\ndefaults are plausible large-column values and are not fitted.\n\n# Errors\n\n[`CrudeColumnError`] if the column cannot be assembled or solved."]
-    #[staticmethod]
-    pub fn with_inventory(
-        crude: PyRef<
-            '_,
-            Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude,
-        >,
-        config: PyRef<
-            '_,
-            Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig,
-        >,
-        cut_count: usize,
-        tray_tau_s: f64,
-        vessel_holdup_mol: f64,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant> {
-        err(
-            ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::with_inventory(
-                &crude.inner,
-                &config.inner,
-                cut_count,
-                tray_tau_s,
-                vessel_holdup_mol,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::step
-    #[doc = "Advance the plant by [`SUBSTEPS_PER_STEP`] RK4 steps under `commands`.\n\nA command change rebuilds the model at the new operating point, which\nis what makes reflux and duty genuinely manipulable rather than fixed\nat construction. An out-of-range command leaves the plant untouched and\nreturns the error, so a GUI slider cannot crash the simulation.\n\n# Errors\n\n[`CrudeColumnError`] if the commands are outside the model's valid\nrange, or the integrator fails on the current state."]
-    pub fn step(
-        &mut self,
-        commands: Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeCommands,
-    ) -> PyResult<()> {
-        err(
-            ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::step(
-                &mut self.inner,
-                commands.inner,
-            ),
-        )
-        .map(|v| v)
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::snapshot
-    #[doc = "Read the current state out as plain data.\n\n# Errors\n\n[`CrudeColumnError`] if the profiles cannot be resolved from the\ncurrent state."]
-    pub fn snapshot(
-        &self,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeSnapshot> {
-        err(
-            ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::snapshot(
-                &self.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeSnapshot { inner: v })
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::operating
-    #[doc = "The operating point currently in force."]
-    pub fn operating(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumnOperating {
-        Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumnOperating {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::operating(
-                &self.inner,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::side_draw_stages
-    #[doc = "Stages the column draws side products from, with a label for each —\nthe shape `DistillationColumnVisual::with_side_draws` wants."]
-    pub fn side_draw_stages(&self) -> Vec<(usize, f64)> {
-        ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudePlant::side_draw_stages(
-            &self.inner,
-        )
-        .into_iter()
-        .map(|e| {
-            let (e0, e1) = e;
-            (e0, e1)
-        })
-        .collect::<Vec<_>>()
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot
-#[doc = "A GUI-facing readout of the plant. Plain data: everything here is read off\nthe model, nothing is computed by the consumer."]
-#[pyclass(
-    name = "CrudeSnapshot",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeSnapshot {
-    pub inner: ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeSnapshot {
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::n_stages
-    #[getter(n_stages)]
-    pub fn get_n_stages(&self) -> usize {
-        let v = self.inner.n_stages.clone();
-        v
-    }
-    #[setter(n_stages)]
-    pub fn set_n_stages(&mut self, v: usize) {
-        self.inner.n_stages = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::stage_temperature_k
-    #[getter(stage_temperature_k)]
-    pub fn get_stage_temperature_k(&self) -> Vec<f64> {
-        let v = self.inner.stage_temperature_k.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(stage_temperature_k)]
-    pub fn set_stage_temperature_k(&mut self, v: Vec<f64>) {
-        self.inner.stage_temperature_k = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::stage_holdup_mol
-    #[getter(stage_holdup_mol)]
-    pub fn get_stage_holdup_mol(&self) -> Vec<f64> {
-        let v = self.inner.stage_holdup_mol.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(stage_holdup_mol)]
-    pub fn set_stage_holdup_mol(&mut self, v: Vec<f64>) {
-        self.inner.stage_holdup_mol = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::liquid_flow_mol_s
-    #[getter(liquid_flow_mol_s)]
-    pub fn get_liquid_flow_mol_s(&self) -> Vec<f64> {
-        let v = self.inner.liquid_flow_mol_s.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(liquid_flow_mol_s)]
-    pub fn set_liquid_flow_mol_s(&mut self, v: Vec<f64>) {
-        self.inner.liquid_flow_mol_s = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::vapor_flow_mol_s
-    #[getter(vapor_flow_mol_s)]
-    pub fn get_vapor_flow_mol_s(&self) -> Vec<f64> {
-        let v = self.inner.vapor_flow_mol_s.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(vapor_flow_mol_s)]
-    pub fn set_vapor_flow_mol_s(&mut self, v: Vec<f64>) {
-        self.inner.vapor_flow_mol_s = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::lightest_liquid_fraction
-    #[getter(lightest_liquid_fraction)]
-    pub fn get_lightest_liquid_fraction(&self) -> Vec<f64> {
-        let v = self.inner.lightest_liquid_fraction.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(lightest_liquid_fraction)]
-    pub fn set_lightest_liquid_fraction(&mut self, v: Vec<f64>) {
-        self.inner.lightest_liquid_fraction = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::distillate_mol_s
-    #[getter(distillate_mol_s)]
-    pub fn get_distillate_mol_s(&self) -> f64 {
-        let v = self.inner.distillate_mol_s.clone();
-        v
-    }
-    #[setter(distillate_mol_s)]
-    pub fn set_distillate_mol_s(&mut self, v: f64) {
-        self.inner.distillate_mol_s = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::bottoms_mol_s
-    #[getter(bottoms_mol_s)]
-    pub fn get_bottoms_mol_s(&self) -> f64 {
-        let v = self.inner.bottoms_mol_s.clone();
-        v
-    }
-    #[setter(bottoms_mol_s)]
-    pub fn set_bottoms_mol_s(&mut self, v: f64) {
-        self.inner.bottoms_mol_s = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::cuts
-    #[getter(cuts)]
-    pub fn get_cuts(
-        &self,
-    ) -> Vec<(
-        usize,
-        f64,
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut,
-    )> {
-        let v = self.inner.cuts.clone();
-        v.into_iter()
-            .map(|e| {
-                let (e0, e1, e2) = e;
-                (
-                    e0,
-                    e1,
-                    Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut {
-                        inner: e2,
-                    },
-                )
-            })
-            .collect::<Vec<_>>()
-    }
-    #[setter(cuts)]
-    pub fn set_cuts(
-        &mut self,
-        v: Vec<(
-            usize,
-            f64,
-            Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut,
-        )>,
-    ) {
-        self.inner.cuts = v
-            .into_iter()
-            .map(|e| {
-                let (e0, e1, e2) = e;
-                (e0, e1, e2.inner)
-            })
-            .collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot::sim_time_s
-    #[getter(sim_time_s)]
-    pub fn get_sim_time_s(&self) -> f64 {
-        let v = self.inner.sim_time_s.clone();
-        v
-    }
-    #[setter(sim_time_s)]
-    pub fn set_sim_time_s(&mut self, v: f64) {
-        self.inner.sim_time_s = v;
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot
-    #[new]
-    #[pyo3(signature = (n_stages=None, stage_temperature_k=None, stage_holdup_mol=None, liquid_flow_mol_s=None, vapor_flow_mol_s=None, lightest_liquid_fraction=None, distillate_mol_s=None, bottoms_mol_s=None, cuts=None, sim_time_s=None))]
-    pub fn __new__(
-        n_stages: Option<usize>,
-        stage_temperature_k: Option<Vec<f64>>,
-        stage_holdup_mol: Option<Vec<f64>>,
-        liquid_flow_mol_s: Option<Vec<f64>>,
-        vapor_flow_mol_s: Option<Vec<f64>>,
-        lightest_liquid_fraction: Option<Vec<f64>>,
-        distillate_mol_s: Option<f64>,
-        bottoms_mol_s: Option<f64>,
-        cuts: Option<
-            Vec<(
-                usize,
-                f64,
-                Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut,
-            )>,
-        >,
-        sim_time_s: Option<f64>,
-    ) -> Self {
-        let d = <::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot as Default>::default();
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::petroleum::crude_plant::CrudeSnapshot {
-                n_stages: n_stages.map(|v| v).unwrap_or(d.n_stages),
-                stage_temperature_k: stage_temperature_k
-                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .unwrap_or(d.stage_temperature_k),
-                stage_holdup_mol: stage_holdup_mol
-                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .unwrap_or(d.stage_holdup_mol),
-                liquid_flow_mol_s: liquid_flow_mol_s
-                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .unwrap_or(d.liquid_flow_mol_s),
-                vapor_flow_mol_s: vapor_flow_mol_s
-                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .unwrap_or(d.vapor_flow_mol_s),
-                lightest_liquid_fraction: lightest_liquid_fraction
-                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
-                    .unwrap_or(d.lightest_liquid_fraction),
-                distillate_mol_s: distillate_mol_s.map(|v| v).unwrap_or(d.distillate_mol_s),
-                bottoms_mol_s: bottoms_mol_s.map(|v| v).unwrap_or(d.bottoms_mol_s),
-                cuts: cuts
-                    .map(|v| {
-                        v.into_iter()
-                            .map(|e| {
-                                let (e0, e1, e2) = e;
-                                (e0, e1, e2.inner)
-                            })
-                            .collect::<Vec<_>>()
-                    })
-                    .unwrap_or(d.cuts),
-                sim_time_s: sim_time_s.map(|v| v).unwrap_or(d.sim_time_s),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-    #[staticmethod]
-    pub fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
     }
 }
 
@@ -26209,16 +24040,2171 @@ impl Py_outram_park_fork_dwsim_libs__pipe__transient__PipeCell {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::pump::modes::PumpInlet
-#[doc = "The pump's inlet stream state and the one liquid property (density) its\nhydraulic-power calculation needs."]
-#[pyclass(name = "PumpInlet", module = "outram_park.outram_park_fork_dwsim_libs")]
+// @item type:outram_park_fork_dwsim_libs::prelude::BlackOilCrude
+#[doc = "A crude oil described the black-oil way: gravities and a gas-oil ratio.\n\nThese are the numbers on a crude certificate of analysis, and the inputs a\nproduction engineer already has. [`Self::pseudo_components`] turns them into\nsomething a distillation column can run on."]
+#[pyclass(
+    name = "BlackOilCrude",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
 #[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet {
-    pub inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpInlet,
+pub struct Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude,
 }
 #[pymethods]
-impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet {
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpInlet::pressure
+impl Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude {
+    // @item field:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::api_gravity
+    #[getter(api_gravity)]
+    pub fn get_api_gravity(&self) -> f64 {
+        let v = self.inner.api_gravity.clone();
+        v
+    }
+    #[setter(api_gravity)]
+    pub fn set_api_gravity(&mut self, v: f64) {
+        self.inner.api_gravity = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::gas_specific_gravity
+    #[getter(gas_specific_gravity)]
+    pub fn get_gas_specific_gravity(&self) -> f64 {
+        let v = self.inner.gas_specific_gravity.clone();
+        v
+    }
+    #[setter(gas_specific_gravity)]
+    pub fn set_gas_specific_gravity(&mut self, v: f64) {
+        self.inner.gas_specific_gravity = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::bsw_percent
+    #[getter(bsw_percent)]
+    pub fn get_bsw_percent(&self) -> f64 {
+        let v = self.inner.bsw_percent.clone();
+        v
+    }
+    #[setter(bsw_percent)]
+    pub fn set_bsw_percent(&mut self, v: f64) {
+        self.inner.bsw_percent = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::light_sweet
+    #[doc = "A light sweet crude, 38 °API — in the band Brent and WTI occupy.\n\nChosen as the module's worked example because it sits comfortably inside\nevery black-oil correlation's stated validity range, so the\ncharacterisation is not being extrapolated. Gas gravity 0.75 is a\nmid-range associated-gas value."]
+    #[staticmethod]
+    pub fn light_sweet() -> Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude {
+        Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude {
+            inner: ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::light_sweet(),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::heavy
+    #[doc = "A heavy crude, 22 °API — near the lower edge of the correlations'\ncomfortable range, kept as a contrast case for the tests.\n\n**Characterisation fails for `cut_count >= 5` (measured 2026-09-10).**\nThe gamma distribution puts this crude's heaviest cut at `Tb` ≈ 1300 K\nand above (`M` > 1100 g/mol), far outside the `Tb` ≈ 300-850 K band the\ncut correlations are regressed for; there the Lee-Kesler acentric factor\ndiverges and `Vc` turns negative, and [`Self::pseudo_components`]\nreturns [`CharacterizationError::PseudoComponent`] naming that cut\nrather than emitting it (GitHub #170). It still fills a physically\nsensible [`BulkAssay`], which is what the tests use it for. Use\n[`Self::light_sweet`] for a slate that characterises at 8-12 cuts."]
+    #[staticmethod]
+    pub fn heavy() -> Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude {
+        Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude {
+            inner: ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::heavy(),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::oil_specific_gravity
+    #[doc = "Stock-tank oil specific gravity (water = 1) from the API gravity."]
+    pub fn oil_specific_gravity(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::oil_specific_gravity(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::liquid_molar_mass_g_per_mol
+    #[doc = "Apparent liquid molecular weight, g/mol, from the black-oil correlation."]
+    pub fn liquid_molar_mass_g_per_mol(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::liquid_molar_mass_g_per_mol(
+            &self.inner,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::mean_normal_boiling_point_k
+    #[doc = "Mean normal boiling point, K, from the black-oil correlation."]
+    pub fn mean_normal_boiling_point_k(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::mean_normal_boiling_point_k(
+            &self.inner,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::bulk_assay
+    #[doc = "The bulk assay this crude implies — the bridge from black-oil\ncorrelations into the petroleum characterisation machinery.\n\nExactly the three fields [`BulkAssay`] carries are filled; the viscosity\nfields are deliberately left `None` so `generate_compounds` falls back to\nAbbott's correlation rather than being fed a fabricated measurement."]
+    pub fn bulk_assay(&self) -> Py_outram_park_fork_dwsim_libs__petroleum__BulkAssay {
+        Py_outram_park_fork_dwsim_libs__petroleum__BulkAssay {
+            inner: ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::bulk_assay(&self.inner),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::pseudo_components
+    #[doc = "Cut this crude into `cut_count` pseudo-components.\n\n# Arguments\n\n- `cut_count` — number of pseudo-components. Must be at least 2;\n  `generate_compounds` rejects fewer. Eight to twelve is the usual range\n  for an atmospheric column — enough to resolve the cuts, few enough\n  that the MESH solve stays quick.\n\n# Returns\n\nThe slate in ascending boiling-point order, mole fractions summing to\none, or a [`CharacterizationError`] if the bulk properties are not\nself-consistent enough to characterise.\n\n# Validity envelope — heavy crudes and many cuts\n\nThe cut correlations are regressed for `Tb` ≈ 300-850 K and\n`M` ≈ 70-500 g/mol. The heaviest cut of a heavy crude leaves that band\nquickly as `cut_count` grows, and there the Lee-Kesler acentric factor\ndiverges (its denominator vanishes as `Tb/Tc → 1`), driving\n`Zc = 0.291 − 0.08·ω` and with it `Vc = R·Zc·Tc/Pc` **negative**. Such a\ncut is refused, not emitted: the call returns\n[`CharacterizationError::PseudoComponent`] wrapping\n[`crate::petroleum::pseudo_component::PseudoComponentError::NonPhysical`]\nwith `property == \"critical_volume\"` and the offending cut's name and\n1-based index (GitHub #170; before that fix the negative `Vc` was\nreturned a"]
+    pub fn pseudo_components(
+        &self,
+        cut_count: usize,
+    ) -> PyResult<Vec<Py_outram_park_fork_dwsim_libs__petroleum__PseudoComponent>> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::pseudo_components(
+                &self.inner,
+                cut_count,
+            ),
+        )
+        .map(|v| {
+            v.into_iter()
+                .map(|e| Py_outram_park_fork_dwsim_libs__petroleum__PseudoComponent { inner: e })
+                .collect::<Vec<_>>()
+        })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::BlackOilCrude::round_trip_api
+    #[doc = "Round-trip check: the API gravity implied by this crude's own specific\ngravity. Should return [`Self::api_gravity`] to within floating-point\nnoise, and is used by the tests to pin the correlation pair as mutual\ninverses."]
+    pub fn round_trip_api(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude::round_trip_api(&self.inner)
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::BlackOilCrude
+    #[new]
+    pub fn __new__(api_gravity: f64, gas_specific_gravity: f64, bsw_percent: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::BlackOilCrude {
+                api_gravity: api_gravity,
+                gas_specific_gravity: gas_specific_gravity,
+                bsw_percent: bsw_percent,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ColumnThermo
+#[doc = "The property-package façade the column solvers call.\n\nOwns its component list by value (no lifetimes, per the workspace design\nrules) and is cheap to clone.\n\n# Valid ranges\n\nAll methods assume `T > 0` \\[K\\], `P > 0` \\[Pa\\], and mole-fraction slices\nof length `components.len()`. Compositions need not be normalised on entry —\nevery method that is composition-sensitive normalises internally, matching\nDWSIM's own behaviour of feeding un-normalised trial compositions into the\nproperty package."]
+#[pyclass(
+    name = "ColumnThermo",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ColumnThermo,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::new
+    #[doc = "Build a bridge over `components` using `package`.\n\nThe enthalpy model is chosen automatically:\n[`ColumnEnthalpyModel::IdealWithLatentHeat`] for\n[`PropertyPackageModel::Ideal`] (whose departure is identically zero),\n[`ColumnEnthalpyModel::EosDeparture`] for the cubic packages. The\nreference temperature is 298.15 K.\n\n# Panics\n\nNever. Component validity was already enforced by\n[`Component::new`](crate::thermo::Component::new)."]
+    #[new]
+    pub fn new(
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+        Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::new(
+                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                package.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::with_enthalpy_model
+    #[doc = "Override the enthalpy model (e.g. to force the latent-heat route on a\ncubic package for a low-pressure column where the liquid `Z`-root is\npoorly conditioned)."]
+    pub fn with_enthalpy_model(
+        &self,
+        model: Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnEnthalpyModel,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+        Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::with_enthalpy_model(
+                self.inner.clone(),
+                model.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::with_reference_temperature
+    #[doc = "Override the ideal-gas enthalpy reference temperature \\[K\\], > 0."]
+    pub fn with_reference_temperature(
+        &self,
+        t_ref: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+        Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::with_reference_temperature(
+                self.inner.clone(),
+                t_ref,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::components
+    #[doc = "The component list this bridge was built over."]
+    pub fn components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Component> {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::components(&self.inner)
+            .clone()
+            .iter()
+            .cloned()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Component { inner: e })
+            .collect::<Vec<_>>()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::n_components
+    #[doc = "Number of components."]
+    pub fn n_components(&self) -> usize {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::n_components(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::package
+    #[doc = "The underlying property-package model."]
+    pub fn package(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
+        Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::package(&self.inner),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::reference_temperature
+    #[doc = "The ideal-gas enthalpy reference temperature \\[K\\]."]
+    pub fn reference_temperature(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::reference_temperature(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::k_values
+    #[doc = "Equilibrium K-values `K_i = y_i / x_i` \\[-\\] for a trial split.\n\nPorts `PP.DW_CalcKvalue(x, y, T, P)` (`BubblePoint.vb:1404`). `x`, `y`\nare mole fractions \\[-\\] (normalised internally), `t` \\[K\\], `p` \\[Pa\\].\n\nAny non-finite or non-positive K that the package returns is replaced by\nthe ideal estimate `P_sat,i(T)/P` — this is upstream's own guard, applied\nat `BubblePoint.vb:1133`, `:1426`, and `SumRates.vb:648-655`."]
+    pub fn k_values(&self, x: Vec<f64>, y: Vec<f64>, t: f64, p: f64) -> Vec<f64> {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::k_values(
+            &self.inner,
+            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &y.into_iter().map(|e| e).collect::<Vec<_>>(),
+            t,
+            p,
+        )
+        .into_iter()
+        .map(|e| e)
+        .collect::<Vec<_>>()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::ideal_k_value
+    #[doc = "Ideal (Raoult/Wilson) K-value for one component, `K_i = P_sat,i(T) / P`.\n\nPorts `PP.AUX_PVAPi(j, T) / P(i)` (`BubblePoint.vb:1133`). The saturation\npressure is the Wilson estimate\n`P_sat,i = Pc_i · exp[5.373 (1 + ω_i)(1 − Tc_i/T)]`, i.e. exactly the\ncorrelation behind [`crate::thermo::flash::wilson_k_values`], so this\nfallback and the `Ideal` package agree by construction.\n\n`component_index` must be `< n_components()`; `t` \\[K\\] > 0, `p` \\[Pa\\] > 0."]
+    pub fn ideal_k_value(&self, component_index: usize, t: f64, p: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::ideal_k_value(
+            &self.inner,
+            component_index,
+            t,
+            p,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::vapor_pressure
+    #[doc = "Wilson-correlation vapour pressure \\[Pa\\] of one component at `t` \\[K\\].\n\nPorts `AUX_PVAPi`'s role as the column solvers' K-value fallback (they\nonly ever use it as `P_sat/P`). Note this is the *Wilson* estimate, not a\nfitted Antoine/Wagner curve: the crate's [`Component`] carries no\nvapour-pressure coefficients, so a corresponding-states estimate is the\nhonest best available. This is only ever a fallback — the converged\nK-values come from the property package."]
+    pub fn vapor_pressure(&self, component_index: usize, t: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::vapor_pressure(
+            &self.inner,
+            component_index,
+            t,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::mixture_molar_mass
+    #[doc = "Mixture molar mass \\[kg/mol\\] — `Σ x_i M_i`.\n\nPorts `PP.AUX_MMM(x)` (`BubblePoint.vb:980`), which returns g/mol; this\nreturns **kg/mol**, so it composes directly with molar flows \\[mol/s\\] to\ngive kg/s (upstream's `/1000` scalings are folded in here).\n`x` are mole fractions \\[-\\], normalised internally."]
+    pub fn mixture_molar_mass(&self, x: Vec<f64>) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::mixture_molar_mass(
+            &self.inner,
+            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::mole_to_mass_fractions
+    #[doc = "Convert mole fractions to mass fractions \\[-\\].\n\nPorts `PP.AUX_CONVERT_MOL_TO_MASS(x)` (`BubblePoint.vb:222`), used by the\nmass-basis [`crate::columns::model::SpecType::ComponentFraction`] specs."]
+    pub fn mole_to_mass_fractions(&self, x: Vec<f64>) -> Vec<f64> {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::mole_to_mass_fractions(
+            &self.inner,
+            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
+        )
+        .into_iter()
+        .map(|e| e)
+        .collect::<Vec<_>>()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::is_trivial_solution
+    #[doc = "`true` if the K-value vector has collapsed to the trivial solution\n`K_i ≈ 1` for every component.\n\nPorts `PP.AUX_CheckTrivial(Ki)` (`SumRates.vb:791`). Upstream's threshold\nis not exposed in the file; this port uses `|K_i − 1| < 1e-4` for all\n`i`, which is tight enough that a genuinely converged near-azeotropic\nstage is not flagged."]
+    #[staticmethod]
+    pub fn is_trivial_solution(k: Vec<f64>) -> bool {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::is_trivial_solution(
+            &k.into_iter().map(|e| e).collect::<Vec<_>>(),
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::vapor_molar_enthalpy
+    #[doc = "Molar enthalpy of a **vapour** phase \\[J/mol\\] at `t` \\[K\\], `p` \\[Pa\\].\n\nPorts `PP.DW_CalcEnthalpy(y, T, P, State.Vapor) * AUX_MMM(y) / 1000`\n(`BubblePoint.vb:1482`). `y` are mole fractions \\[-\\], normalised\ninternally."]
+    pub fn vapor_molar_enthalpy(&self, y: Vec<f64>, t: f64, p: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::vapor_molar_enthalpy(
+            &self.inner,
+            &y.into_iter().map(|e| e).collect::<Vec<_>>(),
+            t,
+            p,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::liquid_molar_enthalpy
+    #[doc = "Molar enthalpy of a **liquid** phase \\[J/mol\\] at `t` \\[K\\], `p` \\[Pa\\].\n\nPorts `PP.DW_CalcEnthalpy(x, T, P, State.Liquid) * AUX_MMM(x) / 1000`\n(`BubblePoint.vb:1480`). `x` are mole fractions \\[-\\], normalised\ninternally.\n\nUnder [`ColumnEnthalpyModel::EosDeparture`] the liquid residual comes\nfrom the cubic EOS's liquid `Z`-root; if that root does not exist the\nmethod falls back to `H_ig − Σ x_i ΔH_vap,i(T)` rather than returning a\nnon-finite value."]
+    pub fn liquid_molar_enthalpy(&self, x: Vec<f64>, t: f64, p: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::liquid_molar_enthalpy(
+            &self.inner,
+            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
+            t,
+            p,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::feed_molar_enthalpy
+    #[doc = "Molar enthalpy \\[J/mol\\] of a stream of overall composition `z` at `t`\n\\[K\\], `p` \\[Pa\\] and vapour molar fraction `beta` \\[-\\] in `[0, 1]`.\n\nA convenience for building [`crate::columns::model::ColumnSolverInput::feed_enthalpies`]\non the **same reference state** the solver's internal enthalpies use.\n`beta = 0` gives a saturated/subcooled liquid feed, `beta = 1` a\nsuperheated/saturated vapour feed; intermediate values interpolate the\ntwo phase enthalpies at the same composition, which is the two-phase\nfeed enthalpy when the split is not resolved."]
+    pub fn feed_molar_enthalpy(&self, z: Vec<f64>, t: f64, p: f64, beta: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::feed_molar_enthalpy(
+            &self.inner,
+            &z.into_iter().map(|e| e).collect::<Vec<_>>(),
+            t,
+            p,
+            beta,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::enthalpy_of_vaporization
+    #[doc = "Enthalpy of vaporization \\[J/mol\\] of one component at `t` \\[K\\].\n\nVetere's correlation for `ΔH_vb` at the normal boiling point (DWSIM\n`Hypotheticals.vb:906-916`, `DHvb_Vetere`),\n\n`ΔH_vb = R Tc Tbr (0.4343 ln Pc − 0.69431 + 0.8954 Tbr) / (0.37691 − 0.37306 Tbr + 0.15075 Pc^{-1} Tbr^{-2})`\n\nwith `Pc` in **bar** and `Tbr = Tb/Tc`, extrapolated to `T` by the Watson\nrelation with DWSIM's exponent 0.375 (`PropertyPackage.vb:6820`,\n`HVap_A · ((1 − Tr)/(1 − Tbr))^0.375`).\n\nReturns `0.0` for `Tr >= 1` (supercritical — upstream's own early return,\n`PropertyPackage.vb:6812`) and for a component whose normal boiling point\nis missing or >= `Tc`.\n\n# Valid range\n\nThe Watson extrapolation is reliable for `0.4 < Tr < 0.95`; near the\ncritical point it under-predicts, and it is exactly zero at `Tr = 1`."]
+    pub fn enthalpy_of_vaporization(&self, component_index: usize, t: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::enthalpy_of_vaporization(
+            &self.inner,
+            component_index,
+            t,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::mixture_enthalpy_of_vaporization
+    #[doc = "Mole-fraction-weighted enthalpy of vaporization \\[J/mol\\] of a mixture."]
+    pub fn mixture_enthalpy_of_vaporization(&self, x: Vec<f64>, t: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::mixture_enthalpy_of_vaporization(
+            &self.inner,
+            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
+            t,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::bubble_temperature
+    #[doc = "Bubble-point temperature \\[K\\] of liquid `x` at `p` \\[Pa\\], plus the\nK-values there.\n\nPorts the `Flash_PV(x, P, VaporFraction = 0.0, T_guess, ...)` call the\nbubble-point solvers make once per stage per iteration\n(`BubblePoint.vb:1281`, `BubblePoint2.vb:1616`) — a PV flash at zero\nvapour fraction *is* a bubble-point calculation. Implemented on\n[`crate::thermo::saturation::bubble_temperature_with`], seeded from\n`t_guess`.\n\n# Parameters\n\n- `x` — liquid mole fractions \\[-\\], normalised internally.\n- `p` — stage pressure \\[Pa\\] > 0.\n- `t_guess` — starting temperature \\[K\\]; used to bracket the search\n  around the current profile so a stage does not jump to an unrelated\n  root.\n- `stage` — stage index, for error reporting only.\n\n# Returns\n\n`(T_bubble [K], K [-])`.\n\n# Errors\n\n[`ColumnError::BubblePointFailed`] carrying the underlying saturation\nerror, mirroring upstream's \"Error calculating bubble point temperature\nfor stage {0} with P = {1} Pa\" exception (`BubblePoint.vb:1283`)."]
+    pub fn bubble_temperature(
+        &self,
+        x: Vec<f64>,
+        p: f64,
+        t_guess: f64,
+        stage: usize,
+    ) -> PyResult<(f64, Vec<f64>)> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::bubble_temperature(
+                &self.inner,
+                &x.into_iter().map(|e| e).collect::<Vec<_>>(),
+                p,
+                t_guess,
+                stage,
+            ),
+        )
+        .map(|v| {
+            let (e0, e1) = v;
+            (e0, e1.into_iter().map(|e| e).collect::<Vec<_>>())
+        })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ColumnThermo::wilson_k
+    #[doc = "Wilson K-value estimates \\[-\\] for the whole component set — the seed\nevery solver's `k_values` profile starts from when the caller supplies\nnone."]
+    pub fn wilson_k(&self, t: f64, p: f64) -> Vec<f64> {
+        ::outram_park_fork_dwsim_libs::prelude::ColumnThermo::wilson_k(&self.inner, t, p)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::Component
+#[doc = "Pure-compound constant properties.\n\nA plain data record: no behaviour beyond validated construction and\naccessors. The ideal-gas heat capacity is evaluated from `cp_ig_a..e` by\n[`crate::thermo::ideal_props`] (this struct only stores the coefficients);\nthe EOS `a(T)`/`b` parameters are computed by [`crate::thermo::cubic_eos`]\nfrom `critical_temperature`, `critical_pressure`, and `acentric_factor`.\n\n## Ideal-gas Cp correlation\n\n`cp_ig_a..e` are DWSIM's `Ideal_Gas_Heat_Capacity_Const_A..E`. The exact\npolynomial/DIPPR form they parameterise is implemented by\n[`crate::thermo::ideal_props`] against DWSIM's `PropertyPackageMethods`; this\nrecord is agnostic to that form and merely carries the five coefficients\nplus the reference entropy of formation."]
+#[pyclass(name = "Component", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__Component {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::Component,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__Component {
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::name
+    #[getter(name)]
+    pub fn get_name(&self) -> String {
+        let v = self.inner.name.clone();
+        v
+    }
+    #[setter(name)]
+    pub fn set_name(&mut self, v: String) {
+        self.inner.name = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::molar_mass
+    #[getter(molar_mass)]
+    pub fn get_molar_mass(&self) -> f64 {
+        let v = self.inner.molar_mass.clone();
+        v
+    }
+    #[setter(molar_mass)]
+    pub fn set_molar_mass(&mut self, v: f64) {
+        self.inner.molar_mass = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::critical_temperature
+    #[getter(critical_temperature)]
+    pub fn get_critical_temperature(&self) -> f64 {
+        let v = self.inner.critical_temperature.clone();
+        v
+    }
+    #[setter(critical_temperature)]
+    pub fn set_critical_temperature(&mut self, v: f64) {
+        self.inner.critical_temperature = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::critical_pressure
+    #[getter(critical_pressure)]
+    pub fn get_critical_pressure(&self) -> f64 {
+        let v = self.inner.critical_pressure.clone();
+        v
+    }
+    #[setter(critical_pressure)]
+    pub fn set_critical_pressure(&mut self, v: f64) {
+        self.inner.critical_pressure = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::critical_volume
+    #[getter(critical_volume)]
+    pub fn get_critical_volume(&self) -> f64 {
+        let v = self.inner.critical_volume.clone();
+        v
+    }
+    #[setter(critical_volume)]
+    pub fn set_critical_volume(&mut self, v: f64) {
+        self.inner.critical_volume = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::acentric_factor
+    #[getter(acentric_factor)]
+    pub fn get_acentric_factor(&self) -> f64 {
+        let v = self.inner.acentric_factor.clone();
+        v
+    }
+    #[setter(acentric_factor)]
+    pub fn set_acentric_factor(&mut self, v: f64) {
+        self.inner.acentric_factor = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::normal_boiling_point
+    #[getter(normal_boiling_point)]
+    pub fn get_normal_boiling_point(&self) -> f64 {
+        let v = self.inner.normal_boiling_point.clone();
+        v
+    }
+    #[setter(normal_boiling_point)]
+    pub fn set_normal_boiling_point(&mut self, v: f64) {
+        self.inner.normal_boiling_point = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::cp_ig_a
+    #[getter(cp_ig_a)]
+    pub fn get_cp_ig_a(&self) -> f64 {
+        let v = self.inner.cp_ig_a.clone();
+        v
+    }
+    #[setter(cp_ig_a)]
+    pub fn set_cp_ig_a(&mut self, v: f64) {
+        self.inner.cp_ig_a = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::cp_ig_b
+    #[getter(cp_ig_b)]
+    pub fn get_cp_ig_b(&self) -> f64 {
+        let v = self.inner.cp_ig_b.clone();
+        v
+    }
+    #[setter(cp_ig_b)]
+    pub fn set_cp_ig_b(&mut self, v: f64) {
+        self.inner.cp_ig_b = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::cp_ig_c
+    #[getter(cp_ig_c)]
+    pub fn get_cp_ig_c(&self) -> f64 {
+        let v = self.inner.cp_ig_c.clone();
+        v
+    }
+    #[setter(cp_ig_c)]
+    pub fn set_cp_ig_c(&mut self, v: f64) {
+        self.inner.cp_ig_c = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::cp_ig_d
+    #[getter(cp_ig_d)]
+    pub fn get_cp_ig_d(&self) -> f64 {
+        let v = self.inner.cp_ig_d.clone();
+        v
+    }
+    #[setter(cp_ig_d)]
+    pub fn set_cp_ig_d(&mut self, v: f64) {
+        self.inner.cp_ig_d = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::cp_ig_e
+    #[getter(cp_ig_e)]
+    pub fn get_cp_ig_e(&self) -> f64 {
+        let v = self.inner.cp_ig_e.clone();
+        v
+    }
+    #[setter(cp_ig_e)]
+    pub fn set_cp_ig_e(&mut self, v: f64) {
+        self.inner.cp_ig_e = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Component::ig_entropy_formation_25c
+    #[getter(ig_entropy_formation_25c)]
+    pub fn get_ig_entropy_formation_25c(&self) -> f64 {
+        let v = self.inner.ig_entropy_formation_25c.clone();
+        v
+    }
+    #[setter(ig_entropy_formation_25c)]
+    pub fn set_ig_entropy_formation_25c(&mut self, v: f64) {
+        self.inner.ig_entropy_formation_25c = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Component::reduced_temperature
+    #[doc = "Reduced temperature `Tr = T / Tc` [-] at `temperature` [K]."]
+    pub fn reduced_temperature(&self, temperature: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Component::reduced_temperature(
+            &self.inner,
+            temperature,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Component::reduced_pressure
+    #[doc = "Reduced pressure `Pr = P / Pc` [-] at `pressure` [Pa]."]
+    pub fn reduced_pressure(&self, pressure: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Component::reduced_pressure(&self.inner, pressure)
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::Component
+    #[new]
+    pub fn __new__(
+        name: String,
+        molar_mass: f64,
+        critical_temperature: f64,
+        critical_pressure: f64,
+        critical_volume: f64,
+        acentric_factor: f64,
+        normal_boiling_point: f64,
+        cp_ig_a: f64,
+        cp_ig_b: f64,
+        cp_ig_c: f64,
+        cp_ig_d: f64,
+        cp_ig_e: f64,
+        ig_entropy_formation_25c: f64,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Component {
+                name: name,
+                molar_mass: molar_mass,
+                critical_temperature: critical_temperature,
+                critical_pressure: critical_pressure,
+                critical_volume: critical_volume,
+                acentric_factor: acentric_factor,
+                normal_boiling_point: normal_boiling_point,
+                cp_ig_a: cp_ig_a,
+                cp_ig_b: cp_ig_b,
+                cp_ig_c: cp_ig_c,
+                cp_ig_d: cp_ig_d,
+                cp_ig_e: cp_ig_e,
+                ig_entropy_formation_25c: ig_entropy_formation_25c,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ComponentError
+#[doc = "Error constructing a [`Component`] from out-of-range constants."]
+#[pyclass(
+    name = "ComponentError",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ComponentError {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ComponentError,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ComponentError {
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::ComponentError::NonPositive { .. } => {
+                "NonPositive"
+            }
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ConversionReactor
+#[doc = "A fixed-conversion reactor holding a list of conversion reactions applied in\norder."]
+#[pyclass(
+    name = "ConversionReactor",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ConversionReactor {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ConversionReactor,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ConversionReactor {
+    // @item field:outram_park_fork_dwsim_libs::prelude::ConversionReactor::reactions
+    #[getter(reactions)]
+    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction> {
+        let v = self.inner.reactions.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Reaction { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(reactions)]
+    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>) {
+        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ConversionReactor::new
+    #[doc = "Construct a conversion reactor from its reaction list."]
+    #[new]
+    pub fn new(
+        reactions: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__ConversionReactor {
+        Py_outram_park_fork_dwsim_libs__prelude__ConversionReactor {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ConversionReactor::new(
+                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ConversionReactor::solve
+    #[doc = "Apply every reaction's fixed conversion to the `feed`, returning the\noutlet molar flows, per-reaction extents, and net heat of reaction.\n\nFor each reaction the base reactant's *current* flow (after any earlier\nreaction in the list) sets the extent, so sequential reactions compound\nas in DWSIM. Conversions are clamped to `[0, 1]`; a conversion that would\ndrive any compound below zero is capped so the mole balance stays\nnon-negative."]
+    pub fn solve(
+        &self,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::ConversionReactor::solve(
+                &self.inner,
+                &feed.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig
+#[doc = "Configuration for an atmospheric crude column.\n\n# What is modelled, and what is not\n\nThis is a **reboiled** column with liquid side draws: a condenser at the\ntop, a reboiler at the bottom, and product draws at the cut stages. Side\ndraws are what make it a crude unit rather than a binary column — without\nthem there is only an overhead and a bottoms, and no cut slate at all.\n\n**A real CDU is not reboiled.** It is a refluxed absorber stripped with\nopen steam at the bottom, with pump-around circuits removing heat down the\ncolumn. [`crate::columns::ColumnType::RefluxedAbsorber`] is reachable since\n2026-09-10 through [`RigorousColumn::refluxed_absorber`](crate::columns::initial_estimates::RigorousColumn::refluxed_absorber) (GitHub #103), but\nthis module deliberately still builds a reboiled\n[`RigorousColumn::distillation`](crate::columns::initial_estimates::RigorousColumn::distillation) column, because the refluxed-absorber\nvariant is **not yet physically solvable** in this port: the bubble-point\nsolvers pin its distillate rate to the initial estimate and never enforce\nthe bottom-stage energy balance, and Naphtali-Sandholm does not converge on\nit (both measured and recorded in that constructor's docs and in\n`columns::column_type_tests`). Switching the CDU over is solver work, not a\nbuilder change. The consequence is stated rather than hidden: this model has\nno stripping steam, no pump-arounds and no crude furnace, so its energy\nbalance is not a refinery's. It resolves *where the cut"]
+#[pyclass(
+    name = "CrudeColumnConfig",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig {
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::n_stages
+    #[getter(n_stages)]
+    pub fn get_n_stages(&self) -> usize {
+        let v = self.inner.n_stages.clone();
+        v
+    }
+    #[setter(n_stages)]
+    pub fn set_n_stages(&mut self, v: usize) {
+        self.inner.n_stages = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::feed_stage
+    #[getter(feed_stage)]
+    pub fn get_feed_stage(&self) -> usize {
+        let v = self.inner.feed_stage.clone();
+        v
+    }
+    #[setter(feed_stage)]
+    pub fn set_feed_stage(&mut self, v: usize) {
+        self.inner.feed_stage = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::pressure_pa
+    #[getter(pressure_pa)]
+    pub fn get_pressure_pa(&self) -> f64 {
+        let v = self.inner.pressure_pa.clone();
+        v
+    }
+    #[setter(pressure_pa)]
+    pub fn set_pressure_pa(&mut self, v: f64) {
+        self.inner.pressure_pa = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::feed_flow_mol_s
+    #[getter(feed_flow_mol_s)]
+    pub fn get_feed_flow_mol_s(&self) -> f64 {
+        let v = self.inner.feed_flow_mol_s.clone();
+        v
+    }
+    #[setter(feed_flow_mol_s)]
+    pub fn set_feed_flow_mol_s(&mut self, v: f64) {
+        self.inner.feed_flow_mol_s = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::reflux_ratio
+    #[getter(reflux_ratio)]
+    pub fn get_reflux_ratio(&self) -> f64 {
+        let v = self.inner.reflux_ratio.clone();
+        v
+    }
+    #[setter(reflux_ratio)]
+    pub fn set_reflux_ratio(&mut self, v: f64) {
+        self.inner.reflux_ratio = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::bottoms_fraction
+    #[getter(bottoms_fraction)]
+    pub fn get_bottoms_fraction(&self) -> f64 {
+        let v = self.inner.bottoms_fraction.clone();
+        v
+    }
+    #[setter(bottoms_fraction)]
+    pub fn set_bottoms_fraction(&mut self, v: f64) {
+        self.inner.bottoms_fraction = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::side_draws
+    #[getter(side_draws)]
+    pub fn get_side_draws(&self) -> Vec<(usize, f64)> {
+        let v = self.inner.side_draws.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(side_draws)]
+    pub fn set_side_draws(&mut self, v: Vec<(usize, f64)>) {
+        self.inner.side_draws = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::residue_cut_point_k
+    #[getter(residue_cut_point_k)]
+    pub fn get_residue_cut_point_k(&self) -> f64 {
+        let v = self.inner.residue_cut_point_k.clone();
+        v
+    }
+    #[setter(residue_cut_point_k)]
+    pub fn set_residue_cut_point_k(&mut self, v: f64) {
+        self.inner.residue_cut_point_k = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::package
+    #[getter(package)]
+    pub fn get_package(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
+        let v = self.inner.package.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel { inner: v }
+    }
+    #[setter(package)]
+    pub fn set_package(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+    ) {
+        self.inner.package = v.inner;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::atmospheric_default
+    #[doc = "A 12-stage atmospheric column with three side draws, sized for the\n[`BlackOilCrude::light_sweet`] reference crude.\n\nDraw placement follows the usual arrangement — the lightest side product\nnearest the top — and the rates are a **plausible split, not a\nspecification**: they sum with the bottoms to less than the feed, leaving\nthe balance as overhead distillate. Nothing here is fitted to a real\nyield."]
+    #[staticmethod]
+    pub fn atmospheric_default() -> Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig {
+        Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::atmospheric_default(),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::total_side_draw_fraction
+    #[doc = "Total side-draw fraction of the column feed \\[-\\]."]
+    pub fn total_side_draw_fraction(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::total_side_draw_fraction(
+            &self.inner,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::distillate_fraction
+    #[doc = "Fraction of the column feed leaving as overhead distillate \\[-\\]:\n`1 − bottoms − Σ side draws`."]
+    pub fn distillate_fraction(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::distillate_fraction(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::validate
+    #[doc = "Whether the configuration is self-consistent enough to solve: at least\nthree stages, a feed stage inside the column, every draw on an interior\nstage, and a positive implied distillate.\n\n# Errors\n\n[`CrudeColumnError`] naming the first problem found."]
+    pub fn validate(&self) -> PyResult<()> {
+        err(::outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig::validate(&self.inner))
+            .map(|v| v)
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig
+    #[new]
+    pub fn __new__(
+        n_stages: usize,
+        feed_stage: usize,
+        pressure_pa: f64,
+        feed_flow_mol_s: f64,
+        reflux_ratio: f64,
+        bottoms_fraction: f64,
+        side_draws: Vec<(usize, f64)>,
+        residue_cut_point_k: f64,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnConfig {
+                n_stages: n_stages,
+                feed_stage: feed_stage,
+                pressure_pa: pressure_pa,
+                feed_flow_mol_s: feed_flow_mol_s,
+                reflux_ratio: reflux_ratio,
+                bottoms_fraction: bottoms_fraction,
+                side_draws: side_draws
+                    .into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+                residue_cut_point_k: residue_cut_point_k,
+                package: package.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudeColumnError
+#[doc = "Why a crude-column configuration could not be built or solved."]
+#[pyclass(
+    name = "CrudeColumnError",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnError {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnError {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeColumnError::TooFewStages
+    #[staticmethod]
+    #[pyo3(name = "TooFewStages")]
+    pub fn v_TooFewStages(a0: usize) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::TooFewStages(a0),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeColumnError::FeedStageOutOfRange
+    #[staticmethod]
+    #[pyo3(name = "FeedStageOutOfRange")]
+    pub fn v_FeedStageOutOfRange(stage: usize, n_stages: usize) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::FeedStageOutOfRange {
+                stage: stage,
+                n_stages: n_stages,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeColumnError::DrawStageOutOfRange
+    #[staticmethod]
+    #[pyo3(name = "DrawStageOutOfRange")]
+    pub fn v_DrawStageOutOfRange(stage: usize, n_stages: usize) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::DrawStageOutOfRange {
+                stage: stage,
+                n_stages: n_stages,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeColumnError::NonPhysicalDrawRate
+    #[staticmethod]
+    #[pyo3(name = "NonPhysicalDrawRate")]
+    pub fn v_NonPhysicalDrawRate(stage: usize, rate: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::NonPhysicalDrawRate {
+                stage: stage,
+                rate: rate,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeColumnError::OverdrawnFeed
+    #[staticmethod]
+    #[pyo3(name = "OverdrawnFeed")]
+    pub fn v_OverdrawnFeed(feed: f64, withdrawn: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::OverdrawnFeed {
+                feed: feed,
+                withdrawn: withdrawn,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeColumnError::Characterisation
+    #[staticmethod]
+    #[pyo3(name = "Characterisation")]
+    pub fn v_Characterisation(a0: String) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::Characterisation(a0),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeColumnError::Solve
+    #[staticmethod]
+    #[pyo3(name = "Solve")]
+    pub fn v_Solve(a0: String) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::Solve(a0),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::TooFewStages(..) => {
+                "TooFewStages"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::FeedStageOutOfRange {
+                ..
+            } => "FeedStageOutOfRange",
+            ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::DrawStageOutOfRange {
+                ..
+            } => "DrawStageOutOfRange",
+            ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::NonPhysicalDrawRate {
+                ..
+            } => "NonPhysicalDrawRate",
+            ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::OverdrawnFeed { .. } => {
+                "OverdrawnFeed"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::Characterisation(..) => {
+                "Characterisation"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::CrudeColumnError::Solve(..) => "Solve",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudeColumnResult
+#[doc = "A converged atmospheric crude column."]
+#[pyclass(
+    name = "CrudeColumnResult",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnResult {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnResult,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnResult {
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnResult::cuts
+    #[getter(cuts)]
+    pub fn get_cuts(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__CutResult> {
+        let v = self.inner.cuts.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__CutResult { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(cuts)]
+    pub fn set_cuts(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__CutResult>) {
+        self.inner.cuts = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnResult::stage_temperatures_k
+    #[getter(stage_temperatures_k)]
+    pub fn get_stage_temperatures_k(&self) -> Vec<f64> {
+        let v = self.inner.stage_temperatures_k.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(stage_temperatures_k)]
+    pub fn set_stage_temperatures_k(&mut self, v: Vec<f64>) {
+        self.inner.stage_temperatures_k = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnResult::iterations
+    #[getter(iterations)]
+    pub fn get_iterations(&self) -> usize {
+        let v = self.inner.iterations.clone();
+        v
+    }
+    #[setter(iterations)]
+    pub fn set_iterations(&mut self, v: usize) {
+        self.inner.iterations = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnResult::final_error
+    #[getter(final_error)]
+    pub fn get_final_error(&self) -> f64 {
+        let v = self.inner.final_error.clone();
+        v
+    }
+    #[setter(final_error)]
+    pub fn set_final_error(&mut self, v: f64) {
+        self.inner.final_error = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeColumnResult::total_product_mol_s
+    #[doc = "Total product rate \\[mol/s\\] — should equal the feed."]
+    pub fn total_product_mol_s(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::CrudeColumnResult::total_product_mol_s(&self.inner)
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::CrudeColumnResult
+    #[new]
+    pub fn __new__(
+        cuts: Vec<Py_outram_park_fork_dwsim_libs__prelude__CutResult>,
+        stage_temperatures_k: Vec<f64>,
+        iterations: usize,
+        final_error: f64,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnResult {
+                cuts: cuts.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                stage_temperatures_k: stage_temperatures_k
+                    .into_iter()
+                    .map(|e| e)
+                    .collect::<Vec<_>>(),
+                iterations: iterations,
+                final_error: final_error,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup
+#[doc = "Everything a crude column run needs, assembled from a black-oil\ncharacterisation: the solver input plus the flows the caller has to add\nback to close the balance on the whole crude.\n\nShared by [`solve_crude_column`] (a steady solve) and\n[`CrudePlant`](crate::petroleum::crude_plant::CrudePlant) (a transient\none), so the two cannot drift apart in how they set a column up."]
+#[pyclass(
+    name = "CrudeColumnSetup",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnSetup {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnSetup {
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup::input
+    #[getter(input)]
+    pub fn get_input(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput {
+        let v = self.inner.input.clone();
+        Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput { inner: v }
+    }
+    #[setter(input)]
+    pub fn set_input(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput) {
+        self.inner.input = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup::draw_rates
+    #[getter(draw_rates)]
+    pub fn get_draw_rates(&self) -> Vec<(usize, f64)> {
+        let v = self.inner.draw_rates.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(draw_rates)]
+    pub fn set_draw_rates(&mut self, v: Vec<(usize, f64)>) {
+        self.inner.draw_rates = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup::column_distillate_mol_s
+    #[getter(column_distillate_mol_s)]
+    pub fn get_column_distillate_mol_s(&self) -> f64 {
+        let v = self.inner.column_distillate_mol_s.clone();
+        v
+    }
+    #[setter(column_distillate_mol_s)]
+    pub fn set_column_distillate_mol_s(&mut self, v: f64) {
+        self.inner.column_distillate_mol_s = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup::bottoms_mol_s
+    #[getter(bottoms_mol_s)]
+    pub fn get_bottoms_mol_s(&self) -> f64 {
+        let v = self.inner.bottoms_mol_s.clone();
+        v
+    }
+    #[setter(bottoms_mol_s)]
+    pub fn set_bottoms_mol_s(&mut self, v: f64) {
+        self.inner.bottoms_mol_s = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup::bypass_mol_s
+    #[getter(bypass_mol_s)]
+    pub fn get_bypass_mol_s(&self) -> f64 {
+        let v = self.inner.bypass_mol_s.clone();
+        v
+    }
+    #[setter(bypass_mol_s)]
+    pub fn set_bypass_mol_s(&mut self, v: f64) {
+        self.inner.bypass_mol_s = v;
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup
+    #[new]
+    pub fn __new__(
+        input: Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput,
+        draw_rates: Vec<(usize, f64)>,
+        column_distillate_mol_s: f64,
+        bottoms_mol_s: f64,
+        bypass_mol_s: f64,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeColumnSetup {
+                input: input.inner,
+                draw_rates: draw_rates
+                    .into_iter()
+                    .map(|e| {
+                        let (e0, e1) = e;
+                        (e0, e1)
+                    })
+                    .collect::<Vec<_>>(),
+                column_distillate_mol_s: column_distillate_mol_s,
+                bottoms_mol_s: bottoms_mol_s,
+                bypass_mol_s: bypass_mol_s,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudeCommands
+#[doc = "Operator-manipulated inputs to the crude column."]
+#[pyclass(
+    name = "CrudeCommands",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudeCommands {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCommands,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudeCommands {
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeCommands::reflux_ratio
+    #[getter(reflux_ratio)]
+    pub fn get_reflux_ratio(&self) -> f64 {
+        let v = self.inner.reflux_ratio.clone();
+        v
+    }
+    #[setter(reflux_ratio)]
+    pub fn set_reflux_ratio(&mut self, v: f64) {
+        self.inner.reflux_ratio = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeCommands::reboiler_duty_watts
+    #[getter(reboiler_duty_watts)]
+    pub fn get_reboiler_duty_watts(&self) -> f64 {
+        let v = self.inner.reboiler_duty_watts.clone();
+        v
+    }
+    #[setter(reboiler_duty_watts)]
+    pub fn set_reboiler_duty_watts(&mut self, v: f64) {
+        self.inner.reboiler_duty_watts = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeCommands::from_plant
+    #[doc = "The operating point the plant was built at — the configured reflux\nratio and the duty its own steady solve requires."]
+    #[staticmethod]
+    pub fn from_plant(
+        plant: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__CrudePlant>,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__CrudeCommands {
+        Py_outram_park_fork_dwsim_libs__prelude__CrudeCommands {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCommands::from_plant(&plant.inner),
+        }
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::CrudeCommands
+    #[new]
+    pub fn __new__(reflux_ratio: f64, reboiler_duty_watts: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCommands {
+                reflux_ratio: reflux_ratio,
+                reboiler_duty_watts: reboiler_duty_watts,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudeCut
+#[doc = "The conventional atmospheric-crude cut slate, by normal boiling range.\n\nBoundaries are the customary refinery bands rather than anything this\nmodule derives — they exist so a caller can *label* a pseudo-component or a\nside draw, and so the tests can assert that a draw came out somewhere\nsensible. They are not specifications and no yield is fitted to them."]
+#[pyclass(name = "CrudeCut", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudeCut {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudeCut {
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeCut::from_normal_boiling_point_k
+    #[doc = "Which cut a normal boiling point falls in."]
+    #[staticmethod]
+    pub fn from_normal_boiling_point_k(
+        tb_k: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__CrudeCut {
+        Py_outram_park_fork_dwsim_libs__prelude__CrudeCut {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut::from_normal_boiling_point_k(
+                tb_k,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeCut::boiling_band_k
+    #[doc = "The cut's conventional boiling band, K, as `(lower, upper)`.\n`Gas` is open below and `Residue` open above; those bounds are given as\n`0.0` and `f64::INFINITY`."]
+    pub fn boiling_band_k(&self) -> (f64, f64) {
+        {
+            let (e0, e1) = ::outram_park_fork_dwsim_libs::prelude::CrudeCut::boiling_band_k(
+                self.inner.clone(),
+            );
+            (e0, e1)
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudeCut::label
+    #[doc = "Short label for a schematic or a table."]
+    pub fn label(&self) -> String {
+        ::outram_park_fork_dwsim_libs::prelude::CrudeCut::label(self.inner.clone())
+            .clone()
+            .to_string()
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeCut::Gas
+    #[staticmethod]
+    #[pyo3(name = "Gas")]
+    pub fn v_Gas() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Gas,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeCut::Naphtha
+    #[staticmethod]
+    #[pyo3(name = "Naphtha")]
+    pub fn v_Naphtha() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Naphtha,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeCut::Kerosene
+    #[staticmethod]
+    #[pyo3(name = "Kerosene")]
+    pub fn v_Kerosene() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Kerosene,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeCut::Diesel
+    #[staticmethod]
+    #[pyo3(name = "Diesel")]
+    pub fn v_Diesel() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Diesel,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeCut::AtmosphericGasOil
+    #[staticmethod]
+    #[pyo3(name = "AtmosphericGasOil")]
+    pub fn v_AtmosphericGasOil() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut::AtmosphericGasOil,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::CrudeCut::Residue
+    #[staticmethod]
+    #[pyo3(name = "Residue")]
+    pub fn v_Residue() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Residue,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Gas => "Gas",
+            ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Naphtha => "Naphtha",
+            ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Kerosene => "Kerosene",
+            ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Diesel => "Diesel",
+            ::outram_park_fork_dwsim_libs::prelude::CrudeCut::AtmosphericGasOil => {
+                "AtmosphericGasOil"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::CrudeCut::Residue => "Residue",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudePlant
+#[doc = "The crude-distillation plant: a dynamic column, its differential state, and\nthe operating point it was last built with."]
+#[pyclass(
+    name = "CrudePlant",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudePlant {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudePlant,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudePlant {
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudePlant::sim_time_s
+    #[getter(sim_time_s)]
+    pub fn get_sim_time_s(&self) -> f64 {
+        let v = self.inner.sim_time_s.clone();
+        v
+    }
+    #[setter(sim_time_s)]
+    pub fn set_sim_time_s(&mut self, v: f64) {
+        self.inner.sim_time_s = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudePlant::new
+    #[doc = "Build the plant from a black-oil crude and a column configuration,\nstarting from a uniform-fill startup state — deliberately far from\nsteady, so the approach is visible from the first step.\n\n# Errors\n\n[`CrudeColumnError`] if the column cannot be assembled from the crude,\nor if the dynamic model rejects it."]
+    #[new]
+    pub fn new(
+        crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude>,
+        config: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig>,
+        cut_count: usize,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__CrudePlant> {
+        err(::outram_park_fork_dwsim_libs::prelude::CrudePlant::new(
+            &crude.inner,
+            &config.inner,
+            cut_count,
+        ))
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__CrudePlant { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudePlant::with_inventory
+    #[doc = "As [`Self::new`], with the tray residence time \\[s\\] and end-vessel\nholdup \\[mol\\] given explicitly.\n\nThese set the column's inventory and therefore its dynamics; the\ndefaults are plausible large-column values and are not fitted.\n\n# Errors\n\n[`CrudeColumnError`] if the column cannot be assembled or solved."]
+    #[staticmethod]
+    pub fn with_inventory(
+        crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude>,
+        config: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig>,
+        cut_count: usize,
+        tray_tau_s: f64,
+        vessel_holdup_mol: f64,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__CrudePlant> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::CrudePlant::with_inventory(
+                &crude.inner,
+                &config.inner,
+                cut_count,
+                tray_tau_s,
+                vessel_holdup_mol,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__CrudePlant { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudePlant::step
+    #[doc = "Advance the plant by [`SUBSTEPS_PER_STEP`] RK4 steps under `commands`.\n\nA command change rebuilds the model at the new operating point, which\nis what makes reflux and duty genuinely manipulable rather than fixed\nat construction. An out-of-range command leaves the plant untouched and\nreturns the error, so a GUI slider cannot crash the simulation.\n\n# Errors\n\n[`CrudeColumnError`] if the commands are outside the model's valid\nrange, or the integrator fails on the current state."]
+    pub fn step(
+        &mut self,
+        commands: Py_outram_park_fork_dwsim_libs__prelude__CrudeCommands,
+    ) -> PyResult<()> {
+        err(::outram_park_fork_dwsim_libs::prelude::CrudePlant::step(
+            &mut self.inner,
+            commands.inner,
+        ))
+        .map(|v| v)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudePlant::snapshot
+    #[doc = "Read the current state out as plain data.\n\n# Errors\n\n[`CrudeColumnError`] if the profiles cannot be resolved from the\ncurrent state."]
+    pub fn snapshot(&self) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__CrudeSnapshot> {
+        err(::outram_park_fork_dwsim_libs::prelude::CrudePlant::snapshot(&self.inner))
+            .map(|v| Py_outram_park_fork_dwsim_libs__prelude__CrudeSnapshot { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudePlant::operating
+    #[doc = "The operating point currently in force."]
+    pub fn operating(
+        &self,
+    ) -> Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumnOperating {
+        Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumnOperating {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudePlant::operating(&self.inner),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::CrudePlant::side_draw_stages
+    #[doc = "Stages the column draws side products from, with a label for each —\nthe shape `DistillationColumnVisual::with_side_draws` wants."]
+    pub fn side_draw_stages(&self) -> Vec<(usize, f64)> {
+        ::outram_park_fork_dwsim_libs::prelude::CrudePlant::side_draw_stages(&self.inner)
+            .into_iter()
+            .map(|e| {
+                let (e0, e1) = e;
+                (e0, e1)
+            })
+            .collect::<Vec<_>>()
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot
+#[doc = "A GUI-facing readout of the plant. Plain data: everything here is read off\nthe model, nothing is computed by the consumer."]
+#[pyclass(
+    name = "CrudeSnapshot",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CrudeSnapshot {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CrudeSnapshot,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CrudeSnapshot {
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::n_stages
+    #[getter(n_stages)]
+    pub fn get_n_stages(&self) -> usize {
+        let v = self.inner.n_stages.clone();
+        v
+    }
+    #[setter(n_stages)]
+    pub fn set_n_stages(&mut self, v: usize) {
+        self.inner.n_stages = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::stage_temperature_k
+    #[getter(stage_temperature_k)]
+    pub fn get_stage_temperature_k(&self) -> Vec<f64> {
+        let v = self.inner.stage_temperature_k.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(stage_temperature_k)]
+    pub fn set_stage_temperature_k(&mut self, v: Vec<f64>) {
+        self.inner.stage_temperature_k = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::stage_holdup_mol
+    #[getter(stage_holdup_mol)]
+    pub fn get_stage_holdup_mol(&self) -> Vec<f64> {
+        let v = self.inner.stage_holdup_mol.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(stage_holdup_mol)]
+    pub fn set_stage_holdup_mol(&mut self, v: Vec<f64>) {
+        self.inner.stage_holdup_mol = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::liquid_flow_mol_s
+    #[getter(liquid_flow_mol_s)]
+    pub fn get_liquid_flow_mol_s(&self) -> Vec<f64> {
+        let v = self.inner.liquid_flow_mol_s.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(liquid_flow_mol_s)]
+    pub fn set_liquid_flow_mol_s(&mut self, v: Vec<f64>) {
+        self.inner.liquid_flow_mol_s = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::vapor_flow_mol_s
+    #[getter(vapor_flow_mol_s)]
+    pub fn get_vapor_flow_mol_s(&self) -> Vec<f64> {
+        let v = self.inner.vapor_flow_mol_s.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(vapor_flow_mol_s)]
+    pub fn set_vapor_flow_mol_s(&mut self, v: Vec<f64>) {
+        self.inner.vapor_flow_mol_s = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::lightest_liquid_fraction
+    #[getter(lightest_liquid_fraction)]
+    pub fn get_lightest_liquid_fraction(&self) -> Vec<f64> {
+        let v = self.inner.lightest_liquid_fraction.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(lightest_liquid_fraction)]
+    pub fn set_lightest_liquid_fraction(&mut self, v: Vec<f64>) {
+        self.inner.lightest_liquid_fraction = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::distillate_mol_s
+    #[getter(distillate_mol_s)]
+    pub fn get_distillate_mol_s(&self) -> f64 {
+        let v = self.inner.distillate_mol_s.clone();
+        v
+    }
+    #[setter(distillate_mol_s)]
+    pub fn set_distillate_mol_s(&mut self, v: f64) {
+        self.inner.distillate_mol_s = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::bottoms_mol_s
+    #[getter(bottoms_mol_s)]
+    pub fn get_bottoms_mol_s(&self) -> f64 {
+        let v = self.inner.bottoms_mol_s.clone();
+        v
+    }
+    #[setter(bottoms_mol_s)]
+    pub fn set_bottoms_mol_s(&mut self, v: f64) {
+        self.inner.bottoms_mol_s = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::cuts
+    #[getter(cuts)]
+    pub fn get_cuts(
+        &self,
+    ) -> Vec<(
+        usize,
+        f64,
+        Py_outram_park_fork_dwsim_libs__prelude__CrudeCut,
+    )> {
+        let v = self.inner.cuts.clone();
+        v.into_iter()
+            .map(|e| {
+                let (e0, e1, e2) = e;
+                (
+                    e0,
+                    e1,
+                    Py_outram_park_fork_dwsim_libs__prelude__CrudeCut { inner: e2 },
+                )
+            })
+            .collect::<Vec<_>>()
+    }
+    #[setter(cuts)]
+    pub fn set_cuts(
+        &mut self,
+        v: Vec<(
+            usize,
+            f64,
+            Py_outram_park_fork_dwsim_libs__prelude__CrudeCut,
+        )>,
+    ) {
+        self.inner.cuts = v
+            .into_iter()
+            .map(|e| {
+                let (e0, e1, e2) = e;
+                (e0, e1, e2.inner)
+            })
+            .collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot::sim_time_s
+    #[getter(sim_time_s)]
+    pub fn get_sim_time_s(&self) -> f64 {
+        let v = self.inner.sim_time_s.clone();
+        v
+    }
+    #[setter(sim_time_s)]
+    pub fn set_sim_time_s(&mut self, v: f64) {
+        self.inner.sim_time_s = v;
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::CrudeSnapshot
+    #[new]
+    #[pyo3(signature = (n_stages=None, stage_temperature_k=None, stage_holdup_mol=None, liquid_flow_mol_s=None, vapor_flow_mol_s=None, lightest_liquid_fraction=None, distillate_mol_s=None, bottoms_mol_s=None, cuts=None, sim_time_s=None))]
+    pub fn __new__(
+        n_stages: Option<usize>,
+        stage_temperature_k: Option<Vec<f64>>,
+        stage_holdup_mol: Option<Vec<f64>>,
+        liquid_flow_mol_s: Option<Vec<f64>>,
+        vapor_flow_mol_s: Option<Vec<f64>>,
+        lightest_liquid_fraction: Option<Vec<f64>>,
+        distillate_mol_s: Option<f64>,
+        bottoms_mol_s: Option<f64>,
+        cuts: Option<
+            Vec<(
+                usize,
+                f64,
+                Py_outram_park_fork_dwsim_libs__prelude__CrudeCut,
+            )>,
+        >,
+        sim_time_s: Option<f64>,
+    ) -> Self {
+        let d = <::outram_park_fork_dwsim_libs::prelude::CrudeSnapshot as Default>::default();
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CrudeSnapshot {
+                n_stages: n_stages.map(|v| v).unwrap_or(d.n_stages),
+                stage_temperature_k: stage_temperature_k
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.stage_temperature_k),
+                stage_holdup_mol: stage_holdup_mol
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.stage_holdup_mol),
+                liquid_flow_mol_s: liquid_flow_mol_s
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.liquid_flow_mol_s),
+                vapor_flow_mol_s: vapor_flow_mol_s
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.vapor_flow_mol_s),
+                lightest_liquid_fraction: lightest_liquid_fraction
+                    .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .unwrap_or(d.lightest_liquid_fraction),
+                distillate_mol_s: distillate_mol_s.map(|v| v).unwrap_or(d.distillate_mol_s),
+                bottoms_mol_s: bottoms_mol_s.map(|v| v).unwrap_or(d.bottoms_mol_s),
+                cuts: cuts
+                    .map(|v| {
+                        v.into_iter()
+                            .map(|e| {
+                                let (e0, e1, e2) = e;
+                                (e0, e1, e2.inner)
+                            })
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or(d.cuts),
+                sim_time_s: sim_time_s.map(|v| v).unwrap_or(d.sim_time_s),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::Cstr
+#[doc = "A continuous stirred-tank reactor: a reaction list and the tank volume."]
+#[pyclass(name = "Cstr", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__Cstr {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::Cstr,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__Cstr {
+    // @item field:outram_park_fork_dwsim_libs::prelude::Cstr::reactions
+    #[getter(reactions)]
+    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction> {
+        let v = self.inner.reactions.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Reaction { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(reactions)]
+    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>) {
+        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Cstr::volume
+    #[getter(volume)]
+    pub fn get_volume(&self) -> f64 {
+        let v = self.inner.volume.clone();
+        v
+    }
+    #[setter(volume)]
+    pub fn set_volume(&mut self, v: f64) {
+        self.inner.volume = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Cstr::max_iter
+    #[getter(max_iter)]
+    pub fn get_max_iter(&self) -> usize {
+        let v = self.inner.max_iter.clone();
+        v
+    }
+    #[setter(max_iter)]
+    pub fn set_max_iter(&mut self, v: usize) {
+        self.inner.max_iter = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Cstr::tol
+    #[getter(tol)]
+    pub fn get_tol(&self) -> f64 {
+        let v = self.inner.tol.clone();
+        v
+    }
+    #[setter(tol)]
+    pub fn set_tol(&mut self, v: f64) {
+        self.inner.tol = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Cstr::new
+    #[doc = "Construct a CSTR with default solver settings (`max_iter = 200`,\n`tol = 1e−10`)."]
+    #[new]
+    pub fn new(
+        reactions: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>,
+        volume: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Cstr {
+        Py_outram_park_fork_dwsim_libs__prelude__Cstr {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Cstr::new(
+                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                volume,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Cstr::solve
+    #[doc = "Solve the steady-state CSTR balance for the `feed`.\n\nRequires `Q > 0`. Returns the outlet molar flows, per-reaction extents\n`ζ_r`, and the net heat of reaction `Σ_r ΔH°_r · ζ_r`. Returns\n[`ReactorError::NonConvergence`] if the Newton iteration fails to reach\n[`Cstr::tol`] within [`Cstr::max_iter`] steps."]
+    pub fn solve(
+        &self,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome> {
+        err(::outram_park_fork_dwsim_libs::prelude::Cstr::solve(
+            &self.inner,
+            &feed.inner,
+        ))
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::CutResult
+#[doc = "One converged product cut."]
+#[pyclass(name = "CutResult", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__CutResult {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::CutResult,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__CutResult {
+    // @item field:outram_park_fork_dwsim_libs::prelude::CutResult::stage
+    #[getter(stage)]
+    pub fn get_stage(&self) -> usize {
+        let v = self.inner.stage.clone();
+        v
+    }
+    #[setter(stage)]
+    pub fn set_stage(&mut self, v: usize) {
+        self.inner.stage = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CutResult::flow_mol_s
+    #[getter(flow_mol_s)]
+    pub fn get_flow_mol_s(&self) -> f64 {
+        let v = self.inner.flow_mol_s.clone();
+        v
+    }
+    #[setter(flow_mol_s)]
+    pub fn set_flow_mol_s(&mut self, v: f64) {
+        self.inner.flow_mol_s = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CutResult::temperature_k
+    #[getter(temperature_k)]
+    pub fn get_temperature_k(&self) -> f64 {
+        let v = self.inner.temperature_k.clone();
+        v
+    }
+    #[setter(temperature_k)]
+    pub fn set_temperature_k(&mut self, v: f64) {
+        self.inner.temperature_k = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::CutResult::cut
+    #[getter(cut)]
+    pub fn get_cut(&self) -> Py_outram_park_fork_dwsim_libs__prelude__CrudeCut {
+        let v = self.inner.cut.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__CrudeCut { inner: v }
+    }
+    #[setter(cut)]
+    pub fn set_cut(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__CrudeCut) {
+        self.inner.cut = v.inner;
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::CutResult
+    #[new]
+    pub fn __new__(
+        stage: usize,
+        flow_mol_s: f64,
+        temperature_k: f64,
+        cut: Py_outram_park_fork_dwsim_libs__prelude__CrudeCut,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::CutResult {
+                stage: stage,
+                flow_mol_s: flow_mol_s,
+                temperature_k: temperature_k,
+                cut: cut.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::EquilibriumReactor
+#[doc = "A chemical-equilibrium reactor: a list of equilibrium reactions solved\nsimultaneously for their extents."]
+#[pyclass(
+    name = "EquilibriumReactor",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__EquilibriumReactor {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::EquilibriumReactor,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__EquilibriumReactor {
+    // @item field:outram_park_fork_dwsim_libs::prelude::EquilibriumReactor::reactions
+    #[getter(reactions)]
+    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction> {
+        let v = self.inner.reactions.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Reaction { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(reactions)]
+    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>) {
+        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::EquilibriumReactor::max_iter
+    #[getter(max_iter)]
+    pub fn get_max_iter(&self) -> usize {
+        let v = self.inner.max_iter.clone();
+        v
+    }
+    #[setter(max_iter)]
+    pub fn set_max_iter(&mut self, v: usize) {
+        self.inner.max_iter = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::EquilibriumReactor::tol
+    #[getter(tol)]
+    pub fn get_tol(&self) -> f64 {
+        let v = self.inner.tol.clone();
+        v
+    }
+    #[setter(tol)]
+    pub fn set_tol(&mut self, v: f64) {
+        self.inner.tol = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::EquilibriumReactor::new
+    #[doc = "Construct an equilibrium reactor with default solver settings."]
+    #[new]
+    pub fn new(
+        reactions: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__EquilibriumReactor {
+        Py_outram_park_fork_dwsim_libs__prelude__EquilibriumReactor {
+            inner: ::outram_park_fork_dwsim_libs::prelude::EquilibriumReactor::new(
+                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::EquilibriumReactor::solve
+    #[doc = "Solve the equilibrium reactor for the `feed`.\n\nReturns the outlet mole amounts (as molar flows, same units as the feed),\nper-reaction extents `ζ_r`, and the net heat of reaction\n`Σ_r ΔH°_r · ζ_r`. Returns [`ReactorError::NonConvergence`] if the Newton\niteration fails."]
+    pub fn solve(
+        &self,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::EquilibriumReactor::solve(
+                &self.inner,
+                &feed.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::FlashError
+#[doc = "Error conditions for the flash routines."]
+#[pyclass(
+    name = "FlashError",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__FlashError {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::FlashError,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__FlashError {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::FlashError::LengthMismatch
+    #[staticmethod]
+    #[pyo3(name = "LengthMismatch")]
+    pub fn v_LengthMismatch(a: usize, b: usize) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::FlashError::LengthMismatch {
+                a: a,
+                b: b,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::FlashError::Empty
+    #[staticmethod]
+    #[pyo3(name = "Empty")]
+    pub fn v_Empty() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::FlashError::Empty,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::FlashError::NonFinite
+    #[staticmethod]
+    #[pyo3(name = "NonFinite")]
+    pub fn v_NonFinite() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::FlashError::NonFinite,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::FlashError::NotConverged
+    #[staticmethod]
+    #[pyo3(name = "NotConverged")]
+    pub fn v_NotConverged(iterations: usize, residual: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::FlashError::NotConverged {
+                iterations: iterations,
+                residual: residual,
+            },
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::FlashError::LengthMismatch { .. } => {
+                "LengthMismatch"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::FlashError::Empty => "Empty",
+            ::outram_park_fork_dwsim_libs::prelude::FlashError::NonFinite => "NonFinite",
+            ::outram_park_fork_dwsim_libs::prelude::FlashError::NotConverged { .. } => {
+                "NotConverged"
+            }
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::FlashResult
+#[doc = "A converged (or best-effort) two-phase VLE flash result.\n\n`x`, `y`, and the feed all use mole fractions \\[-\\]. `beta` is the vapour\nmolar fraction \\[-\\] in `[0, 1]`: `0.0` = all liquid (subcooled),\n`1.0` = all vapour (superheated), interior = two coexisting phases."]
+#[pyclass(
+    name = "FlashResult",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__FlashResult {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::FlashResult,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__FlashResult {
+    // @item field:outram_park_fork_dwsim_libs::prelude::FlashResult::beta
+    #[getter(beta)]
+    pub fn get_beta(&self) -> f64 {
+        let v = self.inner.beta.clone();
+        v
+    }
+    #[setter(beta)]
+    pub fn set_beta(&mut self, v: f64) {
+        self.inner.beta = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::FlashResult::x
+    #[getter(x)]
+    pub fn get_x(&self) -> Vec<f64> {
+        let v = self.inner.x.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(x)]
+    pub fn set_x(&mut self, v: Vec<f64>) {
+        self.inner.x = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::FlashResult::y
+    #[getter(y)]
+    pub fn get_y(&self) -> Vec<f64> {
+        let v = self.inner.y.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(y)]
+    pub fn set_y(&mut self, v: Vec<f64>) {
+        self.inner.y = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::FlashResult::k
+    #[getter(k)]
+    pub fn get_k(&self) -> Vec<f64> {
+        let v = self.inner.k.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(k)]
+    pub fn set_k(&mut self, v: Vec<f64>) {
+        self.inner.k = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::FlashResult::iterations
+    #[getter(iterations)]
+    pub fn get_iterations(&self) -> usize {
+        let v = self.inner.iterations.clone();
+        v
+    }
+    #[setter(iterations)]
+    pub fn set_iterations(&mut self, v: usize) {
+        self.inner.iterations = v;
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::FlashResult
+    #[new]
+    pub fn __new__(beta: f64, x: Vec<f64>, y: Vec<f64>, k: Vec<f64>, iterations: usize) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::FlashResult {
+                beta: beta,
+                x: x.into_iter().map(|e| e).collect::<Vec<_>>(),
+                y: y.into_iter().map(|e| e).collect::<Vec<_>>(),
+                k: k.into_iter().map(|e| e).collect::<Vec<_>>(),
+                iterations: iterations,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::GibbsReactor
+#[doc = "A Gibbs-minimisation equilibrium reactor: a reacting system (species,\nelements, atom matrix) plus each species' standard Gibbs energy of formation.\n\n[`solve`](Self::solve) returns the equilibrium outlet molar flows that\nminimise `G/RT` at the feed conditions — no reaction list is used."]
+#[pyclass(
+    name = "GibbsReactor",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::GibbsReactor,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+    // @item field:outram_park_fork_dwsim_libs::prelude::GibbsReactor::system
+    #[getter(system)]
+    pub fn get_system(&self) -> Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem {
+        let v = self.inner.system.clone();
+        Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem { inner: v }
+    }
+    #[setter(system)]
+    pub fn set_system(&mut self, v: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem) {
+        self.inner.system = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::GibbsReactor::gibbs_formation
+    #[getter(gibbs_formation)]
+    pub fn get_gibbs_formation(
+        &self,
+    ) -> Vec<Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation> {
+        let v = self.inner.gibbs_formation.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(gibbs_formation)]
+    pub fn set_gibbs_formation(
+        &mut self,
+        v: Vec<Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation>,
+    ) {
+        self.inner.gibbs_formation = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::GibbsReactor::p_ref
+    #[getter(p_ref)]
+    pub fn get_p_ref(&self) -> f64 {
+        let v = self.inner.p_ref.clone();
+        v
+    }
+    #[setter(p_ref)]
+    pub fn set_p_ref(&mut self, v: f64) {
+        self.inner.p_ref = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::GibbsReactor::fugacity
+    #[getter(fugacity)]
+    pub fn get_fugacity(&self) -> Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel {
+        let v = self.inner.fugacity.clone();
+        Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel { inner: v }
+    }
+    #[setter(fugacity)]
+    pub fn set_fugacity(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel,
+    ) {
+        self.inner.fugacity = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::GibbsReactor::options
+    #[getter(options)]
+    pub fn get_options(&self) -> Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions {
+        let v = self.inner.options.clone();
+        Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions { inner: v }
+    }
+    #[setter(options)]
+    pub fn set_options(&mut self, v: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions) {
+        self.inner.options = v.inner;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::GibbsReactor::new
+    #[doc = "Construct a Gibbs reactor with default solver settings, an ideal-gas\nfugacity model, and `P° = 1e5` Pa.\n\n`gibbs_formation` must have one entry per species (same order as\n`system`'s species). Panics only via later [`solve`](Self::solve)\nvalidation if the length is wrong — it is not checked here so the struct\nstays a plain data holder."]
+    #[new]
+    pub fn new(
+        system: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem,
+        gibbs_formation: Vec<Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation>,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+        Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+            inner: ::outram_park_fork_dwsim_libs::prelude::GibbsReactor::new(
+                system.inner,
+                gibbs_formation
+                    .into_iter()
+                    .map(|e| e.inner)
+                    .collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::GibbsReactor::with_p_ref
+    #[doc = "Set the reference pressure `P°` \\[Pa\\]."]
+    pub fn with_p_ref(&self, p_ref: f64) -> Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+        Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+            inner: ::outram_park_fork_dwsim_libs::prelude::GibbsReactor::with_p_ref(
+                self.inner.clone(),
+                p_ref,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::GibbsReactor::with_fugacity
+    #[doc = "Set the fugacity model."]
+    pub fn with_fugacity(
+        &self,
+        fugacity: Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+        Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+            inner: ::outram_park_fork_dwsim_libs::prelude::GibbsReactor::with_fugacity(
+                self.inner.clone(),
+                fugacity.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::GibbsReactor::with_options
+    #[doc = "Set the RAND minimiser options."]
+    pub fn with_options(
+        &self,
+        options: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+        Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor {
+            inner: ::outram_park_fork_dwsim_libs::prelude::GibbsReactor::with_options(
+                self.inner.clone(),
+                options.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::GibbsReactor::solve
+    #[doc = "Solve the Gibbs reactor for the `feed`.\n\n`feed.molar_flows` are the inlet species molar flows \\[mol/s\\] (species\norder matching the wrapped [`GibbsSystem`]); `feed.temperature` \\[K\\] and\n`feed.pressure` \\[Pa\\] set the state. `feed.volumetric_flow` is unused\n(the Gibbs reactor is mole-based).\n\nReturns the equilibrium outlet molar flows \\[mol/s\\], an **empty** extent\nvector (a Gibbs reactor has no reaction list), and the net heat of\nreaction \\[W\\] `= Σ_i (F_out,i − F_in,i)·ΔH_{f,i}` computed from the\nspecies' standard enthalpies of formation — reported as `0.0` if any\nspecies uses a [`GibbsFormation::Constant`] model (enthalpy unknown).\nSign convention matches [`ReactorOutcome::heat_of_reaction`]: positive =\nnet endothermic.\n\n# Errors\n[`ReactorError::InvalidFeed`] if `feed.molar_flows`,\n`gibbs_formation`, or the atom matrix are mis-sized, if an input is\nnon-finite / non-positive, or if the RAND system is singular (rank-\ndeficient atom matrix); [`ReactorError::NonConvergence`] if the minimiser\nexhausts its iteration budget."]
+    pub fn solve(
+        &self,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome> {
+        err(::outram_park_fork_dwsim_libs::prelude::GibbsReactor::solve(
+            &self.inner,
+            &feed.inner,
+        ))
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::IntensiveState
+#[doc = "The intensive (flow-independent, per-unit-mass) thermodynamic state that a\nsplitter passes unchanged from its inlet to every outlet.\n\nA splitter alters only extensive flows, never this state — so the same\n`IntensiveState` is shared by the inlet and all outlets\n(Splitter.vb:258-266). Units (all SI, `uom`-typed):\n- `temperature` — `T` \\[K\\], `> 0`. Copied verbatim from the inlet\n  (Splitter.vb:258).\n- `pressure` — `p` \\[Pa\\], `> 0` (Splitter.vb:259).\n- `specific_enthalpy` — `h` \\[J/kg\\], mass basis, matching DWSIM's\n  `Phases(0).Properties.enthalpy` (Splitter.vb:260). Any real value; only the\n  datum must be consistent with the caller's convention.\n- `mole_fractions` — overall composition as mole fractions `y_i`\n  (dimensionless \\[0, 1\\], summing to 1), one entry per compound\n  (Splitter.vb:263-266). Empty is allowed for a composition-agnostic\n  flow-only split."]
+#[pyclass(
+    name = "IntensiveState",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__IntensiveState {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::IntensiveState,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__IntensiveState {
+    // @item field:outram_park_fork_dwsim_libs::prelude::IntensiveState::temperature
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> f64 {
+        let v = self.inner.temperature.clone();
+        to_si(v)
+    }
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: f64) {
+        self.inner.temperature = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::IntensiveState::pressure
     #[getter(pressure)]
     pub fn get_pressure(&self) -> f64 {
         let v = self.inner.pressure.clone();
@@ -26228,27 +26214,339 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet {
     pub fn set_pressure(&mut self, v: f64) {
         self.inner.pressure = from_si(v);
     }
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpInlet::enthalpy
-    #[getter(enthalpy)]
-    pub fn get_enthalpy(&self) -> f64 {
-        let v = self.inner.enthalpy.clone();
+    // @item field:outram_park_fork_dwsim_libs::prelude::IntensiveState::specific_enthalpy
+    #[getter(specific_enthalpy)]
+    pub fn get_specific_enthalpy(&self) -> f64 {
+        let v = self.inner.specific_enthalpy.clone();
         to_si(v)
     }
-    #[setter(enthalpy)]
-    pub fn set_enthalpy(&mut self, v: f64) {
-        self.inner.enthalpy = from_si(v);
+    #[setter(specific_enthalpy)]
+    pub fn set_specific_enthalpy(&mut self, v: f64) {
+        self.inner.specific_enthalpy = from_si(v);
     }
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpInlet::density_liquid
-    #[getter(density_liquid)]
-    pub fn get_density_liquid(&self) -> f64 {
-        let v = self.inner.density_liquid.clone();
+    // @item field:outram_park_fork_dwsim_libs::prelude::IntensiveState::mole_fractions
+    #[getter(mole_fractions)]
+    pub fn get_mole_fractions(&self) -> Vec<f64> {
+        let v = self.inner.mole_fractions.clone();
+        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
+    }
+    #[setter(mole_fractions)]
+    pub fn set_mole_fractions(&mut self, v: Vec<f64>) {
+        self.inner.mole_fractions = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::IntensiveState::from_si
+    #[doc = "Convenience constructor from SI scalars: `temperature` \\[K\\],\n`pressure` \\[Pa\\], `specific_enthalpy` \\[J/kg\\], and a slice of mole\nfractions (dimensionless \\[0, 1\\])."]
+    #[staticmethod]
+    pub fn from_si(
+        temperature: f64,
+        pressure: f64,
+        specific_enthalpy: f64,
+        mole_fractions: Vec<f64>,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__IntensiveState {
+        Py_outram_park_fork_dwsim_libs__prelude__IntensiveState {
+            inner: ::outram_park_fork_dwsim_libs::prelude::IntensiveState::from_si(
+                temperature,
+                pressure,
+                specific_enthalpy,
+                &mole_fractions.into_iter().map(|e| e).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::IntensiveState
+    #[new]
+    pub fn __new__(
+        temperature: f64,
+        pressure: f64,
+        specific_enthalpy: f64,
+        mole_fractions: Vec<f64>,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::IntensiveState {
+                temperature: from_si(temperature),
+                pressure: from_si(pressure),
+                specific_enthalpy: from_si(specific_enthalpy),
+                mole_fractions: mole_fractions
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver
+#[doc = "The modified Wang-Henke bubble-point solver — upstream's\n`WangHenkeMethod2`."]
+#[pyclass(
+    name = "ModifiedWangHenkeSolver",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ModifiedWangHenkeSolver {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ModifiedWangHenkeSolver {
+    // @item field:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::subcooling_delta_t
+    #[getter(subcooling_delta_t)]
+    pub fn get_subcooling_delta_t(&self) -> f64 {
+        let v = self.inner.subcooling_delta_t.clone();
+        v
+    }
+    #[setter(subcooling_delta_t)]
+    pub fn set_subcooling_delta_t(&mut self, v: f64) {
+        self.inner.subcooling_delta_t = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::name
+    #[doc = "The solver's display name — upstream's `Name` property\n(`BubblePoint2.vb:39-43`)."]
+    #[staticmethod]
+    pub fn name() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::name()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::description
+    #[doc = "The solver's description — upstream's `Description` property\n(`BubblePoint2.vb:45-49`)."]
+    #[staticmethod]
+    pub fn description() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::description()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::solve_column
+    #[doc = "Solve the column — equivalent to upstream's `SolveColumn(input)`\n(`BubblePoint2.vb:2162-2325`).\n\n# Errors\n\nAny [`ColumnError`] from validation, the inner loop, or the outer\nroot-find."]
+    pub fn solve_column(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::solve_column(
+                &self.inner,
+                &input.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::solve
+    #[doc = "The outer specification loop — upstream's `Solve`\n(`BubblePoint2.vb:51-714`).\n\nStructurally identical to [`crate::columns::bubble_point::WangHenkeSolver::solve`]\nminus the alt-mode retries: four paths chosen by whether each user\nspecification can be imposed directly on the inner loop's mass balance.\n\n# Errors\n\n[`ColumnError::NotConverged`] if the outer root-find cannot meet the\ntolerance, or any inner-loop error."]
+    pub fn solve(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::solve(
+                &self.inner,
+                &input.inner,
+                &thermo.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::solve_internal
+    #[doc = "The modified inner loop — upstream's `Solve_Internal`\n(`BubblePoint2.vb:1174-2160`).\n\nIdentical to\n[`crate::columns::bubble_point::WangHenkeSolver::solve_internal`] except\nfor differences 1-3 listed in the module header: no Broyden temperature\nmode, the `maxDT < 10` damping test, and the untightened `< tolerance`\nconvergence gate.\n\n# Parameters / Errors\n\nAs\n[`crate::columns::bubble_point::WangHenkeSolver::solve_internal`], minus\nthe `mode` argument."]
+    pub fn solve_internal(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
+        cspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
+        rspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
+        stop_at: Option<usize>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver::solve_internal(
+                &self.inner,
+                &input.inner,
+                &thermo.inner,
+                &cspec.inner,
+                &rspec.inner,
+                stop_at.map(|e| e),
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver
+    #[new]
+    #[pyo3(signature = (subcooling_delta_t=None))]
+    pub fn __new__(subcooling_delta_t: Option<f64>) -> Self {
+        let d =
+            <::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver as Default>::default();
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ModifiedWangHenkeSolver {
+                subcooling_delta_t: subcooling_delta_t
+                    .map(|v| v)
+                    .unwrap_or(d.subcooling_delta_t),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver
+#[doc = "The Naphtali-Sandholm simultaneous-correction solver."]
+#[pyclass(
+    name = "NaphtaliSandholmSolver",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__NaphtaliSandholmSolver {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__NaphtaliSandholmSolver {
+    // @item field:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::subcooling_delta_t
+    #[getter(subcooling_delta_t)]
+    pub fn get_subcooling_delta_t(&self) -> f64 {
+        let v = self.inner.subcooling_delta_t.clone();
+        v
+    }
+    #[setter(subcooling_delta_t)]
+    pub fn set_subcooling_delta_t(&mut self, v: f64) {
+        self.inner.subcooling_delta_t = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::warm_start
+    #[getter(warm_start)]
+    pub fn get_warm_start(&self) -> bool {
+        let v = self.inner.warm_start.clone();
+        v
+    }
+    #[setter(warm_start)]
+    pub fn set_warm_start(&mut self, v: bool) {
+        self.inner.warm_start = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::with_warm_start
+    #[doc = "A solver with the upstream defaults: no sub-cooling, warm start enabled."]
+    #[staticmethod]
+    pub fn with_warm_start() -> Py_outram_park_fork_dwsim_libs__prelude__NaphtaliSandholmSolver {
+        Py_outram_park_fork_dwsim_libs__prelude__NaphtaliSandholmSolver {
+            inner: ::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::with_warm_start(
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::name
+    #[doc = "The solver's display name — upstream's `Name` property\n(`NewtonRaphson.vb:69-73`)."]
+    #[staticmethod]
+    pub fn name() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::name()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::description
+    #[doc = "The solver's description — upstream's `Description` property\n(`NewtonRaphson.vb:75-79`)."]
+    #[staticmethod]
+    pub fn description() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::description()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::solve_column
+    #[doc = "Solve the column — equivalent to upstream's `SolveColumn(input)`.\n\n# Errors\n\nAny [`ColumnError`] from validation or [`Self::solve`]."]
+    pub fn solve_column(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::solve_column(
+                &self.inner,
+                &input.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::solve
+    #[doc = "The simultaneous-correction solve — upstream's `Solve`\n(`NewtonRaphson.vb:707-1290`).\n\nBuilds the scaled variable vector from the (optionally warm-started)\nestimates and drives [`Self::residuals`] to zero with upstream's\nthree-attempt cascade: Broyden first, then a damped Newton with a\nBroyden-approximated Jacobian, then a full finite-difference Newton\n(lines 1083-1158).\n\n# Errors\n\n- [`ColumnError::NotConverged`] if `Σ f² > tolerance` after all three\n  attempts (upstream `DCErrorStillHigh`, line 1171).\n- [`ColumnError::InvalidProfile`] if the residual cannot be evaluated at\n  the starting point (line 662).\n- [`ColumnError::TrivialSolution`] if the converged K-values collapse to\n  unity (line 1267)."]
+    pub fn solve(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver::solve(
+                &self.inner,
+                &input.inner,
+                &thermo.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver
+    #[new]
+    #[pyo3(signature = (subcooling_delta_t=None, warm_start=None))]
+    pub fn __new__(subcooling_delta_t: Option<f64>, warm_start: Option<bool>) -> Self {
+        let d =
+            <::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver as Default>::default();
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::NaphtaliSandholmSolver {
+                subcooling_delta_t: subcooling_delta_t
+                    .map(|v| v)
+                    .unwrap_or(d.subcooling_delta_t),
+                warm_start: warm_start.map(|v| v).unwrap_or(d.warm_start),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::OutletStream
+#[doc = "One outlet material stream produced by [`split_streams`]: the inlet's\n[`IntensiveState`] carried through unchanged, tagged with this outlet's flow.\n\nThe `state` field is identical (`==`) to the splitter inlet's intensive state\n— that is the defining property of a splitter (Splitter.vb:258-266)."]
+#[pyclass(
+    name = "OutletStream",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__OutletStream {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::OutletStream,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__OutletStream {
+    // @item field:outram_park_fork_dwsim_libs::prelude::OutletStream::state
+    #[getter(state)]
+    pub fn get_state(&self) -> Py_outram_park_fork_dwsim_libs__prelude__IntensiveState {
+        let v = self.inner.state.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__IntensiveState { inner: v }
+    }
+    #[setter(state)]
+    pub fn set_state(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__IntensiveState) {
+        self.inner.state = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::OutletStream::split_fraction
+    #[getter(split_fraction)]
+    pub fn get_split_fraction(&self) -> f64 {
+        let v = self.inner.split_fraction.clone();
         to_si(v)
     }
-    #[setter(density_liquid)]
-    pub fn set_density_liquid(&mut self, v: f64) {
-        self.inner.density_liquid = from_si(v);
+    #[setter(split_fraction)]
+    pub fn set_split_fraction(&mut self, v: f64) {
+        self.inner.split_fraction = from_si(v);
     }
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpInlet::mass_flow
+    // @item field:outram_park_fork_dwsim_libs::prelude::OutletStream::mass_flow
     #[getter(mass_flow)]
     pub fn get_mass_flow(&self) -> f64 {
         let v = self.inner.mass_flow.clone();
@@ -26258,11 +26556,344 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet {
     pub fn set_mass_flow(&mut self, v: f64) {
         self.inner.mass_flow = from_si(v);
     }
-    // @item ctor:outram_park_fork_dwsim_libs::pump::modes::PumpInlet
+    // @item field:outram_park_fork_dwsim_libs::prelude::OutletStream::mole_flow
+    #[getter(mole_flow)]
+    pub fn get_mole_flow(&self) -> f64 {
+        let v = self.inner.mole_flow.clone();
+        to_si(v)
+    }
+    #[setter(mole_flow)]
+    pub fn set_mole_flow(&mut self, v: f64) {
+        self.inner.mole_flow = from_si(v);
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::OutletStream
+    #[new]
+    pub fn __new__(
+        state: Py_outram_park_fork_dwsim_libs__prelude__IntensiveState,
+        split_fraction: f64,
+        mass_flow: f64,
+        mole_flow: f64,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::OutletStream {
+                state: state.inner,
+                split_fraction: from_si(split_fraction),
+                mass_flow: from_si(mass_flow),
+                mole_flow: from_si(mole_flow),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::Pfr
+#[doc = "A plug-flow reactor: a reaction list, a total volume, and the number of RK4\nintegration sub-steps."]
+#[pyclass(name = "Pfr", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__Pfr {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::Pfr,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__Pfr {
+    // @item field:outram_park_fork_dwsim_libs::prelude::Pfr::reactions
+    #[getter(reactions)]
+    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction> {
+        let v = self.inner.reactions.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Reaction { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(reactions)]
+    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>) {
+        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Pfr::volume
+    #[getter(volume)]
+    pub fn get_volume(&self) -> f64 {
+        let v = self.inner.volume.clone();
+        v
+    }
+    #[setter(volume)]
+    pub fn set_volume(&mut self, v: f64) {
+        self.inner.volume = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Pfr::n_steps
+    #[getter(n_steps)]
+    pub fn get_n_steps(&self) -> usize {
+        let v = self.inner.n_steps.clone();
+        v
+    }
+    #[setter(n_steps)]
+    pub fn set_n_steps(&mut self, v: usize) {
+        self.inner.n_steps = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Pfr::new
+    #[doc = "Construct a PFR. `n_steps` is clamped to at least 1."]
+    #[new]
+    pub fn new(
+        reactions: Vec<Py_outram_park_fork_dwsim_libs__prelude__Reaction>,
+        volume: f64,
+        n_steps: usize,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Pfr {
+        Py_outram_park_fork_dwsim_libs__prelude__Pfr {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Pfr::new(
+                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                volume,
+                n_steps,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Pfr::solve
+    #[doc = "Integrate the PFR balance from the `feed` to the reactor outlet.\n\nRequires `Q > 0` (concentrations are `F/Q`). Returns the outlet molar\nflows, per-reaction integrated extents `ζ_r = ∫ rate_r dV`, and the net\nheat of reaction `Σ_r ΔH°_r · ζ_r`."]
+    pub fn solve(
+        &self,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome> {
+        err(::outram_park_fork_dwsim_libs::prelude::Pfr::solve(
+            &self.inner,
+            &feed.inner,
+        ))
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::PhaseOutlet
+#[doc = "One equilibrium-phase outlet stream produced by the separator.\n\nThe intensive state (`T`, `P`) is shared with the sibling outlet and carried\non [`SeparatorResult`]; this struct holds the phase's *extensive* flows and\nits composition. Units (SI, `uom`-typed)."]
+#[pyclass(
+    name = "PhaseOutlet",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::PhaseOutlet,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet {
+    // @item field:outram_park_fork_dwsim_libs::prelude::PhaseOutlet::molar_flow
+    #[getter(molar_flow)]
+    pub fn get_molar_flow(&self) -> f64 {
+        let v = self.inner.molar_flow.clone();
+        to_si(v)
+    }
+    #[setter(molar_flow)]
+    pub fn set_molar_flow(&mut self, v: f64) {
+        self.inner.molar_flow = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::PhaseOutlet::mass_flow
+    #[getter(mass_flow)]
+    pub fn get_mass_flow(&self) -> f64 {
+        let v = self.inner.mass_flow.clone();
+        to_si(v)
+    }
+    #[setter(mass_flow)]
+    pub fn set_mass_flow(&mut self, v: f64) {
+        self.inner.mass_flow = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::PhaseOutlet::mole_fractions
+    #[getter(mole_fractions)]
+    pub fn get_mole_fractions(&self) -> Vec<f64> {
+        let v = self.inner.mole_fractions.clone();
+        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
+    }
+    #[setter(mole_fractions)]
+    pub fn set_mole_fractions(&mut self, v: Vec<f64>) {
+        self.inner.mole_fractions = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::PhaseOutlet
+    #[new]
+    pub fn __new__(molar_flow: f64, mass_flow: f64, mole_fractions: Vec<f64>) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::PhaseOutlet {
+                molar_flow: from_si(molar_flow),
+                mass_flow: from_si(mass_flow),
+                mole_fractions: mole_fractions
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::PropertyPackageModel
+#[doc = "Thermodynamic property-package model (enum dispatch, no `dyn`).\n\nThe closed set of PT-flash property models this crate composes from the\nthermo kernel. `Copy` so it can be captured by value into the flash driver's\n`Fn` closure without borrowing.\n\n- [`PropertyPackageModel::Ideal`] — Raoult/Wilson ideal K-values\n  (composition-independent); the K-closure is the Wilson estimate, so a flash\n  with this package reduces to a single Wilson-K Rachford-Rice solve.\n- [`PropertyPackageModel::PengRobinson`] — Peng-Robinson cubic EOS; K-values\n  are the liquid/vapour fugacity-coefficient ratio.\n- [`PropertyPackageModel::Srk`] — Soave-Redlich-Kwong cubic EOS; same\n  fugacity-ratio K-values with the SRK constants."]
+#[pyclass(
+    name = "PropertyPackageModel",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
+    // @item method:outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::k_values
+    #[doc = "Equilibrium K-values `K_i = y_i / x_i` \\[-\\] for a trial split.\n\nFor a cubic-EOS package:\n`K_i = φ_i^L(x, T, P) / φ_i^V(y, T, P) = exp(ln φ_i^L − ln φ_i^V)`,\nwhere `ln φ^L` uses the **liquid** (smallest positive) `Z`-root evaluated\nat the liquid composition `x`, and `ln φ^V` uses the **vapour** (largest)\n`Z`-root at the vapour composition `y` — the standard iso-fugacity\nK-update (DWSIM `DW_CalcKvalue`). Binary interaction parameters are taken\nas zero (geometric-mean rule); see the module-level scope note.\n\nFor [`Self::Ideal`] the Wilson estimate is returned, ignoring `x`, `y`\n(it is composition-independent).\n\n# Units / ranges\n\n`components`, `x`, `y` must share one length `n`; `x`, `y` are mole\nfractions \\[-\\]; `t` \\[K\\] > 0, `p` \\[Pa\\] > 0. Returns `n` dimensionless\nK-values.\n\n# Fallback\n\nIf the cubic EOS fails to return a usable `Z`-root for either phase (which\nshould not happen for physical inputs), the Wilson estimate is returned\ninstead of a non-finite result, so the flash driver stays well-posed."]
+    pub fn k_values(
+        &self,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        x: Vec<f64>,
+        y: Vec<f64>,
+        t: f64,
+        p: f64,
+    ) -> Vec<f64> {
+        ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::k_values(
+            self.inner.clone(),
+            &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
+            &y.into_iter().map(|e| e).collect::<Vec<_>>(),
+            t,
+            p,
+        )
+        .into_iter()
+        .map(|e| e)
+        .collect::<Vec<_>>()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::flash_pt
+    #[doc = "Isothermal-isobaric two-phase VLE flash of feed `z` at `t` \\[K\\], `p`\n\\[Pa\\].\n\nSeeds the K-values with Wilson and drives\n[`crate::thermo::flash::nested_loops_flash`] with this package's\n[`Self::k_values`] as the successive-substitution K-closure. For a cubic\npackage the converged result satisfies the iso-fugacity condition\n`φ_i^L x_i = φ_i^V y_i`; for [`Self::Ideal`] it is a single Wilson-K\nRachford-Rice solve.\n\n# Units / ranges\n\n`components.len()` must equal `z.len()`; `z` are feed mole fractions\n\\[-\\] (physical feeds sum to 1); `t` \\[K\\] > 0, `p` \\[Pa\\] > 0. The\nreturned [`FlashResult`] carries `β` \\[-\\] ∈ `[0, 1]`, `x`/`y` mole\nfractions \\[-\\], K-values \\[-\\], and the outer-iteration count.\n\n# Errors\n\nPropagates [`FlashError`] from the driver:\n[`FlashError::LengthMismatch`] on a `components`/`z` size mismatch,\n[`FlashError::NonFinite`] on a non-finite K-value, and\n[`FlashError::NotConverged`] if successive substitution does not reach the\nK-tolerance within the iteration budget (possible near a phase boundary\nwithout the stability pre-test noted in the module scope)."]
+    pub fn flash_pt(
+        &self,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        z: Vec<f64>,
+        t: f64,
+        p: f64,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__FlashResult> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::flash_pt(
+                self.inner.clone(),
+                &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                &z.into_iter().map(|e| e).collect::<Vec<_>>(),
+                t,
+                p,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__FlashResult { inner: v })
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::Ideal
+    #[staticmethod]
+    #[pyo3(name = "Ideal")]
+    pub fn v_Ideal() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::Ideal,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::PengRobinson
+    #[staticmethod]
+    #[pyo3(name = "PengRobinson")]
+    pub fn v_PengRobinson() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::PengRobinson,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::PengRobinson1978
+    #[staticmethod]
+    #[pyo3(name = "PengRobinson1978")]
+    pub fn v_PengRobinson1978() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::PengRobinson1978,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::Srk
+    #[staticmethod]
+    #[pyo3(name = "Srk")]
+    pub fn v_Srk() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::Srk,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::Ideal => "Ideal",
+            ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::PengRobinson => {
+                "PengRobinson"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::PengRobinson1978 => {
+                "PengRobinson1978"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::PropertyPackageModel::Srk => "Srk",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::PumpInlet
+#[doc = "The pump's inlet stream state and the one liquid property (density) its\nhydraulic-power calculation needs."]
+#[pyclass(name = "PumpInlet", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__PumpInlet {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::PumpInlet,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__PumpInlet {
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpInlet::pressure
+    #[getter(pressure)]
+    pub fn get_pressure(&self) -> f64 {
+        let v = self.inner.pressure.clone();
+        to_si(v)
+    }
+    #[setter(pressure)]
+    pub fn set_pressure(&mut self, v: f64) {
+        self.inner.pressure = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpInlet::enthalpy
+    #[getter(enthalpy)]
+    pub fn get_enthalpy(&self) -> f64 {
+        let v = self.inner.enthalpy.clone();
+        to_si(v)
+    }
+    #[setter(enthalpy)]
+    pub fn set_enthalpy(&mut self, v: f64) {
+        self.inner.enthalpy = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpInlet::density_liquid
+    #[getter(density_liquid)]
+    pub fn get_density_liquid(&self) -> f64 {
+        let v = self.inner.density_liquid.clone();
+        to_si(v)
+    }
+    #[setter(density_liquid)]
+    pub fn set_density_liquid(&mut self, v: f64) {
+        self.inner.density_liquid = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpInlet::mass_flow
+    #[getter(mass_flow)]
+    pub fn get_mass_flow(&self) -> f64 {
+        let v = self.inner.mass_flow.clone();
+        to_si(v)
+    }
+    #[setter(mass_flow)]
+    pub fn set_mass_flow(&mut self, v: f64) {
+        self.inner.mass_flow = from_si(v);
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::PumpInlet
     #[new]
     pub fn __new__(pressure: f64, enthalpy: f64, density_liquid: f64, mass_flow: f64) -> Self {
         Self {
-            inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpInlet {
+            inner: ::outram_park_fork_dwsim_libs::prelude::PumpInlet {
                 pressure: from_si(pressure),
                 enthalpy: from_si(enthalpy),
                 density_liquid: from_si(density_liquid),
@@ -26278,19 +26909,19 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::pump::modes::PumpResult
+// @item type:outram_park_fork_dwsim_libs::prelude::PumpResult
 #[doc = "Result of a [`evaluate`] call."]
 #[pyclass(
     name = "PumpResult",
     module = "outram_park.outram_park_fork_dwsim_libs"
 )]
 #[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
-    pub inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpResult,
+pub struct Py_outram_park_fork_dwsim_libs__prelude__PumpResult {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::PumpResult,
 }
 #[pymethods]
-impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpResult::outlet_pressure
+impl Py_outram_park_fork_dwsim_libs__prelude__PumpResult {
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpResult::outlet_pressure
     #[getter(outlet_pressure)]
     pub fn get_outlet_pressure(&self) -> f64 {
         let v = self.inner.outlet_pressure.clone();
@@ -26300,7 +26931,7 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
     pub fn set_outlet_pressure(&mut self, v: f64) {
         self.inner.outlet_pressure = from_si(v);
     }
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpResult::power
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpResult::power
     #[getter(power)]
     pub fn get_power(&self) -> f64 {
         let v = self.inner.power.clone();
@@ -26310,7 +26941,7 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
     pub fn set_power(&mut self, v: f64) {
         self.inner.power = from_si(v);
     }
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpResult::outlet_enthalpy
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpResult::outlet_enthalpy
     #[getter(outlet_enthalpy)]
     pub fn get_outlet_enthalpy(&self) -> f64 {
         let v = self.inner.outlet_enthalpy.clone();
@@ -26320,7 +26951,7 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
     pub fn set_outlet_enthalpy(&mut self, v: f64) {
         self.inner.outlet_enthalpy = from_si(v);
     }
-    // @item field:outram_park_fork_dwsim_libs::pump::modes::PumpResult::head
+    // @item field:outram_park_fork_dwsim_libs::prelude::PumpResult::head
     #[getter(head)]
     pub fn get_head(&self) -> f64 {
         let v = self.inner.head.clone();
@@ -26330,11 +26961,11 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
     pub fn set_head(&mut self, v: f64) {
         self.inner.head = from_si(v);
     }
-    // @item ctor:outram_park_fork_dwsim_libs::pump::modes::PumpResult
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::PumpResult
     #[new]
     pub fn __new__(outlet_pressure: f64, power: f64, outlet_enthalpy: f64, head: f64) -> Self {
         Self {
-            inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpResult {
+            inner: ::outram_park_fork_dwsim_libs::prelude::PumpResult {
                 outlet_pressure: from_si(outlet_pressure),
                 power: from_si(power),
                 outlet_enthalpy: from_si(outlet_enthalpy),
@@ -26350,54 +26981,50 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::pump::modes::PumpSpecification
+// @item type:outram_park_fork_dwsim_libs::prelude::PumpSpecification
 #[doc = "Which quantity specifies the pump's operating point -- exactly one\ndegree of freedom, matching DWSIM's `CalculationMode` enum (`Curves` is\nnot represented, see this module's doc)."]
 #[pyclass(
     name = "PumpSpecification",
     module = "outram_park.outram_park_fork_dwsim_libs"
 )]
 #[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification {
-    pub inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification,
+pub struct Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::PumpSpecification,
 }
 #[pymethods]
-impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification {
-    // @item variant:outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::DeltaP
+impl Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PumpSpecification::DeltaP
     #[staticmethod]
     #[pyo3(name = "DeltaP")]
     pub fn v_DeltaP(a0: f64) -> Self {
         Self {
-            inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::DeltaP(from_si(
-                a0,
-            )),
+            inner: ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::DeltaP(from_si(a0)),
         }
     }
-    // @item variant:outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::OutletPressure
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PumpSpecification::OutletPressure
     #[staticmethod]
     #[pyo3(name = "OutletPressure")]
     pub fn v_OutletPressure(a0: f64) -> Self {
         Self {
-            inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::OutletPressure(
+            inner: ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::OutletPressure(
                 from_si(a0),
             ),
         }
     }
-    // @item variant:outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::Power
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PumpSpecification::Power
     #[staticmethod]
     #[pyo3(name = "Power")]
     pub fn v_Power(a0: f64) -> Self {
         Self {
-            inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::Power(from_si(
-                a0,
-            )),
+            inner: ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::Power(from_si(a0)),
         }
     }
-    // @item variant:outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::EnergyStreamDuty
+    // @item variant:outram_park_fork_dwsim_libs::prelude::PumpSpecification::EnergyStreamDuty
     #[staticmethod]
     #[pyo3(name = "EnergyStreamDuty")]
     pub fn v_EnergyStreamDuty(a0: f64) -> Self {
         Self {
-            inner: ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::EnergyStreamDuty(
+            inner: ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::EnergyStreamDuty(
                 from_si(a0),
             ),
         }
@@ -26405,12 +27032,12 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification {
     /// The name of the enum variant this value holds.
     pub fn variant(&self) -> &'static str {
         match &self.inner {
-            ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::DeltaP(..) => "DeltaP",
-            ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::OutletPressure(..) => {
+            ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::DeltaP(..) => "DeltaP",
+            ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::OutletPressure(..) => {
                 "OutletPressure"
             }
-            ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::Power(..) => "Power",
-            ::outram_park_fork_dwsim_libs::pump::modes::PumpSpecification::EnergyStreamDuty(..) => {
+            ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::Power(..) => "Power",
+            ::outram_park_fork_dwsim_libs::prelude::PumpSpecification::EnergyStreamDuty(..) => {
                 "EnergyStreamDuty"
             }
             _ => "unknown",
@@ -26421,6 +27048,2285 @@ impl Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification {
     }
     pub fn __eq__(&self, other: &Self) -> bool {
         self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::Reaction
+#[doc = "A single reaction — stoichiometry, Arrhenius kinetics, and equilibrium\nconstant. Port of DWSIM's `Reaction` class (`ThermodynamicsBase.vb`, line\n245), reduced to the numeric physics (no XML/GUI/expression-engine plumbing).\n\nThe reaction addresses compounds through [`ReactionComponent::component_index`]\ninto the reactor's shared component list. Construct with [`Reaction::new`]\nand the `with_*` builders, or field-by-field."]
+#[pyclass(name = "Reaction", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::Reaction,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::kind
+    #[getter(kind)]
+    pub fn get_kind(&self) -> Py_outram_park_fork_dwsim_libs__prelude__ReactionKind {
+        let v = self.inner.kind.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__ReactionKind { inner: v }
+    }
+    #[setter(kind)]
+    pub fn set_kind(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__ReactionKind) {
+        self.inner.kind = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::basis
+    #[getter(basis)]
+    pub fn get_basis(&self) -> Py_outram_park_fork_dwsim_libs__prelude__ReactionBasis {
+        let v = self.inner.basis.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__ReactionBasis { inner: v }
+    }
+    #[setter(basis)]
+    pub fn set_basis(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__ReactionBasis) {
+        self.inner.basis = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::components
+    #[getter(components)]
+    pub fn get_components(
+        &self,
+    ) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent> {
+        let v = self.inner.components.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(components)]
+    pub fn set_components(
+        &mut self,
+        v: Vec<Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent>,
+    ) {
+        self.inner.components = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::a_forward
+    #[getter(a_forward)]
+    pub fn get_a_forward(&self) -> f64 {
+        let v = self.inner.a_forward.clone();
+        v
+    }
+    #[setter(a_forward)]
+    pub fn set_a_forward(&mut self, v: f64) {
+        self.inner.a_forward = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::e_forward
+    #[getter(e_forward)]
+    pub fn get_e_forward(&self) -> f64 {
+        let v = self.inner.e_forward.clone();
+        v
+    }
+    #[setter(e_forward)]
+    pub fn set_e_forward(&mut self, v: f64) {
+        self.inner.e_forward = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::a_reverse
+    #[getter(a_reverse)]
+    pub fn get_a_reverse(&self) -> f64 {
+        let v = self.inner.a_reverse.clone();
+        v
+    }
+    #[setter(a_reverse)]
+    pub fn set_a_reverse(&mut self, v: f64) {
+        self.inner.a_reverse = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::e_reverse
+    #[getter(e_reverse)]
+    pub fn get_e_reverse(&self) -> f64 {
+        let v = self.inner.e_reverse.clone();
+        v
+    }
+    #[setter(e_reverse)]
+    pub fn set_e_reverse(&mut self, v: f64) {
+        self.inner.e_reverse = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::k_eq
+    #[getter(k_eq)]
+    pub fn get_k_eq(&self) -> Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant {
+        let v = self.inner.k_eq.clone();
+        Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant { inner: v }
+    }
+    #[setter(k_eq)]
+    pub fn set_k_eq(&mut self, v: Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant) {
+        self.inner.k_eq = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::conversion
+    #[getter(conversion)]
+    pub fn get_conversion(&self) -> f64 {
+        let v = self.inner.conversion.clone();
+        v
+    }
+    #[setter(conversion)]
+    pub fn set_conversion(&mut self, v: f64) {
+        self.inner.conversion = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::reaction_heat
+    #[getter(reaction_heat)]
+    pub fn get_reaction_heat(&self) -> f64 {
+        let v = self.inner.reaction_heat.clone();
+        v
+    }
+    #[setter(reaction_heat)]
+    pub fn set_reaction_heat(&mut self, v: f64) {
+        self.inner.reaction_heat = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::t_min
+    #[getter(t_min)]
+    pub fn get_t_min(&self) -> f64 {
+        let v = self.inner.t_min.clone();
+        v
+    }
+    #[setter(t_min)]
+    pub fn set_t_min(&mut self, v: f64) {
+        self.inner.t_min = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::t_max
+    #[getter(t_max)]
+    pub fn get_t_max(&self) -> f64 {
+        let v = self.inner.t_max.clone();
+        v
+    }
+    #[setter(t_max)]
+    pub fn set_t_max(&mut self, v: f64) {
+        self.inner.t_max = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::Reaction::lh
+    #[getter(lh)]
+    pub fn get_lh(&self) -> Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood {
+        let v = self.inner.lh.clone();
+        Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood { inner: v }
+    }
+    #[setter(lh)]
+    pub fn set_lh(&mut self, v: Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood) {
+        self.inner.lh = v.inner;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::new
+    #[doc = "Construct a reaction from its kind, basis, and component list. All\nnumeric parameters default to inert values (`A = E = 0`,\n`K_eq = Constant(1)`, `conversion = 0`, `ΔH° = 0`,\n`T_min = 0`, `T_max = 1e30`); set the ones the reaction needs with the\n`with_*` builders or by field assignment."]
+    #[new]
+    pub fn new(
+        kind: Py_outram_park_fork_dwsim_libs__prelude__ReactionKind,
+        basis: Py_outram_park_fork_dwsim_libs__prelude__ReactionBasis,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent>,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+        Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Reaction::new(
+                kind.inner,
+                basis.inner,
+                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::with_forward
+    #[doc = "Set the forward Arrhenius parameters `A_f`, `E_a,f` [J/mol]."]
+    pub fn with_forward(
+        &self,
+        a_forward: f64,
+        e_forward: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+        Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Reaction::with_forward(
+                self.inner.clone(),
+                a_forward,
+                e_forward,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::with_reverse
+    #[doc = "Set the reverse Arrhenius parameters `A_r`, `E_a,r` [J/mol]."]
+    pub fn with_reverse(
+        &self,
+        a_reverse: f64,
+        e_reverse: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+        Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Reaction::with_reverse(
+                self.inner.clone(),
+                a_reverse,
+                e_reverse,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::with_k_eq
+    #[doc = "Set the equilibrium-constant model `K_eq(T)`."]
+    pub fn with_k_eq(
+        &self,
+        k_eq: Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+        Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Reaction::with_k_eq(
+                self.inner.clone(),
+                k_eq.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::with_conversion
+    #[doc = "Set the fixed fractional conversion `X ∈ [0, 1]` of the base reactant."]
+    pub fn with_conversion(
+        &self,
+        conversion: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+        Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Reaction::with_conversion(
+                self.inner.clone(),
+                conversion,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::with_reaction_heat
+    #[doc = "Set the standard reaction enthalpy `ΔH°` [J/mol of extent]."]
+    pub fn with_reaction_heat(
+        &self,
+        reaction_heat: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+        Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Reaction::with_reaction_heat(
+                self.inner.clone(),
+                reaction_heat,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::with_langmuir_hinshelwood
+    #[doc = "Set the Langmuir–Hinshelwood adsorption denominator (consumed only by\n[`langmuir_hinshelwood_rate`](Self::langmuir_hinshelwood_rate))."]
+    pub fn with_langmuir_hinshelwood(
+        &self,
+        lh: Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+        Py_outram_park_fork_dwsim_libs__prelude__Reaction {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Reaction::with_langmuir_hinshelwood(
+                self.inner.clone(),
+                lh.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::base_stoich_coeff
+    #[doc = "The base reactant's signed stoichiometric coefficient `ν_BC`. Returns the\nfirst component flagged [`ReactionComponent::is_base_reactant`]; falls\nback to the first component if none is flagged (matching DWSIM's implicit\n\"first is base\" fallback in single-reactant setups)."]
+    pub fn base_stoich_coeff(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Reaction::base_stoich_coeff(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::base_component_index
+    #[doc = "The base reactant's `component_index`. See [`base_stoich_coeff`](Self::base_stoich_coeff)\nfor the selection rule."]
+    pub fn base_component_index(&self) -> usize {
+        ::outram_park_fork_dwsim_libs::prelude::Reaction::base_component_index(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::forward_rate_constant
+    #[doc = "Forward rate constant `k_f = A_f · exp(−E_a,f / (R T))` at temperature\n`temperature_k` [K]. Returns `0.0` outside `[T_min, T_max]`, matching\nDWSIM (`PFR.vb` line 340).\n\nUnits of `k_f` are whatever make `k_f · ∏ Cⁿ` a volumetric rate\n`mol/(m³·s)` (order-dependent, per DWSIM)."]
+    pub fn forward_rate_constant(&self, temperature_k: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Reaction::forward_rate_constant(
+            &self.inner,
+            temperature_k,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::reverse_rate_constant
+    #[doc = "Reverse rate constant `k_r = A_r · exp(−E_a,r / (R T))` at temperature\n`temperature_k` [K]. Returns `0.0` outside `[T_min, T_max]`."]
+    pub fn reverse_rate_constant(&self, temperature_k: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Reaction::reverse_rate_constant(
+            &self.inner,
+            temperature_k,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::net_rate
+    #[doc = "Net volumetric reaction rate `[mol/(m³·s)]` at temperature `temperature_k`\n[K] and the given per-compound `concentrations` [mol/m³], indexed by\n[`ReactionComponent::component_index`].\n\nImplements DWSIM's power-law rate (`PFR.vb` lines 349–359,\n`CSTR.vb` lines 754–762):\n\n`rate = k_f · ∏ᵢ Cᵢ^(direct_orderᵢ) − k_r · ∏ᵢ Cᵢ^(reverse_orderᵢ)`\n\nA positive rate means the reaction proceeds forward (consuming reactants).\nThis is the extent-per-volume of the reaction as written; per-compound\nproduction is obtained by multiplying by `νᵢ / |ν_BC|` in the reactor\n(see [`crate::reactors`]).\n\nApplies to [`ReactionKind::Kinetic`] and, as a documented placeholder,\n[`ReactionKind::HeterogeneousCatalytic`]."]
+    pub fn net_rate(&self, concentrations: Vec<f64>, temperature_k: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Reaction::net_rate(
+            &self.inner,
+            &concentrations.into_iter().map(|e| e).collect::<Vec<_>>(),
+            temperature_k,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::langmuir_hinshelwood_rate
+    #[doc = "Net **Langmuir–Hinshelwood** surface reaction rate `[mol/(m³·s)]` at\ntemperature `temperature_k` \\[K\\] and per-compound `concentrations`\n\\[mol/m³\\]:\n\n`rate = net_rate(C, T) / (1 + Σ_j K_j(T) · C_j^{m_j})^p`\n\ni.e. the Arrhenius power-law numerator [`net_rate`](Self::net_rate) divided\nby the reaction's [`lh`](Self::lh) adsorption denominator\n([`LangmuirHinshelwood::denominator_value`]). This is the port of DWSIM's\n`rx = numval / denmval` for `Heterogeneous_Catalytic` reactions\n(`PFR.vb:418`), with the numerator/denominator given as the canonical LH\nalgebra rather than DWSIM's free-form Flee strings.\n\n**Reduces to power-law in the low-coverage limit.** With no adsorption\nterms (the default [`LangmuirHinshelwood`]) the denominator is `1`, so\n`langmuir_hinshelwood_rate == net_rate` exactly — the backward-compatible\nbehaviour of the previous placeholder. Likewise as every `K_j → 0`.\n\nIntended for [`ReactionKind::HeterogeneousCatalytic`]; the plain\n[`net_rate`](Self::net_rate) is left as the pure power-law path for\n[`ReactionKind::Kinetic`]."]
+    pub fn langmuir_hinshelwood_rate(&self, concentrations: Vec<f64>, temperature_k: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Reaction::langmuir_hinshelwood_rate(
+            &self.inner,
+            &concentrations.into_iter().map(|e| e).collect::<Vec<_>>(),
+            temperature_k,
+        )
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Reaction::equilibrium_constant
+    #[doc = "Evaluate `K_eq(T)` at temperature `temperature_k` [K] (delegates to\n[`EquilibriumConstant::evaluate`])."]
+    pub fn equilibrium_constant(&self, temperature_k: f64) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::Reaction::equilibrium_constant(
+            &self.inner,
+            temperature_k,
+        )
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ReactionBasis
+#[doc = "The quantity a reaction's rate / equilibrium expression is written against\n(`DWSIM.Interfaces/Enums.vb`, `ReactionBasis`).\n\nDWSIM lets each reaction declare whether its concentrations are molar\nconcentration, partial pressure, mole fraction, etc. This port carries the\nfull enum for fidelity, but the reactor solvers currently exercise\n[`MolarConcentration`](ReactionBasis::MolarConcentration) (kinetic reactors)\nand [`MolarFraction`](ReactionBasis::MolarFraction) /\n[`PartialPressure`](ReactionBasis::PartialPressure) (equilibrium reactor).\nActivity- and fugacity-basis evaluation assumes ideal coefficients of unity\n(an honest simplification — DWSIM calls the property package for the real\nactivity/fugacity coefficients)."]
+#[pyclass(
+    name = "ReactionBasis",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ReactionBasis {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ReactionBasis {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionBasis::Activity
+    #[staticmethod]
+    #[pyo3(name = "Activity")]
+    pub fn v_Activity() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::Activity,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionBasis::Fugacity
+    #[staticmethod]
+    #[pyo3(name = "Fugacity")]
+    pub fn v_Fugacity() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::Fugacity,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionBasis::MolarConcentration
+    #[staticmethod]
+    #[pyo3(name = "MolarConcentration")]
+    pub fn v_MolarConcentration() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MolarConcentration,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionBasis::MassConcentration
+    #[staticmethod]
+    #[pyo3(name = "MassConcentration")]
+    pub fn v_MassConcentration() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MassConcentration,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionBasis::MolarFraction
+    #[staticmethod]
+    #[pyo3(name = "MolarFraction")]
+    pub fn v_MolarFraction() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MolarFraction,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionBasis::MassFraction
+    #[staticmethod]
+    #[pyo3(name = "MassFraction")]
+    pub fn v_MassFraction() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MassFraction,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionBasis::PartialPressure
+    #[staticmethod]
+    #[pyo3(name = "PartialPressure")]
+    pub fn v_PartialPressure() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::PartialPressure,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::Activity => "Activity",
+            ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::Fugacity => "Fugacity",
+            ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MolarConcentration => {
+                "MolarConcentration"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MassConcentration => {
+                "MassConcentration"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MolarFraction => "MolarFraction",
+            ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::MassFraction => "MassFraction",
+            ::outram_park_fork_dwsim_libs::prelude::ReactionBasis::PartialPressure => {
+                "PartialPressure"
+            }
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ReactionComponent
+#[doc = "One compound's participation in a reaction — the port of DWSIM's\n`ReactionStoichBase` (`ThermodynamicsBase.vb`, line 1225).\n\nCompounds are referenced by an **index** into the reactor's component list\n(`component_index`), following the workspace rule that graph/topology links\nare `usize` indices rather than borrowed references (no lifetimes). The\nreactor holds the master `Vec<Component>` and every reaction's\n`component_index` addresses that same list."]
+#[pyclass(
+    name = "ReactionComponent",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ReactionComponent,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent {
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactionComponent::component_index
+    #[getter(component_index)]
+    pub fn get_component_index(&self) -> usize {
+        let v = self.inner.component_index.clone();
+        v
+    }
+    #[setter(component_index)]
+    pub fn set_component_index(&mut self, v: usize) {
+        self.inner.component_index = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactionComponent::stoich_coeff
+    #[getter(stoich_coeff)]
+    pub fn get_stoich_coeff(&self) -> f64 {
+        let v = self.inner.stoich_coeff.clone();
+        v
+    }
+    #[setter(stoich_coeff)]
+    pub fn set_stoich_coeff(&mut self, v: f64) {
+        self.inner.stoich_coeff = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactionComponent::direct_order
+    #[getter(direct_order)]
+    pub fn get_direct_order(&self) -> f64 {
+        let v = self.inner.direct_order.clone();
+        v
+    }
+    #[setter(direct_order)]
+    pub fn set_direct_order(&mut self, v: f64) {
+        self.inner.direct_order = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactionComponent::reverse_order
+    #[getter(reverse_order)]
+    pub fn get_reverse_order(&self) -> f64 {
+        let v = self.inner.reverse_order.clone();
+        v
+    }
+    #[setter(reverse_order)]
+    pub fn set_reverse_order(&mut self, v: f64) {
+        self.inner.reverse_order = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactionComponent::is_base_reactant
+    #[getter(is_base_reactant)]
+    pub fn get_is_base_reactant(&self) -> bool {
+        let v = self.inner.is_base_reactant.clone();
+        v
+    }
+    #[setter(is_base_reactant)]
+    pub fn set_is_base_reactant(&mut self, v: bool) {
+        self.inner.is_base_reactant = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ReactionComponent::new
+    #[doc = "Construct a reactant/product entry. `stoich_coeff` is signed (negative =\nreactant, positive = product). For a rate-free reaction (conversion /\nequilibrium) the orders are unused; pass `0.0`."]
+    #[new]
+    pub fn new(
+        component_index: usize,
+        stoich_coeff: f64,
+        direct_order: f64,
+        reverse_order: f64,
+        is_base_reactant: bool,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent {
+        Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionComponent::new(
+                component_index,
+                stoich_coeff,
+                direct_order,
+                reverse_order,
+                is_base_reactant,
+            ),
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ReactionKind
+#[doc = "The four DWSIM reaction types (`DWSIM.Interfaces/Enums.vb`, `ReactionType`).\n\nThis is the *classification* that selects which reactor can consume the\nreaction and how its extent is determined:\n\n- [`Conversion`](ReactionKind::Conversion) — a fixed fractional conversion of\n  the base reactant is imposed (no rate, no equilibrium). Consumed by the\n  conversion reactor.\n- [`Equilibrium`](ReactionKind::Equilibrium) — the extent is whatever makes\n  the basis-activity product equal `K_eq(T)`. Consumed by the equilibrium\n  reactor.\n- [`Kinetic`](ReactionKind::Kinetic) — an Arrhenius power-law rate drives the\n  extent. Consumed by the CSTR and PFR.\n- [`HeterogeneousCatalytic`](ReactionKind::HeterogeneousCatalytic) — surface\n  (Langmuir–Hinshelwood) kinetics. The genuine LH surface rate law\n  `rate = numerator / (1 + Σ_j K_j C_j^{m_j})^p` is evaluated by\n  [`Reaction::langmuir_hinshelwood_rate`], with the numerator supplied by the\n  Arrhenius power-law [`Reaction::net_rate`] and the adsorption denominator by\n  the reaction's [`Reaction::lh`] ([`LangmuirHinshelwood`]) field. With no\n  adsorption terms the denominator is `1` and the rate equals the power-law.\n\nEnum, not a trait object, per the workspace \"no `dyn`\" rule — every reactor\n`match`es exhaustively over it."]
+#[pyclass(
+    name = "ReactionKind",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ReactionKind {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ReactionKind,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ReactionKind {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionKind::Conversion
+    #[staticmethod]
+    #[pyo3(name = "Conversion")]
+    pub fn v_Conversion() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionKind::Conversion,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionKind::Equilibrium
+    #[staticmethod]
+    #[pyo3(name = "Equilibrium")]
+    pub fn v_Equilibrium() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionKind::Equilibrium,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionKind::Kinetic
+    #[staticmethod]
+    #[pyo3(name = "Kinetic")]
+    pub fn v_Kinetic() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionKind::Kinetic,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactionKind::HeterogeneousCatalytic
+    #[staticmethod]
+    #[pyo3(name = "HeterogeneousCatalytic")]
+    pub fn v_HeterogeneousCatalytic() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactionKind::HeterogeneousCatalytic,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::ReactionKind::Conversion => "Conversion",
+            ::outram_park_fork_dwsim_libs::prelude::ReactionKind::Equilibrium => "Equilibrium",
+            ::outram_park_fork_dwsim_libs::prelude::ReactionKind::Kinetic => "Kinetic",
+            ::outram_park_fork_dwsim_libs::prelude::ReactionKind::HeterogeneousCatalytic => {
+                "HeterogeneousCatalytic"
+            }
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ReactorError
+#[doc = "What can go wrong in a reactor solve."]
+#[pyclass(
+    name = "ReactorError",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ReactorError {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ReactorError,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ReactorError {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactorError::NonConvergence
+    #[staticmethod]
+    #[pyo3(name = "NonConvergence")]
+    pub fn v_NonConvergence(iterations: usize, residual: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorError::NonConvergence {
+                iterations: iterations,
+                residual: residual,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactorError::InvalidFeed
+    #[staticmethod]
+    #[pyo3(name = "InvalidFeed")]
+    pub fn v_InvalidFeed(a0: String) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorError::InvalidFeed(a0),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::ReactorError::NonConvergence { .. } => {
+                "NonConvergence"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::ReactorError::InvalidFeed(..) => "InvalidFeed",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ReactorFeed
+#[doc = "Inlet state of a reactor: the per-compound molar flows plus the intensive\nconditions the reactors need.\n\n`molar_flows` is indexed by compound; every reaction's\n[`ReactionComponent::component_index`](crate::reactions::ReactionComponent::component_index)\naddresses this same vector."]
+#[pyclass(
+    name = "ReactorFeed",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ReactorFeed,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed {
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactorFeed::molar_flows
+    #[getter(molar_flows)]
+    pub fn get_molar_flows(&self) -> Vec<f64> {
+        let v = self.inner.molar_flows.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(molar_flows)]
+    pub fn set_molar_flows(&mut self, v: Vec<f64>) {
+        self.inner.molar_flows = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactorFeed::temperature
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> f64 {
+        let v = self.inner.temperature.clone();
+        v
+    }
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: f64) {
+        self.inner.temperature = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactorFeed::pressure
+    #[getter(pressure)]
+    pub fn get_pressure(&self) -> f64 {
+        let v = self.inner.pressure.clone();
+        v
+    }
+    #[setter(pressure)]
+    pub fn set_pressure(&mut self, v: f64) {
+        self.inner.pressure = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactorFeed::volumetric_flow
+    #[getter(volumetric_flow)]
+    pub fn get_volumetric_flow(&self) -> f64 {
+        let v = self.inner.volumetric_flow.clone();
+        v
+    }
+    #[setter(volumetric_flow)]
+    pub fn set_volumetric_flow(&mut self, v: f64) {
+        self.inner.volumetric_flow = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ReactorFeed::new
+    #[doc = "Construct a feed. `volumetric_flow` may be `0.0` for reactors that do not\nneed concentrations (the conversion and mole-fraction-basis equilibrium\nreactors); the kinetic reactors require `Q > 0`."]
+    #[new]
+    pub fn new(
+        molar_flows: Vec<f64>,
+        temperature: f64,
+        pressure: f64,
+        volumetric_flow: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed {
+        Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorFeed::new(
+                molar_flows.into_iter().map(|e| e).collect::<Vec<_>>(),
+                temperature,
+                pressure,
+                volumetric_flow,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ReactorFeed::total_molar_flow
+    #[doc = "Total molar flow `Σᵢ Fᵢ` [mol/s]."]
+    pub fn total_molar_flow(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ReactorFeed::total_molar_flow(&self.inner)
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ReactorModel
+#[doc = "The closed set of reactor unit operations — enum dispatch, no `dyn`.\n\nEach variant wraps a fully-configured reactor (reactions + geometry).\n[`solve`](ReactorModel::solve) `match`es to the wrapped reactor's own solve,\nso adding a variant forces every dispatch site to handle it."]
+#[pyclass(
+    name = "ReactorModel",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ReactorModel {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ReactorModel,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ReactorModel {
+    // @item method:outram_park_fork_dwsim_libs::prelude::ReactorModel::solve
+    #[doc = "Solve this reactor for the given `feed`."]
+    pub fn solve(
+        &self,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome> {
+        err(::outram_park_fork_dwsim_libs::prelude::ReactorModel::solve(
+            &self.inner,
+            &feed.inner,
+        ))
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome { inner: v })
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactorModel::Conversion
+    #[staticmethod]
+    #[pyo3(name = "Conversion")]
+    pub fn v_Conversion(a0: Py_outram_park_fork_dwsim_libs__prelude__ConversionReactor) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Conversion(a0.inner),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactorModel::Equilibrium
+    #[staticmethod]
+    #[pyo3(name = "Equilibrium")]
+    pub fn v_Equilibrium(a0: Py_outram_park_fork_dwsim_libs__prelude__EquilibriumReactor) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Equilibrium(a0.inner),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactorModel::Gibbs
+    #[staticmethod]
+    #[pyo3(name = "Gibbs")]
+    pub fn v_Gibbs(a0: Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Gibbs(a0.inner),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactorModel::Cstr
+    #[staticmethod]
+    #[pyo3(name = "Cstr")]
+    pub fn v_Cstr(a0: Py_outram_park_fork_dwsim_libs__prelude__Cstr) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Cstr(a0.inner),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::ReactorModel::Pfr
+    #[staticmethod]
+    #[pyo3(name = "Pfr")]
+    pub fn v_Pfr(a0: Py_outram_park_fork_dwsim_libs__prelude__Pfr) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Pfr(a0.inner),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Conversion(..) => "Conversion",
+            ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Equilibrium(..) => "Equilibrium",
+            ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Gibbs(..) => "Gibbs",
+            ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Cstr(..) => "Cstr",
+            ::outram_park_fork_dwsim_libs::prelude::ReactorModel::Pfr(..) => "Pfr",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::ReactorOutcome
+#[doc = "Result of a reactor solve."]
+#[pyclass(
+    name = "ReactorOutcome",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::ReactorOutcome,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome {
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactorOutcome::molar_flows
+    #[getter(molar_flows)]
+    pub fn get_molar_flows(&self) -> Vec<f64> {
+        let v = self.inner.molar_flows.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(molar_flows)]
+    pub fn set_molar_flows(&mut self, v: Vec<f64>) {
+        self.inner.molar_flows = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactorOutcome::extents
+    #[getter(extents)]
+    pub fn get_extents(&self) -> Vec<f64> {
+        let v = self.inner.extents.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(extents)]
+    pub fn set_extents(&mut self, v: Vec<f64>) {
+        self.inner.extents = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::ReactorOutcome::heat_of_reaction
+    #[getter(heat_of_reaction)]
+    pub fn get_heat_of_reaction(&self) -> f64 {
+        let v = self.inner.heat_of_reaction.clone();
+        v
+    }
+    #[setter(heat_of_reaction)]
+    pub fn set_heat_of_reaction(&mut self, v: f64) {
+        self.inner.heat_of_reaction = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::ReactorOutcome::conversion_of
+    #[doc = "Fractional conversion of the compound at `component_index`, relative to\nthe given inlet feed: `X = (F_in − F_out) / F_in`. Returns `0.0` if the\ninlet flow is zero."]
+    pub fn conversion_of(
+        &self,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>,
+        component_index: usize,
+    ) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::ReactorOutcome::conversion_of(
+            &self.inner,
+            &feed.inner,
+            component_index,
+        )
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::ReactorOutcome
+    #[new]
+    pub fn __new__(molar_flows: Vec<f64>, extents: Vec<f64>, heat_of_reaction: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::ReactorOutcome {
+                molar_flows: molar_flows.into_iter().map(|e| e).collect::<Vec<_>>(),
+                extents: extents.into_iter().map(|e| e).collect::<Vec<_>>(),
+                heat_of_reaction: heat_of_reaction,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::RigorousColumn
+#[doc = "A rigorous MESH distillation / absorption column, ready to solve.\n\nThe human-facing assembly type: build the stage stack, attach feeds and side\ndraws, choose the two specifications, and call [`Self::solver_input`] to get\nthe [`ColumnSolverInput`] a solver consumes.\n\n# Stage numbering\n\nTop to bottom. Stage `0` is the condenser (when the column has one) and the\nlast stage is the reboiler (when it has one) — upstream's convention,\npreserved (`RigorousColumn.vb:1919-1921`)."]
+#[pyclass(
+    name = "RigorousColumn",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::RigorousColumn,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::components
+    #[getter(components)]
+    pub fn get_components(&self) -> Vec<Py_outram_park_fork_dwsim_libs__prelude__Component> {
+        let v = self.inner.components.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__Component { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(components)]
+    pub fn set_components(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>) {
+        self.inner.components = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::package
+    #[getter(package)]
+    pub fn get_package(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
+        let v = self.inner.package.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel { inner: v }
+    }
+    #[setter(package)]
+    pub fn set_package(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+    ) {
+        self.inner.package = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::stages
+    #[getter(stages)]
+    pub fn get_stages(&self) -> Vec<Py_outram_park_fork_dwsim_libs__columns__Stage> {
+        let v = self.inner.stages.clone();
+        v.into_iter()
+            .map(|e| Py_outram_park_fork_dwsim_libs__columns__Stage { inner: e })
+            .collect::<Vec<_>>()
+    }
+    #[setter(stages)]
+    pub fn set_stages(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>) {
+        self.inner.stages = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::column_type
+    #[getter(column_type)]
+    pub fn get_column_type(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnType {
+        let v = self.inner.column_type.clone();
+        Py_outram_park_fork_dwsim_libs__columns__ColumnType { inner: v }
+    }
+    #[setter(column_type)]
+    pub fn set_column_type(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnType) {
+        self.inner.column_type = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::condenser_type
+    #[getter(condenser_type)]
+    pub fn get_condenser_type(&self) -> Py_outram_park_fork_dwsim_libs__columns__CondenserType {
+        let v = self.inner.condenser_type.clone();
+        Py_outram_park_fork_dwsim_libs__columns__CondenserType { inner: v }
+    }
+    #[setter(condenser_type)]
+    pub fn set_condenser_type(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__columns__CondenserType,
+    ) {
+        self.inner.condenser_type = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::condenser_spec
+    #[getter(condenser_spec)]
+    pub fn get_condenser_spec(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnSpec {
+        let v = self.inner.condenser_spec.clone();
+        Py_outram_park_fork_dwsim_libs__columns__ColumnSpec { inner: v }
+    }
+    #[setter(condenser_spec)]
+    pub fn set_condenser_spec(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec) {
+        self.inner.condenser_spec = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::reboiler_spec
+    #[getter(reboiler_spec)]
+    pub fn get_reboiler_spec(&self) -> Py_outram_park_fork_dwsim_libs__columns__ColumnSpec {
+        let v = self.inner.reboiler_spec.clone();
+        Py_outram_park_fork_dwsim_libs__columns__ColumnSpec { inner: v }
+    }
+    #[setter(reboiler_spec)]
+    pub fn set_reboiler_spec(&mut self, v: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec) {
+        self.inner.reboiler_spec = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::max_iterations
+    #[getter(max_iterations)]
+    pub fn get_max_iterations(&self) -> usize {
+        let v = self.inner.max_iterations.clone();
+        v
+    }
+    #[setter(max_iterations)]
+    pub fn set_max_iterations(&mut self, v: usize) {
+        self.inner.max_iterations = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::tolerances
+    #[getter(tolerances)]
+    pub fn get_tolerances(&self) -> Vec<f64> {
+        let v = self.inner.tolerances.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(tolerances)]
+    pub fn set_tolerances(&mut self, v: Vec<f64>) {
+        self.inner.tolerances = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::subcooling_delta_t
+    #[getter(subcooling_delta_t)]
+    pub fn get_subcooling_delta_t(&self) -> f64 {
+        let v = self.inner.subcooling_delta_t.clone();
+        v
+    }
+    #[setter(subcooling_delta_t)]
+    pub fn set_subcooling_delta_t(&mut self, v: f64) {
+        self.inner.subcooling_delta_t = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::solving_scheme
+    #[getter(solving_scheme)]
+    pub fn get_solving_scheme(
+        &self,
+    ) -> Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme {
+        let v = self.inner.solving_scheme.clone();
+        Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme { inner: v }
+    }
+    #[setter(solving_scheme)]
+    pub fn set_solving_scheme(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme,
+    ) {
+        self.inner.solving_scheme = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::initial_estimates
+    #[getter(initial_estimates)]
+    pub fn get_initial_estimates(
+        &self,
+    ) -> Py_outram_park_fork_dwsim_libs__columns__InitialEstimates {
+        let v = self.inner.initial_estimates.clone();
+        Py_outram_park_fork_dwsim_libs__columns__InitialEstimates { inner: v }
+    }
+    #[setter(initial_estimates)]
+    pub fn set_initial_estimates(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__columns__InitialEstimates,
+    ) {
+        self.inner.initial_estimates = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::reflux_ratio_estimate
+    #[getter(reflux_ratio_estimate)]
+    pub fn get_reflux_ratio_estimate(&self) -> f64 {
+        let v = self.inner.reflux_ratio_estimate.clone();
+        v
+    }
+    #[setter(reflux_ratio_estimate)]
+    pub fn set_reflux_ratio_estimate(&mut self, v: f64) {
+        self.inner.reflux_ratio_estimate = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::distillate_rate_estimate
+    #[getter(distillate_rate_estimate)]
+    pub fn get_distillate_rate_estimate(&self) -> f64 {
+        let v = self.inner.distillate_rate_estimate.clone();
+        v
+    }
+    #[setter(distillate_rate_estimate)]
+    pub fn set_distillate_rate_estimate(&mut self, v: f64) {
+        self.inner.distillate_rate_estimate = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::RigorousColumn::vapor_rate_estimate
+    #[getter(vapor_rate_estimate)]
+    pub fn get_vapor_rate_estimate(&self) -> f64 {
+        let v = self.inner.vapor_rate_estimate.clone();
+        v
+    }
+    #[setter(vapor_rate_estimate)]
+    pub fn set_vapor_rate_estimate(&mut self, v: f64) {
+        self.inner.vapor_rate_estimate = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::distillation
+    #[doc = "A distillation column with `stages` stages, a total condenser, and the\ntwo given specifications.\n\nIteration budget and tolerances take upstream's defaults (100 iterations,\n`1e-5`); the reflux-ratio seed is upstream's 5.0. The distillate-rate\nseed defaults to half the total feed, which is a neutral starting split.\n\n# Duty convention ([`ColumnType::DistillationColumn`])\n\nCondenser at stage `0` **and** reboiler at stage `n - 1`. **Both** end\nduties are back-calculated from the end-stage energy balances, unless\nthe corresponding spec is a [`SpecType::HeatDuty`], in which case that\nduty is imposed and the balance solves for a flow instead. Whatever\n`heat_duty` the caller put on stage `0` or stage `n - 1` via\n[`Stage::with_heat_duty`] is **discarded** by [`Self::solver_input`]\n(zeroed before the solve); interior stage duties are honoured.\n\n[`SpecType::HeatDuty`]: crate::columns::model::SpecType::HeatDuty"]
+    #[staticmethod]
+    pub fn distillation(
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+        stages: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>,
+        condenser_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
+        reboiler_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+        Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+            inner: ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::distillation(
+                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                package.inner,
+                stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                condenser_spec.inner,
+                reboiler_spec.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::absorption
+    #[doc = "An absorption column ([`ColumnType::AbsorptionColumn`]): **no condenser,\nno reboiler**, and therefore no end specification at all.\n\nThe lean solvent is fed to the top stage (index `0`) and the gas to the\nbottom stage (index `n - 1`) via [`Stage::with_feed`]. The overhead\nproduct is the vapour leaving stage `0` (`V_0`, read with\n[`ColumnSolverOutput::distillate_molar_flow`] and this column's\n[`Self::condenser_type`]); the bottoms product is the liquid leaving\nstage `n - 1` (`L_ns`, [`ColumnSolverOutput::bottoms_molar_flow`]). With\nfeeds, pressures and stage count fixed the column has **zero** remaining\ndegrees of freedom — every flow is set by the mass and energy balances.\n\n# Duty convention — both end duties are USER INPUT\n\nThis is the rule that is silently got wrong, so it is spelled out:\n\n- **Nothing is back-calculated.** Unlike the other three column types,\n  the solvers never solve an end-stage energy balance for a duty\n  (`BubblePoint.vb:1664`, \"use the provided values\"). Every stage\n  including both ends is an ordinary adiabatic-or-specified stage.\n- **The end duties are read from the stages.** Whatever `heat_duty`\n  \\[W\\] the caller set on stage `0` and stage `n - 1` with\n  "]
+    #[staticmethod]
+    pub fn absorption(
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+        stages: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+        Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+            inner: ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::absorption(
+                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                package.inner,
+                stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::reboiled_absorber
+    #[doc = "A reboiled absorber ([`ColumnType::ReboiledAbsorber`]) — a **stripper**:\nreboiler at stage `n - 1`, **no condenser**, one specification (at the\nreboiler end).\n\nThe liquid to be stripped is fed to the top stage (index `0`) via\n[`Stage::with_feed`]; the reboiler generates the stripping vapour. The\noverhead product is the vapour leaving stage `0` (`V_0`, read with\n[`ColumnSolverOutput::distillate_molar_flow`] and this column's\n[`Self::condenser_type`]); the bottoms product is `L_ns`. The column has\n**one** degree of freedom, fixed by `reboiler_spec` — a bottoms molar\nflow ([`ColumnSpec::product_molar_flow`]), a reboiler duty\n([`ColumnSpec::heat_duty`]), a bottoms purity, or any other\nreboiler-end [`SpecType`].\n\n# Duty convention\n\n- **Reboiler duty `Q_ns` is back-calculated** from the bottom-stage\n  energy balance (the `ReboiledAbsorber` case of `BubblePoint.vb:1645-1673`) unless `reboiler_spec` is\n  a `HeatDuty`, in which case it is imposed. Any `heat_duty` the caller\n  set on stage `n - 1` is **discarded** by [`Self::solver_input`].\n- **Top-stage duty `Q_0` is user input**, read from stage `0`'s\n  `heat_duty` ([`Stage::with_heat_duty`]; default `0 W`, adiabatic) and\n  passed through "]
+    #[staticmethod]
+    pub fn reboiled_absorber(
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+        stages: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>,
+        reboiler_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+        Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+            inner: ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::reboiled_absorber(
+                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                package.inner,
+                stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                reboiler_spec.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::refluxed_absorber
+    #[doc = "A refluxed absorber ([`ColumnType::RefluxedAbsorber`]): total condenser\nat stage `0`, **no reboiler**, one specification (at the condenser end).\n\nThis is the shape of a crude distillation unit (steam-stripped, no\nreboiler) and of a reformate stabiliser. The vapour to be rectified is\nfed to the bottom stage (index `n - 1`) via [`Stage::with_feed`] — since\nthere is no reboiler, **the feed's own vapour fraction is the only\nsource of up-flowing vapour**, so a saturated- or partly-vaporised feed\nis needed for the column to be well-posed. The distillate is the liquid\ndraw off stage `0` (`LSS_0`, [`ColumnSolverOutput::distillate_molar_flow`]);\nthe bottoms is `L_ns`. The column has **one** degree of freedom, fixed by\n`condenser_spec` — a reflux ratio ([`ColumnSpec::reflux_ratio`]), a\ndistillate flow ([`ColumnSpec::product_molar_flow`]), a condenser duty, a\ndistillate purity, or any other condenser-end [`SpecType`].\n\n# Duty convention\n\n- **Condenser duty `Q_0` is back-calculated** from the top-stage energy\n  balance (the `RefluxedAbsorber` case of `BubblePoint.vb:1645-1673`) unless `condenser_spec` is a\n  `HeatDuty`, in which case it is imposed. Any `heat_duty` the caller set\n  on stage `0`"]
+    #[staticmethod]
+    pub fn refluxed_absorber(
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+        stages: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>,
+        condenser_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+        Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+            inner: ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::refluxed_absorber(
+                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                package.inner,
+                stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                condenser_spec.inner,
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::with_distillate_estimate
+    #[doc = "Set the distillate molar-rate estimate \\[mol/s\\]."]
+    pub fn with_distillate_estimate(
+        &self,
+        rate: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+        Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+            inner: ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::with_distillate_estimate(
+                self.inner.clone(),
+                from_si(rate),
+            ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::with_reflux_ratio_estimate
+    #[doc = "Set the reflux-ratio estimate `L_0 / D` \\[-\\]."]
+    pub fn with_reflux_ratio_estimate(
+        &self,
+        rr: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+        Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn {
+            inner:
+                ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::with_reflux_ratio_estimate(
+                    self.inner.clone(),
+                    rr,
+                ),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::n_components
+    #[doc = "Number of components."]
+    pub fn n_components(&self) -> usize {
+        ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::n_components(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::n_stages
+    #[doc = "Number of stages."]
+    pub fn n_stages(&self) -> usize {
+        ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::n_stages(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::total_feed
+    #[doc = "Total molar feed rate \\[mol/s\\]."]
+    pub fn total_feed(&self) -> f64 {
+        ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::total_feed(&self.inner)
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::mixed_feed_composition
+    #[doc = "Mixed overall feed composition `z_m` \\[-\\] — upstream's `zm`, the\nflow-weighted average of every stage feed (`RigorousColumn.vb:3234` area).\n\nReturns a uniform composition if there is no feed at all, so downstream\nflashes stay well-posed."]
+    pub fn mixed_feed_composition(&self) -> Vec<f64> {
+        ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::mixed_feed_composition(&self.inner)
+            .into_iter()
+            .map(|e| e)
+            .collect::<Vec<_>>()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::solver_input
+    #[doc = "Build the [`ColumnSolverInput`] a solver consumes.\n\nGenerates whatever the caller did not supply in\n[`Self::initial_estimates`]: the temperature ramp\n([`estimate_temperature_profile`]), the internal flows\n([`Self::estimate_flows`]), and the compositions and K-values\n([`Self::estimate_compositions`]).\n\n# Errors\n\n- [`ColumnError::TooFewStages`] for fewer than 2 stages.\n- [`ColumnError::LengthMismatch`] if a stage's feed composition does not\n  have `n_components` entries.\n- [`ColumnError::InvalidSpec`] if a spec's component index is out of\n  range.\n- [`ColumnError::BubblePointFailed`] if neither a bubble point at the top\n  pressure nor a dew point at the bottom pressure can be found and no\n  user temperature estimate was supplied."]
+    pub fn solver_input(
+        &self,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput> {
+        err(::outram_park_fork_dwsim_libs::prelude::RigorousColumn::solver_input(&self.inner))
+            .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::estimate_flows
+    #[doc = "Constant-molar-overflow flow estimates — upstream's `V(i)` / `L(i)`\nblocks (`RigorousColumn.vb:3337-3421`).\n\nReturns `(vapor_flows, liquid_flows, liquid_side_draws)`, all \\[mol/s\\].\n\nFor a distillation column with a total condenser: `V_0 = 1e-10` (nothing\nleaves the top as vapour), `V_i = (R + 1) D − F_0` for `i > 0`,\n`L_0 = R D`, and `L_i` from the running total mass balance\n`L_i = V_{i+1} + Σ_{m<=i}(F − U − W) − V_0`. Partial condensers add the\noverhead vapour rate to `D`; full reflux drives everything off `V_0`.\nAn absorber simply propagates the end feeds.\n\n**Refluxed absorber (this port, 2026-09-10):** the distillate estimate\nis counted in the running sum as the stage-0 liquid draw it becomes, so\n`L_ns = ΣF − D`. Upstream leaves `D` out for every type; that is\nharmless where a spec re-imposes the end flows on the first pass, but a\nrefluxed absorber reads `B = L_ns` from this estimate and the\ninconsistency pinned the bubble-point solvers to the all-liquid `D = 0`\nsolution — see [`Self::refluxed_absorber`]."]
+    pub fn estimate_flows(
+        &self,
+        feed_flows: Vec<f64>,
+        vapor_side_draws: Vec<f64>,
+    ) -> (Vec<f64>, Vec<f64>, Vec<f64>) {
+        {
+            let (e0, e1, e2) =
+                ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::estimate_flows(
+                    &self.inner,
+                    &feed_flows.into_iter().map(|e| e).collect::<Vec<_>>(),
+                    &vapor_side_draws.into_iter().map(|e| e).collect::<Vec<_>>(),
+                );
+            (
+                e0.into_iter().map(|e| e).collect::<Vec<_>>(),
+                e1.into_iter().map(|e| e).collect::<Vec<_>>(),
+                e2.into_iter().map(|e| e).collect::<Vec<_>>(),
+            )
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::RigorousColumn::estimate_compositions
+    #[doc = "Per-stage composition and K-value estimates — upstream's\n`needsXYestimates` block (`RigorousColumn.vb:3500-3524`).\n\nRuns an isothermal-isobaric flash of the **mixed feed** `z_m` at every\nstage's `(P_j, T_j)` and takes the resulting `(x, y, K)`. Where the flash\nfails or returns a single phase, falls back to the ideal K-relation\n`x_i = z_i (L + V) / (L + V K_i)`, `y_i = K_i x_i` — which is upstream's\nabsorption-column branch (lines 3562-3568).\n\nReturns `(liquid_compositions, vapor_compositions, k_values)`, all \\[-\\]\nand shaped `[stage][component]`."]
+    pub fn estimate_compositions(
+        &self,
+        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
+        zm: Vec<f64>,
+        stage_temperatures: Vec<f64>,
+        stage_pressures: Vec<f64>,
+    ) -> (Vec<Vec<f64>>, Vec<Vec<f64>>, Vec<Vec<f64>>) {
+        {
+            let (e0, e1, e2) =
+                ::outram_park_fork_dwsim_libs::prelude::RigorousColumn::estimate_compositions(
+                    &self.inner,
+                    &thermo.inner,
+                    &zm.into_iter().map(|e| e).collect::<Vec<_>>(),
+                    &stage_temperatures
+                        .into_iter()
+                        .map(|e| e)
+                        .collect::<Vec<_>>(),
+                    &stage_pressures.into_iter().map(|e| e).collect::<Vec<_>>(),
+                );
+            (
+                e0.into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+                e1.into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+                e2.into_iter()
+                    .map(|e| e.into_iter().map(|e| e).collect::<Vec<_>>())
+                    .collect::<Vec<_>>(),
+            )
+        }
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::RigorousColumn
+    #[new]
+    pub fn __new__(
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+        stages: Vec<Py_outram_park_fork_dwsim_libs__columns__Stage>,
+        column_type: Py_outram_park_fork_dwsim_libs__columns__ColumnType,
+        condenser_type: Py_outram_park_fork_dwsim_libs__columns__CondenserType,
+        condenser_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
+        reboiler_spec: Py_outram_park_fork_dwsim_libs__columns__ColumnSpec,
+        max_iterations: usize,
+        tolerances: Vec<f64>,
+        subcooling_delta_t: f64,
+        solving_scheme: Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme,
+        initial_estimates: Py_outram_park_fork_dwsim_libs__columns__InitialEstimates,
+        reflux_ratio_estimate: f64,
+        distillate_rate_estimate: f64,
+        vapor_rate_estimate: f64,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::RigorousColumn {
+                components: components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                package: package.inner,
+                stages: stages.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                column_type: column_type.inner,
+                condenser_type: condenser_type.inner,
+                condenser_spec: condenser_spec.inner,
+                reboiler_spec: reboiler_spec.inner,
+                max_iterations: max_iterations,
+                tolerances: tolerances.into_iter().map(|e| e).collect::<Vec<_>>(),
+                subcooling_delta_t: subcooling_delta_t,
+                solving_scheme: solving_scheme.inner,
+                initial_estimates: initial_estimates.inner,
+                reflux_ratio_estimate: reflux_ratio_estimate,
+                distillate_rate_estimate: distillate_rate_estimate,
+                vapor_rate_estimate: vapor_rate_estimate,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SaturationError
+#[doc = "Error conditions for the saturation solvers."]
+#[pyclass(
+    name = "SaturationError",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SaturationError {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SaturationError,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SaturationError {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SaturationError::Empty
+    #[staticmethod]
+    #[pyo3(name = "Empty")]
+    pub fn v_Empty() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SaturationError::Empty,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SaturationError::LengthMismatch
+    #[staticmethod]
+    #[pyo3(name = "LengthMismatch")]
+    pub fn v_LengthMismatch(a: usize, b: usize) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SaturationError::LengthMismatch {
+                a: a,
+                b: b,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SaturationError::NonFinite
+    #[staticmethod]
+    #[pyo3(name = "NonFinite")]
+    pub fn v_NonFinite() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SaturationError::NonFinite,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::SaturationError::Empty => "Empty",
+            ::outram_park_fork_dwsim_libs::prelude::SaturationError::LengthMismatch { .. } => {
+                "LengthMismatch"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SaturationError::NonFinite => "NonFinite",
+            ::outram_park_fork_dwsim_libs::prelude::SaturationError::NonPositive { .. } => {
+                "NonPositive"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SaturationError::NoBracket { .. } => {
+                "NoBracket"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SaturationError::TrivialSolution { .. } => {
+                "TrivialSolution"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SaturationError::NotConverged { .. } => {
+                "NotConverged"
+            }
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SaturationState
+#[doc = "A converged saturation point (one point on the bubble or dew curve).\n\nAll compositions are mole fractions \\[-\\]. Exactly one of `temperature` /\n`pressure` is the solved-for unknown; the other is the fixed specification\nthe caller supplied."]
+#[pyclass(
+    name = "SaturationState",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SaturationState {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SaturationState,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SaturationState {
+    // @item field:outram_park_fork_dwsim_libs::prelude::SaturationState::temperature
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> f64 {
+        let v = self.inner.temperature.clone();
+        v
+    }
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: f64) {
+        self.inner.temperature = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SaturationState::pressure
+    #[getter(pressure)]
+    pub fn get_pressure(&self) -> f64 {
+        let v = self.inner.pressure.clone();
+        v
+    }
+    #[setter(pressure)]
+    pub fn set_pressure(&mut self, v: f64) {
+        self.inner.pressure = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SaturationState::incipient
+    #[getter(incipient)]
+    pub fn get_incipient(&self) -> Vec<f64> {
+        let v = self.inner.incipient.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(incipient)]
+    pub fn set_incipient(&mut self, v: Vec<f64>) {
+        self.inner.incipient = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SaturationState::k
+    #[getter(k)]
+    pub fn get_k(&self) -> Vec<f64> {
+        let v = self.inner.k.clone();
+        v.into_iter().map(|e| e).collect::<Vec<_>>()
+    }
+    #[setter(k)]
+    pub fn set_k(&mut self, v: Vec<f64>) {
+        self.inner.k = v.into_iter().map(|e| e).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SaturationState::iterations
+    #[getter(iterations)]
+    pub fn get_iterations(&self) -> usize {
+        let v = self.inner.iterations.clone();
+        v
+    }
+    #[setter(iterations)]
+    pub fn set_iterations(&mut self, v: usize) {
+        self.inner.iterations = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SaturationState::residual
+    #[getter(residual)]
+    pub fn get_residual(&self) -> f64 {
+        let v = self.inner.residual.clone();
+        v
+    }
+    #[setter(residual)]
+    pub fn set_residual(&mut self, v: f64) {
+        self.inner.residual = v;
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::SaturationState
+    #[new]
+    pub fn __new__(
+        temperature: f64,
+        pressure: f64,
+        incipient: Vec<f64>,
+        k: Vec<f64>,
+        iterations: usize,
+        residual: f64,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SaturationState {
+                temperature: temperature,
+                pressure: pressure,
+                incipient: incipient.into_iter().map(|e| e).collect::<Vec<_>>(),
+                k: k.into_iter().map(|e| e).collect::<Vec<_>>(),
+                iterations: iterations,
+                residual: residual,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::Separator
+#[doc = "A two-phase gas-liquid separator (flash drum) bound to a thermodynamic\nproperty package.\n\nHolds the [`PropertyPackageModel`] used for the flash; `Copy` so it can be\npassed by value. Construct with [`Separator::new`], then flash a combined\nfeed with [`Separator::flash_isothermal`] (TP) or [`Separator::flash_adiabatic`]\n(PH)."]
+#[pyclass(name = "Separator", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__Separator {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::Separator,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__Separator {
+    // @item field:outram_park_fork_dwsim_libs::prelude::Separator::package
+    #[getter(package)]
+    pub fn get_package(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel {
+        let v = self.inner.package.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel { inner: v }
+    }
+    #[setter(package)]
+    pub fn set_package(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+    ) {
+        self.inner.package = v.inner;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Separator::new
+    #[doc = "Build a separator that flashes with `package`."]
+    #[new]
+    pub fn new(
+        package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__Separator {
+        Py_outram_park_fork_dwsim_libs__prelude__Separator {
+            inner: ::outram_park_fork_dwsim_libs::prelude::Separator::new(package.inner),
+        }
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::Separator::flash_isothermal
+    #[doc = "**Isothermal TP separator** — flash the combined `feed` at the vessel\ntemperature `t` and pressure `p`, and route the phases to two outlets\n(DWSIM `Legacy`/TP mode, Vessel.vb:820-844, 952-1045).\n\nRuns [`PropertyPackageModel::flash_pt`] on `(components, z, t, p)`, then\nforms the vapour outlet (`V = β·F`, composition `y`) and the liquid\noutlet (`L = (1−β)·F`, composition `x`), each inheriting the vessel\n`(t, p)`. Mass and per-component mass are conserved by construction (see\nthe module docs).\n\n# Units / ranges\n- `components` — the pure-compound data, one per feed component.\n- `feed` — combined feed (`F` \\[mol/s\\], `z_i` \\[-\\]); `feed.molar_flow`\n  must be finite and `>= 0`.\n- `t` — vessel temperature \\[K\\], `> 0`.\n- `p` — vessel pressure \\[Pa\\], `> 0`.\n\n# Errors\n- [`SeparatorError::LengthMismatch`] if `components.len()` ≠\n  `feed.composition.len()`.\n- [`SeparatorError::InvalidMolarFlow`] if the feed molar flow is negative\n  or non-finite.\n- [`SeparatorError::Flash`] propagating any [`FlashError`] from the\n  kernel (e.g. non-convergence near a phase boundary)."]
+    pub fn flash_isothermal(
+        &self,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__SeparatorFeed>,
+        t: f64,
+        p: f64,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__SeparatorResult> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::Separator::flash_isothermal(
+                &self.inner,
+                &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+                &feed.inner,
+                from_si(t),
+                from_si(p),
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__SeparatorResult { inner: v })
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SeparatorError
+#[doc = "Errors from the separator flash-and-route."]
+#[pyclass(
+    name = "SeparatorError",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SeparatorError {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorError,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SeparatorError {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SeparatorError::Flash
+    #[staticmethod]
+    #[pyo3(name = "Flash")]
+    pub fn v_Flash(a0: Py_outram_park_fork_dwsim_libs__prelude__FlashError) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorError::Flash(a0.inner),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SeparatorError::LengthMismatch
+    #[staticmethod]
+    #[pyo3(name = "LengthMismatch")]
+    pub fn v_LengthMismatch(components: usize, composition: usize) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorError::LengthMismatch {
+                components: components,
+                composition: composition,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SeparatorError::InvalidMolarFlow
+    #[staticmethod]
+    #[pyo3(name = "InvalidMolarFlow")]
+    pub fn v_InvalidMolarFlow(a0: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorError::InvalidMolarFlow(a0),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::SeparatorError::Flash(..) => "Flash",
+            ::outram_park_fork_dwsim_libs::prelude::SeparatorError::LengthMismatch { .. } => {
+                "LengthMismatch"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SeparatorError::InvalidMolarFlow(..) => {
+                "InvalidMolarFlow"
+            }
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SeparatorFeed
+#[doc = "The combined feed to the separator: everything the material-balance flash\nneeds, owned by value (no references, no lifetimes).\n\nThis is the already-mixed inlet DWSIM builds in `MixedStream`\n(Vessel.vb:691-789) before the flash — the crate's [`crate::mixer`] produces\nexactly this combined state.\n\nUnits (SI, `uom`-typed):\n- `molar_flow` — total feed molar flow `F` \\[katal = mol/s\\], `>= 0`, finite.\n- `composition` — overall feed mole fractions `z_i` \\[-\\], one per component,\n  physically summing to 1.\n- `specific_enthalpy` — feed specific enthalpy \\[J/kg\\], mass basis\n  (DWSIM `Phases(0).Properties.enthalpy`, Vessel.vb:763). Used **only** by\n  [`Separator::flash_adiabatic`]; ignored by the isothermal mode. The datum\n  only needs to be consistent with the caller's PH-flash closure."]
+#[pyclass(
+    name = "SeparatorFeed",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SeparatorFeed {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorFeed,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SeparatorFeed {
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorFeed::molar_flow
+    #[getter(molar_flow)]
+    pub fn get_molar_flow(&self) -> f64 {
+        let v = self.inner.molar_flow.clone();
+        to_si(v)
+    }
+    #[setter(molar_flow)]
+    pub fn set_molar_flow(&mut self, v: f64) {
+        self.inner.molar_flow = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorFeed::composition
+    #[getter(composition)]
+    pub fn get_composition(&self) -> Vec<f64> {
+        let v = self.inner.composition.clone();
+        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
+    }
+    #[setter(composition)]
+    pub fn set_composition(&mut self, v: Vec<f64>) {
+        self.inner.composition = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorFeed::specific_enthalpy
+    #[getter(specific_enthalpy)]
+    pub fn get_specific_enthalpy(&self) -> f64 {
+        let v = self.inner.specific_enthalpy.clone();
+        to_si(v)
+    }
+    #[setter(specific_enthalpy)]
+    pub fn set_specific_enthalpy(&mut self, v: f64) {
+        self.inner.specific_enthalpy = from_si(v);
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::SeparatorFeed::from_si
+    #[doc = "Convenience constructor from SI scalars: `molar_flow` \\[mol/s\\], a slice\nof overall mole fractions `z_i` \\[-\\], and `specific_enthalpy` \\[J/kg\\]."]
+    #[staticmethod]
+    pub fn from_si(
+        molar_flow: f64,
+        composition: Vec<f64>,
+        specific_enthalpy: f64,
+    ) -> Py_outram_park_fork_dwsim_libs__prelude__SeparatorFeed {
+        Py_outram_park_fork_dwsim_libs__prelude__SeparatorFeed {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorFeed::from_si(
+                molar_flow,
+                &composition.into_iter().map(|e| e).collect::<Vec<_>>(),
+                specific_enthalpy,
+            ),
+        }
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::SeparatorFeed
+    #[new]
+    pub fn __new__(molar_flow: f64, composition: Vec<f64>, specific_enthalpy: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorFeed {
+                molar_flow: from_si(molar_flow),
+                composition: composition
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+                specific_enthalpy: from_si(specific_enthalpy),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SeparatorMode
+#[doc = "The operating specification of the separator — DWSIM's `CalculationModes`\n(Vessel.vb:99-106), reduced to the two the material-balance flash needs.\n\nModeled as an enum (no `dyn` dispatch), per the workspace design rules. It is\ncarried on [`SeparatorResult::mode`] so a caller can report which\nspecification produced a result. The adiabatic mode's caller-dependent\nPH-flash step is **not** stored here (a closure cannot be an enum field\nwithout `dyn`); it is passed to [`Separator::flash_adiabatic`] instead."]
+#[pyclass(
+    name = "SeparatorMode",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SeparatorMode {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorMode,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SeparatorMode {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SeparatorMode::IsothermalTp
+    #[staticmethod]
+    #[pyo3(name = "IsothermalTp")]
+    pub fn v_IsothermalTp() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorMode::IsothermalTp,
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SeparatorMode::Adiabatic
+    #[staticmethod]
+    #[pyo3(name = "Adiabatic")]
+    pub fn v_Adiabatic() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorMode::Adiabatic,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::SeparatorMode::IsothermalTp => "IsothermalTp",
+            ::outram_park_fork_dwsim_libs::prelude::SeparatorMode::Adiabatic => "Adiabatic",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SeparatorResult
+#[doc = "The full separator result: the flash split, the two phase outlets, and the\nvessel intensive state they inherit.\n\nConservation (see the module docs) holds by construction:\n`vapour.molar_flow + liquid.molar_flow == feed.molar_flow` and, per\ncomponent, `y_i·V + x_i·L == z_i·F`, both on a molar basis; multiplying by\nthe fixed molar masses gives the same on a mass basis."]
+#[pyclass(
+    name = "SeparatorResult",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SeparatorResult {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorResult,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SeparatorResult {
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorResult::mode
+    #[getter(mode)]
+    pub fn get_mode(&self) -> Py_outram_park_fork_dwsim_libs__prelude__SeparatorMode {
+        let v = self.inner.mode.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__SeparatorMode { inner: v }
+    }
+    #[setter(mode)]
+    pub fn set_mode(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__SeparatorMode) {
+        self.inner.mode = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorResult::flash
+    #[getter(flash)]
+    pub fn get_flash(&self) -> Py_outram_park_fork_dwsim_libs__prelude__FlashResult {
+        let v = self.inner.flash.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__FlashResult { inner: v }
+    }
+    #[setter(flash)]
+    pub fn set_flash(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__FlashResult) {
+        self.inner.flash = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorResult::temperature
+    #[getter(temperature)]
+    pub fn get_temperature(&self) -> f64 {
+        let v = self.inner.temperature.clone();
+        to_si(v)
+    }
+    #[setter(temperature)]
+    pub fn set_temperature(&mut self, v: f64) {
+        self.inner.temperature = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorResult::pressure
+    #[getter(pressure)]
+    pub fn get_pressure(&self) -> f64 {
+        let v = self.inner.pressure.clone();
+        to_si(v)
+    }
+    #[setter(pressure)]
+    pub fn set_pressure(&mut self, v: f64) {
+        self.inner.pressure = from_si(v);
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorResult::vapour
+    #[getter(vapour)]
+    pub fn get_vapour(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet {
+        let v = self.inner.vapour.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet { inner: v }
+    }
+    #[setter(vapour)]
+    pub fn set_vapour(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet) {
+        self.inner.vapour = v.inner;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SeparatorResult::liquid
+    #[getter(liquid)]
+    pub fn get_liquid(&self) -> Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet {
+        let v = self.inner.liquid.clone();
+        Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet { inner: v }
+    }
+    #[setter(liquid)]
+    pub fn set_liquid(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet) {
+        self.inner.liquid = v.inner;
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::SeparatorResult
+    #[new]
+    pub fn __new__(
+        mode: Py_outram_park_fork_dwsim_libs__prelude__SeparatorMode,
+        flash: Py_outram_park_fork_dwsim_libs__prelude__FlashResult,
+        temperature: f64,
+        pressure: f64,
+        vapour: Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet,
+        liquid: Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet,
+    ) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SeparatorResult {
+                mode: mode.inner,
+                flash: flash.inner,
+                temperature: from_si(temperature),
+                pressure: from_si(pressure),
+                vapour: vapour.inner,
+                liquid: liquid.inner,
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SplitError
+#[doc = "Errors from resolving a [`SplitSpec`].\n\nThese correspond to DWSIM's `Throw New Exception(...)` guards\n(Splitter.vb:295, :305, :351, :361 for over-drawn flow specs) plus this\nport's stricter fraction-sum check (see [`SplitSpec::Fractions`])."]
+#[pyclass(
+    name = "SplitError",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SplitError {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SplitError,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SplitError {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitError::NegativeFraction
+    #[staticmethod]
+    #[pyo3(name = "NegativeFraction")]
+    pub fn v_NegativeFraction(index: usize, value: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitError::NegativeFraction {
+                index: index,
+                value: value,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitError::FractionSumNotUnity
+    #[staticmethod]
+    #[pyo3(name = "FractionSumNotUnity")]
+    pub fn v_FractionSumNotUnity(sum: f64, tolerance: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitError::FractionSumNotUnity {
+                sum: sum,
+                tolerance: tolerance,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitError::NegativeFixedFlow
+    #[staticmethod]
+    #[pyo3(name = "NegativeFixedFlow")]
+    pub fn v_NegativeFixedFlow(index: usize, value: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitError::NegativeFixedFlow {
+                index: index,
+                value: value,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitError::InsufficientInletFlow
+    #[staticmethod]
+    #[pyo3(name = "InsufficientInletFlow")]
+    pub fn v_InsufficientInletFlow(inlet: f64, fixed_total: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitError::InsufficientInletFlow {
+                inlet: inlet,
+                fixed_total: fixed_total,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitError::NonPositiveInletFlow
+    #[staticmethod]
+    #[pyo3(name = "NonPositiveInletFlow")]
+    pub fn v_NonPositiveInletFlow(value: f64) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitError::NonPositiveInletFlow {
+                value: value,
+            },
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitError::NoOutlets
+    #[staticmethod]
+    #[pyo3(name = "NoOutlets")]
+    pub fn v_NoOutlets() -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitError::NoOutlets,
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::SplitError::NegativeFraction { .. } => {
+                "NegativeFraction"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SplitError::FractionSumNotUnity { .. } => {
+                "FractionSumNotUnity"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SplitError::NegativeFixedFlow { .. } => {
+                "NegativeFixedFlow"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SplitError::InsufficientInletFlow {
+                ..
+            } => "InsufficientInletFlow",
+            ::outram_park_fork_dwsim_libs::prelude::SplitError::NonPositiveInletFlow { .. } => {
+                "NonPositiveInletFlow"
+            }
+            ::outram_park_fork_dwsim_libs::prelude::SplitError::NoOutlets => "NoOutlets",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __str__(&self) -> String {
+        format!("{}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SplitResult
+#[doc = "The resolved per-outlet split produced by [`split`].\n\nAll three vectors have the same length `N` (the outlet count) and are ordered\nby outlet index. Because the intensive state is uniform, mass and mole flow\nare both simply the inlet flow scaled by the *same* fraction, so all three\nstay mutually consistent."]
+#[pyclass(
+    name = "SplitResult",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SplitResult {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SplitResult,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SplitResult {
+    // @item field:outram_park_fork_dwsim_libs::prelude::SplitResult::fractions
+    #[getter(fractions)]
+    pub fn get_fractions(&self) -> Vec<f64> {
+        let v = self.inner.fractions.clone();
+        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
+    }
+    #[setter(fractions)]
+    pub fn set_fractions(&mut self, v: Vec<f64>) {
+        self.inner.fractions = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SplitResult::mass_flows
+    #[getter(mass_flows)]
+    pub fn get_mass_flows(&self) -> Vec<f64> {
+        let v = self.inner.mass_flows.clone();
+        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
+    }
+    #[setter(mass_flows)]
+    pub fn set_mass_flows(&mut self, v: Vec<f64>) {
+        self.inner.mass_flows = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SplitResult::mole_flows
+    #[getter(mole_flows)]
+    pub fn get_mole_flows(&self) -> Vec<f64> {
+        let v = self.inner.mole_flows.clone();
+        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
+    }
+    #[setter(mole_flows)]
+    pub fn set_mole_flows(&mut self, v: Vec<f64>) {
+        self.inner.mole_flows = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::SplitResult
+    #[new]
+    pub fn __new__(fractions: Vec<f64>, mass_flows: Vec<f64>, mole_flows: Vec<f64>) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitResult {
+                fractions: fractions
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+                mass_flows: mass_flows
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+                mole_flows: mole_flows
+                    .into_iter()
+                    .map(|e| from_si(e))
+                    .collect::<Vec<_>>(),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SplitSpec
+#[doc = "How the inlet flow is divided among the outlets — DWSIM's `Splitter.OpMode`\nenum (Splitter.vb:38-42). Modeled as an enum (no `dyn` dispatch), per the\nworkspace design rules. The specification list is owned **by value** (a\n`Vec`, indexed by `usize`), never by reference — no lifetimes."]
+#[pyclass(name = "SplitSpec", module = "outram_park.outram_park_fork_dwsim_libs")]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SplitSpec {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SplitSpec,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SplitSpec {
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitSpec::Fractions
+    #[staticmethod]
+    #[pyo3(name = "Fractions")]
+    pub fn v_Fractions(a0: Vec<f64>) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitSpec::Fractions(
+                a0.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitSpec::MassFlows
+    #[staticmethod]
+    #[pyo3(name = "MassFlows")]
+    pub fn v_MassFlows(a0: Vec<f64>) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitSpec::MassFlows(
+                a0.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    // @item variant:outram_park_fork_dwsim_libs::prelude::SplitSpec::MoleFlows
+    #[staticmethod]
+    #[pyo3(name = "MoleFlows")]
+    pub fn v_MoleFlows(a0: Vec<f64>) -> Self {
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SplitSpec::MoleFlows(
+                a0.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(),
+            ),
+        }
+    }
+    /// The name of the enum variant this value holds.
+    pub fn variant(&self) -> &'static str {
+        match &self.inner {
+            ::outram_park_fork_dwsim_libs::prelude::SplitSpec::Fractions(..) => "Fractions",
+            ::outram_park_fork_dwsim_libs::prelude::SplitSpec::MassFlows(..) => "MassFlows",
+            ::outram_park_fork_dwsim_libs::prelude::SplitSpec::MoleFlows(..) => "MoleFlows",
+            _ => "unknown",
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::SumRatesSolver
+#[doc = "The Burningham-Otto sum-rates solver."]
+#[pyclass(
+    name = "SumRatesSolver",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__SumRatesSolver {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::SumRatesSolver,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__SumRatesSolver {
+    // @item field:outram_park_fork_dwsim_libs::prelude::SumRatesSolver::relax_temperature_updates
+    #[getter(relax_temperature_updates)]
+    pub fn get_relax_temperature_updates(&self) -> bool {
+        let v = self.inner.relax_temperature_updates.clone();
+        v
+    }
+    #[setter(relax_temperature_updates)]
+    pub fn set_relax_temperature_updates(&mut self, v: bool) {
+        self.inner.relax_temperature_updates = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::SumRatesSolver::relax_composition_updates
+    #[getter(relax_composition_updates)]
+    pub fn get_relax_composition_updates(&self) -> bool {
+        let v = self.inner.relax_composition_updates.clone();
+        v
+    }
+    #[setter(relax_composition_updates)]
+    pub fn set_relax_composition_updates(&mut self, v: bool) {
+        self.inner.relax_composition_updates = v;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::SumRatesSolver::name
+    #[doc = "The solver's display name.\n\nUpstream's `Name` property throws `NotImplementedException`\n(`SumRates.vb:37-41`) — the class was never given one. This port supplies\nthe conventional name rather than reproducing a throw."]
+    #[staticmethod]
+    pub fn name() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::SumRatesSolver::name()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::SumRatesSolver::description
+    #[doc = "The solver's description. See [`Self::name`] on upstream's missing\nimplementation."]
+    #[staticmethod]
+    pub fn description() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::SumRatesSolver::description()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::SumRatesSolver::solve_column
+    #[doc = "Solve the column — equivalent to upstream's `SolveColumn(input)`\n(`SumRates.vb:810-895`).\n\n# Errors\n\nAny [`ColumnError`] from validation or [`Self::solve`]."]
+    pub fn solve_column(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::SumRatesSolver::solve_column(
+                &self.inner,
+                &input.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::SumRatesSolver::solve
+    #[doc = "The sum-rates iteration — upstream's `Solve` (`SumRates.vb:49-808`).\n\nUnlike the bubble-point solvers this method has **no outer\nspecification loop**: an absorber's degrees of freedom are fixed by its\nfeeds and duties, so upstream never root-finds on top of it. The\nspecifications in `input` are evaluated and reported, not imposed.\n\n# Parameters\n\n- `input` — the column definition and starting profile. The temperature\n  and vapour-flow estimates matter: upstream recommends constant-molar-\n  overflow vapour flows worked up from the bottom, and a linear\n  temperature profile between assumed top and bottom values\n  (`SumRates.vb:83-88`).\n- `thermo` — the property-package bridge.\n\n# Errors\n\n- [`ColumnError::NotConverged`] on exhausting `max_iterations`\n  (upstream `DCMaxIterationsReached`, line 696).\n- [`ColumnError::InvalidProfile`] on a non-finite error function or a\n  liquid composition that fails to sum (lines 370-372, 700-705), or a\n  temperature that goes non-positive (line 616).\n- [`ColumnError::TrivialSolution`] if the converged K-values collapse to\n  unity (line 792).\n- [`ColumnError::SingularMatrix`] from either tridiagonal solve."]
+    pub fn solve(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::SumRatesSolver::solve(
+                &self.inner,
+                &input.inner,
+                &thermo.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::SumRatesSolver
+    #[new]
+    #[pyo3(signature = (relax_temperature_updates=None, relax_composition_updates=None))]
+    pub fn __new__(
+        relax_temperature_updates: Option<bool>,
+        relax_composition_updates: Option<bool>,
+    ) -> Self {
+        let d = <::outram_park_fork_dwsim_libs::prelude::SumRatesSolver as Default>::default();
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::SumRatesSolver {
+                relax_temperature_updates: relax_temperature_updates
+                    .map(|v| v)
+                    .unwrap_or(d.relax_temperature_updates),
+                relax_composition_updates: relax_composition_updates
+                    .map(|v| v)
+                    .unwrap_or(d.relax_composition_updates),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
+    }
+}
+
+// @item type:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver
+#[doc = "The Wang-Henke bubble-point solver — upstream's `WangHenkeMethod`.\n\nStateless apart from the sub-cooling offset, which upstream also keeps as a\nsolver field (`_subcoolingdeltat`, `BubblePoint.vb:37`)."]
+#[pyclass(
+    name = "WangHenkeSolver",
+    module = "outram_park.outram_park_fork_dwsim_libs"
+)]
+#[derive(Clone)]
+pub struct Py_outram_park_fork_dwsim_libs__prelude__WangHenkeSolver {
+    pub inner: ::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver,
+}
+#[pymethods]
+impl Py_outram_park_fork_dwsim_libs__prelude__WangHenkeSolver {
+    // @item field:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::subcooling_delta_t
+    #[getter(subcooling_delta_t)]
+    pub fn get_subcooling_delta_t(&self) -> f64 {
+        let v = self.inner.subcooling_delta_t.clone();
+        v
+    }
+    #[setter(subcooling_delta_t)]
+    pub fn set_subcooling_delta_t(&mut self, v: f64) {
+        self.inner.subcooling_delta_t = v;
+    }
+    // @item field:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::temperature_update
+    #[getter(temperature_update)]
+    pub fn get_temperature_update(
+        &self,
+    ) -> Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate {
+        let v = self.inner.temperature_update.clone();
+        Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate { inner: v }
+    }
+    #[setter(temperature_update)]
+    pub fn set_temperature_update(
+        &mut self,
+        v: Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate,
+    ) {
+        self.inner.temperature_update = v.inner;
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::name
+    #[doc = "The solver's display name — upstream's `Name` property\n(`BubblePoint.vb:39-43`)."]
+    #[staticmethod]
+    pub fn name() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::name()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::description
+    #[doc = "The solver's description — upstream's `Description` property\n(`BubblePoint.vb:45-49`)."]
+    #[staticmethod]
+    pub fn description() -> String {
+        ::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::description()
+            .clone()
+            .to_string()
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::solve_column
+    #[doc = "Solve the column — the entry point equivalent to upstream's\n`SolveColumn(input)` (`BubblePoint.vb:1859-2020`).\n\nValidates the input shape, builds the thermo bridge, runs\n[`Self::solve`], and packages the profile into a\n[`ColumnSolverOutput`] with both specifications' achieved values filled\nin.\n\n# Errors\n\nAny [`ColumnError`] from validation, the inner loop, or the outer\nroot-find."]
+    pub fn solve_column(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::solve_column(
+                &self.inner,
+                &input.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__ColumnSolverOutput { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::solve
+    #[doc = "The outer specification loop — upstream's `Solve`\n(`BubblePoint.vb:51-761`).\n\nClassifies the two user specifications\n([`ColumnSpec::directly_imposable_at_condenser`] /\n[`ColumnSpec::directly_imposable_at_reboiler`], ports lines 103-127) and\ntakes one of four paths:\n\n1. **Both directly imposable** — one call to [`Self::solve_internal`]\n   (lines 744-757).\n2. **Condenser spec needs the outer loop** — root-find on the reflux\n   ratio, substituting a [`SpecType::StreamRatio`] spec into the inner\n   loop (lines 334-517).\n3. **Reboiler spec needs the outer loop** — root-find on the bottoms\n   molar rate, substituting a [`SpecType::ProductMolarFlowRate`] spec\n   (lines 519-742).\n4. **Both need the outer loop** — a 2-D root-find on\n   `(reflux ratio, bottoms rate)` (lines 134-332).\n\nA reboiled absorber has no condenser spec and a refluxed absorber no\nreboiler spec, so those are forced \"directly imposable\" (lines 126-127).\n\n# Errors\n\n[`ColumnError::NotConverged`] if the outer root-find cannot meet the\ntolerance, or any error the inner loop raises at the best point found."]
+    pub fn solve(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::solve(
+                &self.inner,
+                &input.inner,
+                &thermo.inner,
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
+    }
+    // @item method:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::solve_internal
+    #[doc = "The Wang-Henke inner loop — upstream's `Solve_Internal`\n(`BubblePoint.vb:763-1857`).\n\n`cspec` and `rspec` must both be directly imposable (see\n[`Self::solve`]); the outer loop substitutes surrogate reflux-ratio /\nbottoms-rate specs when the user's are not.\n\n# Parameters\n\n- `input` — the column definition and starting profile.\n- `thermo` — the property-package bridge.\n- `cspec` / `rspec` — the condenser-end and reboiler-end specs actually\n  imposed on this pass.\n- `mode` — starting temperature-update mode; may switch itself to\n  [`TemperatureUpdate::BroydenOnSummation`] on a wide-boiling mixture.\n- `stop_at` — if `Some(n)`, exit after `n - 1` inner iterations\n  regardless of convergence (upstream's `stopatitnumber`, used to run a\n  short warm-up for the Newton solver).\n\n# Errors\n\n- [`ColumnError::NotConverged`] on exhausting `max_iterations`\n  (upstream `DCMaxIterationsReached`, line 1701).\n- [`ColumnError::InvalidProfile`] if a temperature/flow profile goes\n  non-finite or a composition fails to normalise (lines 1705, 1791-1820).\n- [`ColumnError::BubblePointFailed`] from a stage bubble-point\n  calculation (line 1283).\n- [`ColumnError::SingularMatrix`] from the tridiagonal solve."]
+    pub fn solve_internal(
+        &self,
+        input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
+        thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
+        cspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
+        rspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
+        mode: Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate,
+        stop_at: Option<usize>,
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
+        err(
+            ::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver::solve_internal(
+                &self.inner,
+                &input.inner,
+                &thermo.inner,
+                &cspec.inner,
+                &rspec.inner,
+                mode.inner,
+                stop_at.map(|e| e),
+            ),
+        )
+        .map(|v| Py_outram_park_fork_dwsim_libs__columns__StageProfile { inner: v })
+    }
+    // @item ctor:outram_park_fork_dwsim_libs::prelude::WangHenkeSolver
+    #[new]
+    #[pyo3(signature = (subcooling_delta_t=None, temperature_update=None))]
+    pub fn __new__(
+        subcooling_delta_t: Option<f64>,
+        temperature_update: Option<
+            Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate,
+        >,
+    ) -> Self {
+        let d = <::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver as Default>::default();
+        Self {
+            inner: ::outram_park_fork_dwsim_libs::prelude::WangHenkeSolver {
+                subcooling_delta_t: subcooling_delta_t
+                    .map(|v| v)
+                    .unwrap_or(d.subcooling_delta_t),
+                temperature_update: temperature_update
+                    .map(|v| v.inner)
+                    .unwrap_or(d.temperature_update),
+            },
+        }
+    }
+    pub fn __repr__(&self) -> String {
+        format!("{:?}", self.inner)
+    }
+    pub fn __eq__(&self, other: &Self) -> bool {
+        self.inner == other.inner
+    }
+    #[staticmethod]
+    pub fn default() -> Self {
+        Self {
+            inner: Default::default(),
+        }
     }
 }
 
@@ -26673,794 +29579,6 @@ impl Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::reactions::Reaction
-#[doc = "A single reaction — stoichiometry, Arrhenius kinetics, and equilibrium\nconstant. Port of DWSIM's `Reaction` class (`ThermodynamicsBase.vb`, line\n245), reduced to the numeric physics (no XML/GUI/expression-engine plumbing).\n\nThe reaction addresses compounds through [`ReactionComponent::component_index`]\ninto the reactor's shared component list. Construct with [`Reaction::new`]\nand the `with_*` builders, or field-by-field."]
-#[pyclass(name = "Reaction", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-    pub inner: ::outram_park_fork_dwsim_libs::reactions::Reaction,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::kind
-    #[getter(kind)]
-    pub fn get_kind(&self) -> Py_outram_park_fork_dwsim_libs__reactions__ReactionKind {
-        let v = self.inner.kind.clone();
-        Py_outram_park_fork_dwsim_libs__reactions__ReactionKind { inner: v }
-    }
-    #[setter(kind)]
-    pub fn set_kind(&mut self, v: Py_outram_park_fork_dwsim_libs__reactions__ReactionKind) {
-        self.inner.kind = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::basis
-    #[getter(basis)]
-    pub fn get_basis(&self) -> Py_outram_park_fork_dwsim_libs__reactions__ReactionBasis {
-        let v = self.inner.basis.clone();
-        Py_outram_park_fork_dwsim_libs__reactions__ReactionBasis { inner: v }
-    }
-    #[setter(basis)]
-    pub fn set_basis(&mut self, v: Py_outram_park_fork_dwsim_libs__reactions__ReactionBasis) {
-        self.inner.basis = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::components
-    #[getter(components)]
-    pub fn get_components(
-        &self,
-    ) -> Vec<Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent> {
-        let v = self.inner.components.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(components)]
-    pub fn set_components(
-        &mut self,
-        v: Vec<Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent>,
-    ) {
-        self.inner.components = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::a_forward
-    #[getter(a_forward)]
-    pub fn get_a_forward(&self) -> f64 {
-        let v = self.inner.a_forward.clone();
-        v
-    }
-    #[setter(a_forward)]
-    pub fn set_a_forward(&mut self, v: f64) {
-        self.inner.a_forward = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::e_forward
-    #[getter(e_forward)]
-    pub fn get_e_forward(&self) -> f64 {
-        let v = self.inner.e_forward.clone();
-        v
-    }
-    #[setter(e_forward)]
-    pub fn set_e_forward(&mut self, v: f64) {
-        self.inner.e_forward = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::a_reverse
-    #[getter(a_reverse)]
-    pub fn get_a_reverse(&self) -> f64 {
-        let v = self.inner.a_reverse.clone();
-        v
-    }
-    #[setter(a_reverse)]
-    pub fn set_a_reverse(&mut self, v: f64) {
-        self.inner.a_reverse = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::e_reverse
-    #[getter(e_reverse)]
-    pub fn get_e_reverse(&self) -> f64 {
-        let v = self.inner.e_reverse.clone();
-        v
-    }
-    #[setter(e_reverse)]
-    pub fn set_e_reverse(&mut self, v: f64) {
-        self.inner.e_reverse = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::k_eq
-    #[getter(k_eq)]
-    pub fn get_k_eq(&self) -> Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant {
-        let v = self.inner.k_eq.clone();
-        Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant { inner: v }
-    }
-    #[setter(k_eq)]
-    pub fn set_k_eq(&mut self, v: Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant) {
-        self.inner.k_eq = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::conversion
-    #[getter(conversion)]
-    pub fn get_conversion(&self) -> f64 {
-        let v = self.inner.conversion.clone();
-        v
-    }
-    #[setter(conversion)]
-    pub fn set_conversion(&mut self, v: f64) {
-        self.inner.conversion = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::reaction_heat
-    #[getter(reaction_heat)]
-    pub fn get_reaction_heat(&self) -> f64 {
-        let v = self.inner.reaction_heat.clone();
-        v
-    }
-    #[setter(reaction_heat)]
-    pub fn set_reaction_heat(&mut self, v: f64) {
-        self.inner.reaction_heat = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::t_min
-    #[getter(t_min)]
-    pub fn get_t_min(&self) -> f64 {
-        let v = self.inner.t_min.clone();
-        v
-    }
-    #[setter(t_min)]
-    pub fn set_t_min(&mut self, v: f64) {
-        self.inner.t_min = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::t_max
-    #[getter(t_max)]
-    pub fn get_t_max(&self) -> f64 {
-        let v = self.inner.t_max.clone();
-        v
-    }
-    #[setter(t_max)]
-    pub fn set_t_max(&mut self, v: f64) {
-        self.inner.t_max = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::Reaction::lh
-    #[getter(lh)]
-    pub fn get_lh(&self) -> Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood {
-        let v = self.inner.lh.clone();
-        Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood { inner: v }
-    }
-    #[setter(lh)]
-    pub fn set_lh(&mut self, v: Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood) {
-        self.inner.lh = v.inner;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::new
-    #[doc = "Construct a reaction from its kind, basis, and component list. All\nnumeric parameters default to inert values (`A = E = 0`,\n`K_eq = Constant(1)`, `conversion = 0`, `ΔH° = 0`,\n`T_min = 0`, `T_max = 1e30`); set the ones the reaction needs with the\n`with_*` builders or by field assignment."]
-    #[new]
-    pub fn new(
-        kind: Py_outram_park_fork_dwsim_libs__reactions__ReactionKind,
-        basis: Py_outram_park_fork_dwsim_libs__reactions__ReactionBasis,
-        components: Vec<Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent>,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-        Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-            inner: ::outram_park_fork_dwsim_libs::reactions::Reaction::new(
-                kind.inner,
-                basis.inner,
-                components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::with_forward
-    #[doc = "Set the forward Arrhenius parameters `A_f`, `E_a,f` [J/mol]."]
-    pub fn with_forward(
-        &self,
-        a_forward: f64,
-        e_forward: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-        Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-            inner: ::outram_park_fork_dwsim_libs::reactions::Reaction::with_forward(
-                self.inner.clone(),
-                a_forward,
-                e_forward,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::with_reverse
-    #[doc = "Set the reverse Arrhenius parameters `A_r`, `E_a,r` [J/mol]."]
-    pub fn with_reverse(
-        &self,
-        a_reverse: f64,
-        e_reverse: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-        Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-            inner: ::outram_park_fork_dwsim_libs::reactions::Reaction::with_reverse(
-                self.inner.clone(),
-                a_reverse,
-                e_reverse,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::with_k_eq
-    #[doc = "Set the equilibrium-constant model `K_eq(T)`."]
-    pub fn with_k_eq(
-        &self,
-        k_eq: Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-        Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-            inner: ::outram_park_fork_dwsim_libs::reactions::Reaction::with_k_eq(
-                self.inner.clone(),
-                k_eq.inner,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::with_conversion
-    #[doc = "Set the fixed fractional conversion `X ∈ [0, 1]` of the base reactant."]
-    pub fn with_conversion(
-        &self,
-        conversion: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-        Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-            inner: ::outram_park_fork_dwsim_libs::reactions::Reaction::with_conversion(
-                self.inner.clone(),
-                conversion,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::with_reaction_heat
-    #[doc = "Set the standard reaction enthalpy `ΔH°` [J/mol of extent]."]
-    pub fn with_reaction_heat(
-        &self,
-        reaction_heat: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-        Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-            inner: ::outram_park_fork_dwsim_libs::reactions::Reaction::with_reaction_heat(
-                self.inner.clone(),
-                reaction_heat,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::with_langmuir_hinshelwood
-    #[doc = "Set the Langmuir–Hinshelwood adsorption denominator (consumed only by\n[`langmuir_hinshelwood_rate`](Self::langmuir_hinshelwood_rate))."]
-    pub fn with_langmuir_hinshelwood(
-        &self,
-        lh: Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-        Py_outram_park_fork_dwsim_libs__reactions__Reaction {
-            inner: ::outram_park_fork_dwsim_libs::reactions::Reaction::with_langmuir_hinshelwood(
-                self.inner.clone(),
-                lh.inner,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::base_stoich_coeff
-    #[doc = "The base reactant's signed stoichiometric coefficient `ν_BC`. Returns the\nfirst component flagged [`ReactionComponent::is_base_reactant`]; falls\nback to the first component if none is flagged (matching DWSIM's implicit\n\"first is base\" fallback in single-reactant setups)."]
-    pub fn base_stoich_coeff(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactions::Reaction::base_stoich_coeff(&self.inner)
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::base_component_index
-    #[doc = "The base reactant's `component_index`. See [`base_stoich_coeff`](Self::base_stoich_coeff)\nfor the selection rule."]
-    pub fn base_component_index(&self) -> usize {
-        ::outram_park_fork_dwsim_libs::reactions::Reaction::base_component_index(&self.inner)
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::forward_rate_constant
-    #[doc = "Forward rate constant `k_f = A_f · exp(−E_a,f / (R T))` at temperature\n`temperature_k` [K]. Returns `0.0` outside `[T_min, T_max]`, matching\nDWSIM (`PFR.vb` line 340).\n\nUnits of `k_f` are whatever make `k_f · ∏ Cⁿ` a volumetric rate\n`mol/(m³·s)` (order-dependent, per DWSIM)."]
-    pub fn forward_rate_constant(&self, temperature_k: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactions::Reaction::forward_rate_constant(
-            &self.inner,
-            temperature_k,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::reverse_rate_constant
-    #[doc = "Reverse rate constant `k_r = A_r · exp(−E_a,r / (R T))` at temperature\n`temperature_k` [K]. Returns `0.0` outside `[T_min, T_max]`."]
-    pub fn reverse_rate_constant(&self, temperature_k: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactions::Reaction::reverse_rate_constant(
-            &self.inner,
-            temperature_k,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::net_rate
-    #[doc = "Net volumetric reaction rate `[mol/(m³·s)]` at temperature `temperature_k`\n[K] and the given per-compound `concentrations` [mol/m³], indexed by\n[`ReactionComponent::component_index`].\n\nImplements DWSIM's power-law rate (`PFR.vb` lines 349–359,\n`CSTR.vb` lines 754–762):\n\n`rate = k_f · ∏ᵢ Cᵢ^(direct_orderᵢ) − k_r · ∏ᵢ Cᵢ^(reverse_orderᵢ)`\n\nA positive rate means the reaction proceeds forward (consuming reactants).\nThis is the extent-per-volume of the reaction as written; per-compound\nproduction is obtained by multiplying by `νᵢ / |ν_BC|` in the reactor\n(see [`crate::reactors`]).\n\nApplies to [`ReactionKind::Kinetic`] and, as a documented placeholder,\n[`ReactionKind::HeterogeneousCatalytic`]."]
-    pub fn net_rate(&self, concentrations: Vec<f64>, temperature_k: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactions::Reaction::net_rate(
-            &self.inner,
-            &concentrations.into_iter().map(|e| e).collect::<Vec<_>>(),
-            temperature_k,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::langmuir_hinshelwood_rate
-    #[doc = "Net **Langmuir–Hinshelwood** surface reaction rate `[mol/(m³·s)]` at\ntemperature `temperature_k` \\[K\\] and per-compound `concentrations`\n\\[mol/m³\\]:\n\n`rate = net_rate(C, T) / (1 + Σ_j K_j(T) · C_j^{m_j})^p`\n\ni.e. the Arrhenius power-law numerator [`net_rate`](Self::net_rate) divided\nby the reaction's [`lh`](Self::lh) adsorption denominator\n([`LangmuirHinshelwood::denominator_value`]). This is the port of DWSIM's\n`rx = numval / denmval` for `Heterogeneous_Catalytic` reactions\n(`PFR.vb:418`), with the numerator/denominator given as the canonical LH\nalgebra rather than DWSIM's free-form Flee strings.\n\n**Reduces to power-law in the low-coverage limit.** With no adsorption\nterms (the default [`LangmuirHinshelwood`]) the denominator is `1`, so\n`langmuir_hinshelwood_rate == net_rate` exactly — the backward-compatible\nbehaviour of the previous placeholder. Likewise as every `K_j → 0`.\n\nIntended for [`ReactionKind::HeterogeneousCatalytic`]; the plain\n[`net_rate`](Self::net_rate) is left as the pure power-law path for\n[`ReactionKind::Kinetic`]."]
-    pub fn langmuir_hinshelwood_rate(&self, concentrations: Vec<f64>, temperature_k: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactions::Reaction::langmuir_hinshelwood_rate(
-            &self.inner,
-            &concentrations.into_iter().map(|e| e).collect::<Vec<_>>(),
-            temperature_k,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::Reaction::equilibrium_constant
-    #[doc = "Evaluate `K_eq(T)` at temperature `temperature_k` [K] (delegates to\n[`EquilibriumConstant::evaluate`])."]
-    pub fn equilibrium_constant(&self, temperature_k: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactions::Reaction::equilibrium_constant(
-            &self.inner,
-            temperature_k,
-        )
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactions::ReactionBasis
-#[doc = "The quantity a reaction's rate / equilibrium expression is written against\n(`DWSIM.Interfaces/Enums.vb`, `ReactionBasis`).\n\nDWSIM lets each reaction declare whether its concentrations are molar\nconcentration, partial pressure, mole fraction, etc. This port carries the\nfull enum for fidelity, but the reactor solvers currently exercise\n[`MolarConcentration`](ReactionBasis::MolarConcentration) (kinetic reactors)\nand [`MolarFraction`](ReactionBasis::MolarFraction) /\n[`PartialPressure`](ReactionBasis::PartialPressure) (equilibrium reactor).\nActivity- and fugacity-basis evaluation assumes ideal coefficients of unity\n(an honest simplification — DWSIM calls the property package for the real\nactivity/fugacity coefficients)."]
-#[pyclass(
-    name = "ReactionBasis",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactions__ReactionBasis {
-    pub inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactions__ReactionBasis {
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionBasis::Activity
-    #[staticmethod]
-    #[pyo3(name = "Activity")]
-    pub fn v_Activity() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::Activity,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionBasis::Fugacity
-    #[staticmethod]
-    #[pyo3(name = "Fugacity")]
-    pub fn v_Fugacity() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::Fugacity,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionBasis::MolarConcentration
-    #[staticmethod]
-    #[pyo3(name = "MolarConcentration")]
-    pub fn v_MolarConcentration() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MolarConcentration,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionBasis::MassConcentration
-    #[staticmethod]
-    #[pyo3(name = "MassConcentration")]
-    pub fn v_MassConcentration() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MassConcentration,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionBasis::MolarFraction
-    #[staticmethod]
-    #[pyo3(name = "MolarFraction")]
-    pub fn v_MolarFraction() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MolarFraction,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionBasis::MassFraction
-    #[staticmethod]
-    #[pyo3(name = "MassFraction")]
-    pub fn v_MassFraction() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MassFraction,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionBasis::PartialPressure
-    #[staticmethod]
-    #[pyo3(name = "PartialPressure")]
-    pub fn v_PartialPressure() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::PartialPressure,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::Activity => "Activity",
-            ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::Fugacity => "Fugacity",
-            ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MolarConcentration => {
-                "MolarConcentration"
-            }
-            ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MassConcentration => {
-                "MassConcentration"
-            }
-            ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MolarFraction => {
-                "MolarFraction"
-            }
-            ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::MassFraction => "MassFraction",
-            ::outram_park_fork_dwsim_libs::reactions::ReactionBasis::PartialPressure => {
-                "PartialPressure"
-            }
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-    #[staticmethod]
-    pub fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactions::ReactionComponent
-#[doc = "One compound's participation in a reaction — the port of DWSIM's\n`ReactionStoichBase` (`ThermodynamicsBase.vb`, line 1225).\n\nCompounds are referenced by an **index** into the reactor's component list\n(`component_index`), following the workspace rule that graph/topology links\nare `usize` indices rather than borrowed references (no lifetimes). The\nreactor holds the master `Vec<Component>` and every reaction's\n`component_index` addresses that same list."]
-#[pyclass(
-    name = "ReactionComponent",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent {
-    pub inner: ::outram_park_fork_dwsim_libs::reactions::ReactionComponent,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent {
-    // @item field:outram_park_fork_dwsim_libs::reactions::ReactionComponent::component_index
-    #[getter(component_index)]
-    pub fn get_component_index(&self) -> usize {
-        let v = self.inner.component_index.clone();
-        v
-    }
-    #[setter(component_index)]
-    pub fn set_component_index(&mut self, v: usize) {
-        self.inner.component_index = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::ReactionComponent::stoich_coeff
-    #[getter(stoich_coeff)]
-    pub fn get_stoich_coeff(&self) -> f64 {
-        let v = self.inner.stoich_coeff.clone();
-        v
-    }
-    #[setter(stoich_coeff)]
-    pub fn set_stoich_coeff(&mut self, v: f64) {
-        self.inner.stoich_coeff = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::ReactionComponent::direct_order
-    #[getter(direct_order)]
-    pub fn get_direct_order(&self) -> f64 {
-        let v = self.inner.direct_order.clone();
-        v
-    }
-    #[setter(direct_order)]
-    pub fn set_direct_order(&mut self, v: f64) {
-        self.inner.direct_order = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::ReactionComponent::reverse_order
-    #[getter(reverse_order)]
-    pub fn get_reverse_order(&self) -> f64 {
-        let v = self.inner.reverse_order.clone();
-        v
-    }
-    #[setter(reverse_order)]
-    pub fn set_reverse_order(&mut self, v: f64) {
-        self.inner.reverse_order = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactions::ReactionComponent::is_base_reactant
-    #[getter(is_base_reactant)]
-    pub fn get_is_base_reactant(&self) -> bool {
-        let v = self.inner.is_base_reactant.clone();
-        v
-    }
-    #[setter(is_base_reactant)]
-    pub fn set_is_base_reactant(&mut self, v: bool) {
-        self.inner.is_base_reactant = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactions::ReactionComponent::new
-    #[doc = "Construct a reactant/product entry. `stoich_coeff` is signed (negative =\nreactant, positive = product). For a rate-free reaction (conversion /\nequilibrium) the orders are unused; pass `0.0`."]
-    #[new]
-    pub fn new(
-        component_index: usize,
-        stoich_coeff: f64,
-        direct_order: f64,
-        reverse_order: f64,
-        is_base_reactant: bool,
-    ) -> Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent {
-        Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionComponent::new(
-                component_index,
-                stoich_coeff,
-                direct_order,
-                reverse_order,
-                is_base_reactant,
-            ),
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactions::ReactionKind
-#[doc = "The four DWSIM reaction types (`DWSIM.Interfaces/Enums.vb`, `ReactionType`).\n\nThis is the *classification* that selects which reactor can consume the\nreaction and how its extent is determined:\n\n- [`Conversion`](ReactionKind::Conversion) — a fixed fractional conversion of\n  the base reactant is imposed (no rate, no equilibrium). Consumed by the\n  conversion reactor.\n- [`Equilibrium`](ReactionKind::Equilibrium) — the extent is whatever makes\n  the basis-activity product equal `K_eq(T)`. Consumed by the equilibrium\n  reactor.\n- [`Kinetic`](ReactionKind::Kinetic) — an Arrhenius power-law rate drives the\n  extent. Consumed by the CSTR and PFR.\n- [`HeterogeneousCatalytic`](ReactionKind::HeterogeneousCatalytic) — surface\n  (Langmuir–Hinshelwood) kinetics. The genuine LH surface rate law\n  `rate = numerator / (1 + Σ_j K_j C_j^{m_j})^p` is evaluated by\n  [`Reaction::langmuir_hinshelwood_rate`], with the numerator supplied by the\n  Arrhenius power-law [`Reaction::net_rate`] and the adsorption denominator by\n  the reaction's [`Reaction::lh`] ([`LangmuirHinshelwood`]) field. With no\n  adsorption terms the denominator is `1` and the rate equals the power-law.\n\nEnum, not a trait object, per the workspace \"no `dyn`\" rule — every reactor\n`match`es exhaustively over it."]
-#[pyclass(
-    name = "ReactionKind",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactions__ReactionKind {
-    pub inner: ::outram_park_fork_dwsim_libs::reactions::ReactionKind,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactions__ReactionKind {
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionKind::Conversion
-    #[staticmethod]
-    #[pyo3(name = "Conversion")]
-    pub fn v_Conversion() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionKind::Conversion,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionKind::Equilibrium
-    #[staticmethod]
-    #[pyo3(name = "Equilibrium")]
-    pub fn v_Equilibrium() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionKind::Equilibrium,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionKind::Kinetic
-    #[staticmethod]
-    #[pyo3(name = "Kinetic")]
-    pub fn v_Kinetic() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionKind::Kinetic,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactions::ReactionKind::HeterogeneousCatalytic
-    #[staticmethod]
-    #[pyo3(name = "HeterogeneousCatalytic")]
-    pub fn v_HeterogeneousCatalytic() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactions::ReactionKind::HeterogeneousCatalytic,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::reactions::ReactionKind::Conversion => "Conversion",
-            ::outram_park_fork_dwsim_libs::reactions::ReactionKind::Equilibrium => "Equilibrium",
-            ::outram_park_fork_dwsim_libs::reactions::ReactionKind::Kinetic => "Kinetic",
-            ::outram_park_fork_dwsim_libs::reactions::ReactionKind::HeterogeneousCatalytic => {
-                "HeterogeneousCatalytic"
-            }
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-    #[staticmethod]
-    pub fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::ConversionReactor
-#[doc = "A fixed-conversion reactor holding a list of conversion reactions applied in\norder."]
-#[pyclass(
-    name = "ConversionReactor",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__ConversionReactor {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::ConversionReactor,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__ConversionReactor {
-    // @item field:outram_park_fork_dwsim_libs::reactors::ConversionReactor::reactions
-    #[getter(reactions)]
-    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction> {
-        let v = self.inner.reactions.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__reactions__Reaction { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(reactions)]
-    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>) {
-        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::ConversionReactor::new
-    #[doc = "Construct a conversion reactor from its reaction list."]
-    #[new]
-    pub fn new(
-        reactions: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__ConversionReactor {
-        Py_outram_park_fork_dwsim_libs__reactors__ConversionReactor {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ConversionReactor::new(
-                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::ConversionReactor::solve
-    #[doc = "Apply every reaction's fixed conversion to the `feed`, returning the\noutlet molar flows, per-reaction extents, and net heat of reaction.\n\nFor each reaction the base reactant's *current* flow (after any earlier\nreaction in the list) sets the extent, so sequential reactions compound\nas in DWSIM. Conversions are clamped to `[0, 1]`; a conversion that would\ndrive any compound below zero is capped so the mole balance stays\nnon-negative."]
-    pub fn solve(
-        &self,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome> {
-        err(
-            ::outram_park_fork_dwsim_libs::reactors::ConversionReactor::solve(
-                &self.inner,
-                &feed.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome { inner: v })
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::Cstr
-#[doc = "A continuous stirred-tank reactor: a reaction list and the tank volume."]
-#[pyclass(name = "Cstr", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__Cstr {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::Cstr,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__Cstr {
-    // @item field:outram_park_fork_dwsim_libs::reactors::Cstr::reactions
-    #[getter(reactions)]
-    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction> {
-        let v = self.inner.reactions.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__reactions__Reaction { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(reactions)]
-    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>) {
-        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::Cstr::volume
-    #[getter(volume)]
-    pub fn get_volume(&self) -> f64 {
-        let v = self.inner.volume.clone();
-        v
-    }
-    #[setter(volume)]
-    pub fn set_volume(&mut self, v: f64) {
-        self.inner.volume = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::Cstr::max_iter
-    #[getter(max_iter)]
-    pub fn get_max_iter(&self) -> usize {
-        let v = self.inner.max_iter.clone();
-        v
-    }
-    #[setter(max_iter)]
-    pub fn set_max_iter(&mut self, v: usize) {
-        self.inner.max_iter = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::Cstr::tol
-    #[getter(tol)]
-    pub fn get_tol(&self) -> f64 {
-        let v = self.inner.tol.clone();
-        v
-    }
-    #[setter(tol)]
-    pub fn set_tol(&mut self, v: f64) {
-        self.inner.tol = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::Cstr::new
-    #[doc = "Construct a CSTR with default solver settings (`max_iter = 200`,\n`tol = 1e−10`)."]
-    #[new]
-    pub fn new(
-        reactions: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>,
-        volume: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__Cstr {
-        Py_outram_park_fork_dwsim_libs__reactors__Cstr {
-            inner: ::outram_park_fork_dwsim_libs::reactors::Cstr::new(
-                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                volume,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::Cstr::solve
-    #[doc = "Solve the steady-state CSTR balance for the `feed`.\n\nRequires `Q > 0`. Returns the outlet molar flows, per-reaction extents\n`ζ_r`, and the net heat of reaction `Σ_r ΔH°_r · ζ_r`. Returns\n[`ReactorError::NonConvergence`] if the Newton iteration fails to reach\n[`Cstr::tol`] within [`Cstr::max_iter`] steps."]
-    pub fn solve(
-        &self,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome> {
-        err(::outram_park_fork_dwsim_libs::reactors::Cstr::solve(
-            &self.inner,
-            &feed.inner,
-        ))
-        .map(|v| Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome { inner: v })
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::EquilibriumReactor
-#[doc = "A chemical-equilibrium reactor: a list of equilibrium reactions solved\nsimultaneously for their extents."]
-#[pyclass(
-    name = "EquilibriumReactor",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__EquilibriumReactor {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::EquilibriumReactor,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__EquilibriumReactor {
-    // @item field:outram_park_fork_dwsim_libs::reactors::EquilibriumReactor::reactions
-    #[getter(reactions)]
-    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction> {
-        let v = self.inner.reactions.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__reactions__Reaction { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(reactions)]
-    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>) {
-        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::EquilibriumReactor::max_iter
-    #[getter(max_iter)]
-    pub fn get_max_iter(&self) -> usize {
-        let v = self.inner.max_iter.clone();
-        v
-    }
-    #[setter(max_iter)]
-    pub fn set_max_iter(&mut self, v: usize) {
-        self.inner.max_iter = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::EquilibriumReactor::tol
-    #[getter(tol)]
-    pub fn get_tol(&self) -> f64 {
-        let v = self.inner.tol.clone();
-        v
-    }
-    #[setter(tol)]
-    pub fn set_tol(&mut self, v: f64) {
-        self.inner.tol = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::EquilibriumReactor::new
-    #[doc = "Construct an equilibrium reactor with default solver settings."]
-    #[new]
-    pub fn new(
-        reactions: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__EquilibriumReactor {
-        Py_outram_park_fork_dwsim_libs__reactors__EquilibriumReactor {
-            inner: ::outram_park_fork_dwsim_libs::reactors::EquilibriumReactor::new(
-                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::EquilibriumReactor::solve
-    #[doc = "Solve the equilibrium reactor for the `feed`.\n\nReturns the outlet mole amounts (as molar flows, same units as the feed),\nper-reaction extents `ζ_r`, and the net heat of reaction\n`Σ_r ΔH°_r · ζ_r`. Returns [`ReactorError::NonConvergence`] if the Newton\niteration fails."]
-    pub fn solve(
-        &self,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome> {
-        err(
-            ::outram_park_fork_dwsim_libs::reactors::EquilibriumReactor::solve(
-                &self.inner,
-                &feed.inner,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome { inner: v })
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
 // @item type:outram_park_fork_dwsim_libs::reactors::GibbsFormation
 #[doc = "Standard molar Gibbs energy of formation model `g°_i(T)` \\[J/mol\\] for one\nspecies (enum dispatch, no `dyn`).\n\nOnly **differences** between species matter to the equilibrium (a common\nadditive offset cancels in [`GibbsSystem::minimize`]), so any consistent\nreference shared by all species works — e.g. `g°_i = ΔG°_{f,i}(T)`, or an\nelement-referenced set."]
 #[pyclass(
@@ -27514,1531 +29632,6 @@ impl Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation {
                 "EnthalpyEntropy"
             }
             _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::GibbsReactor
-#[doc = "A Gibbs-minimisation equilibrium reactor: a reacting system (species,\nelements, atom matrix) plus each species' standard Gibbs energy of formation.\n\n[`solve`](Self::solve) returns the equilibrium outlet molar flows that\nminimise `G/RT` at the feed conditions — no reaction list is used."]
-#[pyclass(
-    name = "GibbsReactor",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::GibbsReactor,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-    // @item field:outram_park_fork_dwsim_libs::reactors::GibbsReactor::system
-    #[getter(system)]
-    pub fn get_system(&self) -> Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem {
-        let v = self.inner.system.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem { inner: v }
-    }
-    #[setter(system)]
-    pub fn set_system(&mut self, v: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem) {
-        self.inner.system = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::GibbsReactor::gibbs_formation
-    #[getter(gibbs_formation)]
-    pub fn get_gibbs_formation(
-        &self,
-    ) -> Vec<Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation> {
-        let v = self.inner.gibbs_formation.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(gibbs_formation)]
-    pub fn set_gibbs_formation(
-        &mut self,
-        v: Vec<Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation>,
-    ) {
-        self.inner.gibbs_formation = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::GibbsReactor::p_ref
-    #[getter(p_ref)]
-    pub fn get_p_ref(&self) -> f64 {
-        let v = self.inner.p_ref.clone();
-        v
-    }
-    #[setter(p_ref)]
-    pub fn set_p_ref(&mut self, v: f64) {
-        self.inner.p_ref = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::GibbsReactor::fugacity
-    #[getter(fugacity)]
-    pub fn get_fugacity(&self) -> Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel {
-        let v = self.inner.fugacity.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel { inner: v }
-    }
-    #[setter(fugacity)]
-    pub fn set_fugacity(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel,
-    ) {
-        self.inner.fugacity = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::GibbsReactor::options
-    #[getter(options)]
-    pub fn get_options(&self) -> Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions {
-        let v = self.inner.options.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions { inner: v }
-    }
-    #[setter(options)]
-    pub fn set_options(&mut self, v: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions) {
-        self.inner.options = v.inner;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::GibbsReactor::new
-    #[doc = "Construct a Gibbs reactor with default solver settings, an ideal-gas\nfugacity model, and `P° = 1e5` Pa.\n\n`gibbs_formation` must have one entry per species (same order as\n`system`'s species). Panics only via later [`solve`](Self::solve)\nvalidation if the length is wrong — it is not checked here so the struct\nstays a plain data holder."]
-    #[new]
-    pub fn new(
-        system: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsSystem,
-        gibbs_formation: Vec<Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation>,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-        Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-            inner: ::outram_park_fork_dwsim_libs::reactors::GibbsReactor::new(
-                system.inner,
-                gibbs_formation
-                    .into_iter()
-                    .map(|e| e.inner)
-                    .collect::<Vec<_>>(),
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::GibbsReactor::with_p_ref
-    #[doc = "Set the reference pressure `P°` \\[Pa\\]."]
-    pub fn with_p_ref(&self, p_ref: f64) -> Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-        Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-            inner: ::outram_park_fork_dwsim_libs::reactors::GibbsReactor::with_p_ref(
-                self.inner.clone(),
-                p_ref,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::GibbsReactor::with_fugacity
-    #[doc = "Set the fugacity model."]
-    pub fn with_fugacity(
-        &self,
-        fugacity: Py_outram_park_fork_dwsim_libs__thermo__gibbs__FugacityModel,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-        Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-            inner: ::outram_park_fork_dwsim_libs::reactors::GibbsReactor::with_fugacity(
-                self.inner.clone(),
-                fugacity.inner,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::GibbsReactor::with_options
-    #[doc = "Set the RAND minimiser options."]
-    pub fn with_options(
-        &self,
-        options: Py_outram_park_fork_dwsim_libs__thermo__gibbs__GibbsOptions,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-        Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor {
-            inner: ::outram_park_fork_dwsim_libs::reactors::GibbsReactor::with_options(
-                self.inner.clone(),
-                options.inner,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::GibbsReactor::solve
-    #[doc = "Solve the Gibbs reactor for the `feed`.\n\n`feed.molar_flows` are the inlet species molar flows \\[mol/s\\] (species\norder matching the wrapped [`GibbsSystem`]); `feed.temperature` \\[K\\] and\n`feed.pressure` \\[Pa\\] set the state. `feed.volumetric_flow` is unused\n(the Gibbs reactor is mole-based).\n\nReturns the equilibrium outlet molar flows \\[mol/s\\], an **empty** extent\nvector (a Gibbs reactor has no reaction list), and the net heat of\nreaction \\[W\\] `= Σ_i (F_out,i − F_in,i)·ΔH_{f,i}` computed from the\nspecies' standard enthalpies of formation — reported as `0.0` if any\nspecies uses a [`GibbsFormation::Constant`] model (enthalpy unknown).\nSign convention matches [`ReactorOutcome::heat_of_reaction`]: positive =\nnet endothermic.\n\n# Errors\n[`ReactorError::InvalidFeed`] if `feed.molar_flows`,\n`gibbs_formation`, or the atom matrix are mis-sized, if an input is\nnon-finite / non-positive, or if the RAND system is singular (rank-\ndeficient atom matrix); [`ReactorError::NonConvergence`] if the minimiser\nexhausts its iteration budget."]
-    pub fn solve(
-        &self,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome> {
-        err(::outram_park_fork_dwsim_libs::reactors::GibbsReactor::solve(&self.inner, &feed.inner))
-            .map(|v| Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome { inner: v })
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::Pfr
-#[doc = "A plug-flow reactor: a reaction list, a total volume, and the number of RK4\nintegration sub-steps."]
-#[pyclass(name = "Pfr", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__Pfr {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::Pfr,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__Pfr {
-    // @item field:outram_park_fork_dwsim_libs::reactors::Pfr::reactions
-    #[getter(reactions)]
-    pub fn get_reactions(&self) -> Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction> {
-        let v = self.inner.reactions.clone();
-        v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__reactions__Reaction { inner: e })
-            .collect::<Vec<_>>()
-    }
-    #[setter(reactions)]
-    pub fn set_reactions(&mut self, v: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>) {
-        self.inner.reactions = v.into_iter().map(|e| e.inner).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::Pfr::volume
-    #[getter(volume)]
-    pub fn get_volume(&self) -> f64 {
-        let v = self.inner.volume.clone();
-        v
-    }
-    #[setter(volume)]
-    pub fn set_volume(&mut self, v: f64) {
-        self.inner.volume = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::Pfr::n_steps
-    #[getter(n_steps)]
-    pub fn get_n_steps(&self) -> usize {
-        let v = self.inner.n_steps.clone();
-        v
-    }
-    #[setter(n_steps)]
-    pub fn set_n_steps(&mut self, v: usize) {
-        self.inner.n_steps = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::Pfr::new
-    #[doc = "Construct a PFR. `n_steps` is clamped to at least 1."]
-    #[new]
-    pub fn new(
-        reactions: Vec<Py_outram_park_fork_dwsim_libs__reactions__Reaction>,
-        volume: f64,
-        n_steps: usize,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__Pfr {
-        Py_outram_park_fork_dwsim_libs__reactors__Pfr {
-            inner: ::outram_park_fork_dwsim_libs::reactors::Pfr::new(
-                reactions.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                volume,
-                n_steps,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::Pfr::solve
-    #[doc = "Integrate the PFR balance from the `feed` to the reactor outlet.\n\nRequires `Q > 0` (concentrations are `F/Q`). Returns the outlet molar\nflows, per-reaction integrated extents `ζ_r = ∫ rate_r dV`, and the net\nheat of reaction `Σ_r ΔH°_r · ζ_r`."]
-    pub fn solve(
-        &self,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome> {
-        err(::outram_park_fork_dwsim_libs::reactors::Pfr::solve(
-            &self.inner,
-            &feed.inner,
-        ))
-        .map(|v| Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome { inner: v })
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::ReactorError
-#[doc = "What can go wrong in a reactor solve."]
-#[pyclass(
-    name = "ReactorError",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__ReactorError {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::ReactorError,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__ReactorError {
-    // @item variant:outram_park_fork_dwsim_libs::reactors::ReactorError::NonConvergence
-    #[staticmethod]
-    #[pyo3(name = "NonConvergence")]
-    pub fn v_NonConvergence(iterations: usize, residual: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorError::NonConvergence {
-                iterations: iterations,
-                residual: residual,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactors::ReactorError::InvalidFeed
-    #[staticmethod]
-    #[pyo3(name = "InvalidFeed")]
-    pub fn v_InvalidFeed(a0: String) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorError::InvalidFeed(a0),
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::reactors::ReactorError::NonConvergence { .. } => {
-                "NonConvergence"
-            }
-            ::outram_park_fork_dwsim_libs::reactors::ReactorError::InvalidFeed(..) => "InvalidFeed",
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __str__(&self) -> String {
-        format!("{}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::ReactorFeed
-#[doc = "Inlet state of a reactor: the per-compound molar flows plus the intensive\nconditions the reactors need.\n\n`molar_flows` is indexed by compound; every reaction's\n[`ReactionComponent::component_index`](crate::reactions::ReactionComponent::component_index)\naddresses this same vector."]
-#[pyclass(
-    name = "ReactorFeed",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::ReactorFeed,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed {
-    // @item field:outram_park_fork_dwsim_libs::reactors::ReactorFeed::molar_flows
-    #[getter(molar_flows)]
-    pub fn get_molar_flows(&self) -> Vec<f64> {
-        let v = self.inner.molar_flows.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(molar_flows)]
-    pub fn set_molar_flows(&mut self, v: Vec<f64>) {
-        self.inner.molar_flows = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::ReactorFeed::temperature
-    #[getter(temperature)]
-    pub fn get_temperature(&self) -> f64 {
-        let v = self.inner.temperature.clone();
-        v
-    }
-    #[setter(temperature)]
-    pub fn set_temperature(&mut self, v: f64) {
-        self.inner.temperature = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::ReactorFeed::pressure
-    #[getter(pressure)]
-    pub fn get_pressure(&self) -> f64 {
-        let v = self.inner.pressure.clone();
-        v
-    }
-    #[setter(pressure)]
-    pub fn set_pressure(&mut self, v: f64) {
-        self.inner.pressure = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::ReactorFeed::volumetric_flow
-    #[getter(volumetric_flow)]
-    pub fn get_volumetric_flow(&self) -> f64 {
-        let v = self.inner.volumetric_flow.clone();
-        v
-    }
-    #[setter(volumetric_flow)]
-    pub fn set_volumetric_flow(&mut self, v: f64) {
-        self.inner.volumetric_flow = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::ReactorFeed::new
-    #[doc = "Construct a feed. `volumetric_flow` may be `0.0` for reactors that do not\nneed concentrations (the conversion and mole-fraction-basis equilibrium\nreactors); the kinetic reactors require `Q > 0`."]
-    #[new]
-    pub fn new(
-        molar_flows: Vec<f64>,
-        temperature: f64,
-        pressure: f64,
-        volumetric_flow: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed {
-        Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorFeed::new(
-                molar_flows.into_iter().map(|e| e).collect::<Vec<_>>(),
-                temperature,
-                pressure,
-                volumetric_flow,
-            ),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::ReactorFeed::total_molar_flow
-    #[doc = "Total molar flow `Σᵢ Fᵢ` [mol/s]."]
-    pub fn total_molar_flow(&self) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactors::ReactorFeed::total_molar_flow(&self.inner)
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::ReactorModel
-#[doc = "The closed set of reactor unit operations — enum dispatch, no `dyn`.\n\nEach variant wraps a fully-configured reactor (reactions + geometry).\n[`solve`](ReactorModel::solve) `match`es to the wrapped reactor's own solve,\nso adding a variant forces every dispatch site to handle it."]
-#[pyclass(
-    name = "ReactorModel",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__ReactorModel {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::ReactorModel,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__ReactorModel {
-    // @item method:outram_park_fork_dwsim_libs::reactors::ReactorModel::solve
-    #[doc = "Solve this reactor for the given `feed`."]
-    pub fn solve(
-        &self,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome> {
-        err(::outram_park_fork_dwsim_libs::reactors::ReactorModel::solve(&self.inner, &feed.inner))
-            .map(|v| Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome { inner: v })
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactors::ReactorModel::Conversion
-    #[staticmethod]
-    #[pyo3(name = "Conversion")]
-    pub fn v_Conversion(a0: Py_outram_park_fork_dwsim_libs__reactors__ConversionReactor) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Conversion(a0.inner),
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactors::ReactorModel::Equilibrium
-    #[staticmethod]
-    #[pyo3(name = "Equilibrium")]
-    pub fn v_Equilibrium(a0: Py_outram_park_fork_dwsim_libs__reactors__EquilibriumReactor) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Equilibrium(a0.inner),
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactors::ReactorModel::Gibbs
-    #[staticmethod]
-    #[pyo3(name = "Gibbs")]
-    pub fn v_Gibbs(a0: Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Gibbs(a0.inner),
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactors::ReactorModel::Cstr
-    #[staticmethod]
-    #[pyo3(name = "Cstr")]
-    pub fn v_Cstr(a0: Py_outram_park_fork_dwsim_libs__reactors__Cstr) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Cstr(a0.inner),
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::reactors::ReactorModel::Pfr
-    #[staticmethod]
-    #[pyo3(name = "Pfr")]
-    pub fn v_Pfr(a0: Py_outram_park_fork_dwsim_libs__reactors__Pfr) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Pfr(a0.inner),
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Conversion(..) => "Conversion",
-            ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Equilibrium(..) => "Equilibrium",
-            ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Gibbs(..) => "Gibbs",
-            ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Cstr(..) => "Cstr",
-            ::outram_park_fork_dwsim_libs::reactors::ReactorModel::Pfr(..) => "Pfr",
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::reactors::ReactorOutcome
-#[doc = "Result of a reactor solve."]
-#[pyclass(
-    name = "ReactorOutcome",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome {
-    pub inner: ::outram_park_fork_dwsim_libs::reactors::ReactorOutcome,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome {
-    // @item field:outram_park_fork_dwsim_libs::reactors::ReactorOutcome::molar_flows
-    #[getter(molar_flows)]
-    pub fn get_molar_flows(&self) -> Vec<f64> {
-        let v = self.inner.molar_flows.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(molar_flows)]
-    pub fn set_molar_flows(&mut self, v: Vec<f64>) {
-        self.inner.molar_flows = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::ReactorOutcome::extents
-    #[getter(extents)]
-    pub fn get_extents(&self) -> Vec<f64> {
-        let v = self.inner.extents.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(extents)]
-    pub fn set_extents(&mut self, v: Vec<f64>) {
-        self.inner.extents = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::reactors::ReactorOutcome::heat_of_reaction
-    #[getter(heat_of_reaction)]
-    pub fn get_heat_of_reaction(&self) -> f64 {
-        let v = self.inner.heat_of_reaction.clone();
-        v
-    }
-    #[setter(heat_of_reaction)]
-    pub fn set_heat_of_reaction(&mut self, v: f64) {
-        self.inner.heat_of_reaction = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::reactors::ReactorOutcome::conversion_of
-    #[doc = "Fractional conversion of the compound at `component_index`, relative to\nthe given inlet feed: `X = (F_in − F_out) / F_in`. Returns `0.0` if the\ninlet flow is zero."]
-    pub fn conversion_of(
-        &self,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>,
-        component_index: usize,
-    ) -> f64 {
-        ::outram_park_fork_dwsim_libs::reactors::ReactorOutcome::conversion_of(
-            &self.inner,
-            &feed.inner,
-            component_index,
-        )
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::reactors::ReactorOutcome
-    #[new]
-    pub fn __new__(molar_flows: Vec<f64>, extents: Vec<f64>, heat_of_reaction: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::reactors::ReactorOutcome {
-                molar_flows: molar_flows.into_iter().map(|e| e).collect::<Vec<_>>(),
-                extents: extents.into_iter().map(|e| e).collect::<Vec<_>>(),
-                heat_of_reaction: heat_of_reaction,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::separator::PhaseOutlet
-#[doc = "One equilibrium-phase outlet stream produced by the separator.\n\nThe intensive state (`T`, `P`) is shared with the sibling outlet and carried\non [`SeparatorResult`]; this struct holds the phase's *extensive* flows and\nits composition. Units (SI, `uom`-typed)."]
-#[pyclass(
-    name = "PhaseOutlet",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet {
-    pub inner: ::outram_park_fork_dwsim_libs::separator::PhaseOutlet,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet {
-    // @item field:outram_park_fork_dwsim_libs::separator::PhaseOutlet::molar_flow
-    #[getter(molar_flow)]
-    pub fn get_molar_flow(&self) -> f64 {
-        let v = self.inner.molar_flow.clone();
-        to_si(v)
-    }
-    #[setter(molar_flow)]
-    pub fn set_molar_flow(&mut self, v: f64) {
-        self.inner.molar_flow = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::PhaseOutlet::mass_flow
-    #[getter(mass_flow)]
-    pub fn get_mass_flow(&self) -> f64 {
-        let v = self.inner.mass_flow.clone();
-        to_si(v)
-    }
-    #[setter(mass_flow)]
-    pub fn set_mass_flow(&mut self, v: f64) {
-        self.inner.mass_flow = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::PhaseOutlet::mole_fractions
-    #[getter(mole_fractions)]
-    pub fn get_mole_fractions(&self) -> Vec<f64> {
-        let v = self.inner.mole_fractions.clone();
-        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
-    }
-    #[setter(mole_fractions)]
-    pub fn set_mole_fractions(&mut self, v: Vec<f64>) {
-        self.inner.mole_fractions = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::separator::PhaseOutlet
-    #[new]
-    pub fn __new__(molar_flow: f64, mass_flow: f64, mole_fractions: Vec<f64>) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::PhaseOutlet {
-                molar_flow: from_si(molar_flow),
-                mass_flow: from_si(mass_flow),
-                mole_fractions: mole_fractions
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::separator::Separator
-#[doc = "A two-phase gas-liquid separator (flash drum) bound to a thermodynamic\nproperty package.\n\nHolds the [`PropertyPackageModel`] used for the flash; `Copy` so it can be\npassed by value. Construct with [`Separator::new`], then flash a combined\nfeed with [`Separator::flash_isothermal`] (TP) or [`Separator::flash_adiabatic`]\n(PH)."]
-#[pyclass(name = "Separator", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__separator__Separator {
-    pub inner: ::outram_park_fork_dwsim_libs::separator::Separator,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__separator__Separator {
-    // @item field:outram_park_fork_dwsim_libs::separator::Separator::package
-    #[getter(package)]
-    pub fn get_package(
-        &self,
-    ) -> Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-        let v = self.inner.package.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel { inner: v }
-    }
-    #[setter(package)]
-    pub fn set_package(
-        &mut self,
-        v: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-    ) {
-        self.inner.package = v.inner;
-    }
-    // @item method:outram_park_fork_dwsim_libs::separator::Separator::new
-    #[doc = "Build a separator that flashes with `package`."]
-    #[new]
-    pub fn new(
-        package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-    ) -> Py_outram_park_fork_dwsim_libs__separator__Separator {
-        Py_outram_park_fork_dwsim_libs__separator__Separator {
-            inner: ::outram_park_fork_dwsim_libs::separator::Separator::new(package.inner),
-        }
-    }
-    // @item method:outram_park_fork_dwsim_libs::separator::Separator::flash_isothermal
-    #[doc = "**Isothermal TP separator** — flash the combined `feed` at the vessel\ntemperature `t` and pressure `p`, and route the phases to two outlets\n(DWSIM `Legacy`/TP mode, Vessel.vb:820-844, 952-1045).\n\nRuns [`PropertyPackageModel::flash_pt`] on `(components, z, t, p)`, then\nforms the vapour outlet (`V = β·F`, composition `y`) and the liquid\noutlet (`L = (1−β)·F`, composition `x`), each inheriting the vessel\n`(t, p)`. Mass and per-component mass are conserved by construction (see\nthe module docs).\n\n# Units / ranges\n- `components` — the pure-compound data, one per feed component.\n- `feed` — combined feed (`F` \\[mol/s\\], `z_i` \\[-\\]); `feed.molar_flow`\n  must be finite and `>= 0`.\n- `t` — vessel temperature \\[K\\], `> 0`.\n- `p` — vessel pressure \\[Pa\\], `> 0`.\n\n# Errors\n- [`SeparatorError::LengthMismatch`] if `components.len()` ≠\n  `feed.composition.len()`.\n- [`SeparatorError::InvalidMolarFlow`] if the feed molar flow is negative\n  or non-finite.\n- [`SeparatorError::Flash`] propagating any [`FlashError`] from the\n  kernel (e.g. non-convergence near a phase boundary)."]
-    pub fn flash_isothermal(
-        &self,
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        feed: PyRef<'_, Py_outram_park_fork_dwsim_libs__separator__SeparatorFeed>,
-        t: f64,
-        p: f64,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__separator__SeparatorResult> {
-        err(
-            ::outram_park_fork_dwsim_libs::separator::Separator::flash_isothermal(
-                &self.inner,
-                &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                &feed.inner,
-                from_si(t),
-                from_si(p),
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__separator__SeparatorResult { inner: v })
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::separator::SeparatorError
-#[doc = "Errors from the separator flash-and-route."]
-#[pyclass(
-    name = "SeparatorError",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__separator__SeparatorError {
-    pub inner: ::outram_park_fork_dwsim_libs::separator::SeparatorError,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__separator__SeparatorError {
-    // @item variant:outram_park_fork_dwsim_libs::separator::SeparatorError::Flash
-    #[staticmethod]
-    #[pyo3(name = "Flash")]
-    pub fn v_Flash(a0: Py_outram_park_fork_dwsim_libs__thermo__flash__FlashError) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorError::Flash(a0.inner),
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::separator::SeparatorError::LengthMismatch
-    #[staticmethod]
-    #[pyo3(name = "LengthMismatch")]
-    pub fn v_LengthMismatch(components: usize, composition: usize) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorError::LengthMismatch {
-                components: components,
-                composition: composition,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::separator::SeparatorError::InvalidMolarFlow
-    #[staticmethod]
-    #[pyo3(name = "InvalidMolarFlow")]
-    pub fn v_InvalidMolarFlow(a0: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorError::InvalidMolarFlow(a0),
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::separator::SeparatorError::Flash(..) => "Flash",
-            ::outram_park_fork_dwsim_libs::separator::SeparatorError::LengthMismatch { .. } => {
-                "LengthMismatch"
-            }
-            ::outram_park_fork_dwsim_libs::separator::SeparatorError::InvalidMolarFlow(..) => {
-                "InvalidMolarFlow"
-            }
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __str__(&self) -> String {
-        format!("{}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::separator::SeparatorFeed
-#[doc = "The combined feed to the separator: everything the material-balance flash\nneeds, owned by value (no references, no lifetimes).\n\nThis is the already-mixed inlet DWSIM builds in `MixedStream`\n(Vessel.vb:691-789) before the flash — the crate's [`crate::mixer`] produces\nexactly this combined state.\n\nUnits (SI, `uom`-typed):\n- `molar_flow` — total feed molar flow `F` \\[katal = mol/s\\], `>= 0`, finite.\n- `composition` — overall feed mole fractions `z_i` \\[-\\], one per component,\n  physically summing to 1.\n- `specific_enthalpy` — feed specific enthalpy \\[J/kg\\], mass basis\n  (DWSIM `Phases(0).Properties.enthalpy`, Vessel.vb:763). Used **only** by\n  [`Separator::flash_adiabatic`]; ignored by the isothermal mode. The datum\n  only needs to be consistent with the caller's PH-flash closure."]
-#[pyclass(
-    name = "SeparatorFeed",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__separator__SeparatorFeed {
-    pub inner: ::outram_park_fork_dwsim_libs::separator::SeparatorFeed,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__separator__SeparatorFeed {
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorFeed::molar_flow
-    #[getter(molar_flow)]
-    pub fn get_molar_flow(&self) -> f64 {
-        let v = self.inner.molar_flow.clone();
-        to_si(v)
-    }
-    #[setter(molar_flow)]
-    pub fn set_molar_flow(&mut self, v: f64) {
-        self.inner.molar_flow = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorFeed::composition
-    #[getter(composition)]
-    pub fn get_composition(&self) -> Vec<f64> {
-        let v = self.inner.composition.clone();
-        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
-    }
-    #[setter(composition)]
-    pub fn set_composition(&mut self, v: Vec<f64>) {
-        self.inner.composition = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorFeed::specific_enthalpy
-    #[getter(specific_enthalpy)]
-    pub fn get_specific_enthalpy(&self) -> f64 {
-        let v = self.inner.specific_enthalpy.clone();
-        to_si(v)
-    }
-    #[setter(specific_enthalpy)]
-    pub fn set_specific_enthalpy(&mut self, v: f64) {
-        self.inner.specific_enthalpy = from_si(v);
-    }
-    // @item method:outram_park_fork_dwsim_libs::separator::SeparatorFeed::from_si
-    #[doc = "Convenience constructor from SI scalars: `molar_flow` \\[mol/s\\], a slice\nof overall mole fractions `z_i` \\[-\\], and `specific_enthalpy` \\[J/kg\\]."]
-    #[staticmethod]
-    pub fn from_si(
-        molar_flow: f64,
-        composition: Vec<f64>,
-        specific_enthalpy: f64,
-    ) -> Py_outram_park_fork_dwsim_libs__separator__SeparatorFeed {
-        Py_outram_park_fork_dwsim_libs__separator__SeparatorFeed {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorFeed::from_si(
-                molar_flow,
-                &composition.into_iter().map(|e| e).collect::<Vec<_>>(),
-                specific_enthalpy,
-            ),
-        }
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::separator::SeparatorFeed
-    #[new]
-    pub fn __new__(molar_flow: f64, composition: Vec<f64>, specific_enthalpy: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorFeed {
-                molar_flow: from_si(molar_flow),
-                composition: composition
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-                specific_enthalpy: from_si(specific_enthalpy),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::separator::SeparatorMode
-#[doc = "The operating specification of the separator — DWSIM's `CalculationModes`\n(Vessel.vb:99-106), reduced to the two the material-balance flash needs.\n\nModeled as an enum (no `dyn` dispatch), per the workspace design rules. It is\ncarried on [`SeparatorResult::mode`] so a caller can report which\nspecification produced a result. The adiabatic mode's caller-dependent\nPH-flash step is **not** stored here (a closure cannot be an enum field\nwithout `dyn`); it is passed to [`Separator::flash_adiabatic`] instead."]
-#[pyclass(
-    name = "SeparatorMode",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__separator__SeparatorMode {
-    pub inner: ::outram_park_fork_dwsim_libs::separator::SeparatorMode,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__separator__SeparatorMode {
-    // @item variant:outram_park_fork_dwsim_libs::separator::SeparatorMode::IsothermalTp
-    #[staticmethod]
-    #[pyo3(name = "IsothermalTp")]
-    pub fn v_IsothermalTp() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorMode::IsothermalTp,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::separator::SeparatorMode::Adiabatic
-    #[staticmethod]
-    #[pyo3(name = "Adiabatic")]
-    pub fn v_Adiabatic() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorMode::Adiabatic,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::separator::SeparatorMode::IsothermalTp => "IsothermalTp",
-            ::outram_park_fork_dwsim_libs::separator::SeparatorMode::Adiabatic => "Adiabatic",
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::separator::SeparatorResult
-#[doc = "The full separator result: the flash split, the two phase outlets, and the\nvessel intensive state they inherit.\n\nConservation (see the module docs) holds by construction:\n`vapour.molar_flow + liquid.molar_flow == feed.molar_flow` and, per\ncomponent, `y_i·V + x_i·L == z_i·F`, both on a molar basis; multiplying by\nthe fixed molar masses gives the same on a mass basis."]
-#[pyclass(
-    name = "SeparatorResult",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__separator__SeparatorResult {
-    pub inner: ::outram_park_fork_dwsim_libs::separator::SeparatorResult,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__separator__SeparatorResult {
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorResult::mode
-    #[getter(mode)]
-    pub fn get_mode(&self) -> Py_outram_park_fork_dwsim_libs__separator__SeparatorMode {
-        let v = self.inner.mode.clone();
-        Py_outram_park_fork_dwsim_libs__separator__SeparatorMode { inner: v }
-    }
-    #[setter(mode)]
-    pub fn set_mode(&mut self, v: Py_outram_park_fork_dwsim_libs__separator__SeparatorMode) {
-        self.inner.mode = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorResult::flash
-    #[getter(flash)]
-    pub fn get_flash(&self) -> Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult {
-        let v = self.inner.flash.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult { inner: v }
-    }
-    #[setter(flash)]
-    pub fn set_flash(&mut self, v: Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult) {
-        self.inner.flash = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorResult::temperature
-    #[getter(temperature)]
-    pub fn get_temperature(&self) -> f64 {
-        let v = self.inner.temperature.clone();
-        to_si(v)
-    }
-    #[setter(temperature)]
-    pub fn set_temperature(&mut self, v: f64) {
-        self.inner.temperature = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorResult::pressure
-    #[getter(pressure)]
-    pub fn get_pressure(&self) -> f64 {
-        let v = self.inner.pressure.clone();
-        to_si(v)
-    }
-    #[setter(pressure)]
-    pub fn set_pressure(&mut self, v: f64) {
-        self.inner.pressure = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorResult::vapour
-    #[getter(vapour)]
-    pub fn get_vapour(&self) -> Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet {
-        let v = self.inner.vapour.clone();
-        Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet { inner: v }
-    }
-    #[setter(vapour)]
-    pub fn set_vapour(&mut self, v: Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet) {
-        self.inner.vapour = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::separator::SeparatorResult::liquid
-    #[getter(liquid)]
-    pub fn get_liquid(&self) -> Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet {
-        let v = self.inner.liquid.clone();
-        Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet { inner: v }
-    }
-    #[setter(liquid)]
-    pub fn set_liquid(&mut self, v: Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet) {
-        self.inner.liquid = v.inner;
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::separator::SeparatorResult
-    #[new]
-    pub fn __new__(
-        mode: Py_outram_park_fork_dwsim_libs__separator__SeparatorMode,
-        flash: Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult,
-        temperature: f64,
-        pressure: f64,
-        vapour: Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet,
-        liquid: Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::separator::SeparatorResult {
-                mode: mode.inner,
-                flash: flash.inner,
-                temperature: from_si(temperature),
-                pressure: from_si(pressure),
-                vapour: vapour.inner,
-                liquid: liquid.inner,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::splitter::IntensiveState
-#[doc = "The intensive (flow-independent, per-unit-mass) thermodynamic state that a\nsplitter passes unchanged from its inlet to every outlet.\n\nA splitter alters only extensive flows, never this state — so the same\n`IntensiveState` is shared by the inlet and all outlets\n(Splitter.vb:258-266). Units (all SI, `uom`-typed):\n- `temperature` — `T` \\[K\\], `> 0`. Copied verbatim from the inlet\n  (Splitter.vb:258).\n- `pressure` — `p` \\[Pa\\], `> 0` (Splitter.vb:259).\n- `specific_enthalpy` — `h` \\[J/kg\\], mass basis, matching DWSIM's\n  `Phases(0).Properties.enthalpy` (Splitter.vb:260). Any real value; only the\n  datum must be consistent with the caller's convention.\n- `mole_fractions` — overall composition as mole fractions `y_i`\n  (dimensionless \\[0, 1\\], summing to 1), one entry per compound\n  (Splitter.vb:263-266). Empty is allowed for a composition-agnostic\n  flow-only split."]
-#[pyclass(
-    name = "IntensiveState",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__splitter__IntensiveState {
-    pub inner: ::outram_park_fork_dwsim_libs::splitter::IntensiveState,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__splitter__IntensiveState {
-    // @item field:outram_park_fork_dwsim_libs::splitter::IntensiveState::temperature
-    #[getter(temperature)]
-    pub fn get_temperature(&self) -> f64 {
-        let v = self.inner.temperature.clone();
-        to_si(v)
-    }
-    #[setter(temperature)]
-    pub fn set_temperature(&mut self, v: f64) {
-        self.inner.temperature = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::IntensiveState::pressure
-    #[getter(pressure)]
-    pub fn get_pressure(&self) -> f64 {
-        let v = self.inner.pressure.clone();
-        to_si(v)
-    }
-    #[setter(pressure)]
-    pub fn set_pressure(&mut self, v: f64) {
-        self.inner.pressure = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::IntensiveState::specific_enthalpy
-    #[getter(specific_enthalpy)]
-    pub fn get_specific_enthalpy(&self) -> f64 {
-        let v = self.inner.specific_enthalpy.clone();
-        to_si(v)
-    }
-    #[setter(specific_enthalpy)]
-    pub fn set_specific_enthalpy(&mut self, v: f64) {
-        self.inner.specific_enthalpy = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::IntensiveState::mole_fractions
-    #[getter(mole_fractions)]
-    pub fn get_mole_fractions(&self) -> Vec<f64> {
-        let v = self.inner.mole_fractions.clone();
-        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
-    }
-    #[setter(mole_fractions)]
-    pub fn set_mole_fractions(&mut self, v: Vec<f64>) {
-        self.inner.mole_fractions = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
-    }
-    // @item method:outram_park_fork_dwsim_libs::splitter::IntensiveState::from_si
-    #[doc = "Convenience constructor from SI scalars: `temperature` \\[K\\],\n`pressure` \\[Pa\\], `specific_enthalpy` \\[J/kg\\], and a slice of mole\nfractions (dimensionless \\[0, 1\\])."]
-    #[staticmethod]
-    pub fn from_si(
-        temperature: f64,
-        pressure: f64,
-        specific_enthalpy: f64,
-        mole_fractions: Vec<f64>,
-    ) -> Py_outram_park_fork_dwsim_libs__splitter__IntensiveState {
-        Py_outram_park_fork_dwsim_libs__splitter__IntensiveState {
-            inner: ::outram_park_fork_dwsim_libs::splitter::IntensiveState::from_si(
-                temperature,
-                pressure,
-                specific_enthalpy,
-                &mole_fractions.into_iter().map(|e| e).collect::<Vec<_>>(),
-            ),
-        }
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::splitter::IntensiveState
-    #[new]
-    pub fn __new__(
-        temperature: f64,
-        pressure: f64,
-        specific_enthalpy: f64,
-        mole_fractions: Vec<f64>,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::IntensiveState {
-                temperature: from_si(temperature),
-                pressure: from_si(pressure),
-                specific_enthalpy: from_si(specific_enthalpy),
-                mole_fractions: mole_fractions
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::splitter::OutletStream
-#[doc = "One outlet material stream produced by [`split_streams`]: the inlet's\n[`IntensiveState`] carried through unchanged, tagged with this outlet's flow.\n\nThe `state` field is identical (`==`) to the splitter inlet's intensive state\n— that is the defining property of a splitter (Splitter.vb:258-266)."]
-#[pyclass(
-    name = "OutletStream",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__splitter__OutletStream {
-    pub inner: ::outram_park_fork_dwsim_libs::splitter::OutletStream,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__splitter__OutletStream {
-    // @item field:outram_park_fork_dwsim_libs::splitter::OutletStream::state
-    #[getter(state)]
-    pub fn get_state(&self) -> Py_outram_park_fork_dwsim_libs__splitter__IntensiveState {
-        let v = self.inner.state.clone();
-        Py_outram_park_fork_dwsim_libs__splitter__IntensiveState { inner: v }
-    }
-    #[setter(state)]
-    pub fn set_state(&mut self, v: Py_outram_park_fork_dwsim_libs__splitter__IntensiveState) {
-        self.inner.state = v.inner;
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::OutletStream::split_fraction
-    #[getter(split_fraction)]
-    pub fn get_split_fraction(&self) -> f64 {
-        let v = self.inner.split_fraction.clone();
-        to_si(v)
-    }
-    #[setter(split_fraction)]
-    pub fn set_split_fraction(&mut self, v: f64) {
-        self.inner.split_fraction = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::OutletStream::mass_flow
-    #[getter(mass_flow)]
-    pub fn get_mass_flow(&self) -> f64 {
-        let v = self.inner.mass_flow.clone();
-        to_si(v)
-    }
-    #[setter(mass_flow)]
-    pub fn set_mass_flow(&mut self, v: f64) {
-        self.inner.mass_flow = from_si(v);
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::OutletStream::mole_flow
-    #[getter(mole_flow)]
-    pub fn get_mole_flow(&self) -> f64 {
-        let v = self.inner.mole_flow.clone();
-        to_si(v)
-    }
-    #[setter(mole_flow)]
-    pub fn set_mole_flow(&mut self, v: f64) {
-        self.inner.mole_flow = from_si(v);
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::splitter::OutletStream
-    #[new]
-    pub fn __new__(
-        state: Py_outram_park_fork_dwsim_libs__splitter__IntensiveState,
-        split_fraction: f64,
-        mass_flow: f64,
-        mole_flow: f64,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::OutletStream {
-                state: state.inner,
-                split_fraction: from_si(split_fraction),
-                mass_flow: from_si(mass_flow),
-                mole_flow: from_si(mole_flow),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::splitter::SplitError
-#[doc = "Errors from resolving a [`SplitSpec`].\n\nThese correspond to DWSIM's `Throw New Exception(...)` guards\n(Splitter.vb:295, :305, :351, :361 for over-drawn flow specs) plus this\nport's stricter fraction-sum check (see [`SplitSpec::Fractions`])."]
-#[pyclass(
-    name = "SplitError",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__splitter__SplitError {
-    pub inner: ::outram_park_fork_dwsim_libs::splitter::SplitError,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__splitter__SplitError {
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitError::NegativeFraction
-    #[staticmethod]
-    #[pyo3(name = "NegativeFraction")]
-    pub fn v_NegativeFraction(index: usize, value: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitError::NegativeFraction {
-                index: index,
-                value: value,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitError::FractionSumNotUnity
-    #[staticmethod]
-    #[pyo3(name = "FractionSumNotUnity")]
-    pub fn v_FractionSumNotUnity(sum: f64, tolerance: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitError::FractionSumNotUnity {
-                sum: sum,
-                tolerance: tolerance,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitError::NegativeFixedFlow
-    #[staticmethod]
-    #[pyo3(name = "NegativeFixedFlow")]
-    pub fn v_NegativeFixedFlow(index: usize, value: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitError::NegativeFixedFlow {
-                index: index,
-                value: value,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitError::InsufficientInletFlow
-    #[staticmethod]
-    #[pyo3(name = "InsufficientInletFlow")]
-    pub fn v_InsufficientInletFlow(inlet: f64, fixed_total: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitError::InsufficientInletFlow {
-                inlet: inlet,
-                fixed_total: fixed_total,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitError::NonPositiveInletFlow
-    #[staticmethod]
-    #[pyo3(name = "NonPositiveInletFlow")]
-    pub fn v_NonPositiveInletFlow(value: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitError::NonPositiveInletFlow {
-                value: value,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitError::NoOutlets
-    #[staticmethod]
-    #[pyo3(name = "NoOutlets")]
-    pub fn v_NoOutlets() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitError::NoOutlets,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::splitter::SplitError::NegativeFraction { .. } => {
-                "NegativeFraction"
-            }
-            ::outram_park_fork_dwsim_libs::splitter::SplitError::FractionSumNotUnity { .. } => {
-                "FractionSumNotUnity"
-            }
-            ::outram_park_fork_dwsim_libs::splitter::SplitError::NegativeFixedFlow { .. } => {
-                "NegativeFixedFlow"
-            }
-            ::outram_park_fork_dwsim_libs::splitter::SplitError::InsufficientInletFlow {
-                ..
-            } => "InsufficientInletFlow",
-            ::outram_park_fork_dwsim_libs::splitter::SplitError::NonPositiveInletFlow {
-                ..
-            } => "NonPositiveInletFlow",
-            ::outram_park_fork_dwsim_libs::splitter::SplitError::NoOutlets => "NoOutlets",
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __str__(&self) -> String {
-        format!("{}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::splitter::SplitResult
-#[doc = "The resolved per-outlet split produced by [`split`].\n\nAll three vectors have the same length `N` (the outlet count) and are ordered\nby outlet index. Because the intensive state is uniform, mass and mole flow\nare both simply the inlet flow scaled by the *same* fraction, so all three\nstay mutually consistent."]
-#[pyclass(
-    name = "SplitResult",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__splitter__SplitResult {
-    pub inner: ::outram_park_fork_dwsim_libs::splitter::SplitResult,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__splitter__SplitResult {
-    // @item field:outram_park_fork_dwsim_libs::splitter::SplitResult::fractions
-    #[getter(fractions)]
-    pub fn get_fractions(&self) -> Vec<f64> {
-        let v = self.inner.fractions.clone();
-        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
-    }
-    #[setter(fractions)]
-    pub fn set_fractions(&mut self, v: Vec<f64>) {
-        self.inner.fractions = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::SplitResult::mass_flows
-    #[getter(mass_flows)]
-    pub fn get_mass_flows(&self) -> Vec<f64> {
-        let v = self.inner.mass_flows.clone();
-        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
-    }
-    #[setter(mass_flows)]
-    pub fn set_mass_flows(&mut self, v: Vec<f64>) {
-        self.inner.mass_flows = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::splitter::SplitResult::mole_flows
-    #[getter(mole_flows)]
-    pub fn get_mole_flows(&self) -> Vec<f64> {
-        let v = self.inner.mole_flows.clone();
-        v.into_iter().map(|e| to_si(e)).collect::<Vec<_>>()
-    }
-    #[setter(mole_flows)]
-    pub fn set_mole_flows(&mut self, v: Vec<f64>) {
-        self.inner.mole_flows = v.into_iter().map(|e| from_si(e)).collect::<Vec<_>>();
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::splitter::SplitResult
-    #[new]
-    pub fn __new__(fractions: Vec<f64>, mass_flows: Vec<f64>, mole_flows: Vec<f64>) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitResult {
-                fractions: fractions
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-                mass_flows: mass_flows
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-                mole_flows: mole_flows
-                    .into_iter()
-                    .map(|e| from_si(e))
-                    .collect::<Vec<_>>(),
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::splitter::SplitSpec
-#[doc = "How the inlet flow is divided among the outlets — DWSIM's `Splitter.OpMode`\nenum (Splitter.vb:38-42). Modeled as an enum (no `dyn` dispatch), per the\nworkspace design rules. The specification list is owned **by value** (a\n`Vec`, indexed by `usize`), never by reference — no lifetimes."]
-#[pyclass(name = "SplitSpec", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__splitter__SplitSpec {
-    pub inner: ::outram_park_fork_dwsim_libs::splitter::SplitSpec,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__splitter__SplitSpec {
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitSpec::Fractions
-    #[staticmethod]
-    #[pyo3(name = "Fractions")]
-    pub fn v_Fractions(a0: Vec<f64>) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitSpec::Fractions(
-                a0.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(),
-            ),
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitSpec::MassFlows
-    #[staticmethod]
-    #[pyo3(name = "MassFlows")]
-    pub fn v_MassFlows(a0: Vec<f64>) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitSpec::MassFlows(
-                a0.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(),
-            ),
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::splitter::SplitSpec::MoleFlows
-    #[staticmethod]
-    #[pyo3(name = "MoleFlows")]
-    pub fn v_MoleFlows(a0: Vec<f64>) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::splitter::SplitSpec::MoleFlows(
-                a0.into_iter().map(|e| from_si(e)).collect::<Vec<_>>(),
-            ),
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::splitter::SplitSpec::Fractions(..) => "Fractions",
-            ::outram_park_fork_dwsim_libs::splitter::SplitSpec::MassFlows(..) => "MassFlows",
-            ::outram_park_fork_dwsim_libs::splitter::SplitSpec::MoleFlows(..) => "MoleFlows",
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::thermo::Component
-#[doc = "Pure-compound constant properties.\n\nA plain data record: no behaviour beyond validated construction and\naccessors. The ideal-gas heat capacity is evaluated from `cp_ig_a..e` by\n[`crate::thermo::ideal_props`] (this struct only stores the coefficients);\nthe EOS `a(T)`/`b` parameters are computed by [`crate::thermo::cubic_eos`]\nfrom `critical_temperature`, `critical_pressure`, and `acentric_factor`.\n\n## Ideal-gas Cp correlation\n\n`cp_ig_a..e` are DWSIM's `Ideal_Gas_Heat_Capacity_Const_A..E`. The exact\npolynomial/DIPPR form they parameterise is implemented by\n[`crate::thermo::ideal_props`] against DWSIM's `PropertyPackageMethods`; this\nrecord is agnostic to that form and merely carries the five coefficients\nplus the reference entropy of formation."]
-#[pyclass(name = "Component", module = "outram_park.outram_park_fork_dwsim_libs")]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__thermo__Component {
-    pub inner: ::outram_park_fork_dwsim_libs::thermo::Component,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__thermo__Component {
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::name
-    #[getter(name)]
-    pub fn get_name(&self) -> String {
-        let v = self.inner.name.clone();
-        v
-    }
-    #[setter(name)]
-    pub fn set_name(&mut self, v: String) {
-        self.inner.name = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::molar_mass
-    #[getter(molar_mass)]
-    pub fn get_molar_mass(&self) -> f64 {
-        let v = self.inner.molar_mass.clone();
-        v
-    }
-    #[setter(molar_mass)]
-    pub fn set_molar_mass(&mut self, v: f64) {
-        self.inner.molar_mass = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::critical_temperature
-    #[getter(critical_temperature)]
-    pub fn get_critical_temperature(&self) -> f64 {
-        let v = self.inner.critical_temperature.clone();
-        v
-    }
-    #[setter(critical_temperature)]
-    pub fn set_critical_temperature(&mut self, v: f64) {
-        self.inner.critical_temperature = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::critical_pressure
-    #[getter(critical_pressure)]
-    pub fn get_critical_pressure(&self) -> f64 {
-        let v = self.inner.critical_pressure.clone();
-        v
-    }
-    #[setter(critical_pressure)]
-    pub fn set_critical_pressure(&mut self, v: f64) {
-        self.inner.critical_pressure = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::critical_volume
-    #[getter(critical_volume)]
-    pub fn get_critical_volume(&self) -> f64 {
-        let v = self.inner.critical_volume.clone();
-        v
-    }
-    #[setter(critical_volume)]
-    pub fn set_critical_volume(&mut self, v: f64) {
-        self.inner.critical_volume = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::acentric_factor
-    #[getter(acentric_factor)]
-    pub fn get_acentric_factor(&self) -> f64 {
-        let v = self.inner.acentric_factor.clone();
-        v
-    }
-    #[setter(acentric_factor)]
-    pub fn set_acentric_factor(&mut self, v: f64) {
-        self.inner.acentric_factor = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::normal_boiling_point
-    #[getter(normal_boiling_point)]
-    pub fn get_normal_boiling_point(&self) -> f64 {
-        let v = self.inner.normal_boiling_point.clone();
-        v
-    }
-    #[setter(normal_boiling_point)]
-    pub fn set_normal_boiling_point(&mut self, v: f64) {
-        self.inner.normal_boiling_point = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::cp_ig_a
-    #[getter(cp_ig_a)]
-    pub fn get_cp_ig_a(&self) -> f64 {
-        let v = self.inner.cp_ig_a.clone();
-        v
-    }
-    #[setter(cp_ig_a)]
-    pub fn set_cp_ig_a(&mut self, v: f64) {
-        self.inner.cp_ig_a = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::cp_ig_b
-    #[getter(cp_ig_b)]
-    pub fn get_cp_ig_b(&self) -> f64 {
-        let v = self.inner.cp_ig_b.clone();
-        v
-    }
-    #[setter(cp_ig_b)]
-    pub fn set_cp_ig_b(&mut self, v: f64) {
-        self.inner.cp_ig_b = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::cp_ig_c
-    #[getter(cp_ig_c)]
-    pub fn get_cp_ig_c(&self) -> f64 {
-        let v = self.inner.cp_ig_c.clone();
-        v
-    }
-    #[setter(cp_ig_c)]
-    pub fn set_cp_ig_c(&mut self, v: f64) {
-        self.inner.cp_ig_c = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::cp_ig_d
-    #[getter(cp_ig_d)]
-    pub fn get_cp_ig_d(&self) -> f64 {
-        let v = self.inner.cp_ig_d.clone();
-        v
-    }
-    #[setter(cp_ig_d)]
-    pub fn set_cp_ig_d(&mut self, v: f64) {
-        self.inner.cp_ig_d = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::cp_ig_e
-    #[getter(cp_ig_e)]
-    pub fn get_cp_ig_e(&self) -> f64 {
-        let v = self.inner.cp_ig_e.clone();
-        v
-    }
-    #[setter(cp_ig_e)]
-    pub fn set_cp_ig_e(&mut self, v: f64) {
-        self.inner.cp_ig_e = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::Component::ig_entropy_formation_25c
-    #[getter(ig_entropy_formation_25c)]
-    pub fn get_ig_entropy_formation_25c(&self) -> f64 {
-        let v = self.inner.ig_entropy_formation_25c.clone();
-        v
-    }
-    #[setter(ig_entropy_formation_25c)]
-    pub fn set_ig_entropy_formation_25c(&mut self, v: f64) {
-        self.inner.ig_entropy_formation_25c = v;
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::Component::reduced_temperature
-    #[doc = "Reduced temperature `Tr = T / Tc` [-] at `temperature` [K]."]
-    pub fn reduced_temperature(&self, temperature: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::Component::reduced_temperature(
-            &self.inner,
-            temperature,
-        )
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::Component::reduced_pressure
-    #[doc = "Reduced pressure `Pr = P / Pc` [-] at `pressure` [Pa]."]
-    pub fn reduced_pressure(&self, pressure: f64) -> f64 {
-        ::outram_park_fork_dwsim_libs::thermo::Component::reduced_pressure(&self.inner, pressure)
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::thermo::Component
-    #[new]
-    pub fn __new__(
-        name: String,
-        molar_mass: f64,
-        critical_temperature: f64,
-        critical_pressure: f64,
-        critical_volume: f64,
-        acentric_factor: f64,
-        normal_boiling_point: f64,
-        cp_ig_a: f64,
-        cp_ig_b: f64,
-        cp_ig_c: f64,
-        cp_ig_d: f64,
-        cp_ig_e: f64,
-        ig_entropy_formation_25c: f64,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::Component {
-                name: name,
-                molar_mass: molar_mass,
-                critical_temperature: critical_temperature,
-                critical_pressure: critical_pressure,
-                critical_volume: critical_volume,
-                acentric_factor: acentric_factor,
-                normal_boiling_point: normal_boiling_point,
-                cp_ig_a: cp_ig_a,
-                cp_ig_b: cp_ig_b,
-                cp_ig_c: cp_ig_c,
-                cp_ig_d: cp_ig_d,
-                cp_ig_e: cp_ig_e,
-                ig_entropy_formation_25c: ig_entropy_formation_25c,
-            },
         }
     }
     pub fn __repr__(&self) -> String {
@@ -29617,12 +30210,12 @@ pub struct Py_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__Hydrocar
 impl Py_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__HydrocarbonSpecies {
     // @item field:outram_park_fork_dwsim_libs::thermo::chao_seader_grayson::HydrocarbonSpecies::component
     #[getter(component)]
-    pub fn get_component(&self) -> Py_outram_park_fork_dwsim_libs__thermo__Component {
+    pub fn get_component(&self) -> Py_outram_park_fork_dwsim_libs__prelude__Component {
         let v = self.inner.component.clone();
-        Py_outram_park_fork_dwsim_libs__thermo__Component { inner: v }
+        Py_outram_park_fork_dwsim_libs__prelude__Component { inner: v }
     }
     #[setter(component)]
-    pub fn set_component(&mut self, v: Py_outram_park_fork_dwsim_libs__thermo__Component) {
+    pub fn set_component(&mut self, v: Py_outram_park_fork_dwsim_libs__prelude__Component) {
         self.inner.component = v.inner;
     }
     // @item field:outram_park_fork_dwsim_libs::thermo::chao_seader_grayson::HydrocarbonSpecies::liquid_molar_volume
@@ -29659,7 +30252,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__HydrocarbonSpe
     #[doc = "Assemble a species from its [`Component`] and the three regular-solution\ninputs. See the struct docs for units. No validation beyond what\n[`Component`] already enforces on the critical constants; callers pass\nphysically meaningful `V_L > 0` and `delta ≥ 0`."]
     #[new]
     pub fn new(
-        component: Py_outram_park_fork_dwsim_libs__thermo__Component,
+        component: Py_outram_park_fork_dwsim_libs__prelude__Component,
         liquid_molar_volume: f64,
         solubility_parameter: f64,
         cs_acentricity: f64,
@@ -29676,38 +30269,6 @@ impl Py_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__HydrocarbonSpe
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::thermo::component::ComponentError
-#[doc = "Error constructing a [`Component`] from out-of-range constants."]
-#[pyclass(
-    name = "ComponentError",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__thermo__component__ComponentError {
-    pub inner: ::outram_park_fork_dwsim_libs::thermo::component::ComponentError,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__thermo__component__ComponentError {
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::thermo::component::ComponentError::NonPositive {
-                ..
-            } => "NonPositive",
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __str__(&self) -> String {
-        format!("{}", self.inner)
     }
     pub fn __eq__(&self, other: &Self) -> bool {
         self.inner == other.inner
@@ -29822,7 +30383,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Pure-component attraction parameter `a_i(T) = Ωa α(Tr) R² Tc² / Pc`\n[J·m³/mol²] at temperature `t` [K].\n\nValid for `t > 0`; physically meaningful over the sub-/super-critical\nrange where the EOS is applied. `PengRobinson.vb` L264,\n`SoaveRedlichKwong.vb` L122."]
     pub fn a_i(
         &self,
-        comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
         t: f64,
     ) -> f64 {
         ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::a_i(
@@ -29833,7 +30394,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     }
     // @item method:outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_i
     #[doc = "Pure-component co-volume `b_i = Ωb R Tc / Pc` [m³/mol].\n\nTemperature-independent. `PengRobinson.vb` L265,\n`SoaveRedlichKwong.vb` L123."]
-    pub fn b_i(&self, comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>) -> f64 {
+    pub fn b_i(&self, comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>) -> f64 {
         ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_i(
             self.inner.clone(),
             &comp.inner,
@@ -29843,7 +30404,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Van der Waals one-fluid mixture co-volume `b_mix = Σ z_i b_i` [m³/mol].\n\n`comps` and mole fractions `z` [-] must have equal length; `z` should sum\nto 1. `PengRobinson.vb` L278-282 / L1235."]
     pub fn b_mix(
         &self,
-        comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
     ) -> f64 {
         ::outram_park_fork_dwsim_libs::thermo::cubic_eos::CubicEos::b_mix(
@@ -29856,7 +30417,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Van der Waals one-fluid mixture attraction\n`a_mix = Σ_i Σ_j z_i z_j √(a_i a_j)(1 − k_ij)` [J·m³/mol²] at `t` [K].\n\n`kij = None` uses the geometric-mean rule (`k_ij = 0`).\n`PengRobinson.vb` L270-275 (`Calc_SUM1`/`Calc_SUM2`, L892-929)."]
     pub fn a_mix(
         &self,
-        comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         kij: Option<
@@ -29887,7 +30448,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Assemble `A`, `B` and return the phase-selected compressibility factor\n`Z` [-] for a mixture at `t` [K], `p` [Pa].\n\n`Vapor` → largest real root; `Liquid` → smallest positive real root\n(`PengRobinson.vb` L339-343). Returns `None` only if the cubic yields no\nusable root (should not happen for physical inputs)."]
     pub fn z_factor(
         &self,
-        comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         p: f64,
@@ -29931,7 +30492,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Natural log of the fugacity coefficient `ln φ_i` [-] for every component\nin a phase.\n\nStandard cubic-EOS mixture expression (`PengRobinson.vb` L1271-1276,\n`SoaveRedlichKwong2.vb` L424), written in generalised `(u, w)` form:\n\n`ln φ_i = (b_i/b_m)(Z − 1) − ln(Z − B)`\n`        − [A / (B √(u²−4w))] (2 Σ_k z_k a_ki / a_m − b_i/b_m)`\n`          · ln[(2Z + B(u + √(u²−4w))) / (2Z + B(u − √(u²−4w)))]`.\n\n`t` [K], `p` [Pa], `z` mole fractions [-]. As `p → 0`, `Z → 1` and every\n`ln φ_i → 0` (ideal-gas limit).\n\nReturns `None` if the phase has no admissible `Z` root -- either none at\nall, or only spurious ones at or below the covolume `B`. That case is\nreal and routine: well above the mixture's critical temperature there is\nno liquid to speak of, and a caller wanting a K-value there should fall\nback to an ideal estimate rather than trust a root that does not exist.\nEvery returned value is finite."]
     pub fn ln_phi(
         &self,
-        comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         p: f64,
@@ -29955,7 +30516,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Temperature derivative of the mixture attraction `d a_mix / dT`\n[J·m³/(mol²·K)] at `t` [K].\n\nDWSIM's closed form (`Calc_dadT`, `PengRobinson.vb` L870-890,\n`SoaveRedlichKwong2.vb` L32-…):\n\n`da/dT = −(R/2)√(Ωa/T) · Σ_i Σ_j z_i z_j (1 − k_ij)`\n`        · [c_j √(a_i Tc_j/Pc_j) + c_i √(a_j Tc_i/Pc_i)]`,\n\nwhere `c_i` is the α-slope [`CubicEos::alpha_slope`]. Verified to equal\nthe analytic `da_i/dT` for a single component. Feeds the entropy/enthalpy\ndepartures below."]
     pub fn dadt(
         &self,
-        comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         kij: Option<
@@ -29974,7 +30535,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Molar enthalpy departure `H(T,P) − H_ideal(T)` [J/mol] for a phase.\n\nGeneralised `(u, w)` residual (`PengRobinson.vb` L551-558,\n`SoaveRedlichKwong.vb` L412-418):\n\n`A_res = a_m/(b_m √d) · ln[(2Z + B(u−√d))/(2Z + B(u+√d))] − RT·ln((Z−B)/Z) − RT·ln Z`,\n`S_res = R·ln((Z−B)/Z) + R·ln Z − (1/(√d b_m))(da/dT)·ln[(2Z + B(u−√d))/(2Z + B(u+√d))]`,\n`H_res = A_res + T·S_res + RT(Z − 1)`,  with `√d = √(u²−4w)`.\n\n`t` [K], `p` [Pa]. Tends to 0 as `p → 0` (ideal-gas limit). Returns\n`None` if no `Z` root is found."]
     pub fn enthalpy_departure(
         &self,
-        comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         p: f64,
@@ -29998,7 +30559,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos {
     #[doc = "Molar entropy departure `S(T,P) − S_ideal(T,P)` [J/(mol·K)] for a phase.\n\nThe `S_res` term of [`CubicEos::enthalpy_departure`]\n(`PengRobinson.vb` L557, `SoaveRedlichKwong.vb` L417). `t` [K], `p` [Pa].\nTends to 0 as `p → 0`. Returns `None` if no `Z` root is found."]
     pub fn entropy_departure(
         &self,
-        comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         p: f64,
@@ -31745,164 +32306,6 @@ impl Py_outram_park_fork_dwsim_libs__thermo__energy_flash__EnergyFlashResult {
     }
 }
 
-// @item type:outram_park_fork_dwsim_libs::thermo::flash::FlashError
-#[doc = "Error conditions for the flash routines."]
-#[pyclass(
-    name = "FlashError",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__thermo__flash__FlashError {
-    pub inner: ::outram_park_fork_dwsim_libs::thermo::flash::FlashError,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__thermo__flash__FlashError {
-    // @item variant:outram_park_fork_dwsim_libs::thermo::flash::FlashError::LengthMismatch
-    #[staticmethod]
-    #[pyo3(name = "LengthMismatch")]
-    pub fn v_LengthMismatch(a: usize, b: usize) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::LengthMismatch {
-                a: a,
-                b: b,
-            },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::flash::FlashError::Empty
-    #[staticmethod]
-    #[pyo3(name = "Empty")]
-    pub fn v_Empty() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::Empty,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::flash::FlashError::NonFinite
-    #[staticmethod]
-    #[pyo3(name = "NonFinite")]
-    pub fn v_NonFinite() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::NonFinite,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::flash::FlashError::NotConverged
-    #[staticmethod]
-    #[pyo3(name = "NotConverged")]
-    pub fn v_NotConverged(iterations: usize, residual: f64) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::NotConverged {
-                iterations: iterations,
-                residual: residual,
-            },
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner {
-            ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::LengthMismatch { .. } => {
-                "LengthMismatch"
-            }
-            ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::Empty => "Empty",
-            ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::NonFinite => "NonFinite",
-            ::outram_park_fork_dwsim_libs::thermo::flash::FlashError::NotConverged { .. } => {
-                "NotConverged"
-            }
-            _ => "unknown",
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __str__(&self) -> String {
-        format!("{}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::thermo::flash::FlashResult
-#[doc = "A converged (or best-effort) two-phase VLE flash result.\n\n`x`, `y`, and the feed all use mole fractions \\[-\\]. `beta` is the vapour\nmolar fraction \\[-\\] in `[0, 1]`: `0.0` = all liquid (subcooled),\n`1.0` = all vapour (superheated), interior = two coexisting phases."]
-#[pyclass(
-    name = "FlashResult",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult {
-    pub inner: ::outram_park_fork_dwsim_libs::thermo::flash::FlashResult,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult {
-    // @item field:outram_park_fork_dwsim_libs::thermo::flash::FlashResult::beta
-    #[getter(beta)]
-    pub fn get_beta(&self) -> f64 {
-        let v = self.inner.beta.clone();
-        v
-    }
-    #[setter(beta)]
-    pub fn set_beta(&mut self, v: f64) {
-        self.inner.beta = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::flash::FlashResult::x
-    #[getter(x)]
-    pub fn get_x(&self) -> Vec<f64> {
-        let v = self.inner.x.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(x)]
-    pub fn set_x(&mut self, v: Vec<f64>) {
-        self.inner.x = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::flash::FlashResult::y
-    #[getter(y)]
-    pub fn get_y(&self) -> Vec<f64> {
-        let v = self.inner.y.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(y)]
-    pub fn set_y(&mut self, v: Vec<f64>) {
-        self.inner.y = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::flash::FlashResult::k
-    #[getter(k)]
-    pub fn get_k(&self) -> Vec<f64> {
-        let v = self.inner.k.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(k)]
-    pub fn set_k(&mut self, v: Vec<f64>) {
-        self.inner.k = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::flash::FlashResult::iterations
-    #[getter(iterations)]
-    pub fn get_iterations(&self) -> usize {
-        let v = self.inner.iterations.clone();
-        v
-    }
-    #[setter(iterations)]
-    pub fn set_iterations(&mut self, v: usize) {
-        self.inner.iterations = v;
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::thermo::flash::FlashResult
-    #[new]
-    pub fn __new__(beta: f64, x: Vec<f64>, y: Vec<f64>, k: Vec<f64>, iterations: usize) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::flash::FlashResult {
-                beta: beta,
-                x: x.into_iter().map(|e| e).collect::<Vec<_>>(),
-                y: y.into_iter().map(|e| e).collect::<Vec<_>>(),
-                k: k.into_iter().map(|e| e).collect::<Vec<_>>(),
-                iterations: iterations,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
 // @item type:outram_park_fork_dwsim_libs::thermo::flash::NestedLoopsOptions
 #[doc = "Tuning parameters for [`nested_loops_flash`].\n\nDefaults mirror the DWSIM `NestedLoops` tolerances closely enough for the\nverification tests: a tight inner Rachford-Rice tolerance and a K-value\nchange tolerance for the outer successive-substitution loop."]
 #[pyclass(
@@ -32034,7 +32437,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__flash_immiscible__ImmiscibleError {
     // @item variant:outram_park_fork_dwsim_libs::thermo::flash_immiscible::ImmiscibleError::Inner
     #[staticmethod]
     #[pyo3(name = "Inner")]
-    pub fn v_Inner(a0: Py_outram_park_fork_dwsim_libs__thermo__flash__FlashError) -> Self {
+    pub fn v_Inner(a0: Py_outram_park_fork_dwsim_libs__prelude__FlashError) -> Self {
         Self {
             inner: ::outram_park_fork_dwsim_libs::thermo::flash_immiscible::ImmiscibleError::Inner(
                 a0.inner,
@@ -32801,9 +33204,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__flash_single_comp__SingleCompError 
     // @item variant:outram_park_fork_dwsim_libs::thermo::flash_single_comp::SingleCompError::Saturation
     #[staticmethod]
     #[pyo3(name = "Saturation")]
-    pub fn v_Saturation(
-        a0: Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationError,
-    ) -> Self {
+    pub fn v_Saturation(a0: Py_outram_park_fork_dwsim_libs__prelude__SaturationError) -> Self {
         Self { inner: ::outram_park_fork_dwsim_libs::thermo::flash_single_comp::SingleCompError::Saturation(a0.inner) }
     }
     // @item variant:outram_park_fork_dwsim_libs::thermo::flash_single_comp::SingleCompError::NoBracket
@@ -33438,7 +33839,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__flash_svlle__SvlleFlashError {
     // @item variant:outram_park_fork_dwsim_libs::thermo::flash_svlle::SvlleFlashError::Vlle
     #[staticmethod]
     #[pyo3(name = "Vlle")]
-    pub fn v_Vlle(a0: Py_outram_park_fork_dwsim_libs__thermo__flash__FlashError) -> Self {
+    pub fn v_Vlle(a0: Py_outram_park_fork_dwsim_libs__prelude__FlashError) -> Self {
         Self {
             inner: ::outram_park_fork_dwsim_libs::thermo::flash_svlle::SvlleFlashError::Vlle(
                 a0.inner,
@@ -35280,7 +35681,7 @@ impl Py_outram_park_fork_dwsim_libs__thermo__pr_lee_kesler__PengRobinsonLeeKesle
     #[doc = "Equilibrium K-values `K_i = y_i / x_i` \\[-\\] — **pure Peng-Robinson**.\n\nIdentical to\n[`PropertyPackageModel::PengRobinson`](crate::thermo::property_package::PropertyPackageModel)`::k_values`:\nthe fugacity-coefficient ratio `φ_i^L(x)/φ_i^V(y)` with the geometric-mean\n(`k_ij = 0`) combining rule. The Lee-Kesler swap affects **only** caloric\ndepartures, never the K-values (`PengRobinsonLeeKesler.vb` does not\noverride `DW_CalcKvalue`; fugacity forwards to PR, L395-399).\n\n# Units / ranges\n\n`components`, `x`, `y` share length `n`; `x`, `y` mole fractions \\[-\\];\n`t` \\[K\\] > 0, `p` \\[Pa\\] > 0. Returns `n` dimensionless K-values."]
     pub fn k_values(
         &self,
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         x: Vec<f64>,
         y: Vec<f64>,
         t: f64,
@@ -35302,11 +35703,11 @@ impl Py_outram_park_fork_dwsim_libs__thermo__pr_lee_kesler__PengRobinsonLeeKesle
     #[doc = "Isothermal-isobaric two-phase VLE flash — **pure Peng-Robinson**.\n\nDelegates to\n[`PropertyPackageModel::PengRobinson`](crate::thermo::property_package::PropertyPackageModel)`::flash_pt`;\nthe split is EOS-consistent for PR. See that method for the full\nunits/errors contract.\n\n# Units / ranges\n\n`components.len() == z.len()`; `z` feed mole fractions \\[-\\]; `t` \\[K\\] >\n0, `p` \\[Pa\\] > 0.\n\n# Errors\n\nPropagates [`FlashError`] from the PR flash driver (length mismatch,\nnon-finite K-value, or non-convergence)."]
     pub fn flash_pt(
         &self,
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         p: f64,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult> {
+    ) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__FlashResult> {
         err(
             ::outram_park_fork_dwsim_libs::thermo::pr_lee_kesler::PengRobinsonLeeKesler::flash_pt(
                 self.inner.clone(),
@@ -35316,13 +35717,13 @@ impl Py_outram_park_fork_dwsim_libs__thermo__pr_lee_kesler__PengRobinsonLeeKesle
                 p,
             ),
         )
-        .map(|v| Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult { inner: v })
+        .map(|v| Py_outram_park_fork_dwsim_libs__prelude__FlashResult { inner: v })
     }
     // @item method:outram_park_fork_dwsim_libs::thermo::pr_lee_kesler::PengRobinsonLeeKesler::z_factor
     #[doc = "Phase-equilibrium compressibility factor `Z` \\[-\\] — **pure\nPeng-Robinson** (the `Z` root used for the PR fugacity path).\n\nIdentical to\n[`CubicEos::PengRobinson`](crate::thermo::cubic_eos::CubicEos)`::z_factor`\n— [`Phase::Vapor`] takes the largest real root, [`Phase::Liquid`] the\nsmallest positive root. This is the `Z` the hybrid uses for fugacity /\nK-values, and it is what the V&V \"z-factor identical to base PR\" test\nchecks. (DWSIM *additionally* reports a Lee-Kesler compressibility as the\nphase \"compressibilityfactor\" property — see\n[`Self::compressibility_factor_lkp`].)\n\n# Units / ranges\n\n`components.len() == z.len()`; `z` mole fractions \\[-\\]; `t` \\[K\\] > 0,\n`p` \\[Pa\\] > 0. `kij` is the PR van-der-Waals interaction matrix (`None` →\ngeometric mean). Returns `None` if the cubic yields no usable root."]
     pub fn z_factor(
         &self,
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+        components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
         z: Vec<f64>,
         t: f64,
         p: f64,
@@ -35360,157 +35761,6 @@ impl Py_outram_park_fork_dwsim_libs__thermo__pr_lee_kesler__PengRobinsonLeeKesle
         Self {
             inner: Default::default(),
         }
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel
-#[doc = "Thermodynamic property-package model (enum dispatch, no `dyn`).\n\nThe closed set of PT-flash property models this crate composes from the\nthermo kernel. `Copy` so it can be captured by value into the flash driver's\n`Fn` closure without borrowing.\n\n- [`PropertyPackageModel::Ideal`] — Raoult/Wilson ideal K-values\n  (composition-independent); the K-closure is the Wilson estimate, so a flash\n  with this package reduces to a single Wilson-K Rachford-Rice solve.\n- [`PropertyPackageModel::PengRobinson`] — Peng-Robinson cubic EOS; K-values\n  are the liquid/vapour fugacity-coefficient ratio.\n- [`PropertyPackageModel::Srk`] — Soave-Redlich-Kwong cubic EOS; same\n  fugacity-ratio K-values with the SRK constants."]
-#[pyclass(
-    name = "PropertyPackageModel",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-    pub inner: ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-    // @item method:outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::k_values
-    #[doc = "Equilibrium K-values `K_i = y_i / x_i` \\[-\\] for a trial split.\n\nFor a cubic-EOS package:\n`K_i = φ_i^L(x, T, P) / φ_i^V(y, T, P) = exp(ln φ_i^L − ln φ_i^V)`,\nwhere `ln φ^L` uses the **liquid** (smallest positive) `Z`-root evaluated\nat the liquid composition `x`, and `ln φ^V` uses the **vapour** (largest)\n`Z`-root at the vapour composition `y` — the standard iso-fugacity\nK-update (DWSIM `DW_CalcKvalue`). Binary interaction parameters are taken\nas zero (geometric-mean rule); see the module-level scope note.\n\nFor [`Self::Ideal`] the Wilson estimate is returned, ignoring `x`, `y`\n(it is composition-independent).\n\n# Units / ranges\n\n`components`, `x`, `y` must share one length `n`; `x`, `y` are mole\nfractions \\[-\\]; `t` \\[K\\] > 0, `p` \\[Pa\\] > 0. Returns `n` dimensionless\nK-values.\n\n# Fallback\n\nIf the cubic EOS fails to return a usable `Z`-root for either phase (which\nshould not happen for physical inputs), the Wilson estimate is returned\ninstead of a non-finite result, so the flash driver stays well-posed."]
-    pub fn k_values(
-        &self,
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        x: Vec<f64>,
-        y: Vec<f64>,
-        t: f64,
-        p: f64,
-    ) -> Vec<f64> {
-        ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::k_values(
-            self.inner.clone(),
-            &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            &x.into_iter().map(|e| e).collect::<Vec<_>>(),
-            &y.into_iter().map(|e| e).collect::<Vec<_>>(),
-            t,
-            p,
-        )
-        .into_iter()
-        .map(|e| e)
-        .collect::<Vec<_>>()
-    }
-    // @item method:outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::flash_pt
-    #[doc = "Isothermal-isobaric two-phase VLE flash of feed `z` at `t` \\[K\\], `p`\n\\[Pa\\].\n\nSeeds the K-values with Wilson and drives\n[`crate::thermo::flash::nested_loops_flash`] with this package's\n[`Self::k_values`] as the successive-substitution K-closure. For a cubic\npackage the converged result satisfies the iso-fugacity condition\n`φ_i^L x_i = φ_i^V y_i`; for [`Self::Ideal`] it is a single Wilson-K\nRachford-Rice solve.\n\n# Units / ranges\n\n`components.len()` must equal `z.len()`; `z` are feed mole fractions\n\\[-\\] (physical feeds sum to 1); `t` \\[K\\] > 0, `p` \\[Pa\\] > 0. The\nreturned [`FlashResult`] carries `β` \\[-\\] ∈ `[0, 1]`, `x`/`y` mole\nfractions \\[-\\], K-values \\[-\\], and the outer-iteration count.\n\n# Errors\n\nPropagates [`FlashError`] from the driver:\n[`FlashError::LengthMismatch`] on a `components`/`z` size mismatch,\n[`FlashError::NonFinite`] on a non-finite K-value, and\n[`FlashError::NotConverged`] if successive substitution does not reach the\nK-tolerance within the iteration budget (possible near a phase boundary\nwithout the stability pre-test noted in the module scope)."]
-    pub fn flash_pt(
-        &self,
-        components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-        z: Vec<f64>,
-        t: f64,
-        p: f64,
-    ) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult> {
-        err(
-            ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::flash_pt(
-                self.inner.clone(),
-                &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-                &z.into_iter().map(|e| e).collect::<Vec<_>>(),
-                t,
-                p,
-            ),
-        )
-        .map(|v| Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult { inner: v })
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::Ideal
-    #[staticmethod]
-    #[pyo3(name = "Ideal")]
-    pub fn v_Ideal() -> Self {
-        Self {
-            inner:
-                ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::Ideal,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::PengRobinson
-    #[staticmethod]
-    #[pyo3(name = "PengRobinson")]
-    pub fn v_PengRobinson() -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::PengRobinson }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::PengRobinson1978
-    #[staticmethod]
-    #[pyo3(name = "PengRobinson1978")]
-    pub fn v_PengRobinson1978() -> Self {
-        Self { inner: ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::PengRobinson1978 }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::Srk
-    #[staticmethod]
-    #[pyo3(name = "Srk")]
-    pub fn v_Srk() -> Self {
-        Self {
-            inner:
-                ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::Srk,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner { ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::Ideal => "Ideal", ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::PengRobinson => "PengRobinson", ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::PengRobinson1978 => "PengRobinson1978", ::outram_park_fork_dwsim_libs::thermo::property_package::PropertyPackageModel::Srk => "Srk", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::thermo::saturation::SaturationError
-#[doc = "Error conditions for the saturation solvers."]
-#[pyclass(
-    name = "SaturationError",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationError {
-    pub inner: ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationError {
-    // @item variant:outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::Empty
-    #[staticmethod]
-    #[pyo3(name = "Empty")]
-    pub fn v_Empty() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::Empty,
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::LengthMismatch
-    #[staticmethod]
-    #[pyo3(name = "LengthMismatch")]
-    pub fn v_LengthMismatch(a: usize, b: usize) -> Self {
-        Self {
-            inner:
-                ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::LengthMismatch {
-                    a: a,
-                    b: b,
-                },
-        }
-    }
-    // @item variant:outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::NonFinite
-    #[staticmethod]
-    #[pyo3(name = "NonFinite")]
-    pub fn v_NonFinite() -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::NonFinite,
-        }
-    }
-    /// The name of the enum variant this value holds.
-    pub fn variant(&self) -> &'static str {
-        match &self.inner { ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::Empty => "Empty", ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::LengthMismatch { .. } => "LengthMismatch", ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::NonFinite => "NonFinite", ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::NonPositive { .. } => "NonPositive", ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::NoBracket { .. } => "NoBracket", ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::TrivialSolution { .. } => "TrivialSolution", ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationError::NotConverged { .. } => "NotConverged", _ => "unknown" }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __str__(&self) -> String {
-        format!("{}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
     }
 }
 
@@ -35656,107 +35906,6 @@ impl Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationOptions {
         Self {
             inner: Default::default(),
         }
-    }
-}
-
-// @item type:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState
-#[doc = "A converged saturation point (one point on the bubble or dew curve).\n\nAll compositions are mole fractions \\[-\\]. Exactly one of `temperature` /\n`pressure` is the solved-for unknown; the other is the fixed specification\nthe caller supplied."]
-#[pyclass(
-    name = "SaturationState",
-    module = "outram_park.outram_park_fork_dwsim_libs"
-)]
-#[derive(Clone)]
-pub struct Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState {
-    pub inner: ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationState,
-}
-#[pymethods]
-impl Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState {
-    // @item field:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState::temperature
-    #[getter(temperature)]
-    pub fn get_temperature(&self) -> f64 {
-        let v = self.inner.temperature.clone();
-        v
-    }
-    #[setter(temperature)]
-    pub fn set_temperature(&mut self, v: f64) {
-        self.inner.temperature = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState::pressure
-    #[getter(pressure)]
-    pub fn get_pressure(&self) -> f64 {
-        let v = self.inner.pressure.clone();
-        v
-    }
-    #[setter(pressure)]
-    pub fn set_pressure(&mut self, v: f64) {
-        self.inner.pressure = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState::incipient
-    #[getter(incipient)]
-    pub fn get_incipient(&self) -> Vec<f64> {
-        let v = self.inner.incipient.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(incipient)]
-    pub fn set_incipient(&mut self, v: Vec<f64>) {
-        self.inner.incipient = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState::k
-    #[getter(k)]
-    pub fn get_k(&self) -> Vec<f64> {
-        let v = self.inner.k.clone();
-        v.into_iter().map(|e| e).collect::<Vec<_>>()
-    }
-    #[setter(k)]
-    pub fn set_k(&mut self, v: Vec<f64>) {
-        self.inner.k = v.into_iter().map(|e| e).collect::<Vec<_>>();
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState::iterations
-    #[getter(iterations)]
-    pub fn get_iterations(&self) -> usize {
-        let v = self.inner.iterations.clone();
-        v
-    }
-    #[setter(iterations)]
-    pub fn set_iterations(&mut self, v: usize) {
-        self.inner.iterations = v;
-    }
-    // @item field:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState::residual
-    #[getter(residual)]
-    pub fn get_residual(&self) -> f64 {
-        let v = self.inner.residual.clone();
-        v
-    }
-    #[setter(residual)]
-    pub fn set_residual(&mut self, v: f64) {
-        self.inner.residual = v;
-    }
-    // @item ctor:outram_park_fork_dwsim_libs::thermo::saturation::SaturationState
-    #[new]
-    pub fn __new__(
-        temperature: f64,
-        pressure: f64,
-        incipient: Vec<f64>,
-        k: Vec<f64>,
-        iterations: usize,
-        residual: f64,
-    ) -> Self {
-        Self {
-            inner: ::outram_park_fork_dwsim_libs::thermo::saturation::SaturationState {
-                temperature: temperature,
-                pressure: pressure,
-                incipient: incipient.into_iter().map(|e| e).collect::<Vec<_>>(),
-                k: k.into_iter().map(|e| e).collect::<Vec<_>>(),
-                iterations: iterations,
-                residual: residual,
-            },
-        }
-    }
-    pub fn __repr__(&self) -> String {
-        format!("{:?}", self.inner)
-    }
-    pub fn __eq__(&self, other: &Self) -> bool {
-        self.inner == other.inner
     }
 }
 
@@ -38207,7 +38356,7 @@ pub fn fn_outram_park_fork_dwsim_libs__clean_energies__wind_turbine__rotor_diame
 #[pyfunction(name = "run_tridiagonal")]
 pub fn fn_outram_park_fork_dwsim_libs__columns__bubble_point2__run_tridiagonal(
     input: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSolverInput>,
-    thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
+    thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
     cspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
     rspec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
 ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__StageProfile> {
@@ -38226,8 +38375,8 @@ pub fn fn_outram_park_fork_dwsim_libs__columns__bubble_point2__run_tridiagonal(
 #[doc = "The linear temperature ramp between a top bubble point and a bottom dew\npoint — upstream's `T1`/`T2` and `T(i) = (T2 − T1) i/ns + T1`\n(`RigorousColumn.vb:3288`, `:3303`, `:3336`).\n\n`T1` is the **bubble** temperature of the mixed feed at the top-stage\npressure (the coldest the column top can be while still condensing) and `T2`\nthe **dew** temperature at the bottom-stage pressure. Both may be overridden\nby `top_override` / `bottom_override`, which upstream uses when the\ncorresponding end spec is a [`crate::columns::model::SpecType::Temperature`].\n\n# Parameters\n\n- `components` / `package` — the thermodynamic model.\n- `zm` — mixed feed mole fractions \\[-\\].\n- `pressures` — per-stage pressures \\[Pa\\], length >= 2.\n- `top_override` / `bottom_override` — end temperatures \\[K\\] to use instead\n  of the computed saturation points; ignored when `None` or non-positive.\n\n# Returns\n\nThe per-stage temperature estimate \\[K\\], length `pressures.len()`.\n\n# Errors\n\n[`ColumnError::BubblePointFailed`] if the saturation calculation fails and\nno override was supplied."]
 #[pyfunction(name = "estimate_temperature_profile")]
 pub fn fn_outram_park_fork_dwsim_libs__columns__initial_estimates__estimate_temperature_profile(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
     zm: Vec<f64>,
     pressures: Vec<f64>,
     top_override: Option<f64>,
@@ -38270,7 +38419,7 @@ pub fn fn_outram_park_fork_dwsim_libs__columns__specs__component_feed_rate(
 pub fn fn_outram_park_fork_dwsim_libs__columns__specs__evaluate_condenser_spec(
     spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
     profile: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__StageProfile>,
-    thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
+    thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
     feed_flows: Vec<f64>,
     overall_compositions: Vec<Vec<f64>>,
     condenser: Py_outram_park_fork_dwsim_libs__columns__CondenserType,
@@ -38297,7 +38446,7 @@ pub fn fn_outram_park_fork_dwsim_libs__columns__specs__evaluate_condenser_spec(
 pub fn fn_outram_park_fork_dwsim_libs__columns__specs__evaluate_reboiler_spec(
     spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__ColumnSpec>,
     profile: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__StageProfile>,
-    thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>,
+    thermo: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>,
     feed_flows: Vec<f64>,
     overall_compositions: Vec<Vec<f64>>,
 ) -> PyResult<Py_outram_park_fork_dwsim_libs__columns__specs__SpecEvaluation> {
@@ -38824,15 +38973,11 @@ pub fn fn_outram_park_fork_dwsim_libs__flowsheet__import__mapping__object_type_f
 #[pyfunction(name = "property_package_from_class_name")]
 pub fn fn_outram_park_fork_dwsim_libs__flowsheet__import__mapping__property_package_from_class_name(
     dwsim_type: String,
-) -> Option<Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel> {
+) -> Option<Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel> {
     ::outram_park_fork_dwsim_libs::flowsheet::import::mapping::property_package_from_class_name(
         &dwsim_type,
     )
-    .map(
-        |e| Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel {
-            inner: e,
-        },
-    )
+    .map(|e| Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel { inner: e })
 }
 
 // @item fn:outram_park_fork_dwsim_libs::flowsheet::import::mapping::stream_spec_from_name
@@ -39606,65 +39751,12 @@ pub fn fn_outram_park_fork_dwsim_libs__petroleum__characterize_curve(
     })
 }
 
-// @item fn:outram_park_fork_dwsim_libs::petroleum::crude_distillation::crude_column_setup
-#[doc = "Assemble a crude column from a black-oil characterisation without solving\nit.\n\n`cut_count` is how finely the crude is cut into pseudo-components.\n\n# Errors\n\n[`CrudeColumnError`] on an invalid configuration, a characterisation\nfailure, or a light end too small to fractionate."]
-#[pyfunction(name = "crude_column_setup")]
-pub fn fn_outram_park_fork_dwsim_libs__petroleum__crude_distillation__crude_column_setup(
-    crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude>,
-    config: PyRef<
-        '_,
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig,
-    >,
-    cut_count: usize,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnSetup> {
-    err(
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::crude_column_setup(
-            &crude.inner,
-            &config.inner,
-            cut_count,
-        ),
-    )
-    .map(
-        |v| Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnSetup {
-            inner: v,
-        },
-    )
-}
-
-// @item fn:outram_park_fork_dwsim_libs::petroleum::crude_distillation::solve_crude_column
-#[doc = "Solve an atmospheric crude column for `crude` under `config`.\n\n# What happens\n\n1. The black-oil spec is characterised into `cut_count` pseudo-components\n   ([`BlackOilCrude::pseudo_components`]).\n2. Those become the column's component list, with the crude entering as a\n   saturated liquid on `config.feed_stage`.\n3. Liquid side draws are placed per `config.side_draws`.\n4. The rigorous MESH solver runs with a reflux-ratio spec at the top and a\n   bottoms-rate spec at the bottom.\n\n# Arguments\n\n- `crude` — the black-oil characterisation of the feed.\n- `config` — column geometry, pressure and draw rates.\n- `cut_count` — pseudo-components to characterise into. More resolves the\n  cuts better and costs solve time; 8-12 is the usual range.\n\n# Returns\n\nA [`CrudeColumnResult`], or [`CrudeColumnError`] if the configuration is\ninconsistent, the crude cannot be characterised, or the MESH solve fails to\nconverge.\n\n# This is not a validated yield prediction\n\nThe cut labels are assigned from converged draw *temperatures* after the\nfact; nothing constrains a draw to land in a given band. The pseudo-component\nslate is a distribution assumption from bulk properties, not a measured\nassay. Treat the ou"]
-#[pyfunction(name = "solve_crude_column")]
-pub fn fn_outram_park_fork_dwsim_libs__petroleum__crude_distillation__solve_crude_column(
-    crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude>,
-    config: PyRef<
-        '_,
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig,
-    >,
-    cut_count: usize,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnResult> {
-    err(
-        ::outram_park_fork_dwsim_libs::petroleum::crude_distillation::solve_crude_column(
-            &crude.inner,
-            &config.inner,
-            cut_count,
-        ),
-    )
-    .map(|v| {
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnResult {
-            inner: v,
-        }
-    })
-}
-
 // @item fn:outram_park_fork_dwsim_libs::petroleum::crude_plant::steady_reboiler_duty_watts
 #[doc = "The reboiler duty this column runs at in **steady** state \\[W\\].\n\nDerived, not chosen: solve the same column steady and read the duty its own\nenergy balance requires. Starting the transient anywhere else means the\nplant's first act is to drift away from the configuration that was solved,\nand an invented duty is exactly what left the startup state with a negative\nenergy-balance denominator when this module was first written.\n\n# Errors\n\n[`CrudeColumnError`] if the steady column does not solve."]
 #[pyfunction(name = "steady_reboiler_duty_watts")]
 pub fn fn_outram_park_fork_dwsim_libs__petroleum__crude_plant__steady_reboiler_duty_watts(
-    crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude>,
-    config: PyRef<
-        '_,
-        Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig,
-    >,
+    crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude>,
+    config: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig>,
     cut_count: usize,
 ) -> PyResult<f64> {
     err(
@@ -39806,7 +39898,7 @@ pub fn fn_outram_park_fork_dwsim_libs__petroleum__distribute_riazi(
 #[doc = "Fit the multiplier on the **acentric factor** that makes the compound's\nEOS-computed normal boiling point match the assay's `Tb`.\n\nPorted from `Fitting.vb:71-135` (`NBPFitting`): minimise\n`(T_bubble(P = 101325 Pa) − Tb)²` over the acentric-factor multiplier\n`t ∈ [0.001, 10]` with a tolerance of `0.1` (`:106` — deliberately loose;\nthis is an expensive objective).\n\nThe bubble temperature is evaluated on a **single-component** feed through\n[`crate::thermo::saturation::bubble_temperature`] with the\n[`PropertyPackageModel::PengRobinson`] package, matching upstream's\n`PengRobinsonPropertyPackage` default (`GenerateCompounds.vb:389`).\n\n# Returns\n\nThe dimensionless multiplier `t`; multiply `ω` by it. Returns `1.0`\nunchanged if every trial bubble-point solve fails (upstream leaves its `fw`\nat the previous value and reports a message box; see the module docs)."]
 #[pyfunction(name = "fit_acentric_factor_scale")]
 pub fn fn_outram_park_fork_dwsim_libs__petroleum__fitting__fit_acentric_factor_scale(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::petroleum::fitting::fit_acentric_factor_scale(&component.inner)
 }
@@ -39815,7 +39907,7 @@ pub fn fn_outram_park_fork_dwsim_libs__petroleum__fitting__fit_acentric_factor_s
 #[doc = "Fit the **Peng-Robinson volume-translation** coefficient that makes the\nPR-computed liquid density at 15.6 °C and 1 atm match the assay specific\ngravity.\n\nPorted from `Fitting.vb:137-187` (`PRVSFitting`): minimise\n`(SG·999.96 − ρ_PR-translated)²` over `t ∈ [−100, 100]` with tolerance\n`1e-4` (`:157`), where\n\n```text\nv  = R·Z_PR(T, P, liquid)·T / P  −  c·t·b_i\nρ  = M / v\n```\n\nwith `b_i = 0.0778·R·Tc/Pc` — note that upstream passes the **PR** `Ωb`\nvalue `0.0778` even in the SRK sibling (`:226`), a defect reproduced in\n[`fit_srk_volume_translation`].\n\n# Returns\n\nThe dimensionless multiplier on the current translation coefficient."]
 #[pyfunction(name = "fit_pr_volume_translation")]
 pub fn fn_outram_park_fork_dwsim_libs__petroleum__fitting__fit_pr_volume_translation(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     current_coefficient: f64,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::petroleum::fitting::fit_pr_volume_translation(
@@ -39828,7 +39920,7 @@ pub fn fn_outram_park_fork_dwsim_libs__petroleum__fitting__fit_pr_volume_transla
 #[doc = "Fit the multiplier on the **Rackett `Z_RA`** that makes the compound's\nRackett liquid density at 15.6 °C match its assay specific gravity.\n\nPorted from `Fitting.vb:28-69` (`DensityFitting`): minimise\n`(SG·999.96 − ρ_Rackett(288.75 K, …, Z_RA·t))²` over `t ∈ [0.1, 10]` with a\ntolerance of `1e-10` (`:45`).\n\n# Inputs\n\n- `component` — the pseudo-component's EOS constants.\n- `specific_gravity` — the target `SG` at 15.6/15.6 °C [-].\n- `rackett_z` — the current `Z_RA` [-] the multiplier scales.\n\n# Returns\n\nThe dimensionless multiplier `t`. Multiply `Z_RA` by it."]
 #[pyfunction(name = "fit_rackett_z_scale")]
 pub fn fn_outram_park_fork_dwsim_libs__petroleum__fitting__fit_rackett_z_scale(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     specific_gravity: f64,
     rackett_z: f64,
 ) -> f64 {
@@ -39843,7 +39935,7 @@ pub fn fn_outram_park_fork_dwsim_libs__petroleum__fitting__fit_rackett_z_scale(
 #[doc = "Fit the **SRK volume-translation** coefficient — the SRK sibling of\n[`fit_pr_volume_translation`].\n\nPorted from `Fitting.vb:189-239` (`SRKVSFitting`).\n\n> **Upstream defect preserved:** `:226` computes the co-volume as\n> `srk.bi(0.0778, Tc, Pc)`, i.e. with **Peng-Robinson's** `Ωb = 0.0778`\n> rather than SRK's `Ωb = 0.08664`. Reproduced so the fitted coefficient\n> matches DWSIM."]
 #[pyfunction(name = "fit_srk_volume_translation")]
 pub fn fn_outram_park_fork_dwsim_libs__petroleum__fitting__fit_srk_volume_translation(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     current_coefficient: f64,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::petroleum::fitting::fit_srk_volume_translation(
@@ -40634,15 +40726,153 @@ pub fn fn_outram_park_fork_dwsim_libs__pipe__lockhart_martinelli__lockhart_marti
     Py_outram_park_fork_dwsim_libs__pipe__lockhart_martinelli__LockhartMartinelliResult { inner: ::outram_park_fork_dwsim_libs::pipe::lockhart_martinelli::lockhart_martinelli_pressure_drop(from_si(length), from_si(diameter), from_si(roughness), from_si(inclination), from_si(q_liquid), from_si(q_gas), from_si(density_liquid), from_si(density_gas), from_si(viscosity_liquid), from_si(viscosity_gas)) }
 }
 
+// @item fn:outram_park_fork_dwsim_libs::prelude::bubble_temperature
+#[doc = "Bubble **temperature** at fixed pressure using a [`PropertyPackageModel`].\n\nConvenience wrapper over [`bubble_temperature_with`]. See it for details."]
+#[pyfunction(name = "bubble_temperature")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__bubble_temperature(
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+    z: Vec<f64>,
+    pressure: f64,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__SaturationState> {
+    err(::outram_park_fork_dwsim_libs::prelude::bubble_temperature(
+        &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        &z.into_iter().map(|e| e).collect::<Vec<_>>(),
+        pressure,
+        package.inner,
+    ))
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__SaturationState { inner: v })
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::crude_column_setup
+#[doc = "Assemble a crude column from a black-oil characterisation without solving\nit.\n\n`cut_count` is how finely the crude is cut into pseudo-components.\n\n# Errors\n\n[`CrudeColumnError`] on an invalid configuration, a characterisation\nfailure, or a light end too small to fractionate."]
+#[pyfunction(name = "crude_column_setup")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__crude_column_setup(
+    crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude>,
+    config: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig>,
+    cut_count: usize,
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnSetup> {
+    err(::outram_park_fork_dwsim_libs::prelude::crude_column_setup(
+        &crude.inner,
+        &config.inner,
+        cut_count,
+    ))
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnSetup { inner: v })
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::dew_temperature
+#[doc = "Dew **temperature** at fixed pressure using a [`PropertyPackageModel`].\n\nConvenience wrapper over [`dew_temperature_with`]. See it for details."]
+#[pyfunction(name = "dew_temperature")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__dew_temperature(
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
+    z: Vec<f64>,
+    pressure: f64,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__SaturationState> {
+    err(::outram_park_fork_dwsim_libs::prelude::dew_temperature(
+        &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
+        &z.into_iter().map(|e| e).collect::<Vec<_>>(),
+        pressure,
+        package.inner,
+    ))
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__SaturationState { inner: v })
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::reference::benzene
+#[doc = "Benzene (C₆H₆). Tc = 562.05 K, Pc = 48.95 bar, ω = 0.210, M = 78.114 g/mol.\n\nUnlike the presets above, this one carries **real ideal-gas Cp\ncoefficients** (`Cp0/R = a0 + a1 T + a2 T² + a3 T³ + a4 T⁴`, converted to\nJ/(mol·K) by multiplying through by `R`), needed for the enthalpy\ndepartures a distillation-column energy balance depends on. Same source\nas the other presets: Poling, Prausnitz & O'Connell (2001), Appendix A."]
+#[pyfunction(name = "benzene")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__reference__benzene()
+-> Py_outram_park_fork_dwsim_libs__prelude__Component {
+    Py_outram_park_fork_dwsim_libs__prelude__Component {
+        inner: ::outram_park_fork_dwsim_libs::prelude::reference::benzene(),
+    }
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::reference::carbon_dioxide
+#[doc = "Carbon dioxide (CO₂). Tc = 304.12 K, Pc = 7.374 MPa, ω = 0.225, M = 44.01 g/mol."]
+#[pyfunction(name = "carbon_dioxide")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__reference__carbon_dioxide()
+-> Py_outram_park_fork_dwsim_libs__prelude__Component {
+    Py_outram_park_fork_dwsim_libs__prelude__Component {
+        inner: ::outram_park_fork_dwsim_libs::prelude::reference::carbon_dioxide(),
+    }
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::reference::ethane
+#[doc = "Ethane (C₂H₆). Tc = 305.32 K, Pc = 4.872 MPa, ω = 0.099, M = 30.070 g/mol."]
+#[pyfunction(name = "ethane")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__reference__ethane()
+-> Py_outram_park_fork_dwsim_libs__prelude__Component {
+    Py_outram_park_fork_dwsim_libs__prelude__Component {
+        inner: ::outram_park_fork_dwsim_libs::prelude::reference::ethane(),
+    }
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::reference::methane
+#[doc = "Methane (CH₄). Tc = 190.56 K, Pc = 4.599 MPa, ω = 0.011, M = 16.043 g/mol."]
+#[pyfunction(name = "methane")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__reference__methane()
+-> Py_outram_park_fork_dwsim_libs__prelude__Component {
+    Py_outram_park_fork_dwsim_libs__prelude__Component {
+        inner: ::outram_park_fork_dwsim_libs::prelude::reference::methane(),
+    }
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::reference::nitrogen
+#[doc = "Nitrogen (N₂). Tc = 126.20 K, Pc = 3.398 MPa, ω = 0.037, M = 28.014 g/mol."]
+#[pyfunction(name = "nitrogen")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__reference__nitrogen()
+-> Py_outram_park_fork_dwsim_libs__prelude__Component {
+    Py_outram_park_fork_dwsim_libs__prelude__Component {
+        inner: ::outram_park_fork_dwsim_libs::prelude::reference::nitrogen(),
+    }
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::reference::toluene
+#[doc = "Toluene (C₇H₈). Tc = 591.75 K, Pc = 41.08 bar, ω = 0.264, M = 92.141 g/mol.\nSame source and Cp-coefficient convention as [`benzene`]."]
+#[pyfunction(name = "toluene")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__reference__toluene()
+-> Py_outram_park_fork_dwsim_libs__prelude__Component {
+    Py_outram_park_fork_dwsim_libs__prelude__Component {
+        inner: ::outram_park_fork_dwsim_libs::prelude::reference::toluene(),
+    }
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::reference::water
+#[doc = "Water (H₂O). Tc = 647.14 K, Pc = 22.064 MPa, ω = 0.344, M = 18.015 g/mol."]
+#[pyfunction(name = "water")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__reference__water()
+-> Py_outram_park_fork_dwsim_libs__prelude__Component {
+    Py_outram_park_fork_dwsim_libs__prelude__Component {
+        inner: ::outram_park_fork_dwsim_libs::prelude::reference::water(),
+    }
+}
+
+// @item fn:outram_park_fork_dwsim_libs::prelude::solve_crude_column
+#[doc = "Solve an atmospheric crude column for `crude` under `config`.\n\n# What happens\n\n1. The black-oil spec is characterised into `cut_count` pseudo-components\n   ([`BlackOilCrude::pseudo_components`]).\n2. Those become the column's component list, with the crude entering as a\n   saturated liquid on `config.feed_stage`.\n3. Liquid side draws are placed per `config.side_draws`.\n4. The rigorous MESH solver runs with a reflux-ratio spec at the top and a\n   bottoms-rate spec at the bottom.\n\n# Arguments\n\n- `crude` — the black-oil characterisation of the feed.\n- `config` — column geometry, pressure and draw rates.\n- `cut_count` — pseudo-components to characterise into. More resolves the\n  cuts better and costs solve time; 8-12 is the usual range.\n\n# Returns\n\nA [`CrudeColumnResult`], or [`CrudeColumnError`] if the configuration is\ninconsistent, the crude cannot be characterised, or the MESH solve fails to\nconverge.\n\n# This is not a validated yield prediction\n\nThe cut labels are assigned from converged draw *temperatures* after the\nfact; nothing constrains a draw to land in a given band. The pseudo-component\nslate is a distribution assumption from bulk properties, not a measured\nassay. Treat the ou"]
+#[pyfunction(name = "solve_crude_column")]
+pub fn fn_outram_park_fork_dwsim_libs__prelude__solve_crude_column(
+    crude: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude>,
+    config: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig>,
+    cut_count: usize,
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnResult> {
+    err(::outram_park_fork_dwsim_libs::prelude::solve_crude_column(
+        &crude.inner,
+        &config.inner,
+        cut_count,
+    ))
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnResult { inner: v })
+}
+
 // @item fn:outram_park_fork_dwsim_libs::pump::modes::evaluate
 #[doc = "Evaluate a pump's outlet state for the given [`PumpSpecification`] and\npump efficiency \\[0, 1\\]."]
 #[pyfunction(name = "evaluate")]
 pub fn fn_outram_park_fork_dwsim_libs__pump__modes__evaluate(
-    inlet: Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet,
-    spec: Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification,
+    inlet: Py_outram_park_fork_dwsim_libs__prelude__PumpInlet,
+    spec: Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification,
     efficiency: f64,
-) -> Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
-    Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult {
+) -> Py_outram_park_fork_dwsim_libs__prelude__PumpResult {
+    Py_outram_park_fork_dwsim_libs__prelude__PumpResult {
         inner: ::outram_park_fork_dwsim_libs::pump::modes::evaluate(
             inlet.inner,
             spec.inner,
@@ -40671,7 +40901,7 @@ pub fn fn_outram_park_fork_dwsim_libs__pump__modes__npsh(
 #[doc = "Resolve a [`SplitSpec`] into per-outlet split fractions `f_i` (dimensionless,\n`Σ f_i = 1`).\n\nThis is the core of the DWSIM `Calculate` routine (Splitter.vb:237-391)\nreduced to its dimensionless essence: whatever the mode, the outcome is a set\nof fractions of the inlet flow. The flow-spec modes need the inlet flow (mass\nor mole, in SI units) to convert fixed flows to fractions; [`SplitSpec::Fractions`]\nignores it.\n\n- `inlet_mass_flow_si` — inlet mass flow \\[kg/s\\], used only by\n  [`SplitSpec::MassFlows`].\n- `inlet_mole_flow_si` — inlet mole flow \\[katal = mol/s\\], used only by\n  [`SplitSpec::MoleFlows`].\n\n# Errors\nSee [`SplitError`] — negative/over-unity fractions, non-unit fraction sum,\nnegative fixed flows, fixed flows exceeding the inlet, non-positive inlet\nflow for a flow-spec mode, or an empty fraction spec."]
 #[pyfunction(name = "resolve_fractions")]
 pub fn fn_outram_park_fork_dwsim_libs__splitter__resolve_fractions(
-    spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__splitter__SplitSpec>,
+    spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__SplitSpec>,
     inlet_mass_flow_si: f64,
     inlet_mole_flow_si: f64,
 ) -> PyResult<Vec<f64>> {
@@ -40687,27 +40917,27 @@ pub fn fn_outram_park_fork_dwsim_libs__splitter__resolve_fractions(
 #[doc = "Resolve a [`SplitSpec`] into per-outlet flows, given the inlet mass and mole\nflows (DWSIM `Calculate`, Splitter.vb:237-391).\n\nComputes the fractions via [`resolve_fractions`], then scales **both** the\ninlet mass flow and inlet mole flow by each fraction:\n`w_i = f_i · w_in` (Splitter.vb:268) and `m_i = f_i · m_in`\n(Splitter.vb:381). This is exact because the splitter leaves the intensive\nstate (hence the mixture molar mass) uniform across all outlets, so mass and\nmole flow scale by the identical fraction.\n\n- `inlet_mass_flow` — inlet mass flow `w_in` \\[kg/s\\].\n- `inlet_mole_flow` — inlet mole flow `m_in` \\[katal = mol/s\\].\n\n# Errors\nPropagates every [`SplitError`] from [`resolve_fractions`]."]
 #[pyfunction(name = "split")]
 pub fn fn_outram_park_fork_dwsim_libs__splitter__split(
-    spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__splitter__SplitSpec>,
+    spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__SplitSpec>,
     inlet_mass_flow: f64,
     inlet_mole_flow: f64,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__splitter__SplitResult> {
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__SplitResult> {
     err(::outram_park_fork_dwsim_libs::splitter::split(
         &spec.inner,
         from_si(inlet_mass_flow),
         from_si(inlet_mole_flow),
     ))
-    .map(|v| Py_outram_park_fork_dwsim_libs__splitter__SplitResult { inner: v })
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__SplitResult { inner: v })
 }
 
 // @item fn:outram_park_fork_dwsim_libs::splitter::split_streams
 #[doc = "Build the full set of [`OutletStream`]s: every outlet carries the inlet's\n[`IntensiveState`] unchanged, tagged with its own split flows\n(DWSIM `Calculate`, Splitter.vb:254-276 and the analogous flow-spec loops).\n\nThis is the complete splitter: the intensive state (`inlet_state`) is cloned\nverbatim onto each outlet — no flash is performed or needed (see the\nmodule-level \"Flash boundary\" note) — while the flows come from [`split`].\n\n- `inlet_state` — the inlet's intensive state (T, p, h, composition).\n- `inlet_mass_flow` — inlet mass flow `w_in` \\[kg/s\\].\n- `inlet_mole_flow` — inlet mole flow `m_in` \\[katal = mol/s\\].\n\n# Errors\nPropagates every [`SplitError`] from [`split`]."]
 #[pyfunction(name = "split_streams")]
 pub fn fn_outram_park_fork_dwsim_libs__splitter__split_streams(
-    spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__splitter__SplitSpec>,
-    inlet_state: PyRef<'_, Py_outram_park_fork_dwsim_libs__splitter__IntensiveState>,
+    spec: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__SplitSpec>,
+    inlet_state: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__IntensiveState>,
     inlet_mass_flow: f64,
     inlet_mole_flow: f64,
-) -> PyResult<Vec<Py_outram_park_fork_dwsim_libs__splitter__OutletStream>> {
+) -> PyResult<Vec<Py_outram_park_fork_dwsim_libs__prelude__OutletStream>> {
     err(::outram_park_fork_dwsim_libs::splitter::split_streams(
         &spec.inner,
         &inlet_state.inner,
@@ -40716,7 +40946,7 @@ pub fn fn_outram_park_fork_dwsim_libs__splitter__split_streams(
     ))
     .map(|v| {
         v.into_iter()
-            .map(|e| Py_outram_park_fork_dwsim_libs__splitter__OutletStream { inner: e })
+            .map(|e| Py_outram_park_fork_dwsim_libs__prelude__OutletStream { inner: e })
             .collect::<Vec<_>>()
     })
 }
@@ -40725,7 +40955,7 @@ pub fn fn_outram_park_fork_dwsim_libs__splitter__split_streams(
 #[doc = "Bind a compile-time reference to [`Component`] so the module's documented\nrelationship to the shared pure-component type is checked by the compiler\n(UNIQUAC's `r_i`/`q_i` are *not* fields of `Component` and so are taken\nexplicitly by [`UniquacParams`]). Returns the component's name.\n\nThis is a documentation/traceability helper, not part of the model math."]
 #[pyfunction(name = "component_label")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__activity__component_label(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
 ) -> String {
     ::outram_park_fork_dwsim_libs::thermo::activity::component_label(&component.inner)
         .clone()
@@ -41138,76 +41368,6 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__vapor_fugaci
     .map(|v| v.into_iter().map(|e| e).collect::<Vec<_>>())
 }
 
-// @item fn:outram_park_fork_dwsim_libs::thermo::component::reference::benzene
-#[doc = "Benzene (C₆H₆). Tc = 562.05 K, Pc = 48.95 bar, ω = 0.210, M = 78.114 g/mol.\n\nUnlike the presets above, this one carries **real ideal-gas Cp\ncoefficients** (`Cp0/R = a0 + a1 T + a2 T² + a3 T³ + a4 T⁴`, converted to\nJ/(mol·K) by multiplying through by `R`), needed for the enthalpy\ndepartures a distillation-column energy balance depends on. Same source\nas the other presets: Poling, Prausnitz & O'Connell (2001), Appendix A."]
-#[pyfunction(name = "benzene")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__component__reference__benzene()
--> Py_outram_park_fork_dwsim_libs__thermo__Component {
-    Py_outram_park_fork_dwsim_libs__thermo__Component {
-        inner: ::outram_park_fork_dwsim_libs::thermo::component::reference::benzene(),
-    }
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::component::reference::carbon_dioxide
-#[doc = "Carbon dioxide (CO₂). Tc = 304.12 K, Pc = 7.374 MPa, ω = 0.225, M = 44.01 g/mol."]
-#[pyfunction(name = "carbon_dioxide")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__component__reference__carbon_dioxide()
--> Py_outram_park_fork_dwsim_libs__thermo__Component {
-    Py_outram_park_fork_dwsim_libs__thermo__Component {
-        inner: ::outram_park_fork_dwsim_libs::thermo::component::reference::carbon_dioxide(),
-    }
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::component::reference::ethane
-#[doc = "Ethane (C₂H₆). Tc = 305.32 K, Pc = 4.872 MPa, ω = 0.099, M = 30.070 g/mol."]
-#[pyfunction(name = "ethane")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__component__reference__ethane()
--> Py_outram_park_fork_dwsim_libs__thermo__Component {
-    Py_outram_park_fork_dwsim_libs__thermo__Component {
-        inner: ::outram_park_fork_dwsim_libs::thermo::component::reference::ethane(),
-    }
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::component::reference::methane
-#[doc = "Methane (CH₄). Tc = 190.56 K, Pc = 4.599 MPa, ω = 0.011, M = 16.043 g/mol."]
-#[pyfunction(name = "methane")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__component__reference__methane()
--> Py_outram_park_fork_dwsim_libs__thermo__Component {
-    Py_outram_park_fork_dwsim_libs__thermo__Component {
-        inner: ::outram_park_fork_dwsim_libs::thermo::component::reference::methane(),
-    }
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::component::reference::nitrogen
-#[doc = "Nitrogen (N₂). Tc = 126.20 K, Pc = 3.398 MPa, ω = 0.037, M = 28.014 g/mol."]
-#[pyfunction(name = "nitrogen")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__component__reference__nitrogen()
--> Py_outram_park_fork_dwsim_libs__thermo__Component {
-    Py_outram_park_fork_dwsim_libs__thermo__Component {
-        inner: ::outram_park_fork_dwsim_libs::thermo::component::reference::nitrogen(),
-    }
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::component::reference::toluene
-#[doc = "Toluene (C₇H₈). Tc = 591.75 K, Pc = 41.08 bar, ω = 0.264, M = 92.141 g/mol.\nSame source and Cp-coefficient convention as [`benzene`]."]
-#[pyfunction(name = "toluene")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__component__reference__toluene()
--> Py_outram_park_fork_dwsim_libs__thermo__Component {
-    Py_outram_park_fork_dwsim_libs__thermo__Component {
-        inner: ::outram_park_fork_dwsim_libs::thermo::component::reference::toluene(),
-    }
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::component::reference::water
-#[doc = "Water (H₂O). Tc = 647.14 K, Pc = 22.064 MPa, ω = 0.344, M = 18.015 g/mol."]
-#[pyfunction(name = "water")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__component__reference__water()
--> Py_outram_park_fork_dwsim_libs__thermo__Component {
-    Py_outram_park_fork_dwsim_libs__thermo__Component {
-        inner: ::outram_park_fork_dwsim_libs::thermo::component::reference::water(),
-    }
-}
-
 // @item fn:outram_park_fork_dwsim_libs::thermo::electrolyte::dissociate_strong_salt
 #[doc = "Strong-electrolyte **complete-dissociation speciation** — the kernel the\n`ElectrolyteSVLE` flash iterates on for a strong salt (`ElectrolyteSVLE.vb`:\nits `SolveChemicalEquilibria` drives every strong reaction to completion).\n\nGiven a salt `C_{ν+} A_{ν-}` dissolved at molality `m_salt` [mol/kg], returns\nthe resulting `(cation_molality, anion_molality)` [mol/kg] assuming the salt\nfully dissociates (the strong-electrolyte limit):\n\n```text\nm_+ = ν_+ · m_salt ,   m_- = ν_- · m_salt\n```\n\nThe result is charge-balanced by construction when `ν_+ z_+ + ν_- z_- = 0`;\n[`is_dissociation_neutral`] checks that stoichiometry.\n\nThis is the *strong* speciation only. DWSIM's full flash also solves weak\n(finite-`K_eq`) equilibria via an extent optimiser — **not** ported here."]
 #[pyfunction(name = "dissociate_strong_salt")]
@@ -41413,7 +41573,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__electrolyte_svle__presets__water(
 #[pyfunction(name = "corrected_molar_volume")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__corrected_molar_volume(
     v_eos: f64,
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::thermo::eos_variants::corrected_molar_volume(
@@ -41427,7 +41587,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__corrected_molar_vol
 #[doc = "Mixture volume-translation `c = Σ z_i c_i` [m³/mol].\n\nLinear (mole-fraction) mixing of the pure-component shifts, matching DWSIM's\n`AUX_CM` (`PengRobinson.vb` L580-590, `SoaveRedlichKwong.vb` L159-169).\n`comps` and mole fractions `z` [-] must have equal length (a mismatch is\nsilently truncated by the `zip`, so the caller must pass equal-length\nslices); `z` should sum to 1."]
 #[pyfunction(name = "peneloux_c_mix")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__peneloux_c_mix(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::thermo::eos_variants::peneloux_c_mix(
@@ -41440,7 +41600,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__peneloux_c_mix(
 #[doc = "Fugacity-coefficient shift from the Peneloux translation, `c_i P / (R T)`\n[-], for one component at `t` [K], `p` [Pa].\n\nUnder a constant volume translation the fugacity coefficient transforms as\n`ln φ_i^translated = ln φ_i^EOS − c_i P/(R T)` (Peneloux et al. 1982). This\nreturns the subtracted term. Because `c_i` and `P, T` are the **same in the\nliquid and the vapour**, the term is identical in both phases and **cancels\nexactly** in the K-value `K_i = φ_i^L / φ_i^V`:\n\n`ln K_i^translated = (ln φ_i^L − c_iP/RT) − (ln φ_i^V − c_iP/RT) = ln K_i^EOS`.\n\nHence the Peneloux shift improves liquid density **without altering VLE**.\nVerified numerically in the tests."]
 #[pyfunction(name = "peneloux_lnphi_shift")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__peneloux_lnphi_shift(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     t: f64,
     p: f64,
 ) -> f64 {
@@ -41451,7 +41611,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__peneloux_lnphi_shif
 #[doc = "Peneloux per-component volume-translation shift `c_i` [m³/mol].\n\n`c_i = 0.40768 (R Tc / Pc)(0.29441 − Z_RA)` with `Z_RA` from\n[`rackett_z_ra`] (Peneloux, Rauzy & Fréze 1982). `c_i` is a **constant** —\nindependent of `T`, `P`, and composition — which is exactly why it cancels in\nK-values (see [`peneloux_lnphi_shift`]). For a normal fluid\n`Z_RA < 0.29441`, so `c_i > 0`: the translation *reduces* the EOS molar\nvolume, correcting PR/SRK's systematic liquid-volume overprediction. Units:\n`R Tc / Pc` is m³/mol, the parenthesised factor is dimensionless."]
 #[pyfunction(name = "peneloux_shift")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__peneloux_shift(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::thermo::eos_variants::peneloux_shift(&comp.inner)
 }
@@ -41460,7 +41620,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__peneloux_shift(
 #[doc = "PRSV pure-component attraction `a_i(T) = 0.45724 · α_PRSV(T) · R² Tc² / Pc`\n[J·m³/mol²] at `t` [K].\n\nIdentical to [`CubicEos::a_i`] for Peng-Robinson except the α-function is the\nPRSV [`prsv_alpha`] instead of the base PR α (DWSIM `PRSV2-VL.vb` L140 uses\nthe same `Ωa = 0.45724`). The co-volume `b_i` is **unchanged** — obtain it\nfrom `CubicEos::PengRobinson.b_i(comp)`. Valid for `t > 0`."]
 #[pyfunction(name = "prsv_a_i")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_a_i(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: f64,
     t: f64,
 ) -> f64 {
@@ -41471,7 +41631,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_a_i(
 #[doc = "PRSV mixture attraction `a_mix = Σ_i Σ_j z_i z_j √(a_i a_j)(1 − k_ij)`\n[J·m³/mol²] at `t` [K], using the PRSV pure-component `a_i` from\n[`prsv_a_i`].\n\nThis is the **identical** van der Waals one-fluid mixing rule as\n[`CubicEos::a_mix`] — only the per-component `a_i` differs (PRSV vs base PR).\n`kappa1` [-] is the per-component array (same length as `comps` and `z`);\npass all-zeros for the pure-κ0 PRSV. `kij = None` uses the geometric-mean\nrule. The mixture co-volume `b_mix` is unchanged: use\n`CubicEos::PengRobinson.b_mix(comps, z)`.\n\n# Panics\nPanics (via slice indexing) if `comps`, `kappa1`, and `z` differ in length."]
 #[pyfunction(name = "prsv_a_mix")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_a_mix(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: Vec<f64>,
     z: Vec<f64>,
     t: f64,
@@ -41490,7 +41650,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_a_mix(
 #[doc = "PRSV α-function `α(T) = [1 + κ(1 − √Tr)]²` [-] for a component.\n\nThe temperature scaling of the PR attraction under the PRSV κ (DWSIM\n`PRSV2-VL.vb` L131). `κ` is [`prsv_kappa`]; `t` [K] must be `> 0`;\n`Tr = T/Tc`. At the critical point (`Tr = 1`) `α = 1` **exactly**, for any\n`κ1`, because `(1 − √1) = 0`. With `κ1 = 0` this reduces to the PRSV κ0(ω)\nα-function, numerically close to the base PR α from\n[`CubicEos::alpha`]."]
 #[pyfunction(name = "prsv_alpha")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_alpha(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: f64,
     t: f64,
 ) -> f64 {
@@ -41501,7 +41661,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_alpha(
 #[doc = "Full PRSV temperature-dependent α-slope `κ(T)` [-] for a component.\n\n`κ = κ0 + κ1 (1 + √Tr)(0.7 − Tr)`, with `Tr = T/Tc` [-] and `κ0` from\n[`prsv_kappa0`] (Stryjek & Vera 1986, Eq. 7; DWSIM `PRSV2-VL.vb` L130 with\nthe PRSV2 `κ2 = κ3 = 0`). `kappa1` [-] is the compound-specific fitted\nparameter (default `0.0` → pure κ0). `t` [K] must be `> 0`. The `(0.7 − Tr)`\nfactor makes the κ1 correction vanish at `Tr = 0.7` and change sign across\nit, the reduced temperature at which Stryjek & Vera anchored the fit."]
 #[pyfunction(name = "prsv_kappa")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_kappa(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: f64,
     t: f64,
 ) -> f64 {
@@ -41521,7 +41681,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__prsv_kappa0(
 #[doc = "Rackett compressibility `Z_RA = 0.29056 − 0.08775 ω` [-] for a component.\n\nThe Yamada-Gunn estimate of the Rackett parameter from the acentric factor,\nused as the DWSIM default when no tabulated `Z_RA` exists\n(`PropertyPackage.vb` L5604). Dimensionless; typically `0.24–0.29` for normal\nfluids."]
 #[pyfunction(name = "rackett_z_ra")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__eos_variants__rackett_z_ra(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::thermo::eos_variants::rackett_z_ra(&comp.inner)
 }
@@ -41562,21 +41722,21 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash__rachford_rice_g(
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash__solve_rachford_rice(
     z: Vec<f64>,
     k: Vec<f64>,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult> {
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__FlashResult> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::flash::solve_rachford_rice(
             &z.into_iter().map(|e| e).collect::<Vec<_>>(),
             &k.into_iter().map(|e| e).collect::<Vec<_>>(),
         ),
     )
-    .map(|v| Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult { inner: v })
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__FlashResult { inner: v })
 }
 
 // @item fn:outram_park_fork_dwsim_libs::thermo::flash::wilson_k_values
 #[doc = "Wilson K-value first guess `K_i = (Pc_i / P) · exp[5.373 (1 + ω_i)(1 − Tc_i / T)]`.\n\nThe standard ideal first estimate used to seed the nested-loops iteration\n(Wilson, 1969). Ported from DWSIM `PropertyPackage.vb`\n`DW_CalcKvalue_Ideal_Wilson` (line 1663).\n\n# Units\n\n- `components`: each supplies `critical_pressure` `Pc` \\[Pa\\],\n  `critical_temperature` `Tc` \\[K\\], `acentric_factor` `ω` \\[-\\].\n- `temperature` `T` \\[K\\] (> 0), `pressure` `P` \\[Pa\\] (> 0).\n- Returns dimensionless `K_i` \\[-\\], one per component.\n\n# Panics / range\n\nDoes not panic; with a non-positive `P` or `T` the returned values are\nnon-finite (the caller is expected to pass physical `T`, `P` > 0)."]
 #[pyfunction(name = "wilson_k_values")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash__wilson_k_values(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
     pressure: f64,
 ) -> Vec<f64> {
@@ -41594,12 +41754,12 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash__wilson_k_values(
 #[doc = "Simplified **immiscible VLLE** PT flash using a [`PropertyPackageModel`] for\nthe water-free K-values and the pure-component **Wilson** vapour pressure for\nthe immiscible component.\n\nConvenience wrapper over [`flash_pt_immiscible_with`]. The immiscible\ncomponent's vapour pressure `P^{sat}_w(T)` is taken as the pressure at which\nits Wilson `K = 1`, obtained by reusing\n[`crate::thermo::saturation::bubble_pressure`] on the immiscible component\nalone (`z = [1.0]`, [`PropertyPackageModel::Ideal`]). See the module scope\nnote: that Wilson vapour pressure is crude — pass a real `P^{sat}_w(T)`\nthrough [`flash_pt_immiscible_with`] for a quantitative partition.\n\n# Units / ranges\n\n`components.len() == z.len()`; `z` feed mole fractions \\[-\\]; `t` \\[K\\] > 0,\n`p` \\[Pa\\] > 0; `immiscible_index < z.len()`.\n\n# Errors\n\nAs [`flash_pt_immiscible_with`], plus [`ImmiscibleError::NonFinite`] if the\npure-component Wilson vapour-pressure solve fails to produce a finite value."]
 #[pyfunction(name = "flash_pt_immiscible")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_immiscible__flash_pt_immiscible(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
     immiscible_index: usize,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
 ) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__flash_immiscible__ImmiscibleResult> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::flash_immiscible::flash_pt_immiscible(
@@ -41640,7 +41800,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_insideout__inner_stripping_
 #[doc = "Full **Boston-Fournier Inside-Out three-phase VLLE** isothermal-isobaric flash\nof feed `z` at `T` \\[K\\], `P` \\[Pa\\] using the cubic EOS `eos` (`k_ij = 0`).\n\nPorted from DWSIM `BostonFournierInsideOut3P.vb` `Flash_PT` (lines 74-225).\n\n# Orchestration\n\n1. **Two-phase VLE** via the Inside-Out parent\n   ([`crate::thermo::flash_insideout::inside_out_flash`]) with the EOS\n   K-closure ([`crate::thermo::flash_vlle::eos_k_values`]).\n2. If a liquid exists, **stability-test** it\n   ([`crate::thermo::stability::stability_test`]). Stable ⇒ return the\n   two-phase result (`l2 = 0`).\n3. Unstable ⇒ build a second-liquid estimate ([`phase_split_estimate`]) and\n   run the **three-phase Inside-Out core** ([`inside_out_3p_core`]).\n4. If the second liquid collapses below `opts.min_phase_fraction`, or the two\n   liquids turn out trivially identical, fall back to the two-phase result.\n\n# Units / ranges\n\n`components.len() == z.len()`; `z` feed mole fractions \\[-\\] (sum to 1);\n`t` \\[K\\] > 0, `p` \\[Pa\\] > 0. See the module scope note for the honest limits\n(label ordering, missed splits, base pinned to unity, `k_ij = 0`).\n\n# Errors\n\n[`FlashError::LengthMismatch`] on a `components`/`z` size mismatch; propaga"]
 #[pyfunction(name = "inside_out_flash_3p")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_insideout_3p__inside_out_flash_3p(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
@@ -41710,11 +41870,11 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_lle__flash_pt_lle_with_esti
 #[doc = "**Pressure–temperature** single-component flash: resolve the phase state at\n`(T, P)` from the saturation curve.\n\nPorted from DWSIM `SingleCompFlash.vb:59` (`Flash_PT`, the non-solid path):\ncompute `Pvap = Psat(T)` and compare to `P`. `Pvap > P` ⇒ superheated vapour\n(`V = 1`, `SingleCompFlash.vb:69-70`); otherwise subcooled liquid (`V = 0`,\n`SingleCompFlash.vb:73-74`). At exact equality `Pvap == P` the split is\non the saturation line and reported as [`SingleCompPhase::TwoPhase`]; the\nvapour fraction is undetermined by a PT specification alone and is reported\nas `0` (specify it with [`flash_tv`] / [`flash_pv`] instead). The solid\nbranches (`IsSolid`, `T < Tfus`) are out of scope — see the module header.\n\n# Units / ranges\n`components.len() == z.len()`; `z` mole fractions \\[-\\]; `pressure` `P` \\[Pa\\]\n> 0; `temperature` `T` \\[K\\] > 0. The returned [`SingleCompResult`] carries\nthe input `T`, `P`, the classified phase, and `Psat(T)` in\n`saturation_pressure`.\n\n# Errors\n[`SingleCompError::Empty`] / [`SingleCompError::LengthMismatch`] /\n[`SingleCompError::NonFinite`] / [`SingleCompError::NonPositive`] on bad\ninputs; [`SingleCompError::Saturation`] if the `Psat` solve fails."]
 #[pyfunction(name = "flash_pt")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__flash_pt(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     pressure: f64,
     temperature: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
 ) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__flash_single_comp__SingleCompResult> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::flash_single_comp::flash_pt(
@@ -41736,11 +41896,11 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__flash_pt(
 #[doc = "**Pressure–vapour-fraction** single-component flash: return the saturation\ntemperature `Tsat(P)` at a specified vapour fraction `V`.\n\nPorted from DWSIM `SingleCompFlash.vb:306` (`Flash_PV`, the `Tsat > Tfus`\nliquid+vapour branch): the two-phase temperature of a pure fluid at pressure\n`P` is `Tsat(P)`, independent of `V`. The solid+vapour branch is out of scope.\n\n# Units / ranges\n`pressure` `P` \\[Pa\\] > 0; `vapour_fraction` `V` \\[-\\] in `[0, 1]`. The\nreturned [`SingleCompResult`] has `temperature = Tsat(P)`, `pressure = P`,\n`saturation_pressure = Psat(Tsat(P)) ≈ P`, and the phase set from `V`.\n\n# Errors\nAs [`flash_tv`] (with `pressure` positivity instead of `temperature`)."]
 #[pyfunction(name = "flash_pv")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__flash_pv(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     pressure: f64,
     vapour_fraction: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
 ) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__flash_single_comp__SingleCompResult> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::flash_single_comp::flash_pv(
@@ -41762,11 +41922,11 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__flash_pv(
 #[doc = "**Temperature–vapour-fraction** single-component flash: return the\nsaturation pressure `Psat(T)` at a specified vapour fraction `V`.\n\nPorted from DWSIM `SingleCompFlash.vb:290` (`Flash_TV`, the `T > Tfus`\nliquid+vapour branch): for a pure fluid the equilibrium pressure of a\ntwo-phase state at temperature `T` is fixed by the saturation curve\n(`Psat(T)`), independent of `V`; `V` only sets how the feed is partitioned.\nThe solid+vapour branch (`T <= Tfus`) is out of scope.\n\n# Units / ranges\n`temperature` `T` \\[K\\] > 0; `vapour_fraction` `V` \\[-\\] in `[0, 1]`. The\nreturned [`SingleCompResult`] has `pressure = saturation_pressure = Psat(T)`\nand the phase set from `V` (`1` → vapour, `0` → liquid, interior → two-phase).\n\n# Errors\nAs [`flash_pt`], plus [`SingleCompError::VapourFractionOutOfRange`] for\n`V ∉ [0, 1]`."]
 #[pyfunction(name = "flash_tv")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__flash_tv(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     temperature: f64,
     vapour_fraction: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
 ) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__flash_single_comp__SingleCompResult> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::flash_single_comp::flash_tv(
@@ -41788,10 +41948,10 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__flash_tv(
 #[doc = "Pure-component **saturation pressure** `Psat(T)` \\[Pa\\] of the dominant\ncomponent of feed `z` at temperature `T` \\[K\\], using `package` for the\nK-model.\n\nDWSIM analogue: `PP.AUX_PVAPi(idx, T)` (`SingleCompFlash.vb:62`). Here it is\nthe bubble pressure of the pure feed `z = [1]` from\n[`crate::thermo::saturation::bubble_pressure`] — for a single component the\nbubble point, dew point, and vapour pressure coincide (the pressure at which\n`K = 1`). With [`PropertyPackageModel::Ideal`] this is the Wilson vapour\npressure `Psat = Pc·exp[5.373(1+ω)(1 − Tc/T)]`; with a cubic package it is\nthe EOS saturation pressure (equal-fugacity `φ^L = φ^V`).\n\n# Units / ranges\n`components.len() == z.len()`, `z` mole fractions \\[-\\], `temperature` `T`\n\\[K\\] > 0. Returns `Psat` \\[Pa\\].\n\n# Errors\n[`SingleCompError::Empty`] / [`SingleCompError::LengthMismatch`] /\n[`SingleCompError::NonFinite`] on bad inputs, [`SingleCompError::NonPositive`]\nfor `T <= 0`, and [`SingleCompError::Saturation`] if the bubble-pressure\nsolve fails."]
 #[pyfunction(name = "saturation_pressure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__saturation_pressure(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     temperature: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
 ) -> PyResult<f64> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::flash_single_comp::saturation_pressure(
@@ -41808,10 +41968,10 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__saturation_pre
 #[doc = "Pure-component **saturation temperature** `Tsat(P)` \\[K\\] of the dominant\ncomponent of feed `z` at pressure `P` \\[Pa\\], using `package` for the K-model.\n\nDWSIM analogue: `PP.AUX_TSATi(P, idx)` (`SingleCompFlash.vb:86`). Here it is\nthe bubble temperature of the pure feed `z = [1]` from\n[`crate::thermo::saturation::bubble_temperature`] — the inverse of\n[`saturation_pressure`].\n\n# Units / ranges / errors\nAs [`saturation_pressure`], with `pressure` `P` \\[Pa\\] > 0; returns `Tsat`\n\\[K\\]."]
 #[pyfunction(name = "saturation_temperature")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_single_comp__saturation_temperature(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     pressure: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
 ) -> PyResult<f64> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::flash_single_comp::saturation_temperature(
@@ -41863,7 +42023,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_sle__ideal_solubility(
 #[doc = "Full **solid + vapour-liquid-liquid equilibrium (SVLLE)** isothermal-isobaric\nflash of feed `z` at `T` \\[K\\], `P` \\[Pa\\].\n\nDirect composition port of DWSIM `NestedLoopsSVLLE.Flash_PT`\n(`NestedLoopsSVLLE.vb:63-241`, non-forced-solids path): a three-phase VLLE\nfluid split followed by eutectic solid precipitation from each liquid, then a\ntwo-solid combination. See the module header for the full algorithm and the\nhonest scope.\n\n# Arguments / units\n\n- `components`: EOS constant-property records (critical `T`/`P`, acentric\n  factor, …), length `n`. Drives the vapour and liquid fugacities.\n- `sle_components`: fusion properties (`dH_fus` \\[J/mol\\], `T_fus` \\[K\\]) and\n  solid-phase override flags, length `n`, positionally paired with\n  `components`. A component with no solid data never precipitates.\n- `activity`: liquid-phase `gamma` model used **only** in the SLE\n  precipitation step (the VLLE step uses the cubic EOS). Its component count\n  must be `n` for the non-ideal variants.\n- `z`: feed mole fractions \\[-\\], length `n ≥ 1`, finite (normalised\n  defensively downstream).\n- `t` \\[K\\] `> 0`, `p` \\[Pa\\] `> 0`.\n- `eos`: the [`CubicEos`] fugacity model (`k_ij = 0`).\n- `opts`: sub-flash toler"]
 #[pyfunction(name = "flash_pt_svlle")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_svlle__flash_pt_svlle(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     sle_components: Vec<Py_outram_park_fork_dwsim_libs__thermo__flash_sle__SleComponent>,
     activity: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__activity__ActivityModel>,
     z: Vec<f64>,
@@ -41895,7 +42055,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_svlle__flash_pt_svlle(
 #[pyfunction(name = "eos_k_values")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_vlle__eos_k_values(
     eos: Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos,
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     x: Vec<f64>,
     y: Vec<f64>,
     t: f64,
@@ -41918,7 +42078,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_vlle__eos_k_values(
 #[doc = "Full **three-phase VLLE** isothermal-isobaric flash of feed `z` at `T` \\[K\\],\n`P` \\[Pa\\] using the cubic EOS `eos` (`k_ij = 0`).\n\nOrchestration (DWSIM `NestedLoops3PV3.vb` `Flash_PT`, lines 145-181):\n\n1. **Two-phase VLE** ([`crate::thermo::flash::nested_loops_flash`]) with the\n   EOS K-closure ([`eos_k_values`]).\n2. If a liquid exists, **stability test** it\n   ([`crate::thermo::stability::stability_test`]). Stable ⇒ return the\n   two-phase result (`l2 = 0`).\n3. Unstable ⇒ build a second-liquid estimate ([`phase_split_estimate`]) and\n   run the **three-phase Newton solve** (an [`solve_3p_fixed_k`] Newton step\n   with the K-vectors refreshed from the EOS each outer pass, DWSIM\n   lines 496-705).\n4. If the second liquid collapses below `opts.min_phase_fraction`, fall back\n   to the two-phase result.\n\n# Units / ranges\n\n`components.len() == z.len()`; `z` feed mole fractions \\[-\\] (sum to 1);\n`t` \\[K\\] > 0, `p` \\[Pa\\] > 0. See the module scope note for the honest limits\n(label ordering, missed splits, no `SimpleLLE` fallback).\n\n# Errors\n\nPropagates [`FlashError`] from the two-phase flash and the three-phase Newton\nsolve; [`FlashError::LengthMismatch`] on a `components`/`z` size mismatch."]
 #[pyfunction(name = "flash_pt_vlle")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__flash_vlle__flash_pt_vlle(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
@@ -41977,7 +42137,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__ideal_entropy_of_mix
 #[doc = "Ideal-gas heat capacity `Cp0(T)` of a pure compound [J/(mol·K)].\n\nEvaluates the canonical DWSIM quartic correlation\n`Cp0 = A + B·T + C·T² + D·T³ + E·T⁴` from the component's\n`cp_ig_a..e` coefficients (`ThermodynamicsBase.vb:1778`,\n`PropertyPackage.vb:5850`). The polynomial value is in kJ/(kmol·K), which\n**equals J/(mol·K)** numerically (see the module docs), so no molar-mass\nconversion is applied — unlike DWSIM's `AUX_CPi`, which additionally divides\nby `Molar_Weight` to return a mass-basis kJ/(kg·K).\n\n# Parameters\n- `component`: source of the `cp_ig_a..e` coefficients (kJ/(kmol·K) basis).\n- `temperature` `T`: absolute temperature [K]. Must be > 0; the correlation\n  is a fit valid only over the compound's regressed temperature range\n  (typically ~50-1500 K) — extrapolation beyond it is not checked here.\n\n# Returns\n`Cp0(T)` [J/(mol·K)]."]
 #[pyfunction(name = "ideal_gas_cp")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__ideal_gas_cp(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::thermo::ideal_props::ideal_gas_cp(&component.inner, temperature)
@@ -41987,7 +42147,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__ideal_gas_cp(
 #[doc = "Sensible ideal-gas molar enthalpy relative to `T_ref` [J/mol]:\n`H0(T) − H0(T_ref) = ∫_{T_ref}^{T} Cp0(T') dT'`.\n\nUses the **exact analytic integral** of the DWSIM quartic Cp0 correlation\n(the closed form DWSIM's numerical `AUX_INT_CPDTi` midpoint rule converges\nto, `PropertyPackage.vb:7794`; `RET_Hid`, `:8558`):\n\n```text\nA(T−T₀) + (B/2)(T²−T₀²) + (C/3)(T³−T₀³) + (D/4)(T⁴−T₀⁴) + (E/5)(T⁵−T₀⁵)\n```\n\nThis is the *sensible* enthalpy only — the enthalpy of formation offset is\nnot added (see module \"Honest scope\").\n\n# Parameters\n- `component`: source of `cp_ig_a..e`.\n- `temperature` `T` [K], `t_ref` `T_ref` [K]: both > 0. `T < T_ref` is\n  allowed and returns a negative enthalpy (the integral is signed).\n\n# Returns\n`∫_{T_ref}^{T} Cp0 dT` [J/mol]."]
 #[pyfunction(name = "ideal_gas_enthalpy")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__ideal_gas_enthalpy(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
     t_ref: f64,
 ) -> f64 {
@@ -42002,7 +42162,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__ideal_gas_enthalpy(
 #[doc = "Sensible ideal-gas molar entropy relative to `(T_ref, P_ref)`\n[J/(mol·K)]:\n`S0(T,P) − S0(T_ref,P_ref) = ∫_{T_ref}^{T} Cp0/T' dT' − R ln(P/P_ref)`.\n\nUses the **exact analytic integral** of Cp0/T for the DWSIM quartic (the\nclosed form DWSIM's numerical `AUX_INT_CPDT_Ti` midpoint rule converges to,\n`PropertyPackage.vb:7944`) plus the pressure term of `RET_Sid`\n(`:8698`, `-R ln(P/P_ref)`; DWSIM hard-codes `P_ref = 101325 Pa`):\n\n```text\nA·ln(T/T₀) + B(T−T₀) + (C/2)(T²−T₀²) + (D/3)(T³−T₀³) + (E/4)(T⁴−T₀⁴)\n  − R ln(P/P_ref)\n```\n\n# Parameters\n- `component`: source of `cp_ig_a..e`.\n- `temperature` `T` [K], `t_ref` `T_ref` [K]: both > 0.\n- `pressure` `P` [Pa], `p_ref` `P_ref` [Pa]: both > 0. The pressure term is\n  the ideal-gas isothermal entropy change `-R ln(P/P_ref)`; larger `P`\n  lowers entropy.\n\n# Returns\n`∫_{T_ref}^{T} Cp0/T dT − R ln(P/P_ref)` [J/(mol·K)]."]
 #[pyfunction(name = "ideal_gas_entropy")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__ideal_gas_entropy(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
     pressure: f64,
     t_ref: f64,
@@ -42021,7 +42181,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__ideal_gas_entropy(
 #[doc = "Mole-fraction-weighted ideal-gas molar heat capacity of a mixture\n[J/(mol·K)]: `Cp0_mix(T) = Σ_i x_i Cp0_i(T)`.\n\nThe ideal-gas mixture Cp is a linear mole-fraction average (no mixing\ncontribution — Cp of mixing is zero for ideal gases).\n\n# Parameters\n- `components`: the pure compounds, one per mixture species.\n- `mole_fractions` `x_i`: mole fractions [-], same length as `components`,\n  normally summing to 1 (not enforced — the caller owns normalisation).\n- `temperature` `T` [K].\n\n# Panics\nPanics if `components.len() != mole_fractions.len()`.\n\n# Returns\n`Σ_i x_i Cp0_i(T)` [J/(mol·K)]."]
 #[pyfunction(name = "mixture_ideal_gas_cp")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__mixture_ideal_gas_cp(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     mole_fractions: Vec<f64>,
     temperature: f64,
 ) -> f64 {
@@ -42036,7 +42196,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__mixture_ideal_gas_cp
 #[doc = "Mole-fraction-weighted sensible ideal-gas molar enthalpy of a mixture\n[J/mol]: `H0_mix(T) − H0_mix(T_ref) = Σ_i x_i ∫_{T_ref}^{T} Cp0_i dT`.\n\nEnthalpy of mixing is zero for an ideal gas, so this is a plain\nmole-fraction sum of the pure-component sensible enthalpies.\n\n# Parameters\n- `components`, `mole_fractions`: as [`mixture_ideal_gas_cp`].\n- `temperature` `T` [K], `t_ref` `T_ref` [K].\n\n# Panics\nPanics if `components.len() != mole_fractions.len()`.\n\n# Returns\n`Σ_i x_i ∫_{T_ref}^{T} Cp0_i dT` [J/mol]."]
 #[pyfunction(name = "mixture_ideal_gas_enthalpy")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__mixture_ideal_gas_enthalpy(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     mole_fractions: Vec<f64>,
     temperature: f64,
     t_ref: f64,
@@ -42053,7 +42213,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__mixture_ideal_gas_en
 #[doc = "Total ideal-gas molar entropy of a mixture relative to `(T_ref, P_ref)`\n[J/(mol·K)]:\n`S0_mix = Σ_i x_i [∫Cp0_i/T dT − R ln(P/P_ref)] + (−R Σ_i x_i ln x_i)`.\n\nThe mole-fraction-weighted pure-component ideal-gas entropies plus the\n[`ideal_entropy_of_mixing`] term (DWSIM `RET_Sid`,\n`PropertyPackage.vb:8680-8718`). Because the `−R ln(P/P_ref)` pressure term\nis species-independent, `Σ_i x_i` of it collapses to a single\n`−R ln(P/P_ref)` when the mole fractions sum to 1.\n\n# Parameters\n- `components`, `mole_fractions`: as [`mixture_ideal_gas_cp`].\n- `temperature` `T` [K], `pressure` `P` [Pa], `t_ref` `T_ref` [K],\n  `p_ref` `P_ref` [Pa]: all > 0.\n\n# Panics\nPanics if `components.len() != mole_fractions.len()`.\n\n# Returns\nThe total mixture ideal-gas entropy [J/(mol·K)]."]
 #[pyfunction(name = "mixture_ideal_gas_entropy")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__ideal_props__mixture_ideal_gas_entropy(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     mole_fractions: Vec<f64>,
     temperature: f64,
     pressure: f64,
@@ -42185,7 +42345,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__lkp__z_lkp(
 #[doc = "PR78 temperature derivative of the mixture attraction `d a_mix / dT`\n[J·m³/(mol²·K)] at `t` [K].\n\nThe DWSIM closed form (`Calc_dadT`), with the PR78 α-slope [`pr78_kappa`] as\nthe per-component `c_i`:\n\n`da/dT = −(R/2)√(Ωa/T) Σ_i Σ_j z_i z_j (1 − k_ij)`\n`        [c_j √(a_i Tc_j/Pc_j) + c_i √(a_j Tc_i/Pc_i)]`.\n\nFeeds the entropy/enthalpy departures below."]
 #[pyfunction(name = "dadt")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__dadt(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     kij: Option<PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__BinaryInteraction>>,
@@ -42202,7 +42362,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__dadt(
 #[doc = "PR78 molar enthalpy departure `H(T,P) − H_ideal(T)` [J/mol] for a phase at\n`t` [K], `p` [Pa].\n\nThe generalised PR `(u, w) = (2, −1)` residual (identical form to\n[`CubicEos::enthalpy_departure`], fed the PR78 `a_mix` and [`dadt`]):\n\n`A_res = a_m/(b_m √8) ln[(2Z+B(2−√8))/(2Z+B(2+√8))] − RT ln((Z−B)/Z) − RT ln Z`,\n`S_res = R ln((Z−B)/Z) + R ln Z − (da/dT)/(√8 b_m) ln[(2Z+B(2−√8))/(2Z+B(2+√8))]`,\n`H_res = A_res + T S_res + RT(Z − 1)`.\n\nTends to 0 as `p → 0`. Returns `None` if no `Z` root is found."]
 #[pyfunction(name = "enthalpy_departure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__enthalpy_departure(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
@@ -42224,7 +42384,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__enthalpy_departure(
 #[doc = "PR78 molar entropy departure `S(T,P) − S_ideal(T,P)` [J/(mol·K)] for a phase.\n\nThe `S_res` term of [`enthalpy_departure`]. Tends to 0 as `p → 0`. Returns\n`None` if no `Z` root is found."]
 #[pyfunction(name = "entropy_departure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__entropy_departure(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
@@ -42246,7 +42406,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__entropy_departure(
 #[doc = "Natural log of the PR78 fugacity coefficient `ln φ_i` [-] for every component\nin a phase at `t` [K], `p` [Pa].\n\nThe standard PR mixture expression (identical algebra to\n[`CubicEos::ln_phi`], only the PR78 `a_i` fed in):\n\n`ln φ_i = (b_i/b_m)(Z − 1) − ln(Z − B)`\n`        − [A/(B√8)](2 Σ_k z_k a_ki / a_m − b_i/b_m)`\n`          · ln[(2Z + B(2 + √8)) / (2Z + B(2 − √8))]`,\n\nwith `a_ki = √(a_k a_i)(1 − k_ki)`, `√8 = 2√2` for Peng-Robinson. As\n`p → 0`, every `ln φ_i → 0`. Returns `None` if no `Z` root is found."]
 #[pyfunction(name = "ln_phi")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__ln_phi(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
@@ -42268,7 +42428,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__ln_phi(
 #[doc = "PR78 pure-component attraction `a_i(T) = 0.45724 · α_PR78(T) · R² Tc² / Pc`\n[J·m³/mol²] at `t` [K] (`PengRobinson78.vb` L150-151).\n\nIdentical to [`CubicEos::a_i`] for Peng-Robinson except the α uses the 1978\nslope [`pr78_alpha`]. The co-volume `b_i` is **unchanged** — obtain it from\n`CubicEos::PengRobinson.b_i(comp)`. Valid for `t > 0`."]
 #[pyfunction(name = "pr78_a_i")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__pr78_a_i(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     t: f64,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::thermo::pr1978::pr78_a_i(&comp.inner, t)
@@ -42278,7 +42438,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__pr78_a_i(
 #[doc = "PR78 mixture attraction `a_mix = Σ_i Σ_j z_i z_j √(a_i a_j)(1 − k_ij)`\n[J·m³/mol²] at `t` [K], using the PR78 pure-component `a_i` from\n[`pr78_a_i`].\n\nThe **identical** van der Waals one-fluid mixing rule as\n[`CubicEos::a_mix`]; only the per-component `a_i` differs. `z` are mole\nfractions [-]; `kij = None` uses the geometric-mean rule. The mixture\nco-volume is unchanged: use `CubicEos::PengRobinson.b_mix(comps, z)`.\n\n# Panics\nPanics (via slice indexing) if `comps` and `z` differ in length."]
 #[pyfunction(name = "pr78_a_mix")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__pr78_a_mix(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     kij: Option<PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__BinaryInteraction>>,
@@ -42295,7 +42455,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__pr78_a_mix(
 #[doc = "PR78 α-function `α(T) = [1 + κ(1 − √Tr)]²` [-] for a component at `t` [K].\n\nUses [`pr78_kappa`] for the slope. `Tr = T/Tc`; `t > 0`. Equals 1 exactly at\nthe critical point (`Tr = 1`). For `ω ≤ 0.491` this equals\n[`CubicEos::alpha`] for Peng-Robinson exactly."]
 #[pyfunction(name = "pr78_alpha")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__pr78_alpha(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     t: f64,
 ) -> f64 {
     ::outram_park_fork_dwsim_libs::thermo::pr1978::pr78_alpha(&comp.inner, t)
@@ -42312,7 +42472,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__pr78_kappa(acentric_facto
 #[doc = "Phase-selected PR78 compressibility factor `Z` [-] of a mixture at `t` [K],\n`p` [Pa].\n\nAssembles `A = a_mix P/(RT)²`, `B = b_mix P/(RT)` from the PR78 attraction\n[`pr78_a_mix`] and the unchanged co-volume, then **reuses**\n[`CubicEos::z_vapor`] / [`CubicEos::z_liquid`] for the root solve. `Vapor` →\nlargest real root; `Liquid` → smallest positive real root. Returns `None` if\nthe cubic yields no usable root."]
 #[pyfunction(name = "z_factor")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__z_factor(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
@@ -42334,7 +42494,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__pr1978__z_factor(
 #[doc = "Full-PRSV2 temperature derivative `d a_mix / dT` [J·m³/(mol²·K)] at `t` [K].\n\nDWSIM's `Calc_dadT` closed form with the PRSV2 α-slope [`prsv2_kappa`] as\neach `c_i`:\n\n`da/dT = −(R/2)√(Ωa/T) Σ_i Σ_j z_i z_j (1 − k_ij)`\n`        [c_j √(a_i Tc_j/Pc_j) + c_i √(a_j Tc_i/Pc_i)]`.\n\nFeeds the departures below."]
 #[pyfunction(name = "dadt")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__dadt(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     k1: Vec<f64>,
     k2: Vec<f64>,
     k3: Vec<f64>,
@@ -42357,7 +42517,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__dadt(
 #[doc = "Full-PRSV2 molar enthalpy departure `H(T,P) − H_ideal(T)` [J/mol] for a phase\nat `t` [K], `p` [Pa].\n\nSame generalised PR `(u, w) = (2, −1)` residual as\n[`CubicEos::enthalpy_departure`], fed the PRSV2 `a_mix` and [`dadt`]. Tends to\n0 as `p → 0`. Returns `None` if no `Z` root is found."]
 #[pyfunction(name = "enthalpy_departure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__enthalpy_departure(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     k1: Vec<f64>,
     k2: Vec<f64>,
     k3: Vec<f64>,
@@ -42385,7 +42545,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__enthalpy_departure(
 #[doc = "Full-PRSV2 molar entropy departure `S(T,P) − S_ideal(T,P)` [J/(mol·K)] for a\nphase. The `S_res` term of [`enthalpy_departure`]. Returns `None` if no `Z`\nroot is found."]
 #[pyfunction(name = "entropy_departure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__entropy_departure(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     k1: Vec<f64>,
     k2: Vec<f64>,
     k3: Vec<f64>,
@@ -42413,7 +42573,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__entropy_departure(
 #[doc = "Natural log of the full-PRSV2 fugacity coefficient `ln φ_i` [-] for every\ncomponent in a phase at `t` [K], `p` [Pa].\n\nThe standard PR mixture expression (identical to [`CubicEos::ln_phi`], only\nthe PRSV2 `a_i` fed in), `(u, w) = (2, −1)`, `√8 = 2√2`:\n\n`ln φ_i = (b_i/b_m)(Z − 1) − ln(Z − B)`\n`        − [A/(B√8)](2 Σ_k z_k a_ki / a_m − b_i/b_m)`\n`          · ln[(2Z + B(2 + √8)) / (2Z + B(2 − √8))]`.\n\nAs `p → 0`, every `ln φ_i → 0`. Returns `None` if no `Z` root is found."]
 #[pyfunction(name = "ln_phi")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__ln_phi(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     k1: Vec<f64>,
     k2: Vec<f64>,
     k3: Vec<f64>,
@@ -42441,7 +42601,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__ln_phi(
 #[doc = "Full PRSV2 pure-component attraction\n`a_i(T) = 0.45724 · α_PRSV2(T) · R² Tc² / Pc` [J·m³/mol²] at `t` [K]\n(`Models/PRSV2.vb` L386).\n\nSame `Ωa = 0.45724` and `b_i` as base Peng-Robinson; only the α differs. Get\nthe unchanged co-volume from `CubicEos::PengRobinson.b_i(comp)`. Valid for\n`t > 0`."]
 #[pyfunction(name = "prsv2_a_i")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_a_i(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: f64,
     kappa2: f64,
     kappa3: f64,
@@ -42460,7 +42620,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_a_i(
 #[doc = "Full PRSV2 mixture attraction `a_mix = Σ_i Σ_j z_i z_j √(a_i a_j)(1 − k_ij)`\n[J·m³/mol²] at `t` [K] (symmetric van der Waals one-fluid rule).\n\nIdentical mixing to [`CubicEos::a_mix`]; only the per-component `a_i` uses the\nPRSV2 α. `k1/k2/k3` are per-component parameter slices; `z` mole fractions\n[-]; `kij = None` → geometric mean. Mixture co-volume is unchanged\n(`CubicEos::PengRobinson.b_mix`).\n\n# Panics\nPanics if `comps`, `z`, `k1`, `k2`, `k3` differ in length."]
 #[pyfunction(name = "prsv2_a_mix")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_a_mix(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     k1: Vec<f64>,
     k2: Vec<f64>,
     k3: Vec<f64>,
@@ -42483,7 +42643,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_a_mix(
 #[doc = "Full PRSV2 α-function `α(T) = [1 + κ(1 − √Tr)]²` [-] for a component at\n`t` [K] (`Models/PRSV2.vb` L377).\n\n`κ` is [`prsv2_kappa`]; `Tr = T/Tc`; `t > 0`. Equals 1 exactly at the\ncritical point (`Tr = 1`) for any parameters. With `κ1 = 0` this is the base\nPR α exactly."]
 #[pyfunction(name = "prsv2_alpha")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_alpha(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: f64,
     kappa2: f64,
     kappa3: f64,
@@ -42502,7 +42662,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_alpha(
 #[doc = "Full PRSV2 three-parameter α-slope `κ(T)` [-] for a component\n(`Models/PRSV2.vb` L376).\n\nWhen the correction is **active** (`κ1 ≠ 0`):\n\n`κ = κ0(ω) + [κ1 + κ2 (κ3 − Tr)(1 − √Tr)](1 + √Tr)(0.7 − Tr)`,\n\nwith `κ0` from [`prsv_kappa0`], `Tr = T/Tc` [-]. When **inactive**\n(`κ1 = 0`) it returns the base Peng-Robinson slope\n([`pr78_kappa`]) — i.e. standard PR for `ω ≤ 0.491`. The three fitted\nparameters `kappa1, kappa2, kappa3` are dimensionless; `t` [K] must be `> 0`.\nThe `(0.7 − Tr)` factor makes the `κ1` term change sign at `Tr = 0.7`, the\nanchor of the Stryjek-Vera fit."]
 #[pyfunction(name = "prsv2_kappa")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_kappa(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: f64,
     kappa2: f64,
     kappa3: f64,
@@ -42521,7 +42681,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__prsv2_kappa(
 #[doc = "Pure-component saturation (vapour) pressure `Psat(T)` [Pa] under full PRSV2\n(DWSIM `DW_CalcPVAP_ISOL`, `PengRobinsonStryjekVera2.vb` L417).\n\nSolves the pure-fluid equal-fugacity condition `φ_L(T, P) = φ_V(T, P)` by\nsuccessive substitution `P ← P · exp(ln φ_L − ln φ_V)`, seeded with the Wilson\nestimate `P₀ = Pc · exp[5.373 (1 + ω)(1 − Tc/T)]`. `comp` supplies `Tc, Pc,\nω`; `kappa1/2/3` are the compound's PRSV2 parameters (`0.0` → base PR). `t`\n[K] must be below `Tc` (a saturation pressure exists only sub-critically).\n\nReturns `None` if `t ≥ Tc`, if two distinct liquid/vapour roots never appear\n(no two-phase region at that `T`), or if the iteration fails to converge in\n200 steps. Converges when `|ln φ_L − ln φ_V| < 1e-10`.\n\n**Physical range.** Valid over roughly `0.5 Tc ≲ T < Tc`; far below `Tc` the\ncubic's liquid root can be tiny and the successive substitution slow."]
 #[pyfunction(name = "vapor_pressure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__vapor_pressure(
-    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comp: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     kappa1: f64,
     kappa2: f64,
     kappa3: f64,
@@ -42541,7 +42701,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__vapor_pressure(
 #[doc = "Phase-selected full-PRSV2 compressibility factor `Z` [-] of a mixture at\n`t` [K], `p` [Pa].\n\n`A = a_mix P/(RT)²`, `B = b_mix P/(RT)` from the PRSV2 attraction, then reuses\n[`CubicEos::z_vapor`] / [`CubicEos::z_liquid`]. Returns `None` if the cubic\nyields no usable root."]
 #[pyfunction(name = "z_factor")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__z_factor(
-    comps: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    comps: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     k1: Vec<f64>,
     k2: Vec<f64>,
     k3: Vec<f64>,
@@ -42569,11 +42729,11 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__prsv2_full__z_factor(
 #[doc = "Bubble **pressure** at fixed temperature using a [`PropertyPackageModel`].\n\nConvenience wrapper over [`bubble_pressure_with`] whose K-closure is the\npackage's [`PropertyPackageModel::k_values`] (Wilson for\n[`PropertyPackageModel::Ideal`]; a fugacity-ratio for the cubic packages).\nSee [`bubble_pressure_with`] for the algorithm, units, and errors."]
 #[pyfunction(name = "bubble_pressure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__saturation__bubble_pressure(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     temperature: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState> {
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__SaturationState> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::saturation::bubble_pressure(
             &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
@@ -42582,38 +42742,18 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__saturation__bubble_pressure(
             package.inner,
         ),
     )
-    .map(|v| Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState { inner: v })
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::saturation::bubble_temperature
-#[doc = "Bubble **temperature** at fixed pressure using a [`PropertyPackageModel`].\n\nConvenience wrapper over [`bubble_temperature_with`]. See it for details."]
-#[pyfunction(name = "bubble_temperature")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__saturation__bubble_temperature(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-    z: Vec<f64>,
-    pressure: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState> {
-    err(
-        ::outram_park_fork_dwsim_libs::thermo::saturation::bubble_temperature(
-            &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            &z.into_iter().map(|e| e).collect::<Vec<_>>(),
-            pressure,
-            package.inner,
-        ),
-    )
-    .map(|v| Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState { inner: v })
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__SaturationState { inner: v })
 }
 
 // @item fn:outram_park_fork_dwsim_libs::thermo::saturation::dew_pressure
 #[doc = "Dew **pressure** at fixed temperature using a [`PropertyPackageModel`].\n\nConvenience wrapper over [`dew_pressure_with`]. See it for details."]
 #[pyfunction(name = "dew_pressure")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__saturation__dew_pressure(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     temperature: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState> {
+    package: Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel,
+) -> PyResult<Py_outram_park_fork_dwsim_libs__prelude__SaturationState> {
     err(
         ::outram_park_fork_dwsim_libs::thermo::saturation::dew_pressure(
             &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
@@ -42622,27 +42762,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__saturation__dew_pressure(
             package.inner,
         ),
     )
-    .map(|v| Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState { inner: v })
-}
-
-// @item fn:outram_park_fork_dwsim_libs::thermo::saturation::dew_temperature
-#[doc = "Dew **temperature** at fixed pressure using a [`PropertyPackageModel`].\n\nConvenience wrapper over [`dew_temperature_with`]. See it for details."]
-#[pyfunction(name = "dew_temperature")]
-pub fn fn_outram_park_fork_dwsim_libs__thermo__saturation__dew_temperature(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
-    z: Vec<f64>,
-    pressure: f64,
-    package: Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel,
-) -> PyResult<Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState> {
-    err(
-        ::outram_park_fork_dwsim_libs::thermo::saturation::dew_temperature(
-            &components.into_iter().map(|e| e.inner).collect::<Vec<_>>(),
-            &z.into_iter().map(|e| e).collect::<Vec<_>>(),
-            pressure,
-            package.inner,
-        ),
-    )
-    .map(|v| Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState { inner: v })
+    .map(|v| Py_outram_park_fork_dwsim_libs__prelude__SaturationState { inner: v })
 }
 
 // @item fn:outram_park_fork_dwsim_libs::thermo::seawater::boiling_point_elevation
@@ -42861,7 +42981,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__sour_water__rankine(t: f64) -> f6
 #[doc = "Michelsen phase-stability test: is the single feed phase `z` at `(T, P)`\nstable, or will it split?\n\nLaunches two Wilson-seeded successive-substitution trials — vapour-like\n(`Y_i = z_i K_i`) and liquid-like (`Y_i = z_i / K_i`) — to locate stationary\npoints of the tangent-plane-distance surface. The feed is declared\n**unstable** if either trial converges to a **non-trivial** composition whose\ntangent-plane distance is negative (`tm < −STABILITY_TOL`): such a `w` is a\ncomposition of lower Gibbs energy than the feed.\n\n# Trivial-solution guard\n\nA trial that drifts back to the feed (`Σ_i (w_i − z_i)² < TRIVIAL_TOL`) is the\n*trivial* stationary point `w = z` (`tm = 0` by construction) and is\n**discarded** — it carries no information about a phase split. This is exactly\nwhy DWSIM runs the test with two opposed seeds: at least one must leave the\nfeed for an instability to be found.\n\n# Convergence criteria\n\nEach trial iterates `ln Y_i ← d_i − ln φ_i(w)` (with `w = Y/ΣY`) until the sum\nof squared `ln Y` changes drops below [`SS_TOL`] (`1e-12`), for at most\n[`MAX_SS_ITER`] (`2000`) iterations; a trial that fails to converge in that\nbudget is dropped (contributes no stationary point). Successiv"]
 #[pyfunction(name = "stability_test")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__stability__stability_test(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     t: f64,
     p: f64,
@@ -42882,7 +43002,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__stability__stability_test(
 #[doc = "Tangent-plane distance `tm(w) = Σ_i w_i ( ln w_i + ln φ_i(w) − ln z_i − ln φ_i(z) )`\n\\[-\\] of a trial composition `w` relative to the feed `z`.\n\nThis is the vertical gap between the reduced molar Gibbs-energy-of-mixing\nsurface at `w` and the tangent hyperplane at `z` (both at the same `T`, `P`).\n`tm(w) ≥ 0` for all `w` ⟺ the feed phase is stable; any `tm(w) < 0` means a\ndistinct phase of composition `w` is more stable than the feed.\n\n# Units / ranges\n\n- `components`, `z`, `w`: equal length; `z`, `w` are mole fractions \\[-\\] that\n  should each sum to 1, with `z_i > 0` (the feed must contain every component,\n  since `ln z_i` appears). Components of `w` equal to 0 contribute a zero term\n  (`w_i ln w_i → 0`) and are skipped.\n- `t` \\[K\\] > 0, `p` \\[Pa\\] > 0.\n- `eos`: the [`CubicEos`] fugacity model (`k_ij = 0`); both `ln φ(z)` and\n  `ln φ(w)` use the Gibbs-selected root (see [`ln_phi_min_gibbs`]).\n\n# Special values\n\n`tangent_plane_distance(.., z, z, ..)` is `0.0` **exactly** — the trial equals\nthe feed, every bracket cancels term-by-term. This is the trivial solution.\n\n# Returns\n\nThe scalar `tm` \\[-\\]. Dimensionless (it is a Gibbs energy divided by `RT`)."]
 #[pyfunction(name = "tangent_plane_distance")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__stability__tangent_plane_distance(
-    components: Vec<Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    components: Vec<Py_outram_park_fork_dwsim_libs__prelude__Component>,
     z: Vec<f64>,
     w: Vec<f64>,
     t: f64,
@@ -42903,7 +43023,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__stability__tangent_plane_distance
 #[doc = "Pure-component low-pressure vapour thermal conductivity by the **Ely-Hanley**\nextended-corresponding-states method (methane reference fluid).\n\nPhysical quantity: vapour thermal conductivity `λ_V` [W/(m·K)] at `T`.\nPorted from DWSIM `FluidProperties.vb:437` `condtg_elyhanley`:\n```text\nλ_V = λ* + (1000 η* / M) 1.32 (Cv − 3R/2)\n```\nwhere `λ*`, `η*` come from the methane reference fluid mapped through the\nshape factors `f`, `h`, `θ`, `φ` and the Hanley `η₀(T₀)` polynomial (nine\n`Cₙ T₀^((n−4)/3)` terms). See the upstream source for the full shape-factor\nexpressions, reproduced verbatim here.\n\nInputs (DWSIM `AUX_VAPTHERMCONDi`, `PropertyPackage.vb:7333`, supplies these):\n- `component` — supplies `Tc` [K], `Vc` [m³/mol], `ω` [-], `M` [kg/mol].\n- `critical_compressibility` — `Zc` [-]. **Not on [`Component`]** — pass\n  explicitly (a reasonable estimate is `Zc = 0.291 − 0.08 ω`, DWSIM `Zc1`).\n- `isochoric_heat_capacity` — `Cv` [J/(mol·K)], the ideal-gas\n  constant-volume molar heat capacity (DWSIM uses `Cp·M − R`).\n\nValid range: low-pressure non-polar vapour. **This routine is a faithful\ntranslation whose numeric output is verified against the DWSIM formula\n(see the test), not a tight benchm"]
 #[pyfunction(name = "gas_thermal_conductivity_ely_hanley")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__gas_thermal_conductivity_ely_hanley(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
     critical_compressibility: f64,
     isochoric_heat_capacity: f64,
@@ -42965,7 +43085,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__gas_viscosity_jossi_st
 #[doc = "Low-pressure (dilute) gas viscosity of a pure component by the **Lucas\ncorresponding-states** method.\n\nPhysical quantity: dynamic viscosity `η` of the vapour at temperature `T`\nand (implicitly) low pressure, where the pressure/density correction is\nnegligible. Ported from DWSIM `FluidProperties.vb:216` `viscg_lucas`:\n```text\nξ  = 0.176 (Tc / (M³ Pc⁴))^(1/6)          [Tc in K, M in g/mol, Pc in bar]\nηξ = 0.807 Tr^0.618 − 0.357 e^(−0.449 Tr) + 0.34 e^(−4.058 Tr) + 0.018\nη  = (ηξ / ξ) × 10⁻⁷ Pa·s                  [ηξ/ξ is in micropoise]\n```\n`Tc`, `Pc`, `M` are read from `component`; `Tr = T/Tc`.\n\nValid range: dilute gas, `Tr` roughly 0.3–15; stated accuracy of the Lucas\nlow-pressure method is ~1–3 % for non-polar gases (Poling, Prausnitz &\nO'Connell, *The Properties of Gases and Liquids*, 5th ed., §9-4)."]
 #[pyfunction(name = "gas_viscosity_lucas")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__gas_viscosity_lucas(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
 ) -> f64 {
     to_si(
@@ -43012,7 +43132,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__gas_viscosity_wilke(
 #[doc = "Pure-component saturated-liquid thermal conductivity by the **Latini**\nmethod.\n\nPhysical quantity: liquid thermal conductivity `λ_L` [W/(m·K)] at `T`.\nPorted from DWSIM `FluidProperties.vb:381` `condl_latini`:\n```text\nA = A* Tb^α / (M^β Tc^γ)\nλ = A (1 − Tr)^0.38 / Tr^(1/6)            (λ = 0 if Tr > 0.98)\n```\nwith `(A*, α, β, γ)` set by [`LatiniFluidType`]. `Tb`, `Tc`, `M` from\n`component`; `Tr = T/Tc`.\n\n**Fidelity note:** DWSIM's `AUX_CONDTL` always calls this with an empty\n`Tipo` (→ [`LatiniFluidType::SaturatedHydrocarbon`]) regardless of the actual\ncompound family; the other families are exposed here for completeness.\n\nValid range: `Tr < 0.98`; typical accuracy ~10 % for the intended families\n(Poling et al., §10-9)."]
 #[pyfunction(name = "liquid_thermal_conductivity_latini")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__liquid_thermal_conductivity_latini(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
     fluid_type: Py_outram_park_fork_dwsim_libs__thermo__transport__LatiniFluidType,
 ) -> f64 {
@@ -43049,7 +43169,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__liquid_thermal_conduct
 #[doc = "Pure-component saturated-liquid viscosity by the **Letsou-Stiel**\ncorresponding-states method.\n\nPhysical quantity: dynamic viscosity `η_L` of the saturated liquid at `T`.\nPorted from DWSIM `FluidProperties.vb:142` `viscl_letsti`:\n```text\nξ  = 0.176 (Tc / (M³ Pc⁴))^(1/6)          [Tc in K, M in g/mol, Pc in bar]\nη⁰ = (2.648 − 3.725 Tr + 1.309 Tr²) × 10⁻³\nη¹ = (7.425 − 13.39 Tr + 5.933 Tr²) × 10⁻³\nη  = (η⁰ + ω η¹) / ξ / 1000  Pa·s\n```\n`Tc`, `Pc`, `ω`, `M` from `component`; `Tr = T/Tc`.\n\nValid range: reduced temperature roughly **0.76 ≤ Tr ≤ 0.98** (a\nnear-critical-liquid corresponding-states correlation); typical accuracy\n~15 % in-range, degrading rapidly below Tr ≈ 0.7 (Poling et al., §9-11)."]
 #[pyfunction(name = "liquid_viscosity_letsou_stiel")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__liquid_viscosity_letsou_stiel(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
 ) -> f64 {
     to_si(
@@ -43083,7 +43203,7 @@ pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__liquid_viscosity_mixtu
 #[doc = "Pure-component liquid surface tension by the **Brock-Bird** corresponding-\nstates method.\n\nPhysical quantity: surface tension `σ` [N/m] of the saturated liquid at `T`.\nPorted from DWSIM `FluidProperties.vb:120` `sigma_bb`:\n```text\nQ   = 0.1196 [1 + Tbr ln(Pc/1.01325) / (1 − Tbr)] − 0.279   [Pc in bar]\nσ   = Pc^(2/3) Tc^(1/3) Q (1 − Tr)^(11/9) / 1000  N/m\n```\n`Tc`, `Pc`, `Tb` from `component`; `Tr = T/Tc`, `Tbr = Tb/Tc`. If the normal\nboiling point is unknown (`Tb ≤ 0` / non-finite) DWSIM substitutes\n`Tb = 0.7 Tc`. Returns `0` for `T ≥ Tc` (the interface has vanished), so `σ`\ngoes to zero as `T → Tc`.\n\nValid range: `Tr < 1`; typical accuracy ~5 % for non-polar/slightly-polar\nliquids (Poling et al., §12-3)."]
 #[pyfunction(name = "surface_tension_brock_bird")]
 pub fn fn_outram_park_fork_dwsim_libs__thermo__transport__surface_tension_brock_bird(
-    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__thermo__Component>,
+    component: PyRef<'_, Py_outram_park_fork_dwsim_libs__prelude__Component>,
     temperature: f64,
 ) -> f64 {
     to_si(
@@ -43729,28 +43849,20 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__Stage>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__StageProfile>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__UnderwoodMode>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__columns__bubble_point2__ModifiedWangHenkeSolver>(
-    )?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__bubble_point__TemperatureUpdate>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__columns__bubble_point__WangHenkeSolver>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumn>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumnOperating>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumnProfiles>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__dynamic__DynamicColumnState>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__dynamic__TrayHydraulics>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__columns__initial_estimates__RigorousColumn>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__linalg__RootFindOptions>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__linalg__RootFindResult>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__model__SolvingScheme>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__model__StreamBehavior>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__model__StreamKind>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__model__StreamPhase>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__columns__newton_raphson__NaphtaliSandholmSolver>(
-    )?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__specs__SpecEvaluation>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__columns__sum_rates__SumRatesSolver>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnEnthalpyModel>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__columns__thermo_bridge__ColumnThermo>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__compressor__PolytropicResult>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__dynamics__CauseAndEffectItem>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__dynamics__CauseAndEffectMatrix>()?;
@@ -43899,18 +44011,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__RiaziError>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__SpecificGravityCurveKind>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__TbpCurveFit>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__BlackOilCrude>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnConfig>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnError>(
-    )?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnResult>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeColumnSetup>(
-    )?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CrudeCut>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_distillation__CutResult>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeCommands>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudePlant>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__crude_plant__CrudeSnapshot>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__generate_compounds__PropertyDistribution>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__lm__LmError>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__petroleum__lm__LmModel>()?;
@@ -43926,38 +44026,60 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_fork_dwsim_libs__pipe__beggs_brill__FlowRegime>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__pipe__lockhart_martinelli__LockhartMartinelliResult>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__pipe__transient__PipeCell>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__BlackOilCrude>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ColumnThermo>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__Component>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ComponentError>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ConversionReactor>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnConfig>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnError>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnResult>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudeColumnSetup>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudeCommands>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudeCut>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudePlant>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CrudeSnapshot>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__Cstr>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__CutResult>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__EquilibriumReactor>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__FlashError>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__FlashResult>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__GibbsReactor>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__IntensiveState>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ModifiedWangHenkeSolver>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__NaphtaliSandholmSolver>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__OutletStream>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__Pfr>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__PhaseOutlet>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__PropertyPackageModel>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__PumpInlet>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__PumpResult>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__Reaction>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ReactionBasis>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ReactionComponent>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ReactionKind>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ReactorError>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ReactorFeed>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ReactorModel>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__ReactorOutcome>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__RigorousColumn>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SaturationError>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SaturationState>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__Separator>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SeparatorError>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SeparatorFeed>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SeparatorMode>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SeparatorResult>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SplitError>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SplitResult>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SplitSpec>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__SumRatesSolver>()?;
+    m.add_class::<Py_outram_park_fork_dwsim_libs__prelude__WangHenkeSolver>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__reactions__AdsorptionTerm>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__reactions__EquilibriumConstant>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__reactions__LangmuirHinshelwood>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactions__Reaction>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactions__ReactionBasis>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactions__ReactionComponent>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactions__ReactionKind>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__ConversionReactor>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__Cstr>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__EquilibriumReactor>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__GibbsFormation>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__GibbsReactor>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__Pfr>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__ReactorError>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__ReactorFeed>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__ReactorModel>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__reactors__ReactorOutcome>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__separator__PhaseOutlet>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__separator__Separator>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__separator__SeparatorError>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__separator__SeparatorFeed>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__separator__SeparatorMode>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__separator__SeparatorResult>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__splitter__IntensiveState>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__splitter__OutletStream>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__splitter__SplitError>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__splitter__SplitResult>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__splitter__SplitSpec>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__Component>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__activity__ActivityModel>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__activity__NrtlParams>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__activity__UniquacParams>()?;
@@ -43969,7 +44091,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__HydrocarbonSpecies>(
     )?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__component__ComponentError>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__BinaryInteraction>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__CubicEos>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__cubic_eos__Phase>()?;
@@ -43991,8 +44112,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__energy_flash__EnergyFlashError>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__energy_flash__EnergyFlashOptions>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__energy_flash__EnergyFlashResult>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__flash__FlashError>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__flash__FlashResult>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__flash__NestedLoopsOptions>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__flash_immiscible__ImmiscibleError>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__flash_immiscible__ImmiscibleOptions>()?;
@@ -44033,11 +44152,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__lkp__LkFluid>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__lkp__Phase>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__pr_lee_kesler__PengRobinsonLeeKesler>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__property_package__PropertyPackageModel>(
-    )?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationError>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationOptions>()?;
-    m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__saturation__SaturationState>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__seawater__SeawaterProperties>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__seawater__SeawaterProperty>()?;
     m.add_class::<Py_outram_park_fork_dwsim_libs__thermo__seawater__SeawaterState>()?;
@@ -44555,14 +44670,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__petroleum__crude_distillation__crude_column_setup,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__petroleum__crude_distillation__solve_crude_column,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
         fn_outram_park_fork_dwsim_libs__petroleum__crude_plant__steady_reboiler_duty_watts,
         m
     )?)?;
@@ -44811,6 +44918,50 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     )?)?;
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_dwsim_libs__pipe__lockhart_martinelli__lockhart_martinelli_pressure_drop, m)?)?;
     m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__bubble_temperature,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__crude_column_setup,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__dew_temperature,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__reference__benzene,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__reference__carbon_dioxide,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__reference__ethane,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__reference__methane,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__reference__nitrogen,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__reference__toluene,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__reference__water,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
+        fn_outram_park_fork_dwsim_libs__prelude__solve_crude_column,
+        m
+    )?)?;
+    m.add_function(wrap_pyfunction!(
         fn_outram_park_fork_dwsim_libs__pump__modes__evaluate,
         m
     )?)?;
@@ -44941,34 +45092,6 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(fn_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__pure_liquid_fugacity_coefficient, m)?)?;
     m.add_function(wrap_pyfunction!(
         fn_outram_park_fork_dwsim_libs__thermo__chao_seader_grayson__vapor_fugacity_coefficients,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__component__reference__benzene,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__component__reference__carbon_dioxide,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__component__reference__ethane,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__component__reference__methane,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__component__reference__nitrogen,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__component__reference__toluene,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__component__reference__water,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
@@ -45300,15 +45423,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__saturation__bubble_temperature,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
         fn_outram_park_fork_dwsim_libs__thermo__saturation__dew_pressure,
-        m
-    )?)?;
-    m.add_function(wrap_pyfunction!(
-        fn_outram_park_fork_dwsim_libs__thermo__saturation__dew_temperature,
         m
     )?)?;
     m.add_function(wrap_pyfunction!(

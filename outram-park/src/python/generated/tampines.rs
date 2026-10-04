@@ -255,15 +255,15 @@ impl Py_tampines__balance_of_plant__Pump {
     // @item field:tampines::balance_of_plant::Pump::specification
     #[cfg(feature = "outram-park-fork-dwsim-libs")]
     #[getter(specification)]
-    pub fn get_specification(&self) -> crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification{
+    pub fn get_specification(&self) -> crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification{
         let v = self.inner.specification.clone();
-        crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification { inner: v }
+        crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification { inner: v }
     }
     #[cfg(feature = "outram-park-fork-dwsim-libs")]
     #[setter(specification)]
     pub fn set_specification(
         &mut self,
-        v: crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification,
+        v: crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification,
     ) {
         self.inner.specification = v.inner;
     }
@@ -282,7 +282,7 @@ impl Py_tampines__balance_of_plant__Pump {
     #[doc = "Construct a new pump with the given operating-point specification and\nefficiency."]
     #[new]
     pub fn new(
-        specification: crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__pump__modes__PumpSpecification,
+        specification: crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__prelude__PumpSpecification,
         efficiency: f64,
     ) -> Py_tampines__balance_of_plant__Pump {
         Py_tampines__balance_of_plant__Pump {
@@ -295,8 +295,8 @@ impl Py_tampines__balance_of_plant__Pump {
     // @item method:tampines::balance_of_plant::Pump::evaluate
     #[cfg(feature = "outram-park-fork-dwsim-libs")]
     #[doc = "Evaluate this pump's outlet state for the given inlet.\n\nNot yet implemented as a TAMPINES component method -- the underlying\nalgebra already exists and works\n([`outram_park_fork_dwsim_libs::pump::modes::evaluate`]); this\nwrapper's job (dispatching to it, and in future threading through a\nreal flash for outlet temperature) is not yet wired up."]
-    pub fn evaluate(&self, _inlet: crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__pump__modes__PumpInlet) -> PyResult<crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult>{
-        err(::tampines::balance_of_plant::Pump::evaluate(&self.inner, _inlet.inner)).map(|v| crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__pump__modes__PumpResult { inner: v })
+    pub fn evaluate(&self, _inlet: crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__prelude__PumpInlet) -> PyResult<crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__prelude__PumpResult>{
+        err(::tampines::balance_of_plant::Pump::evaluate(&self.inner, _inlet.inner)).map(|v| crate::python::generated::outram_park_fork_dwsim_libs::Py_outram_park_fork_dwsim_libs__prelude__PumpResult { inner: v })
     }
     pub fn __repr__(&self) -> String {
         format!("{:?}", self.inner)

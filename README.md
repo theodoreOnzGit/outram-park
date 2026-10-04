@@ -27,13 +27,45 @@ same time, enabling students and teachers alike to interact with these.
 
 
 
+# How it started
+
+It started as a sketch. An early concept from 2025, drawn by hand on graph
+paper, titled **"Natural FHR Simulator, Mark I"**: a fluoride-salt-cooled
+high-temperature reactor (FHR) you could watch and operate.
+
+![Hand-drawn 2025 concept sketch of the Natural FHR Simulator Mark I: a pebble-bed core with control rod, graphite reflector and decay-heat removal loop; a primary salt pump labelled TUAS; an intermediate salt-to-salt heat exchanger; a helical steam generator, single-stage expansion turbine and condenser labelled TAMPINES](docs/images/fhr-simulator-mark-i-concept-2025.jpg)
+
+Everything on that page was a question for code to answer. On the left, the
+core: a pebble bed with a temperature-sensitive display, a control rod, a
+graphite reflector and a decay-heat removal loop. In the middle, a primary
+salt pump driving the salt through an intermediate salt-to-salt heat
+exchanger. On the right, a helical steam generator feeding a single-stage
+expansion turbine and a condenser. The sketch is honest about what it left
+out: "no HP, LP turbine for simplicity", and a primary pump that "really has
+parallel but simplify".
+
+Two labels on it already name the pieces that would carry the idea: **TUAS**
+under the salt loops, and **TAMPINES** under the steam side. Both are crates in
+[`outram-park-backend`](https://github.com/theodoreOnzGit/outram-park-backend)
+today (`tuas_boussinesq_solver` and `tampines`), and the rest of OUTRAM PARK
+grew around them.
+
 # Contents
 
 This repository contains
 
-1. Finished simulators for four thermal spectrum reactor types. HTGR, BWRs,
-PWRs, and FHRs.
+1. ~~Finished simulators for four thermal spectrum reactor types. HTGR, BWRs,
+PWRs, and FHRs.~~ **Corrected 2026-10-03: no simulator is finished yet.**
+   - **Here, placeholders only:** `outram-park/src/{htgr,fhr,bwr,ipwr,gen_3_conventional_reactor,fukushima}_sim/` are entry points for planned simulators. Each currently only prints "Hello, world!".
+   - **The real work so far lives in the backend's digital-twin engine** ([`outram-park-backend/crates/outram-park-digital-twin-engine`](https://github.com/theodoreOnzGit/outram-park-backend/tree/develop/crates/outram-park-digital-twin-engine)):
+     - `htgr_sim_v1`: an HTR-10 simulator in development, **not yet validated**;
+     - `fhr_sim_v2`: a prototype;
+     - `distillation_sim_v1`: a prototype.
+   - **There is no BWR or PWR simulator yet.**
 2. Presentations for using these simulators to teach reactor concepts.
+3. (Planned) a teaching website with lessons, live simulations and code,
+   rendered from `outram-park-backend`'s documentation. See
+   [the teaching-site epic](https://github.com/theodoreOnzGit/outram-park-backend/issues/509).
 
 # Teaching Content and Context
 
@@ -91,15 +123,19 @@ Safety & Social:
 
 ```
 
-For the simulators, only certain questions can be answered with respect 
-to this list.
+Once built, the simulators are intended to address only certain questions
+from this list.
 
 1. What are SMRs and how do they differ from traditional reactors, why are they safer?
 2. Do maritime reactors work?
 3. What happens during a malfunction?
 
-The goal of these simulators is to demonstrate the safety of reactors,
+The goal of these simulators is to ~~demonstrate the safety of reactors~~
+**illustrate passive-safety concepts and accident behaviour for education**,
 which means they need to simulate accident scenarios with reasonable accuracy.
+They are for education and outreach only, not for licensing, safety
+decisions or emergency response (see `outram-park-backend`'s
+`RESPONSIBLE_USE.md`).
 
 To do so, we will have presentations, which facilitate simulator use to 
 demonstrate passive safety and accident scenario simulations for SMRs.
