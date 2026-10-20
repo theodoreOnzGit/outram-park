@@ -6,8 +6,10 @@ exclude = ["outram-park-backend"]
 # Shared package metadata. The `outram-park` member keeps its own `version`
 # but inherits everything else from here, same convention as
 # outram-park-backend/Cargo.toml's [workspace.package] (this is the same
-# project's suite, so the author/license identity matches that file exactly;
-# only homepage/repository point at this repo instead of the backend one).
+# project's suite, so the author identity matches that file exactly; the
+# licence does not: outram-park as a whole is AGPL-3.0-only (maintainer,
+# 2026-10-20), while most backend crates are GPL-3.0-only, which GPLv3 s13
+# lets it combine with; homepage/repository point at this repo).
 [workspace.package]
 edition = "2024"
 authors = [
@@ -18,7 +20,7 @@ authors = [
     "National University of Singapore (NUS)",
     "Repository Contributors",
 ]
-license = "GPL-3.0-only"
+license = "AGPL-3.0-only"
 homepage = "https://github.com/theodoreOnzGit/outram-park"
 repository = "https://github.com/theodoreOnzGit/outram-park"
 categories = ["science"]

@@ -164,3 +164,10 @@ https://github.com/jules-leguy/midcenturymodern?tab=readme-ov-file
 
 
 
+
+## Licence
+
+`outram-park` as a whole is licensed under the **GNU Affero General Public
+License v3.0 only** (`AGPL-3.0-only`, see [`LICENSE`](LICENSE)). The
+`outram-park-backend` crates it builds on keep their own licences, GPL-3.0-only
+or AGPL-3.0-only per crate; GPLv3 section 13 permits combining them.

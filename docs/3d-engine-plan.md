@@ -27,7 +27,7 @@ A Singapore MRT station, matching the OUTRAM PARK / TUAS / TAMPINES / TEH-O / NE
 
 `https://github.com/Kingo64/2009Scape` was evaluated and **rejected as a source**. Findings:
 
-- The repository carries **no license** (GitHub `licenseInfo: null`); it is a stale 2020 fork of `enderkitsune/RS-2009`. Nobody upstream held the rights to grant a licence, so nothing in it can be relicensed into this GPL-3.0 project.
+- The repository carries **no license** (GitHub `licenseInfo: null`); it is a stale 2020 fork of `enderkitsune/RS-2009`. Nobody upstream held the rights to grant a licence, so nothing in it can be relicensed into this project (GPL-3.0 then; ~~GPL-3.0~~ **AGPL-3.0-only since 2026-10-20**, maintainer).
 - `Client/` is **343 files, ~3.5 MB** of decompiler output in package `org.runite.jagex`, with identifiers such as `Class140_Sub1_Sub1`, `aShortArray3808`, `anInt3823`. It is Jagex's proprietary client decompiled and partially renamed — not a clean-room reimplementation.
 - It therefore cannot produce a derivation record meeting the standard set by `RESEARCH_INTEGRITY_AND_PROVENANCE.md` and `TRISO_ATOPS_DERIVATION.md` in the backend.
 
@@ -57,7 +57,7 @@ The "no licence" finding is true of **`Kingo64/2009Scape` specifically** (verifi
 
 This changes the picture but does not change the decision, for two reasons:
 
-1. **AGPL-3.0 into a GPL-3.0-only project is a licence decision, not a detail.** The two are combinable, but the resulting work carries AGPL obligations — `outram-park` would effectively become AGPL, and AGPL's network-service clause matters if a browser-hosted simulator is ever on the roadmap.
+1. **AGPL-3.0 into a GPL-3.0-only project is a licence decision, not a detail.** (**CORRECTED 2026-10-20:** `outram-park` is now AGPL-3.0-only as a whole, so this reason no longer applies; reason 2 still does.) The two are combinable, but the resulting work carries AGPL obligations — `outram-park` would effectively become AGPL, and AGPL's network-service clause matters if a browser-hosted simulator is ever on the roadmap.
 2. **A licence header only covers what the licensor owns.** Whether RT4-Client is a genuine rewrite or still carries decompiled Jagex lineage is **not verified here** and would need checking before relying on it. Not asserting either way.
 
 Either way it is moot for DOVER: even a perfectly-licensed RuneScape client is a *game* client — JS5 cache, packet parsing, ISAAC, CS2 interpreter, interface system — and in Java. The overlap with "render a nuclear plant" remains near zero.
