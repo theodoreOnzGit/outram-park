@@ -41,21 +41,21 @@ else in `outram-park` (this top-level repo), this file governs instead.
 
 ### Consuming its crates from the `outram-park` crate
 
-`outram-park/Cargo.toml` depends on every `outram-park-backend` crate by
-path, each as an optional dependency gated behind a same-named feature (see
-`outram-park/src/backend/`, one re-export module per backend crate). This
-requires the root workspace's `[workspace] exclude = ["outram-park-backend"]`
-(in this file's own `Cargo.toml`) — without it, Cargo's workspace-root
-discovery for those path dependencies incorrectly resolves against this
-repo's own `[workspace]` instead of `outram-park-backend`'s, and every
-backend crate that uses `<dep>.workspace = true` inheritance (i.e. nearly
-all of them) fails to build with "`workspace.dependencies` was not
-defined". Don't remove that `exclude` line.
+**`outram-park/Cargo.toml` depends on `outram-park-backend` crates ONLY as
+published crates.io versions — never by local path (maintainer, 2026-10-20).**
+Each is an optional dependency gated behind a same-named feature, with one
+re-export module per crate in `outram-park/src/backend/`, and `all-backends`
+turns them all on. Every backend crate is wired in; when the backend gains a
+crate, add it here in the same release.
 
-Because `outram-park`'s own `Cargo.lock` is a separate resolution from
-`outram-park-backend`'s, a transitive dependency can independently resolve
-to a version newer than what this environment's `rustc` supports even
-though backend's own lockfile pins an older, compatible one (hit this with
-`kstring` via `kovan-discovery`'s `gix` dependency). Fix with
-`cargo update -p <pkg> --precise <version-from-outram-park-backend/Cargo.lock>`
-rather than upgrading the toolchain.
+~~`outram-park/Cargo.toml` depends on every `outram-park-backend` crate by
+path~~ **CORRECTED 2026-10-20**: path dependencies were removed. The backend
+and `outram-park` are **published in lockstep**: the backend release goes to
+crates.io first (`cargo publish --workspace` in the backend), then the pins
+here move to the versions just published, and `outram-park` is published
+after them. Until a version is live on crates.io, a build that enables its
+feature cannot resolve it; that is expected, not a defect to patch with a
+path dependency.
+
+The root `Cargo.toml` keeps `[workspace] exclude = ["outram-park-backend"]` so
+Cargo never mistakes the submodule's own workspace for a member of this one.

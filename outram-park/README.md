@@ -1,5 +1,8 @@
 # outram-park (frontend crate)
 
+**OUTRAM PARK**: Open-source Unified TRAnsient **Multi-Physics** (the M-P also reads
+**Multi-Phase**, its original reading) Advanced Reactor simulation Kit.
+
 Frontend crate for the [outram-park-backend](https://github.com/theodoreOnzGit/outram-park-backend)
 reactor simulation engine. One crate, three faces:
 

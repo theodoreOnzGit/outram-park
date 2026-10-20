@@ -19,6 +19,8 @@ pub mod kovan_literature;
 pub mod kovan_metrics;
 #[cfg(feature = "kovan-semantics")]
 pub mod kovan_semantics;
+#[cfg(feature = "kovan-web")]
+pub mod kovan_web;
 
 // Core physics / coupling
 #[cfg(feature = "bedok")]
@@ -87,3 +89,31 @@ pub mod outram_park_mpi;
 // Other
 #[cfg(feature = "raffles")]
 pub mod raffles;
+
+// Foundations
+#[cfg(feature = "petir")]
+pub mod petir;
+#[cfg(feature = "farrer-park")]
+pub mod farrer_park;
+
+// Safety, source term and offsite consequences
+#[cfg(feature = "bishan")]
+pub mod bishan;
+#[cfg(feature = "buangkok")]
+pub mod buangkok;
+#[cfg(feature = "changi")]
+pub mod changi;
+#[cfg(feature = "sembawang")]
+pub mod sembawang;
+#[cfg(feature = "redhill")]
+pub mod redhill;
+#[cfg(feature = "pasir-ris")]
+pub mod pasir_ris;
+
+// Applications and orchestration
+#[cfg(feature = "dhoby-ghaut")]
+pub mod dhoby_ghaut;
+#[cfg(feature = "dover")]
+pub mod dover;
+#[cfg(feature = "kaki-bukit")]
+pub mod kaki_bukit;

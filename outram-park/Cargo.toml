@@ -7,7 +7,12 @@ license.workspace = true
 homepage.workspace = true
 repository.workspace = true
 categories.workspace = true
+description = "OUTRAM PARK (Open-source Unified TRAnsient Multi-Physics Advanced Reactor simulation Kit; the M-P also reads Multi-Phase, its original name): one crate that pulls in every outram-park-backend crate behind a feature, plus a desktop GUI, a CLI and a TUI. For research, education and verification and validation only; not for reactor operation, licensing or safety decisions."
+readme = "README.md"
 default-run = "outram-park"
+# The backend-wiring guard reads the outram-park-backend submodule, which the
+# crates.io package does not contain.
+exclude = ["tests/backend_wiring.rs"]
 
 # `outram-park` is the frontend crate for the outram-park-backend simulation
 # engine. It serves three purposes:
@@ -87,6 +92,8 @@ all-backends = [
   "outram-park-fork-onix", "outram-park-fork-pflotran",
   "outram-park-fork-thermochimica", "njoy-outram-park-fork",
   "outram-mc-libs", "outram-park-mpi", "raffles",
+  "kovan-web", "petir", "farrer-park", "bishan", "buangkok", "changi",
+  "sembawang", "redhill", "pasir-ris", "dhoby-ghaut", "dover", "kaki-bukit",
 ]
 
 # One feature per outram-park-backend crate, each enabling only that crate's
@@ -102,6 +109,7 @@ kovan-discovery = ["dep:kovan-discovery"]
 kovan-literature = ["dep:kovan-literature"]
 kovan-metrics = ["dep:kovan-metrics"]
 kovan-semantics = ["dep:kovan-semantics"]
+kovan-web = ["dep:kovan-web"]
 
 # Core physics / coupling
 bedok = ["dep:bedok"]
@@ -142,6 +150,23 @@ outram-park-mpi = ["dep:outram-park-mpi"]
 # Other
 raffles = ["dep:raffles"]
 
+# Foundations
+petir = ["dep:petir"]
+farrer-park = ["dep:farrer-park"]
+
+# Safety, source term and offsite consequences
+bishan = ["dep:bishan"]
+buangkok = ["dep:buangkok"]
+changi = ["dep:changi"]
+sembawang = ["dep:sembawang"]
+redhill = ["dep:redhill"]
+pasir-ris = ["dep:pasir-ris"]
+
+# Applications and orchestration
+dhoby-ghaut = ["dep:dhoby-ghaut"]
+dover = ["dep:dover"]
+kaki-bukit = ["dep:kaki-bukit"]
+
 [dependencies]
 # CLI + TUI: always compiled in, pure-Rust and Termux/Android compatible.
 clap = { version = "4", features = ["derive"] }
@@ -160,55 +185,74 @@ pyo3 = { version = "0.29", optional = true }
 # ../outram-park-backend/Cargo.toml).
 uom = { version = "0.38", optional = true }
 
-# outram-park-backend crates, by path (in-tree, via the outram-park-backend
-# git submodule) rather than a crates.io version — mirrors that repo's own
-# "internal workspace crates" convention. All optional; each one is enabled
-# only by its own same-named feature above.
+# outram-park-backend crates, ONLY as published crates.io versions — never a
+# local path (maintainer, 2026-10-20). Backend and outram-park are published in
+# lockstep: a backend release goes to crates.io first, then these pins move to
+# it. All optional; each one is enabled only by its own same-named feature
+# above.
 
 # KOVAN toolchain
-kovan = { path = "../outram-park-backend/crates/kovan", version = "0.0.0", optional = true }
-kovan-codegen = { path = "../outram-park-backend/crates/kovan-codegen", version = "0.0.1", optional = true }
-kovan-common = { path = "../outram-park-backend/crates/kovan-common", version = "0.0.1", optional = true }
-kovan-discovery = { path = "../outram-park-backend/crates/kovan-discovery", version = "0.0.1", optional = true }
-kovan-literature = { path = "../outram-park-backend/crates/kovan-literature", version = "0.0.1", optional = true }
-kovan-metrics = { path = "../outram-park-backend/crates/kovan-metrics", version = "0.0.0", optional = true }
-kovan-semantics = { path = "../outram-park-backend/crates/kovan-semantics", version = "0.0.1", optional = true }
+kovan = { package = "knowledge-oriented-vv-analysis-for-nuclear-sciences-kovan", version = "0.0.2", optional = true }
+kovan-codegen = { version = "0.0.3", optional = true }
+kovan-common = { version = "0.0.3", optional = true }
+kovan-discovery = { version = "0.0.3", optional = true }
+kovan-literature = { version = "0.0.2", optional = true }
+kovan-metrics = { version = "0.0.2", optional = true }
+kovan-semantics = { version = "0.0.2", optional = true }
+kovan-web = { version = "0.0.2", optional = true }
 
 # Core physics / coupling
-bedok = { path = "../outram-park-backend/crates/bedok", version = "0.0.0", optional = true }
-nee_soon = { path = "../outram-park-backend/crates/nee_soon", version = "0.0.2", optional = true }
-tampines = { path = "../outram-park-backend/crates/tampines", version = "0.0.2", optional = true }
-tampines-steam-tables = { path = "../outram-park-backend/crates/tampines-steam-tables", version = "0.2.9", optional = true }
-teh-o-prke = { path = "../outram-park-backend/crates/teh-o-prke", version = "0.1.5", optional = true }
-tuas_boussinesq_solver = { path = "../outram-park-backend/crates/tuas_boussinesq_solver", version = "0.1.6", optional = true }
-boon-lay = { path = "../outram-park-backend/crates/boon-lay", version = "0.1.3", optional = true }
-chem-eng-real-time-process-control-simulator = { path = "../outram-park-backend/crates/chem-eng-real-time-process-control-simulator", version = "0.2.1", optional = true }
+bedok = { version = "0.0.1", optional = true }
+nee_soon = { version = "0.0.4", optional = true }
+tampines = { version = "0.0.3", optional = true }
+tampines-steam-tables = { version = "0.3.0", optional = true }
+teh-o-prke = { version = "0.1.7", optional = true }
+tuas_boussinesq_solver = { version = "0.1.8", optional = true }
+boon-lay = { version = "0.2.1", optional = true }
+chem-eng-real-time-process-control-simulator = { version = "0.2.3", optional = true }
 
 # OpenFOAM-derived stack
-outram-foam-basic-lib = { path = "../outram-park-backend/crates/outram-foam-basic-lib", version = "0.1.3", optional = true }
-outram-foam-appbuilder-lib = { path = "../outram-park-backend/crates/outram-foam-appbuilder-lib", version = "0.1.3", optional = true }
-outram-foam-mesh = { path = "../outram-park-backend/crates/outram-foam-mesh", version = "0.1.0", optional = true }
-outram-foam-turbulence-lib = { path = "../outram-park-backend/crates/outram-foam-turbulence-lib", version = "0.1.2", optional = true }
-outram-foam-multiphase = { path = "../outram-park-backend/crates/outram-foam-multiphase", version = "0.0.2", optional = true }
-outram-foam-cli = { path = "../outram-park-backend/crates/outram-foam-cli", version = "0.1.0", optional = true }
+outram-foam-basic-lib = { version = "0.1.5", optional = true }
+outram-foam-appbuilder-lib = { version = "0.1.5", optional = true }
+outram-foam-mesh = { version = "0.1.1", optional = true }
+outram-foam-turbulence-lib = { version = "0.1.3", optional = true }
+outram-foam-multiphase = { version = "0.0.3", optional = true }
+outram-foam-cli = { version = "0.0.1", optional = true }
 
 # Meshing / visualization
-outram-blender = { path = "../outram-park-backend/crates/outram-blender", version = "0.0.4", optional = true }
-outram-park-digital-twin-engine = { path = "../outram-park-backend/crates/outram-park-digital-twin-engine", version = "0.0.2", optional = true }
-outram-park-fork-cfmesh = { path = "../outram-park-backend/crates/outram-park-fork-cfmesh", version = "0.0.1", optional = true }
+outram-blender = { version = "0.0.6", optional = true }
+outram-park-digital-twin-engine = { version = "0.0.3", optional = true }
+outram-park-fork-cfmesh = { version = "0.0.3", optional = true }
 
 # Ported/forked external codes
-outram-park-fork-coolprop = { path = "../outram-park-backend/crates/outram-park-fork-coolprop", version = "0.1.2", optional = true }
-outram-park-fork-dwsim-libs = { path = "../outram-park-backend/crates/outram-park-fork-dwsim-libs", version = "0.0.3", optional = true }
-outram-park-fork-liggghts = { path = "../outram-park-backend/crates/outram-park-fork-liggghts", version = "0.0.0", optional = true }
-outram-park-fork-moltres = { path = "../outram-park-backend/crates/outram-park-fork-moltres", version = "0.0.0", optional = true }
-outram-park-fork-offbeat = { path = "../outram-park-backend/crates/outram-park-fork-offbeat", version = "0.0.0", optional = true }
-outram-park-fork-onix = { path = "../outram-park-backend/crates/outram-park-fork-onix", version = "0.0.0", optional = true }
-outram-park-fork-pflotran = { path = "../outram-park-backend/crates/outram-park-fork-pflotran", version = "0.0.0", optional = true }
-outram-park-fork-thermochimica = { path = "../outram-park-backend/crates/outram-park-fork-thermochimica", version = "0.0.0", optional = true }
-njoy-outram-park-fork = { path = "../outram-park-backend/crates/njoy-outram-park-fork", version = "0.0.3", optional = true }
-outram-mc-libs = { path = "../outram-park-backend/crates/outram-mc-libs", version = "0.0.4", optional = true }
-outram-park-mpi = { path = "../outram-park-backend/crates/outram-park-mpi", version = "0.0.0", optional = true }
+outram-park-fork-coolprop = { version = "0.1.3", optional = true }
+outram-park-fork-dwsim-libs = { version = "0.0.4", optional = true }
+outram-park-fork-liggghts = { version = "0.0.2", optional = true }
+outram-park-fork-moltres = { version = "0.0.1", optional = true }
+outram-park-fork-offbeat = { version = "0.0.1", optional = true }
+outram-park-fork-onix = { version = "0.0.1", optional = true }
+outram-park-fork-pflotran = { version = "0.0.1", optional = true }
+outram-park-fork-thermochimica = { version = "0.0.1", optional = true }
+njoy-outram-park-fork = { version = "0.0.5", optional = true }
+outram-mc-libs = { version = "0.0.6", optional = true }
+outram-park-mpi = { version = "0.0.1", optional = true }
 
 # Other
-raffles = { path = "../outram-park-backend/crates/raffles", version = "0.0.0", optional = true }
+raffles = { version = "0.0.2", optional = true }
+
+# Foundations
+petir = { version = "0.0.2", optional = true }
+farrer-park = { version = "0.0.2", optional = true }
+
+# Safety, source term and offsite consequences
+bishan = { version = "0.0.1", optional = true }
+buangkok = { version = "0.0.1", optional = true }
+changi = { version = "0.0.1", optional = true }
+sembawang = { version = "0.0.1", optional = true }
+redhill = { version = "0.0.1", optional = true }
+pasir-ris = { version = "0.0.1", optional = true }
+
+# Applications and orchestration
+dhoby-ghaut = { version = "0.0.1", optional = true }
+dover = { package = "deck-based-open-source-visualisation-engine-for-reactors-dover", version = "0.0.1", optional = true }
+kaki-bukit = { version = "0.0.1", optional = true }

@@ -1,6 +1,9 @@
 # outram-park
 Open-source Unified TRAnsient Multi-Physics Advanced Reactor simulation Kit (OUTRAM PARK)
 
+The **M-P** reads either way: **Multi-Physics** or, its original reading,
+**Multi-Phase**. Both are correct.
+
 # Purpose 
 
 This repository is meant for students and teachers alike who want to learn 
