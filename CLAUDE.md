@@ -20,13 +20,6 @@ in.
 GitHub Issues on `theodoreOnzGit/outram-park`, and nowhere else.** Bugs, TODOs
 and roadmap items alike, via `gh issue create / comment / list`.
 
-~~The previous rule required every issue in both kopi-beans (`bn`) and GitHub
-Issues, cross-referenced.~~ **Retired 2026-10-03 at the maintainer's request
-("i just want gh issues only, to be simple")**, matching
-`outram-park-backend`, which deprecated `bn` on 2026-09-21. Do not create `bn`
-issues for this repo. The old `refs/heads/beads/store` ref is left in place as
-history.
-
 `outram-park-backend`'s issues are that repo's own concern, tracked in its own
 GitHub Issues per its own `CLAUDE.md`.
 
