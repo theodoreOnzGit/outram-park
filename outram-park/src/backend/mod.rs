@@ -57,6 +57,8 @@ pub mod outram_foam_cli;
 pub mod outram_blender;
 #[cfg(feature = "outram-park-digital-twin-engine")]
 pub mod outram_park_digital_twin_engine;
+#[cfg(feature = "dhoby-ghaut")]
+pub mod dhoby_ghaut;
 #[cfg(feature = "outram-park-fork-cfmesh")]
 pub mod outram_park_fork_cfmesh;
 

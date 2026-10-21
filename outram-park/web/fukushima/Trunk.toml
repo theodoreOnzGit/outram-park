@@ -1,0 +1,18 @@
+# Trunk configuration of the Fukushima Daiichi Unit 1 browser demo.
+#
+#   cd outram-park/web/fukushima && trunk serve --release     # http://127.0.0.1:8080
+#   cd outram-park/web/fukushima && trunk build --release     # into dist/
+#
+# Local only: this demo is NOT published on any Pages site (maintainer,
+# 2026-10-21).
+
+[build]
+target = "index.html"
+dist = "dist"
+# Stable file names: the worker script imports `fukushima_sim.js` by name.
+filehash = false
+release = true
+
+[serve]
+addresses = ["127.0.0.1"]
+port = 8080

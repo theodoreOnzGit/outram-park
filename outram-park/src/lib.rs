@@ -12,7 +12,9 @@
 #[cfg(feature = "gui")]
 pub mod gui;
 
+#[cfg(not(target_arch = "wasm32"))]
 pub mod cli;
+#[cfg(not(target_arch = "wasm32"))]
 pub mod tui;
 
 pub mod backend;
