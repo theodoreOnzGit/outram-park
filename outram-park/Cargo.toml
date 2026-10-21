@@ -1,6 +1,6 @@
 [package]
 name = "outram-park"
-version = "0.1.0"
+version = "0.1.1"
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
@@ -206,7 +206,7 @@ outram-foam-multiphase = { path = "../outram-park-backend/crates/outram-foam-mul
 outram-foam-cli = { path = "../outram-park-backend/crates/outram-foam-cli", version = "0.0.1", optional = true }
 
 # Meshing / visualization
-dhoby-ghaut = { path = "../outram-park-backend/crates/dhoby-ghaut", version = "0.0.1", optional = true }
+dhoby-ghaut = { path = "../outram-park-backend/crates/dhoby-ghaut", version = "0.0.2", optional = true }
 outram-blender = { path = "../outram-park-backend/crates/outram-blender", version = "0.0.6", optional = true }
 outram-park-digital-twin-engine = { path = "../outram-park-backend/crates/outram-park-digital-twin-engine", version = "0.0.3", optional = true }
 outram-park-fork-cfmesh = { path = "../outram-park-backend/crates/outram-park-fork-cfmesh", version = "0.0.3", optional = true }

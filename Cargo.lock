@@ -1959,7 +1959,7 @@ dependencies = [
 
 [[package]]
 name = "dhoby-ghaut"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "eframe",
  "egui",
@@ -6665,7 +6665,7 @@ dependencies = [
 
 [[package]]
 name = "outram-park"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "bedok",
  "boon-lay",
