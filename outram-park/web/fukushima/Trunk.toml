@@ -16,3 +16,7 @@ release = true
 [serve]
 addresses = ["127.0.0.1"]
 port = 8080
+
+# The Rust sources live two levels up; watch them so `trunk serve` rebuilds.
+[watch]
+watch = ["index.html", "fukushima_worker.js", "../../src", "../../Cargo.toml"]

@@ -15,12 +15,14 @@ pub fn run() {
     .expect("failed to launch the outram-park GUI");
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 #[derive(Default)]
 struct App;
 
+#[cfg(not(target_arch = "wasm32"))]
 impl eframe::App for App {
     fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show_inside(ui, |ui| {
+        egui::CentralPanel::default().show(ui, |ui| {
             ui.heading("outram-park");
             ui.label("GUI frontend scaffold — reactor simulators go here.");
         });

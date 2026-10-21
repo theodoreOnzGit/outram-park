@@ -27,7 +27,7 @@ pub const P_MAX_PA: f64 = 9.5e6;
 const N: usize = 500;
 
 /// Saturated-water properties at one pressure.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Sat {
     pub p_pa: f64,
     pub t_k: f64,
@@ -118,6 +118,30 @@ impl SatTable {
         }
         let (_, s, x) = resid(0.5 * (a + b));
         (0.0..=1.0).contains(&x).then_some((s, x))
+    }
+}
+
+impl SatTable {
+    /// Superheated steam past dry-out, continued from the saturated vapour
+    /// with the same specific volume `v`: `T = T_sat + (u - u_g)/c_v`,
+    /// `p = p_sat T/T_sat` (the saturated vapour's compressibility kept).
+    /// Continuous with [`SatTable::mixture`] at `x = 1`. `c_v` constant. [A]
+    /// Returns `(p, T)`.
+    pub fn superheated(&self, v: f64, u: f64) -> (f64, f64) {
+        const CV_STEAM: f64 = 1700.0;
+        let (mut a, mut b) = (P_MIN_PA.ln(), P_MAX_PA.ln());
+        for _ in 0..60 {
+            let m = 0.5 * (a + b);
+            // v_g falls with pressure.
+            if self.at(m.exp()).v_g > v {
+                a = m;
+            } else {
+                b = m;
+            }
+        }
+        let s = self.at((0.5 * (a + b)).exp());
+        let t = s.t_k + ((u - s.u_g) / CV_STEAM).max(0.0);
+        (s.p_pa * t / s.t_k, t)
     }
 }
 

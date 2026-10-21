@@ -54,6 +54,9 @@ path = "src/gen_3_conventional_reactor_sim/main.rs"
 [[bin]]
 name = "fukushima_sim"
 path = "src/fukushima_sim/main.rs"
+# Builds only with its feature (the backend crates it reaches through the
+# metacrate's re-exports): `--no-default-features --features fukushima`.
+required-features = ["fukushima"]
 
 [features]
 default = ["gui"]

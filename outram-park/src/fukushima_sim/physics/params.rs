@@ -96,6 +96,15 @@ pub const NORMAL_LEVEL_ABOVE_TAF_M: f64 = 4.4;
 /// (6.93 MPa gauge rated).
 pub const INITIAL_PRESSURE_PA: f64 = 7.03e6;
 
+/// Main steam isolation valves close this long after the scram, s; until
+/// then the pressure regulator keeps passing steam to the turbine bypass and
+/// condenser, holding the dome at its initial pressure. [U] INPO 11-005:
+/// MSIVs closed at about 14:47 on the loss of off-site power.
+pub const MSIV_CLOSURE_S: f64 = 60.0;
+/// Pressure-regulator gain while the bypass is open, kg/s per Pa above the
+/// initial pressure. [A] (any gain that holds the pressure within a few kPa).
+pub const BYPASS_GAIN_KG_S_PA: f64 = 1.0e-3;
+
 /// Relief valves: Unit 1 has electromatic relief valves plus spring safety
 /// valves. [U] count, set points and throat. While DC power lasts the relief
 /// valves lift at the relief set point; after the station blackout only the
@@ -139,6 +148,10 @@ pub const HOT_LEAK_M2: f64 = 3.0e-4;
 /// breach of this throat, m^2. [A] both.
 pub const LOWER_HEAD_FAILURE_K: f64 = 1500.0;
 pub const BREACH_M2: f64 = 0.01;
+
+/// Time over which debris in a wet lower plenum gives up its stored heat,
+/// s. [A] (quench of a debris bed takes minutes).
+pub const DEBRIS_QUENCH_S: f64 = 120.0;
 
 /// Zircaloy relocation: a node whose cladding reaches this, K, melts and
 /// slumps to the lower plenum. [U] Zircaloy-4 melts near 2100 K.

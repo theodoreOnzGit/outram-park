@@ -39,7 +39,6 @@ use super::wire::{Reader, Writer};
 /// Ideal-gas molar heat capacities, J/(mol K). [A] constant.
 const CV_N2: f64 = 20.8;
 const CV_H2: f64 = 20.5;
-const CP_N2: f64 = CV_N2 + R_GAS;
 const CP_H2: f64 = CV_H2 + R_GAS;
 /// Steam: constant `c_v`, J/(kg K), and IF97 saturated-vapour internal
 /// energy at 373.15 K, J/kg. [A] constant `c_v`.
@@ -72,6 +71,11 @@ pub struct ContainmentSnapshot {
     pub leak_gas_k: f64,
     /// Operators' order to open the wetwell vent (the disk must still burst).
     pub vent_ordered: bool,
+    /// After the lower head fails: the debris's decay power on the drywell
+    /// floor, W, and the injected water that now pours through, kg/s (at
+    /// the injection temperature).
+    pub ex_vessel_w: f64,
+    pub pedestal_inflow_kg_s: f64,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
@@ -107,6 +111,24 @@ pub struct Containment {
     flange_open: bool,
     exploded: bool,
     vented_h2_kg: f64,
+    /// Water on the drywell floor (pedestal), kg, and its temperature, K.
+    pedestal_kg: f64,
+    pedestal_t: f64,
+}
+
+/// Saturation temperature at `p`, K (bisection on the IF97 saturation
+/// pressure).
+fn t_sat(p: f64) -> f64 {
+    let (mut a, mut b) = (280.0, 640.0);
+    for _ in 0..50 {
+        let m = 0.5 * (a + b);
+        if p_sat_pa(m) > p {
+            b = m;
+        } else {
+            a = m;
+        }
+    }
+    0.5 * (a + b)
 }
 
 fn steam_u(t: f64) -> f64 {
@@ -133,6 +155,8 @@ impl Containment {
             flange_open: false,
             exploded: false,
             vented_h2_kg: 0.0,
+            pedestal_kg: 0.0,
+            pedestal_t: INITIAL_DRYWELL_K,
         }
     }
 
@@ -177,6 +201,35 @@ impl Containment {
         self.dw_steam_kg += m;
         self.dw_h2 += nh;
         self.set_dw_energy(e);
+        // 2b. Debris on the drywell floor: it heats and boils the water
+        //     poured onto it; dry, its heat goes into the floor and walls
+        //     (molten-core-concrete interaction is not modelled).
+        if s.pedestal_inflow_kg_s > 0.0 {
+            let m_in = s.pedestal_inflow_kg_s * dt;
+            let e = self.pedestal_kg * self.pedestal_t + m_in * INJECTION_TEMPERATURE_K;
+            self.pedestal_kg += m_in;
+            self.pedestal_t = e / self.pedestal_kg;
+        }
+        if s.ex_vessel_w > 0.0 {
+            let q = s.ex_vessel_w * dt;
+            if self.pedestal_kg > 0.0 {
+                let t_boil = t_sat(self.p_dw());
+                let to_boil = ((t_boil - self.pedestal_t) * self.pedestal_kg * CP_WATER).max(0.0);
+                if q <= to_boil {
+                    self.pedestal_t += q / (self.pedestal_kg * CP_WATER);
+                } else {
+                    self.pedestal_t = t_boil;
+                    let h_fg = 2.257e6;
+                    let m = ((q - to_boil) / h_fg).min(self.pedestal_kg);
+                    self.pedestal_kg -= m;
+                    let e = self.dw_energy() + m * (steam_u(t_boil) + R_GAS / M_H2O * t_boil);
+                    self.dw_steam_kg += m;
+                    self.set_dw_energy(e);
+                }
+            } else {
+                self.dw_wall_t += q / DW_WALL_C;
+            }
+        }
         // 3. Drywell wall heat sink, implicit in the two temperatures.
         let ha = DW_WALL_AREA_M2 * DW_WALL_H;
         let c_gas = self.dw_n2 * CV_N2 + self.dw_h2 * CV_H2 + self.dw_steam_kg * CV_STEAM;
@@ -335,6 +388,7 @@ fn b(x: bool) -> f64 {
     if x { 1.0 } else { 0.0 }
 }
 
+#[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))] // used by the browser's solver workers (and the tests)
 impl Containment {
     /// The whole state, for a stateless worker to step.
     pub fn write_state(&self, w: &mut Writer) {
@@ -353,6 +407,8 @@ impl Containment {
             b(self.flange_open),
             b(self.exploded),
             self.vented_h2_kg,
+            self.pedestal_kg,
+            self.pedestal_t,
         ]);
     }
     pub fn read_state(r: &mut Reader) -> Self {
@@ -371,10 +427,13 @@ impl Containment {
             flange_open: r.f() != 0.0,
             exploded: r.f() != 0.0,
             vented_h2_kg: r.f(),
+            pedestal_kg: r.f(),
+            pedestal_t: r.f(),
         }
     }
 }
 
+#[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))] // used by the browser's solver workers (and the tests)
 impl ContainmentSnapshot {
     pub fn write(&self, w: &mut Writer) {
         w.f(&[
@@ -387,6 +446,8 @@ impl ContainmentSnapshot {
             self.leak_h2_kg_s,
             self.leak_gas_k,
             b(self.vent_ordered),
+            self.ex_vessel_w,
+            self.pedestal_inflow_kg_s,
         ]);
     }
     pub fn read(r: &mut Reader) -> Self {
@@ -400,6 +461,8 @@ impl ContainmentSnapshot {
             leak_h2_kg_s: r.f(),
             leak_gas_k: r.f(),
             vent_ordered: r.f() != 0.0,
+            ex_vessel_w: r.f(),
+            pedestal_inflow_kg_s: r.f(),
         }
     }
 }

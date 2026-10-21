@@ -72,11 +72,13 @@ pub enum Request {
     Reset,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub enum Event {
     /// The plant now, the history samples since the last frame, and
     /// `[steps per wall second, ms per step, behind the clock (s), workers]`.
     Frame { frame: Floats, history: Floats, stats: [f64; 4] },
+    /// Natively the engine thread cannot fail this way; a worker can.
+    #[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))]
     Error(String),
 }
 
@@ -241,6 +243,7 @@ impl Runner {
     }
 }
 
+#[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))] // used by the browser's solver workers (and the tests)
 /// A solver worker's whole job: read the state and the snapshot, step, write
 /// the new state and the result. `role` 0 = core, 1 = containment.
 pub fn solve(role: u8, msg: &[f64]) -> Vec<f64> {
@@ -263,10 +266,12 @@ pub fn solve(role: u8, msg: &[f64]) -> Vec<f64> {
 }
 
 /// Read a solver worker's reply into the part and its result.
+#[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))] // used by the browser's solver workers (and the tests)
 pub fn read_core_reply(v: &[f64]) -> (Core, CoreResult) {
     let mut r = Reader::new(v);
     (Core::read_state(&mut r), CoreResult::read(&mut r))
 }
+#[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))] // used by the browser's solver workers (and the tests)
 pub fn read_containment_reply(v: &[f64]) -> (Containment, ContainmentResult) {
     let mut r = Reader::new(v);
     (Containment::read_state(&mut r), ContainmentResult::read(&mut r))

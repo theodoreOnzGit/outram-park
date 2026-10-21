@@ -81,6 +81,9 @@ pub struct CoreResult {
     pub relocated: f64,
     pub debris_k: f64,
     pub lower_head_failed: bool,
+    /// Decay power of the debris that has left through the failed lower
+    /// head, W: it goes to the drywell floor.
+    pub ex_vessel_w: f64,
     /// Cladding temperature of every node, ring-major, bottom to top, K
     /// (relocated nodes: NaN).
     pub clad_k: Vec<f64>,
@@ -218,9 +221,36 @@ impl Core {
         let mut exit_sum = 0.0;
         let mut exit_w = 0.0;
         let mut newly_relocated = Vec::new();
+        // Debris in the lower plenum (relocated in earlier steps): quenched
+        // while the plenum holds water, giving its stored heat over a
+        // quench time and its decay power at once; the steam it raises
+        // rises through the core. Dry, it heats up until the lower head
+        // fails; after that its power leaves the vessel (ex-vessel).
+        let p_debris = s.decay_w * self.debris_power_share;
+        let mut q_quench = 0.0;
+        let mut ex_vessel = 0.0;
+        if self.debris_c > 0.0 {
+            if self.lower_head_failed {
+                ex_vessel = p_debris;
+            } else if s.level_m > -BAF_M {
+                let excess = (self.debris_e - self.debris_c * s.t_sat_k).max(0.0);
+                let release = excess * (1.0 - (-dt / DEBRIS_QUENCH_S).exp());
+                self.debris_e -= release;
+                q_quench = p_debris + release / dt;
+            } else {
+                self.debris_e += p_debris * dt;
+                if self.debris_e / self.debris_c > LOWER_HEAD_FAILURE_K {
+                    self.lower_head_failed = true;
+                }
+            }
+        }
+        q_fluid += q_quench;
+        // Steam from below the core, when the level is below it.
+        let w_below = if s.level_m <= 0.0 { q_quench / s.h_fg / RINGS as f64 } else { 0.0 };
         for ring in 0..RINGS {
-            // Steam rising in this ring: boil-off of its covered nodes.
-            let mut w_steam = 0.0;
+            // Steam rising in this ring: from below, plus the boil-off of
+            // its covered nodes.
+            let mut w_steam = w_below;
             let mut t_steam = s.t_sat_k;
             for j in 0..AXIAL_NODES {
                 let idx = ring * AXIAL_NODES + j;
@@ -303,23 +333,7 @@ impl Core {
             self.debris_e += g.c_fuel * n.t_fuel + g.c_clad * n.t_clad;
             self.debris_power_share += share;
         }
-        // Debris: quenched while the lower plenum holds water, else heats.
-        let mut debris_k = if self.debris_c > 0.0 { self.debris_e / self.debris_c } else { s.t_sat_k };
-        if self.debris_c > 0.0 && !self.lower_head_failed {
-            let p_debris = s.decay_w * self.debris_power_share;
-            if s.level_m > -BAF_M {
-                // Quench: the debris gives its heat and power to the water.
-                let excess = self.debris_e - self.debris_c * s.t_sat_k;
-                q_fluid += p_debris + excess.max(0.0) / dt;
-                self.debris_e = self.debris_c * s.t_sat_k;
-            } else {
-                self.debris_e += p_debris * dt;
-            }
-            debris_k = self.debris_e / self.debris_c;
-            if debris_k > LOWER_HEAD_FAILURE_K {
-                self.lower_head_failed = true;
-            }
-        }
+        let debris_k = if self.debris_c > 0.0 { self.debris_e / self.debris_c } else { s.t_sat_k };
         self.h2_total_kg += h2 * dt;
         let relocated = self.nodes.iter().filter(|n| n.relocated).count() as f64 / NODES as f64;
         CoreResult {
@@ -334,11 +348,13 @@ impl Core {
             relocated,
             debris_k,
             lower_head_failed: self.lower_head_failed,
+            ex_vessel_w: ex_vessel,
             clad_k: self.nodes.iter().map(|n| if n.relocated { f64::NAN } else { n.t_clad }).collect(),
         }
     }
 }
 
+#[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))] // used by the browser's solver workers (and the tests)
 impl Core {
     /// The whole state, for a stateless worker to step.
     pub fn write_state(&self, w: &mut Writer) {
@@ -368,6 +384,7 @@ impl Core {
     }
 }
 
+#[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))] // used by the browser's solver workers (and the tests)
 impl CoreSnapshot {
     pub fn write(&self, w: &mut Writer) {
         w.f(&[self.dt_s, self.p_pa, self.t_sat_k, self.h_fg, self.level_m, self.decay_w]);
@@ -391,6 +408,7 @@ impl CoreResult {
             self.relocated,
             self.debris_k,
             if self.lower_head_failed { 1.0 } else { 0.0 },
+            self.ex_vessel_w,
         ]);
         w.vec(&self.clad_k);
     }
@@ -407,6 +425,7 @@ impl CoreResult {
             relocated: r.f(),
             debris_k: r.f(),
             lower_head_failed: r.f() != 0.0,
+            ex_vessel_w: r.f(),
             clad_k: r.vec(),
         }
     }

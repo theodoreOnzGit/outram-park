@@ -41,6 +41,7 @@ fn main() -> Result<(), String> {
         "Fukushima Daiichi Unit 1",
         eframe::NativeOptions::default(),
         Box::new(|cc| {
+            cc.egui_ctx.set_theme(egui::Theme::Dark);
             let ctx = cc.egui_ctx.clone();
             let link = outram_park::backend::dhoby_ghaut::web_demo::link::start_native(engine::Runner::default(), move || ctx.request_repaint());
             Ok(Box::new(app::App::new(link)))
@@ -77,6 +78,7 @@ fn main() {
                 canvas,
                 web_options,
                 Box::new(|cc| {
+                    cc.egui_ctx.set_theme(egui::Theme::Dark);
                     let link = outram_park::backend::dhoby_ghaut::web_demo::link::start_web(cc.egui_ctx.clone(), engine::web::WORKER_JS, engine::Event::Error)?;
                     Ok(Box::new(app::App::new(link)))
                 }),

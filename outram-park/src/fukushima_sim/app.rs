@@ -17,7 +17,7 @@ use crate::physics::{Frame, Mode, EVENTS};
 use egui::{Align2, Color32, FontId, Pos2, Rect, RichText, Stroke, StrokeKind, Vec2};
 use outram_park::backend::dhoby_ghaut::web_demo::link::Link;
 use outram_park::backend::dhoby_ghaut::web_demo::panel::Panel;
-use outram_park::backend::dhoby_ghaut::web_demo::platform::set_title;
+use outram_park::backend::dhoby_ghaut::web_demo::platform::{query_pairs, query_value, set_title};
 use outram_park::backend::dhoby_ghaut::web_demo::view::{apply_zoom, zoom_buttons, View};
 use outram_park::backend::outram_park_digital_twin_engine::animation::residence_time_from_flow;
 use outram_park::backend::outram_park_digital_twin_engine::color_maps::hot_to_cold_colour_mark_1;
@@ -80,7 +80,32 @@ pub fn clock(t_s: f64) -> String {
 }
 
 impl App {
+    /// The app, with the URL query (natively, `--key value` arguments) as
+    /// options: `run` starts at once, `speed=<sim s per wall s, 0 = max>`,
+    /// `workers=1|3`, `mode=free`.
     pub fn new(link: Link<Request, Event>) -> Self {
+        let mut app = Self::bare(link);
+        let q = query_pairs();
+        if let Some(v) = query_value(&q, "speed").and_then(|v| v.parse::<f64>().ok()) {
+            app.speed = v;
+            app.link.send(Request::Speed(v));
+        }
+        if let Some(n) = query_value(&q, "workers").and_then(|v| v.parse::<u8>().ok()) {
+            app.workers = if n >= 3 { 3 } else { 1 };
+            app.link.send(Request::Workers(app.workers));
+        }
+        if query_value(&q, "mode") == Some("free") {
+            app.mode = Mode::FreePlay;
+            app.link.send(Request::Mode(Mode::FreePlay));
+        }
+        if q.iter().any(|(k, _)| k == "run") {
+            app.running = true;
+            app.link.send(Request::Run(true));
+        }
+        app
+    }
+
+    fn bare(link: Link<Request, Event>) -> Self {
         Self {
             link,
             panel: Panel::default(),
@@ -187,7 +212,7 @@ impl App {
         if let Some(f) = self.frame.clone() {
             let c = f.controls;
             ui.add_enabled_ui(free, |ui| {
-                let mut toggle = |ui: &mut egui::Ui, ctl: Control, on: bool, label: &str| {
+                let toggle = |ui: &mut egui::Ui, ctl: Control, on: bool, label: &str| {
                     let mut v = on;
                     if ui.add(egui::Checkbox::new(&mut v, RichText::new(label).size(16.0))).changed() {
                         self.link.send(Request::Set(ctl, v));
@@ -267,10 +292,10 @@ impl App {
         // Drywell: a light bulb around the vessel.
         let dw_col = colour(f.containment.t_dw_k);
         let bulb_c = to(0.0, 5.0);
-        painter.circle(bulb_c, px(8.5), dw_col.gamma_multiply(0.35), stroke);
+        painter.circle(bulb_c, px(6.5), dw_col.gamma_multiply(0.35), stroke);
         let neck = Rect::from_two_pos(to(-4.0, 10.0), to(4.0, 23.0));
         painter.rect(neck, 0.0, dw_col.gamma_multiply(0.35), stroke, StrokeKind::Inside);
-        painter.text(to(-8.0, 12.5), Align2::LEFT_BOTTOM, format!("Drywell {:.2} MPa", f.containment.p_dw_pa / 1e6), FontId::proportional(13.0), Color32::WHITE);
+        painter.text(to(-6.3, 9.6), Align2::LEFT_BOTTOM, format!("Drywell {:.2} MPa (design {:.2})", f.containment.p_dw_pa / 1e6, CONTAINMENT_DESIGN_PA / 1e6), FontId::proportional(13.0), Color32::WHITE);
         // Torus (cross-section below), pool coloured by its temperature.
         let torus = Rect::from_two_pos(to(-11.0, -5.5), to(11.0, -2.0));
         painter.rect(torus, px(1.7), Color32::from_gray(45), stroke, StrokeKind::Inside);
@@ -278,15 +303,16 @@ impl App {
         painter.rect_filled(pool, px(1.0), colour(f.containment.t_pool_k));
         painter.text(to(0.0, -2.3), Align2::CENTER_TOP, format!("Wetwell {:.2} MPa · pool {:.0} °C", f.containment.p_ww_pa / 1e6, f.containment.t_pool_k - 273.15), FontId::proportional(13.0), Color32::WHITE);
         // Downcomers.
-        for x in [-6.0, 6.0] {
-            painter.line_segment([to(x, -2.0 + 6.0), to(x, -4.6)], Stroke::new(3.0, Color32::from_gray(150)));
+        for x in [-3.5, 3.5] {
+            painter.line_segment([to(x, 0.0), to(x, -4.6)], Stroke::new(3.0, Color32::from_gray(150)));
         }
         // The vessel: steam above the collapsed level, water below.
         let r = RPV_RADIUS_M;
         let y0 = 0.0;
         let vessel = Rect::from_two_pos(to(-r, y0), to(r, y0 + RPV_HEIGHT_M));
         let t_sat = f.vessel.sat.t_k;
-        painter.rect(vessel, px(1.5), colour(t_sat).gamma_multiply(0.25), Stroke::new(3.0, Color32::WHITE), StrokeKind::Inside);
+        // Steam space grey, water blue: the level reads at a glance.
+        painter.rect(vessel, px(1.5), Color32::from_gray(70), Stroke::new(3.0, Color32::WHITE), StrokeKind::Inside);
         let z_level = (BAF_M + f.vessel.level_m).clamp(0.0, RPV_HEIGHT_M);
         if z_level > 0.0 {
             let water = Rect::from_two_pos(to(-r, y0), to(r, y0 + z_level));
@@ -311,7 +337,7 @@ impl App {
             let h = (f.core.relocated * ACTIVE_LENGTH_M).max(0.2);
             let debris = Rect::from_two_pos(to(-1.8, 0.3), to(1.8, 0.3 + h * 0.5));
             painter.rect_filled(debris, px(0.4), colour(f.core.debris_k));
-            painter.text(to(0.0, 0.3), Align2::CENTER_TOP, format!("debris {:.0} K", f.core.debris_k), FontId::proportional(12.0), Color32::WHITE);
+            painter.text(to(-2.0, 0.6), Align2::RIGHT_CENTER, format!("debris {:.0} K", f.core.debris_k), FontId::proportional(12.0), Color32::WHITE);
         }
         if f.core.lower_head_failed {
             painter.text(to(0.0, -0.6), Align2::CENTER_TOP, "lower head failed", FontId::proportional(13.0), Color32::LIGHT_RED);
@@ -333,7 +359,7 @@ impl App {
         };
         // Isolation condensers: two tanks high in the building.
         let ic_steam_flow = f.q_ic_w / (f.vessel.sat.h_g - f.vessel.sat.h_f).max(1.0);
-        for (i, y) in [(0usize, 21.0), (1usize, 15.5)] {
+        for (i, y) in [(0usize, 17.5), (1usize, 12.0)] {
             let tank = Rect::from_two_pos(to(7.0, y - 2.0), to(12.0, y + 2.0));
             painter.rect(tank, px(0.3), Color32::from_gray(35), stroke, StrokeKind::Inside);
             let frac = (f.ic_shell_kg[i] / IC_SHELL_WATER_KG).clamp(0.0, 1.0);
@@ -342,9 +368,11 @@ impl App {
             painter.text(to(9.5, y + 2.1), Align2::CENTER_BOTTOM, format!("IC {} · {:.0} °C", if i == 0 { "A" } else { "B" }, f.ic_shell_k[i] - 273.15), FontId::proportional(12.0), Color32::WHITE);
             let open = f.controls.ic_open[i];
             let flow = if open { ic_steam_flow / 2.0 } else { 0.0 };
-            pipe(ui, (r, 17.0 + i as f64 * 0.5), (7.0, y + 1.0), sat_t, flow, 200.0);
-            pipe(ui, (7.0, y - 1.5), (r, 11.0 + i as f64 * 0.5), sat_t, flow, 2000.0);
-            valve(ui, (5.0, 17.0 + i as f64 * 0.5 + (y + 1.0 - 17.0 - i as f64 * 0.5) * (5.0 - r) / (7.0 - r)), open);
+            // Steam in at the top of the tube bundle, condensate back below.
+            pipe(ui, (r, y + 1.0), (7.0, y + 1.0), sat_t, flow, 200.0);
+            pipe(ui, (7.0, y - 1.5), (r, y - 1.5), sat_t, flow, 2000.0);
+            valve(ui, (5.6, y + 1.0), open);
+            valve(ui, (5.6, y - 1.5), open);
         }
         // Relief valves to the pool.
         pipe(ui, (-r, 16.0), (-9.0, 16.0), sat_t, f.w_relief_kg_s, 300.0);
@@ -365,15 +393,19 @@ impl App {
         valve(ui, (9.0, 3.0), f.containment.vent_flowing);
         painter.text(to(10.0, 3.0), Align2::LEFT_CENTER, "wetwell vent", FontId::proportional(12.0), Color32::WHITE);
         // Instruments.
-        ui.add(InstrumentationVisual::new(to(-r, 21.2) + Vec2::new(0.0, -20.0), "RPV", format!("{:.2} MPa", f.vessel.p_pa / 1e6)));
+        ui.add(InstrumentationVisual::new(to(-r, 21.6), "RPV", format!("{:.2} MPa", f.vessel.p_pa / 1e6)));
         ui.add(InstrumentationVisual::new(to(r + 0.2, BAF_M + ACTIVE_LENGTH_M), "level", format!("{:+.2} m TAF", f.vessel.level_m - ACTIVE_LENGTH_M)));
         ui.add(InstrumentationVisual::new(to(r + 0.2, BAF_M + 1.0), "peak clad", format!("{:.0} K", f.core.peak_clad_k)));
         // Legend, bottom right.
-        let legend_at = Rect::from_min_size(rect.right_bottom() - Vec2::new(120.0, 230.0), Vec2::new(110.0, 220.0));
-        ui.put(legend_at, TemperatureLegend::new(temp(T_MIN), temp(T_MAX)).with_caption("Temperature"));
-        if f.vessel.dry {
-            painter.text(to(0.0, 21.0), Align2::CENTER_BOTTOM, "vessel boiled dry: outside the model", FontId::proportional(14.0), Color32::LIGHT_RED);
+        // Legend, bottom right; smaller on a phone.
+        let narrow = rect.width() < 700.0;
+        let (size, bar) = if narrow { (Vec2::new(90.0, 140.0), Vec2::new(14.0, 100.0)) } else { (Vec2::new(110.0, 220.0), Vec2::new(26.0, 170.0)) };
+        let legend_at = Rect::from_min_size(rect.right_bottom() - size - Vec2::new(10.0, 60.0), size);
+        ui.put(legend_at, TemperatureLegend::new(temp(T_MIN), temp(T_MAX)).with_caption("Temperature").with_bar_size(bar));
+        if f.vessel.dry && !f.core.lower_head_failed {
+            painter.text(to(0.0, -1.6), Align2::CENTER_TOP, "vessel boiled dry: outside the model", FontId::proportional(13.0), Color32::LIGHT_RED);
         }
+        painter.text(to(-2.0, BAF_M - 0.3), Align2::RIGHT_TOP, "core: cladding T\n(black = melted, relocated)", FontId::proportional(11.0), Color32::from_gray(200));
     }
 
     fn plots(&self, ui: &mut egui::Ui) {
@@ -441,7 +473,9 @@ impl eframe::App for App {
                 ui.scope_builder(egui::UiBuilder::new().max_rect(inner), |ui| self.plots(ui));
             }
             if let Some(f) = &self.frame {
-                ui.painter().text(rect.left_top() + Vec2::new(if self.panel.open { 8.0 } else { 156.0 }, 14.0), Align2::LEFT_TOP, clock(f.t_s), FontId::proportional(15.0), Color32::WHITE);
+                // Under the 52 px button row on a phone, beside it on a wide screen.
+                let at = if rect.width() < 700.0 { Vec2::new(10.0, 58.0) } else { Vec2::new(if self.panel.open { 8.0 } else { 156.0 }, 14.0) };
+                ui.painter().text(rect.left_top() + at, Align2::LEFT_TOP, clock(f.t_s), FontId::proportional(15.0), Color32::WHITE);
             }
             ui.scope_builder(egui::UiBuilder::new().max_rect(bar), |ui| {
                 ui.horizontal(|ui| {
