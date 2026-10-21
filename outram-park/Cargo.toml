@@ -87,6 +87,7 @@ all-backends = [
   "outram-park-fork-onix", "outram-park-fork-pflotran",
   "outram-park-fork-thermochimica", "njoy-outram-park-fork",
   "outram-mc-libs", "outram-park-mpi", "raffles",
+  "petir", "redhill", "bishan", "kaki-bukit", "changi", "buangkok", "sembawang", "pasir-ris", "dhoby-ghaut", "farrer-park", "kovan-web", "dover",
 ]
 
 # One feature per outram-park-backend crate, each enabling only that crate's
@@ -142,6 +143,20 @@ outram-park-mpi = ["dep:outram-park-mpi"]
 # Other
 raffles = ["dep:raffles"]
 
+# Added 2026-10-21 with the lockstep release (outram-park-backend gh:#971)
+petir = ["dep:petir"]
+redhill = ["dep:redhill"]
+bishan = ["dep:bishan"]
+kaki-bukit = ["dep:kaki-bukit"]
+changi = ["dep:changi"]
+buangkok = ["dep:buangkok"]
+sembawang = ["dep:sembawang"]
+pasir-ris = ["dep:pasir-ris"]
+dhoby-ghaut = ["dep:dhoby-ghaut"]
+farrer-park = ["dep:farrer-park"]
+kovan-web = ["dep:kovan-web"]
+dover = ["dep:dover"]
+
 [dependencies]
 # CLI + TUI: always compiled in, pure-Rust and Termux/Android compatible.
 clap = { version = "4", features = ["derive"] }
@@ -166,49 +181,63 @@ uom = { version = "0.38", optional = true }
 # only by its own same-named feature above.
 
 # KOVAN toolchain
-kovan = { path = "../outram-park-backend/crates/kovan", version = "0.0.0", optional = true }
-kovan-codegen = { path = "../outram-park-backend/crates/kovan-codegen", version = "0.0.1", optional = true }
-kovan-common = { path = "../outram-park-backend/crates/kovan-common", version = "0.0.1", optional = true }
-kovan-discovery = { path = "../outram-park-backend/crates/kovan-discovery", version = "0.0.1", optional = true }
-kovan-literature = { path = "../outram-park-backend/crates/kovan-literature", version = "0.0.1", optional = true }
-kovan-metrics = { path = "../outram-park-backend/crates/kovan-metrics", version = "0.0.0", optional = true }
-kovan-semantics = { path = "../outram-park-backend/crates/kovan-semantics", version = "0.0.1", optional = true }
+kovan = { package = "knowledge-oriented-vv-analysis-for-nuclear-sciences-kovan", path = "../outram-park-backend/crates/kovan", version = "0.0.3", optional = true }
+kovan-codegen = { path = "../outram-park-backend/crates/kovan-codegen", version = "0.0.4", optional = true }
+kovan-common = { path = "../outram-park-backend/crates/kovan-common", version = "0.0.4", optional = true }
+kovan-discovery = { path = "../outram-park-backend/crates/kovan-discovery", version = "0.0.4", optional = true }
+kovan-literature = { path = "../outram-park-backend/crates/kovan-literature", version = "0.0.3", optional = true }
+kovan-metrics = { path = "../outram-park-backend/crates/kovan-metrics", version = "0.0.3", optional = true }
+kovan-semantics = { path = "../outram-park-backend/crates/kovan-semantics", version = "0.0.3", optional = true }
 
 # Core physics / coupling
-bedok = { path = "../outram-park-backend/crates/bedok", version = "0.0.0", optional = true }
-nee_soon = { path = "../outram-park-backend/crates/nee_soon", version = "0.0.2", optional = true }
-tampines = { path = "../outram-park-backend/crates/tampines", version = "0.0.2", optional = true }
-tampines-steam-tables = { path = "../outram-park-backend/crates/tampines-steam-tables", version = "0.2.9", optional = true }
-teh-o-prke = { path = "../outram-park-backend/crates/teh-o-prke", version = "0.1.5", optional = true }
-tuas_boussinesq_solver = { path = "../outram-park-backend/crates/tuas_boussinesq_solver", version = "0.1.6", optional = true }
-boon-lay = { path = "../outram-park-backend/crates/boon-lay", version = "0.1.3", optional = true }
-chem-eng-real-time-process-control-simulator = { path = "../outram-park-backend/crates/chem-eng-real-time-process-control-simulator", version = "0.2.1", optional = true }
+bedok = { path = "../outram-park-backend/crates/bedok", version = "0.0.2", optional = true }
+nee_soon = { path = "../outram-park-backend/crates/nee_soon", version = "0.0.4", optional = true }
+tampines = { path = "../outram-park-backend/crates/tampines", version = "0.0.3", optional = true }
+tampines-steam-tables = { path = "../outram-park-backend/crates/tampines-steam-tables", version = "0.3.0", optional = true }
+teh-o-prke = { path = "../outram-park-backend/crates/teh-o-prke", version = "0.1.7", optional = true }
+tuas_boussinesq_solver = { path = "../outram-park-backend/crates/tuas_boussinesq_solver", version = "0.1.8", optional = true }
+boon-lay = { path = "../outram-park-backend/crates/boon-lay", version = "0.2.1", optional = true }
+chem-eng-real-time-process-control-simulator = { path = "../outram-park-backend/crates/chem-eng-real-time-process-control-simulator", version = "0.2.4", optional = true }
 
 # OpenFOAM-derived stack
-outram-foam-basic-lib = { path = "../outram-park-backend/crates/outram-foam-basic-lib", version = "0.1.3", optional = true }
-outram-foam-appbuilder-lib = { path = "../outram-park-backend/crates/outram-foam-appbuilder-lib", version = "0.1.3", optional = true }
-outram-foam-mesh = { path = "../outram-park-backend/crates/outram-foam-mesh", version = "0.1.0", optional = true }
-outram-foam-turbulence-lib = { path = "../outram-park-backend/crates/outram-foam-turbulence-lib", version = "0.1.2", optional = true }
-outram-foam-multiphase = { path = "../outram-park-backend/crates/outram-foam-multiphase", version = "0.0.2", optional = true }
-outram-foam-cli = { path = "../outram-park-backend/crates/outram-foam-cli", version = "0.1.0", optional = true }
+outram-foam-basic-lib = { path = "../outram-park-backend/crates/outram-foam-basic-lib", version = "0.1.7", optional = true }
+outram-foam-appbuilder-lib = { path = "../outram-park-backend/crates/outram-foam-appbuilder-lib", version = "0.1.6", optional = true }
+outram-foam-mesh = { path = "../outram-park-backend/crates/outram-foam-mesh", version = "0.1.2", optional = true }
+outram-foam-turbulence-lib = { path = "../outram-park-backend/crates/outram-foam-turbulence-lib", version = "0.1.4", optional = true }
+outram-foam-multiphase = { path = "../outram-park-backend/crates/outram-foam-multiphase", version = "0.0.4", optional = true }
+outram-foam-cli = { path = "../outram-park-backend/crates/outram-foam-cli", version = "0.0.1", optional = true }
 
 # Meshing / visualization
-outram-blender = { path = "../outram-park-backend/crates/outram-blender", version = "0.0.4", optional = true }
-outram-park-digital-twin-engine = { path = "../outram-park-backend/crates/outram-park-digital-twin-engine", version = "0.0.2", optional = true }
-outram-park-fork-cfmesh = { path = "../outram-park-backend/crates/outram-park-fork-cfmesh", version = "0.0.1", optional = true }
+outram-blender = { path = "../outram-park-backend/crates/outram-blender", version = "0.0.6", optional = true }
+outram-park-digital-twin-engine = { path = "../outram-park-backend/crates/outram-park-digital-twin-engine", version = "0.0.3", optional = true }
+outram-park-fork-cfmesh = { path = "../outram-park-backend/crates/outram-park-fork-cfmesh", version = "0.0.3", optional = true }
 
 # Ported/forked external codes
-outram-park-fork-coolprop = { path = "../outram-park-backend/crates/outram-park-fork-coolprop", version = "0.1.2", optional = true }
-outram-park-fork-dwsim-libs = { path = "../outram-park-backend/crates/outram-park-fork-dwsim-libs", version = "0.0.3", optional = true }
-outram-park-fork-liggghts = { path = "../outram-park-backend/crates/outram-park-fork-liggghts", version = "0.0.0", optional = true }
-outram-park-fork-moltres = { path = "../outram-park-backend/crates/outram-park-fork-moltres", version = "0.0.0", optional = true }
-outram-park-fork-offbeat = { path = "../outram-park-backend/crates/outram-park-fork-offbeat", version = "0.0.0", optional = true }
-outram-park-fork-onix = { path = "../outram-park-backend/crates/outram-park-fork-onix", version = "0.0.0", optional = true }
-outram-park-fork-pflotran = { path = "../outram-park-backend/crates/outram-park-fork-pflotran", version = "0.0.0", optional = true }
-outram-park-fork-thermochimica = { path = "../outram-park-backend/crates/outram-park-fork-thermochimica", version = "0.0.0", optional = true }
-njoy-outram-park-fork = { path = "../outram-park-backend/crates/njoy-outram-park-fork", version = "0.0.3", optional = true }
-outram-mc-libs = { path = "../outram-park-backend/crates/outram-mc-libs", version = "0.0.4", optional = true }
-outram-park-mpi = { path = "../outram-park-backend/crates/outram-park-mpi", version = "0.0.0", optional = true }
+outram-park-fork-coolprop = { path = "../outram-park-backend/crates/outram-park-fork-coolprop", version = "0.1.3", optional = true }
+outram-park-fork-dwsim-libs = { path = "../outram-park-backend/crates/outram-park-fork-dwsim-libs", version = "0.0.4", optional = true }
+outram-park-fork-liggghts = { path = "../outram-park-backend/crates/outram-park-fork-liggghts", version = "0.0.2", optional = true }
+outram-park-fork-moltres = { path = "../outram-park-backend/crates/outram-park-fork-moltres", version = "0.0.1", optional = true }
+outram-park-fork-offbeat = { path = "../outram-park-backend/crates/outram-park-fork-offbeat", version = "0.0.1", optional = true }
+outram-park-fork-onix = { path = "../outram-park-backend/crates/outram-park-fork-onix", version = "0.0.1", optional = true }
+outram-park-fork-pflotran = { path = "../outram-park-backend/crates/outram-park-fork-pflotran", version = "0.0.1", optional = true }
+outram-park-fork-thermochimica = { path = "../outram-park-backend/crates/outram-park-fork-thermochimica", version = "0.0.1", optional = true }
+njoy-outram-park-fork = { path = "../outram-park-backend/crates/njoy-outram-park-fork", version = "0.0.6", optional = true }
+outram-mc-libs = { path = "../outram-park-backend/crates/outram-mc-libs", version = "0.0.6", optional = true }
+outram-park-mpi = { path = "../outram-park-backend/crates/outram-park-mpi", version = "0.0.1", optional = true }
 
 # Other
-raffles = { path = "../outram-park-backend/crates/raffles", version = "0.0.0", optional = true }
+raffles = { path = "../outram-park-backend/crates/raffles", version = "0.0.3", optional = true }
+
+# Added 2026-10-21 with the lockstep release (outram-park-backend gh:#971)
+petir = { path = "../outram-park-backend/crates/petir", version = "0.0.3", optional = true }
+redhill = { path = "../outram-park-backend/crates/redhill", version = "0.0.2", optional = true }
+bishan = { path = "../outram-park-backend/crates/bishan", version = "0.0.2", optional = true }
+kaki-bukit = { path = "../outram-park-backend/crates/kaki-bukit", version = "0.0.2", optional = true }
+changi = { path = "../outram-park-backend/crates/changi", version = "0.0.2", optional = true }
+buangkok = { path = "../outram-park-backend/crates/buangkok", version = "0.0.1", optional = true }
+sembawang = { path = "../outram-park-backend/crates/sembawang", version = "0.0.1", optional = true }
+pasir-ris = { path = "../outram-park-backend/crates/pasir-ris", version = "0.0.1", optional = true }
+dhoby-ghaut = { path = "../outram-park-backend/crates/dhoby-ghaut", version = "0.0.1", optional = true }
+farrer-park = { path = "../outram-park-backend/crates/farrer-park", version = "0.0.3", optional = true }
+kovan-web = { path = "../outram-park-backend/crates/kovan-web", version = "0.0.3", optional = true }
+dover = { package = "deck-based-open-source-visualisation-engine-for-reactors-dover", path = "../outram-park-backend/crates/dover", version = "0.0.1", optional = true }

@@ -87,3 +87,29 @@ pub mod outram_park_mpi;
 // Other
 #[cfg(feature = "raffles")]
 pub mod raffles;
+
+// Added 2026-10-21 with the lockstep release (outram-park-backend gh:#971)
+#[cfg(feature = "petir")]
+pub mod petir;
+#[cfg(feature = "redhill")]
+pub mod redhill;
+#[cfg(feature = "bishan")]
+pub mod bishan;
+#[cfg(feature = "kaki-bukit")]
+pub mod kaki_bukit;
+#[cfg(feature = "changi")]
+pub mod changi;
+#[cfg(feature = "buangkok")]
+pub mod buangkok;
+#[cfg(feature = "sembawang")]
+pub mod sembawang;
+#[cfg(feature = "pasir-ris")]
+pub mod pasir_ris;
+#[cfg(feature = "dhoby-ghaut")]
+pub mod dhoby_ghaut;
+#[cfg(feature = "farrer-park")]
+pub mod farrer_park;
+#[cfg(feature = "kovan-web")]
+pub mod kovan_web;
+#[cfg(feature = "dover")]
+pub mod dover;
