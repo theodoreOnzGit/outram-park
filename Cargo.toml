@@ -18,7 +18,10 @@ authors = [
     "National University of Singapore (NUS)",
     "Repository Contributors",
 ]
-license = "GPL-3.0-only"
+# AGPL-3.0-only since 2026-10-21 (maintainer direction; was GPL-3.0-only).
+# Matches outram-park-backend, all of whose crates are AGPL-3.0-only
+# (relicensed 2026-10-20), and which this metacrate combines into one work.
+license = "AGPL-3.0-only"
 homepage = "https://github.com/theodoreOnzGit/outram-park"
 repository = "https://github.com/theodoreOnzGit/outram-park"
 categories = ["science"]

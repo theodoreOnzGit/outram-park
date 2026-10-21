@@ -263,7 +263,9 @@ The project prefers small, inspectable, auditable changes.
 
 Licence and provenance requirements for ported or vendored code are in
 [`RESEARCH_INTEGRITY_AND_PROVENANCE.md`](https://github.com/theodoreOnzGit/outram-park-backend/blob/develop/RESEARCH_INTEGRITY_AND_PROVENANCE.md).
-Any new dependency or ported code must remain GPLv3-compatible and must keep its
+Any new dependency or ported code must remain compatible with the project's
+licence, AGPL-3.0-only since 2026-10-21 (was GPL-3.0-only; GPLv3 code still
+combines with it under section 13 of both licences), and must keep its
 upstream attribution header.
 
 ---

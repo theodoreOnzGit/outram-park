@@ -164,3 +164,13 @@ https://github.com/jules-leguy/midcenturymodern?tab=readme-ov-file
 
 
 
+
+# Licence
+
+The `outram-park` metacrate and this repository's code are licensed under the
+**GNU Affero General Public License v3.0 only** (`AGPL-3.0-only`, see
+`LICENSE`) since 2026-10-21, matching `outram-park-backend`, whose crates it
+combines into one work. Earlier releases (including `outram-park` 0.1.0 on
+crates.io) were `GPL-3.0-only` and remain available under that licence.
+Third-party material keeps its own licence (the Beamer style files above are
+CC-BY-4.0).
