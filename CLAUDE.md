@@ -46,9 +46,28 @@ When working inside `outram-park-backend/`, follow `outram-park-backend/CLAUDE.m
 directly rather than anything written in this file. When working anywhere
 else in `outram-park` (this top-level repo), this file governs instead.
 
-### Consuming its crates from the `outram-park` crate
+### The metacrate takes dependencies from crates.io ONLY (HARD RULE)
 
-`outram-park/Cargo.toml` depends on every `outram-park-backend` crate by
+**Maintainer direction, 2026-10-22: "Hard rule for metacrate, only use
+dependencies via crates io, nowhere else."** Every dependency of the
+`outram-park` crate (`outram-park/Cargo.toml`), the `outram-park-backend`
+crates included, is a plain crates.io version requirement: **no `path =`,
+no `git =`, no other registry.** The `outram-park-backend` submodule is not a
+source of dependencies for it. A backend change the metacrate needs is
+published to crates.io first (the backend's lockstep release), and the
+metacrate then moves its requirement to that published version.
+
+**Status, 2026-10-22: not yet applied.** `outram-park/Cargo.toml` still
+depends on the backend by path (described below, now ~~the convention~~
+the legacy state to remove). Converting waits for the lockstep publish the
+maintainer deferred to the week of 2026-10-26, because `fukushima_sim`
+needs `dhoby-ghaut` 0.0.2, which is not on crates.io yet (0.0.1 there does
+not build for wasm32). Branch `metacrate-crates-io-971` (tag `v0.1.2`) holds
+an earlier crates.io-only conversion to start from.
+
+### Consuming its crates from the `outram-park` crate (legacy: path dependencies)
+
+~~`outram-park/Cargo.toml` depends on every `outram-park-backend` crate by
 path, each as an optional dependency gated behind a same-named feature (see
 `outram-park/src/backend/`, one re-export module per backend crate). This
 requires the root workspace's `[workspace] exclude = ["outram-park-backend"]`
@@ -57,7 +76,9 @@ discovery for those path dependencies incorrectly resolves against this
 repo's own `[workspace]` instead of `outram-park-backend`'s, and every
 backend crate that uses `<dep>.workspace = true` inheritance (i.e. nearly
 all of them) fails to build with "`workspace.dependencies` was not
-defined". Don't remove that `exclude` line.
+defined". Don't remove that `exclude` line.~~ **SUPERSEDED 2026-10-22** by
+the crates.io-only rule above; this describes the path setup still in place
+until the conversion lands.
 
 Because `outram-park`'s own `Cargo.lock` is a separate resolution from
 `outram-park-backend`'s, a transitive dependency can independently resolve

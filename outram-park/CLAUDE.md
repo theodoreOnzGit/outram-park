@@ -2,6 +2,16 @@
 
 Guidance for Claude Code (and other AI assistants) working in the `outram-park` frontend crate.
 
+## Dependencies come from crates.io ONLY (HARD RULE)
+
+**Maintainer direction, 2026-10-22: "Hard rule for metacrate, only use
+dependencies via crates io, nowhere else."** Every entry in this crate's
+`Cargo.toml` is a crates.io version requirement: no `path =` (not even to the
+`outram-park-backend` submodule), no `git =`, no other registry. Need a
+backend change? It is published to crates.io first, then the requirement here
+moves to that version. Status and the pending conversion: the top-level
+`CLAUDE.md`, "The metacrate takes dependencies from crates.io ONLY".
+
 ## Reactor geometry is DRAWN for a human to check before it is trusted (HARD RULE)
 
 **Maintainer direction, 2026-09-25.** Binds this crate, which is downstream
