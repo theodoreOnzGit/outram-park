@@ -19,6 +19,12 @@
 //! licensing, safety decisions or emergency response. See `physics::params`
 //! for the provenance of every number, and each physics module for what it
 //! leaves out.
+//!
+//! CLI and window glue: reached by no test (it starts an event loop or reads
+//! `std::env::args`), per the workspace exception for `main`/CLI glue. What it
+//! dispatches to is tested — `physics::headless_csv` by
+//! `physics::tests::the_headless_run_matches_the_committed_fixture`, and the
+//! engine behind the window by `engine::tests`.
 
 #![cfg_attr(target_arch = "wasm32", allow(dead_code))]
 
