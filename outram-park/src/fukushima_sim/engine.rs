@@ -14,7 +14,11 @@
 //! part's whole state and the step's snapshot, and the reply carries the new
 //! state and the result. So the run can switch between one worker (both
 //! parts stepped inline in the plant worker) and three at any time, and the
-//! two give the same numbers bit for bit (`physics::tests::three_workers_are_one_worker`).
+//! two give the same numbers bit for bit
+//! (`physics::tests::three_workers_are_one_worker` checks the protocol;
+//! `tests::the_shipped_solve_entry_point_matches_the_inline_step` checks
+//! that [`solve`] itself, the function the workers actually call, is the
+//! one that reproduces it).
 //! The plant worker sends the core's and the containment's messages, and the
 //! two workers step **at the same time**; it finishes the step when both
 //! replies are in.
@@ -557,5 +561,307 @@ pub mod web {
         scope.set_onmessage(Some(on_msg.as_ref().unchecked_ref()));
         on_msg.forget();
         let _ = scope.post_message(&JsValue::from_str("ready"));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::physics::SCENARIO_END_S;
+
+    /// Flatten a frame to its wire bits, for exact comparison.
+    fn frame_bits(f: &Frame) -> Vec<u64> {
+        let mut w = Writer::default();
+        f.write(&mut w);
+        w.0.iter().map(|x| x.to_bits()).collect()
+    }
+
+    /// Build the message a solver worker receives: the part's whole state,
+    /// then the step's snapshot. This is the layout [`solve`] reads.
+    fn core_msg(c: &Core, s: &CoreSnapshot) -> Vec<f64> {
+        let mut w = Writer::default();
+        c.write_state(&mut w);
+        s.write(&mut w);
+        w.0
+    }
+    fn containment_msg(c: &Containment, s: &ContainmentSnapshot) -> Vec<f64> {
+        let mut w = Writer::default();
+        c.write_state(&mut w);
+        s.write(&mut w);
+        w.0
+    }
+
+    /// **The shipped worker entry point gives the inline step, bit for bit.**
+    ///
+    /// `physics::tests::three_workers_are_one_worker` already checks that
+    /// *a* correct round trip reproduces the inline step — but it does so
+    /// with its own local `remote_core`/`remote_containment` helpers, which
+    /// re-implement the protocol. So it proves the protocol *can* be
+    /// bit-identical, not that the function the browser actually calls is.
+    /// Swap the two roles inside [`solve`], or read the state and the
+    /// snapshot in the wrong order, and every test in this binary still
+    /// passed before this one existed.
+    ///
+    /// **Methodology.** Two plants from the same initial state. One stepped
+    /// with `step_inline`; the other through [`solve`], [`read_core_reply`]
+    /// and [`read_containment_reply`] exactly as the plant worker does.
+    /// Compare every field of the frame by `f64` bits after every step.
+    ///
+    /// **Result (2026-10-27).** Bit-identical for 2 000 steps (33 min of
+    /// the recorded sequence, through the station blackout and into core
+    /// heat-up).
+    #[test]
+    fn the_shipped_solve_entry_point_matches_the_inline_step() {
+        let mut a = Plant::new(Mode::Historical);
+        let (mut ca, mut ka) = a.parts();
+        let mut b = Plant::new(Mode::Historical);
+        let (mut cb, mut kb) = b.parts();
+
+        for step in 0..2000 {
+            a.step_inline(&mut ca, &mut ka);
+
+            let s = b.begin();
+            let core_reply = solve(0, &core_msg(&cb, &s.core));
+            let cont_reply = solve(1, &containment_msg(&kb, &s.containment));
+            let (core_res, cont_res);
+            (cb, core_res) = read_core_reply(&core_reply);
+            (kb, cont_res) = read_containment_reply(&cont_reply);
+            b.finish(core_res, cont_res);
+
+            assert_eq!(
+                frame_bits(&a.frame()),
+                frame_bits(&b.frame()),
+                "solve() diverged from step_inline at step {step}, t = {}",
+                a.frame().t_s
+            );
+        }
+    }
+
+    /// The two roles are not interchangeable: role 0 is the core and role 1
+    /// the containment. If [`solve`] dispatched on the wrong role it would
+    /// still return numbers, and they would be read back without complaint,
+    /// so this asserts the two produce *different* replies from the same
+    /// plant and that each is the length its own reader consumes.
+    #[test]
+    fn the_two_solver_roles_are_distinct_and_not_interchangeable() {
+        let plant = Plant::new(Mode::Historical);
+        let (c, k) = plant.parts();
+        let mut p = plant;
+        let s = p.begin();
+
+        let core_reply = solve(0, &core_msg(&c, &s.core));
+        let cont_reply = solve(1, &containment_msg(&k, &s.containment));
+        assert!(!core_reply.is_empty() && !cont_reply.is_empty());
+        assert_ne!(
+            core_reply, cont_reply,
+            "the two roles returned identical replies; the dispatch is not doing anything"
+        );
+
+        // Feeding the core's message to the containment role must not
+        // silently produce the core's answer.
+        let crossed = solve(1, &core_msg(&c, &s.core));
+        assert_ne!(
+            crossed, core_reply,
+            "role 1 reproduced role 0's reply from role 0's message"
+        );
+    }
+
+    /// A reply round-trips: what the worker wrote is what the plant reads,
+    /// bit for bit, so no state is lost or reordered crossing the boundary.
+    #[test]
+    fn a_solver_reply_round_trips_the_part_state_exactly() {
+        let mut p = Plant::new(Mode::Historical);
+        let (c, k) = p.parts();
+        let s = p.begin();
+
+        let (core_back, _) = read_core_reply(&solve(0, &core_msg(&c, &s.core)));
+        let (cont_back, _) = read_containment_reply(&solve(1, &containment_msg(&k, &s.containment)));
+
+        // Re-serialising what came back must equal what the worker sent.
+        let reply = solve(0, &core_msg(&c, &s.core));
+        let mut w = Writer::default();
+        core_back.write_state(&mut w);
+        assert!(
+            w.0.iter().zip(&reply).all(|(x, y)| x.to_bits() == y.to_bits()),
+            "core state did not round-trip"
+        );
+        let reply = solve(1, &containment_msg(&k, &s.containment));
+        let mut w = Writer::default();
+        cont_back.write_state(&mut w);
+        assert!(
+            w.0.iter().zip(&reply).all(|(x, y)| x.to_bits() == y.to_bits()),
+            "containment state did not round-trip"
+        );
+    }
+
+    /// A short message must not panic a worker — the wire reader is
+    /// documented to read NaN past the end rather than panicking, because a
+    /// panicking worker takes the browser demo down with no diagnosis.
+    #[test]
+    fn a_truncated_message_does_not_panic_a_worker() {
+        for role in [0u8, 1u8] {
+            for len in [0usize, 1, 5, 17] {
+                let msg = vec![0.0; len];
+                let reply = solve(role, &msg);
+                assert!(
+                    !reply.is_empty(),
+                    "role {role}, {len} values in: a worker must still reply"
+                );
+            }
+        }
+    }
+
+    /// [`decode_frame`] inverts `Frame::write`, which is what the page draws
+    /// from. A shift here would misdraw every gauge.
+    #[test]
+    fn decode_frame_inverts_the_frame_wire_format() {
+        let mut p = Plant::new(Mode::Historical);
+        let (mut c, mut k) = p.parts();
+        for _ in 0..600 {
+            p.step_inline(&mut c, &mut k);
+        }
+        let f = p.frame();
+        let mut w = Writer::default();
+        f.write(&mut w);
+        assert_eq!(
+            frame_bits(&decode_frame(&w.0)),
+            frame_bits(&f),
+            "decode_frame did not invert Frame::write"
+        );
+    }
+
+    /// Every operator control reaches the flag it names, and only that one.
+    ///
+    /// A mis-wired control is invisible: the button lights up, the plant does
+    /// something else, and the demo teaches the wrong lesson. This walks all
+    /// six and checks the rest of the panel is untouched.
+    #[test]
+    fn each_control_sets_only_its_own_flag() {
+        let read = |r: &Runner| {
+            let k = &r.plant.controls;
+            [k.ic_open[0], k.ic_open[1], k.dc_power, k.relief_held_open, k.injection, k.vent_ordered]
+        };
+        for (i, c) in Control::ALL.iter().enumerate() {
+            let mut on = Runner::default();
+            let before = read(&on);
+            on.apply(Request::Set(*c, true));
+            let after = read(&on);
+            assert!(after[i], "{c:?} did not set flag {i}");
+            for j in 0..6 {
+                if j != i {
+                    assert_eq!(after[j], before[j], "{c:?} also changed flag {j}");
+                }
+            }
+            on.apply(Request::Set(*c, false));
+            assert!(!read(&on)[i], "{c:?} did not clear flag {i}");
+        }
+        // The index map must be a bijection, or two controls share a slot.
+        let mut seen: Vec<usize> = Control::ALL.iter().map(|c| c.index()).collect();
+        seen.sort_unstable();
+        assert_eq!(seen, (0..6).collect::<Vec<_>>(), "Control::index is not a bijection");
+    }
+
+    /// Worker count is clamped to the two modes that exist, 1 and 3 — never
+    /// 0 (which would step nothing) and never 2 (which has no code path).
+    #[test]
+    fn the_worker_count_is_clamped_to_one_or_three() {
+        let mut r = Runner::default();
+        for (asked, expect) in [(0u8, 1u8), (1, 1), (2, 1), (3, 3), (9, 3)] {
+            r.apply(Request::Workers(asked));
+            assert_eq!(r.workers, expect, "Workers({asked})");
+        }
+    }
+
+    /// Speed is never negative: a negative speed would make the pacing target
+    /// run backwards and the engine never step again.
+    #[test]
+    fn speed_is_never_negative() {
+        let mut r = Runner::default();
+        r.apply(Request::Speed(-5.0));
+        assert_eq!(r.speed, 0.0);
+        r.apply(Request::Speed(600.0));
+        assert_eq!(r.speed, 600.0);
+    }
+
+    /// Reset returns the plant to t = 0 in its initial state, keeps the mode,
+    /// and leaves exactly one history sample — not zero (the page would have
+    /// nothing to draw) and not the old run's samples appended.
+    #[test]
+    fn reset_restores_the_initial_state_and_one_history_sample() {
+        let mut r = Runner::default();
+        r.apply(Request::Run(true));
+        r.start_tick();
+        for _ in 0..1200 {
+            r.plant.step_inline(&mut r.core, &mut r.containment);
+            r.after_step();
+        }
+        assert!(r.plant.time_s() > 0.0);
+        assert!(r.history.len() > SAMPLE_LEN, "expected several samples before reset");
+
+        r.apply(Request::Reset);
+        assert_eq!(r.plant.time_s(), 0.0, "reset did not rewind the clock");
+        assert_eq!(r.plant.mode, Mode::Historical, "reset lost the mode");
+        assert_eq!(
+            r.history.len(),
+            SAMPLE_LEN,
+            "reset should leave exactly one sample"
+        );
+    }
+
+    /// `sample()` pushes exactly [`SAMPLE_LEN`] numbers. The page splits the
+    /// history into rows of that length, so a mismatch shears every series
+    /// against the wrong channel — and silently, because the numbers are all
+    /// plausible.
+    #[test]
+    fn a_history_sample_is_exactly_sample_len_numbers() {
+        let mut r = Runner::default();
+        assert_eq!(r.history.len(), SAMPLE_LEN, "the constructor's first sample");
+        let before = r.history.len();
+        r.sample();
+        assert_eq!(r.history.len() - before, SAMPLE_LEN);
+        assert_eq!(r.history.len() % SAMPLE_LEN, 0);
+    }
+
+    /// A paused engine takes no step, and a finished one stops.
+    ///
+    /// Only the two wall-clock-independent branches are asserted: pacing
+    /// depends on `now_s()` and asserting on it would be flaky.
+    #[test]
+    fn a_paused_or_finished_engine_does_not_step() {
+        let mut r = Runner::default();
+        r.start_tick();
+        assert!(!r.running, "a fresh runner is paused");
+        assert!(!r.should_step(), "a paused engine asked to step");
+
+        // Run the recorded sequence out, then confirm the engine stops.
+        r.apply(Request::Run(true));
+        while r.plant.time_s() < SCENARIO_END_S {
+            r.plant.step_inline(&mut r.core, &mut r.containment);
+        }
+        r.start_tick();
+        assert!(!r.should_step(), "a finished scenario kept stepping");
+    }
+
+    /// A frame event carries a drawable frame and drains the history, so the
+    /// next tick does not resend samples the page already has.
+    #[test]
+    fn a_frame_event_drains_the_history() {
+        let mut r = Runner::default();
+        r.start_tick();
+        for _ in 0..200 {
+            r.plant.step_inline(&mut r.core, &mut r.containment);
+            r.after_step();
+        }
+        let before = r.history.len();
+        assert!(before > 0);
+        match r.frame_event() {
+            Event::Frame { frame, history, stats } => {
+                assert!(!frame.to_vec().is_empty(), "an empty frame");
+                assert_eq!(history.to_vec().len(), before, "history was not handed over");
+                assert_eq!(stats[3], r.workers as f64, "stats carry the wrong worker count");
+            }
+            Event::Error(e) => panic!("unexpected error event: {e}"),
+        }
+        assert!(r.history.is_empty(), "history was not drained");
     }
 }
